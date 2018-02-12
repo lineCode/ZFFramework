@@ -1,0 +1,252 @@
+/* ====================================================================== *
+ * Copyright (c) 2010-2018 ZFFramework
+ * Github repo: https://github.com/ZFFramework/ZFFramework
+ * Home page: http://ZFFramework.com
+ * Blog: http://zsaber.com
+ * Contact: master@zsaber.com (Chinese and English only)
+ * Distributed under MIT license:
+ *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
+ * ====================================================================== */
+/**
+ * @file ZFPathType_file.h
+ * @brief #ZFPathInfo impl as normal file
+ */
+
+#ifndef _ZFI_ZFPathType_file_h_
+#define _ZFI_ZFPathType_file_h_
+
+#include "ZFFile.h"
+ZF_NAMESPACE_GLOBAL_BEGIN
+
+/**
+ * @brief see #ZFPathInfo
+ *
+ * pathData is the file path
+ * @note path must be well formed, use #ZFFilePathFormat if necessary
+ */
+#define ZFPathType_file zfText("file")
+
+// ============================================================
+// ZFInputCallbackForFile
+/**
+ * @brief util to create a file input callback
+ *
+ * param:
+ * -  (const zfchar *)filePath: file path to use
+ * -  (ZFFileOpenOption)flags: flags to open file
+ * -  (const ZFFileBOMList &)autoSkipBOMTable: BOM to skip,
+ *   if not empty, BOM would be discarded and BOM's size would be ignored while calculating the file's size
+ *
+ * auto open and auto close files, may return a null callback if open file error\n
+ * auto setup callback cache id with res file path
+ */
+ZFMETHOD_FUNC_DECLARE_INLINE_3(ZFInputCallback, ZFInputCallbackForFile,
+                               ZFMP_IN(const zfchar *, filePath),
+                               ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
+                               ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+{
+    ZFInputCallback ret;
+    ZFInputCallbackForPathInfoT(ret, ZFPathType_file, filePath, flags, autoSkipBOMTable);
+    return ret;
+}
+
+// ============================================================
+// ZFOutputCallbackForFile
+/**
+ * @brief util to create a file output callback
+ *
+ * param:
+ * -  (const zfchar *)filePath: file path to use
+ * -  (ZFFileOpenOption)flags: flags to open file
+ *
+ * auto open and auto close files, may return a null callback if open file error
+ */
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFOutputCallback, ZFOutputCallbackForFile,
+                               ZFMP_IN(const zfchar *, filePath),
+                               ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
+{
+    ZFOutputCallback ret;
+    ZFOutputCallbackForPathInfoT(ret, ZFPathType_file, filePath, flags);
+    return ret;
+}
+
+// ============================================================
+/**
+ * @brief util for #ZFPATHTYPE_FILEIO_REGISTER impl
+ */
+ZF_NAMESPACE_BEGIN(ZFFileIOImpl)
+/**
+ * @brief util for #ZFPATHTYPE_FILEIO_REGISTER impl
+ *
+ * usage:
+ * @code
+ *   // supply a wrapper that has these methods
+ *   zfclassNotPOD MyHolder
+ *   {
+ *   public:
+ *       static void pathConvert(ZF_OUT zfstring &ret, ZF_IN const zfchar *pathData) {...}
+ *       static void pathRevert(ZF_IN_OUT zfstring &pathData) {...}
+ *   };
+ *
+ *   // use the file IO callback
+ *   ZFPATHTYPE_FILEIO_REGISTER(registerSig, yourPathType,
+ *       ZFFileIOImpl::FileIO<MyHolder>::callbackIsExist,
+ *       ...)
+ * @endcode
+ */
+template<typename T_Holder>
+zfclassNotPOD FileIO
+{
+public:
+    /** @cond ZFPrivateDoc */
+    static zfbool callbackIsExist(ZF_IN const zfchar *pathData)
+    {
+        zfstring pathDataAbs;
+        T_Holder::pathConvert(pathDataAbs, pathData);
+        return ZFFileFileIsExist(pathDataAbs);
+    }
+    static zfbool callbackIsDir(ZF_IN const zfchar *pathData)
+    {
+        zfstring pathDataAbs;
+        T_Holder::pathConvert(pathDataAbs, pathData);
+        return ZFFileFileIsDir(pathDataAbs);
+    }
+    static zfbool callbackPathGet(ZF_IN_OUT zfstring &path,
+                                  ZF_IN const zfchar *pathData)
+    {
+        return ZFFilePathInfoCallbackPathGetDefault(path, pathData);
+    }
+    static zfbool callbackPathSet(ZF_IN_OUT zfstring &pathData,
+                                  ZF_IN const zfchar *path)
+    {
+        return ZFFilePathInfoCallbackPathSetDefault(pathData, path);
+    }
+    static zfbool callbackPathCreate(ZF_IN const zfchar *pathData,
+                                     ZF_IN_OPT zfbool autoMakeParent,
+                                     ZF_OUT_OPT zfstring *errPos)
+    {
+        zfstring pathDataAbs;
+        T_Holder::pathConvert(pathDataAbs, pathData);
+        if(!ZFFileFilePathCreate(pathDataAbs, autoMakeParent, errPos))
+        {
+            if(errPos != zfnull)
+            {
+                T_Holder::pathRevert(*errPos);
+            }
+            return zffalse;
+        }
+        else
+        {
+            return zftrue;
+        }
+    }
+    static zfbool callbackRemove(ZF_IN const zfchar *pathData,
+                                 ZF_IN_OPT zfbool isRecursive,
+                                 ZF_IN_OPT zfbool isForce,
+                                 ZF_IN_OPT zfstring *errPos)
+    {
+        zfstring pathDataAbs;
+        T_Holder::pathConvert(pathDataAbs, pathData);
+        if(!ZFFileFileRemove(pathDataAbs, isRecursive, isForce, errPos))
+        {
+            if(errPos != zfnull)
+            {
+                T_Holder::pathRevert(*errPos);
+            }
+            return zffalse;
+        }
+        else
+        {
+            return zftrue;
+        }
+    }
+    static zfbool callbackFindFirst(ZF_IN_OUT ZFFileFindData &fd,
+                                    ZF_IN const zfchar *pathData)
+    {
+        zfstring pathDataAbs;
+        T_Holder::pathConvert(pathDataAbs, pathData);
+        if(ZFFileFileFindFirst(fd, pathDataAbs))
+        {
+            T_Holder::pathRevert(fd.impl().filePath);
+            fd.impl().fileNameParse();
+            return zftrue;
+        }
+        else
+        {
+            return zffalse;
+        }
+    }
+    static zfbool callbackFindNext(ZF_IN_OUT ZFFileFindData &fd)
+    {
+        if(ZFFileFileFindNext(fd))
+        {
+            T_Holder::pathRevert(fd.impl().filePath);
+            fd.impl().fileNameParse();
+            return zftrue;
+        }
+        else
+        {
+            return zffalse;
+        }
+    }
+    static void callbackFindClose(ZF_IN_OUT ZFFileFindData &fd)
+    {
+        ZFFileFileFindClose(fd);
+    }
+    static ZFToken callbackOpen(ZF_IN const zfchar *pathData,
+                                ZF_IN_OPT ZFFileOpenOptionFlags flag,
+                                ZF_IN_OPT zfbool autoCreateParent)
+    {
+        zfstring pathDataAbs;
+        T_Holder::pathConvert(pathDataAbs, pathData);
+        return ZFFileFileOpen(pathDataAbs, flag, autoCreateParent);
+    }
+    static zfbool callbackClose(ZF_IN ZFToken token)
+    {
+        return ZFFileFileClose(token);
+    }
+    static zfindex callbackTell(ZF_IN ZFToken token)
+    {
+        return ZFFileFileTell(token);
+    }
+    static zfbool callbackSeek(ZF_IN ZFToken token,
+                               ZF_IN zfindex byteSize,
+                               ZF_IN_OPT ZFSeekPos position)
+    {
+        return ZFFileFileSeek(token, byteSize, position);
+    }
+    static zfindex callbackRead(ZF_IN ZFToken token,
+                                ZF_IN void *buf,
+                                ZF_IN zfindex maxByteSize)
+    {
+        return ZFFileFileRead(token, buf, maxByteSize);
+    }
+    static zfindex callbackWrite(ZF_IN ZFToken token,
+                                 ZF_IN const void *src,
+                                 ZF_IN_OPT zfindex maxByteSize)
+    {
+        return ZFFileFileWrite(token, src, maxByteSize);
+    }
+    static void callbackFlush(ZF_IN ZFToken token)
+    {
+        ZFFileFileFlush(token);
+    }
+    static zfbool callbackIsEof(ZF_IN ZFToken token)
+    {
+        return ZFFileFileIsEof(token);
+    }
+    static zfbool callbackIsError(ZF_IN ZFToken token)
+    {
+        return ZFFileFileIsError(token);
+    }
+    static zfindex callbackSize(ZF_IN ZFToken token)
+    {
+        return ZFFileFileSize(token);
+    }
+    /** @endcond */
+};
+ZF_NAMESPACE_END(ZFFileIOImpl)
+
+ZF_NAMESPACE_GLOBAL_END
+#endif // #ifndef _ZFI_ZFPathType_file_h_
+

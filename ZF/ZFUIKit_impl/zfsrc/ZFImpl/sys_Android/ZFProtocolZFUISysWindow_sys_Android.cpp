@@ -1,0 +1,243 @@
+/* ====================================================================== *
+ * Copyright (c) 2010-2018 ZFFramework
+ * Github repo: https://github.com/ZFFramework/ZFFramework
+ * Home page: http://ZFFramework.com
+ * Blog: http://zsaber.com
+ * Contact: master@zsaber.com (Chinese and English only)
+ * Distributed under MIT license:
+ *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
+ * ====================================================================== */
+#include "ZFImpl_sys_Android_ZFUIKit.h"
+#include "ZFUIKit/protocol/ZFProtocolZFUISysWindow.h"
+#include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
+
+#if ZF_ENV_sys_Android
+
+ZF_NAMESPACE_GLOBAL_BEGIN
+
+#define ZFImpl_sys_Android_JNI_ID_ZFUISysWindow ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFUISysWindow)
+#define ZFImpl_sys_Android_JNI_NAME_ZFUISysWindow ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFUISysWindow)
+
+ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUISysWindowImpl_sys_Android, ZFUISysWindow, ZFProtocolLevel::e_SystemNormal)
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:Activity"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_BEGIN()
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_ITEM(ZFUIView, zfText("Android:View"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_END()
+
+public:
+    zfoverride
+    virtual void protocolOnInit(void)
+    {
+        zfsuper::protocolOnInit();
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        jobject tmp = zfnull;
+
+        tmp = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFUISysWindow).c_str());
+        this->jclsOwner = (jclass)JNIUtilNewGlobalRef(jniEnv, tmp);
+        JNIUtilDeleteLocalRef(jniEnv, tmp);
+
+        this->_mainWindow = zfnull;
+    }
+    zfoverride
+    virtual void protocolOnDealloc(void)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        JNIUtilDeleteGlobalRef(jniEnv, this->jclsOwner);
+        zfsuper::protocolOnDealloc();
+    }
+public:
+    virtual ZFUISysWindow *mainWindow(void)
+    {
+        if(this->_mainWindow == zfnull)
+        {
+            this->_mainWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
+
+            JNIEnv *jniEnv = JNIGetJNIEnv();
+            static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_nativeMainWindowCreate"),
+                JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                    .add(JNIPointerJNIType)
+                ).c_str());
+            JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId,
+                JNIConvertZFObjectToJNIType(jniEnv, this->_mainWindow));
+        }
+        return this->_mainWindow;
+    }
+    virtual void mainWindowOnCleanup(void)
+    {
+        if(this->_mainWindow != zfnull)
+        {
+            ZFUISysWindow *mainWindowTmp = this->_mainWindow;
+            this->_mainWindow = zfnull;
+            zfRelease(mainWindowTmp);
+        }
+    }
+    virtual void mainWindowOnDestroy(void)
+    {
+        this->_mainWindow = zfnull;
+    }
+
+    // ============================================================
+public:
+    virtual void nativeWindowOnCleanup(ZF_IN ZFUISysWindow *sysWindow)
+    {
+    }
+
+    virtual void nativeWindowRootViewOnAdd(ZF_IN ZFUISysWindow *sysWindow,
+                                           ZF_OUT void *&nativeParentView)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_nativeWindowRootViewOnAdd"),
+            JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        nativeParentView = (void *)JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindow->nativeWindow()),
+            ZFCastStatic(jobject, sysWindow->rootView()->nativeView())
+            );
+    }
+    virtual void nativeWindowRootViewOnRemove(ZF_IN ZFUISysWindow *sysWindow)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_nativeWindowRootViewOnRemove"),
+            JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindow->nativeWindow()),
+            ZFCastStatic(jobject, sysWindow->rootView()->nativeView())
+            );
+    }
+
+    virtual ZFUISysWindow *modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
+    {
+        ZFUISysWindow *modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
+
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_modalWindowShow"),
+            JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                .add(JNIPointerJNIType)
+            ).c_str());
+        JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindowOwner->nativeWindow()),
+            JNIConvertZFObjectToJNIType(jniEnv, modalWindow));
+
+        return modalWindow;
+    }
+    virtual void modalWindowFinish(ZF_IN ZFUISysWindow *sysWindowOwner,
+                                   ZF_IN ZFUISysWindow *sysWindowToFinish)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_modalWindowFinish"),
+            JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindowToFinish->nativeWindow()));
+    }
+
+    virtual void sysWindowLayoutParamOnInit(ZF_IN ZFUISysWindow *sysWindow)
+    {
+    }
+    virtual void sysWindowLayoutParamOnChange(ZF_IN ZFUISysWindow *sysWindow)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_sysWindowLayoutParamOnChange"),
+            JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindow->nativeWindow()));
+    }
+
+    virtual ZFUIOrientationEnum sysWindowOrientation(ZF_IN ZFUISysWindow *sysWindow)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_sysWindowOrientation"),
+            JNIGetMethodSig(JNIType::S_int, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        jint ret = JNIUtilCallStaticIntMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindow->nativeWindow()));
+        return ZFCastStatic(ZFUIOrientationEnum, ret);
+    }
+    virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
+                                              ZF_IN const ZFUIOrientationFlags &flags)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_sysWindowOrientationFlagsSet"),
+            JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                .add(JNIType::S_int)
+            ).c_str());
+        JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId,
+            ZFCastStatic(jobject, sysWindow->nativeWindow()),
+            (jint)flags);
+    }
+
+private:
+    jclass jclsOwner;
+    ZFUISysWindow *_mainWindow;
+ZFPROTOCOL_IMPLEMENTATION_END(ZFUISysWindowImpl_sys_Android)
+ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUISysWindowImpl_sys_Android)
+
+ZF_NAMESPACE_GLOBAL_END
+
+JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUISysWindow, native_1notifyMeasureWindow,
+                   JNIEnv *jniEnv, jclass jniCls,
+                   JNIPointer zfjniPointerOwnerZFUISysWindow,
+                   jint refWidth,
+                   jint refHeight,
+                   jobject resultRect)
+{
+    ZFUIRect result = ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyMeasureWindow(
+        ZFCastZFObject(ZFUISysWindow *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUISysWindow)),
+        ZFUIRectMake(0, 0, refWidth, refHeight),
+        ZFUIMarginZero());
+    ZFImpl_sys_Android_ZFUIRectToZFAndroidRect(result, resultRect);
+}
+JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUISysWindow, native_1notifyOnCreate,
+                   JNIEnv *jniEnv, jclass jniCls,
+                   JNIPointer zfjniPointerOwnerZFUISysWindow,
+                   jobject nativeWindow)
+{
+    jobject nativeWindowGlobalRef = JNIUtilNewGlobalRef(jniEnv, nativeWindow);
+    ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnCreate(
+        ZFCastZFObject(ZFUISysWindow *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUISysWindow)),
+        ZFCastStatic(void *, nativeWindowGlobalRef));
+}
+JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUISysWindow, native_1notifyOnDestroy,
+                   JNIEnv *jniEnv, jclass jniCls,
+                   JNIPointer zfjniPointerOwnerZFUISysWindow)
+{
+    ZFUISysWindow *window = ZFCastZFObject(ZFUISysWindow *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUISysWindow));
+    jobject nativeWindowGlobalRef = ZFCastStatic(jobject, window->nativeWindow());
+    ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnDestroy(window);
+    JNIUtilDeleteGlobalRef(jniEnv, nativeWindowGlobalRef);
+}
+JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUISysWindow, native_1notifyOnResume,
+                   JNIEnv *jniEnv, jclass jniCls,
+                   JNIPointer zfjniPointerOwnerZFUISysWindow)
+{
+    ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnResume(
+        ZFCastZFObject(ZFUISysWindow *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUISysWindow)));
+}
+JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUISysWindow, native_1notifyOnPause,
+                   JNIEnv *jniEnv, jclass jniCls,
+                   JNIPointer zfjniPointerOwnerZFUISysWindow)
+{
+    ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnPause(
+        ZFCastZFObject(ZFUISysWindow *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUISysWindow)));
+}
+JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUISysWindow, native_1notifyOnRotate,
+                   JNIEnv *jniEnv, jclass jniCls,
+                   JNIPointer zfjniPointerOwnerZFUISysWindow)
+{
+    ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnRotate(
+        ZFCastZFObject(ZFUISysWindow *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUISysWindow)));
+}
+
+#endif // #if ZF_ENV_sys_Android
+

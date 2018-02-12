@@ -1,0 +1,93 @@
+/* ====================================================================== *
+ * Copyright (c) 2010-2018 ZFFramework
+ * Github repo: https://github.com/ZFFramework/ZFFramework
+ * Home page: http://ZFFramework.com
+ * Blog: http://zsaber.com
+ * Contact: master@zsaber.com (Chinese and English only)
+ * Distributed under MIT license:
+ *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
+ * ====================================================================== */
+#include "ZFLuaExecute.h"
+#include "ZFLuaState.h"
+#include "protocol/ZFProtocolZFLua.h"
+
+ZF_NAMESPACE_GLOBAL_BEGIN
+
+// ============================================================
+static zfbool _ZFP_ZFLuaExecute(ZF_IN const ZFPathInfo *pathInfoOrNull,
+                                ZF_IN const ZFInputCallback &input,
+                                ZF_IN zfautoObject *luaResult,
+                                ZF_IN const ZFCoreArray<zfautoObject> *luaParams,
+                                ZF_IN void *L)
+{
+    if(!input.callbackIsValid())
+    {
+        return zffalse;
+    }
+    zfstring errHint;
+    if(!ZFPROTOCOL_ACCESS(ZFLua)->luaExecute(L ? L : ZFLuaState(), pathInfoOrNull, input, luaResult, luaParams, &errHint))
+    {
+        if(!errHint.isEmpty())
+        {
+            ZFLuaErrorOccurredTrim(zfText("[ZFLua] %s"), errHint.cString());
+        }
+        return zffalse;
+    }
+    else
+    {
+        return zftrue;
+    }
+}
+
+ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
+                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
+                       ZFMP_IN_OPT(void *, L, zfnull))
+{
+    zfautoObject ret;
+    if(_ZFP_ZFLuaExecute(input.pathInfo(), input, &ret, luaParams, L))
+    {
+        return ret;
+    }
+    else
+    {
+        return zfautoObjectNull();
+    }
+}
+ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFLuaExecuteT,
+                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_OUT_OPT(zfautoObject *, luaResult, zfnull),
+                       ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
+                       ZFMP_IN_OPT(void *, L, zfnull))
+{
+    return _ZFP_ZFLuaExecute(input.pathInfo(), input, luaResult, luaParams, L);
+}
+
+ZFMETHOD_FUNC_DEFINE_4(zfautoObject, ZFLuaExecute,
+                       ZFMP_IN(const zfchar *, buf),
+                       ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
+                       ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
+                       ZFMP_IN_OPT(void *, L, zfnull))
+{
+    zfautoObject ret;
+    if(_ZFP_ZFLuaExecute(zfnull, ZFInputCallbackForBuffer(buf, bufLen), &ret, luaParams, L))
+    {
+        return ret;
+    }
+    else
+    {
+        return zfautoObjectNull();
+    }
+}
+ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFLuaExecuteT,
+                       ZFMP_IN(const zfchar *, buf),
+                       ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
+                       ZFMP_OUT_OPT(zfautoObject *, luaResult, zfnull),
+                       ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
+                       ZFMP_IN_OPT(void *, L, zfnull))
+{
+    return _ZFP_ZFLuaExecute(zfnull, ZFInputCallbackForBuffer(buf, bufLen), luaResult, luaParams, L);
+}
+
+ZF_NAMESPACE_GLOBAL_END
+

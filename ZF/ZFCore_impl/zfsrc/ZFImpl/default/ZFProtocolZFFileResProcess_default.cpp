@@ -1,0 +1,47 @@
+/* ====================================================================== *
+ * Copyright (c) 2010-2018 ZFFramework
+ * Github repo: https://github.com/ZFFramework/ZFFramework
+ * Home page: http://ZFFramework.com
+ * Blog: http://zsaber.com
+ * Contact: master@zsaber.com (Chinese and English only)
+ * Distributed under MIT license:
+ *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
+ * ====================================================================== */
+#include "ZFImpl_default_ZFCore.h"
+#include "ZFCore/protocol/ZFProtocolZFFileResProcess.h"
+
+ZF_NAMESPACE_GLOBAL_BEGIN
+
+// res files must be placed at "zfres/" in the same dir of your executable
+
+ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFileResProcessImpl_default, ZFFileResProcess, ZFProtocolLevel::e_Default)
+public:
+    zfoverride
+    virtual void protocolOnInit(void)
+    {
+        zfsuper::protocolOnInit();
+        this->_resRootPath = ZFFilePathForModule();
+        this->_resRootPath += ZFFileSeparator();
+        #if ZF_ENV_sys_MacOS
+            this->_resRootPath += zfText("..");
+            this->_resRootPath += ZFFileSeparator();
+            this->_resRootPath += zfText("Resources");
+            this->_resRootPath += ZFFileSeparator();
+        #endif
+        this->_resRootPath += zfText("zfres");
+        this->_resRootPath += ZFFileSeparator();
+    }
+
+public:
+    zfoverride
+    virtual const zfstring &resRootPath(void)
+    {
+        return this->_resRootPath;
+    }
+private:
+    zfstring _resRootPath;
+ZFPROTOCOL_IMPLEMENTATION_END(ZFFileResProcessImpl_default)
+ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFFileResProcessImpl_default)
+
+ZF_NAMESPACE_GLOBAL_END
+
