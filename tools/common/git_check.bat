@@ -62,7 +62,7 @@ if "%_GIT_VALID%" == "1" (
 ) else (
     rmdir /s/q "%DST_PATH%" >nul 2>&1
     mkdir "%DST_PATH%" >nul 2>&1
-    git clone %CLONE_OPTION% "%PROJ_GIT%" "%DST_PATH%"
+    git clone -b %GIT_BRANCH% %CLONE_OPTION% "%PROJ_GIT%" "%DST_PATH%"
 
     if "!errorlevel!" == "0" (
         call "%WORK_DIR%\timestamp_save.bat" "%DST_PATH%\.git" %_TIMEOUT%

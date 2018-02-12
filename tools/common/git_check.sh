@@ -56,7 +56,7 @@ if test "$_GIT_VALID" = "1"; then
 else
     rm -rf "$DST_PATH" >/dev/null 2>&1
     mkdir -p "$DST_PATH" >/dev/null 2>&1
-    git clone $CLONE_OPTION "$PROJ_GIT" "$DST_PATH"
+    git clone -b $GIT_BRANCH $CLONE_OPTION "$PROJ_GIT" "$DST_PATH"
 
     if test "$?" = "0"; then
         sh "$WORK_DIR/timestamp_save.sh" "$DST_PATH/.git" $_TIMEOUT
