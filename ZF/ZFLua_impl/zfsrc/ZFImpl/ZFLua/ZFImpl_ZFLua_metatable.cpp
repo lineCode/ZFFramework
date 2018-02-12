@@ -376,10 +376,6 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
     {
         paramClass1 = paramClass0;
     }
-    if(param1 == zfnull)
-    {
-        param1 = param0;
-    }
 
     if(zffalse
         || paramClass0->classIsTypeOf(v_zffloat::ClassData())

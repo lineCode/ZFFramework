@@ -25,6 +25,7 @@ zfinterface ZFOutputFormat : zfextends ZFInterface
     ZFINTERFACE_DECLARE(ZFOutputFormat, ZFInterface)
 
 public:
+    /** @brief see #ZFOutputCallbackForFormat */
     typedef enum
     {
         /**

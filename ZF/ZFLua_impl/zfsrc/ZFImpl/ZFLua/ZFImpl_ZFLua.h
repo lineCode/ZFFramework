@@ -195,14 +195,17 @@ public:
     {
     }
 public:
+    /** @brief see #ZFImpl_ZFLua_implDispatch_DEFINE */
     void dispatchForward(void)
     {
         this->dispatchResult = ZFImpl_ZFLua_ImplDispatchResultForward;
     }
+    /** @brief see #ZFImpl_ZFLua_implDispatch_DEFINE */
     void dispatchSuccess(void)
     {
         this->dispatchResult = ZFImpl_ZFLua_ImplDispatchResultSuccess;
     }
+    /** @brief see #ZFImpl_ZFLua_implDispatch_DEFINE */
     void dispatchError(ZF_IN const zfchar *fmt, ...)
     {
         va_list vaList;
@@ -334,6 +337,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName); \
         } \
     } while(zffalse)
+/** @brief util macro for impl */
 #define ZFImpl_ZFLua_implDispatch_AssertNotStaticMethod() \
     if(dispatchInfo.isStatic) \
     { \
@@ -430,7 +434,9 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     } while(zffalse)
 
 // ============================================================
+/** @brief class prefix for #ZFPropertyTypeWrapper impl */
 #define ZFImpl_ZFLua_PropTypePrefix zfText("v_")
+/** @brief see #ZFImpl_ZFLua_PropTypePrefix */
 #define ZFImpl_ZFLua_PropTypePrefixLen 2
 
 // ============================================================
@@ -556,30 +562,36 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
 
 // ============================================================
 // wrapper for impl
+/** @brief util for impl */
 inline lua_State *ZFImpl_ZFLua_luaOpen(void)
 {
     return ELuna::openLua();
 }
+/** @brief util for impl */
 inline void ZFImpl_ZFLua_luaClose(ZF_IN lua_State *L)
 {
     ELuna::closeLua(L);
 }
 
+/** @brief util for impl */
 template<typename T>
 inline void ZFImpl_ZFLua_luaClassRegister(ZF_IN lua_State *L, ZF_IN const zfchar *name)
 {
     ELuna::registerClass<T>(L, zfsCoreZ2A(name), ELuna::constructor<zfautoObject>);
 }
+/** @brief util for impl */
 template<typename F>
 inline void ZFImpl_ZFLua_luaFunctionRegister(ZF_IN lua_State *L, ZF_IN const zfchar *name, ZF_IN F f)
 {
     ELuna::registerFunction(L, zfsCoreZ2A(name), f);
 }
+/** @brief util for impl */
 inline void ZFImpl_ZFLua_luaCFunctionRegister(ZF_IN lua_State *L, ZF_IN const zfchar *name, ZF_IN int (*f)(lua_State *))
 {
     lua_register(L, zfsCoreZ2A(name), f);
 }
 
+/** @brief util for impl */
 inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN zfautoObject &v)
 {
     v_zfbool *t = ZFCastZFObject(v_zfbool *, v);
@@ -593,16 +605,21 @@ inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN zfautoObject &v)
         ZFImpl_ZFLua_implSetupObject(L);
     }
 }
+/** @brief util for impl */
 inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN const zfautoObject &v)
 {
     zfautoObject t = v;
     ZFImpl_ZFLua_luaPush(L, t);
 }
+/** @brief util for impl */
 inline const zfautoObject &ZFImpl_ZFLua_luaGet(ZF_IN lua_State *L, ZF_IN zfint luaStackOffset)
 {
     return ELuna::convert2CppType<zfautoObject const &>::convertType(L, luaStackOffset);
 }
+/** @cond ZFPrivateDoc */
 #define ZFImpl_ZFLua_dummyError "ZFImpl_ZFLua_dummyError"
+/** @endcond */
+/** @brief util for impl */
 inline int ZFImpl_ZFLua_luaError(ZF_IN lua_State *L)
 {
     return luaL_error(L, ZFImpl_ZFLua_dummyError);

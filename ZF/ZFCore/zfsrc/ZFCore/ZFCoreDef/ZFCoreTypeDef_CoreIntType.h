@@ -17,7 +17,9 @@
 
 #include "ZFCoreTypeDef_CorePrimitiveType.h"
 
-ZF_ENV_SENSITIVE("whether use stdint")
+/**
+ * @brief whether we have stdint, true by default if under C++11
+ */
 #ifndef ZF_ENV_STDINT
     #if defined(__cplusplus) && (__cplusplus >= 201103L)
         #define ZF_ENV_STDINT 1

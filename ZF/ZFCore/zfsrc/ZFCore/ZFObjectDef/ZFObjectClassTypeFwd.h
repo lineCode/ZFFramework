@@ -195,7 +195,7 @@ zfclassFwd ZFMethod;
 
 // ============================================================
 /**
- * @brief true if Type is #ZFObject type, see #zftIsZFObjectType
+ * @brief true if Type is #ZFObject type
  */
 #define zftIsZFObject(Type) (ZFM_CLASS_HAS_MEMBER(_ZFP_zftIsZFObjectCheck, ClassData, Type) ? 1 : 0)
 ZFM_CLASS_HAS_MEMBER_DECLARE(_ZFP_zftIsZFObjectCheck, ClassData, const ZFClass *(*F)(void))

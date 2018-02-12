@@ -108,7 +108,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     create a array, params support these types:
  *     -  zfautoObject
  *     -  any types that can be converted by #ZFImpl_ZFLua_toNumber
- *       (stored as #v_ZFValue)
+ *       (stored as #ZFValue)
  *     -  any types that can be converted by #ZFImpl_ZFLua_toString
  *       (stored as #v_zfstring)
  * -  param and return value
