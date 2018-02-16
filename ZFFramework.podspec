@@ -56,6 +56,7 @@ for ZF_MODULE_NAME list, please refer to https://github.com/ZFFramework/ZFFramew
           'ZF/' + moduleName + '/zfsrc_ext/**/*.{h,hpp,c,cpp,m,mm}' ]
         ss.resources = [ 'ZF/' + moduleName + '/zfres' ]
         ss.exclude_files = 'ZF/**/ZF_PUT_RES_FILES_HERE' # not work for now, but no other side effect
+        ss.preserve_paths   = '**/*'
         dependencyList.each { |d| ss.dependency 'ZFFramework/' + d }
         ext.call(ss)
       end
