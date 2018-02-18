@@ -7,6 +7,12 @@
  * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files\n
  * \n
  * \n
+ * or, use [Cocoapods](https://cocoapods.org)
+ * @code
+ *   pod 'ZFFramework'
+ * @endcode
+ * \n
+ * \n
  * if you really want to setup manually:
  * -# build necessary libraries of ZFFramework, by one of these methods:
  *   -  tools from ~/tools/release
