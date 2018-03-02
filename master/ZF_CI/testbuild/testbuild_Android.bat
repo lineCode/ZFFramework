@@ -15,10 +15,10 @@ echo   testbuild_Android.bat PROJ_NAME PROJ_PATH [BUILD_TARGET_ONLY]
 exit /b 1
 :run
 
-set ZF_ROOT_PATH=%WORK_DIR%\..\..
+set ZF_ROOT_PATH=%WORK_DIR%\..\..\..
 set ZF_TOOLS_PATH=%ZF_ROOT_PATH%\tools
 
-if not defined BUILD_TARGET_ONLY call "%WORK_DIR%\release_Android_check.bat"
+if not defined BUILD_TARGET_ONLY call "%ZF_TOOLS_PATH%\release\release_Android_check.bat"
 
 set _OLD_DIR=%cd%
 cd "%PROJ_PATH%"

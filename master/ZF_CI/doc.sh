@@ -2,16 +2,16 @@ WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 ZF_ROOT_PATH=$WORK_DIR/../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 
-if test "x-$ZFDOC_KEY" = "x-" ; then
-    echo "ZFDOC_KEY not set"
+if test "x-$ZFCI_DOC_TOKEN" = "x-" ; then
+    echo "ZFCI_DOC_TOKEN not set"
     exit 1
 fi
 
-OUTPUT_PATH="$WORK_DIR/../../_tmp/DoxygenDoc"
+OUTPUT_PATH="$ZF_ROOT_PATH/_tmp/DoxygenDoc"
 mkdir -p "$OUTPUT_PATH"
 
 _OLD_DIR=$(pwd)
-cd "$WORK_DIR/Doxygen"
+cd "$ZF_ROOT_PATH/master/ZF_docs/Doxygen"
 doxygen
 if ! test "$?" = "0" ; then
     exit 1
@@ -38,7 +38,7 @@ git clean -xdf
 git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch *' --prune-empty --tag-name-filter cat -- --all
 cd "$_OLD_DIR"
 
-cp -r "$WORK_DIR/doc_repo/." "$DOC_REPO_PATH/"
+cp -r "$ZF_ROOT_PATH/master/ZF_docs/doc_repo/." "$DOC_REPO_PATH/"
 rm -rf "$DOC_REPO_PATH/doc"
 mkdir "$DOC_REPO_PATH/doc"
 cp -r "$OUTPUT_PATH/html/." "$DOC_REPO_PATH/doc/"
@@ -47,6 +47,6 @@ _OLD_DIR=$(pwd)
 cd "$DOC_REPO_PATH"
 git add -A
 git commit -a -m "update doc"
-git push --force "https://ZSaberLv0:$ZFDOC_KEY@github.com/ZFFramework/zfframework.github.com"
+git push --force "https://ZSaberLv0:$ZFCI_DOC_TOKEN@github.com/ZFFramework/zfframework.github.com"
 cd "$_OLD_DIR"
 

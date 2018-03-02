@@ -1,3 +1,8 @@
+# master
+
+* upgrade Android project files
+* update CI script
+
 # 0.1.0 (20180218)
 
 * first commit

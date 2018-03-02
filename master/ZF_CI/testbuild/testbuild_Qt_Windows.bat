@@ -15,11 +15,11 @@ echo   testbuild_Qt_MacOS.bat PROJ_NAME PROJ_PATH [BUILD_TARGET_ONLY]
 exit /b 1
 :run
 
-set ZF_ROOT_PATH=%WORK_DIR%\..\..
+set ZF_ROOT_PATH=%WORK_DIR%\..\..\..
 set ZF_TOOLS_PATH=%ZF_ROOT_PATH%\tools
 set _TMP_PATH=%ZF_ROOT_PATH%\_tmp\%PROJ_NAME%\Qt_Windows\release
 
-if not defined BUILD_TARGET_ONLY call "%WORK_DIR%\release_Qt_Windows_check.bat"
+if not defined BUILD_TARGET_ONLY call "%ZF_TOOLS_PATH%\release\release_Qt_Windows_check.bat"
 
 set _OLD_DIR=%cd%
 cd "%PROJ_PATH%"

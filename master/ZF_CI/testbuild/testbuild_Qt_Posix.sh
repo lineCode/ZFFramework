@@ -8,13 +8,13 @@ if test "x-$PROJ_NAME" = "x-" || test "x-$PROJ_PATH" = "x-" ; then
     exit 1
 fi
 
-ZF_ROOT_PATH=$WORK_DIR/../..
+ZF_ROOT_PATH=$WORK_DIR/../../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 _TMP_PATH=$ZF_ROOT_PATH/_tmp/$PROJ_NAME/Qt_Posix/release
 
 if test "x-$BUILD_TARGET_ONLY" = "x-" ; then
-    chmod +x $WORK_DIR/release_Qt_Posix_check.sh
-    $WORK_DIR/release_Qt_Posix_check.sh
+    chmod +x $ZF_TOOLS_PATH/release/release_Qt_Posix_check.sh
+    $ZF_TOOLS_PATH/release/release_Qt_Posix_check.sh
 fi
 
 _OLD_DIR=$(pwd)
