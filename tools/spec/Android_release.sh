@@ -10,7 +10,7 @@ fi
 ZF_ROOT_PATH=$WORK_DIR/../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 
-sh "$ZF_TOOLS_PATH/common/file_exist.sh" "$ZF_ROOT_PATH/_release/Android/module/$PROJ_NAME/libs/libs" "*.so"
+sh "$ZF_TOOLS_PATH/common/file_exist.sh" "$ZF_ROOT_PATH/_release/Android/module/$PROJ_NAME/aar" "*.aar"
 if test "$?" = "0" ; then
     exit 0
 fi

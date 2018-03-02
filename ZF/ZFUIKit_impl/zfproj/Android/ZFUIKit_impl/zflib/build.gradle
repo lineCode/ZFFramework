@@ -3,7 +3,6 @@ apply plugin: 'com.android.library'
 def ZF_ROOT_PATH = this.projectDir.getAbsolutePath() + '/../../../../../../../ZFFramework'
 android {
     compileSdkVersion 24
-    buildToolsVersion "26.0.1"
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 24
@@ -16,7 +15,7 @@ android {
         }
         ndk {
             // abiFilters "arm64-v8a", "armeabi", "armeabi-v7a", "mips", "mips64", "x86", "x86_64"
-            abiFilters "armeabi"
+            abiFilters "armeabi-v7a"
         }
     }
     buildTypes {
@@ -28,7 +27,6 @@ android {
     sourceSets {
         main {
             java.srcDirs += this.projectDir.getAbsolutePath() + '/../../../../zfsrc/ZFImpl/sys_Android/java'
-            jniLibs.srcDirs += 'libs'
         }
     }
     externalNativeBuild {
@@ -39,15 +37,34 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFCore/libs', include: ['*.jar'])
-    compile fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFAlgorithm/libs', include: ['*.jar'])
-    compile fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFUtility/libs', include: ['*.jar'])
-    compile fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFUIKit/libs', include: ['*.jar'])
-    compile fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZF_impl/libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFCore/src/main/libs', includes: ['*.jar'])
+    implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFAlgorithm/src/main/libs', includes: ['*.jar'])
+    implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFUtility/src/main/libs', includes: ['*.jar'])
+    implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZFUIKit/src/main/libs', includes: ['*.jar'])
+    implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/ZF_impl/src/main/libs', includes: ['*.jar'])
 }
 
 import org.apache.tools.ant.taskdefs.condition.Os
+
+task ZFSetup {
+    doLast {
+        if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+            exec {
+                executable "cmd.exe"
+                args "/c", ZF_ROOT_PATH + "/tools/util/copy_res.bat", this.projectDir.getAbsolutePath() + "/../../../../zfres", this.projectDir.getAbsolutePath() + "/src/main/assets/zfres"
+            }
+        }
+        else {
+            exec {
+                executable "sh"
+                args ZF_ROOT_PATH + "/tools/util/copy_res.sh", this.projectDir.getAbsolutePath() + "/../../../../zfres", this.projectDir.getAbsolutePath() + "/src/main/assets/zfres"
+            }
+        }
+    }
+}
+preBuild.dependsOn ZFSetup
+
 gradle.buildFinished {
     if(Os.isFamily(Os.FAMILY_WINDOWS)) {
         exec {

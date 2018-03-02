@@ -7,7 +7,7 @@
         Android/
             LibName/
                 gradle/
-                jni_LibName/
+                zflib/
                     src/
                     build.gradle
                     CMakeLists.txt
@@ -27,7 +27,7 @@
         Android/
             ImplLibName_impl/
                 gradle/
-                jni_ImplLibName_impl/
+                zflib/
                     src/
                     build.gradle
                     CMakeLists.txt
@@ -40,6 +40,26 @@
                 ImplLibName_impl.pro
     zfres/
     zfsrc/
+
+// for app
+~/
+    zfproj/
+        Android/
+            AppName/
+                gradle/
+                zfapp/
+                    src/
+                    build.gradle
+                    CMakeLists.txt
+                build.gradle
+        iOS/
+            AppName/
+                AppName.xcodeproj/
+        Qt/
+            AppName/
+                AppName.pro
+    zfres/
+    zfsrc/
 ```
 
 # release dir structure
@@ -50,15 +70,19 @@
         all/
         module/
             LibName/
-                libs/
-                    include/
-                    libs/
-                        armeabi/
-                            libLibName.so
-                    LibName.jar
                 src/
                     main/
                         assets/
+                            zfres/
+                        cpp/
+                            include/
+                        jniLibs/
+                            armeabi/
+                                libLibName.so
+                        libs/
+                            libLibName.jar
+                aar/
+                    LibName.aar
     iOS/
         all/
         module/
