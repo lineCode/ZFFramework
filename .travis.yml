@@ -120,15 +120,13 @@ matrix:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh
       - ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/iOS/${ZF_PROJ_NAME}
 
-  - language: cpp
+  - if: env(ZFCI_DOC_TOKEN) IS present
+    language: cpp
     env:
       - ZF_BUILD=doc
     os: linux
     compiler: clang
     script:
-      - if [ "$ZFCI_DOC_TOKEN" = "" ]; then
-          exit 0;
-        fi
       # we need Doxygen > 1.8.11 (better markdown support, BUG 742715 https://bugzilla.gnome.org/show_bug.cgi?id=742715)
       - sudo apt-get install wget unzip cmake
       - _OLD_DIR=$(pwd);
