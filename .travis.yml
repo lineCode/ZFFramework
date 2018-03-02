@@ -148,7 +148,7 @@ matrix:
       - ZF_BUILD=cocoapods
     os: osx
     compiler: clang
-    if: env(ZFCI_COCOAPODS_TOKEN) IS present
+    if: env(ZFCI_COCOAPODS_TOKEN) != ""
     script:
       # install cocoapods
       - sudo gem install cocoapods
