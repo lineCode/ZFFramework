@@ -126,7 +126,10 @@ matrix:
     os: linux
     compiler: clang
     script:
-      - # we need Doxygen > 1.8.11 (better markdown support, BUG 742715 https://bugzilla.gnome.org/show_bug.cgi?id=742715)
+      # we need Doxygen > 1.8.11 (better markdown support, BUG 742715 https://bugzilla.gnome.org/show_bug.cgi?id=742715)
+      - if [ "$ZFCI_DOC_TOKEN" = "" ]; then
+          exit 0;
+        fi;
         sudo apt-get install wget unzip cmake;
         _OLD_DIR=$(pwd);
         cd ..;
@@ -138,7 +141,6 @@ matrix:
         cmake -G "Unix Makefiles" ..;
         sudo make install;
         cd "$_OLD_DIR";
-        # make and push doc
         chmod +x master/ZF_CI/doc.sh;
         ./master/ZF_CI/doc.sh;
 
@@ -147,13 +149,13 @@ matrix:
       - ZF_BUILD=cocoapods
     os: osx
     compiler: clang
-    if: env(ZFCI_COCOAPODS_TOKEN) IS present
     script:
-      # install cocoapods
-      - sudo gem install cocoapods
-      # make and push doc
-      - chmod +x master/ZF_CI/cocoapods.sh
-      - ./master/ZF_CI/cocoapods.sh
+      - if [ "$ZFCI_COCOAPODS_TOKEN" = "" ]; then
+          exit 0;
+        fi;
+        sudo gem install cocoapods;
+        chmod +x master/ZF_CI/cocoapods.sh;
+        ./master/ZF_CI/cocoapods.sh;
 
 
 install:
