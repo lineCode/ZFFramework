@@ -123,7 +123,7 @@ matrix:
   - language: cpp
     env:
       - ZF_BUILD=doc
-    if: type = push
+    if: type != push
     os: linux
     compiler: clang
     script:
