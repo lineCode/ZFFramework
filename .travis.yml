@@ -126,7 +126,9 @@ matrix:
     os: linux
     compiler: clang
     script:
-      - if test "$ZFCI_DOC_TOKEN" = "" ; then exit 0; fi;
+      - if test "$ZFCI_DOC_TOKEN" = "" ; then
+          exit 0;
+        fi;
         # we need Doxygen > 1.8.11 (better markdown support, BUG 742715 https://bugzilla.gnome.org/show_bug.cgi?id=742715)
         sudo apt-get install wget unzip cmake;
         _OLD_DIR=$(pwd);
