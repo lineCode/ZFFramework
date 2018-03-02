@@ -125,7 +125,7 @@ matrix:
       - ZF_BUILD=doc
     os: linux
     compiler: clang
-    if: repo = ZFFramework/ZFFramework AND branch master
+    if: repo = ZFFramework/ZFFramework AND branch = master
     script:
       # we need Doxygen > 1.8.11 (better markdown support, BUG 742715 https://bugzilla.gnome.org/show_bug.cgi?id=742715)
       - sudo apt-get install wget unzip cmake;
@@ -147,7 +147,7 @@ matrix:
       - ZF_BUILD=cocoapods
     os: osx
     compiler: clang
-    if: repo = ZFFrameworkDist/ZFFramework AND branch master
+    if: repo = ZFFrameworkDist/ZFFramework AND branch = master
     script:
       - sudo gem install cocoapods;
       - chmod +x master/ZF_CI/cocoapods.sh;
