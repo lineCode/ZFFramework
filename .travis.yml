@@ -175,4 +175,4 @@ install:
         sudo ln -s /usr/local/Cellar/qt5/$HOMEBREW_QT5_VERSION/mkspecs /usr/local/mkspecs;
       fi;
     fi
- 
+
