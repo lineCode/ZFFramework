@@ -123,15 +123,12 @@ matrix:
   - language: cpp
     env:
       - ZF_BUILD=doc
-    if: type != push
     os: linux
     compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch master
     script:
       # we need Doxygen > 1.8.11 (better markdown support, BUG 742715 https://bugzilla.gnome.org/show_bug.cgi?id=742715)
-      - if [ "$ZFCI_DOC_TOKEN" = "" ]; then
-          exit 0;
-        fi;
-        sudo apt-get install wget unzip cmake;
+      - sudo apt-get install wget unzip cmake;
         _OLD_DIR=$(pwd);
         cd ..;
         wget -q https://github.com/doxygen/doxygen/archive/Release_1_8_14.zip;
@@ -142,7 +139,7 @@ matrix:
         cmake -G "Unix Makefiles" ..;
         sudo make install;
         cd "$_OLD_DIR";
-        chmod +x master/ZF_CI/doc.sh;
+      - chmod +x master/ZF_CI/doc.sh;
         ./master/ZF_CI/doc.sh;
 
   - language: cpp
@@ -150,12 +147,10 @@ matrix:
       - ZF_BUILD=cocoapods
     os: osx
     compiler: clang
+    if: repo = ZFFrameworkDist/ZFFramework AND branch master
     script:
-      - if [ "$ZFCI_COCOAPODS_TOKEN" = "" ]; then
-          exit 0;
-        fi;
-        sudo gem install cocoapods;
-        chmod +x master/ZF_CI/cocoapods.sh;
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods.sh;
         ./master/ZF_CI/cocoapods.sh;
 
 
