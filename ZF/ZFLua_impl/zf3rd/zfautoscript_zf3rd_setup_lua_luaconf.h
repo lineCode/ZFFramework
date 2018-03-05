@@ -16,7 +16,3 @@
     #pragma warning(disable:4996)
 #endif
 
-extern "C" {
-    #include "luaconf.h.orig"
-}
-

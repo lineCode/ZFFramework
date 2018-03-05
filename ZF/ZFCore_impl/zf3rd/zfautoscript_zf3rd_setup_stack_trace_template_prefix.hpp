@@ -29,8 +29,4 @@
 #endif
 
 #if _ZFP_EDD_STACK_TRACE_ENABLE
-#include "../../../../zf3rd/_tmp/stack_trace/dbg/stack.hpp"
-#endif
-
-#endif // #ifndef _ZFI_zf3rd_stack_trace_hpp_
 

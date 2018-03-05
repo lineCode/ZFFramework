@@ -44,12 +44,9 @@ for ZF_MODULE_NAME list, please refer to https://github.com/ZFFramework/ZFFramew
   s.preserve_paths   = '**/*'
 
   class << self
-    def ZFAddModule(s, isImpl, moduleName, dependencyList, ext)
+    def ZFAddModule(s, moduleName, dependencyList, ext)
       s.subspec moduleName do |ss|
         ss.public_header_files = 'ZF/' + moduleName + '/zfsrc/**/*.{h,hpp}'
-        if isImpl == 1
-          ss.private_header_files = 'ZF/' + moduleName + '/zfsrc/ZFImpl/**/*.{h,hpp}'
-        end
         ss.header_mappings_dir = 'ZF/' + moduleName + '/zfsrc'
         ss.source_files = [
           'ZF/' + moduleName + '/zfsrc/**/*.{h,hpp,c,cpp,m,mm}',
@@ -64,19 +61,19 @@ for ZF_MODULE_NAME list, please refer to https://github.com/ZFFramework/ZFFramew
   end
 
   # ZFTAG_ADD_MODULE
-  ZFAddModule(s, 0, 'ZFCore',            [],                                                                            lambda {|ss| })
-  ZFAddModule(s, 0, 'ZFAlgorithm',       [ 'ZFCore', ],                                                                 lambda {|ss| })
-  ZFAddModule(s, 0, 'ZFUtility',         [ 'ZFCore', ],                                                                 lambda {|ss| })
-  ZFAddModule(s, 0, 'ZFLua',             [ 'ZFCore', ],                                                                 lambda {|ss| })
-  ZFAddModule(s, 0, 'ZFUIKit',           [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', ],                                     lambda {|ss| })
-  ZFAddModule(s, 0, 'ZFUIWidget',        [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', ],                          lambda {|ss| })
-  ZFAddModule(s, 0, 'ZFUIWebKit',        [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', ],                          lambda {|ss| })
-  ZFAddModule(s, 1, 'ZF_impl',           [ 'ZFCore', ],                                                                 lambda {|ss| })
-  ZFAddModule(s, 1, 'ZFCore_impl',       [ 'ZFCore', 'ZF_impl', ],                                                      lambda {|ss| })
-  ZFAddModule(s, 1, 'ZFAlgorithm_impl',  [ 'ZFCore', 'ZFAlgorithm', 'ZF_impl', ],                                       lambda {|ss| })
-  ZFAddModule(s, 1, 'ZFLua_impl',        [ 'ZFCore', 'ZFLua', 'ZF_impl', ],                                             lambda {|ss| })
-  ZFAddModule(s, 1, 'ZFUIKit_impl',      [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', 'ZF_impl', ],               lambda {|ss| ss.frameworks = 'Foundation', 'UIKit', 'QuartzCore', 'CoreGraphics' })
-  ZFAddModule(s, 1, 'ZFUIWebKit_impl',   [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', 'ZFUIWebKit', 'ZF_impl', ], lambda {|ss| ss.frameworks = 'Foundation', 'UIKit', 'QuartzCore', 'CoreGraphics', 'WebKit' })
+  ZFAddModule(s, 'ZFCore',            [],                                                                            lambda {|ss| })
+  ZFAddModule(s, 'ZFAlgorithm',       [ 'ZFCore', ],                                                                 lambda {|ss| })
+  ZFAddModule(s, 'ZFUtility',         [ 'ZFCore', ],                                                                 lambda {|ss| })
+  ZFAddModule(s, 'ZFLua',             [ 'ZFCore', ],                                                                 lambda {|ss| })
+  ZFAddModule(s, 'ZFUIKit',           [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', ],                                     lambda {|ss| })
+  ZFAddModule(s, 'ZFUIWidget',        [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', ],                          lambda {|ss| })
+  ZFAddModule(s, 'ZFUIWebKit',        [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', ],                          lambda {|ss| })
+  ZFAddModule(s, 'ZF_impl',           [ 'ZFCore', ],                                                                 lambda {|ss| })
+  ZFAddModule(s, 'ZFCore_impl',       [ 'ZFCore', 'ZF_impl', ],                                                      lambda {|ss| })
+  ZFAddModule(s, 'ZFAlgorithm_impl',  [ 'ZFCore', 'ZFAlgorithm', 'ZF_impl', ],                                       lambda {|ss| })
+  ZFAddModule(s, 'ZFLua_impl',        [ 'ZFCore', 'ZFLua', 'ZF_impl', ],                                             lambda {|ss| })
+  ZFAddModule(s, 'ZFUIKit_impl',      [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', 'ZF_impl', ],               lambda {|ss| ss.frameworks = 'Foundation', 'UIKit', 'QuartzCore', 'CoreGraphics' })
+  ZFAddModule(s, 'ZFUIWebKit_impl',   [ 'ZFCore', 'ZFAlgorithm', 'ZFUtility', 'ZFUIKit', 'ZFUIWebKit', 'ZF_impl', ], lambda {|ss| ss.frameworks = 'Foundation', 'UIKit', 'QuartzCore', 'CoreGraphics', 'WebKit' })
 
 end
 

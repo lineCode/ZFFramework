@@ -11,7 +11,7 @@
 #include "ZFCore/protocol/ZFProtocolZFLogStackTrace.h"
 #include "ZFCore/ZFLog_StackTrace.h"
 
-#include "../_repo/stack_trace/stack.hpp"
+#include "../_repo/stack_trace/dbg/stack.hpp"
 
 #if _ZFP_EDD_STACK_TRACE_ENABLE
 

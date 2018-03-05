@@ -1,3 +1,6 @@
+// added by ZFFramework
+// undef to suit unity builds
+#undef system
 
 #undef ALLONES
 #undef AUXMARK

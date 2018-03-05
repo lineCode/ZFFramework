@@ -2,6 +2,8 @@
 
 * upgrade Android project files
 * update CI script
+* impl lib's header can now be exported
+* optimize external ZFModule build logic
 
 # 0.1.0 (20180218)
 
