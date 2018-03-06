@@ -606,14 +606,9 @@ public:
         this->viewFocusOnChange();
     }
     /**
-     * @brief return focused child (or this view) or null if nothing focused
-     *   or ZFUIViewFocus implementation not available
-     *
-     * @note this method would recursively search all children (including internal views)
-     *   to find the focused child,
-     *   take care of the performance for huge view tree
+     * @brief whether any child (including attached native view) of this view has focus
      */
-    ZFMETHOD_DECLARE_0(ZFUIView *, viewFocusedChild);
+    ZFMETHOD_DECLARE_0(zfbool, viewFocusedRecursive);
 protected:
     /** @brief see #EventViewFocusOnChange */
     virtual inline void viewFocusOnChange(void)

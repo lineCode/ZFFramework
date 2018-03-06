@@ -343,6 +343,23 @@ static void _ZFP_ZFUIViewImpl_sys_iOS_methodSwizzlePrepare(void)
     }
 }
 
+static __weak id _ZFP_ZFUIViewImpl_sys_iOS_firstResponderRef = nil;
+@interface UIResponder(_ZFP_ZFUIViewImpl_sys_iOS_FirstResponder)
++ (id)_ZFP_ZFUIViewImpl_sys_iOS_firstResponder;
+@end
+@implementation UIResponder(_ZFP_ZFUIViewImpl_sys_iOS_FirstResponder)
++ (id)_ZFP_ZFUIViewImpl_sys_iOS_firstResponder
+{
+     _ZFP_ZFUIViewImpl_sys_iOS_firstResponderRef = nil;
+     [[UIApplication sharedApplication] sendAction:@selector(_ZFP_ZFUIViewImpl_sys_iOS_firstResponderFind:) to:nil from:nil forEvent:nil];
+     return _ZFP_ZFUIViewImpl_sys_iOS_firstResponderRef;
+}
+-(void)_ZFP_ZFUIViewImpl_sys_iOS_firstResponderFind:(id)sender
+{
+    _ZFP_ZFUIViewImpl_sys_iOS_firstResponderRef = self;
+}
+@end
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIViewImpl_sys_iOS, ZFUIView, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:UIView"))
@@ -551,6 +568,25 @@ public:
         _ZFP_ZFUIViewImpl_sys_iOS_View *nativeView = (__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView();
         return (nativeView.isFirstResponder
             || (nativeView._ZFP_nativeImplView != nil && nativeView._ZFP_nativeImplView.isFirstResponder));
+    }
+    virtual zfbool viewFocusedRecursive(ZF_IN ZFUIView *view)
+    {
+        _ZFP_ZFUIViewImpl_sys_iOS_View *nativeView = (__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView();
+        id focused = [UIResponder _ZFP_ZFUIViewImpl_sys_iOS_firstResponder];
+        if(focused == nil || ![focused isKindOfClass:[UIView class]])
+        {
+            return zffalse;
+        }
+        UIView *t = (UIView *)focused;
+        while(t != nil)
+        {
+            if(t == nativeView)
+            {
+                return zftrue;
+            }
+            t = t.superview;
+        }
+        return zffalse;
     }
     virtual void viewFocusRequest(ZF_IN ZFUIView *view,
                                   ZF_IN zfbool viewFocus)

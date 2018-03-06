@@ -13,6 +13,7 @@
 #include "protocol/ZFProtocolZFUIScrollView.h"
 
 #include "ZFUIViewPositionOnScreen.h"
+#include "ZFUIViewFocus.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -45,6 +46,16 @@ public:
     zfbool scrollContentFrameOverrideFlag;
     zfbool scrollAniTimerStarted;
     zftimet scrollAniLastTime;
+
+    /*
+     * when size changed, try to move focused child to visible before reload,
+     * typical use case:
+     * 1. click a text edit view inside of a scroll view
+     * 2. on screen keyboard popup and cause client frame shrinked
+     * 3. the text edit view exceeds scroll content visible range and would be removed
+     * 4. the focus lost, cause keyboard hide, which is not expected
+     */
+    zfbool scrollSizeChangedFlag;
 
     ZFUIScroller *xScroll;
     zfbool xScrollEnable;
@@ -84,6 +95,7 @@ protected:
     , scrollContentFrameOverrideFlag(zffalse)
     , scrollAniTimerStarted(zffalse)
     , scrollAniLastTime(0)
+    , scrollSizeChangedFlag(zffalse)
     , xScroll(zfnull)
     , xScrollEnable(zftrue)
     , xScrollDragPrevPos(0)
@@ -132,6 +144,20 @@ public:
 public:
     void scrollerUpdate(void)
     {
+        if(this->scrollSizeChangedFlag)
+        {
+            this->scrollSizeChangedFlag = zffalse;
+            for(zfindex i = 0; i < this->pimplOwner->childCount(); ++i)
+            {
+                ZFUIView *child = this->pimplOwner->childAtIndex(i);
+                if(child->viewFocusedRecursive())
+                {
+                    this->pimplOwner->scrollChildToVisible(child, zffalse);
+                    break;
+                }
+            }
+        }
+
         this->scrollContentFrameUpdate();
         this->scrollerActionRun();
     }
@@ -801,6 +827,7 @@ void ZFUIScrollView::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
     if(xScrollOwnerSize != d->xScroll->scrollOwnerSize()
         || yScrollOwnerSize != d->yScroll->scrollOwnerSize())
     {
+        d->scrollSizeChangedFlag = zftrue;
         d->xScroll->scrollOwnerSizeChanged(xScrollOwnerSize);
         d->yScroll->scrollOwnerSizeChanged(yScrollOwnerSize);
         d->scrollerUpdate();
@@ -1000,8 +1027,9 @@ ZFMETHOD_DEFINE_0(ZFUIScrollView, void, scrollToFitRange)
     d->yScroll->scrollToFitRange();
     d->scrollerUpdate();
 }
-ZFMETHOD_DEFINE_1(ZFUIScrollView, void, scrollChildToVisible,
-                  ZFMP_IN(ZFUIView *, child))
+ZFMETHOD_DEFINE_2(ZFUIScrollView, void, scrollChildToVisible,
+                  ZFMP_IN(ZFUIView *, child),
+                  ZFMP_IN_OPT(zfbool, scrollWithAni, zftrue))
 {
     if(child == zfnull)
     {
@@ -1018,7 +1046,17 @@ ZFMETHOD_DEFINE_1(ZFUIScrollView, void, scrollChildToVisible,
 
     if(offsetX != 0 || offsetY != 0)
     {
-        this->scrollByPoint(this->scrollContentFrame().point.x + offsetX, this->scrollContentFrame().point.y + offsetY);
+        ZFUIRect t = this->scrollContentFrame();
+        t.point.x += offsetX;
+        t.point.y += offsetY;
+        if(scrollWithAni)
+        {
+            this->scrollByPoint(t.point.x, t.point.y);
+        }
+        else
+        {
+            this->scrollContentFrameSet(t);
+        }
     }
 }
 

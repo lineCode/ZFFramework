@@ -66,6 +66,15 @@ public:
             ).c_str());
         return JNIUtilCallStaticBooleanMethod(jniEnv, this->jclsOwner, jmId, ZFCastStatic(jobject, view->nativeView()));
     }
+    virtual zfbool viewFocusedRecursive(ZF_IN ZFUIView *view)
+    {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_viewFocusedRecursive"),
+            JNIGetMethodSig(JNIType::S_boolean, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        return JNIUtilCallStaticBooleanMethod(jniEnv, this->jclsOwner, jmId, ZFCastStatic(jobject, view->nativeView()));
+    }
     virtual void viewFocusRequest(ZF_IN ZFUIView *view,
                                   ZF_IN zfbool viewFocus)
     {

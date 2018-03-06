@@ -83,6 +83,10 @@ public class ZFUIViewFocus {
         return (nativeViewTmp.isFocused()
             || (nativeViewTmp.nativeImplView != null && nativeViewTmp.nativeImplView.isFocused()));
     }
+    public static boolean native_viewFocusedRecursive(Object nativeView) {
+        ZFUIView nativeViewTmp = (ZFUIView)nativeView;
+        return (nativeViewTmp.findFocus() != null);
+    }
     public static void native_viewFocusRequest(Object nativeView, boolean viewFocus) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;
         View viewToSet = nativeViewTmp;

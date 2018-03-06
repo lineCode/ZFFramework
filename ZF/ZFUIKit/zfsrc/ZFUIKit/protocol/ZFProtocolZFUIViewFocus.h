@@ -31,9 +31,13 @@ public:
     virtual void viewFocusableSet(ZF_IN ZFUIView *view,
                                   ZF_IN zfbool viewFocusable) zfpurevirtual;
     /**
-     * @brief whether the view currently focused
+     * @brief see #ZFUIView::viewFocused
      */
     virtual zfbool viewFocused(ZF_IN ZFUIView *view) zfpurevirtual;
+    /**
+     * @brief see #ZFUIView::viewFocusedRecursive
+     */
+    virtual zfbool viewFocusedRecursive(ZF_IN ZFUIView *view) zfpurevirtual;
     /**
      * @brief see #ZFUIView::viewFocusRequest
      */

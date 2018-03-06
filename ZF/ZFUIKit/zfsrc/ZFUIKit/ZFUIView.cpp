@@ -1462,7 +1462,10 @@ ZFMETHOD_DEFINE_0(ZFUIView, zfbool, viewFocused)
     {
         return impl->viewFocused(this);
     }
-    return zffalse;
+    else
+    {
+        return zffalse;
+    }
 }
 ZFMETHOD_DEFINE_1(ZFUIView, void, viewFocusRequest,
                   ZFMP_IN(zfbool, viewFocus))
@@ -1476,58 +1479,17 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, viewFocusRequest,
         }
     }
 }
-ZFMETHOD_DEFINE_0(ZFUIView, ZFUIView *, viewFocusedChild)
+ZFMETHOD_DEFINE_0(ZFUIView, zfbool, viewFocusedRecursive)
 {
-    if(!ZFPROTOCOL_IS_AVAILABLE(ZFUIViewFocus))
+    ZFPROTOCOL_INTERFACE_CLASS(ZFUIViewFocus) *impl = ZFPROTOCOL_TRY_ACCESS(ZFUIViewFocus);
+    if(impl == zfnull)
     {
-        return zfnull;
+        return zffalse;
     }
-    if(this->viewFocused())
+    else
     {
-        return this;
+        return impl->viewFocusedRecursive(this);
     }
-    ZFUIView *ret = zfnull;
-    for(zfindex i = this->childCount() - 1; i != zfindexMax(); --i)
-    {
-        ret = this->childAtIndex(i)->viewFocusedChild();
-        if(ret != zfnull)
-        {
-            return ret;
-        }
-    }
-    for(zfindex i = d->layerInternalFg.views.count() - 1; i != zfindexMax(); --i)
-    {
-        ret = d->layerInternalFg.views[i]->viewFocusedChild();
-        if(ret != zfnull)
-        {
-            return ret;
-        }
-    }
-    for(zfindex i = d->layerInternalBg.views.count() - 1; i != zfindexMax(); --i)
-    {
-        ret = d->layerInternalBg.views[i]->viewFocusedChild();
-        if(ret != zfnull)
-        {
-            return ret;
-        }
-    }
-    for(zfindex i = d->layerInternalBg.views.count() - 1; i != zfindexMax(); --i)
-    {
-        ret = d->layerInternalBg.views[i]->viewFocusedChild();
-        if(ret != zfnull)
-        {
-            return ret;
-        }
-    }
-    for(zfindex i = d->layerInternalImpl.views.count() - 1; i != zfindexMax(); --i)
-    {
-        ret = d->layerInternalImpl.views[i]->viewFocusedChild();
-        if(ret != zfnull)
-        {
-            return ret;
-        }
-    }
-    return zfnull;
 }
 
 // ============================================================

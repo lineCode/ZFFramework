@@ -28,6 +28,8 @@ private:
         zfLogTrimT() << zfText("[ZFUIViewFocus]")
             << listenerData.sender
             << zfText("changed to") << listenerData.sender->to<ZFUIView *>()->viewFocused();
+
+        zfLogTrimT() << listenerData.sender->to<ZFUIView *>()->viewFocusedRecursive();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewFocusState_test)
 #endif

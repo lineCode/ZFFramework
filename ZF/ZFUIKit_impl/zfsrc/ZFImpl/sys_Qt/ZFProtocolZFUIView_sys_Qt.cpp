@@ -110,6 +110,7 @@ extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_cleanup(ZF_IN void *token);
 extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(ZF_IN void *token, ZF_IN zfbool v);
 extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusRequest(ZF_IN void *token, ZF_IN zfbool v);
 extern zfbool _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocused(ZF_IN void *token);
+extern zfbool _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusedRecursive(ZF_IN void *token);
 
 // ============================================================
 // native view
@@ -679,6 +680,11 @@ public:
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         return _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocused(nativeView->_ZFP_focusProxyToken);
+    }
+    virtual zfbool viewFocusedRecursive(ZF_IN ZFUIView *view)
+    {
+        _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
+        return _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusedRecursive(nativeView->_ZFP_focusProxyToken);
     }
     virtual void viewFocusRequest(ZF_IN ZFUIView *view,
                                   ZF_IN zfbool viewFocus)
