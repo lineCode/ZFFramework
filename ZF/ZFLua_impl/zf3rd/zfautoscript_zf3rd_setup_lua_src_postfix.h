@@ -1,6 +1,8 @@
 // added by ZFFramework
 // undef to suit unity builds
+#if ZF_ENV_sys_iOS
 #undef system
+#endif
 
 #undef ALLONES
 #undef AUXMARK
