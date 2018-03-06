@@ -5,7 +5,7 @@ ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 
 _OLD_DIR=$(pwd)
 cd "$ZF_ROOT_PATH"
-pod lib lint --allow-warnings --use-libraries --skip-import-validation
+pod lib lint --allow-warnings --use-libraries --skip-import-validation --verbose
 _RESULT="$?"
 cd "$_OLD_DIR"
 
