@@ -402,6 +402,7 @@ public:
         nativeViewTmp._ZFP_ZFUIViewFocus_viewFocusable = NO;
 
         [nativeViewTmp._ZFP_mouseRecords removeAllObjects];
+        nativeViewTmp._ZFP_ownerZFUIView = zfnull;
         return zftrue;
     }
     virtual void nativeViewCacheOnRestore(ZF_IN ZFUIView *view,
