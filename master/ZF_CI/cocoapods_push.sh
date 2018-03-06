@@ -10,7 +10,7 @@ ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 _OLD_DIR=$(pwd)
 cd "$ZF_ROOT_PATH"
 export COCOAPODS_TRUNK_TOKEN=$ZFCI_COCOAPODS_TOKEN
-pod trunk push
+pod trunk push --allow-warnings --use-libraries --skip-import-validation
 _RESULT="$?"
 cd "$_OLD_DIR"
 

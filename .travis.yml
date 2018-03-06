@@ -144,14 +144,25 @@ matrix:
 
   - language: cpp
     env:
-      - ZF_BUILD=cocoapods
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        ./master/ZF_CI/cocoapods_lint.sh;
+
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_push
     os: osx
     compiler: clang
     if: repo = ZFFrameworkDist/ZFFramework AND branch = master
     script:
       - sudo gem install cocoapods;
-      - chmod +x master/ZF_CI/cocoapods.sh;
-        ./master/ZF_CI/cocoapods.sh;
+      - chmod +x master/ZF_CI/cocoapods_push.sh;
+        ./master/ZF_CI/cocoapods_push.sh;
 
 
 install:
