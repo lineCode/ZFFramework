@@ -151,7 +151,7 @@ matrix:
     script:
       - sudo gem install cocoapods;
       - chmod +x master/ZF_CI/cocoapods_lint.sh;
-        travis_wait ./master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh;
 
   - language: cpp
     env:
@@ -162,7 +162,7 @@ matrix:
     script:
       - sudo gem install cocoapods;
       - chmod +x master/ZF_CI/cocoapods_push.sh;
-        travis_wait ./master/ZF_CI/cocoapods_push.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_push.sh;
 
 
 install:
