@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFStyleable_h_
 #define _ZFI_ZFStyleable_h_
 
-#include "ZFObjectCore.h"
 #include "ZFSerializable.h"
 #include "ZFCopyable.h"
 ZF_NAMESPACE_GLOBAL_BEGIN

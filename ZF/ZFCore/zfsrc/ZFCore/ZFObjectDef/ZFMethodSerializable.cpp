@@ -10,6 +10,12 @@
 #include "ZFMethodSerializable.h"
 #include "ZFObjectImpl.h"
 
+#include "ZFMethodDeclare.h"
+#include "ZFMethodUserRegister.h"
+
+#include "ZFMethodFuncDeclare.h"
+#include "ZFMethodFuncUserRegister.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFMethod, const ZFMethod *, {

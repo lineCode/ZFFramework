@@ -8,6 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFObjectIO_xml.h"
+#include "ZFXmlSerializableConverter.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

@@ -16,6 +16,7 @@
 #define _ZFI_ZFSerializableDataStringConverter_h_
 
 #include "ZFSerializableData.h"
+#include "ZFIOCallback.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

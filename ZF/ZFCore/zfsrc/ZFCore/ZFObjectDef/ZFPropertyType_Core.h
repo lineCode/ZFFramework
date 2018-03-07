@@ -19,6 +19,7 @@
 #include "ZFMethodUserRegister.h"
 #include "ZFMethodFuncUserRegister.h"
 #include "ZFObjectUtil.h"
+#include "ZFSerializableUtil.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

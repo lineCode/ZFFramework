@@ -556,5 +556,3 @@ private:
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFCallback_h_
 
-#include "ZFCallback_template.h"
-

@@ -10,6 +10,9 @@
 #include "ZFProperty.h"
 #include "ZFObjectImpl.h"
 
+#include "ZFPropertyDeclare.h"
+#include "ZFPropertyUserRegister.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

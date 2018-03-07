@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFFilter_h_
 #define _ZFI_ZFFilter_h_
 
-#include "ZFCoreTypeDef.h"
 #include "ZFCoreUtilStringConvert.h"
 #include "ZFCoreUtilComparer.h"
 #include "ZFCoreArray.h"
@@ -284,13 +283,11 @@ public:
     {
         if(this->_customFilters != zfnull)
         {
-            for(zfiterator it = this->_customFilters->iterator();
-                this->_customFilters->iteratorIsValid(it);
-                this->_customFilters->iteratorNext(it))
+            for(zfindex i = 0; i < this->_customFilters->count(); ++i)
             {
-                if(this->_customFilters->iteratorGet(it) == customFilterCallback)
+                if(this->_customFilters->get(i) == customFilterCallback)
                 {
-                    this->_customFilters->iteratorRemove(it);
+                    this->_customFilters->remove(i);
                     break;
                 }
             }

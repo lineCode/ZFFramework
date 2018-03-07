@@ -708,5 +708,3 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFXmlEscapeCharDecode,
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFXml_h_
 
-#include "ZFXmlSerializableConverter.h"
-

@@ -14,7 +14,6 @@
 #ifndef _ZFI_ZFCoreStaticInitializer_h_
 #define _ZFI_ZFCoreStaticInitializer_h_
 
-#include "ZFCoreTypeDef.h"
 #include "ZFCoreStaticRegister.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

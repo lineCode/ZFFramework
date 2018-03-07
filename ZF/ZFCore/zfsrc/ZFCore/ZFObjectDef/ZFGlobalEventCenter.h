@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFGlobalEventCenter_h_
 #define _ZFI_ZFGlobalEventCenter_h_
 
-#include "ZFObjectCore.h"
 #include "ZFObjectGlobalInstance.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

@@ -16,6 +16,7 @@
 #define _ZFI_ZFSerializable_h_
 
 #include "ZFSerializableData.h"
+#include "ZFIOCallback.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
@@ -585,6 +586,4 @@ extern ZF_ENV_EXPORT ZFSerializableData ZFObjectToData(ZF_IN ZFObject *obj,
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFSerializable_h_
-
-#include "ZFSerializableUtil.h"
 

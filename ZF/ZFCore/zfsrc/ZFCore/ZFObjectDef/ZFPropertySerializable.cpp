@@ -11,6 +11,9 @@
 #include "ZFObjectImpl.h"
 #include "ZFSerializableUtil.h"
 
+#include "ZFPropertyDeclare.h"
+#include "ZFPropertyUserRegister.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROPERTY_TYPE_DEFINE(ZFProperty, const ZFProperty *, {

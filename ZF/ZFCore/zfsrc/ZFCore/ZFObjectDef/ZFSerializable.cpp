@@ -10,6 +10,7 @@
 #include "ZFSerializable.h"
 #include "ZFObjectImpl.h"
 #include "ZFObjectCreator.h"
+#include "ZFSerializableDataStringConverter.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"

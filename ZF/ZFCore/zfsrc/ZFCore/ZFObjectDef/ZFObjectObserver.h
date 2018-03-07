@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFObjectObserver_h_
 #define _ZFI_ZFObjectObserver_h_
 
-#include "ZFObjectClassTypeFwd.h"
 #include "ZFCallback.h"
 #include "ZFIdMap.h"
 

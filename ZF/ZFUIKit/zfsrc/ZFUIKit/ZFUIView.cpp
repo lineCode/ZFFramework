@@ -10,6 +10,7 @@
 #include "ZFUIView.h"
 #include "protocol/ZFProtocolZFUIView.h"
 #include "protocol/ZFProtocolZFUIViewFocus.h"
+#include "ZFUIViewFocus.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"

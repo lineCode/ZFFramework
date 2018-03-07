@@ -20,8 +20,5 @@
 #include "ZFPropertyType_ZFCoreArray.h"
 #include "ZFPropertyType_CoreType.h"
 
-ZF_NAMESPACE_GLOBAL_BEGIN
-
-ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPropertyType_h_
 

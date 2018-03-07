@@ -17,6 +17,7 @@
 
 #include "ZFProperty.h"
 #include "zfautoObjectFwd.h"
+#include "ZFMethodDeclare.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

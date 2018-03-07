@@ -15,9 +15,7 @@
 #ifndef _ZFI_ZFCoreUtilComparer_h_
 #define _ZFI_ZFCoreUtilComparer_h_
 
-#include "ZFCoreTypeDef.h"
 #include "ZFCoreUtilTemplate.h"
-#include "ZFCoreUtilMacro.h"
 #include "ZFCoreUtilMath.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

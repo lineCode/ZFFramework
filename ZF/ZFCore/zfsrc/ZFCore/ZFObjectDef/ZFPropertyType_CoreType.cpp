@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFPropertyType_CoreType.h"
 #include "ZFObjectImpl.h"
+#include "ZFSerializableDataStringConverter.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

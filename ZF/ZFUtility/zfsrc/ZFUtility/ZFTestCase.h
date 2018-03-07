@@ -184,5 +184,3 @@ protected:
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFTestCase_h_
 
-#include "ZFTestCaseUtil.h"
-

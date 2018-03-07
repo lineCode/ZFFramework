@@ -15,8 +15,6 @@
 #ifndef _ZFI_ZFObjectInterface_h_
 #define _ZFI_ZFObjectInterface_h_
 
-#include "ZFObjectClassTypeFwd.h"
-#include "ZFObjectCast.h"
 #include "ZFAny.h"
 #include "ZFClass.h"
 

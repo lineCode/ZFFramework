@@ -15,8 +15,6 @@
 #ifndef _ZFI_ZFCoreTypeDef_OtherType_h_
 #define _ZFI_ZFCoreTypeDef_OtherType_h_
 
-#include "ZFCoreTypeDef_CoreType.h"
-#include "ZFCoreTypeDef_CharType.h"
 #include "ZFCoreTypeDef_StringType.h"
 #include "ZFCoreTypeDef_ClassType.h"
 

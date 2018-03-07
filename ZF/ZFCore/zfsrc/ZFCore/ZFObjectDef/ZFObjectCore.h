@@ -15,17 +15,12 @@
 #ifndef _ZFI_ZFObjectCore_h_
 #define _ZFI_ZFObjectCore_h_
 
-#include "ZFObjectClassTypeFwd.h"
-#include "ZFObjectCast.h"
 #include "ZFAny.h"
-#include "ZFCallback.h"
-#include "ZFIOCallback.h"
 #include "ZFClass.h"
 #include "ZFMethod.h"
 #include "ZFObjectDeclare.h"
 #include "ZFObjectInterface.h"
 #include "ZFProperty.h"
-#include "zfautoObjectFwd.h"
 #include "ZFObjectMutex.h"
 #include "ZFObjectObserver.h"
 
@@ -763,7 +758,4 @@ ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectCore_h_
 
 #include "ZFObjectRetain.h"
-#include "ZFFilterForZFObject.h"
-#include "zfnullObject.h"
-#include "ZFObjectUtil.h"
 

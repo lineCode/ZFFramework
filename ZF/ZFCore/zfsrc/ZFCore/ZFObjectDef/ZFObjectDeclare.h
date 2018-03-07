@@ -15,8 +15,6 @@
 #ifndef _ZFI_ZFObjectDeclare_h_
 #define _ZFI_ZFObjectDeclare_h_
 
-#include "ZFObjectClassTypeFwd.h"
-#include "ZFObjectCast.h"
 #include "ZFAny.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

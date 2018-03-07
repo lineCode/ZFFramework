@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFUISysWindow_h_
 #define _ZFI_ZFUISysWindow_h_
 
-#include "ZFUIView.h"
 #include "ZFUIRootView.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

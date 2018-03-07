@@ -15,18 +15,101 @@
 #ifndef _ZFI_ZFCoreArray_h_
 #define _ZFI_ZFCoreArray_h_
 
-#include "ZFCoreLog.h"
-#include "ZFIterator.h"
+#include "ZFCoreLog_CommonLog.h"
 #include "ZFCoreUtilComparer.h"
 #include "ZFCoreUtilMath.h"
 #include "ZFToken.h"
-#include <stdlib.h>
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-template<typename T_Element>
-zffinal zfclassNotPOD ZF_ENV_EXPORT _ZFP_ZFCoreArrayPrivate;
+// ============================================================
+#define _ZFP_ZFCoreArrayMinCapacity 8
 
+template<typename T_Element>
+static void _ZFP_ZFCoreArray_objCreate(ZF_IN T_Element *p, ZF_IN T_Element *pEnd, ZF_IN zfbool PODType)
+{
+    if(!PODType)
+    {
+        while(p != pEnd)
+        {
+            zfnewPlacement(p, T_Element);
+            ++p;
+        }
+    }
+}
+template<typename T_Element>
+static void _ZFP_ZFCoreArray_objCreate(ZF_IN T_Element *p, ZF_IN T_Element *pEnd,
+                                       ZF_IN const T_Element *src,
+                                       ZF_IN zfbool PODType)
+{
+    if(PODType)
+    {
+        zfmemcpy(p, src, (pEnd - p) * sizeof(T_Element));
+    }
+    else
+    {
+        while(p != pEnd)
+        {
+            zfnewPlacement(p, T_Element, *src);
+            ++p;
+            ++src;
+        }
+    }
+}
+template<typename T_Element>
+static void _ZFP_ZFCoreArray_objMove(ZF_IN T_Element *dst,
+                                     ZF_IN const T_Element *src,
+                                     ZF_IN zfindex count,
+                                     ZF_IN zfbool PODType)
+{
+    if(PODType)
+    {
+        zfmemmove(dst, src, count * sizeof(T_Element));
+    }
+    else
+    {
+        zfmemmoveObject(dst, src, count);
+    }
+}
+template<typename T_Element>
+static void _ZFP_ZFCoreArray_objDestroy(ZF_IN T_Element *p, ZF_IN T_Element *pEnd,
+                                        ZF_IN zfbool PODType)
+{
+    if(!PODType)
+    {
+        while(p != pEnd)
+        {
+            zfdeletePlacement(p);
+            ++p;
+        }
+    }
+}
+template<typename T_Element>
+zffinal zfclassNotPOD ZF_ENV_EXPORT _ZFP_ZFCoreArrayPrivate
+{
+public:
+    zfuint refCount;
+    zfbool PODType;
+    T_Element *buf;
+    T_Element *bufEnd;
+    T_Element *contentEnd;
+public:
+    _ZFP_ZFCoreArrayPrivate(void)
+    : refCount(1)
+    , PODType(zffalse)
+    , buf(zfnull)
+    , bufEnd(zfnull)
+    , contentEnd(zfnull)
+    {
+    }
+    ~_ZFP_ZFCoreArrayPrivate(void)
+    {
+        _ZFP_ZFCoreArray_objDestroy(this->buf, this->contentEnd, this->PODType);
+        zffree(this->buf);
+    }
+};
+
+// ============================================================
 /**
  * @brief dummy base for #ZFCoreArray
  */
@@ -76,28 +159,57 @@ public:
     /**
      * @brief main constructor
      */
-    ZFCoreArray(void);
+    ZFCoreArray(void)
+    {
+        d = zfnew(_ZFP_ZFCoreArrayPrivate<T_Element>);
+    }
     /**
      * @brief main constructor
      */
-    ZFCoreArray(ZF_IN zfindex capacity);
+    ZFCoreArray(ZF_IN zfindex capacity)
+    {
+        d = zfnew(_ZFP_ZFCoreArrayPrivate<T_Element>);
+        this->capacitySet(capacity);
+    }
     /**
      * @brief construct from another array
      */
-    ZFCoreArray(ZF_IN const ZFCoreArray<T_Element> &ref);
-    virtual ~ZFCoreArray(void);
+    ZFCoreArray(ZF_IN const ZFCoreArray<T_Element> &ref)
+    : d(ref.d)
+    {
+        ++(d->refCount);
+    }
+    virtual ~ZFCoreArray(void)
+    {
+        --(d->refCount);
+        if(d->refCount == 0)
+        {
+            zfdelete(d);
+        }
+    }
     /**
      * @brief new reference
      */
-    virtual ZFCoreArrayBase *refNew(void) const;
+    virtual ZFCoreArrayBase *refNew(void) const {return zfnew(ZFCoreArray<T_Element>, *this);}
     /**
      * @brief get the impl
      */
-    virtual void *refImpl(void) const;
+    virtual void *refImpl(void) const {return d;}
     /**
      * @brief retain the array, if you want to copy, use #copyFrom instead
      */
-    ZFCoreArray<T_Element> &operator =(ZF_IN const ZFCoreArray<T_Element> &ref);
+    ZFCoreArray<T_Element> &operator =(ZF_IN const ZFCoreArray<T_Element> &ref)
+    {
+        _ZFP_ZFCoreArrayPrivate<T_Element> *dTmp = d;
+        d = ref.d;
+        ++(ref.d->refCount);
+        --(dTmp->refCount);
+        if(dTmp->refCount == 0)
+        {
+            zfdelete(dTmp);
+        }
+        return *this;
+    }
     /** @cond ZFPrivateDoc */
     zfbool operator ==(ZF_IN const ZFCoreArray<T_Element> &ref) const {return (d == ref.d);}
     inline zfbool operator !=(ZF_IN const ZFCoreArray<T_Element> &ref) const {return !this->operator == (ref);}
@@ -105,22 +217,52 @@ public:
     /**
      * @brief copy all settings and contents from another array
      */
-    void copyFrom(ZF_IN const ZFCoreArray<T_Element> &ref);
+    void copyFrom(ZF_IN const ZFCoreArray<T_Element> &ref)
+    {
+        if(d != ref.d)
+        {
+            if(d->buf)
+            {
+                _ZFP_ZFCoreArray_objDestroy(d->buf, d->contentEnd, d->PODType);
+                d->contentEnd = d->buf;
+            }
+            this->capacitySet(ref.count());
+            _ZFP_ZFCoreArray_objCreate(d->buf, d->buf + ref.count(), ref.arrayBuf(), d->PODType);
+            d->contentEnd = d->buf + ref.count();
+        }
+    }
     /**
      * @brief get retain count
      */
-    zfindex objectRetainCount(void) const;
+    zfindex objectRetainCount(void) const {return d->refCount;}
     /**
      * @brief compare by content
      */
     ZFCompareResult objectCompare(ZF_IN const ZFCoreArray<T_Element> &ref,
-                                  ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const;
+                                  ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const
+    {
+        if(this->count() != ref.count())
+        {
+            return ZFCompareUncomparable;
+        }
+        for(zfindex i = this->count() - 1; i != zfindexMax(); --i)
+        {
+            if(comparer(this->get(i), ref.get(i)) != ZFCompareTheSame)
+            {
+                return ZFCompareUncomparable;
+            }
+        }
+        return ZFCompareTheSame;
+    }
 
 public:
     /**
      * @brief get a short info about this object
      */
-    void objectInfoT(ZF_IN_OUT zfstring &ret) const;
+    void objectInfoT(ZF_IN_OUT zfstring &ret) const
+    {
+        this->objectInfoOfContentT(ret, zfnull, 10);
+    }
     /** @brief see #objectInfoT */
     inline zfstring objectInfo(void) const
     {
@@ -136,7 +278,37 @@ public:
     void objectInfoOfContentT(ZF_IN_OUT zfstring &ret,
                               ZF_IN typename ZFCoreInfoGetter<T_Element>::InfoGetter elementInfoGetter,
                               ZF_IN_OPT zfindex maxCount = zfindexMax(),
-                              ZF_IN_OPT const ZFTokenForContainer &token = ZFTokenForContainerDefault()) const;
+                              ZF_IN_OPT const ZFTokenForContainer &token = ZFTokenForContainerDefault()) const
+    {
+        zfindex count = 0;
+        ret += token.tokenLeft;
+        for(; count < this->count() && count < maxCount; ++count)
+        {
+            if(count > 0)
+            {
+                ret += token.tokenSeparator;
+            }
+            ret += token.tokenValueLeft;
+            if(elementInfoGetter != zfnull)
+            {
+                elementInfoGetter(ret, this->get(count));
+            }
+            else
+            {
+                ret += ZFTOKEN_ZFCoreInfoGetterNotAvailable;
+            }
+            ret += token.tokenValueRight;
+        }
+        if(count < this->count())
+        {
+            if(count > 0)
+            {
+                ret += token.tokenSeparator;
+            }
+            ret += token.tokenEtc;
+        }
+        ret += token.tokenRight;
+    }
     /** @brief see #objectInfoOfContentT */
     zfstring objectInfoOfContent(ZF_IN typename ZFCoreInfoGetter<T_Element>::InfoGetter elementInfoGetter,
                                  ZF_IN_OPT zfindex maxCount = zfindexMax(),
@@ -151,171 +323,485 @@ public:
     /**
      * @brief whether the array contains POD type
      */
-    zfbool isPODType(void) const;
+    zfbool isPODType(void) const {return d->PODType;}
     /**
      * @brief change capacity to hold at least newCapacity
      *
      * do nothing if newCapacity not changed or less than current capacity
      */
-    void capacitySet(ZF_IN zfindex newCapacity);
+    void capacitySet(ZF_IN zfindex newCapacity)
+    {
+        zfindex fixedCapacity = zfmMax<zfindex>(this->capacity(), _ZFP_ZFCoreArrayMinCapacity);
+        while(fixedCapacity < newCapacity)
+        {
+            fixedCapacity *= 2;
+        }
+        this->capacityDoChange(fixedCapacity);
+    }
     /**
      * @brief trim current capacity
      *
      * do nothing if not necessary to trim\n
      * this method would be called automatically when remove elements
      */
-    void capacityTrim(void);
+    void capacityTrim(void)
+    {
+        if(this->capacity() > _ZFP_ZFCoreArrayMinCapacity
+            && this->capacity() > this->count() * 2)
+        {
+            zfindex fixedCapacity = this->capacity();
+            zfindex end = zfmMax<zfindex>(this->count(), _ZFP_ZFCoreArrayMinCapacity) * 2;
+            while(fixedCapacity >= end) {fixedCapacity /= 2;}
+            this->capacityDoChange(fixedCapacity);
+        }
+    }
     /**
      * @brief get capacity
      */
-    zfindex capacity(void) const;
+    zfindex capacity(void) const {return (d->bufEnd - d->buf);}
 
 public:
     /**
      * @brief add element
      */
-    void add(ZF_IN T_Element const &e);
+    void add(ZF_IN T_Element const &e)
+    {
+        T_Element t = e;
+        this->capacitySet(this->count() + 1);
+        _ZFP_ZFCoreArray_objCreate(d->contentEnd, d->contentEnd + 1, &t, d->PODType);
+        ++(d->contentEnd);
+    }
     /**
      * @brief add element at index
      */
     void add(ZF_IN zfindex index,
-             ZF_IN T_Element const &e);
+             ZF_IN T_Element const &e)
+    {
+        if(index > this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count() + 1);
+            return ;
+        }
+        T_Element t = e;
+        this->capacitySet(this->count() + 1);
+        _ZFP_ZFCoreArray_objCreate(d->contentEnd, d->contentEnd + 1, d->PODType);
+        T_Element *pos = d->buf + index;
+        _ZFP_ZFCoreArray_objMove(pos + 1, pos, this->count() - index, d->PODType);
+        ++(d->contentEnd);
+        *pos = t;
+    }
     /**
      * @brief add elements, src can be part of this array's buffer
      */
     void addFrom(ZF_IN const T_Element *src,
-                 ZF_IN zfindex count);
+                 ZF_IN zfindex count)
+    {
+        if(src == zfnull || count == 0)
+        {
+            return ;
+        }
+        if(src < d->buf || src >= d->bufEnd)
+        {
+            this->capacitySet(this->count() + count);
+            _ZFP_ZFCoreArray_objCreate(d->contentEnd, d->contentEnd + count, src, d->PODType);
+            d->contentEnd += count;
+        }
+        else
+        {
+            ZFCoreArray<T_Element> tmp(count);
+            tmp.addFrom(src, count);
+            this->addFrom(tmp.arrayBuf(), count);
+        }
+    }
 
     /**
      * @brief add from another array
      */
-    void addFrom(ZF_IN const ZFCoreArray<T_Element> &ref);
+    void addFrom(ZF_IN const ZFCoreArray<T_Element> &ref)
+    {
+        this->addFrom(ref.arrayBuf(), ref.count());
+    }
 
     /**
      * @brief find element
      */
     zfindex find(ZF_IN T_Element const &e,
-                 ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const;
+                 ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const
+    {
+        for(T_Element *p = d->buf; p < d->contentEnd; ++p)
+        {
+            if(comparer(*p, e) == ZFCompareTheSame)
+            {
+                return (p - d->buf);
+            }
+        }
+        return zfindexMax();
+    }
     /**
      * @brief find element reversely
      */
     zfindex findReversely(ZF_IN T_Element const &e,
-                          ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const;
+                          ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const
+    {
+        if(d->buf)
+        {
+            for(T_Element *p = d->contentEnd - 1; p >= d->buf; --p)
+            {
+                if(comparer(*p, e) == ZFCompareTheSame)
+                {
+                    return (p - d->buf);
+                }
+            }
+        }
+        return zfindexMax();
+    }
     /**
      * @brief find element
      */
     template<typename T_Another>
     zfindex find(ZF_IN T_Another const &e,
-                 ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer) const;
+                 ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer) const
+    {
+        for(T_Element *p = d->buf; p < d->contentEnd; ++p)
+        {
+            if(comparer(*p, e) == ZFCompareTheSame)
+            {
+                return (p - d->buf);
+            }
+        }
+        return zfindexMax();
+    }
     /**
      * @brief find element reversely
      */
     template<typename T_Another>
     zfindex findReversely(ZF_IN T_Another const &e,
-                          ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer) const;
+                          ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer) const
+    {
+        if(d->buf)
+        {
+            for(T_Element *p = d->contentEnd - 1; p >= d->buf; --p)
+            {
+                if(comparer(*p, e) == ZFCompareTheSame)
+                {
+                    return (p - d->buf);
+                }
+            }
+        }
+        return zfindexMax();
+    }
 
     /**
      * @brief remove first matched element, return whether the element removed
      */
     zfbool removeElement(ZF_IN T_Element const &e,
-                         ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual);
+                         ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual)
+    {
+        for(T_Element *p = d->buf; p < d->contentEnd; ++p)
+        {
+            if(comparer(*p, e) == ZFCompareTheSame)
+            {
+                this->remove(p - d->buf);
+                return zftrue;
+            }
+        }
+        return zffalse;
+    }
     /**
      * @brief remove first matched element, return whether the element removed
      */
     template<typename T_Another>
     zfbool removeElement(ZF_IN T_Another const &e,
-                         ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer);
+                         ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer)
+    {
+        for(T_Element *p = d->buf; p < d->contentEnd; ++p)
+        {
+            if(comparer(*p, e) == ZFCompareTheSame)
+            {
+                this->remove(p - d->buf);
+                return zftrue;
+            }
+        }
+        return zffalse;
+    }
     /**
      * @brief remove last matched element, return whether the element removed
      */
     zfbool removeElementReversely(ZF_IN T_Element const &e,
-                                  ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual);
+                                  ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual)
+    {
+        if(d->buf)
+        {
+            for(T_Element *p = d->contentEnd - 1; p >= d->buf; --p)
+            {
+                if(comparer(*p, e) == ZFCompareTheSame)
+                {
+                    this->remove(p - d->buf);
+                    return zftrue;
+                }
+            }
+        }
+        return zffalse;
+    }
     /**
      * @brief remove last matched element, return whether the element removed
      */
     template<typename T_Another>
     zfbool removeElementReversely(ZF_IN T_Another const &e,
-                                  ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer);
+                                  ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer)
+    {
+        if(d->buf)
+        {
+            for(T_Element *p = d->contentEnd - 1; p >= d->buf; --p)
+            {
+                if(comparer(*p, e) == ZFCompareTheSame)
+                {
+                    this->remove(p - d->buf);
+                    return zftrue;
+                }
+            }
+        }
+        return zffalse;
+    }
     /**
      * @brief remove all matched element, return number of removed element
      */
     zfindex removeElementAll(ZF_IN T_Element const &e,
-                             ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual);
+                             ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual)
+    {
+        zfindex removedCount = 0;
+        for(T_Element *p = d->buf; p < d->contentEnd; ++p)
+        {
+            if(comparer(*p, e) == ZFCompareTheSame)
+            {
+                ++removedCount;
+                this->remove(p - d->buf);
+                --p;
+            }
+        }
+        return removedCount;
+    }
     /**
      * @brief remove all matched element, return number of removed element
      */
     template<typename T_Another>
     zfindex removeElementAll(ZF_IN T_Another const &e,
-                             ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer);
+                             ZF_IN typename ZFComparer<T_Element, T_Another>::Comparer comparer)
+    {
+        zfindex removedCount = 0;
+        for(T_Element *p = d->buf; p < d->contentEnd; ++p)
+        {
+            if(comparer(*p, e) == ZFCompareTheSame)
+            {
+                ++removedCount;
+                this->remove(p - d->buf);
+                --p;
+            }
+        }
+        return removedCount;
+    }
 
     /**
      * @brief remove element at index with count, assert fail if out of range
      */
-    void remove(ZF_IN zfindex index);
+    void remove(ZF_IN zfindex index)
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+            return ;
+        }
+        _ZFP_ZFCoreArray_objMove(d->buf + index, d->buf + index + 1, this->count() - index - 1, d->PODType);
+        _ZFP_ZFCoreArray_objDestroy(d->contentEnd - 1, d->contentEnd, d->PODType);
+        --(d->contentEnd);
+        this->capacityTrim();
+    }
     /**
      * @brief remove element at index with count, assert fail if out of range
      */
     void remove(ZF_IN zfindex index,
-                ZF_IN zfindex count);
+                ZF_IN zfindex count)
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+            return ;
+        }
+        if(count > this->count() - index)
+        {
+            count = this->count() - index;
+        }
+        _ZFP_ZFCoreArray_objMove(d->buf + index, d->buf + index + count, this->count() - (index + count), d->PODType);
+        _ZFP_ZFCoreArray_objDestroy(d->contentEnd - count, d->contentEnd, d->PODType);
+        d->contentEnd -= count;
+        this->capacityTrim();
+    }
     /**
      * @brief remove first or do nothing if empty
      */
-    void removeFirst(void);
+    void removeFirst(void)
+    {
+        if(!this->isEmpty())
+        {
+            this->remove(0);
+        }
+    }
     /**
      * @brief remove first and return the removed value,
      *   or assert fail if empty
      */
-    T_Element removeFirstAndGet(void);
+    T_Element removeFirstAndGet(void)
+    {
+        zfCoreAssertWithMessage(!this->isEmpty(), zfTextA("removeFirstAndGet an empty array"));
+        T_Element t = *(d->buf);
+        this->remove(0);
+        return t;
+    }
     /**
      * @brief remove last or do nothing if empty
      */
-    void removeLast(void);
+    void removeLast(void)
+    {
+        if(!this->isEmpty())
+        {
+            this->remove(this->count() - 1);
+        }
+    }
     /**
      * @brief remove last and return the removed value,
      *   or assert fail if empty
      */
-    T_Element removeLastAndGet(void);
+    T_Element removeLastAndGet(void)
+    {
+        zfCoreAssertWithMessage(!this->isEmpty(), zfTextA("removeLastAndGet an empty array"));
+        T_Element t = *(d->contentEnd - 1);
+        this->remove(this->count() - 1);
+        return t;
+    }
     /**
      * @brief remove all content
      */
-    void removeAll(void);
+    void removeAll(void)
+    {
+        _ZFP_ZFCoreArray_objDestroy(d->buf, d->contentEnd, d->PODType);
+        d->contentEnd = d->buf;
+    }
 
     /**
      * @brief move element
      */
-    void move(ZF_IN zfindex fromIndex, ZF_IN zfindex toIndexOrIndexMax);
+    void move(ZF_IN zfindex fromIndex, ZF_IN zfindex toIndexOrIndexMax)
+    {
+        if(fromIndex >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(fromIndex, this->count());
+            return ;
+        }
+        if(toIndexOrIndexMax == zfindexMax())
+        {
+            toIndexOrIndexMax = this->count() - 1;
+        }
+        if(toIndexOrIndexMax >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(toIndexOrIndexMax, this->count());
+            return ;
+        }
+        if(fromIndex == toIndexOrIndexMax)
+        {
+            return ;
+        }
+        T_Element t = d->buf[fromIndex];
+        if(fromIndex < toIndexOrIndexMax)
+        {
+            _ZFP_ZFCoreArray_objMove(d->buf + fromIndex, d->buf + fromIndex + 1, toIndexOrIndexMax - fromIndex, d->PODType);
+        }
+        else
+        {
+            _ZFP_ZFCoreArray_objMove(d->buf + toIndexOrIndexMax + 1, d->buf + toIndexOrIndexMax, fromIndex - toIndexOrIndexMax, d->PODType);
+        }
+        d->buf[toIndexOrIndexMax] = t;
+    }
 
 public:
     /**
      * @brief set element at index, or assert fail if index out of range
      */
-    void set(ZF_IN zfindex index, ZF_IN T_Element const &e);
+    void set(ZF_IN zfindex index, ZF_IN T_Element const &e)
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+        }
+        d->buf[index] = e;
+    }
 
 public:
     /**
      * @brief get element's reference at index
      */
-    T_Element &get(ZF_IN zfindex index);
+    T_Element &get(ZF_IN zfindex index)
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+        }
+        return d->buf[index];
+    }
     /**
      * @brief get element's const reference at index
      */
-    T_Element const &get(ZF_IN zfindex index) const;
+    T_Element const &get(ZF_IN zfindex index) const
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+        }
+        return d->buf[index];
+    }
     /**
      * @brief get element's reference at index
      */
-    T_Element &operator[] (ZF_IN zfindex index);
+    T_Element &operator[] (ZF_IN zfindex index)
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+        }
+        return d->buf[index];
+    }
     /**
      * @brief get element's const reference at index
      */
-    T_Element const &operator[] (ZF_IN zfindex index) const;
+    T_Element const &operator[] (ZF_IN zfindex index) const
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+        }
+        return d->buf[index];
+    }
     /**
      * @brief try to get first element, assert fail if empty
      */
-    T_Element const &getFirst(void) const;
+    T_Element const &getFirst(void) const
+    {
+        if(this->count() == 0)
+        {
+            zfCoreCriticalIndexOutOfRange(0, this->count());
+        }
+        return *(d->buf);
+    }
     /**
      * @brief try to get first element, assert fail if empty
      */
-    T_Element const &getLast(void) const;
+    T_Element const &getLast(void) const
+    {
+        if(this->count() == 0)
+        {
+            zfCoreCriticalIndexOutOfRange(0, this->count());
+        }
+        return *(d->contentEnd - 1);
+    }
 
     /**
      * @brief directly access the array
@@ -323,20 +809,20 @@ public:
      * @warning the returned pointer may changed after modify the array
      * @warning return null if current capacity is 0
      */
-    T_Element *arrayBuf(void);
+    T_Element *arrayBuf(void) {return d->buf;}
     /**
      * @brief see #arrayBuf
      */
-    const T_Element *arrayBuf(void) const;
+    const T_Element *arrayBuf(void) const {return d->buf;}
 
     /**
      * @brief element count of this array
      */
-    zfindex count(void) const;
+    zfindex count(void) const {return (d->contentEnd - d->buf);}
     /**
      * @brief true if empty
      */
-    zfbool isEmpty(void) const;
+    zfbool isEmpty(void) const {return (d->contentEnd == d->buf);}
 
 public:
     /**
@@ -345,67 +831,50 @@ public:
     void sort(ZF_IN typename ZFComparer<T_Element>::Comparer elementComparer,
               ZF_IN_OPT zfbool ascending = zftrue,
               ZF_IN_OPT zfindex start = 0,
-              ZF_IN_OPT zfindex count = zfindexMax());
-
-    // ============================================================
-    // iterator
-private:
-    static void _ZFP_ZFCoreArray_iteratorDeleteCallback(ZF_IN void *data);
-    static void *_ZFP_ZFCoreArray_iteratorCopyCallback(ZF_IN void *data);
-
-public:
-    /** @brief #zfiterator */
-    zfiterator iteratorForIndex(ZF_IN zfindex index) const;
-
-    /** @brief #zfiterator */
-    zfiterator iteratorFind(ZF_IN T_Element const &e,
-                            ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const;
-    /** @brief #zfiterator */
-    zfiterator iteratorFindReversely(ZF_IN T_Element const &e,
-                                     ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerCheckEqual) const;
-
-public:
-    /** @brief #zfiterator */
-    zfiterator iterator(void) const;
-
-    /** @brief see #iterator */
-    zfbool iteratorIsValid(ZF_IN const zfiterator &it) const;
-    /** @brief see #zfiterator */
-    zfbool iteratorIsEqual(ZF_IN const zfiterator &it0,
-                           ZF_IN const zfiterator &it1) const;
-
-    /** @brief see #iterator */
-    T_Element &iteratorGet(ZF_IN_OUT zfiterator &it);
-    /** @brief see #iterator */
-    T_Element const &iteratorGet(ZF_IN_OUT zfiterator &it) const;
-
-    /** @brief see #iterator */
-    T_Element &iteratorNext(ZF_IN_OUT zfiterator &it);
-    /** @brief see #iterator */
-    T_Element const &iteratorNext(ZF_IN_OUT zfiterator &it) const;
-
-    /** @brief see #iterator */
-    T_Element &iteratorPrev(ZF_IN_OUT zfiterator &it);
-    /** @brief see #iterator */
-    T_Element const &iteratorPrev(ZF_IN_OUT zfiterator &it) const;
-
-    /** @brief see #iterator */
-    void iteratorSet(ZF_IN_OUT zfiterator &it,
-                     ZF_IN T_Element const &e);
-    /** @brief see #iterator */
-    void iteratorRemove(ZF_IN_OUT zfiterator &it);
-
-    /** @brief see #zfiterator */
-    void iteratorAdd(ZF_IN T_Element const &e);
-    /** @brief see #zfiterator */
-    void iteratorAdd(ZF_IN T_Element const &e,
-                     ZF_IN_OUT zfiterator &it);
+              ZF_IN_OPT zfindex count = zfindexMax())
+    {
+        if(!this->isEmpty() && start + 1 < this->count() && count > 1)
+        {
+            zfmSort<T_Element>(
+                d->buf,
+                elementComparer,
+                start,
+                (count > this->count() - start) ? (this->count() - 1) : (start + count - 1),
+                ascending);
+        }
+    }
 
 protected:
-    void _ZFP_PODTypeSet(void);
+    void _ZFP_PODTypeSet(void) {d->PODType = zftrue;}
 private:
     _ZFP_ZFCoreArrayPrivate<T_Element> *d;
-    void capacityDoChange(ZF_IN zfindex newCapacity);
+    void capacityDoChange(ZF_IN zfindex newCapacity)
+    {
+        if(newCapacity != this->capacity())
+        {
+            if(newCapacity == 0)
+            {
+                _ZFP_ZFCoreArray_objDestroy(d->buf, d->contentEnd, d->PODType);
+                zffree(d->buf);
+                d->buf = d->bufEnd = d->contentEnd = zfnull;
+            }
+            else
+            {
+                T_Element *oldBuf = d->buf;
+                T_Element *oldContentEnd = d->contentEnd;
+
+                T_Element *newBuf = (T_Element *)zfmalloc(newCapacity * sizeof(T_Element));
+                _ZFP_ZFCoreArray_objCreate(newBuf, newBuf + (oldContentEnd - oldBuf), oldBuf, d->PODType);
+
+                d->buf = newBuf;
+                d->bufEnd = newBuf + newCapacity;
+                d->contentEnd = newBuf + (oldContentEnd - oldBuf);
+
+                _ZFP_ZFCoreArray_objDestroy(oldBuf, oldContentEnd, d->PODType);
+                zffree(oldBuf);
+            }
+        }
+    }
 };
 
 // ============================================================
@@ -422,23 +891,42 @@ public:
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD(void);
+    ZFCoreArrayPOD(void)
+    : ZFCoreArray<T_Element>()
+    {
+        this->_ZFP_PODTypeSet();
+    }
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD(ZF_IN zfindex capacity);
+    ZFCoreArrayPOD(ZF_IN zfindex capacity)
+    : ZFCoreArray<T_Element>(capacity)
+    {
+        this->_ZFP_PODTypeSet();
+    }
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD(ZF_IN const ZFCoreArray<T_Element> &ref);
+    ZFCoreArrayPOD(ZF_IN const ZFCoreArray<T_Element> &ref)
+    : ZFCoreArray<T_Element>(ref)
+    {
+    }
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD<T_Element> &operator =(ZF_IN const ZFCoreArray<T_Element> &ref);
+    ZFCoreArrayPOD<T_Element> &operator =(ZF_IN const ZFCoreArray<T_Element> &ref)
+    {
+        ZFCoreArray<T_Element>::operator = (ref);
+        return *this;
+    }
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD<T_Element> &operator =(ZF_IN const ZFCoreArrayPOD<T_Element> &ref);
+    ZFCoreArrayPOD<T_Element> &operator =(ZF_IN const ZFCoreArrayPOD<T_Element> &ref)
+    {
+        ZFCoreArray<T_Element>::operator = (ref);
+        return *this;
+    }
 };
 
 template<typename T_Element>
@@ -487,6 +975,4 @@ public:
 ZF_NAMESPACE_GLOBAL_END
 
 #endif // #ifndef _ZFI_ZFCoreArray_h_
-
-#include "ZFCoreArray_impl.h"
 

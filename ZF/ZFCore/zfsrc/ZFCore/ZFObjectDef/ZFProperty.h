@@ -18,8 +18,6 @@
 #include "ZFPropertyFwd.h"
 #include "ZFPropertyTypeFwd.h"
 #include "ZFMethod.h"
-#include "ZFObjectClassTypeFwd.h"
-#include "ZFObjectCast.h"
 #include "ZFAny.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -391,8 +389,4 @@ inline void ZFPropertyCallbackGetInfoDefault(ZF_IN const ZFProperty *property,
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFProperty_h_
-
-#include "ZFPropertyDeclare.h"
-#include "ZFFilterForZFProperty.h"
-#include "ZFPropertyUtil.h"
 

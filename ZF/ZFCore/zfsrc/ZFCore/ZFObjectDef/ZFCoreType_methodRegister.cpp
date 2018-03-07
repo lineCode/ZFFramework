@@ -67,19 +67,6 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCoreArray, zfautoObject const &, g
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCoreArray, zfautoObject const &, getLast)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCoreArray, zfindex, count)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCoreArray, zfbool, isEmpty)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfiterator, iteratorForIndex, ZFMP_IN(zfindex, index))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfiterator, iteratorFind, ZFMP_IN(zfautoObject const &, e))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfiterator, iteratorFindReversely, ZFMP_IN(zfautoObject const &, e))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCoreArray, zfiterator, iterator)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfbool, iteratorIsValid, ZFMP_IN(const zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCoreArray, zfbool, iteratorIsEqual, ZFMP_IN(const zfiterator &, it0), ZFMP_IN(const zfiterator &, it1))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfautoObject &, iteratorGet, ZFMP_IN_OUT(zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfautoObject &, iteratorNext, ZFMP_IN_OUT(zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, zfautoObject &, iteratorPrev, ZFMP_IN_OUT(zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCoreArray, void, iteratorSet, ZFMP_IN_OUT(zfiterator &, it), ZFMP_IN(zfautoObject const &, e))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, void, iteratorRemove, ZFMP_IN_OUT(zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCoreArray, void, iteratorAdd, ZFMP_IN(zfautoObject const &, e))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCoreArray, void, iteratorAdd, ZFMP_IN(zfautoObject const &, e), ZFMP_IN_OUT(zfiterator &, it))
 
 // ============================================================
 // zfCoreArgSplit

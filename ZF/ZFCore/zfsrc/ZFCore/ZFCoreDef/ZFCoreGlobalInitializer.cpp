@@ -620,11 +620,11 @@ static void _ZFP_GI_dataUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     --(data->refCount);
     if(data->refCount == 0)
     {
-        for(zfiterator itList = dataList.iterator(); dataList.iteratorIsValid(itList); dataList.iteratorNext(itList))
+        for(zfindex i = 0; i < dataList.count(); ++i)
         {
-            if(dataList.iteratorGet(itList) == data)
+            if(dataList[i] == data)
             {
-                dataList.iteratorRemove(itList);
+                dataList.remove(i);
                 break;
             }
         }

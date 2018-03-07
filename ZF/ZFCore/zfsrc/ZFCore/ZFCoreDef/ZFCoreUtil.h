@@ -15,16 +15,6 @@
 #ifndef _ZFI_ZFCoreUtil_h_
 #define _ZFI_ZFCoreUtil_h_
 
-#include "ZFCoreTypeDef.h"
-
-ZF_NAMESPACE_GLOBAL_BEGIN
-
-// ============================================================
-
-ZF_NAMESPACE_GLOBAL_END
-
-#endif // #ifndef _ZFI_ZFCoreUtil_h_
-
 #include "ZFCoreUtilCallerInfo.h"
 #include "ZFCoreUtilCharTypeWrapper.h"
 #include "ZFCoreUtilComparer.h"
@@ -33,4 +23,6 @@ ZF_NAMESPACE_GLOBAL_END
 #include "ZFCoreUtilSmartDelete.h"
 #include "ZFCoreUtilStringConvert.h"
 #include "ZFCoreUtilTemplate.h"
+
+#endif // #ifndef _ZFI_ZFCoreUtil_h_
 

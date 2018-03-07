@@ -4,6 +4,7 @@
 * update CI script
 * impl lib's header can now be exported
 * optimize external ZFModule build logic and script
+* reduce recursive header include to improve compile time
 
 # 0.1.0 (20180218)
 

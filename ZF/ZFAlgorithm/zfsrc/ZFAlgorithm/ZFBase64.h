@@ -171,5 +171,3 @@ public:
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFBase64_h_
 
-#include "ZFPathType_base64.h"
-

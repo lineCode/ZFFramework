@@ -16,6 +16,10 @@
 #define _ZFI_ZFPropertyType_CoreType_h_
 
 #include "ZFPropertyType_spec.h"
+#include "ZFFilterForZFClass.h"
+#include "ZFFilterForZFObject.h"
+#include "ZFFilterForZFMethod.h"
+#include "ZFFilterForZFProperty.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

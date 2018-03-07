@@ -22,9 +22,5 @@
 #include "ZFCoreTypeDef_ClassType.h"
 #include "ZFCoreTypeDef_OtherType.h"
 
-ZF_NAMESPACE_GLOBAL_BEGIN
-
-ZF_NAMESPACE_GLOBAL_END
-
 #endif // #ifndef _ZFI_ZFCoreTypeDef_h_
 

@@ -478,5 +478,3 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFJsonEscapeCharDecode,
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFJson_h_
 
-#include "ZFJsonSerializableConverter.h"
-

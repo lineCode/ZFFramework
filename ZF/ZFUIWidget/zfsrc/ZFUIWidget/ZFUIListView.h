@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFUIListView_h_
 #define _ZFI_ZFUIListView_h_
 
-#include "ZFUIWidgetDef.h"
 #include "ZFUIListAdapter.h"
 #include "ZFUIListCellUpdater.h"
 ZF_NAMESPACE_GLOBAL_BEGIN

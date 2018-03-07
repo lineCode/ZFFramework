@@ -18,6 +18,7 @@
 #include "ZFObjectDef/ZFAny.h"
 #include "ZFObjectDef/ZFCallback.h"
 #include "ZFObjectDef/ZFCallbackSerializable.h"
+#include "ZFObjectDef/ZFCallback_template.h"
 #include "ZFObjectDef/ZFClass.h"
 #include "ZFObjectDef/ZFClassSerializable.h"
 #include "ZFObjectDef/ZFClassUtil.h"

@@ -13,7 +13,6 @@
 #include "protocol/ZFProtocolZFUIScrollView.h"
 
 #include "ZFUIViewPositionOnScreen.h"
-#include "ZFUIViewFocus.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

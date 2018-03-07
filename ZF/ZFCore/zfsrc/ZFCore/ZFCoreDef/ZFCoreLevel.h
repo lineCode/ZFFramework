@@ -14,7 +14,6 @@
 #ifndef _ZFI_ZFCoreLevel_h_
 #define _ZFI_ZFCoreLevel_h_
 
-#include "ZFCoreTypeDef.h"
 #include "ZFCoreUtilStringConvert.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

@@ -91,5 +91,3 @@ ZFMETHOD_FUNC_DECLARE_1(void, zfLangDebug,
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFLang_h_
 
-#include "ZFLangUtil.h"
-

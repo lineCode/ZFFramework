@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFMethodSerializable_h_
 #define _ZFI_ZFMethodSerializable_h_
 
-#include "ZFMethod.h"
 #include "ZFSerializable.h"
 #include "ZFPropertyType.h"
 ZF_NAMESPACE_GLOBAL_BEGIN

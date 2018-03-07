@@ -10,6 +10,7 @@
 #include "ZFSerializableData.h"
 #include "ZFObjectImpl.h"
 #include "ZFSerializableUtil.h"
+#include "ZFSerializableDataRefType.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_deque.h"

@@ -97,16 +97,7 @@ ZFFilterForZFClass &ZFFilterForZFClass::customFilterCallbackAdd(ZF_IN ZFFilterFo
 }
 ZFFilterForZFClass &ZFFilterForZFClass::customFilterCallbackRemove(ZF_IN ZFFilterForZFClass::CustomFilterCallback customFilterCallback)
 {
-    for(zfiterator it = this->_ZFP_ZFFilterForZFClass_customFilterCallbacks.iterator();
-        this->_ZFP_ZFFilterForZFClass_customFilterCallbacks.iteratorIsValid(it);
-        this->_ZFP_ZFFilterForZFClass_customFilterCallbacks.iteratorNext(it))
-    {
-        if(this->_ZFP_ZFFilterForZFClass_customFilterCallbacks.iteratorGet(it) == customFilterCallback)
-        {
-            this->_ZFP_ZFFilterForZFClass_customFilterCallbacks.iteratorRemove(it);
-            break;
-        }
-    }
+    this->_ZFP_ZFFilterForZFClass_customFilterCallbacks.removeElement(customFilterCallback);
     return *this;
 }
 ZFFilterForZFClass &ZFFilterForZFClass::customFilterCallbackRemove(ZF_IN zfindex index)

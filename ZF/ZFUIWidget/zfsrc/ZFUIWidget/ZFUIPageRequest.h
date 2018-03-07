@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFUIPageRequest_h_
 #define _ZFI_ZFUIPageRequest_h_
 
-#include "ZFUIWidgetDef.h"
 #include "ZFUIPage.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

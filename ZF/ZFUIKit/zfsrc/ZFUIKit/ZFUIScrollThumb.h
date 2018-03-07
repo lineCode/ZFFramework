@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFUIScrollThumb_h_
 #define _ZFI_ZFUIScrollThumb_h_
 
-#include "ZFUITypeDef.h"
 #include "ZFUIScrollView.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

@@ -15,9 +15,9 @@
 #ifndef _ZFI_ZFObjectHolder_h_
 #define _ZFI_ZFObjectHolder_h_
 
-#include "ZFObjectCore.h"
 #include "ZFObjectSmartPointer.h"
 #include "ZFPropertyType.h"
+#include "ZFPropertyDeclare.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

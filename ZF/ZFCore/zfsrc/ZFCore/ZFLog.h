@@ -127,5 +127,3 @@ ZFMETHOD_FUNC_DECLARE_0(const zfchar *, zfLogCurTimeString)
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFLog_h_
 
-#include "ZFLog_StackTrace.h"
-

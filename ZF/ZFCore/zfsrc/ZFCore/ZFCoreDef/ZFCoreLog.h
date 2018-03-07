@@ -179,5 +179,3 @@ ZF_NAMESPACE_GLOBAL_END
 
 #endif // #ifndef _ZFI_ZFCoreLog_h_
 
-#include "ZFCoreLog_CommonLog.h"
-

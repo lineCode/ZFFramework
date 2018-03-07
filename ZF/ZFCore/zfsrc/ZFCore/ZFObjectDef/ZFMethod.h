@@ -684,7 +684,3 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodGetAll(ZF_IN_OPT const ZFFilterF
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFMethod_h_
 
-#include "ZFMethodDeclare.h"
-#include "ZFMethodFuncDeclare.h"
-#include "ZFFilterForZFMethod.h"
-

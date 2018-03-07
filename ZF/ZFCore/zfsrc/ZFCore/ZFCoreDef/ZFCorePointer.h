@@ -14,7 +14,6 @@
 #ifndef _ZFI_ZFCorePointer_h_
 #define _ZFI_ZFCorePointer_h_
 
-#include "ZFCoreTypeDef.h"
 #include "ZFCoreSPrintf.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

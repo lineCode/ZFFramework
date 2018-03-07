@@ -15,10 +15,7 @@
 #ifndef _ZFI_zfautoObject_h_
 #define _ZFI_zfautoObject_h_
 
-#include "ZFObjectCore.h"
 #include "ZFObjectRetain.h"
-#include "ZFAny.h"
-#include "zfautoObjectFwd.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

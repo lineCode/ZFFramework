@@ -10,6 +10,12 @@
 #include "ZFMethod.h"
 #include "ZFObjectImpl.h"
 
+#include "ZFMethodDeclare.h"
+#include "ZFMethodUserRegister.h"
+
+#include "ZFMethodFuncDeclare.h"
+#include "ZFMethodFuncUserRegister.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

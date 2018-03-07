@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFKeyValueContainer_h_
 #define _ZFI_ZFKeyValueContainer_h_
 
-#include "ZFObject.h"
 #include "ZFIterable.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

@@ -20,8 +20,6 @@
 #include "ZFFilterForZFClass.h"
 #include "ZFFilterForZFMethod.h"
 #include "ZFFilterForZFProperty.h"
-#include "zfautoObjectFwd.h"
-#include "ZFAny.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

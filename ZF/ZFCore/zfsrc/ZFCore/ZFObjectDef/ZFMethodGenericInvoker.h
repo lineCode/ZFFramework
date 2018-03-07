@@ -15,8 +15,6 @@
 #ifndef _ZFI_ZFMethodGenericInvoker_h_
 #define _ZFI_ZFMethodGenericInvoker_h_
 
-#include "ZFObjectClassTypeFwd.h"
-#include "zfautoObjectFwd.h"
 #include "ZFPropertyTypeFwd.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

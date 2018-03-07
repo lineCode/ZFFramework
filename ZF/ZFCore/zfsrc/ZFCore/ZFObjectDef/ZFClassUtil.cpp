@@ -12,6 +12,7 @@
 #include "ZFFilterForZFClass.h"
 #include "ZFFilterForZFMethod.h"
 #include "ZFFilterForZFProperty.h"
+#include "ZFPropertyUtil.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFClassUtil)

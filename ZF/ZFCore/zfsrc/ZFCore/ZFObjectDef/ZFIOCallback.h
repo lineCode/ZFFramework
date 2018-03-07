@@ -19,8 +19,5 @@
 #include "ZFIOCallback_output.h"
 #include "ZFIOCallback_util.h"
 
-ZF_NAMESPACE_GLOBAL_BEGIN
-
-ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFIOCallback_h_
 

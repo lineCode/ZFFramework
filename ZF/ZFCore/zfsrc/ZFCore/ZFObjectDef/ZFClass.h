@@ -15,9 +15,6 @@
 #ifndef _ZFI_ZFClass_h_
 #define _ZFI_ZFClass_h_
 
-#include "ZFObjectClassTypeFwd.h"
-#include "ZFObjectCast.h"
-#include "ZFAny.h"
 #include "zfautoObjectFwd.h"
 #include "ZFObjectObserver.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -660,6 +657,4 @@ public:
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFClass_h_
-
-#include "ZFFilterForZFClass.h"
 

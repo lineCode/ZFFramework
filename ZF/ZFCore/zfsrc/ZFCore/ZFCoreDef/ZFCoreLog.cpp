@@ -90,15 +90,7 @@ void zfCoreCriticalErrorCallbackPrepareAdd(ZF_IN ZFCoreCriticalErrorCallback cal
 }
 void zfCoreCriticalErrorCallbackPrepareRemove(ZF_IN ZFCoreCriticalErrorCallback callback)
 {
-    ZFCoreArrayPOD<ZFCoreCriticalErrorCallback> &d = _ZFP_ZFCoreCriticalErrorPrepareCallbacks;
-    for(zfiterator it = d.iterator(); d.iteratorIsValid(it); d.iteratorNext(it))
-    {
-        if(d.iteratorGet(it) == callback)
-        {
-            d.iteratorRemove(it);
-            break;
-        }
-    }
+    _ZFP_ZFCoreCriticalErrorPrepareCallbacks.removeElement(callback);
 }
 void zfCoreCriticalErrorCallbackAdd(ZF_IN ZFCoreCriticalErrorCallback callback)
 {
@@ -109,15 +101,7 @@ void zfCoreCriticalErrorCallbackAdd(ZF_IN ZFCoreCriticalErrorCallback callback)
 }
 void zfCoreCriticalErrorCallbackRemove(ZF_IN ZFCoreCriticalErrorCallback callback)
 {
-    ZFCoreArrayPOD<ZFCoreCriticalErrorCallback> &d = _ZFP_ZFCoreCriticalErrorCallbacks;
-    for(zfiterator it = d.iterator(); d.iteratorIsValid(it); d.iteratorNext(it))
-    {
-        if(d.iteratorGet(it) == callback)
-        {
-            d.iteratorRemove(it);
-            break;
-        }
-    }
+    _ZFP_ZFCoreCriticalErrorCallbacks.removeElement(callback);
 }
 void _ZFP_zfCoreCriticalErrorPrepare(ZF_IN const ZFCallerInfo &callerInfo)
 {

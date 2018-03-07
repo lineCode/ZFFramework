@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFUIDialog_h_
 #define _ZFI_ZFUIDialog_h_
 
-#include "ZFUIWidgetDef.h"
 #include "ZFUIButton.h"
 #include "ZFUIOnScreenKeyboardAutoResize.h"
 #include "ZFUIOnScreenKeyboardAutoFit.h"

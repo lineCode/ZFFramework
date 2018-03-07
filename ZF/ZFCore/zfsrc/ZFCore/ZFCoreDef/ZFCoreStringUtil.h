@@ -1015,5 +1015,3 @@ ZF_NAMESPACE_GLOBAL_END
 
 #endif // #ifndef _ZFI_ZFCoreStringUtil_h_
 
-#include "ZFCoreSPrintf.h"
-

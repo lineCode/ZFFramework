@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFCoreIdentityUtil_h_
 #define _ZFI_ZFCoreIdentityUtil_h_
 
-#include "ZFCoreTypeDef.h"
 #include "ZFCoreArray.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

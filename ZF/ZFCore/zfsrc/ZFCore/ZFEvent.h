@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFEvent_h_
 #define _ZFI_ZFEvent_h_
 
-#include "ZFObject.h"
 #include "ZFCacheable.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
