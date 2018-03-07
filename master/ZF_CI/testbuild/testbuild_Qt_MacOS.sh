@@ -12,10 +12,10 @@ ZF_ROOT_PATH=$WORK_DIR/../../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 _TMP_PATH=$ZF_ROOT_PATH/_tmp/$PROJ_NAME/Qt_MacOS/release
 
-if test "x-$BUILD_TARGET_ONLY" = "x-" ; then
-    chmod +x $ZF_TOOLS_PATH/release/release_Qt_MacOS_check.sh
-    $ZF_TOOLS_PATH/release/release_Qt_MacOS_check.sh
-fi
+# if test "x-$BUILD_TARGET_ONLY" = "x-" ; then
+#     chmod +x $ZF_TOOLS_PATH/release/release_Qt_MacOS_check.sh
+#     $ZF_TOOLS_PATH/release/release_Qt_MacOS_check.sh
+# fi
 
 _OLD_DIR=$(pwd)
 cd "$PROJ_PATH"
