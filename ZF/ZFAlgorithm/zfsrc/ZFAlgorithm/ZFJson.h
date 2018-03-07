@@ -393,6 +393,7 @@ private:
     ZFJsonItem(ZF_IN _ZFP_ZFJsonItemPrivate *ref);
 };
 ZFPROPERTY_TYPE_DECLARE(ZFJsonItem, ZFJsonItem)
+ZFOUTPUT_TYPE(ZFJsonItem, {output << v.objectInfo();})
 
 // ============================================================
 /**

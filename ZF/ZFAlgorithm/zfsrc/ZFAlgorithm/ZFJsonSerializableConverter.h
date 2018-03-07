@@ -18,8 +18,6 @@
 #include "ZFJson.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOUTPUT_TYPE(ZFJsonItem, {output << v.objectInfo();})
-
 // ============================================================
 // json serializable conversion
 

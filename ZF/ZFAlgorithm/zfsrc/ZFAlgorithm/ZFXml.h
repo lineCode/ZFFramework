@@ -374,6 +374,7 @@ private:
     ZFXmlItem(ZF_IN _ZFP_ZFXmlItemPrivate *ref);
 };
 ZFPROPERTY_TYPE_DECLARE(ZFXmlItem, ZFXmlItem)
+ZFOUTPUT_TYPE(ZFXmlItem, {output << v.objectInfo();})
 
 // ============================================================
 // ZFXmlVisitData

@@ -18,8 +18,6 @@
 #include "ZFXml.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOUTPUT_TYPE(ZFXmlItem, {output << v.objectInfo();})
-
 // ============================================================
 // xml serializable conversion
 
