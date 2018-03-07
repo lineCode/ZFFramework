@@ -4,7 +4,7 @@
 /master/ZF_docs/Doxygen/libclang.dll
 
 # common
-.svn
+**/.svn
 **/_release
 **/_repo
 **/_tmp

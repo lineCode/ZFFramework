@@ -3,7 +3,11 @@
 <ZF_COMMENT> 1. use ZFProjCreator to create "Lib" or "LibImpl" type module
 <ZF_COMMENT>    https://github.com/ZFFramework/ZFProjCreator
 <ZF_COMMENT>    result structure should be:
-<ZF_COMMENT>        ~/../ZFModule/ZF/YourLibName
+<ZF_COMMENT>        ~/../ZFModule/ZF/YourLibName/
+<ZF_COMMENT>            .git/
+<ZF_COMMENT>            zfproj/
+<ZF_COMMENT>            zfres/
+<ZF_COMMENT>            zfsrc/
 <ZF_COMMENT> 2. push the "YourLibName" dir to your git repo, let's say:
 <ZF_COMMENT>    https://github.com/YourUserName/YourLibName
 <ZF_COMMENT> 3. clone your libs like below

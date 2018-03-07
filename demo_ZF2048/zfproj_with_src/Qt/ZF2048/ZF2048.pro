@@ -82,13 +82,6 @@ macx {
 # ======================================================================
 # your custom project settings here
 # ======================================================================
-win32 {
-    system(call $$system_path($$_PRO_FILE_PWD_/../../../ZFSetup.bat))
-}
-unix {
-    system(sh $$system_path($$_PRO_FILE_PWD_/../../../ZFSetup.sh))
-}
-
 # Qt modules
 # QT += gui widgets
 # qtHaveModule(webenginewidgets) {QT += webenginewidgets} else {qtHaveModule(webkitwidgets) : QT += webkitwidgets}
@@ -141,8 +134,7 @@ macx {
     _ZF_SCRIPT_EXT=sh
 }
 
-system($${_ZF_SCRIPT_CALL} $$system_path($$ZF_ROOT_PATH/zf3rd_setup.$${_ZF_SCRIPT_EXT}))
-system($${_ZF_SCRIPT_CALL} $$system_path($$ZF_TOOLS_PATH/common/zfsh_if_exist.$${_ZF_SCRIPT_EXT}) $$system_path($$_PRO_FILE_PWD_/../../../zfscript/zfmodule_setup.zfsh) $$_ZF_QT_TYPE)
+system($${_ZF_SCRIPT_CALL} $$system_path($$_PRO_FILE_PWD_/../../../../zfsetup.$${_ZF_SCRIPT_EXT}))
 
 CONFIG(debug, debug|release) {
     _ZF_BUILD_TYPE=debug

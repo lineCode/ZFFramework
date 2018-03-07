@@ -156,7 +156,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 088CEDDE21DF02E0AA4164F529BA1EC9 /* Build configuration list for PBXNativeTarget "ZF2048" */;
 			buildPhases = (
-				5C35FACD6DAA212EE23BB4E9005C967E /* ZFSetup */,
+				4B8AB8F184C9AD0ADC07A2E35447B464 /* ZFSetup */,
 				DF92A51A18FBF1F769B8F6B25EED5772 /* ZFCompileSource */,
 				1491079357FE4D3DD0C32730743477D5 /* Sources */,
 				66D4143A3413758B3A3802BEAB03CA55 /* Frameworks */,
@@ -252,7 +252,7 @@
 			shellPath = /bin/sh;
 			shellScript = "sh ${SRCROOT}/../../../../../ZFFramework/tools/spec/iOS/unique_proj.sh \"${SRCROOT}/${PROJECT_NAME}.xcodeproj\"";
 		};
-		5C35FACD6DAA212EE23BB4E9005C967E /* ZFSetup */ = {
+		4B8AB8F184C9AD0ADC07A2E35447B464 /* ZFSetup */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -264,7 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ZF_ROOT_PATH=${SRCROOT}/../../../../../ZFFramework\nsh \"${SRCROOT}/../../../ZFSetup.sh\"\nsh \"$ZF_ROOT_PATH/zf3rd_setup.sh\"\nsh \"$ZF_ROOT_PATH/tools/common/zfsh_if_exist.sh\" \"${SRCROOT}/../../../zfscript/zfmodule_setup.zfsh\" iOS\n";
+			shellScript = "sh \"${SRCROOT}/../../../../zfsetup.sh\"\n";
 		};
 		DF92A51A18FBF1F769B8F6B25EED5772 /* ZFCompileSource */ = {
 			isa = PBXShellScriptBuildPhase;
