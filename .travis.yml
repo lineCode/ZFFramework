@@ -23,7 +23,7 @@ matrix:
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "ndk-bundle" > /dev/null 2>&1
       # build
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh
-      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME} 1
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}
 
   - language: android
     env:
@@ -56,7 +56,7 @@ matrix:
         ZF_PROJ_NAME=ZFFramework_test;
     script:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh
-      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/iOS/${ZF_PROJ_NAME} 1
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/iOS/${ZF_PROJ_NAME}
 
   - language: objective-c
     env:
@@ -76,7 +76,7 @@ matrix:
     compiler: gcc
     script:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh
-      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME} 1
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME}
 
   - language: cpp
     env:
@@ -98,7 +98,7 @@ matrix:
     compiler: clang
     script:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh
-      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME} 1
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME}
 
   - language: cpp
     env:

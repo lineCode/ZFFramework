@@ -1,20 +1,14 @@
 WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 PROJ_NAME=$1
 PROJ_PATH=$2
-BUILD_TARGET_ONLY=$3
 if test "x-$PROJ_NAME" = "x-" || test "x-$PROJ_PATH" = "x-" ; then
     echo usage:
-    echo   testbuild_iOS.sh PROJ_NAME PROJ_PATH [BUILD_TARGET_ONLY]
+    echo   testbuild_iOS.sh PROJ_NAME PROJ_PATH
     exit 1
 fi
 
 ZF_ROOT_PATH=$WORK_DIR/../../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
-
-# if test "x-$BUILD_TARGET_ONLY" = "x-" ; then
-#     chmod +x $ZF_TOOLS_PATH/release/release_iOS_check.sh
-#     $ZF_TOOLS_PATH/release/release_iOS_check.sh
-# fi
 
 _OLD_DIR=$(pwd)
 cd "$PROJ_PATH"
