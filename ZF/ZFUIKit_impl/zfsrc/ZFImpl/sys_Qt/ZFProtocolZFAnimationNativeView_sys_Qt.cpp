@@ -12,6 +12,8 @@
 
 #if ZF_ENV_sys_Qt
 
+#include "ZFUIKit/ZFUIViewUtil.h"
+
 #include <QAbstractAnimation>
 #include <QEvent>
 #include <QWidget>

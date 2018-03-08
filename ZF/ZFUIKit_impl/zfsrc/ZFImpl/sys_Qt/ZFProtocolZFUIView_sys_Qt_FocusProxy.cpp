@@ -163,6 +163,7 @@ public:
 public:
     _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyGlobalToken(void)
     : QObject()
+    , focused(NULL)
     {
         QCoreApplication::instance()->installEventFilter(this);
     }
@@ -203,10 +204,6 @@ zfbool _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusedRecursive(ZF_IN void *toke
 {
     _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *t = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *, token);
     QWidget *focused = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewImpl_sys_Qt_FocusProxyGlobalDataHolder)->token->focused;
-    if(focused == NULL)
-    {
-        return zffalse;
-    }
     while(focused != NULL)
     {
         if(focused == t->nativeOwner)
