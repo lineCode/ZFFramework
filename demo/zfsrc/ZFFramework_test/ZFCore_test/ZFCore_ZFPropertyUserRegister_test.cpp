@@ -9,7 +9,7 @@
  * ====================================================================== */
 #include "ZFCore_test.h"
 
-#include "ZFAlgorithm/ZFXml.h"
+#include "ZFAlgorithm/ZFXmlSerializableConverter.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

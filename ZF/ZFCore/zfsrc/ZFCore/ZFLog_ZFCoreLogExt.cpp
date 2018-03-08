@@ -8,6 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFLog.h"
+#include "ZFLog_StackTrace.h"
 #include "ZFString.h"
 
 #include "protocol/ZFProtocolZFOutput.h"
