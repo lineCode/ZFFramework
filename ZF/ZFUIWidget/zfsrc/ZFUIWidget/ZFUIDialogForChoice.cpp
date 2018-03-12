@@ -39,7 +39,7 @@ public:
     ZFUISize measuredSize;
 
 public:
-    ZFLISTENER_DECLARE(updateTask)
+    ZFLISTENER_INLINE(updateTask)
     {
         this->buttonGroup->observerRemove(ZFUIButton::EventButtonOnClick(), this->buttonEventListener);
         this->updateTaskId = zfidentityInvalid();
@@ -137,7 +137,7 @@ private:
     }
 
 private:
-    ZFLISTENER_DECLARE(buttonEvent)
+    ZFLISTENER_INLINE(buttonEvent)
     {
         zfindex index = listenerData.param1->to<ZFValue *>()->indexValue();
         switch(this->pimplOwner->choiceMode())

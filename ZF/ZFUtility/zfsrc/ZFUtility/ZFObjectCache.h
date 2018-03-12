@@ -51,34 +51,34 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, cacheAdd,
                        ZFMP_IN(const zfchar *, cacheKey),
-                       ZFMP_IN(ZFObject *, cacheValue));
+                       ZFMP_IN(ZFObject *, cacheValue))
     /**
      * @brief access cache, or return #zfautoObjectNull if not exist
      */
     ZFMETHOD_DECLARE_1(zfautoObject, cacheGet,
-                       ZFMP_IN(const zfchar *, cacheKey));
+                       ZFMP_IN(const zfchar *, cacheKey))
 
     /**
      * @brief remove cache or do nothing if not exist, return removed cache
      */
     ZFMETHOD_DECLARE_1(zfautoObject, cacheRemove,
-                       ZFMP_IN(const zfchar *, cacheKey));
+                       ZFMP_IN(const zfchar *, cacheKey))
     /**
      * @brief remove all cache
      */
-    ZFMETHOD_DECLARE_0(void, cacheRemoveAll);
+    ZFMETHOD_DECLARE_0(void, cacheRemoveAll)
     /**
      * @brief trim the cache to reduce memory
      *
      * by default, this method would call #cacheTrimBySize
      */
-    ZFMETHOD_DECLARE_0(void, cacheTrim);
+    ZFMETHOD_DECLARE_0(void, cacheTrim)
     /**
      * @brief util method to trim the cache
      *   so that the cached data won't exceeds specified size
      */
     ZFMETHOD_DECLARE_1(void, cacheTrimBySize,
-                       ZFMP_IN(zfindex , size));
+                       ZFMP_IN(zfindex , size))
 
 public:
     /**
@@ -88,7 +88,7 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, cacheGetAll,
                        ZFMP_IN_OUT(ZFCoreArray<const zfchar *> &, cacheKeys),
-                       ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, cacheValues));
+                       ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, cacheValues))
 
 protected:
     /**

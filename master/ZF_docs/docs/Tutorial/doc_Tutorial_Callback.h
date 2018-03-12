@@ -9,7 +9,7 @@
  *   {
  *       ZFOBJECT_DECLARE(MyObject, ZFObject)
  *
- *       ZFMETHOD_DECLARE_1(zfstring, myMemberMethod, ZFMP_IN(zfindex, param0))
+ *       ZFMETHOD_INLINE_1(zfstring, myMemberMethod, ZFMP_IN(zfindex, param0))
  *       {
  *           return zfstringWithFormat(zfText("called myMemberMethod, param: %zi"), param0);
  *       }

@@ -182,35 +182,35 @@ public:
      *
      * subclass should override #classForOperationParam to change type
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, createParam);
+    ZFMETHOD_DECLARE_0(zfautoObject, createParam)
 
     /**
      * @brief create result
      *
      * subclass should override #classForOperationResult to change type
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, createResult);
+    ZFMETHOD_DECLARE_0(zfautoObject, createResult)
     /**
      * @brief create result
      *
      * subclass should override #classForOperationResult to change type
      */
     ZFMETHOD_DECLARE_1(zfautoObject, createResult,
-                       ZFMP_IN(ZFResultTypeEnum, resultType));
+                       ZFMP_IN(ZFResultTypeEnum, resultType))
 
     /**
      * @brief create observer
      *
      * subclass should override #classForOperationObserver to change type
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, createObserver);
+    ZFMETHOD_DECLARE_0(zfautoObject, createObserver)
 
     /**
      * @brief create cache
      *
      * subclass should override #classForOperationCache to change type
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, createCache);
+    ZFMETHOD_DECLARE_0(zfautoObject, createCache)
     /**
      * @brief create cache
      *
@@ -222,21 +222,21 @@ public:
                        ZFMP_IN(ZFOperationParam *, operationParam),
                        ZFMP_IN(ZFOperationResult *, operationResult),
                        ZFMP_IN_OPT(const zftimet &, cacheExpireTime, zftimetZero()),
-                       ZFMP_IN_OPT(const zftimet &, cacheTime, zftimetZero()));
+                       ZFMP_IN_OPT(const zftimet &, cacheTime, zftimetZero()))
 
     /**
      * @brief create progress
      *
      * subclass should override #classForOperationProgress to change type
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, createProgress);
+    ZFMETHOD_DECLARE_0(zfautoObject, createProgress)
 
     /**
      * @brief create observer
      *
      * subclass should override #classForOperationTaskData to change type
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, createTaskData);
+    ZFMETHOD_DECLARE_0(zfautoObject, createTaskData)
     /**
      * @brief create observer
      *
@@ -248,7 +248,7 @@ public:
                        ZFMP_IN_OPT(ZFOperationObserver *, operationObserver, zfnull),
                        ZFMP_IN_OPT(ZFOperationCache *, operationCache, zfnull),
                        ZFMP_IN_OPT(zfidentity, operationId, zfidentityInvalid()),
-                       ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull));
+                       ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull))
 
 protected:
     /** @brief see #createParam */
@@ -273,22 +273,22 @@ public:
      */
     ZFMETHOD_DECLARE_2(zfidentity, taskStart,
                        ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull),
-                       ZFMP_IN_OPT(ZFOperationObserver *, operationObserver, zfnull));
+                       ZFMP_IN_OPT(ZFOperationObserver *, operationObserver, zfnull))
     /**
      * @brief start the operation, see #taskStart
      */
     ZFMETHOD_DECLARE_1(zfidentity, taskStart,
-                       ZFMP_IN(ZFOperationStartParam *, startParam));
+                       ZFMP_IN(ZFOperationStartParam *, startParam))
     /**
      * @brief stop operation by id, do nothing if no such operation
      */
     ZFMETHOD_DECLARE_1(void, taskStop,
-                       ZFMP_IN(zfidentity, operationId));
+                       ZFMP_IN(zfidentity, operationId))
     /**
      * @brief stop and get the result (which should be a result with canceled state)
      */
     ZFMETHOD_DECLARE_1(zfautoObject, taskStopAndGetResult,
-                       ZFMP_IN(zfidentity, operationId));
+                       ZFMP_IN(zfidentity, operationId))
     /**
      * @brief stop operation by param, do nothing if no such operation
      *
@@ -298,16 +298,16 @@ public:
      *   since it have no need to compare params
      */
     ZFMETHOD_DECLARE_1(void, taskStop,
-                       ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull));
+                       ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull))
     /**
      * @brief stop operation by category (set from #ZFOperationTaskData::taskCategory), do nothing if no such operation
      */
     ZFMETHOD_DECLARE_1(void, taskStopForCategory,
-                       ZFMP_IN(ZFObject *, category));
+                       ZFMP_IN(ZFObject *, category))
     /**
      * @brief stop all operation
      */
-    ZFMETHOD_DECLARE_0(void, taskStopAll);
+    ZFMETHOD_DECLARE_0(void, taskStopAll)
 
     /**
      * @brief remove observer only, task would keep running normally
@@ -316,30 +316,30 @@ public:
      * but keep the task running in background
      */
     ZFMETHOD_DECLARE_1(void, taskStopObserver,
-                       ZFMP_IN(zfidentity, operationId));
+                       ZFMP_IN(zfidentity, operationId))
     /**
      * @brief see #taskStopObserver, #taskStop
      */
     ZFMETHOD_DECLARE_1(void, taskStopObserver,
-                       ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull));
+                       ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull))
     /**
      * @brief see #taskStopObserver, #taskStopForCategory
      */
     ZFMETHOD_DECLARE_1(void, taskStopObserverForCategory,
-                       ZFMP_IN(ZFObject *, category));
+                       ZFMP_IN(ZFObject *, category))
 
     /**
      * @brief get task count
      */
-    ZFMETHOD_DECLARE_0(zfindex, taskCount);
+    ZFMETHOD_DECLARE_0(zfindex, taskCount)
     /**
      * @brief get queued task count
      */
-    ZFMETHOD_DECLARE_0(zfindex, taskQueuedCount);
+    ZFMETHOD_DECLARE_0(zfindex, taskQueuedCount)
     /**
      * @brief true if any task is running or queued
      */
-    ZFMETHOD_DECLARE_0(zfbool, taskRunning);
+    ZFMETHOD_DECLARE_0(zfbool, taskRunning)
 
     /**
      * @brief true if task is started and hasn't stopped
@@ -348,7 +348,7 @@ public:
      * a started task may or may not have #taskOnStart been called
      */
     ZFMETHOD_DECLARE_1(zfbool, taskIsAlive,
-                       ZFMP_IN(ZFOperationParam *, operationParam));
+                       ZFMP_IN(ZFOperationParam *, operationParam))
     /**
      * @brief true if task is started and hasn't stopped
      *
@@ -356,14 +356,14 @@ public:
      * a started task may or may not have #taskOnStart been called
      */
     ZFMETHOD_DECLARE_1(zfbool, taskIsAlive,
-                       ZFMP_IN(zfidentity, operationId));
+                       ZFMP_IN(zfidentity, operationId))
 
 public:
     /**
      * @brief used to check whether param is valid
      */
     ZFMETHOD_DECLARE_1(zfbool, paramIsValid,
-                       ZFMP_IN(ZFOperationParam *, operationParam));
+                       ZFMP_IN(ZFOperationParam *, operationParam))
 
 public:
     /**
@@ -374,7 +374,7 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, taskNotifyFinish,
                        ZFMP_IN(ZFOperationParam *, operationParam),
-                       ZFMP_IN(ZFOperationResult *, operationResult));
+                       ZFMP_IN(ZFOperationResult *, operationResult))
     /**
      * @brief subclass must notify finish after operation finish, including success, fail and cancel
      *
@@ -382,7 +382,7 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, taskNotifyFinish,
                        ZFMP_IN(zfidentity, operationId),
-                       ZFMP_IN(ZFOperationResult *, operationResult));
+                       ZFMP_IN(ZFOperationResult *, operationResult))
     /**
      * @brief subclass may use this to notify progress update,
      *   which would notify observer's #EventOperationTaskOnProgress
@@ -391,14 +391,14 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, taskNotifyProgress,
                        ZFMP_IN(ZFOperationParam *, operationParam),
-                       ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull));
+                       ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull))
     /**
      * @brief subclass may use this to notify progress update,
      *   which would notify observer's #EventOperationTaskOnProgress
      */
     ZFMETHOD_DECLARE_2(void, taskNotifyProgress,
                        ZFMP_IN(zfidentity, operationId),
-                       ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull));
+                       ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull))
 
     // ============================================================
     // protected operation control
@@ -478,23 +478,24 @@ public:
     /**
      * @brief get operaiton data for operation id, or null if no such task or task already finished
      */
-    virtual ZFOperationTaskData *operationGetTaskData(ZF_IN zfidentity operationId);
+    ZFMETHOD_DECLARE_1(ZFOperationTaskData *, operationGetTaskData,
+                       ZFMP_IN(zfidentity, operationId));
     /**
      * @brief usually used to get all merged task datas
      */
     ZFMETHOD_DECLARE_2(void, operationGetTaskList,
                        ZFMP_IN_OUT(ZFArrayEditable *, taskDatas),
-                       ZFMP_IN(zfidentity, operationId));
+                       ZFMP_IN(zfidentity, operationId))
     /**
      * @brief usually used for debug only
      */
     ZFMETHOD_DECLARE_1(void, operationGetTaskList,
-                       ZFMP_IN_OUT(ZFArrayEditable *, taskDatas));
+                       ZFMP_IN_OUT(ZFArrayEditable *, taskDatas))
     /**
      * @brief usually used for debug only
      */
     ZFMETHOD_DECLARE_1(void, operationGetTaskListQueued,
-                       ZFMP_IN_OUT(ZFArrayEditable *, taskDatas));
+                       ZFMP_IN_OUT(ZFArrayEditable *, taskDatas))
 
     // ============================================================
     // cache control
@@ -504,28 +505,28 @@ public:
      *   replace if exist
      */
     ZFMETHOD_DECLARE_1(void, cacheAdd,
-                       ZFMP_IN(ZFOperationCache *, operationCache));
+                       ZFMP_IN(ZFOperationCache *, operationCache))
     /**
      * @brief remove cache, do nothing if none or param invalid
      */
     ZFMETHOD_DECLARE_1(void, cacheRemove,
-                       ZFMP_IN(ZFOperationParam *, operationParam));
+                       ZFMP_IN(ZFOperationParam *, operationParam))
     /**
      * @brief remove all cache, call cacheOnRemove for each cache
      */
-    ZFMETHOD_DECLARE_0(void, cacheRemoveAll);
+    ZFMETHOD_DECLARE_0(void, cacheRemoveAll)
     /**
      * @brief trim the cache to reduce memory
      *
      * by default, this method would call #cacheTrimBySize
      */
-    ZFMETHOD_DECLARE_0(void, cacheTrim);
+    ZFMETHOD_DECLARE_0(void, cacheTrim)
     /**
      * @brief util method to trim the cache
      *   so that the cached data won't exceeds specified size
      */
     ZFMETHOD_DECLARE_1(void, cacheTrimBySize,
-                       ZFMP_IN(zfindex, size));
+                       ZFMP_IN(zfindex, size))
 
     /**
      * @brief called to check whether the cache is valid
@@ -534,12 +535,12 @@ public:
      * while whether cache is expired is checked by #ZFOperationCache::cacheIsExpired
      */
     ZFMETHOD_DECLARE_1(zfbool, cacheIsValid,
-                       ZFMP_IN(ZFOperationCache *, operationCache));
+                       ZFMP_IN(ZFOperationCache *, operationCache))
     /**
      * @brief access all cache, for debug use only
      */
     ZFMETHOD_DECLARE_1(void, cacheGetAll,
-                       ZFMP_OUT(ZFCoreArray<ZFOperationCache *> &, allCache));
+                       ZFMP_OUT(ZFCoreArray<ZFOperationCache *> &, allCache))
 
 protected:
     /**
@@ -579,19 +580,19 @@ public:
      *
      * cache would be set need save each time a operation finished with Success state
      */
-    ZFMETHOD_DECLARE_0(void, cacheSaveRequest);
+    ZFMETHOD_DECLARE_0(void, cacheSaveRequest)
     /**
      * @brief manually check to save cache
      */
-    ZFMETHOD_DECLARE_0(void, cacheSave);
+    ZFMETHOD_DECLARE_0(void, cacheSave)
     /**
      * @brief set the cache need restore, usually no need to call manually, see #cacheRestore
      */
-    ZFMETHOD_DECLARE_0(void, cacheRestoreRequest);
+    ZFMETHOD_DECLARE_0(void, cacheRestoreRequest)
     /**
      * @brief manually check to restore cache, would be called before each operation start, see #cacheRestoreRequest
      */
-    ZFMETHOD_DECLARE_0(void, cacheRestore);
+    ZFMETHOD_DECLARE_0(void, cacheRestore)
 
 protected:
     /**

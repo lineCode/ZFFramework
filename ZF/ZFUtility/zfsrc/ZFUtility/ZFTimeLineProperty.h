@@ -82,9 +82,9 @@ public:
      *
      * caller must make sure #ownerProperty is valid and ownerObj containing #ownerProperty
      */
-    ZFMETHOD_DECLARE_FINAL_2(void, progressUpdate,
-                             ZFMP_IN(ZFObject *, ownerObj),
-                             ZFMP_IN(zffloat, progress))
+    ZFMETHOD_INLINE_2(void, progressUpdate,
+                      ZFMP_IN(ZFObject *, ownerObj),
+                      ZFMP_IN(zffloat, progress))
     {
         this->progressOnUpdate(ownerObj, progress);
     }
@@ -93,8 +93,8 @@ public:
      *
      * caller must make sure #ownerProperty is valid and ownerObj containing #ownerProperty
      */
-    ZFMETHOD_DECLARE_FINAL_1(void, stateSave,
-                             ZFMP_IN(ZFObject *, ownerObj))
+    ZFMETHOD_INLINE_1(void, stateSave,
+                      ZFMP_IN(ZFObject *, ownerObj))
     {
         this->stateOnSave(ownerObj);
     }
@@ -103,8 +103,8 @@ public:
      *
      * caller must make sure #ownerProperty is valid and ownerObj containing #ownerProperty
      */
-    ZFMETHOD_DECLARE_FINAL_1(void, stateRestore,
-                             ZFMP_IN(ZFObject *, ownerObj))
+    ZFMETHOD_INLINE_1(void, stateRestore,
+                      ZFMP_IN(ZFObject *, ownerObj))
     {
         this->stateOnRestore(ownerObj);
     }
@@ -151,9 +151,8 @@ protected:
         ZFPROPERTY_ASSIGN(Type, toValue) \
     protected: \
         /** @brief init with from and to value */ \
-        ZFMETHOD_DECLARE_PROTECTED_2(void, objectOnInit, \
-                                     ZFMP_IN(Type const &, from), \
-                                     ZFMP_IN(Type const &, to)) \
+        ZFOBJECT_ON_INIT_INLINE_2(ZFMP_IN(Type const &, from), \
+                                  ZFMP_IN(Type const &, to)) \
         { \
             this->objectOnInit(); \
             this->fromValueSet(from); \

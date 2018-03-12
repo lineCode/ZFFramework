@@ -38,8 +38,7 @@ protected:
 
 protected:
     /** @brief see #ZFObject::objectOnInit */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(ZFContainer *, another));
+    ZFOBJECT_ON_INIT_DECLARE_1(ZFMP_IN(ZFContainer *, another))
 
     zfoverride
     virtual void objectOnInit(void);
@@ -50,19 +49,19 @@ public:
     /**
      * @brief return number of content
      */
-    ZFMETHOD_DECLARE_0(zfindex, count);
+    ZFMETHOD_DECLARE_0(zfindex, count)
 
     /**
      * @brief return true if empty or false if not empty
      */
-    ZFMETHOD_DECLARE_0(zfbool, isEmpty);
+    ZFMETHOD_DECLARE_0(zfbool, isEmpty)
 
     /**
      * @brief return true if contains the object,
      *   compared by #ZFObject::objectCompare by default
      */
     ZFMETHOD_DECLARE_1(zfbool, isContain,
-                       ZFMP_IN(ZFObject *, obj));
+                       ZFMP_IN(ZFObject *, obj))
 
 protected:
     /**
@@ -87,31 +86,31 @@ protected:
     // ZFIterable
 public:
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_0(zfiterator, iterator);
+    ZFMETHOD_DECLARE_0(zfiterator, iterator)
 
     /** @brief see #zfiterator */
     ZFMETHOD_DECLARE_1(zfiterator, iteratorFind,
-                       ZFMP_IN(ZFObject *, value));
+                       ZFMP_IN(ZFObject *, value))
 
     /** @brief see #zfiterator */
     ZFMETHOD_DECLARE_1(zfbool, iteratorIsValid,
-                       ZFMP_IN(const zfiterator &, it));
+                       ZFMP_IN(const zfiterator &, it))
     /** @brief see #zfiterator */
     ZFMETHOD_DECLARE_2(zfbool, iteratorIsEqual,
                        ZFMP_IN(const zfiterator &, it0),
-                       ZFMP_IN(const zfiterator &, it1));
+                       ZFMP_IN(const zfiterator &, it1))
 
     /** @brief see #zfiterator */
     ZFMETHOD_DECLARE_1(ZFObject *, iteratorGet,
-                       ZFMP_IN(const zfiterator &, it));
+                       ZFMP_IN(const zfiterator &, it))
 
     /** @brief see #zfiterator */
     ZFMETHOD_DECLARE_1(ZFObject *, iteratorNext,
-                       ZFMP_IN_OUT(zfiterator &, it));
+                       ZFMP_IN_OUT(zfiterator &, it))
 
     /** @brief see #zfiterator */
     ZFMETHOD_DECLARE_1(ZFObject *, iteratorPrev,
-                       ZFMP_IN_OUT(zfiterator &, it));
+                       ZFMP_IN_OUT(zfiterator &, it))
 
 protected:
     /** @brief see #zfiterator */
@@ -140,52 +139,52 @@ zfclass ZF_ENV_EXPORT ZFHashSetEditable : zfextends ZFHashSet, zfimplements ZFIt
     ZFIMPLEMENTS_DECLARE(ZFIterableEditable)
 
 public:
-    ZFMETHOD_DECLARE_1(void, add,
-                       ZFMP_IN(ZFObject *, obj))
+    ZFMETHOD_INLINE_1(void, add,
+                      ZFMP_IN(ZFObject *, obj))
     {
         zfsuper::add(obj);
     }
-    ZFMETHOD_DECLARE_1(void, addFrom,
-                       ZFMP_IN(ZFContainer *, another))
+    ZFMETHOD_INLINE_1(void, addFrom,
+                      ZFMP_IN(ZFContainer *, another))
     {
         zfsuper::addFrom(another);
     }
 
-    ZFMETHOD_DECLARE_1(void, removeElement,
-                       ZFMP_IN(ZFObject *, obj))
+    ZFMETHOD_INLINE_1(void, removeElement,
+                      ZFMP_IN(ZFObject *, obj))
     {
         zfsuper::removeElement(obj);
     }
-    ZFMETHOD_DECLARE_0(void, removeAll)
+    ZFMETHOD_INLINE_0(void, removeAll)
     {
         zfsuper::removeAll();
     }
 
 public:
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_2(void, iteratorSet,
-                       ZFMP_IN_OUT(zfiterator &, it),
-                       ZFMP_IN(ZFObject *, value))
+    ZFMETHOD_INLINE_2(void, iteratorSet,
+                      ZFMP_IN_OUT(zfiterator &, it),
+                      ZFMP_IN(ZFObject *, value))
     {
         zfsuper::iteratorSet(it, value);
     }
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_1(void, iteratorRemove,
-                       ZFMP_IN_OUT(zfiterator &, it))
+    ZFMETHOD_INLINE_1(void, iteratorRemove,
+                      ZFMP_IN_OUT(zfiterator &, it))
     {
         zfsuper::iteratorRemove(it);
     }
 
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_1(void, iteratorAdd,
-                       ZFMP_IN(ZFObject *, value))
+    ZFMETHOD_INLINE_1(void, iteratorAdd,
+                      ZFMP_IN(ZFObject *, value))
     {
         zfsuper::iteratorAdd(value);
     }
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_2(void, iteratorAdd,
-                       ZFMP_IN(ZFObject *, value),
-                       ZFMP_IN_OUT(zfiterator &, it))
+    ZFMETHOD_INLINE_2(void, iteratorAdd,
+                      ZFMP_IN(ZFObject *, value),
+                      ZFMP_IN_OUT(zfiterator &, it))
     {
         zfsuper::iteratorAdd(value, it);
     }

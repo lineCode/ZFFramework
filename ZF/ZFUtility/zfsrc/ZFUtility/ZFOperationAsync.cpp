@@ -21,31 +21,31 @@ public:
     ZFCoreArrayPOD<zfidentity> runningThreads;
 
 public:
-    ZFLISTENER_DECLARE(onNotifyFinishInMainThread)
+    ZFLISTENER_INLINE(onNotifyFinishInMainThread)
     {
         this->pimplOwner->_ZFP_ZFOperationAsync_taskNotifyFinishAsync(
             ZFCastZFObjectUnchecked(ZFOperationParam *, listenerData.param0),
             ZFCastZFObjectUnchecked(ZFOperationResult *, listenerData.param1));
     }
-    ZFLISTENER_DECLARE(onNotifyFinishInMainThreadWithOperationId)
+    ZFLISTENER_INLINE(onNotifyFinishInMainThreadWithOperationId)
     {
         this->pimplOwner->_ZFP_ZFOperationAsync_taskNotifyFinishAsync(
             ZFCastStatic(zfidentity, ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->indexValue()),
             ZFCastZFObjectUnchecked(ZFOperationResult *, listenerData.param1));
     }
-    ZFLISTENER_DECLARE(onNotifyProgressInMainThread)
+    ZFLISTENER_INLINE(onNotifyProgressInMainThread)
     {
         this->pimplOwner->_ZFP_ZFOperationAsync_taskNotifyProgressAsync(
             ZFCastZFObjectUnchecked(ZFOperationParam *, listenerData.param0),
             ZFCastZFObjectUnchecked(ZFOperationProgress *, listenerData.param1));
     }
-    ZFLISTENER_DECLARE(onNotifyProgressInMainThreadWithOperationId)
+    ZFLISTENER_INLINE(onNotifyProgressInMainThreadWithOperationId)
     {
         this->pimplOwner->_ZFP_ZFOperationAsync_taskNotifyProgressAsync(
             ZFCastStatic(zfidentity, ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->indexValue()),
             ZFCastZFObjectUnchecked(ZFOperationProgress *, listenerData.param1));
     }
-    ZFLISTENER_DECLARE(onStartInNewThread)
+    ZFLISTENER_INLINE(onStartInNewThread)
     {
         this->pimplOwner->_ZFP_ZFOperationAsync_taskOnStartAsync(ZFCastZFObjectUnchecked(ZFOperationTaskData *, userData));
     }

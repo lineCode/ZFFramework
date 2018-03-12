@@ -240,29 +240,75 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         )
 
 // ============================================================
-#define _ZFP_ZFMethod_AutoRegister_isAutoRegister(MethodName, DECLARE_LINE) \
-    zfclassNotPOD _ZFP_MtdReg_##MethodName##_##DECLARE_LINE \
-    { \
-    public: \
-        _ZFP_MtdReg_##MethodName##_##DECLARE_LINE(void) \
-        { \
-            zfself::_ZFP_Mtd_##MethodName##_##DECLARE_LINE(); \
-        } \
-    }; \
-    _ZFP_MtdReg_##MethodName##_##DECLARE_LINE _ZFP_MtdRegI_##MethodName##_##DECLARE_LINE; \
-    friend zfclassFwd _ZFP_MtdReg_##MethodName##_##DECLARE_LINE;
-#define _ZFP_ZFMethod_AutoRegister_notAutoRegister(MethodName, DECLARE_LINE)
-#define _ZFP_ZFMethod_AutoRegister(autoRegisterOrNot, MethodName, DECLARE_LINE) \
-    _ZFP_ZFMethod_AutoRegister_##autoRegisterOrNot(MethodName, DECLARE_LINE)
+#define _ZFP_ZFMethod_AutoRegister_notAutoRegister(MethodName, DECLARE_LINE \
+        , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+        , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+        , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+        , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+        , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+        , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+        , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+        , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+    )
+#define _ZFP_ZFMethod_AutoRegister(autoRegisterOrNot, MethodName, DECLARE_LINE \
+        , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+        , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+        , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+        , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+        , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+        , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+        , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+        , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+    ) \
+    _ZFP_ZFMethod_AutoRegister_##autoRegisterOrNot(MethodName, DECLARE_LINE \
+            , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+            , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+            , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+            , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+            , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+            , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+            , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+            , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+        )
 
 #define _ZFP_ZFMethod_initClassMemberType_privilege_public ZFMethodPrivilegeTypePublic
 #define _ZFP_ZFMethod_initClassMemberType_privilege_protected ZFMethodPrivilegeTypeProtected
 #define _ZFP_ZFMethod_initClassMemberType_privilege_private ZFMethodPrivilegeTypePrivate
 #define _ZFP_ZFMethod_initClassMemberType_privilege(privilege) _ZFP_ZFMethod_initClassMemberType_privilege_##privilege
 
-#define _ZFP_ZFMETHOD_DECLARE(...) \
-    ZFM_EXPAND(_ZFP_ZFMETHOD_DECLARE_(__VA_ARGS__))
-#define _ZFP_ZFMETHOD_DECLARE_( \
+// ============================================================
+#define _ZFP_ZFMethod_AutoRegister_isAutoRegister(MethodName, DECLARE_LINE \
+        , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+        , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+        , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+        , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+        , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+        , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+        , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+        , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+    ) \
+    zfclassNotPOD _ZFP_MtdReg_##MethodName##_##DECLARE_LINE \
+    { \
+    public: \
+        _ZFP_MtdReg_##MethodName##_##DECLARE_LINE(void) \
+        { \
+            (void)zfself::_ZFP_Mtd_##MethodName((void (*)( \
+                   ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+                   ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+                   ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+                   ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+                   ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+                   ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+                   ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+                   ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+               ))zfnull); \
+        } \
+    }; \
+    _ZFP_MtdReg_##MethodName##_##DECLARE_LINE _ZFP_MtdRegI_##MethodName##_##DECLARE_LINE; \
+    friend zfclassFwd _ZFP_MtdReg_##MethodName##_##DECLARE_LINE;
+#define _ZFP_ZFMETHOD_INLINE(...) \
+    ZFM_EXPAND(_ZFP_ZFMETHOD_INLINE_(__VA_ARGS__))
+#define _ZFP_ZFMETHOD_INLINE_( \
         autoRegisterOrNot, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, DECLARE_LINE \
@@ -275,9 +321,18 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
         , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
     ) \
-    /** @cond ZFPrivateDoc */ \
+        /** @cond ZFPrivateDoc */ /* required to make Doxygen doc placed at right pos */ \
     private: \
-        _ZFP_ZFMethod_AutoRegister(autoRegisterOrNot, MethodName, DECLARE_LINE) \
+        _ZFP_ZFMethod_AutoRegister(autoRegisterOrNot, MethodName, DECLARE_LINE \
+                , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+                , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+                , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+                , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+                , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+                , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+                , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+                , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+            ) \
         zfclassNotPOD _ZFP_MtdH_##MethodName##_##DECLARE_LINE \
         { \
         public: \
@@ -318,7 +373,17 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                     ParamExpandOrEmpty7(ZFM_COMMA() param7) \
                 ); \
         } \
-        static const ZFMethod *_ZFP_Mtd_##MethodName##_##DECLARE_LINE(void) \
+    public: \
+        static const ZFMethod *_ZFP_Mtd_##MethodName(void (*)( \
+                ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+                ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+                ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+                ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+                ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+            )) /* tricks to support overload method */ \
         { \
             static _ZFP_ZFMethodRegisterHolder _methodHolder(zffalse \
                     , ZFCastReinterpret(ZFFuncAddrType, &zfself::_ZFP_MtdI_##MethodName##_##DECLARE_LINE) \
@@ -375,21 +440,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                 ); \
             return _methodHolder.method; \
         } \
-    public: \
-        static const ZFMethod *_ZFP_Mtd_##MethodName(void (*)( \
-                ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
-                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
-                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
-                ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
-                ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
-                ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
-                ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
-                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
-            )) /* tricks to support overload method */ \
-        { \
-            return _ZFP_Mtd_##MethodName##_##DECLARE_LINE(); \
-        } \
-    /** @endcond */ \
+        /** @endcond */ \
     PublicOrProtectedOrPrivate: \
         ZFMethodIsWhatType() ReturnType MethodName( \
                 ParamExpandOrEmpty0(            ParamType0 param0 DefaultValueFix0()) \
@@ -402,9 +453,12 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                 ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7 DefaultValueFix7()) \
             )
 
-#define _ZFP_ZFMETHOD_DEFINE(...) \
-    ZFM_EXPAND(_ZFP_ZFMETHOD_DEFINE_(__VA_ARGS__))
-#define _ZFP_ZFMETHOD_DEFINE_(OwnerClass, ReturnType, MethodName \
+// ============================================================
+#define _ZFP_ZFMETHOD_DECLARE(...) \
+    ZFM_EXPAND(_ZFP_ZFMETHOD_DECLARE_(__VA_ARGS__))
+#define _ZFP_ZFMETHOD_DECLARE_( \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, DECLARE_LINE \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
         , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
@@ -414,6 +468,195 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
         , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
     ) \
+        /** @cond ZFPrivateDoc */ /* required to make Doxygen doc placed at right pos */ \
+    private: \
+        static ReturnType _ZFP_MtdI_##MethodName##_##DECLARE_LINE( \
+                ZF_IN const ZFMethod *invokerMethod, \
+                ZF_IN ZFObject *invokerObject \
+                ParamExpandOrEmpty0(ZFM_COMMA() ParamType0 param0) \
+                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1 param1) \
+                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2 param2) \
+                ParamExpandOrEmpty3(ZFM_COMMA() ParamType3 param3) \
+                ParamExpandOrEmpty4(ZFM_COMMA() ParamType4 param4) \
+                ParamExpandOrEmpty5(ZFM_COMMA() ParamType5 param5) \
+                ParamExpandOrEmpty6(ZFM_COMMA() ParamType6 param6) \
+                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7) \
+            ) \
+        { \
+            return ZFCastZFObjectUnchecked(zfself *, invokerObject)->MethodName( \
+                    ParamExpandOrEmpty0(            param0) \
+                    ParamExpandOrEmpty1(ZFM_COMMA() param1) \
+                    ParamExpandOrEmpty2(ZFM_COMMA() param2) \
+                    ParamExpandOrEmpty3(ZFM_COMMA() param3) \
+                    ParamExpandOrEmpty4(ZFM_COMMA() param4) \
+                    ParamExpandOrEmpty5(ZFM_COMMA() param5) \
+                    ParamExpandOrEmpty6(ZFM_COMMA() param6) \
+                    ParamExpandOrEmpty7(ZFM_COMMA() param7) \
+                ); \
+        } \
+        static void _ZFP_MtdS_##MethodName(void (*)( \
+                ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+                ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+                ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+                ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+                ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+            ), \
+            ZF_OUT ZFFuncAddrType &invokerAddr, \
+            ZF_OUT ZFMethodPrivilegeType &privilegeType, \
+            ZF_OUT const zfchar *&methodIsWhatTypeText) \
+            { \
+                invokerAddr = ZFCastReinterpret(ZFFuncAddrType, &zfself::_ZFP_MtdI_##MethodName##_##DECLARE_LINE); \
+                privilegeType = _ZFP_ZFMethod_initClassMemberType_privilege(PublicOrProtectedOrPrivate); \
+                methodIsWhatTypeText = _ZFP_ZFMethodIsWhatTypeText(ZFMethodIsWhatType); \
+            } \
+    public: \
+        static const ZFMethod *_ZFP_Mtd_##MethodName(void (*)( \
+                ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+                ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+                ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+                ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+                ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+            )); /* tricks to support overload method */ \
+        /** @endcond */ \
+    PublicOrProtectedOrPrivate: \
+        ZFMethodIsWhatType() ReturnType MethodName( \
+                ParamExpandOrEmpty0(            ParamType0 param0 DefaultValueFix0()) \
+                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1 param1 DefaultValueFix1()) \
+                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2 param2 DefaultValueFix2()) \
+                ParamExpandOrEmpty3(ZFM_COMMA() ParamType3 param3 DefaultValueFix3()) \
+                ParamExpandOrEmpty4(ZFM_COMMA() ParamType4 param4 DefaultValueFix4()) \
+                ParamExpandOrEmpty5(ZFM_COMMA() ParamType5 param5 DefaultValueFix5()) \
+                ParamExpandOrEmpty6(ZFM_COMMA() ParamType6 param6 DefaultValueFix6()) \
+                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7 DefaultValueFix7()) \
+            );
+
+#define _ZFP_ZFMETHOD_DEFINE(...) \
+    ZFM_EXPAND(_ZFP_ZFMETHOD_DEFINE_(__VA_ARGS__))
+#define _ZFP_ZFMETHOD_DEFINE_(OwnerClass, \
+        ReturnType, MethodName, DECLARE_LINE \
+        , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+        , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+        , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+        , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+        , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+        , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+        , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+        , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+    ) \
+    zfclassNotPOD _ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE \
+    { \
+    public: \
+        _ZFP_ZFMETHOD_GENERIC_INVOKER_DECLARE( \
+                ReturnType \
+                , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
+                , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
+                , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
+                , ParamExpandOrEmpty3, ParamType3, param3, DefaultExpandOrEmpty3, DefaultValueFix3 \
+                , ParamExpandOrEmpty4, ParamType4, param4, DefaultExpandOrEmpty4, DefaultValueFix4 \
+                , ParamExpandOrEmpty5, ParamType5, param5, DefaultExpandOrEmpty5, DefaultValueFix5 \
+                , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
+                , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
+            ) \
+    }; \
+    const ZFMethod *OwnerClass::_ZFP_Mtd_##MethodName(void (*)( \
+            ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+            ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+            ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+            ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+            ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+            ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+            ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+            ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+        )) \
+    { \
+        ZFFuncAddrType invokerAddr = zfnull; \
+        ZFMethodPrivilegeType privilegeType = ZFMethodPrivilegeTypePublic; \
+        const zfchar *methodIsWhatTypeText = zfnull; \
+        zfself::_ZFP_MtdS_##MethodName((void (*)( \
+               ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+               ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+               ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+               ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+               ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+               ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+               ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+               ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+           ))zfnull, invokerAddr, privilegeType, methodIsWhatTypeText); \
+        static _ZFP_ZFMethodRegisterHolder _methodHolder(zffalse \
+                , invokerAddr \
+                , _ZFP_ZFMETHOD_GENERIC_INVOKER_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE) \
+                , methodIsWhatTypeText \
+                , zfself::ClassData() \
+                , privilegeType \
+                , zfnull \
+                , zfnull \
+                , ZFM_TOSTRING(MethodName) \
+                , ZFPropertyTypeIdData<zftTraits<ReturnType>::TrNoRef>::PropertyTypeId() \
+                , ZFM_TOSTRING_DIRECT(ReturnType) \
+                ParamExpandOrEmpty0(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType0>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType0) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty0, 0) \
+                    ) \
+                ParamExpandOrEmpty1(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType1>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType1) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty1, 1) \
+                    ) \
+                ParamExpandOrEmpty2(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType2>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType2) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty2, 2) \
+                    ) \
+                ParamExpandOrEmpty3(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType3>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType3) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty3, 3) \
+                    ) \
+                ParamExpandOrEmpty4(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType4>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType4) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty4, 4) \
+                    ) \
+                ParamExpandOrEmpty5(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType5>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType5) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty5, 5) \
+                    ) \
+                ParamExpandOrEmpty6(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType6>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType6) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty6, 6) \
+                    ) \
+                ParamExpandOrEmpty7(ZFM_EMPTY() \
+                        , ZFPropertyTypeIdData<zftTraits<ParamType7>::TrNoRef>::PropertyTypeId() \
+                        , ZFM_TOSTRING(ParamType7) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty7, 7) \
+                    ) \
+                , zfnull \
+            ); \
+        return _methodHolder.method; \
+    } \
+    ZF_STATIC_REGISTER_INIT(MtdD_##OwnerClass##_##MethodName##_##DECLARE_LINE) \
+    { \
+        (void)OwnerClass::_ZFP_Mtd_##MethodName((void (*)( \
+               ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
+               ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
+               ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
+               ParamExpandOrEmpty3(ZFM_COMMA() ParamType3) \
+               ParamExpandOrEmpty4(ZFM_COMMA() ParamType4) \
+               ParamExpandOrEmpty5(ZFM_COMMA() ParamType5) \
+               ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
+               ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
+           ))zfnull); \
+    } \
+    ZF_STATIC_REGISTER_END(MtdD_##OwnerClass##_##MethodName##_##DECLARE_LINE) \
     ReturnType OwnerClass::MethodName( \
             ParamExpandOrEmpty0(            ParamType0 param0) \
             ParamExpandOrEmpty1(ZFM_COMMA() ParamType1 param1) \
@@ -425,6 +668,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
             ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7) \
         )
 
+// ============================================================
 #define _ZFP_ZFMETHOD_REGISTER(...) \
     ZFM_EXPAND(_ZFP_ZFMETHOD_REGISTER_(__VA_ARGS__))
 #define _ZFP_ZFMETHOD_REGISTER_(OwnerClass, MethodName, DECLARE_LINE) \
@@ -632,39 +876,18 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 // ============================================================
 // 0 param method declare
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_0(ReturnType, MethodName \
+#define ZFMETHOD_INLINE_0(ReturnType, MethodName \
     ) \
-    ZFMETHOD_DECLARE_DETAIL_0( \
+    ZFMETHOD_INLINE_DETAIL_0( \
         public, ZFMethodIsVirtual, \
         ReturnType, MethodName \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_0(ReturnType, MethodName \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_0( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_0(ReturnType, MethodName \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_0( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_0(ReturnType, MethodName \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_0( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_DETAIL_0( \
+#define ZFMETHOD_INLINE_DETAIL_0( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
     ) \
-    _ZFP_ZFMETHOD_DECLARE( \
+    _ZFP_ZFMETHOD_INLINE( \
         isAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
@@ -678,12 +901,18 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_0( \
+#define ZFMETHOD_DECLARE_0(ReturnType, MethodName \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_0( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_DECLARE_DETAIL_0( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
@@ -698,7 +927,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DEFINE_0(OwnerClass, ReturnType, MethodName \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -712,48 +941,21 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 // ============================================================
 // 1 param method declare
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_1(ReturnType, MethodName \
+#define ZFMETHOD_INLINE_1(ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    ZFMETHOD_DECLARE_DETAIL_1( \
+    ZFMETHOD_INLINE_DETAIL_1( \
         public, ZFMethodIsVirtual, \
         ReturnType, MethodName \
         , ZFM_EXPAND(ZFMP_0) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_1(ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_1( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_1(ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_1( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_1(ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_1( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_DETAIL_1( \
+#define ZFMETHOD_INLINE_DETAIL_1( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    _ZFP_ZFMETHOD_DECLARE( \
+    _ZFP_ZFMETHOD_INLINE( \
         isAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
@@ -767,13 +969,21 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_1( \
+#define ZFMETHOD_DECLARE_1(ReturnType, MethodName \
+    , ZFMP_0 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_1( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_DECLARE_DETAIL_1( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
     , ZFMP_0 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -789,7 +999,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 #define ZFMETHOD_DEFINE_1(OwnerClass, ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -803,57 +1013,24 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 // ============================================================
 // 2 param method declare
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_2(ReturnType, MethodName \
+#define ZFMETHOD_INLINE_2(ReturnType, MethodName \
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    ZFMETHOD_DECLARE_DETAIL_2( \
+    ZFMETHOD_INLINE_DETAIL_2( \
         public, ZFMethodIsVirtual, \
         ReturnType, MethodName \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_2(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_2( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_2(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_2( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_2(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_2( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_DETAIL_2( \
+#define ZFMETHOD_INLINE_DETAIL_2( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    _ZFP_ZFMETHOD_DECLARE( \
+    _ZFP_ZFMETHOD_INLINE( \
         isAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
@@ -867,14 +1044,24 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_2( \
+#define ZFMETHOD_DECLARE_2(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_2( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_DECLARE_DETAIL_2( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -891,7 +1078,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , _ZFP_ZFMP_DUMMY() \
@@ -904,6 +1091,40 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 // 3 param method declare
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_3(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_3( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_DETAIL_3( \
+    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    ) \
+    _ZFP_ZFMETHOD_INLINE( \
+        isAutoRegister, \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, ZF_CALLER_LINE \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        )
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_3(ReturnType, MethodName \
     , ZFMP_0 \
@@ -918,45 +1139,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ZFM_EXPAND(ZFMP_2) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_3(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_3( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_3(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_3( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_3(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_3( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_DETAIL_3( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
@@ -965,28 +1147,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_2 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        isAutoRegister, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-        ReturnType, MethodName, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_3( \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-    ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
-    _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -1004,7 +1164,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , ZFM_EXPAND(ZFMP_2) \
@@ -1017,6 +1177,43 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 // 4 param method declare
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_4(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_4( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_DETAIL_4( \
+    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    ) \
+    _ZFP_ZFMETHOD_INLINE( \
+        isAutoRegister, \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, ZF_CALLER_LINE \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        )
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_4(ReturnType, MethodName \
     , ZFMP_0 \
@@ -1033,51 +1230,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ZFM_EXPAND(ZFMP_3) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_4(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_4( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_4(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_4( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_4(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_4( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_DETAIL_4( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
@@ -1087,29 +1239,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_3 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        isAutoRegister, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-        ReturnType, MethodName, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_4( \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-    ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
-    _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -1128,7 +1257,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_2 \
     , ZFMP_3 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , ZFM_EXPAND(ZFMP_2) \
@@ -1141,6 +1270,46 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 // 5 param method declare
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_5(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_5( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_DETAIL_5( \
+    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    ) \
+    _ZFP_ZFMETHOD_INLINE( \
+        isAutoRegister, \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, ZF_CALLER_LINE \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        )
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_5(ReturnType, MethodName \
     , ZFMP_0 \
@@ -1159,57 +1328,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ZFM_EXPAND(ZFMP_4) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_5(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_5( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_5(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_5( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_5(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_5( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_DETAIL_5( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
@@ -1220,30 +1338,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_4 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        isAutoRegister, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-        ReturnType, MethodName, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_5( \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-    ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
-    _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -1263,7 +1357,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_3 \
     , ZFMP_4 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , ZFM_EXPAND(ZFMP_2) \
@@ -1276,6 +1370,49 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 // 6 param method declare
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_6(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_6( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_DETAIL_6( \
+    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    ) \
+    _ZFP_ZFMETHOD_INLINE( \
+        isAutoRegister, \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, ZF_CALLER_LINE \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        )
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_6(ReturnType, MethodName \
     , ZFMP_0 \
@@ -1296,63 +1433,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ZFM_EXPAND(ZFMP_5) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_6(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_6( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_6(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_6( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_6(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_6( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_DETAIL_6( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
@@ -1364,31 +1444,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_5 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        isAutoRegister, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-        ReturnType, MethodName, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , _ZFP_ZFMP_DUMMY() \
-        , _ZFP_ZFMP_DUMMY() \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_6( \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-    ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
-    _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -1409,7 +1464,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_4 \
     , ZFMP_5 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , ZFM_EXPAND(ZFMP_2) \
@@ -1422,6 +1477,52 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 // 7 param method declare
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_7(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_7( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_DETAIL_7( \
+    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    ) \
+    _ZFP_ZFMETHOD_INLINE( \
+        isAutoRegister, \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, ZF_CALLER_LINE \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        , _ZFP_ZFMP_DUMMY() \
+        )
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_7(ReturnType, MethodName \
     , ZFMP_0 \
@@ -1444,69 +1545,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ZFM_EXPAND(ZFMP_6) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_7(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_7( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_7(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_7( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_7(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_7( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_DETAIL_7( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
@@ -1519,32 +1557,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_6 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        isAutoRegister, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-        ReturnType, MethodName, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        , _ZFP_ZFMP_DUMMY() \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_7( \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-    ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
-    _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -1566,7 +1578,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_5 \
     , ZFMP_6 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , ZFM_EXPAND(ZFMP_2) \
@@ -1579,6 +1591,55 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 // 8 param method declare
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_8(ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    , ZFMP_7 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_8( \
+        public, ZFMethodIsVirtual, \
+        ReturnType, MethodName \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        , ZFM_EXPAND(ZFMP_7) \
+        )
+/** @brief see #ZFMethod */
+#define ZFMETHOD_INLINE_DETAIL_8( \
+    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    ReturnType, MethodName \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    , ZFMP_7 \
+    ) \
+    _ZFP_ZFMETHOD_INLINE( \
+        isAutoRegister, \
+        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        ReturnType, MethodName, ZF_CALLER_LINE \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        , ZFM_EXPAND(ZFMP_7) \
+        )
 /** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_8(ReturnType, MethodName \
     , ZFMP_0 \
@@ -1603,75 +1664,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
         , ZFM_EXPAND(ZFMP_7) \
         )
 /** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_STATIC_8(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_8( \
-        public, ZFMethodIsStatic, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        , ZFM_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_FINAL_8(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_8( \
-        public, ZFMethodIsNormal, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        , ZFM_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_PROTECTED_8(ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
-    ZFMETHOD_DECLARE_DETAIL_8( \
-        protected, ZFMethodIsVirtual, \
-        ReturnType, MethodName \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        , ZFM_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMethod */
 #define ZFMETHOD_DECLARE_DETAIL_8( \
     PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
     ReturnType, MethodName \
@@ -1685,33 +1677,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_7 \
     ) \
     _ZFP_ZFMETHOD_DECLARE( \
-        isAutoRegister, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-        ReturnType, MethodName, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_0) \
-        , ZFM_EXPAND(ZFMP_1) \
-        , ZFM_EXPAND(ZFMP_2) \
-        , ZFM_EXPAND(ZFMP_3) \
-        , ZFM_EXPAND(ZFMP_4) \
-        , ZFM_EXPAND(ZFMP_5) \
-        , ZFM_EXPAND(ZFMP_6) \
-        , ZFM_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMethod */
-#define ZFMETHOD_DECLARE_NO_AUTOREG_8( \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
-    ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
-    _ZFP_ZFMETHOD_DECLARE( \
-        notAutoRegister, \
         PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
         ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
@@ -1734,7 +1699,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
     , ZFMP_6 \
     , ZFMP_7 \
     ) \
-    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_DEFINE(OwnerClass, ReturnType, MethodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
         , ZFM_EXPAND(ZFMP_2) \

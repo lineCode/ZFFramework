@@ -24,8 +24,8 @@ public:
 // ZFArray
 ZFOBJECT_REGISTER(ZFArray)
 
-ZFMETHOD_DEFINE_1(ZFArray, void, objectOnInit,
-                  ZFMP_IN(ZFContainer *, another))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFArray,
+                          ZFMP_IN(ZFContainer *, another))
 {
     this->objectOnInit();
     zfself::addFrom(another);

@@ -96,23 +96,23 @@ public:
     /**
      * @brief container for icon, you may add your own custom view
      */
-    ZFMETHOD_DECLARE_0(ZFUIView *, cellIconContainer);
+    ZFMETHOD_DECLARE_0(ZFUIView *, cellIconContainer)
     /**
      * @brief container for center item, you may add your own custom view
      */
-    ZFMETHOD_DECLARE_0(ZFUIView *, cellCenterContainer);
+    ZFMETHOD_DECLARE_0(ZFUIView *, cellCenterContainer)
     /**
      * @brief container for main label, you may add your own custom view
      */
-    ZFMETHOD_DECLARE_0(ZFUIView *, cellLabelMainContainer);
+    ZFMETHOD_DECLARE_0(ZFUIView *, cellLabelMainContainer)
     /**
      * @brief container for sub label, you may add your own custom view
      */
-    ZFMETHOD_DECLARE_0(ZFUIView *, cellLabelSubContainer);
+    ZFMETHOD_DECLARE_0(ZFUIView *, cellLabelSubContainer)
     /**
      * @brief container for accessory, you may add your own custom view
      */
-    ZFMETHOD_DECLARE_0(ZFUIView *, cellAccessoryContainer);
+    ZFMETHOD_DECLARE_0(ZFUIView *, cellAccessoryContainer)
 
 protected:
     zfoverride

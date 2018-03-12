@@ -124,33 +124,33 @@ public:
 
 public:
     /** @brief get choice count */
-    ZFMETHOD_DECLARE_0(zfindex, choiceCount)
+    ZFMETHOD_INLINE_0(zfindex, choiceCount)
     {
         return this->list()->count();
     }
     /** @brief get choice at index */
-    ZFMETHOD_DECLARE_1(ZFUIDialogForChoiceData *, choiceAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(ZFUIDialogForChoiceData *, choiceAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         return this->list()->get<ZFUIDialogForChoiceData *>(index);
     }
     /** @brief get choice id at index */
-    ZFMETHOD_DECLARE_1(const zfchar *, choiceIdAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(const zfchar *, choiceIdAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         return this->list()->get<ZFUIDialogForChoiceData *>(index)->choiceId();
     }
     /** @brief get choice name at index */
-    ZFMETHOD_DECLARE_1(const zfchar *, choiceNameAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(const zfchar *, choiceNameAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         return this->list()->get<ZFUIDialogForChoiceData *>(index)->choiceName();
     }
     /**
      * @brief add choice data
      */
-    ZFMETHOD_DECLARE_1(void, choiceAdd,
-                       ZFMP_IN(ZFUIDialogForChoiceData *, choiceData))
+    ZFMETHOD_INLINE_1(void, choiceAdd,
+                      ZFMP_IN(ZFUIDialogForChoiceData *, choiceData))
     {
         if(choiceData)
         {
@@ -160,9 +160,9 @@ public:
         }
     }
     /** @brief see #choiceAdd */
-    ZFMETHOD_DECLARE_2(void, choiceAdd,
-                       ZFMP_IN(const zfchar *, choiceId),
-                       ZFMP_IN(const zfchar *, choiceName))
+    ZFMETHOD_INLINE_2(void, choiceAdd,
+                      ZFMP_IN(const zfchar *, choiceId),
+                      ZFMP_IN(const zfchar *, choiceName))
     {
         zfblockedAlloc(ZFUIDialogForChoiceData, choiceData);
         choiceData->choiceIdSet(choiceId);
@@ -170,8 +170,8 @@ public:
         this->choiceAdd(choiceData);
     }
     /** @brief remove choice by id */
-    ZFMETHOD_DECLARE_1(void, choiceRemove,
-                       ZFMP_IN(const zfchar *, choiceId))
+    ZFMETHOD_INLINE_1(void, choiceRemove,
+                      ZFMP_IN(const zfchar *, choiceId))
     {
         zfindex index = this->_ZFP_indexForChoiceId(choiceId);
         if(index != zfindexMax())
@@ -180,8 +180,8 @@ public:
         }
     }
     /** @brief remove choice at index */
-    ZFMETHOD_DECLARE_1(void, choiceRemoveAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(void, choiceRemoveAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         this->list()->remove(index);
         for(zfindex i = 0; i < this->selected()->count(); ++i)
@@ -201,7 +201,7 @@ public:
         this->_ZFP_choiceStateUpdate();
     }
     /** @brief remove all choice data */
-    ZFMETHOD_DECLARE_0(void, choiceRemoveAll)
+    ZFMETHOD_INLINE_0(void, choiceRemoveAll)
     {
         this->list()->removeAll();
         this->selected()->removeAll();
@@ -210,14 +210,14 @@ public:
 
 public:
     /** @brief select choice by id, automatically deselect previous for single choice mode */
-    ZFMETHOD_DECLARE_1(void, choiceSelect,
-                       ZFMP_IN(const zfchar *, choiceId))
+    ZFMETHOD_INLINE_1(void, choiceSelect,
+                      ZFMP_IN(const zfchar *, choiceId))
     {
         this->choiceSelectAtIndex(this->_ZFP_indexForChoiceId(choiceId));
     }
     /** @brief select choice at index, automatically deselect previous for single choice mode */
-    ZFMETHOD_DECLARE_1(void, choiceSelectAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(void, choiceSelectAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         if(index >= this->list()->count())
         {
@@ -239,7 +239,7 @@ public:
         }
     }
     /** @brief select all choice, or select first for single choice mode */
-    ZFMETHOD_DECLARE_0(void, choiceSelectAll)
+    ZFMETHOD_INLINE_0(void, choiceSelectAll)
     {
         if(this->_ZFP_singleChoiceMode())
         {
@@ -253,8 +253,8 @@ public:
         this->choiceSelectedListOnChange();
     }
     /** @brief deselect choice by id, do nothing for single choice mode */
-    ZFMETHOD_DECLARE_1(void, choiceDeselect,
-                       ZFMP_IN(const zfchar *, choiceId))
+    ZFMETHOD_INLINE_1(void, choiceDeselect,
+                      ZFMP_IN(const zfchar *, choiceId))
     {
         if(this->_ZFP_singleChoiceMode())
         {
@@ -263,8 +263,8 @@ public:
         this->choiceDeselectAtIndex(this->_ZFP_indexForChoiceId(choiceId));
     }
     /** @brief deselect choice at index, do nothing for single choice mode */
-    ZFMETHOD_DECLARE_1(void, choiceDeselectAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(void, choiceDeselectAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         if(this->_ZFP_singleChoiceMode())
         {
@@ -280,7 +280,7 @@ public:
         }
     }
     /** @brief deselect all choice, do nothing for single choice mode */
-    ZFMETHOD_DECLARE_0(void, choiceDeselectAll)
+    ZFMETHOD_INLINE_0(void, choiceDeselectAll)
     {
         if(this->_ZFP_singleChoiceMode())
         {
@@ -297,8 +297,8 @@ public:
     /**
      * @brief true if choice selected
      */
-    ZFMETHOD_DECLARE_1(zfbool, choiceSelected,
-                       ZFMP_IN(const zfchar *, choiceId))
+    ZFMETHOD_INLINE_1(zfbool, choiceSelected,
+                      ZFMP_IN(const zfchar *, choiceId))
     {
         zfindex index = this->_ZFP_indexForChoiceId(choiceId);
         if(index != zfindexMax())
@@ -313,15 +313,15 @@ public:
     /**
      * @brief true if choice selected
      */
-    ZFMETHOD_DECLARE_1(zfbool, choiceSelectedAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(zfbool, choiceSelectedAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         return this->selected()->isContain(ZFValue::indexValueCreate(index).toObject());
     }
     /**
      * @brief return all selected choice index
      */
-    ZFMETHOD_DECLARE_0(ZFCoreArrayPOD<zfindex>, choiceSelectedIndexList)
+    ZFMETHOD_INLINE_0(ZFCoreArrayPOD<zfindex>, choiceSelectedIndexList)
     {
         ZFCoreArrayPOD<zfindex> ret;
         ret.capacitySet(this->selected()->count());
@@ -335,7 +335,7 @@ public:
     /**
      * @brief return all selected choice id
      */
-    ZFMETHOD_DECLARE_0(ZFCoreArray<zfstring>, choiceSelectedIdList)
+    ZFMETHOD_INLINE_0(ZFCoreArray<zfstring>, choiceSelectedIdList)
     {
         ZFCoreArray<zfstring> ret;
         ret.capacitySet(this->selected()->count());
@@ -349,7 +349,7 @@ public:
     /**
      * @brief return all selected choice name
      */
-    ZFMETHOD_DECLARE_0(ZFCoreArray<zfstring>, choiceSelectedNameList)
+    ZFMETHOD_INLINE_0(ZFCoreArray<zfstring>, choiceSelectedNameList)
     {
         ZFCoreArray<zfstring> ret;
         ret.capacitySet(this->selected()->count());
@@ -443,7 +443,7 @@ public:
      * this method is useful if you have addition confirm button or action
      * to finish the choice, see #EventChoiceOnConfirm
      */
-    ZFMETHOD_DECLARE_0(void, choiceConfirmNotify)
+    ZFMETHOD_INLINE_0(void, choiceConfirmNotify)
     {
         this->choiceOnConfirm();
     }
@@ -453,7 +453,7 @@ public:
      * this method is useful if you have addition change button or action
      * to change the choice, see #EventChoiceOnChange
      */
-    ZFMETHOD_DECLARE_0(void, choiceChangeNotify)
+    ZFMETHOD_INLINE_0(void, choiceChangeNotify)
     {
         this->choiceOnChange();
     }

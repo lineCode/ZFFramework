@@ -40,8 +40,7 @@ protected:
     /**
      * @brief init with native view, see #ZFUINativeViewWrapper
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(void *, wrappedNativeView))
+    ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(void *, wrappedNativeView))
     {
         this->objectOnInit();
         zfself::wrappedNativeViewSet(wrappedNativeView);
@@ -59,18 +58,18 @@ public:
      * @brief see #ZFUINativeViewWrapper
      */
     ZFMETHOD_DECLARE_1(void, wrappedNativeViewSet,
-                       ZFMP_IN(void *, wrappedNativeView));
+                       ZFMP_IN(void *, wrappedNativeView))
     /**
      * @brief see #ZFUINativeViewWrapper
      */
-    ZFMETHOD_DECLARE_0(void *, wrappedNativeView);
+    ZFMETHOD_DECLARE_0(void *, wrappedNativeView)
 
     /**
      * @brief measure the native view
      */
     ZFMETHOD_DECLARE_2(void, measureNativeView,
                        ZFMP_OUT(ZFUISize &, ret),
-                       ZFMP_IN_OPT(const ZFUISize &, sizeHint, ZFUISizeInvalid()));
+                       ZFMP_IN_OPT(const ZFUISize &, sizeHint, ZFUISizeInvalid()))
 
 protected:
     zfoverride

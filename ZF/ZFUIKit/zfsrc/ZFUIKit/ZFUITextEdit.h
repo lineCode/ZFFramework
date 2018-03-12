@@ -284,8 +284,8 @@ public:
     /**
      * @brief see #ZFUITextEdit
      */
-    ZFMETHOD_DECLARE_1(void, textStyleCopyFrom,
-                       ZFMP_IN(ZFUITextView *, src))
+    ZFMETHOD_INLINE_1(void, textStyleCopyFrom,
+                      ZFMP_IN(ZFUITextView *, src))
     {
         if(src == zfnull)
         {
@@ -303,8 +303,8 @@ public:
     /**
      * @brief see #ZFUITextEdit
      */
-    ZFMETHOD_DECLARE_1(void, textStyleCopyTo,
-                       ZFMP_IN(ZFUITextView *, dst))
+    ZFMETHOD_INLINE_1(void, textStyleCopyTo,
+                      ZFMP_IN(ZFUITextView *, dst))
     {
         if(dst == zfnull)
         {
@@ -342,7 +342,7 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, measureTextEdit,
                        ZFMP_OUT(ZFUISize &, ret),
-                       ZFMP_IN_OPT(const ZFUISize &, sizeHint, ZFUISizeZero()));
+                       ZFMP_IN_OPT(const ZFUISize &, sizeHint, ZFUISizeZero()))
 
 public:
     zffinal void _ZFP_ZFUITextEdit_textNotifyBeginEdit(void);
@@ -357,19 +357,19 @@ public:
      * and null or empty string would always treated as allowed for safe
      */
     ZFMETHOD_DECLARE_1(zfbool, textShouldChange,
-                       ZFMP_IN(const zfchar *, newText));
+                       ZFMP_IN(const zfchar *, newText))
     /**
      * @brief manually start edit
      */
-    ZFMETHOD_DECLARE_0(void, textEditBegin);
+    ZFMETHOD_DECLARE_0(void, textEditBegin)
     /**
      * @brief manually start edit
      */
-    ZFMETHOD_DECLARE_0(void, textEditEnd);
+    ZFMETHOD_DECLARE_0(void, textEditEnd)
     /**
      * @brief true if editing text, typically keyboard is showing
      */
-    ZFMETHOD_DECLARE_0(zfbool, textEditing);
+    ZFMETHOD_DECLARE_0(zfbool, textEditing)
 
 protected:
     /** @brief see #EventTextOnEditBegin */
@@ -386,7 +386,7 @@ protected:
     virtual void textOnEditConfirm(void);
 public:
     /** @brief see #EventTextOnEditConfirm */
-    ZFMETHOD_DECLARE_0(void, textEditNotifyConfirm)
+    ZFMETHOD_INLINE_0(void, textEditNotifyConfirm)
     {
         this->textOnEditConfirm();
     }

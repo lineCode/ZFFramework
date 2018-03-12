@@ -180,7 +180,7 @@ public:
      * @brief reset #buttonClickInterval so that next click event would be
      *   ensured to be fired
      */
-    ZFMETHOD_DECLARE_0(void, buttonClickIntervalReset);
+    ZFMETHOD_DECLARE_0(void, buttonClickIntervalReset)
 
 public:
     /**
@@ -189,7 +189,7 @@ public:
      * the optional event paran would be passed to #EventButtonOnClick
      */
     ZFMETHOD_DECLARE_1(void, buttonSimulateClick,
-                       ZFMP_IN_OPT(ZFUIEvent *, event, zfnull));
+                       ZFMP_IN_OPT(ZFUIEvent *, event, zfnull))
 
 protected:
     zfoverride
@@ -247,11 +247,11 @@ public:
     /**
      * @brief current button state
      */
-    ZFMETHOD_DECLARE_0(ZFUIButtonStateEnum, buttonState);
+    ZFMETHOD_DECLARE_0(ZFUIButtonStateEnum, buttonState)
     /**
      * @brief manually update current button state without notify event
      */
-    ZFMETHOD_DECLARE_0(void, buttonStateUpdate);
+    ZFMETHOD_DECLARE_0(void, buttonStateUpdate)
 
 protected:
     /** @brief see #EventButtonStateOnUpdate */

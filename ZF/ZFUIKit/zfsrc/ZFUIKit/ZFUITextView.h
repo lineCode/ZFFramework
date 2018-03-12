@@ -154,14 +154,14 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, measureTextView,
                        ZFMP_OUT(ZFUISize &, ret),
-                       ZFMP_IN_OPT(const ZFUISize &, sizeHint, ZFUISizeZero()));
+                       ZFMP_IN_OPT(const ZFUISize &, sizeHint, ZFUISizeZero()))
 
     /**
      * @brief get current text size
      *
      * if the view hasn't been layouted, the size may be invalid
      */
-    ZFMETHOD_DECLARE_0(zfint, textSizeCurrent);
+    ZFMETHOD_DECLARE_0(zfint, textSizeCurrent)
 
     // ============================================================
     // override

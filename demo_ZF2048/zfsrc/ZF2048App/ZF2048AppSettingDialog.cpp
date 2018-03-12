@@ -245,14 +245,14 @@ private:
         this->confirmButton->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, confirmOnClick)));
         this->cancelButton->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, cancelOnClick)));
     }
-    ZFLISTENER_DECLARE(confirmOnClick)
+    ZFLISTENER_INLINE(confirmOnClick)
     {
         this->owner->dataWidth = zfself::readData(this->dataWidthEdit);
         this->owner->dataHeight = zfself::readData(this->dataHeightEdit);
         this->owner->settingOnChange();
         this->owner->dialogHide();
     }
-    ZFLISTENER_DECLARE(cancelOnClick)
+    ZFLISTENER_INLINE(cancelOnClick)
     {
         this->owner->dialogHide();
     }

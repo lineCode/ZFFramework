@@ -47,17 +47,17 @@ public:
 
 public:
     /** @brief see #ZFUIAnimatedImage::aniStart */
-    ZFMETHOD_DECLARE_0(void, aniStart)
+    ZFMETHOD_INLINE_0(void, aniStart)
     {
         this->animatedImage()->aniStart();
     }
     /** @brief see #ZFUIAnimatedImage::aniStop */
-    ZFMETHOD_DECLARE_0(void, aniStop)
+    ZFMETHOD_INLINE_0(void, aniStop)
     {
         this->animatedImage()->aniStop();
     }
     /** @brief see #ZFUIAnimatedImage::aniRunning */
-    ZFMETHOD_DECLARE_0(zfbool, aniRunning)
+    ZFMETHOD_INLINE_0(zfbool, aniRunning)
     {
         return this->animatedImage()->aniRunning();
     }

@@ -70,8 +70,8 @@ ZF_STATIC_REGISTER_END(ZFObjectMutexImpl_ZFMutex)
 // ZFMutex
 ZFOBJECT_REGISTER(ZFMutex)
 
-ZFMETHOD_DEFINE_1(ZFMutex, void, objectOnInit,
-                  ZFMP_IN(zfbool, noWarningIfImplNotAvailable))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFMutex,
+                          ZFMP_IN(zfbool, noWarningIfImplNotAvailable))
 {
     this->objectOnInit();
     this->noWarningIfImplNotAvailable = noWarningIfImplNotAvailable;

@@ -43,8 +43,7 @@ protected:
     /**
      * @brief init with max capacity
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(zfindex, maxSize));
+    ZFOBJECT_ON_INIT_DECLARE_1(ZFMP_IN(zfindex, maxSize))
 
     zfoverride
     virtual void objectOnInit(void);

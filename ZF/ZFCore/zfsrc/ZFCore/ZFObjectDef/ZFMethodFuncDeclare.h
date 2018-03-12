@@ -487,7 +487,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
  *   }
  * @endcode
  *
- * similar to #ZFMETHOD_DECLARE_0, but declared in global scope instead of class scope,
+ * similar to #ZFMETHOD_INLINE_0, but declared in global scope instead of class scope,
  * declared method can be reflected by #ZFMethodFuncGet,
  * and can be invoked by #ZFMethod::executeStatic
  * or by #ZFMethod::execute with null as first param\n

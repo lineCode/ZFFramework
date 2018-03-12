@@ -85,10 +85,10 @@ zfclassFwd ZFClass;
 #define _ZFP_MtdM_EMPTY(...)
 #define _ZFP_MtdM_EXPAND(...) __VA_ARGS__
 /**
- * @brief macro to wrap param types for #ZFMETHOD_DECLARE_0 series
+ * @brief macro to wrap param types for #ZFMETHOD_INLINE_0 series
  *
  * similar to #ZF_IN for normal methods,
- * here's a list of these macros used for #ZFMETHOD_DECLARE_0 series:
+ * here's a list of these macros used for #ZFMETHOD_INLINE_0 series:
  * -  #ZFMP_IN
  * -  #ZFMP_IN_OPT
  * -  #ZFMP_OUT
@@ -138,7 +138,7 @@ typedef zfautoObject (*_ZFP_ZFMethodParamDefaultValueAccessCallback)(void);
  *      / **
  *        * you can add doxygen docs here
  *        * /
- *       ZFMETHOD_DECLARE_0(void, yourMethod)
+ *       ZFMETHOD_INLINE_0(void, yourMethod)
  *       {
  *           // method code here
  *       }
@@ -150,7 +150,7 @@ typedef zfautoObject (*_ZFP_ZFMethodParamDefaultValueAccessCallback)(void);
  *   zfclass YourClass : zfextends ZFObject
  *   {
  *       ZFOBJECT_DECLARE(YourClass, ZFObject)
- *       ZFMETHOD_DECLARE_0(void, yourMethod); // declare only
+ *       ZFMETHOD_INLINE_0(void, yourMethod); // declare only
  *   };
  *
  *   // YourClass.cpp
@@ -162,10 +162,10 @@ typedef zfautoObject (*_ZFP_ZFMethodParamDefaultValueAccessCallback)(void);
  * you can use any types for return value and param, including reference type,
  * while the param's num is limited to #ZFMETHOD_MAX_PARAM\n
  * \n
- * the ZFMETHOD_DECLARE_XXX macro takes many params,
+ * the ZFMETHOD_INLINE_XXX macro takes many params,
  * to walk through it, let's take a example:
  * @code
- *   ZFMETHOD_DECLARE_DETAIL_2(
+ *   ZFMETHOD_INLINE_DETAIL_2(
  *       PublicOrProtectedOrPrivate, ZFMethodIsWhatType,
  *       ReturnType, MethodName
  *       , ZFMP_IN(ParamType0, param0)
@@ -441,7 +441,7 @@ public:
      *
      * \n
      * typical steps for users:
-     * -# have all methods you need to bind been declared by #ZFMETHOD_DECLARE_0 series
+     * -# have all methods you need to bind been declared by #ZFMETHOD_INLINE_0 series
      * -# supply wrapper class to hold the type
      * -# ensure all params can be converted to ZFObject types,
      *   by declaring them by #ZFPROPERTY_TYPE_DECLARE

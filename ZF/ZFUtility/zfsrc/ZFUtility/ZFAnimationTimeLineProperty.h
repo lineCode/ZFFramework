@@ -73,20 +73,20 @@ public:
      *   #ZFAnimation::aniTarget's property would be change accorrding this step
      */
     ZFMETHOD_DECLARE_1(void, stepAdd,
-                       ZFMP_IN(ZFTimeLineProperty *, step));
+                       ZFMP_IN(ZFTimeLineProperty *, step))
     /** @brief see #stepAdd */
     ZFMETHOD_DECLARE_1(void, stepRemove,
-                       ZFMP_IN(ZFTimeLineProperty *, step));
+                       ZFMP_IN(ZFTimeLineProperty *, step))
     /** @brief see #stepAdd */
     ZFMETHOD_DECLARE_1(void, stepRemoveAtIndex,
-                       ZFMP_IN(zfindex, index));
+                       ZFMP_IN(zfindex, index))
     /** @brief see #stepAdd */
-    ZFMETHOD_DECLARE_0(void, stepRemoveAll);
+    ZFMETHOD_DECLARE_0(void, stepRemoveAll)
     /** @brief see #stepAdd */
-    ZFMETHOD_DECLARE_0(zfindex, stepCount);
+    ZFMETHOD_DECLARE_0(zfindex, stepCount)
     /** @brief see #stepAdd */
     ZFMETHOD_DECLARE_1(ZFTimeLineProperty *, stepAtIndex,
-                       ZFMP_IN(zfindex, index));
+                       ZFMP_IN(zfindex, index))
 
     // ============================================================
     // start stop

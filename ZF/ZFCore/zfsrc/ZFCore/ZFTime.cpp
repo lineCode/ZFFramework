@@ -425,8 +425,8 @@ const ZFTimeValue &ZFTime::timeZoneLocal(void)
     return _ZFP_ZFTimeImpl->timeZoneLocal();
 }
 
-ZFMETHOD_DEFINE_1(ZFTime, void, objectOnInit,
-                  ZFMP_IN(ZFTime *, time))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFTime,
+                          ZFMP_IN(ZFTime *, time))
 {
     this->objectOnInit();
     if(time != zfnull)
@@ -493,7 +493,7 @@ ZFMETHOD_DEFINE_0(ZFTime, const ZFTimeValue &, timeValue)
 }
 
 ZFMETHOD_DEFINE_1(ZFTime, zfbool, timeZoneSet,
-                  ZFMP_IN_OPT(const ZFTimeValue &, timeZone, zfself::timeZoneLocal()))
+                  ZFMP_IN_OPT(const ZFTimeValue &, timeZone, ZFTime::timeZoneLocal()))
 {
     return d->timeZoneSet(timeZone);
 }

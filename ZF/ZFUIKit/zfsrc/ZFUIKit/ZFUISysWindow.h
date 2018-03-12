@@ -109,13 +109,14 @@ public:
      *
      * usually, use only one window is recommended
      */
-    ZFMETHOD_DECLARE_STATIC_0(ZFUISysWindow *, mainWindow);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              ZFUISysWindow *, mainWindow)
 
 public:
     /**
      * @brief native window margin accorrding to impl
      */
-    ZFMETHOD_DECLARE_0(const ZFUIMargin &, sysWindowMargin);
+    ZFMETHOD_DECLARE_0(const ZFUIMargin &, sysWindowMargin)
     void _ZFP_ZFUISysWindow_sysWindowMarginSet(ZF_IN const ZFUIMargin &sysWindowMargin);
 protected:
     /**
@@ -142,7 +143,7 @@ public:
      * #EventSysWindowOnCreate\n
      * note, this value can be null if window created by #nativeWindowEmbed
      */
-    ZFMETHOD_DECLARE_0(void *, nativeWindow);
+    ZFMETHOD_DECLARE_0(void *, nativeWindow)
 
 public:
     /**
@@ -167,26 +168,26 @@ public:
      *       }
      *   @endcode
      */
-    ZFMETHOD_DECLARE_0(zfbool, nativeWindowIsCreated);
+    ZFMETHOD_DECLARE_0(zfbool, nativeWindowIsCreated)
     /**
      * @brief true if sys window resumed
      */
-    ZFMETHOD_DECLARE_0(zfbool, nativeWindowIsResumed);
+    ZFMETHOD_DECLARE_0(zfbool, nativeWindowIsResumed)
 
 public:
     /**
      * @brief get current orientation
      */
-    ZFMETHOD_DECLARE_0(ZFUIOrientationEnum, sysWindowOrientation);
+    ZFMETHOD_DECLARE_0(ZFUIOrientationEnum, sysWindowOrientation)
     /**
      * @brief set supported orientation, orientation may or may not change immediately
      */
     ZFMETHOD_DECLARE_1(void, sysWindowOrientationFlagsSet,
-                       ZFMP_IN(const ZFUIOrientationFlags &, sysWindowOrientationFlags));
+                       ZFMP_IN(const ZFUIOrientationFlags &, sysWindowOrientationFlags))
     /**
      * @brief get supported orientation
      */
-    ZFMETHOD_DECLARE_0(const ZFUIOrientationFlags &, sysWindowOrientationFlags);
+    ZFMETHOD_DECLARE_0(const ZFUIOrientationFlags &, sysWindowOrientationFlags)
 
 public:
     /**
@@ -198,25 +199,25 @@ public:
      * it's recommended that app have only one ZFUISysWindow,
      * use #ZFUIWindow if necessary
      */
-    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowShow);
+    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowShow)
     /**
      * @brief finish and destroy self as a modal window
      */
-    ZFMETHOD_DECLARE_0(void, modalWindowFinish);
+    ZFMETHOD_DECLARE_0(void, modalWindowFinish)
     /**
      * @brief get self's current showing modal window
      */
-    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowGetShowing);
+    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowGetShowing)
     /**
      * @brief get self's owner if self is a showing modal window
      */
-    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowGetOwner);
+    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowGetOwner)
 
 public:
     /**
      * @brief get window's layout param, fill parent by default
      */
-    ZFMETHOD_DECLARE_0(ZFUIViewLayoutParam *, sysWindowLayoutParam);
+    ZFMETHOD_DECLARE_0(ZFUIViewLayoutParam *, sysWindowLayoutParam)
 
     /**
      * @brief access the root view of the window
@@ -224,7 +225,7 @@ public:
      * the root view is ensured #ZFUIRootView type,
      * and you must not add it to another view
      */
-    ZFMETHOD_DECLARE_0(ZFUIRootView *, rootView);
+    ZFMETHOD_DECLARE_0(ZFUIRootView *, rootView)
 
 public:
     zffinal ZFUIRect _ZFP_ZFUISysWindow_measureWindow(ZF_IN const ZFUIRect &rootRefRect);

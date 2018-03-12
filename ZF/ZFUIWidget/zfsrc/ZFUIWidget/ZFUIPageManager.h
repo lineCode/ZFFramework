@@ -185,23 +185,23 @@ public:
      * so we supply direct life cycle manage method for implementation to achieve life cycle,
      * you must ensure it's logical valid while handling it
      */
-    ZFMETHOD_DECLARE_0(void, embededCreate);
+    ZFMETHOD_DECLARE_0(void, embededCreate)
     /** @brief see #embededCreate */
-    ZFMETHOD_DECLARE_0(void, embededResume);
+    ZFMETHOD_DECLARE_0(void, embededResume)
     /** @brief see #embededCreate */
-    ZFMETHOD_DECLARE_0(void, embededPause);
+    ZFMETHOD_DECLARE_0(void, embededPause)
     /** @brief see #embededCreate */
-    ZFMETHOD_DECLARE_0(void, embededDestroy);
+    ZFMETHOD_DECLARE_0(void, embededDestroy)
 
 public:
     /**
      * @brief true if manager's #embededCreate / #managerOnCreate called
      */
-    ZFMETHOD_DECLARE_0(zfbool, managerCreated);
+    ZFMETHOD_DECLARE_0(zfbool, managerCreated)
     /**
      * @brief true if manager's #embededResume / #managerOnResume called
      */
-    ZFMETHOD_DECLARE_0(zfbool, managerResumed);
+    ZFMETHOD_DECLARE_0(zfbool, managerResumed)
 
     // ============================================================
     // manager control
@@ -216,11 +216,11 @@ public:
      * last time you call this method to restore enable state would finally restore enable state
      */
     ZFMETHOD_DECLARE_1(void, managerUIBlockedSet,
-                       ZFMP_IN(zfbool, value));
+                       ZFMP_IN(zfbool, value))
     /**
      * @brief see #managerUIBlockedSet
      */
-    ZFMETHOD_DECLARE_0(zfindex, managerUIBlocked);
+    ZFMETHOD_DECLARE_0(zfindex, managerUIBlocked)
 protected:
     /** @brief see #EventManagerUIBlockedOnChange, subclass should implement and achieve actual action */
     virtual void managerUIBlockedOnChange(void)
@@ -234,7 +234,7 @@ public:
     /**
      * @brief page count of this page manager
      */
-    ZFMETHOD_DECLARE_0(zfindex, pageCount);
+    ZFMETHOD_DECLARE_0(zfindex, pageCount)
     /**
      * @brief directly access the page list
      *
@@ -243,12 +243,12 @@ public:
      * you must not modify the list,
      * except when using with #movePageBegin
      */
-    ZFMETHOD_DECLARE_0(ZFCoreArrayPOD<ZFUIPage *> &, pageList);
+    ZFMETHOD_DECLARE_0(ZFCoreArrayPOD<ZFUIPage *> &, pageList)
     /**
      * @brief page at index
      */
-    ZFMETHOD_DECLARE_1(ZFUIPage *, pageAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(ZFUIPage *, pageAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         return this->pageList().get(index);
     }
@@ -263,7 +263,7 @@ public:
     /**
      * @brief return foreground page or null if no page
      */
-    ZFMETHOD_DECLARE_0(ZFUIPage *, pageForeground)
+    ZFMETHOD_INLINE_0(ZFUIPage *, pageForeground)
     {
         if(!this->pageList().isEmpty())
         {
@@ -287,19 +287,19 @@ public:
      * @brief request create page, see #ZFUIPageManager
      */
     ZFMETHOD_DECLARE_1(void, requestPageCreate,
-                       ZFMP_IN(const ZFUIPageRequestPageCreateParam &, createParam));
+                       ZFMP_IN(const ZFUIPageRequestPageCreateParam &, createParam))
     /**
      * @brief request create page, see #ZFUIPageManager
      */
     ZFMETHOD_DECLARE_3(void, requestPageCreate,
                        ZFMP_IN(ZFUIPage *, page),
                        ZFMP_IN_OPT(ZFObject *, pageCreateParam, zfnull),
-                       ZFMP_IN_OPT(zfbool, pageAutoResume, zftrue));
+                       ZFMP_IN_OPT(zfbool, pageAutoResume, zftrue))
     /**
      * @brief request resume page
      */
     ZFMETHOD_DECLARE_1(void, requestPageResume,
-                       ZFMP_IN(ZFUIPage *, page));
+                       ZFMP_IN(ZFUIPage *, page))
     /**
      * @brief request resume a group of page
      *
@@ -309,25 +309,25 @@ public:
      * null group id belongs to nothing
      */
     ZFMETHOD_DECLARE_1(void, requestPageGroupResume,
-                       ZFMP_IN(const zfchar *, pageGroupId));
+                       ZFMP_IN(const zfchar *, pageGroupId))
     /**
      * @brief request destroy page
      */
     ZFMETHOD_DECLARE_1(void, requestPageDestroy,
-                       ZFMP_IN(ZFUIPage *, page));
+                       ZFMP_IN(ZFUIPage *, page))
     /**
      * @brief post a custom request to queue, which would be resolved by #requestOnResolve
      */
     ZFMETHOD_DECLARE_1(void, requestPost,
-                       ZFMP_IN(ZFUIPageRequest *, request));
+                       ZFMP_IN(ZFUIPageRequest *, request))
     /**
      * @brief util method to post a listener to be execute at current request queue's end
      */
-    ZFMETHOD_DECLARE_4(void, requestPostCustom,
-                       ZFMP_IN(const ZFListener &, listener),
-                       ZFMP_IN_OPT(ZFObject *, userData, zfnull),
-                       ZFMP_IN_OPT(ZFObject *, param0, zfnull),
-                       ZFMP_IN_OPT(ZFObject *, param1, zfnull))
+    ZFMETHOD_INLINE_4(void, requestPostCustom,
+                      ZFMP_IN(const ZFListener &, listener),
+                      ZFMP_IN_OPT(ZFObject *, userData, zfnull),
+                      ZFMP_IN_OPT(ZFObject *, param0, zfnull),
+                      ZFMP_IN_OPT(ZFObject *, param1, zfnull))
     {
         zfblockedAlloc(ZFUIPageRequestCustom, request);
         request->listenerSet(listener);
@@ -346,11 +346,11 @@ public:
      * but must be paired
      */
     ZFMETHOD_DECLARE_1(void, requestBlockedSet,
-                       ZFMP_IN(zfbool, value));
+                       ZFMP_IN(zfbool, value))
     /**
      * @brief see #requestBlockedSet
      */
-    ZFMETHOD_DECLARE_0(zfindex, requestBlocked);
+    ZFMETHOD_DECLARE_0(zfindex, requestBlocked)
 protected:
     /** @brief see #EventRequestBlockedOnChange */
     virtual inline void requestBlockedOnChange(void)
@@ -511,11 +511,11 @@ public:
     ZFMETHOD_DECLARE_3(void, pageAniOverrideForOnce,
                        ZFMP_IN(ZFAnimation *, pageAniResume),
                        ZFMP_IN(ZFAnimation *, pageAniPause),
-                       ZFMP_IN_OPT(zfbool, pageAniPauseHasHigherPriority, zffalse));
+                       ZFMP_IN_OPT(zfbool, pageAniPauseHasHigherPriority, zffalse))
     /**
      * @brief see #pageAniOverrideForOnceCancel
      */
-    ZFMETHOD_DECLARE_0(void, pageAniOverrideForOnceCancel);
+    ZFMETHOD_DECLARE_0(void, pageAniOverrideForOnceCancel)
 protected:
     /**
      * @brief used by #pageAniOnUpdate to check update overrided animation

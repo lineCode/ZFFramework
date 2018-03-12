@@ -371,7 +371,7 @@ private:
     }
 
 private:
-    ZFMETHOD_DECLARE_0(zftimet, x_scrollAniStart)
+    ZFMETHOD_INLINE_0(zftimet, x_scrollAniStart)
     {
         if(!this->xScrollAniTimerStarted)
         {
@@ -381,7 +381,7 @@ private:
         this->scrollerActionAdd(_ZFP_ZFUIScrollViewActionScrollBegin);
         return this->scrollAniLastTime;
     }
-    ZFMETHOD_DECLARE_0(zftimet, y_scrollAniStart)
+    ZFMETHOD_INLINE_0(zftimet, y_scrollAniStart)
     {
         if(!this->yScrollAniTimerStarted)
         {
@@ -391,7 +391,7 @@ private:
         this->scrollerActionAdd(_ZFP_ZFUIScrollViewActionScrollBegin);
         return this->scrollAniLastTime;
     }
-    ZFMETHOD_DECLARE_0(void, x_scrollAniStop)
+    ZFMETHOD_INLINE_0(void, x_scrollAniStop)
     {
         if(this->xScrollAniTimerStarted)
         {
@@ -403,7 +403,7 @@ private:
             }
         }
     }
-    ZFMETHOD_DECLARE_0(void, y_scrollAniStop)
+    ZFMETHOD_INLINE_0(void, y_scrollAniStop)
     {
         if(this->yScrollAniTimerStarted)
         {

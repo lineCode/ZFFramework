@@ -342,9 +342,9 @@ protected:
     }
 
 public:
-    ZFMETHOD_DECLARE_2(zfindex, onInput,
-                       ZFMP_IN(void *, buf),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onInput,
+                      ZFMP_IN(void *, buf),
+                      ZFMP_IN(zfindex, count))
     {
         if(buf == zfnull)
         {
@@ -358,18 +358,18 @@ public:
         curPos += count;
         return count;
     }
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         curPos = ZFIOCallbackCalcFSeek(srcStart, srcCount, curPos, byteSize, pos);
         return zftrue;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return curPos - srcStart;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return srcStart + srcCount - curPos;
     }
@@ -540,9 +540,9 @@ public:
     const zfbyte *pEnd; // ensured valid
     const zfbyte *p;
 public:
-    ZFMETHOD_DECLARE_2(zfindex, onInput,
-                       ZFMP_IN(void *, buf),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onInput,
+                      ZFMP_IN(void *, buf),
+                      ZFMP_IN(zfindex, count))
     {
         if(buf == zfnull)
         {
@@ -556,18 +556,18 @@ public:
         p += count;
         return count;
     }
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         p = pStart + ZFIOCallbackCalcFSeek(0, pEnd - pStart, p - pStart, byteSize, pos);
         return zftrue;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return p - pStart;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return pEnd - p;
     }

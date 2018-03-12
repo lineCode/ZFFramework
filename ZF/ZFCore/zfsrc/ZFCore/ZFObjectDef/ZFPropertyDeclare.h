@@ -313,10 +313,19 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
 // ============================================================
 #define _ZFP_ZFPROPERTY_SETTER_RETAIN(AccessType, Type, Name) \
     AccessType: \
-        ZFMETHOD_DECLARE_NO_AUTOREG_1( \
+        _ZFP_ZFMETHOD_INLINE( \
+            notAutoRegister, \
             AccessType, ZFMethodIsVirtual, \
-            void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), \
-            ZFMP_IN(Type const &, propertyValue)) \
+            void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
+            , ZFMP_IN(Type const &, propertyValue) \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            ) \
         { \
             zfCoreMutexLock(); \
             const ZFProperty *property = zfself::_ZFP_Prop_##Name(); \
@@ -345,10 +354,19 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
     public:
 #define _ZFP_ZFPROPERTY_SETTER_ASSIGN(AccessType, Type, Name) \
     AccessType: \
-        ZFMETHOD_DECLARE_NO_AUTOREG_1( \
+        _ZFP_ZFMETHOD_INLINE( \
+            notAutoRegister, \
             AccessType, ZFMethodIsVirtual, \
-            void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), \
-            ZFMP_IN(Type const &, propertyValue)) \
+            void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
+            , ZFMP_IN(Type const &, propertyValue) \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            ) \
         { \
             zfCoreMutexLock(); \
             const ZFProperty *property = zfself::_ZFP_Prop_##Name(); \
@@ -373,9 +391,19 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
     public:
 #define _ZFP_ZFPROPERTY_GETTER(AccessType, Type, Name) \
     AccessType: \
-        ZFMETHOD_DECLARE_NO_AUTOREG_0( \
+        _ZFP_ZFMETHOD_INLINE( \
+            notAutoRegister, \
             AccessType, ZFMethodIsVirtual, \
-            Type const &, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)) \
+            Type const &, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name), ZF_CALLER_LINE \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            , _ZFP_ZFMP_DUMMY() \
+            ) \
         { \
             zfCoreMutexLocker(); \
             return Name##_PropV.propertyInit(this); \

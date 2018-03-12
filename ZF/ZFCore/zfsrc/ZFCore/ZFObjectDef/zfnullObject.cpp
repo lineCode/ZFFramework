@@ -46,8 +46,8 @@ public:
     }
 
 private:
-    ZFMETHOD_DECLARE_DETAIL_0(private, ZFMethodIsStatic,
-                              zfautoObject, ZFSerializableKeyword_serializableNewInstanceId)
+    ZFMETHOD_INLINE_DETAIL_0(private, ZFMethodIsStatic,
+                             zfautoObject, ZFSerializableKeyword_serializableNewInstanceId)
     {
         return zfnullObject();
     }

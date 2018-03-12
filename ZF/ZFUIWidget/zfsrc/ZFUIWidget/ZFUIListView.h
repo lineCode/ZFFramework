@@ -87,7 +87,7 @@ public:
      * you may use this method to retain it automatically
      */
     ZFMETHOD_DECLARE_1(void, listAdapterSetAutoRetain,
-                       ZFMP_IN(ZFUIListAdapter *, listAdapter));
+                       ZFMP_IN(ZFUIListAdapter *, listAdapter))
 
     /**
      * @brief list updater to update list cells, holds #ZFUIListCellUpdater
@@ -187,11 +187,11 @@ public:
      * @note this method would reload the entire list,
      *   use #listReloadCellAtIndex for performance
      */
-    ZFMETHOD_DECLARE_0(void, listReload);
+    ZFMETHOD_DECLARE_0(void, listReload)
     /**
      * @brief true if list need reload
      */
-    ZFMETHOD_DECLARE_0(zfbool, listReloadRequested);
+    ZFMETHOD_DECLARE_0(zfbool, listReloadRequested)
     /**
      * @brief reload cell at index immediately, do nothing if index not in visible range
      *   or #listReloadRequested
@@ -199,7 +199,7 @@ public:
      * this method would have higher performance if you want to update specified cell only
      */
     ZFMETHOD_DECLARE_1(void, listReloadCellAtIndex,
-                       ZFMP_IN(zfindex, index));
+                       ZFMP_IN(zfindex, index))
 
 public:
     /**
@@ -208,14 +208,14 @@ public:
      * returned value should not be stored,
      * since visible cell may change frequently
      */
-    ZFMETHOD_DECLARE_0(ZFCoreArrayPOD<ZFUIListCell *>, listVisibleCell);
+    ZFMETHOD_DECLARE_0(ZFCoreArrayPOD<ZFUIListCell *>, listVisibleCell)
     /**
      * @brief return first visible cell's index, valid only if #listReloadRequested is not true
      *
      * index is ordered by #ZFUIListAdapter,
      * so first cell may positioned at bottom accorrding to layout orientation
      */
-    ZFMETHOD_DECLARE_0(const zfindexRange &, listVisibleCellIndexRange);
+    ZFMETHOD_DECLARE_0(const zfindexRange &, listVisibleCellIndexRange)
 
 public:
     /**
@@ -230,14 +230,14 @@ public:
     ZFMETHOD_DECLARE_3(void, scrollListCellToHead,
                        ZFMP_IN(zfindex, cellIndex),
                        ZFMP_IN_OPT(zfint, offset, 0),
-                       ZFMP_IN_OPT(zfbool, animated, zftrue));
+                       ZFMP_IN_OPT(zfbool, animated, zftrue))
     /**
      * @brief scroll cell to bottom, see #scrollListCellToHead
      */
     ZFMETHOD_DECLARE_3(void, scrollListCellToTail,
                        ZFMP_IN(zfindex, cellIndex),
                        ZFMP_IN_OPT(zfint, offset, 0),
-                       ZFMP_IN_OPT(zfbool, animated, zftrue));
+                       ZFMP_IN_OPT(zfbool, animated, zftrue))
 
     // ============================================================
     // events

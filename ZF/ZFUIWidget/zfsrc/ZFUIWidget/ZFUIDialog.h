@@ -229,7 +229,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, dialogWindowAutoFit, ZFPropertyInitValue(zffalse))
     /** @brief see #dialogWindowAutoFit */
-    ZFMETHOD_DECLARE_0(ZFUIOnScreenKeyboardAutoFitLayout *, dialogWindowAutoFitLayout)
+    ZFMETHOD_INLINE_0(ZFUIOnScreenKeyboardAutoFitLayout *, dialogWindowAutoFitLayout)
     {
         return ZFCastZFObject(ZFUIOnScreenKeyboardAutoFitLayout *, this->dialogWindow()->viewDelegate());
     }
@@ -238,15 +238,15 @@ public:
     /**
      * @brief true if dialog is showing
      */
-    ZFMETHOD_DECLARE_0(zfbool, dialogShowing);
+    ZFMETHOD_DECLARE_0(zfbool, dialogShowing)
     /**
      * @brief show the dialog
      */
-    ZFMETHOD_DECLARE_0(void, dialogShow);
+    ZFMETHOD_DECLARE_0(void, dialogShow)
     /**
      * @brief hide the dialog
      */
-    ZFMETHOD_DECLARE_0(void, dialogHide);
+    ZFMETHOD_DECLARE_0(void, dialogHide)
     /**
      * @brief stop any animation and hide the dialog immediately,
      *   usually used to destroy a dialog immediately
@@ -254,13 +254,13 @@ public:
      * this method would be called for all showing dialog
      * during #ZFFrameworkCleanup, see #ZFUIDialog for more info
      */
-    ZFMETHOD_DECLARE_0(void, dialogHideForce);
+    ZFMETHOD_DECLARE_0(void, dialogHideForce)
     /**
      * @brief util method to attach click listener to specified button,
      *   which would simply hide the dialog
      */
     ZFMETHOD_DECLARE_1(void, dialogApplyAutoHide,
-                       ZFMP_IN(ZFUIButton *, button));
+                       ZFMP_IN(ZFUIButton *, button))
 
 public:
     /**
@@ -268,7 +268,7 @@ public:
      *
      * by default, the dialog's window would have #ZFUIWindowLevel::e_AppHigh as #ZFUIWindow::windowLevel
      */
-    ZFMETHOD_DECLARE_0(ZFUIWindow *, dialogWindow);
+    ZFMETHOD_DECLARE_0(ZFUIWindow *, dialogWindow)
 
 protected:
     /**

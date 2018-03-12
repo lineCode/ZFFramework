@@ -28,9 +28,8 @@ zfclass ZF_ENV_EXPORT ZFOperationQueueChildTaskData : zfextends ZFObject
 
 protected:
     /** @brief see #ZFObject::objectOnInit */
-    ZFMETHOD_DECLARE_PROTECTED_2(void, objectOnInit,
-                                 ZFMP_IN(ZFOperation *, childOperation),
-                                 ZFMP_IN(ZFOperationStartParam *, childTaskData))
+    ZFOBJECT_ON_INIT_INLINE_2(ZFMP_IN(ZFOperation *, childOperation),
+                              ZFMP_IN(ZFOperationStartParam *, childTaskData))
     {
         this->objectOnInit();
         this->childOperationSet(childOperation);

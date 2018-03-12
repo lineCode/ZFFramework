@@ -178,7 +178,7 @@ public:
     ZFXmlOutputFlags flags;
 
 public:
-    ZFMETHOD_DECLARE_1(zfbool, onVisit, ZFMP_IN(const ZFXmlVisitData &, data))
+    ZFMETHOD_INLINE_1(zfbool, onVisit, ZFMP_IN(const ZFXmlVisitData &, data))
     {
         switch(data.xmlItem.xmlType())
         {

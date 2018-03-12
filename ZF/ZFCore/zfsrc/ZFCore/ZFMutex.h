@@ -33,9 +33,7 @@ protected:
     /**
      * @brief whether to warning if no implementation available
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(zfbool, noWarningIfImplNotAvailable));
-public:
+    ZFOBJECT_ON_INIT_DECLARE_1(ZFMP_IN(zfbool, noWarningIfImplNotAvailable))
     zfoverride
     virtual void objectOnInit(void) {zfsuper::objectOnInit();}
 

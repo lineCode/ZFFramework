@@ -15,12 +15,13 @@ zfclass _ZFP_ZFCore_ZFCallback_test_Class : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(_ZFP_ZFCore_ZFCallback_test_Class, ZFObject)
 
-    ZFMETHOD_DECLARE_0(void, classMember)
+    ZFMETHOD_INLINE_0(void, classMember)
     {
         zfLogT();
     }
 
-    ZFMETHOD_DECLARE_STATIC_0(void, classStaticMember)
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodIsStatic,
+                             void, classStaticMember)
     {
         zfLogT();
     }

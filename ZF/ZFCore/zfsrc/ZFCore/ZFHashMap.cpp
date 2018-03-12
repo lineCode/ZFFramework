@@ -51,8 +51,8 @@ public:
 // ZFHashMap
 ZFOBJECT_REGISTER(ZFHashMap)
 
-ZFMETHOD_DEFINE_1(ZFHashMap, void, objectOnInit,
-                  ZFMP_IN(ZFKeyValueContainer *, another))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFHashMap,
+                          ZFMP_IN(ZFKeyValueContainer *, another))
 {
     this->objectOnInit();
     if(another != zfnull)

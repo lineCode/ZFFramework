@@ -210,8 +210,9 @@ protected:
     /**
      * @brief set the #pageCreateParam, usually set by owner page manager only
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, pageCreateParamSet,
-                                 ZFMP_IN(ZFObject * const &, pageCreateParam))
+    ZFMETHOD_INLINE_DETAIL_1(protected, ZFMethodIsVirtual,
+                             void, pageCreateParamSet,
+                             ZFMP_IN(ZFObject * const &, pageCreateParam))
     {
         zfRetainChange(this->_ZFP_ZFUIPage_pageCreateParam, pageCreateParam);
     }
@@ -219,7 +220,7 @@ public:
     /**
      * @brief page create param passed from #ZFUIPageManager::requestPageCreate
      */
-    ZFMETHOD_DECLARE_0(ZFObject * const &, pageCreateParam)
+    ZFMETHOD_INLINE_0(ZFObject * const &, pageCreateParam)
     {
         return _ZFP_ZFUIPage_pageCreateParam;
     }
@@ -264,21 +265,21 @@ public:
     /**
      * @brief true if page created (true after #pageOnCreate called)
      */
-    ZFMETHOD_DECLARE_0(zfbool, pageCreated)
+    ZFMETHOD_INLINE_0(zfbool, pageCreated)
     {
         return _ZFP_ZFUIPage_pageCreated;
     }
     /**
      * @brief true if page resumed (true after #pageOnResume called)
      */
-    ZFMETHOD_DECLARE_0(zfbool, pageResumed)
+    ZFMETHOD_INLINE_0(zfbool, pageResumed)
     {
         return _ZFP_ZFUIPage_pageResumed;
     }
     /**
      * @brief true if page attached (true after #pageOnAttach and false before #pageOnDetach)
      */
-    ZFMETHOD_DECLARE_0(zfbool, pageAttached)
+    ZFMETHOD_INLINE_0(zfbool, pageAttached)
     {
         return _ZFP_ZFUIPage_pageAttached;
     }
@@ -286,7 +287,7 @@ public:
     /**
      * @brief equal to invoke #ZFUIPageManager::requestPageDestroy
      */
-    ZFMETHOD_DECLARE_0(void, pageDestroy);
+    ZFMETHOD_DECLARE_0(void, pageDestroy)
 
     // ============================================================
     // page life cycle
@@ -424,11 +425,11 @@ public:
      * this value would be reset to null when animation stopped or page destroyed\n
      */
     ZFMETHOD_DECLARE_1(void, pageAniSet,
-                       ZFMP_IN(ZFAnimation *, pageAni));
+                       ZFMP_IN(ZFAnimation *, pageAni))
     /**
      * @brief see #pageAniSet
      */
-    ZFMETHOD_DECLARE_0(ZFAnimation *, pageAni)
+    ZFMETHOD_INLINE_0(ZFAnimation *, pageAni)
     {
         return _ZFP_ZFUIPage_pageAni;
     }

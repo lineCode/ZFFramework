@@ -31,7 +31,7 @@ protected:
     }
 
 private:
-    ZFLISTENER_DECLARE(windowOnHide)
+    ZFLISTENER_INLINE(windowOnHide)
     {
         this->testCaseStop(ZFResultType::e_Success);
     }

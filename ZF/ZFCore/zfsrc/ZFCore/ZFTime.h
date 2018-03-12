@@ -347,15 +347,17 @@ public:
     /**
      * @brief return true if year is leap year
      */
-    ZFMETHOD_DECLARE_STATIC_1(zfbool, leapYear,
-                              ZFMP_IN(zfint, year));
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+                              zfbool, leapYear,
+                              ZFMP_IN(zfint, year))
     /**
      * @brief return leap year num in range [year1, year2],
      *   may return negative value if (year1 > year2)
      */
-    ZFMETHOD_DECLARE_STATIC_2(zfint, leapYearBetween,
+    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodIsStatic,
+                              zfint, leapYearBetween,
                               ZFMP_IN(zfint, year1),
-                              ZFMP_IN(zfint, year2));
+                              ZFMP_IN(zfint, year2))
 
     /**
      * @brief get timestamp in mili seconds
@@ -365,36 +367,42 @@ public:
      * \n
      * typically, this method would have better performance and accuracy than #currentTimeValue
      */
-    ZFMETHOD_DECLARE_STATIC_0(zftimet, timestamp);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              zftimet, timestamp)
 
     /**
      * @brief return time since #ZFTimeInfoZero, negative if before #ZFTimeInfoZero
      */
-    ZFMETHOD_DECLARE_STATIC_0(ZFTimeValue, currentTimeValue);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              ZFTimeValue, currentTimeValue)
     /**
      * @brief equal to ZFTimeValueToMiliSeconds(currentTimeValue())
      */
-    ZFMETHOD_DECLARE_STATIC_0(zftimet, currentTimeMiliSeconds)
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodIsStatic,
+                             zftimet, currentTimeMiliSeconds)
     {
         return ZFTimeValueToMiliSeconds(ZFTime::currentTimeValue());
     }
     /**
      * @brief return current time info, util method to #currentTimeValue
      */
-    ZFMETHOD_DECLARE_STATIC_1(ZFTimeInfo, currentTimeInfo,
-                              ZFMP_IN_OPT(const ZFTimeValue &, localTimeZone, ZFTime::timeZoneLocal()));
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+                              ZFTimeInfo, currentTimeInfo,
+                              ZFMP_IN_OPT(const ZFTimeValue &, localTimeZone, ZFTime::timeZoneLocal()))
     /**
      * @brief convert time value to time info
      */
-    ZFMETHOD_DECLARE_STATIC_2(zfbool, timeInfoFromTimeValue,
+    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodIsStatic,
+                              zfbool, timeInfoFromTimeValue,
                               ZFMP_OUT(ZFTimeInfo &, ti),
-                              ZFMP_IN(const ZFTimeValue &, tv));
+                              ZFMP_IN(const ZFTimeValue &, tv))
     /**
      * @brief convert time info to time value
      */
-    ZFMETHOD_DECLARE_STATIC_2(zfbool, timeInfoToTimeValue,
+    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodIsStatic,
+                              zfbool, timeInfoToTimeValue,
                               ZFMP_OUT(ZFTimeValue &, tv),
-                              ZFMP_IN(const ZFTimeInfo &, ti));
+                              ZFMP_IN(const ZFTimeInfo &, ti))
     /**
      * @brief convert time info to time value
      */
@@ -415,20 +423,19 @@ public:
      * time zone would be applied,
      * simply by #ZFTimeValueInc to the time value of ZFTime object
      */
-    ZFMETHOD_DECLARE_STATIC_0(const ZFTimeValue &, timeZoneLocal);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              const ZFTimeValue &, timeZoneLocal)
 
 protected:
     /**
      * @brief init from another ZFTime
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(ZFTime *, time));
+    ZFOBJECT_ON_INIT_DECLARE_1(ZFMP_IN(ZFTime *, time))
     /**
      * @brief init from time value
      */
-    ZFMETHOD_DECLARE_PROTECTED_2(void, objectOnInit,
-                                 ZFMP_IN(const ZFTimeValue &, tv),
-                                 ZFMP_IN_OPT(const ZFTimeValue &, timeZone, zfself::timeZoneLocal)())
+    ZFOBJECT_ON_INIT_INLINE_2(ZFMP_IN(const ZFTimeValue &, tv),
+                              ZFMP_IN_OPT(const ZFTimeValue &, timeZone, ZFTime::timeZoneLocal)())
     {
         this->objectOnInit();
         zfself::timeZoneSet(timeZone);
@@ -437,9 +444,8 @@ protected:
     /**
      * @brief init from time info, or zero time if invalid
      */
-    ZFMETHOD_DECLARE_PROTECTED_2(void, objectOnInit,
-                                 ZFMP_IN(const ZFTimeInfo &, ti),
-                                 ZFMP_IN_OPT(const ZFTimeValue &, timeZone, zfself::timeZoneLocal)())
+    ZFOBJECT_ON_INIT_INLINE_2(ZFMP_IN(const ZFTimeInfo &, ti),
+                              ZFMP_IN_OPT(const ZFTimeValue &, timeZone, ZFTime::timeZoneLocal)())
     {
         this->objectOnInit();
         zfself::timeInfoSet(ti, timeZone);
@@ -469,27 +475,27 @@ public:
      * @brief set time according to time value
      */
     ZFMETHOD_DECLARE_1(zfbool, timeValueSet,
-                       ZFMP_IN(const ZFTimeValue &, tv));
+                       ZFMP_IN(const ZFTimeValue &, tv))
     /**
      * @brief access time value
      */
-    ZFMETHOD_DECLARE_0(const ZFTimeValue &, timeValue);
+    ZFMETHOD_DECLARE_0(const ZFTimeValue &, timeValue)
 
     /**
      * @brief set time zone attched to this ZFTime object
      * @see timeZoneLocal
      */
     ZFMETHOD_DECLARE_1(zfbool, timeZoneSet,
-                       ZFMP_IN_OPT(const ZFTimeValue &, timeZone, zfself::timeZoneLocal()));
+                       ZFMP_IN_OPT(const ZFTimeValue &, timeZone, ZFTime::timeZoneLocal()))
     /**
      * @brief get time zone attched to this ZFTime object
      */
-    ZFMETHOD_DECLARE_0(const ZFTimeValue &, timeZone);
+    ZFMETHOD_DECLARE_0(const ZFTimeValue &, timeZone)
 
     /**
      * @brief get time value which has been applied by time zone offset
      */
-    ZFMETHOD_DECLARE_0(const ZFTimeValue &, timeValueAppliedTimeZone);
+    ZFMETHOD_DECLARE_0(const ZFTimeValue &, timeValueAppliedTimeZone)
 
     /**
      * @brief set time according to time info
@@ -512,60 +518,60 @@ public:
      */
     ZFMETHOD_DECLARE_2(zfbool, timeInfoSet,
                        ZFMP_IN(const ZFTimeInfo &, ti),
-                       ZFMP_IN_OPT(const ZFTimeValue &, tz, ZFTime::timeZoneLocal()));
+                       ZFMP_IN_OPT(const ZFTimeValue &, tz, ZFTime::timeZoneLocal()))
     /**
      * @brief get time info of current time value (by #timeValueAppliedTimeZone)
      */
-    ZFMETHOD_DECLARE_0(const ZFTimeInfo &, timeInfo);
+    ZFMETHOD_DECLARE_0(const ZFTimeInfo &, timeInfo)
 
     /**
      * @brief year since 0000, e.g. 2012
      */
-    ZFMETHOD_DECLARE_0(zfint, timeInfoYear);
+    ZFMETHOD_DECLARE_0(zfint, timeInfoYear)
 
     /**
      * @brief month range in [0, 11]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoMonth);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoMonth)
 
     /**
      * @brief day of month range in [0, 27...30]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoDay);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoDay)
 
     /**
      * @brief day of week range in [0, 6], while 0 stands for Sunday
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoDayOfWeek);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoDayOfWeek)
     /**
      * @brief day of year range in [0, 364/365]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoDayOfYear);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoDayOfYear)
 
     /**
      * @brief hour range in [0, 23]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoHour);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoHour)
 
     /**
      * @brief minute range in [0, 59]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoMinute);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoMinute)
 
     /**
      * @brief second range in [0, 59]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoSecond);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoSecond)
 
     /**
      * @brief miliSecond range in [0, 999]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoMiliSecond);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoMiliSecond)
 
     /**
      * @brief microSecond range in [0, 999]
      */
-    ZFMETHOD_DECLARE_0(zfuint, timeInfoMicroSecond);
+    ZFMETHOD_DECLARE_0(zfuint, timeInfoMicroSecond)
 
 private:
     _ZFP_ZFTimePrivate *d;

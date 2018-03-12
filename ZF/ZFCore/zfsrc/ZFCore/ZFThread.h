@@ -71,33 +71,38 @@ public:
      * you must take good care when calling this method\n
      * main thread has no need to register
      */
-    ZFMETHOD_DECLARE_STATIC_0(void *, nativeThreadRegister);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              void *, nativeThreadRegister)
     /**
      * @brief see #nativeThreadRegister
      *
      * it's safe to unregister in different thread using token
      */
-    ZFMETHOD_DECLARE_STATIC_1(void, nativeThreadUnregister,
-                              ZFMP_IN(void *, token));
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+                              void, nativeThreadUnregister,
+                              ZFMP_IN(void *, token))
 
 public:
     /**
      * @brief return main thread
      */
-    ZFMETHOD_DECLARE_STATIC_0(ZFThread *, mainThread);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              ZFThread *, mainThread)
     /**
      * @brief return current thread,
      *   or zfnull if thread isn't started or registered by ZFThread
      *   or not registered by #ZFThread::nativeThreadRegister
      */
-    ZFMETHOD_DECLARE_STATIC_0(ZFThread *, currentThread);
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+                              ZFThread *, currentThread)
 
     /**
      * @brief make current thread sleep for miliSecs,
      *   note this method may be not accurate
      */
-    ZFMETHOD_DECLARE_STATIC_1(void, sleep,
-                              ZFMP_IN(const zftimet &, miliSecs));
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+                              void, sleep,
+                              ZFMP_IN(const zftimet &, miliSecs))
 
     // ============================================================
     // thread instance method
@@ -105,8 +110,7 @@ protected:
     /**
      * @brief init from listener
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(const ZFListener &, runnable))
+    ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(const ZFListener &, runnable))
     {
         this->objectOnInit();
         zfself::threadRunnableSet(runnable);
@@ -141,15 +145,15 @@ public:
     ZFMETHOD_DECLARE_3(void, threadStart,
                        ZFMP_IN_OPT(ZFObject *, userData, zfnull),
                        ZFMP_IN_OPT(ZFObject *, param0, zfnull),
-                       ZFMP_IN_OPT(ZFObject *, param1, zfnull));
+                       ZFMP_IN_OPT(ZFObject *, param1, zfnull))
     /**
      * @brief return true if start is called and hasn't been stopped or end
      */
-    ZFMETHOD_DECLARE_0(zfbool, threadStarted);
+    ZFMETHOD_DECLARE_0(zfbool, threadStarted)
     /**
      * @brief return true only if thread is running
      */
-    ZFMETHOD_DECLARE_0(zfbool, threadRunning);
+    ZFMETHOD_DECLARE_0(zfbool, threadRunning)
     /**
      * @brief request stop the thread, may not be stopped immediately
      *
@@ -157,18 +161,18 @@ public:
      * otherwise, whether the thread is continue running or stopped, is up to the runnable
      * @see threadStopRequested
      */
-    ZFMETHOD_DECLARE_0(void, threadStop);
+    ZFMETHOD_DECLARE_0(void, threadStop)
     /**
      * @brief return true if stop is called after start
      */
-    ZFMETHOD_DECLARE_0(zfbool, threadStopRequested);
+    ZFMETHOD_DECLARE_0(zfbool, threadStopRequested)
 
     /**
      * @brief wait until thread finished running
      *
      * return immediately if thread isn't running
      */
-    ZFMETHOD_DECLARE_0(void, threadWait);
+    ZFMETHOD_DECLARE_0(void, threadWait)
 
     /**
      * @brief wait until thread finished running, or timeout
@@ -178,14 +182,14 @@ public:
      *         false if wait timeout or error
      */
     ZFMETHOD_DECLARE_1(zfbool, threadWait,
-                       ZFMP_IN(const zftimet &, miliSecs));
+                       ZFMP_IN(const zftimet &, miliSecs))
 
     /**
      * @brief return true if current thread is main thread
      *
      * subclass should not override this method
      */
-    ZFMETHOD_DECLARE_0(zfbool, isMainThread);
+    ZFMETHOD_DECLARE_0(zfbool, isMainThread)
     /**
      * @brief add object to auto release pool attached to this thread
      *
@@ -213,7 +217,7 @@ protected:
     ZFMETHOD_DECLARE_DETAIL_2(protected, ZFMethodIsVirtual,
                               void, threadOnRun,
                               ZFMP_IN(const ZFListenerData &, listenerData),
-                              ZFMP_IN(ZFObject *, userData));
+                              ZFMP_IN(ZFObject *, userData))
 
 public:
     zffinal void _ZFP_ZFThread_threadOnStart(ZF_IN ZFObject *param0, ZF_IN ZFObject *param1)

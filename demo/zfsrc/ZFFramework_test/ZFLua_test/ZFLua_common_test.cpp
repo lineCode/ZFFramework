@@ -42,33 +42,36 @@ protected:
     }
 
 public:
-    ZFMETHOD_DECLARE_1(zfstring, myMethod, ZFMP_IN(const zfchar *, param0))
+    ZFMETHOD_INLINE_1(zfstring, myMethod, ZFMP_IN(const zfchar *, param0))
     {
         zfLogT() << param0;
         zfstring ret = param0;
         ret += zfText("(modified)");
         return ret;
     }
-    ZFMETHOD_DECLARE_STATIC_1(zfstring &, MyMethod, ZFMP_IN(zfstring &, param0))
+    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodIsStatic,
+                             zfstring &, MyMethod, ZFMP_IN(zfstring &, param0))
     {
         zfLogT() << param0;
         param0 += zfText("(modified)");
         return param0;
     }
 
-    ZFMETHOD_DECLARE_1(void, myMethodOverload, ZFMP_IN(const zfchar *, param0))
+    ZFMETHOD_INLINE_1(void, myMethodOverload, ZFMP_IN(const zfchar *, param0))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_DECLARE_1(void, myMethodOverload, ZFMP_IN(zfbool, param0))
+    ZFMETHOD_INLINE_1(void, myMethodOverload, ZFMP_IN(zfbool, param0))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_DECLARE_STATIC_1(void, MyMethodOverload, ZFMP_IN(const zfchar *, param0))
+    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodIsStatic,
+                             void, MyMethodOverload, ZFMP_IN(const zfchar *, param0))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_DECLARE_STATIC_1(void, MyMethodOverload, ZFMP_IN(zfbool, param0))
+    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodIsStatic,
+                             void, MyMethodOverload, ZFMP_IN(zfbool, param0))
     {
         zfLogT() << param0;
     }

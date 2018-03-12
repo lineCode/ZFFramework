@@ -9,7 +9,7 @@
  *       ZFOBJECT_DECLARE(MyObject)
  *
  *       // declare method
- *       ZFMETHOD_DECLARE_0(void, myMethod)
+ *       ZFMETHOD_INLINE_0(void, myMethod)
  *       {
  *           // method contents here
  *       }

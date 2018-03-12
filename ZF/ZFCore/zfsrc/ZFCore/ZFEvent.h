@@ -41,15 +41,15 @@ public:
     /**
      * @brief whether the event has been resolved
      */
-    ZFMETHOD_DECLARE_1(void, eventResolvedSet,
-                       ZFMP_IN(zfbool const &, value))
+    ZFMETHOD_INLINE_1(void, eventResolvedSet,
+                      ZFMP_IN(zfbool const &, value))
     {
         _ZFP_ZFEvent_eventResolved = value;
     }
     /**
      * @brief see #eventResolvedSet
      */
-    ZFMETHOD_DECLARE_0(zfbool, eventResolved)
+    ZFMETHOD_INLINE_0(zfbool, eventResolved)
     {
         return _ZFP_ZFEvent_eventResolved;
     }

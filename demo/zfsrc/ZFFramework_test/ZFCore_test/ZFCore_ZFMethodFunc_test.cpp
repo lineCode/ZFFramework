@@ -30,93 +30,85 @@ ZFMETHOD_FUNC_DEFINE_0(zfstring, ZFCore_ZFMethodFunc_test_func0)
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_1(zfstring, ZFCore_ZFMethodFunc_test_func1
-                       , ZFMP_IN(zfstring, param0)
-                       )
+ZFMETHOD_FUNC_DEFINE_1(zfstring, ZFCore_ZFMethodFunc_test_func1,
+                       ZFMP_IN(zfstring, param0))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_2(zfstring, ZFCore_ZFMethodFunc_test_func2
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       )
+ZFMETHOD_FUNC_DEFINE_2(zfstring, ZFCore_ZFMethodFunc_test_func2,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_3(zfstring, ZFCore_ZFMethodFunc_test_func3
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       , ZFMP_IN(zfstring, param2)
-                       )
+ZFMETHOD_FUNC_DEFINE_3(zfstring, ZFCore_ZFMethodFunc_test_func3,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1),
+                       ZFMP_IN(zfstring, param2))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_4(zfstring, ZFCore_ZFMethodFunc_test_func4
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       , ZFMP_IN(zfstring, param2)
-                       , ZFMP_IN(zfstring, param3)
-                       )
+ZFMETHOD_FUNC_DEFINE_4(zfstring, ZFCore_ZFMethodFunc_test_func4,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1),
+                       ZFMP_IN(zfstring, param2),
+                       ZFMP_IN(zfstring, param3))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_5(zfstring, ZFCore_ZFMethodFunc_test_func5
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       , ZFMP_IN(zfstring, param2)
-                       , ZFMP_IN(zfstring, param3)
-                       , ZFMP_IN(zfstring, param4)
-                       )
+ZFMETHOD_FUNC_DEFINE_5(zfstring, ZFCore_ZFMethodFunc_test_func5,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1),
+                       ZFMP_IN(zfstring, param2),
+                       ZFMP_IN(zfstring, param3),
+                       ZFMP_IN(zfstring, param4))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_6(zfstring, ZFCore_ZFMethodFunc_test_func6
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       , ZFMP_IN(zfstring, param2)
-                       , ZFMP_IN(zfstring, param3)
-                       , ZFMP_IN(zfstring, param4)
-                       , ZFMP_IN(zfstring, param5)
-                       )
+ZFMETHOD_FUNC_DEFINE_6(zfstring, ZFCore_ZFMethodFunc_test_func6,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1),
+                       ZFMP_IN(zfstring, param2),
+                       ZFMP_IN(zfstring, param3),
+                       ZFMP_IN(zfstring, param4),
+                       ZFMP_IN(zfstring, param5))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_7(zfstring, ZFCore_ZFMethodFunc_test_func7
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       , ZFMP_IN(zfstring, param2)
-                       , ZFMP_IN(zfstring, param3)
-                       , ZFMP_IN(zfstring, param4)
-                       , ZFMP_IN(zfstring, param5)
-                       , ZFMP_IN(zfstring, param6)
-                       )
+ZFMETHOD_FUNC_DEFINE_7(zfstring, ZFCore_ZFMethodFunc_test_func7,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1),
+                       ZFMP_IN(zfstring, param2),
+                       ZFMP_IN(zfstring, param3),
+                       ZFMP_IN(zfstring, param4),
+                       ZFMP_IN(zfstring, param5),
+                       ZFMP_IN(zfstring, param6))
 {
     zfLogT();
     return zfText("ReturnValue");
 }
 
-ZFMETHOD_FUNC_DEFINE_8(zfstring, ZFCore_ZFMethodFunc_test_func8
-                       , ZFMP_IN(zfstring, param0)
-                       , ZFMP_IN(zfstring, param1)
-                       , ZFMP_IN(zfstring, param2)
-                       , ZFMP_IN(zfstring, param3)
-                       , ZFMP_IN(zfstring, param4)
-                       , ZFMP_IN(zfstring, param5)
-                       , ZFMP_IN(zfstring, param6)
-                       , ZFMP_IN(zfstring, param7)
-                       )
+ZFMETHOD_FUNC_DEFINE_8(zfstring, ZFCore_ZFMethodFunc_test_func8,
+                       ZFMP_IN(zfstring, param0),
+                       ZFMP_IN(zfstring, param1),
+                       ZFMP_IN(zfstring, param2),
+                       ZFMP_IN(zfstring, param3),
+                       ZFMP_IN(zfstring, param4),
+                       ZFMP_IN(zfstring, param5),
+                       ZFMP_IN(zfstring, param6),
+                       ZFMP_IN(zfstring, param7))
 {
     zfLogT();
     return zfText("ReturnValue");

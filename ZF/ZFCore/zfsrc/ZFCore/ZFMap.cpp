@@ -47,8 +47,8 @@ public:
 // ZFMap
 ZFOBJECT_REGISTER(ZFMap)
 
-ZFMETHOD_DEFINE_1(ZFMap, void, objectOnInit,
-                  ZFMP_IN(ZFKeyValueContainer *, another))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFMap,
+                          ZFMP_IN(ZFKeyValueContainer *, another))
 {
     this->objectOnInit();
     if(another != zfnull)

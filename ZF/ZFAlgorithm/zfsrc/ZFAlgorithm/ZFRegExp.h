@@ -181,9 +181,8 @@ protected:
     /**
      * @brief init with pattern, see #regExpCompile
      */
-    ZFMETHOD_DECLARE_PROTECTED_2(void, objectOnInit,
-                                 ZFMP_IN(const zfchar *, pattern),
-                                 ZFMP_IN_OPT(ZFRegExpOptionFlags, flag, ZFRegExpOptionFlags::EnumDefault()));
+    ZFOBJECT_ON_INIT_DECLARE_2(ZFMP_IN(const zfchar *, pattern),
+                               ZFMP_IN_OPT(ZFRegExpOptionFlags, flag, ZFRegExpOptionFlags::EnumDefault()))
 
     zfoverride
     virtual void objectOnInit(void);
@@ -207,21 +206,21 @@ public:
     /**
      * @brief for internal use only
      */
-    ZFMETHOD_DECLARE_0(void *, nativeRegExp);
+    ZFMETHOD_DECLARE_0(void *, nativeRegExp)
 
 public:
     /**
      * @brief get current pattern or null if not set, use #regExpCompile to change
      */
-    ZFMETHOD_DECLARE_0(const zfchar *, regExpPattern);
+    ZFMETHOD_DECLARE_0(const zfchar *, regExpPattern)
     /**
      * @brief get current flag or ZFRegExpOptionNone if not set, use #regExpCompile to change
      */
-    ZFMETHOD_DECLARE_0(ZFRegExpOptionFlags, regExpFlag);
+    ZFMETHOD_DECLARE_0(ZFRegExpOptionFlags, regExpFlag)
     /**
      * @brief get named group's number which can be used as "$n" while #regExpReplace, or zfindexMax() if no such group
      */
-    ZFMETHOD_DECLARE_1(zfindex, regExpNamedGroupIndexForName, ZFMP_IN(const zfchar *, name));
+    ZFMETHOD_DECLARE_1(zfindex, regExpNamedGroupIndexForName, ZFMP_IN(const zfchar *, name))
 
 public:
     /**
@@ -229,7 +228,7 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, regExpCompile,
                        ZFMP_IN(const zfchar *, pattern),
-                       ZFMP_IN_OPT(ZFRegExpOptionFlags, flag, ZFRegExpOptionFlags::EnumDefault()));
+                       ZFMP_IN_OPT(ZFRegExpOptionFlags, flag, ZFRegExpOptionFlags::EnumDefault()))
 
     /**
      * @brief test the src with this compiled pattern, see #regExpMatchExact
@@ -237,14 +236,14 @@ public:
     ZFMETHOD_DECLARE_3(void, regExpMatch,
                        ZFMP_OUT(ZFRegExpResult &, result),
                        ZFMP_IN(const zfchar *, src),
-                       ZFMP_IN_OPT(zfindex, srcLength, zfindexMax()));
+                       ZFMP_IN_OPT(zfindex, srcLength, zfindexMax()))
     /**
      * @brief test the src which must match the pattern exactly, see #regExpMatch
      */
     ZFMETHOD_DECLARE_3(void, regExpMatchExact,
                        ZFMP_OUT(ZFRegExpResult &, result),
                        ZFMP_IN(const zfchar *, src),
-                       ZFMP_IN_OPT(zfindex, srcLength, zfindexMax()));
+                       ZFMP_IN_OPT(zfindex, srcLength, zfindexMax()))
 
     /**
      * @brief replace src with this pattern and replacePattern
@@ -255,7 +254,7 @@ public:
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN(const zfchar *, replacePattern),
                        ZFMP_IN_OPT(zfindex, maxReplaceCount, zfindexMax()),
-                       ZFMP_IN_OPT(zfindex, srcLength, zfindexMax()));
+                       ZFMP_IN_OPT(zfindex, srcLength, zfindexMax()))
 
 private:
     _ZFP_ZFRegExpPrivate *d;

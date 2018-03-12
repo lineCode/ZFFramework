@@ -211,7 +211,7 @@ public:
      *
      * check by cache time only, whether the cache is valid should be checked by #ZFOperation::cacheIsValid
      */
-    ZFMETHOD_DECLARE_0(zfbool, cacheIsExpired);
+    ZFMETHOD_DECLARE_0(zfbool, cacheIsExpired)
 };
 
 // ============================================================

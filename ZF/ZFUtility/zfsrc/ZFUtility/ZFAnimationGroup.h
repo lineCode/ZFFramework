@@ -126,41 +126,41 @@ public:
      * @brief add child animation
      */
     ZFMETHOD_DECLARE_1(void, childAniAdd,
-                       ZFMP_IN(ZFAnimation *, ani));
+                       ZFMP_IN(ZFAnimation *, ani))
     /**
      * @brief add child animation
      */
     ZFMETHOD_DECLARE_2(void, childAniAdd,
                        ZFMP_IN(ZFAnimation *, ani),
-                       ZFMP_IN(zfbool, childAutoCopyTarget));
+                       ZFMP_IN(zfbool, childAutoCopyTarget))
     /**
      * @brief add child animation
      */
     ZFMETHOD_DECLARE_1(void, childAniAdd,
-                       ZFMP_IN(ZFAnimationGroupChildData *, childData));
+                       ZFMP_IN(ZFAnimationGroupChildData *, childData))
     /**
      * @brief child animation count
      */
-    ZFMETHOD_DECLARE_0(zfindex, childAniCount);
+    ZFMETHOD_DECLARE_0(zfindex, childAniCount)
     /**
      * @brief get child animation
      */
     ZFMETHOD_DECLARE_1(ZFAnimation *, childAniGet,
-                       ZFMP_IN(zfindex , index));
+                       ZFMP_IN(zfindex , index))
     /**
      * @brief get child animation data
      */
     ZFMETHOD_DECLARE_1(ZFAnimationGroupChildData *, childAniDataGet,
-                       ZFMP_IN(zfindex, index));
+                       ZFMP_IN(zfindex, index))
     /**
      * @brief remove child animation
      */
     ZFMETHOD_DECLARE_1(void, childAniRemove,
-                       ZFMP_IN(zfindex, index));
+                       ZFMP_IN(zfindex, index))
     /**
      * @brief remove all child animation
      */
-    ZFMETHOD_DECLARE_0(void, childAniRemoveAll);
+    ZFMETHOD_DECLARE_0(void, childAniRemoveAll)
 
     // ============================================================
     // property

@@ -62,7 +62,7 @@ public:
     }
 
 public:
-    ZFLISTENER_DECLARE(threadCallback)
+    ZFLISTENER_INLINE(threadCallback)
     {
         zfidentity curId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
 
@@ -97,7 +97,7 @@ public:
             ZFThread::sleep(this->timer->timerInterval());
         }
     }
-    ZFLISTENER_DECLARE(mainThreadCallback)
+    ZFLISTENER_INLINE(mainThreadCallback)
     {
         zfidentity curId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
         if(curId != this->mainThreadCallbackIdGenerator.current()) {return ;}

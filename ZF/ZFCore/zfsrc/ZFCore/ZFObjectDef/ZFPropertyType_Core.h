@@ -89,7 +89,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * once registered, your type can be used as #ZFPROPERTY_ASSIGN
  * which benefits from the powerful automatic serialization logic,
- * or, can be used as reflectable param or return type for #ZFMETHOD_DECLARE_0\n
+ * or, can be used as reflectable param or return type for #ZFMETHOD_INLINE_0\n
  * \n
  * \n
  * ADVANCED:\n
@@ -398,7 +398,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 /**
- * @brief explicitly mark the type can not be reflected when used in #ZFMETHOD_DECLARE_0 or #ZFPROPERTY_ASSIGN
+ * @brief explicitly mark the type can not be reflected when used in #ZFMETHOD_INLINE_0 or #ZFPROPERTY_ASSIGN
  *
  * by default, all return types and method types in ZFMethod
  * must be registered by #ZFPROPERTY_TYPE_DECLARE

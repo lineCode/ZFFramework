@@ -49,9 +49,9 @@ public:
 
     ZFMETHOD_DECLARE_2(zfbool, ioSeek,
                        ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos));
-    ZFMETHOD_DECLARE_0(zfindex, ioTell);
-    ZFMETHOD_DECLARE_0(zfindex, ioSize);
+                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_DECLARE_0(zfindex, ioSize)
 };
 zfclass _ZFP_ZFIOBufferedCallbackUsingBufferPrivate : zfextends ZFObject
 {
@@ -82,9 +82,9 @@ protected:
     }
 
 public:
-    ZFMETHOD_DECLARE_2(zfindex, onInput,
-                       ZFMP_IN(void *, buf),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onInput,
+                      ZFMP_IN(void *, buf),
+                      ZFMP_IN(zfindex, count))
     {
         if(buf == zfnull)
         {
@@ -98,9 +98,9 @@ public:
             return count;
         }
     }
-    ZFMETHOD_DECLARE_2(zfindex, onOutput,
-                       ZFMP_IN(const void *, buf),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onOutput,
+                      ZFMP_IN(const void *, buf),
+                      ZFMP_IN(zfindex, count))
     {
         if(count == zfindexMax())
         {
@@ -112,18 +112,18 @@ public:
     }
 
     // input IO
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         this->inputIndex = ZFIOCallbackCalcFSeek(0, this->ioBuf.length(), this->inputIndex, byteSize, pos);
         return zftrue;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return this->inputIndex;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return this->ioBuf.length();
     }

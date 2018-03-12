@@ -86,7 +86,7 @@ public:
                 return ;
         }
     }
-    ZFLISTENER_DECLARE(orientationOnChange)
+    ZFLISTENER_INLINE(orientationOnChange)
     {
         if(ZFUIWindow::windowForView(this->mainLayout())->windowOwnerSysWindow() != listenerData.sender)
         {
@@ -96,7 +96,7 @@ public:
     }
 
 public:
-    ZFLISTENER_DECLARE(appPaused)
+    ZFLISTENER_INLINE(appPaused)
     {
         this->autoMoveRunner()->runnerStop();
         this->autoMoveButton()->buttonCheckedSet(zffalse);
@@ -153,18 +153,18 @@ public:
             this->gameOver();
         }
     }
-    ZFLISTENER_DECLARE(dataOnChange)
+    ZFLISTENER_INLINE(dataOnChange)
     {
         this->dataUpdate();
     }
 
 public:
-    ZFLISTENER_DECLARE(dialogAfterHide)
+    ZFLISTENER_INLINE(dialogAfterHide)
     {
         this->owner->game()->gameFocus();
     }
 
-    ZFLISTENER_DECLARE(autoMoveOnClick)
+    ZFLISTENER_INLINE(autoMoveOnClick)
     {
         if(this->autoMoveButton()->buttonChecked())
         {
@@ -177,27 +177,27 @@ public:
             this->owner->game()->gameFocus();
         }
     }
-    ZFLISTENER_DECLARE(autoMoveOnStart)
+    ZFLISTENER_INLINE(autoMoveOnStart)
     {
         this->autoMoveButton()->buttonCheckedSet(zftrue);
         this->autoMoveRunner()->actionList.removeAll();
         this->autoMoveRunner()->actionList.copyFrom(this->autoMoveSettingDialog()->autoMoves);
         this->autoMoveRunner()->runnerStart();
     }
-    ZFLISTENER_DECLARE(autoMoveOnStop)
+    ZFLISTENER_INLINE(autoMoveOnStop)
     {
         this->autoMoveButton()->buttonCheckedSet(zffalse);
     }
-    ZFLISTENER_DECLARE(autoMoveStop)
+    ZFLISTENER_INLINE(autoMoveStop)
     {
         this->autoMoveRunner()->runnerStop();
     }
-    ZFLISTENER_DECLARE(settingOnChange)
+    ZFLISTENER_INLINE(settingOnChange)
     {
         ZF2048AppSettingDialog *settingDialog = listenerData.sender->toAny();
         this->owner->game()->gameReset(settingDialog->dataWidth, settingDialog->dataHeight);
     }
-    ZFLISTENER_DECLARE(settingOnClick)
+    ZFLISTENER_INLINE(settingOnClick)
     {
         zfblockedAlloc(ZF2048AppSettingDialog, settingDialog, this->owner->game()->gameDataWidth(), this->owner->game()->gameDataHeight());
         settingDialog->observerAdd(ZF2048AppSettingDialog::EventSettingOnChange(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, settingOnChange)));

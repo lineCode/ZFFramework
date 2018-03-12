@@ -180,9 +180,9 @@ zfbool ZFRegExp::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
     return zftrue;
 }
 
-ZFMETHOD_DEFINE_2(ZFRegExp, void, objectOnInit,
-                  ZFMP_IN(const zfchar *, pattern),
-                  ZFMP_IN_OPT(ZFRegExpOptionFlags, flag, ZFRegExpOptionFlags::EnumDefault()))
+ZFOBJECT_ON_INIT_DEFINE_2(ZFRegExp,
+                          ZFMP_IN(const zfchar *, pattern),
+                          ZFMP_IN_OPT(ZFRegExpOptionFlags, flag, ZFRegExpOptionFlags::EnumDefault()))
 {
     this->objectOnInit();
     zfself::regExpCompile(pattern, flag);

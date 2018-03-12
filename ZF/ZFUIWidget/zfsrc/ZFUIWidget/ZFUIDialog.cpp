@@ -162,14 +162,14 @@ public:
     }
 
 public:
-    ZFLISTENER_DECLARE(dialogClickMaskOnClick)
+    ZFLISTENER_INLINE(dialogClickMaskOnClick)
     {
         if(this->pimplOwner->dialogHideWhenTouchOutside())
         {
             this->pimplOwner->dialogHide();
         }
     }
-    ZFLISTENER_DECLARE(aniShowOnStop)
+    ZFLISTENER_INLINE(aniShowOnStop)
     {
         if(!this->dialogWindowAniShow->aniRunning()
             && !this->dialogWindowAniHide->aniRunning()
@@ -204,7 +204,7 @@ public:
             this->pimplOwner->dialogAfterShow();
         }
     }
-    ZFLISTENER_DECLARE(aniHideOnStop)
+    ZFLISTENER_INLINE(aniHideOnStop)
     {
         if(!this->dialogWindowAniShow->aniRunning()
             && !this->dialogWindowAniHide->aniRunning()

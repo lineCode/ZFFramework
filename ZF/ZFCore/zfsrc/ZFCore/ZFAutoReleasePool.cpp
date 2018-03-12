@@ -38,8 +38,8 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFAutoReleasePoolCleanup, ZFLevelZFFramewo
 }
 ZF_GLOBAL_INITIALIZER_END(ZFAutoReleasePoolCleanup)
 
-ZFMETHOD_DEFINE_1(ZFAutoReleasePool, void, objectOnInit,
-                  ZFMP_IN(zfindex, maxSize))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFAutoReleasePool,
+                          ZFMP_IN(zfindex, maxSize))
 {
     this->objectOnInit();
     d->maxSize = maxSize;

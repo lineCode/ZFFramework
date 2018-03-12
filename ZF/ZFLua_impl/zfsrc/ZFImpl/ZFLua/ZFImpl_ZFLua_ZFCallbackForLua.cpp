@@ -19,7 +19,7 @@ public:
     lua_State *L;
     int luaFunc;
 
-    ZFLISTENER_DECLARE(callback)
+    ZFLISTENER_INLINE(callback)
     {
         lua_rawgeti(L, LUA_REGISTRYINDEX, luaFunc);
         if(lua_isfunction(L, -1))

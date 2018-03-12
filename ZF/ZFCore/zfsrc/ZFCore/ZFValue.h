@@ -100,8 +100,7 @@ protected:
     /**
      * @brief init from another value
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(ZFValue *, another))
+    ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(ZFValue *, another))
     {
         this->objectOnInit();
         zfself::valueSet(another);

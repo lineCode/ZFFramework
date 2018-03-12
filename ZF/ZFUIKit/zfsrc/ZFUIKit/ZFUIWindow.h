@@ -131,15 +131,17 @@ public:
     /**
      * @brief util method to get window of a view, or null if not in a window
      */
-    ZFMETHOD_DECLARE_STATIC_1(ZFUIWindow *, windowForView,
-                              ZFMP_IN(ZFUIView *, forView));
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+                              ZFUIWindow *, windowForView,
+                              ZFMP_IN(ZFUIView *, forView))
 
     /**
      * @brief util method to get owner sys window for the view,
      *   return null if not in view tree or failed to get
      */
-    ZFMETHOD_DECLARE_STATIC_1(ZFUISysWindow *, sysWindowForView,
-                              ZFMP_IN(ZFUIView *, view));
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+                              ZFUISysWindow *, sysWindowForView,
+                              ZFMP_IN(ZFUIView *, view))
 
 protected:
     zfoverride
@@ -171,14 +173,14 @@ public:
      * so you have no need to care about this method
      */
     ZFMETHOD_DECLARE_1(void, windowOwnerSysWindowSet,
-                       ZFMP_IN(ZFUISysWindow *, windowOwnerSysWindow));
+                       ZFMP_IN(ZFUISysWindow *, windowOwnerSysWindow))
     /**
      * @brief get the owner #ZFUISysWindow, even if not showing
      *
      * usually you should have only one #ZFUISysWindow in your app
      * so you have no need to care about this method
      */
-    ZFMETHOD_DECLARE_0(ZFUISysWindow *, windowOwnerSysWindow);
+    ZFMETHOD_DECLARE_0(ZFUISysWindow *, windowOwnerSysWindow)
 protected:
     /** @brief see #EventWindowOwnerSysWindowOnChange */
     virtual inline void windowOwnerSysWindowOnChange(ZF_IN ZFUISysWindow *oldSysWindow)
@@ -190,25 +192,25 @@ public:
     /**
      * @brief show the window, automatically retain the window
      */
-    ZFMETHOD_DECLARE_0(void, windowShow);
+    ZFMETHOD_DECLARE_0(void, windowShow)
     /**
      * @brief hide the window, automatically release the window
      */
-    ZFMETHOD_DECLARE_0(void, windowHide);
+    ZFMETHOD_DECLARE_0(void, windowHide)
     /**
      * @brief whether the window is showing
      */
-    ZFMETHOD_DECLARE_0(zfbool, windowShowing);
+    ZFMETHOD_DECLARE_0(zfbool, windowShowing)
 
 public:
     /**
      * @brief move window to top of all same level window
      */
-    ZFMETHOD_DECLARE_0(void, windowMoveToTop);
+    ZFMETHOD_DECLARE_0(void, windowMoveToTop)
     /**
      * @brief move window to bottom of all same level window
      */
-    ZFMETHOD_DECLARE_0(void, windowMoveToBottom);
+    ZFMETHOD_DECLARE_0(void, windowMoveToBottom)
 
 public:
     /**
@@ -217,7 +219,7 @@ public:
      *
      * default param is fill parent (with sizeWeight (1, 1) and all others zero)
      */
-    ZFMETHOD_DECLARE_0(ZFUIViewLayoutParam *, windowLayoutParam);
+    ZFMETHOD_DECLARE_0(ZFUIViewLayoutParam *, windowLayoutParam)
 
 protected:
     /** @brief see #EventWindowOnShow */

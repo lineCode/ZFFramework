@@ -257,7 +257,7 @@ public:
     /**
      * @brief cancel over scroll and ensure content offset in range
      */
-    ZFMETHOD_DECLARE_0(void, scrollToFitRange);
+    ZFMETHOD_DECLARE_0(void, scrollToFitRange)
     /**
      * @brief scroll child to proper position so that it's visible to user
      *
@@ -265,7 +265,7 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, scrollChildToVisible,
                        ZFMP_IN(ZFUIView *, child),
-                       ZFMP_IN_OPT(zfbool, scrollWithAni, zftrue));
+                       ZFMP_IN_OPT(zfbool, scrollWithAni, zftrue))
 
     // ============================================================
     // scroll area
@@ -274,21 +274,21 @@ public:
      * @brief margin for impl to modify scrollable area, #ZFUIMarginZero by default
      */
     ZFMETHOD_DECLARE_1(void, scrollAreaMarginAdd,
-                       ZFMP_IN(const ZFUIMargin &, margin));
+                       ZFMP_IN(const ZFUIMargin &, margin))
     /**
      * @brief see #scrollAreaMarginAdd
      */
     ZFMETHOD_DECLARE_1(void, scrollAreaMarginRemove,
-                       ZFMP_IN(const ZFUIMargin &, margin));
+                       ZFMP_IN(const ZFUIMargin &, margin))
     /**
      * @brief see #scrollAreaMarginAdd
      */
-    ZFMETHOD_DECLARE_0(const ZFUIMargin &, scrollAreaMargin);
+    ZFMETHOD_DECLARE_0(const ZFUIMargin &, scrollAreaMargin)
     /**
      * @brief scrollable frame excluding #scrollAreaMargin,
      *   valid only if layouted
      */
-    ZFMETHOD_DECLARE_0(const ZFUIRect &, scrollArea);
+    ZFMETHOD_DECLARE_0(const ZFUIRect &, scrollArea)
 
     // ============================================================
     // scroll thumb
@@ -300,20 +300,20 @@ public:
      * would be used
      */
     ZFMETHOD_DECLARE_1(void, scrollThumbHorizontalClassSet,
-                       ZFMP_IN(const ZFClass *, cls));
+                       ZFMP_IN(const ZFClass *, cls))
     /**
      * @brief see #scrollThumbHorizontalClassSet
      */
-    ZFMETHOD_DECLARE_0(const ZFClass *, scrollThumbHorizontalClass);
+    ZFMETHOD_DECLARE_0(const ZFClass *, scrollThumbHorizontalClass)
     /**
      * @brief see #scrollThumbHorizontalClassSet
      */
     ZFMETHOD_DECLARE_1(void, scrollThumbVerticalClassSet,
-                       ZFMP_IN(const ZFClass *, cls));
+                       ZFMP_IN(const ZFClass *, cls))
     /**
      * @brief see #scrollThumbHorizontalClassSet
      */
-    ZFMETHOD_DECLARE_0(const ZFClass *, scrollThumbVerticalClass);
+    ZFMETHOD_DECLARE_0(const ZFClass *, scrollThumbVerticalClass)
 protected:
     /**
      * @brief called to init scroll thumb
@@ -334,7 +334,7 @@ public:
      * scroller can only be changed by #ZFUIScrollerClassSet,
      * and only affect newly created scroll view
      */
-    ZFMETHOD_DECLARE_0(const ZFClass *, scrollerClass);
+    ZFMETHOD_DECLARE_0(const ZFClass *, scrollerClass)
 
 public:
     /**
@@ -342,22 +342,22 @@ public:
      *
      * positive if normal scroll, negative if bouncing
      */
-    ZFMETHOD_DECLARE_0(zfint, scrollContentOffsetLeft)
+    ZFMETHOD_INLINE_0(zfint, scrollContentOffsetLeft)
     {
         return -this->scrollContentFrame().point.x;
     }
     /** @brief see #scrollContentOffsetLeft */
-    ZFMETHOD_DECLARE_0(zfint, scrollContentOffsetTop)
+    ZFMETHOD_INLINE_0(zfint, scrollContentOffsetTop)
     {
         return -this->scrollContentFrame().point.y;
     }
     /** @brief see #scrollContentOffsetLeft */
-    ZFMETHOD_DECLARE_0(zfint, scrollContentOffsetRight)
+    ZFMETHOD_INLINE_0(zfint, scrollContentOffsetRight)
     {
         return this->scrollArea().size.width - ZFUIRectGetRight(this->scrollContentFrame());
     }
     /** @brief see #scrollContentOffsetLeft */
-    ZFMETHOD_DECLARE_0(zfint, scrollContentOffsetBottom)
+    ZFMETHOD_INLINE_0(zfint, scrollContentOffsetBottom)
     {
         return this->scrollArea().size.height - ZFUIRectGetBottom(this->scrollContentFrame());
     }
@@ -370,46 +370,46 @@ public:
      * and #scrollByPoint
      */
     ZFMETHOD_DECLARE_1(void, scrollContentFrameSetAnimated,
-                       ZFMP_IN(const ZFUIRect &, scrollContentFrame));
+                       ZFMP_IN(const ZFUIRect &, scrollContentFrame))
     /**
      * @brief change scroll content frame without interrupt current scroll animation
      */
     ZFMETHOD_DECLARE_1(void, scrollContentFrameSetWhileAnimating,
-                       ZFMP_IN(const ZFUIRect &, scrollContentFrame));
+                       ZFMP_IN(const ZFUIRect &, scrollContentFrame))
     /**
      * @brief animated scroll to desired position
      */
     ZFMETHOD_DECLARE_2(void, scrollByPoint,
                        ZFMP_IN(zfint, xPos),
-                       ZFMP_IN(zfint, yPos));
+                       ZFMP_IN(zfint, yPos))
     /**
      * @brief return end point of #scrollByPoint, or current content offset if not scrolling
      */
-    ZFMETHOD_DECLARE_0(ZFUIPoint, scrollByPointEndPoint);
+    ZFMETHOD_DECLARE_0(ZFUIPoint, scrollByPointEndPoint)
     /**
      * @brief scroll by desired initial speed, in pixels per second
      */
     ZFMETHOD_DECLARE_2(void, scrollBySpeed,
                        ZFMP_IN(zfint, xSpeedInPixelsPerSecond),
-                       ZFMP_IN(zfint, ySpeedInPixelsPerSecond));
+                       ZFMP_IN(zfint, ySpeedInPixelsPerSecond))
     /**
      * @brief return current speed of #scrollBySpeed
      */
-    ZFMETHOD_DECLARE_0(zfint, scrollBySpeedCurrentSpeedX);
+    ZFMETHOD_DECLARE_0(zfint, scrollBySpeedCurrentSpeedX)
     /**
      * @brief return current speed of #scrollBySpeed
      */
-    ZFMETHOD_DECLARE_0(zfint, scrollBySpeedCurrentSpeedY);
+    ZFMETHOD_DECLARE_0(zfint, scrollBySpeedCurrentSpeedY)
     /**
      * @brief return predicted end point of #scrollBySpeed, or current content offset if not scrolling,
      *   valid only if isn't bouncing and won't bouncing when stop
      */
-    ZFMETHOD_DECLARE_0(ZFUIPoint, scrollBySpeedEndPointPredicted);
+    ZFMETHOD_DECLARE_0(ZFUIPoint, scrollBySpeedEndPointPredicted)
 
     /**
      * @brief #scrollByPointEndPoint or #scrollBySpeedEndPointPredicted depending on scroll type
      */
-    ZFMETHOD_DECLARE_0(ZFUIPoint, scrollEndPointPredicted);
+    ZFMETHOD_DECLARE_0(ZFUIPoint, scrollEndPointPredicted)
 
 public:
     /**
@@ -422,28 +422,28 @@ public:
      * -  scroll reached content's edge
      */
     ZFMETHOD_DECLARE_1(void, autoScrollStartX,
-                       ZFMP_IN(zfint, speedInPixelsPerSecond));
+                       ZFMP_IN(zfint, speedInPixelsPerSecond))
     /**
      * @brief see #autoScrollStartX
      */
     ZFMETHOD_DECLARE_1(void, autoScrollStartY,
-                       ZFMP_IN(zfint, speedInPixelsPerSecond));
+                       ZFMP_IN(zfint, speedInPixelsPerSecond))
     /**
      * @brief see #autoScrollStartX
      */
-    ZFMETHOD_DECLARE_0(void, autoScrollStopX);
+    ZFMETHOD_DECLARE_0(void, autoScrollStopX)
     /**
      * @brief see #autoScrollStartX
      */
-    ZFMETHOD_DECLARE_0(void, autoScrollStopY);
+    ZFMETHOD_DECLARE_0(void, autoScrollStopY)
     /**
      * @brief current auto scroll speed, 0 means not auto scrolling, see #autoScrollStartX
      */
-    ZFMETHOD_DECLARE_0(zfint, autoScrollSpeedX);
+    ZFMETHOD_DECLARE_0(zfint, autoScrollSpeedX)
     /**
      * @brief current auto scroll speed, 0 means not auto scrolling, see #autoScrollStartX
      */
-    ZFMETHOD_DECLARE_0(zfint, autoScrollSpeedY);
+    ZFMETHOD_DECLARE_0(zfint, autoScrollSpeedY)
 
 public:
     /**
@@ -451,19 +451,19 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, scrollSimulateDragBegin,
                        ZFMP_IN(const ZFUIPoint &, mousePos),
-                       ZFMP_IN(const zftimet &, mouseTime));
+                       ZFMP_IN(const zftimet &, mouseTime))
     /**
      * @brief simulate drag
      */
     ZFMETHOD_DECLARE_2(void, scrollSimulateDrag,
                        ZFMP_IN(const ZFUIPoint &, mousePos),
-                       ZFMP_IN(const zftimet &, mouseTime));
+                       ZFMP_IN(const zftimet &, mouseTime))
     /**
      * @brief simulate drag
      */
     ZFMETHOD_DECLARE_2(void, scrollSimulateDragEnd,
                        ZFMP_IN(const zftimet &, mouseTime),
-                       ZFMP_IN_OPT(zfbool, needScrollAni, zftrue));
+                       ZFMP_IN_OPT(zfbool, needScrollAni, zftrue))
 
 protected:
     /**
@@ -485,7 +485,7 @@ public:
     /**
      * @brief current state for the scroll view
      */
-    ZFMETHOD_DECLARE_0(ZFUIScrollViewStateEnum, scrollViewState);
+    ZFMETHOD_DECLARE_0(ZFUIScrollViewStateEnum, scrollViewState)
 
     // ============================================================
     // scroll callbacks

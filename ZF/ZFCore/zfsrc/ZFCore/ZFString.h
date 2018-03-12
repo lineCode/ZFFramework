@@ -359,9 +359,8 @@ public:
     /**
      * @brief init from zfchar string
      */
-    ZFMETHOD_DECLARE_PROTECTED_2(void, objectOnInit,
-                                 ZFMP_IN(const zfchar *, s),
-                                 ZFMP_IN_OPT(ZFStringStorageTypeEnum, storageType, ZFStringStorageType::EnumDefault()))
+    ZFOBJECT_ON_INIT_INLINE_2(ZFMP_IN(const zfchar *, s),
+                              ZFMP_IN_OPT(ZFStringStorageTypeEnum, storageType, ZFStringStorageType::EnumDefault()))
     {
         this->objectOnInit();
         zfself::stringValueSet(s, storageType);
@@ -369,8 +368,7 @@ public:
     /**
      * @brief init from ZFString (no deep copy)
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(ZFString *, another))
+    ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(ZFString *, another))
     {
         this->objectOnInit();
         zfself::stringValueSet(another);
@@ -378,8 +376,7 @@ public:
     /**
      * @brief init from native string
      */
-    ZFMETHOD_DECLARE_PROTECTED_1(void, objectOnInit,
-                                 ZFMP_IN(void *, nativeString))
+    ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(void *, nativeString))
     {
         this->objectOnInit();
         zfself::nativeStringSet(nativeString);
@@ -433,7 +430,7 @@ public:
     /**
      * @brief true if empty
      */
-    ZFMETHOD_DECLARE_0(zfbool, isEmpty);
+    ZFMETHOD_DECLARE_0(zfbool, isEmpty)
     /**
      * @brief get the length of the string
      *
@@ -443,11 +440,11 @@ public:
      * "sizeof(zfchar) * length()"
      * @see wordCount
      */
-    ZFMETHOD_DECLARE_0(zfindex, length);
+    ZFMETHOD_DECLARE_0(zfindex, length)
     /**
      * @brief get the logical word count instead of byte size
      */
-    ZFMETHOD_DECLARE_0(zfindex, wordCount);
+    ZFMETHOD_DECLARE_0(zfindex, wordCount)
     /**
      * @brief get the string, ensured to be non-null
      *
@@ -455,12 +452,12 @@ public:
      * @note the returned string is not ensured alive during owner ZFString's life-time,
      *   you should not store the returned pointer value
      */
-    ZFMETHOD_DECLARE_0(const zfchar *, stringValue);
+    ZFMETHOD_DECLARE_0(const zfchar *, stringValue)
     /**
      * @brief get the nativeString, you must not change its content,
      *   ensured to be non-null, create if necessary
      */
-    ZFMETHOD_DECLARE_0(void *, nativeString);
+    ZFMETHOD_DECLARE_0(void *, nativeString)
 
 protected:
     /**
@@ -498,19 +495,19 @@ zfclass ZF_ENV_EXPORT ZFStringEditable : zfextends ZFString
     ZFOBJECT_DECLARE(ZFStringEditable, ZFString)
 
 public:
-    ZFMETHOD_DECLARE_2(void, stringValueSet,
-                       ZFMP_IN_OPT(const zfchar *, s, zfnull),
-                       ZFMP_IN_OPT(ZFStringStorageTypeEnum, storageType, ZFStringStorageType::EnumDefault()))
+    ZFMETHOD_INLINE_2(void, stringValueSet,
+                      ZFMP_IN_OPT(const zfchar *, s, zfnull),
+                      ZFMP_IN_OPT(ZFStringStorageTypeEnum, storageType, ZFStringStorageType::EnumDefault()))
     {
         zfsuper::stringValueSet(s, storageType);
     }
-    ZFMETHOD_DECLARE_1(void, nativeStringSet,
-                       ZFMP_IN(void *, nativeString))
+    ZFMETHOD_INLINE_1(void, nativeStringSet,
+                      ZFMP_IN(void *, nativeString))
     {
         zfsuper::nativeStringSet(nativeString);
     }
-    ZFMETHOD_DECLARE_1(void, stringValueSet,
-                       ZFMP_IN(ZFString *, another))
+    ZFMETHOD_INLINE_1(void, stringValueSet,
+                      ZFMP_IN(ZFString *, another))
     {
         zfsuper::stringValueSet(another);
     }

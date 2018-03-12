@@ -71,7 +71,7 @@ public:
      * @brief create a #ZFUIWindow to hold the manager for short,
      *   see #managerContainer for more info
      */
-    ZFMETHOD_DECLARE_0(zfautoObject, embededCreateWindow);
+    ZFMETHOD_DECLARE_0(zfautoObject, embededCreateWindow)
 
 protected:
     zfoverride

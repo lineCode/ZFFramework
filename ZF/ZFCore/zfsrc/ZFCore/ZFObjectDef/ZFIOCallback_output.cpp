@@ -22,9 +22,9 @@ public:
     zfstring *pString;
     zfindex savedLength;
     zfindex curPos;
-    ZFMETHOD_DECLARE_2(zfindex, onOutput,
-                       ZFMP_IN(const void *, s),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onOutput,
+                      ZFMP_IN(const void *, s),
+                      ZFMP_IN(zfindex, count))
     {
         if(count == zfindexMax())
         {
@@ -38,18 +38,18 @@ public:
         this->curPos += count;
         return count * sizeof(zfchar);
     }
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         this->curPos = ZFIOCallbackCalcFSeek(this->savedLength, this->pString->length(), this->curPos, byteSize, pos);
         return zftrue;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return ((this->pString->length() >= this->savedLength) ? (this->pString->length() - this->savedLength) : zfindexMax());
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return this->pString->length() - this->curPos;
     }
@@ -80,9 +80,9 @@ public:
     zfbyte *p;
 
 public:
-    ZFMETHOD_DECLARE_2(zfindex, onOutput,
-                       ZFMP_IN(const void *, s),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onOutput,
+                      ZFMP_IN(const void *, s),
+                      ZFMP_IN(zfindex, count))
     {
         const zfbyte *pSrc = (const zfbyte *)s;
         if(count == zfindexMax())
@@ -115,18 +115,18 @@ public:
             return p - (const zfbyte *)s;
         }
     }
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         p = pStart + ZFIOCallbackCalcFSeek(0, pEnd - pStart, p - pStart, byteSize, pos);
         return zftrue;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return p - pStart;
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return pEnd - pStart;
     }

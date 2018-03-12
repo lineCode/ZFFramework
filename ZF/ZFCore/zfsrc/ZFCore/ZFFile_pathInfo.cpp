@@ -554,23 +554,23 @@ public:
         return (this->token != ZFTokenInvalid());
     }
 
-    ZFMETHOD_DECLARE_2(zfindex, onInput,
-                       ZFMP_IN(void *, buf),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onInput,
+                      ZFMP_IN(void *, buf),
+                      ZFMP_IN(zfindex, count))
     {
         return this->impl->callbackRead(this->token, buf, count);
     }
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         return ZFFilePathInfoBOMSeek(*(this->impl), this->token, this->BOMSize, byteSize, pos);
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return ZFFilePathInfoBOMTell(*(this->impl), this->token, this->BOMSize);
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return this->impl->callbackSize(this->token) - this->impl->callbackTell(this->token);
     }
@@ -769,23 +769,23 @@ public:
         return (this->token != ZFTokenInvalid());
     }
 
-    ZFMETHOD_DECLARE_2(zfindex, onOutput,
-                       ZFMP_IN(const void *, s),
-                       ZFMP_IN(zfindex, count))
+    ZFMETHOD_INLINE_2(zfindex, onOutput,
+                      ZFMP_IN(const void *, s),
+                      ZFMP_IN(zfindex, count))
     {
         return this->impl->callbackWrite(this->token, s, count);
     }
-    ZFMETHOD_DECLARE_2(zfbool, ioSeek,
-                       ZFMP_IN(zfindex, byteSize),
-                       ZFMP_IN(ZFSeekPos, pos))
+    ZFMETHOD_INLINE_2(zfbool, ioSeek,
+                      ZFMP_IN(zfindex, byteSize),
+                      ZFMP_IN(ZFSeekPos, pos))
     {
         return ZFFilePathInfoBOMSeek(*(this->impl), this->token, 0, byteSize, pos);
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioTell)
+    ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
         return ZFFilePathInfoBOMTell(*(this->impl), this->token, 0);
     }
-    ZFMETHOD_DECLARE_0(zfindex, ioSize)
+    ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
         return this->impl->callbackSize(this->token) - this->impl->callbackTell(this->token);
     }

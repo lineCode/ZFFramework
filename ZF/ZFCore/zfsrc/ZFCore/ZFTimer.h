@@ -70,12 +70,11 @@ protected:
      * you may change them after timer created,
      * but you must not if timer is started
      */
-    ZFMETHOD_DECLARE_PROTECTED_5(void, objectOnInit,
-                                 ZFMP_IN(const zftimet &, timerInterval),
-                                 ZFMP_IN_OPT(ZFObject *, timerParam0, zfnull),
-                                 ZFMP_IN_OPT(ZFObject *, timerParam1, zfnull),
-                                 ZFMP_IN_OPT(const zftimet &, timerDelay, zftimetZero()),
-                                 ZFMP_IN_OPT(zfbool, timerActivateInMainThread, zffalse))
+    ZFOBJECT_ON_INIT_INLINE_5(ZFMP_IN(const zftimet &, timerInterval),
+                              ZFMP_IN_OPT(ZFObject *, timerParam0, zfnull),
+                              ZFMP_IN_OPT(ZFObject *, timerParam1, zfnull),
+                              ZFMP_IN_OPT(const zftimet &, timerDelay, zftimetZero()),
+                              ZFMP_IN_OPT(zfbool, timerActivateInMainThread, zffalse))
     {
         this->objectOnInit();
         zfself::timerIntervalSet(timerInterval);
@@ -94,7 +93,7 @@ protected:
 
 public:
     /** @brief for internal use only */
-    ZFMETHOD_DECLARE_0(void *, nativeTimer);
+    ZFMETHOD_DECLARE_0(void *, nativeTimer)
 
 public:
     /**
@@ -162,22 +161,22 @@ public:
     /**
      * @brief start the timer
      */
-    ZFMETHOD_DECLARE_0(void, timerStart);
+    ZFMETHOD_DECLARE_0(void, timerStart)
     /**
      * @brief stop the timer
      */
-    ZFMETHOD_DECLARE_0(void, timerStop);
+    ZFMETHOD_DECLARE_0(void, timerStop)
     /**
      * @brief true if started
      */
-    ZFMETHOD_DECLARE_0(zfbool, timerStarted);
+    ZFMETHOD_DECLARE_0(zfbool, timerStarted)
 
 public:
     /**
      * @brief get timer's current fired count, with 1 as first fired time's value,
      *   keep after timer stop, but reset before timer start
      */
-    ZFMETHOD_DECLARE_0(zfindex, timerActivatedCount);
+    ZFMETHOD_DECLARE_0(zfindex, timerActivatedCount)
 
 public:
     zffinal void _ZFP_ZFTimer_timerOnStart(void);

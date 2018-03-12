@@ -124,7 +124,7 @@ public:
 
 public:
     /** @brief see #ZFBase64EncodeCalcSize */
-    ZFMETHOD_DECLARE_1(zfindex, base64EncodeCalcSize, ZFMP_IN(zfindex, srcLen))
+    ZFMETHOD_INLINE_1(zfindex, base64EncodeCalcSize, ZFMP_IN(zfindex, srcLen))
     {
         return ZFBase64EncodeCalcSize(srcLen, this->base64LineBreakPos());
     }
@@ -137,16 +137,16 @@ public:
         return ZFBase64Encode(buf, src, srcLen, outResultSize, this->base64Table(), this->base64Pad(), this->base64LineBreakPos());
     }
     /** @brief see #ZFBase64Encode */
-    ZFMETHOD_DECLARE_3(zfbool, base64Encode,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, output),
-                       ZFMP_IN(const ZFInputCallback &, input),
-                       ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull))
+    ZFMETHOD_INLINE_3(zfbool, base64Encode,
+                      ZFMP_IN_OUT(const ZFOutputCallback &, output),
+                      ZFMP_IN(const ZFInputCallback &, input),
+                      ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull))
     {
         return ZFBase64Encode(output, input, outResultSize, this->base64Table(), this->base64Pad(), this->base64LineBreakPos());
     }
 public:
     /** @brief see #ZFBase64DecodeCalcSize */
-    ZFMETHOD_DECLARE_1(zfindex, base64DecodeCalcSize, ZFMP_IN(zfindex, srcLen))
+    ZFMETHOD_INLINE_1(zfindex, base64DecodeCalcSize, ZFMP_IN(zfindex, srcLen))
     {
         return ZFBase64DecodeCalcSize(srcLen, this->base64LineBreakPos());
     }
@@ -159,10 +159,10 @@ public:
         return ZFBase64Decode(buf, src, srcLen, outResultSize, this->base64Table(), this->base64Pad());
     }
     /** @brief see #ZFBase64Decode */
-    ZFMETHOD_DECLARE_3(zfbool, base64Decode,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, output),
-                       ZFMP_IN(const ZFInputCallback &, input),
-                       ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull))
+    ZFMETHOD_INLINE_3(zfbool, base64Decode,
+                      ZFMP_IN_OUT(const ZFOutputCallback &, output),
+                      ZFMP_IN(const ZFInputCallback &, input),
+                      ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull))
     {
         return ZFBase64Decode(output, input, outResultSize, this->base64Table(), this->base64Pad());
     }

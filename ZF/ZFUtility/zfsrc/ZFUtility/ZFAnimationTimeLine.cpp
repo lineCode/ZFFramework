@@ -22,7 +22,7 @@ public:
     ZFTimer *timer;
     zftimet timeStart;
 
-    ZFLISTENER_DECLARE(timerOnEvent)
+    ZFLISTENER_INLINE(timerOnEvent)
     {
         zffloat progress = zfmApplyRange(
             (zffloat)(ZFTime::timestamp() - this->timeStart) / this->pimplOwner->aniDuration()

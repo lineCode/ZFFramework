@@ -19,138 +19,128 @@ public:
     zfstring s;
 
 public:
-    ZFMETHOD_DECLARE_0(void, methodNormal)
+    ZFMETHOD_INLINE_0(void, methodNormal)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_0(void, methodDefinedInCppFile);
-    ZFMETHOD_DECLARE_0(void, methodStaticallyRegistered)
+    ZFMETHOD_DECLARE_0(void, methodDefinedInCppFile)
+    ZFMETHOD_INLINE_0(void, methodStaticallyRegistered)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_0(void, methodOverrided)
+    ZFMETHOD_INLINE_0(void, methodOverrided)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_0(void, methodOverridedStaticallyRegisteredInBase)
+    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBase)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_0(void, methodOverridedStaticallyRegisteredInBaseAndChild)
+    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBaseAndChild)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_DETAIL_0(
-                              protected, ZFMethodIsVirtual,
-                              void, methodProtected)
+    ZFMETHOD_INLINE_DETAIL_0(protected, ZFMethodIsVirtual,
+                             void, methodProtected)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_DETAIL_0(
-                              private, ZFMethodIsVirtual,
-                              void, methodPrivate)
+    ZFMETHOD_INLINE_DETAIL_0(private, ZFMethodIsVirtual,
+                             void, methodPrivate)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_STATIC_0(void, methodStatic)
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodIsStatic,
+                             void, methodStatic)
     {
         zfLogT();
     }
-    ZFMETHOD_DECLARE_1(void, methodOverloaded
-                       , ZFMP_IN(zfint, param0))
+    ZFMETHOD_INLINE_1(void, methodOverloaded,
+                      ZFMP_IN(zfint, param0))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_DECLARE_1(void, methodOverloaded
-                       , ZFMP_IN(zffloat, param0))
+    ZFMETHOD_INLINE_1(void, methodOverloaded,
+                      ZFMP_IN(zffloat, param0))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_DECLARE_1(
-                       void, methodForDefaultParam
-                       , ZFMP_IN_OPT(const zfstring &, param0, zfText("DefaultParam")))
+    ZFMETHOD_INLINE_1(void, methodForDefaultParam,
+                      ZFMP_IN_OPT(const zfstring &, param0, zfText("DefaultParam")))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_DECLARE_0(zfstring &, methodReturnReference)
+    ZFMETHOD_INLINE_0(zfstring &, methodReturnReference)
     {
         zfLogT();
         return this->s;
     }
-    ZFMETHOD_DECLARE_1(void, methodParamIsReference
-                       , ZFMP_IN(zfstring &, param0)
-                       )
+    ZFMETHOD_INLINE_1(void, methodParamIsReference,
+                      ZFMP_IN(zfstring &, param0))
     {
         zfLogT();
         param0 = zfText("newString");
     }
-    ZFMETHOD_DECLARE_2(void, methodFor2Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       )
+    ZFMETHOD_INLINE_2(void, methodFor2Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1))
     {
         zfLogT() << param0 << param1;
     }
-    ZFMETHOD_DECLARE_3(void, methodFor3Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       , ZFMP_IN(const zfchar *, param2)
-                       )
+    ZFMETHOD_INLINE_3(void, methodFor3Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1),
+                      ZFMP_IN(const zfchar *, param2))
     {
         zfLogT() << param0 << param1 << param2;
     }
-    ZFMETHOD_DECLARE_4(void, methodFor4Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       , ZFMP_IN(const zfchar *, param2)
-                       , ZFMP_IN(const zfchar *, param3)
-                       )
+    ZFMETHOD_INLINE_4(void, methodFor4Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1),
+                      ZFMP_IN(const zfchar *, param2),
+                      ZFMP_IN(const zfchar *, param3))
     {
         zfLogT() << param0 << param1 << param2 << param3;
     }
-    ZFMETHOD_DECLARE_5(void, methodFor5Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       , ZFMP_IN(const zfchar *, param2)
-                       , ZFMP_IN(const zfchar *, param3)
-                       , ZFMP_IN(const zfchar *, param4)
-                       )
+    ZFMETHOD_INLINE_5(void, methodFor5Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1),
+                      ZFMP_IN(const zfchar *, param2),
+                      ZFMP_IN(const zfchar *, param3),
+                      ZFMP_IN(const zfchar *, param4))
     {
         zfLogT() << param0 << param1 << param2 << param3 << param4;
     }
-    ZFMETHOD_DECLARE_6(void, methodFor6Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       , ZFMP_IN(const zfchar *, param2)
-                       , ZFMP_IN(const zfchar *, param3)
-                       , ZFMP_IN(const zfchar *, param4)
-                       , ZFMP_IN(const zfchar *, param5)
-                       )
+    ZFMETHOD_INLINE_6(void, methodFor6Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1),
+                      ZFMP_IN(const zfchar *, param2),
+                      ZFMP_IN(const zfchar *, param3),
+                      ZFMP_IN(const zfchar *, param4),
+                      ZFMP_IN(const zfchar *, param5))
     {
         zfLogT() << param0 << param1 << param2 << param3 << param4 << param5;
     }
-    ZFMETHOD_DECLARE_7(void, methodFor7Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       , ZFMP_IN(const zfchar *, param2)
-                       , ZFMP_IN(const zfchar *, param3)
-                       , ZFMP_IN(const zfchar *, param4)
-                       , ZFMP_IN(const zfchar *, param5)
-                       , ZFMP_IN(const zfchar *, param6)
-                       )
+    ZFMETHOD_INLINE_7(void, methodFor7Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1),
+                      ZFMP_IN(const zfchar *, param2),
+                      ZFMP_IN(const zfchar *, param3),
+                      ZFMP_IN(const zfchar *, param4),
+                      ZFMP_IN(const zfchar *, param5),
+                      ZFMP_IN(const zfchar *, param6))
     {
         zfLogT() << param0 << param1 << param2 << param3 << param4 << param5 << param6;
     }
-    ZFMETHOD_DECLARE_8(void, methodFor8Param
-                       , ZFMP_IN(const zfchar *, param0)
-                       , ZFMP_IN(const zfchar *, param1)
-                       , ZFMP_IN(const zfchar *, param2)
-                       , ZFMP_IN(const zfchar *, param3)
-                       , ZFMP_IN(const zfchar *, param4)
-                       , ZFMP_IN(const zfchar *, param5)
-                       , ZFMP_IN(const zfchar *, param6)
-                       , ZFMP_IN(const zfchar *, param7)
-                       )
+    ZFMETHOD_INLINE_8(void, methodFor8Param,
+                      ZFMP_IN(const zfchar *, param0),
+                      ZFMP_IN(const zfchar *, param1),
+                      ZFMP_IN(const zfchar *, param2),
+                      ZFMP_IN(const zfchar *, param3),
+                      ZFMP_IN(const zfchar *, param4),
+                      ZFMP_IN(const zfchar *, param5),
+                      ZFMP_IN(const zfchar *, param6),
+                      ZFMP_IN(const zfchar *, param7))
     {
         zfLogT() << param0 << param1 << param2 << param3 << param4 << param5 << param6 << param7;
     }
@@ -172,23 +162,23 @@ zfclass _ZFP_ZFCore_ZFMethod_test_TestChild : zfextends _ZFP_ZFCore_ZFMethod_tes
     ZFOBJECT_DECLARE(_ZFP_ZFCore_ZFMethod_test_TestChild, _ZFP_ZFCore_ZFMethod_test_TestBase)
 
 public:
-    ZFMETHOD_DECLARE_0(void, methodOverrided)
+    ZFMETHOD_INLINE_0(void, methodOverrided)
     {
         zfsuper::methodOverrided();
         zfLogT();
     }
-    ZFMETHOD_DECLARE_0(void, methodOverridedStaticallyRegisteredInBase)
+    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBase)
     {
         zfsuper::methodOverridedStaticallyRegisteredInBase();
         zfLogT();
     }
-    ZFMETHOD_DECLARE_0(void, methodOverridedStaticallyRegisteredInBaseAndChild)
+    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBaseAndChild)
     {
         zfsuper::methodOverridedStaticallyRegisteredInBaseAndChild();
         zfLogT();
     }
 
-    ZFMETHOD_DECLARE_0(void, methodInChild)
+    ZFMETHOD_INLINE_0(void, methodInChild)
     {
         zfLogT();
     }

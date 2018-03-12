@@ -70,7 +70,7 @@ private:
     ZFUISysWindow *_sysWindow;
 
 private:
-    ZFLISTENER_DECLARE(nativeViewOnLayout)
+    ZFLISTENER_INLINE(nativeViewOnLayout)
     {
         ZFUIRect frame = this->notifyMeasureWindow(
             this->_sysWindow,

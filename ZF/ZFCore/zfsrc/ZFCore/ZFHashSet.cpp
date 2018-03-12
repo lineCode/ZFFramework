@@ -16,8 +16,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ZFHashSet
 ZFOBJECT_REGISTER(ZFHashSet)
 
-ZFMETHOD_DEFINE_1(ZFHashSet, void, objectOnInit,
-                  ZFMP_IN(ZFContainer *, another))
+ZFOBJECT_ON_INIT_DEFINE_1(ZFHashSet,
+                          ZFMP_IN(ZFContainer *, another))
 {
     this->objectOnInit();
     zfself::addFrom(another);

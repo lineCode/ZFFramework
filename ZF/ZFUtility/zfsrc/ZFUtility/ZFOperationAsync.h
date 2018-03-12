@@ -46,35 +46,39 @@ public:
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_STATIC_4(void, taskNotifyFinishAfterDelay,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+                              void, taskNotifyFinishAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
                               ZFMP_IN(ZFOperationParam *, operationParam),
-                              ZFMP_IN(ZFOperationResult *, operationResult));
+                              ZFMP_IN(ZFOperationResult *, operationResult))
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_STATIC_4(void, taskNotifyFinishAfterDelay,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+                              void, taskNotifyFinishAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
                               ZFMP_IN(zfidentity, operationId),
-                              ZFMP_IN(ZFOperationResult *, operationResult));
+                              ZFMP_IN(ZFOperationResult *, operationResult))
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_STATIC_4(void, taskNotifyProgressAfterDelay,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+                              void, taskNotifyProgressAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
                               ZFMP_IN(ZFOperationParam *, operationParam),
-                              ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull));
+                              ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull))
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_STATIC_4(void, taskNotifyProgressAfterDelay,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+                              void, taskNotifyProgressAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
                               ZFMP_IN(zfidentity, operationId),
-                              ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull));
+                              ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull))
 
 protected:
     zfoverride

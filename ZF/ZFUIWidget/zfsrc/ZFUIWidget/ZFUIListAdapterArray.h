@@ -52,48 +52,48 @@ public:
      * @brief directly access internal cell array,
      *   you may modify it directly, with caution
      */
-    ZFMETHOD_DECLARE_0(ZFArrayEditable *, cellArray)
+    ZFMETHOD_INLINE_0(ZFArrayEditable *, cellArray)
     {
         return d;
     }
     /**
      * @brief add cell
      */
-    ZFMETHOD_DECLARE_1(void, cellAdd,
-                       ZFMP_IN(ZFUIListCell *, cell))
+    ZFMETHOD_INLINE_1(void, cellAdd,
+                      ZFMP_IN(ZFUIListCell *, cell))
     {
         d->add(cell);
     }
     /**
      * @brief add cell at index
      */
-    ZFMETHOD_DECLARE_2(void, cellAdd,
-                       ZFMP_IN(zfindex, index),
-                       ZFMP_IN(ZFUIListCell *, cell))
+    ZFMETHOD_INLINE_2(void, cellAdd,
+                      ZFMP_IN(zfindex, index),
+                      ZFMP_IN(ZFUIListCell *, cell))
     {
         d->add(index, cell);
     }
     /**
      * @brief remove cell
      */
-    ZFMETHOD_DECLARE_2(void, cellRemove,
-                       ZFMP_IN(zfindex, index),
-                       ZFMP_IN_OPT(zfindex, count, 1))
+    ZFMETHOD_INLINE_2(void, cellRemove,
+                      ZFMP_IN(zfindex, index),
+                      ZFMP_IN_OPT(zfindex, count, 1))
     {
         d->remove(index, count);
     }
     /**
      * @brief remove cell
      */
-    ZFMETHOD_DECLARE_1(void, cellRemoveElement,
-                       ZFMP_IN(ZFUIListCell *, cell))
+    ZFMETHOD_INLINE_1(void, cellRemoveElement,
+                      ZFMP_IN(ZFUIListCell *, cell))
     {
         d->removeElement(cell);
     }
     /**
      * @brief remove all cell
      */
-    ZFMETHOD_DECLARE_0(void, cellRemoveAll)
+    ZFMETHOD_INLINE_0(void, cellRemoveAll)
     {
         d->removeAll();
     }
@@ -111,18 +111,18 @@ public:
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHintOverrideValue, ZFPropertyInitValue(-1))
 
 public:
-    ZFMETHOD_DECLARE_0(zfindex, cellCount)
+    ZFMETHOD_INLINE_0(zfindex, cellCount)
     {
         return d->count();
     }
-    ZFMETHOD_DECLARE_1(zfautoObject, cellAtIndex,
-                       ZFMP_IN(zfindex, index))
+    ZFMETHOD_INLINE_1(zfautoObject, cellAtIndex,
+                      ZFMP_IN(zfindex, index))
     {
         return d->get(index);
     }
-    ZFMETHOD_DECLARE_2(zfint, cellSizeAtIndex,
-                       ZFMP_IN(zfindex, index),
-                       ZFMP_IN(ZFUIListCell *, cell))
+    ZFMETHOD_INLINE_2(zfint, cellSizeAtIndex,
+                      ZFMP_IN(zfindex, index),
+                      ZFMP_IN(ZFUIListCell *, cell))
     {
         if(this->cellSizeHintOverride())
         {

@@ -34,7 +34,7 @@ public:
      * @brief set scale for root view, as well as all of its children
      */
     ZFMETHOD_DECLARE_1(void, scaleForAppSet,
-                       ZFMP_IN(zffloat, scale));
+                       ZFMP_IN(zffloat, scale))
 
 protected:
     zfoverride

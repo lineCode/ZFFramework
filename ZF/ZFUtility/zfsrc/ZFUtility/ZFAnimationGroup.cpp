@@ -196,7 +196,7 @@ private:
             }
         }
     }
-    ZFLISTENER_DECLARE(onChildStartDelay)
+    ZFLISTENER_INLINE(onChildStartDelay)
     {
         zfidentity aniId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
         ZFAnimationGroupChildData *childData = ZFCastZFObjectUnchecked(ZFAnimationGroupChildData *, listenerData.param1);
@@ -223,7 +223,7 @@ private:
         return zfnull;
     }
 private:
-    ZFLISTENER_DECLARE(onChildStart_parallel)
+    ZFLISTENER_INLINE(onChildStart_parallel)
     {
         ZFAnimationGroupChildData *childData = this->checkChild(listenerData.sender);
         if(childData == zfnull)
@@ -232,7 +232,7 @@ private:
         }
         this->pimplOwner->aniGroupOnChildStart(childData->childAni());
     }
-    ZFLISTENER_DECLARE(onChildStop_parallel)
+    ZFLISTENER_INLINE(onChildStop_parallel)
     {
         ZFAnimationGroupChildData *childData = this->checkChild(listenerData.sender, zfHint("autoRemove")zftrue);
         if(childData == zfnull)
@@ -247,7 +247,7 @@ private:
             this->pimplOwner->aniImplNotifyStop();
         }
     }
-    ZFLISTENER_DECLARE(onChildStart_serial)
+    ZFLISTENER_INLINE(onChildStart_serial)
     {
         ZFAnimationGroupChildData *childData = this->childBuf->getFirst<ZFAnimationGroupChildData *>();
         if(childData == zfnull || childData->childAni() != listenerData.sender)
@@ -256,7 +256,7 @@ private:
         }
         this->pimplOwner->aniGroupOnChildStart(childData->childAni());
     }
-    ZFLISTENER_DECLARE(onChildStop_serial)
+    ZFLISTENER_INLINE(onChildStop_serial)
     {
         ZFAnimationGroupChildData *childData = this->childBuf->getFirst<ZFAnimationGroupChildData *>();
         if(childData == zfnull || childData->childAni() != listenerData.sender)

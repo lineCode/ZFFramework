@@ -233,6 +233,377 @@ public:
         enum {_ZFP_ZFObjectCanAllocPublic = 0}; \
     protected:
 
+// ============================================================
+/** @brief util macro for subclass to declare #ZFObject::objectOnInit as #ZFMethod */
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_1( \
+      ZFMP_0 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_1( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_1( \
+      ZFMP_0 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_1( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_1(OwnerClass \
+    , ZFMP_0 \
+    ) \
+    ZFMETHOD_DEFINE_1(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_2( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_2( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_2( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_2( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_2(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    ) \
+    ZFMETHOD_DEFINE_2(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_3( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_3( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_3( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_3( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_3(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    ) \
+    ZFMETHOD_DEFINE_3(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_4( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_4( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_4( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_4( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_4(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    ) \
+    ZFMETHOD_DEFINE_4(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_5( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_5( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_5( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_5( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_5(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    ) \
+    ZFMETHOD_DEFINE_5(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_6( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_6( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_6( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_6( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_6(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    ) \
+    ZFMETHOD_DEFINE_6(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_7( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_7( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_7( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_7( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_7(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    ) \
+    ZFMETHOD_DEFINE_7(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_INLINE_8( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    , ZFMP_7 \
+    ) \
+    ZFMETHOD_INLINE_DETAIL_8( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        , ZFM_EXPAND(ZFMP_7) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DECLARE_8( \
+      ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    , ZFMP_7 \
+    ) \
+    ZFMETHOD_DECLARE_DETAIL_8( \
+        protected, ZFMethodIsVirtual, \
+        void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        , ZFM_EXPAND(ZFMP_7) \
+        )
+/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
+#define ZFOBJECT_ON_INIT_DEFINE_8(OwnerClass \
+    , ZFMP_0 \
+    , ZFMP_1 \
+    , ZFMP_2 \
+    , ZFMP_3 \
+    , ZFMP_4 \
+    , ZFMP_5 \
+    , ZFMP_6 \
+    , ZFMP_7 \
+    ) \
+    ZFMETHOD_DEFINE_8(OwnerClass, void, objectOnInit \
+        , ZFM_EXPAND(ZFMP_0) \
+        , ZFM_EXPAND(ZFMP_1) \
+        , ZFM_EXPAND(ZFMP_2) \
+        , ZFM_EXPAND(ZFMP_3) \
+        , ZFM_EXPAND(ZFMP_4) \
+        , ZFM_EXPAND(ZFMP_5) \
+        , ZFM_EXPAND(ZFMP_6) \
+        , ZFM_EXPAND(ZFMP_7) \
+        )
+
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectDeclare_h_
 

@@ -160,7 +160,7 @@ public:
      *
      * ensured to be (#imageScale * #ZFUIGlobalStyle::imageScale)
      */
-    ZFMETHOD_DECLARE_0(zffloat, imageScaleFixed)
+    ZFMETHOD_INLINE_0(zffloat, imageScaleFixed)
     {
         return (this->imageScale() * ZFUIGlobalStyle::DefaultStyle()->imageScale());
     }
@@ -168,14 +168,14 @@ public:
      * @brief get size of the image
      * @note #ZFUIImage always use custom scale value, see #ZFUIImage::imageScale
      */
-    ZFMETHOD_DECLARE_0(const ZFUISize &, imageSize);
+    ZFMETHOD_DECLARE_0(const ZFUISize &, imageSize)
     /**
      * @brief get raw size of the image without scale (in pixel unit)
      *
      * this is the pixel size of the image,
      * not affected by #imageScale
      */
-    ZFMETHOD_DECLARE_0(const ZFUISize &, imageSizeFixed);
+    ZFMETHOD_DECLARE_0(const ZFUISize &, imageSizeFixed)
 
     // ============================================================
     // other
@@ -202,7 +202,7 @@ public:
     /**
      * @brief get native image object
      */
-    ZFMETHOD_DECLARE_0(void *, nativeImage);
+    ZFMETHOD_DECLARE_0(void *, nativeImage)
 
 public:
     zffinal void _ZFP_ZFUIImage_imageScaleOnChange(void);
