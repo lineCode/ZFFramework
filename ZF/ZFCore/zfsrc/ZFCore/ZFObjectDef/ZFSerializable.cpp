@@ -192,7 +192,7 @@ zfbool ZFSerializable::serializeFromData(ZF_IN const ZFSerializableData &seriali
             }
 
             zfautoObject styleableObj = ZFObjectCreate(styleableType, styleableData);
-            if(styleableObj == zfautoObjectNull())
+            if(styleableObj == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
                     zfText("failed to create object from \"%s\" \"%s\""), styleableType, styleableData);
@@ -361,7 +361,7 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
         else if(this->serializableStyleableTypeGet() != zfnull || this->serializableStyleableDataGet() != zfnull)
         { // styleable logic
             zfautoObject styleableObj = ZFObjectCreate(this->serializableStyleableTypeGet(), this->serializableStyleableDataGet());
-            if(styleableObj == zfautoObjectNull())
+            if(styleableObj == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint,
                     zfText("failed to create object from \"%s\" \"%s\""),
@@ -574,7 +574,7 @@ zfbool ZFSerializable::serializableOnSerializePropertyFromData(ZF_IN const ZFSer
         {
             return zffalse;
         }
-        if(obj != zfautoObjectNull() && !obj.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        if(obj != zfnull && !obj.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
                 zfText("object %s not type of %s"),
@@ -998,7 +998,7 @@ zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
                         ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
                         ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
 {
-    result = zfautoObjectNull();
+    result = zfnull;
 
     const zfchar *serializableClass = ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_none, serializableData, outErrorHint, outErrorPos);
     if(serializableClass == zfnull)

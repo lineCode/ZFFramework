@@ -80,7 +80,7 @@ void ZFSet::addFrom(ZF_IN ZFContainer *another)
 void ZFSet::removeElement(ZF_IN ZFObject *obj)
 {
     ZFKeyValuePairHolder tmp = d->removeAndGetPair(obj);
-    if(tmp.key.toObject() != zfnull)
+    if(tmp.key != zfnull)
     {
         this->contentOnRemove(tmp.key.toObject());
         this->contentOnChange();

@@ -53,7 +53,7 @@ ZFOBJECTIO_DEFINE(image, ZFM_EXPAND({
         return (m.find(fileExt) != m.end());
     }), {
         ret = ZFUIImageLoadFromInput(input);
-        if(ret == zfautoObjectNull())
+        if(ret == zfnull)
         {
             zfstringAppend(outErrorHint,
                 zfText("unable to load image from %s"),

@@ -35,7 +35,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, zfRes,
     if(cacheAvailable)
     {
         ret = ZFResCache::instance()->cacheGet(input.callbackId());
-        if(ret != zfautoObjectNull())
+        if(ret != zfnull)
         {
             return ret;
         }
@@ -43,7 +43,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, zfRes,
 
     if(!ZFObjectIOLoad(ret, input))
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     if(enableCache && cacheAvailable)
     {

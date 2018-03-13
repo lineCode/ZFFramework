@@ -1045,7 +1045,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfautoObject, taskStopAndGetResult,
             return operationResult;
         }
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 ZFMETHOD_DEFINE_1(ZFOperation, void, taskStop,
                   ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull))

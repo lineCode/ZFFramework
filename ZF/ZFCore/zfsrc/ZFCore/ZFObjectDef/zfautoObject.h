@@ -27,8 +27,8 @@ zfautoObject::zfautoObject(ZF_IN T_ZFObject *p)
     ZFObject *obj = (p ? p->toObject() : zfnull);
     if(obj)
     {
-        d = zfnew(_ZFP_zfautoObjectPrivate);
-        d->obj = zflockfree_zfRetain(obj);
+        d = zfpoolNew(_ZFP_zfautoObjectPrivate,
+            zflockfree_zfRetain(obj));
     }
     else
     {
@@ -40,11 +40,11 @@ template<typename T_ZFObject>
 zfautoObject::zfautoObject(ZF_IN T_ZFObject const &p)
 {
     zfCoreMutexLock();
-    ZFObject *obj = p.toObject();
+    ZFObject *obj = _ZFP_ZFAnyCast(T_ZFObject, p);
     if(obj)
     {
-        d = zfnew(_ZFP_zfautoObjectPrivate);
-        d->obj = zflockfree_zfRetain(obj);
+        d = zfpoolNew(_ZFP_zfautoObjectPrivate,
+            zflockfree_zfRetain(obj));
     }
     else
     {
@@ -53,58 +53,18 @@ zfautoObject::zfautoObject(ZF_IN T_ZFObject const &p)
     zfCoreMutexUnlock();
 }
 
+extern ZF_ENV_EXPORT void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
+                                                  ZF_IN ZFObject *obj);
 template<typename T_ZFObject>
 zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject *p)
 {
-    zfCoreMutexLock();
-    ZFObject *obj = (p ? p->toObject() : zfnull);
-    zflockfree_zfRetain(obj);
-    if(d)
-    {
-        --(d->refCount);
-        if(d->refCount == 0)
-        {
-            zflockfree_zfRelease(d->obj);
-            zfdelete(d);
-        }
-    }
-    if(obj)
-    {
-        d = zfnew(_ZFP_zfautoObjectPrivate);
-        d->obj = obj;
-    }
-    else
-    {
-        d = zfnull;
-    }
-    zfCoreMutexUnlock();
+    _ZFP_zfautoObjectAssign(d, p ? p->toObject() : zfnull);
     return *this;
 }
 template<typename T_ZFObject>
 zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject const &p)
 {
-    zfCoreMutexLock();
-    ZFObject *obj = p.toObject();
-    zflockfree_zfRetain(obj);
-    if(d)
-    {
-        --(d->refCount);
-        if(d->refCount == 0)
-        {
-            zflockfree_zfRelease(d->obj);
-            zfdelete(d);
-        }
-    }
-    if(obj)
-    {
-        d = zfnew(_ZFP_zfautoObjectPrivate);
-        d->obj = obj;
-    }
-    else
-    {
-        d = zfnull;
-    }
-    zfCoreMutexUnlock();
+    _ZFP_zfautoObjectAssign(d, _ZFP_ZFAnyCast(T_ZFObject, p));
     return *this;
 }
 /** @endcond */

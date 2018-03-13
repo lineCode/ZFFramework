@@ -51,7 +51,7 @@ zfbool ZFContainer::serializableOnSerializeFromData(ZF_IN const ZFSerializableDa
             {
                 return zffalse;
             }
-            if(element == zfautoObjectNull())
+            if(element == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("null element"));

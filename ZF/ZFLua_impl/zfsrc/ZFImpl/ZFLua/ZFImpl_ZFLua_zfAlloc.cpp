@@ -66,7 +66,7 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
         return 1;
     }
     zfautoObject ret = cls->newInstance();
-    if(ret == zfautoObjectNull())
+    if(ret == zfnull)
     {
         ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
         return 1;

@@ -504,7 +504,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFUIViewFocusResolveKeyEvent,
 {
     if(nextFocus != zfnull)
     {
-        *nextFocus = zfautoObjectNull();
+        *nextFocus = zfnull;
     }
     ZFUIViewFocusNextParam param;
     switch(keyEvent->keyCode)

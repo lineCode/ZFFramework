@@ -444,7 +444,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageEncodeFromBase64,
     }
     else
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeToBase64,
@@ -490,7 +490,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageEncodeFromFile,
     }
     else
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeToFile,

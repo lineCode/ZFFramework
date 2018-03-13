@@ -364,7 +364,7 @@ public:
         zfCoreAssert(index < this->methodParamCount());
         if(index < this->methodParamDefaultBeginIndex())
         {
-            return zfautoObjectNull();
+            return zfnull;
         }
         else
         {

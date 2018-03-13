@@ -386,7 +386,7 @@ public:
     {
         if(v == zfnull)
         {
-            obj = zfautoObjectNull();
+            obj = zfnull;
             return zftrue;
         }
         else

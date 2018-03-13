@@ -36,7 +36,7 @@ ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE(ZFObjectCreator, ZFSerializableDataRefT
     zfCoreDataDecode(creatorData, zfstring(refData + pos[1].start, pos[1].count));
 
     zfautoObject owner = ZFObjectCreate(creatorType, creatorData);
-    if(owner == zfautoObjectNull())
+    if(owner == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
             zfText("failed to serialize object from \"%s\" with data \"%s\""),

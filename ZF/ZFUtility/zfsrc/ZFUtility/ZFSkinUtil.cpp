@@ -22,7 +22,7 @@ public:
 
 public:
     _ZFP_zfSkinApplyData(void)
-    : objIdentity(), skinKey(), skinChangeCallback(zfnull), userData(zfautoObjectNull())
+    : objIdentity(), skinKey(), skinChangeCallback(zfnull), userData(zfnull)
     {
     }
     _ZFP_zfSkinApplyData(ZF_IN _ZFP_zfSkinApplyData const &ref)

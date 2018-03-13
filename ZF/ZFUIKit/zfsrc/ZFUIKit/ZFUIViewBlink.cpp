@@ -224,7 +224,7 @@ static void _ZFP_ZFUIViewBlinkDoOff(ZF_IN ZFUIView *view)
 
 // ============================================================
 // other
-ZFEXPORT_VAR_DEFINE(zfautoObject, ZFUIViewBlinkImageDefault, zfautoObjectNull())
+ZFEXPORT_VAR_DEFINE(zfautoObject, ZFUIViewBlinkImageDefault, zfnull)
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkInitSetting, ZFLevelZFFrameworkNormal)
 {
     (void)ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder);
@@ -236,7 +236,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkInitSetting, ZFLevelZFFramewo
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewBlinkInitSetting)
 {
-    ZFUIViewBlinkImageDefaultSet(zfautoObjectNull());
+    ZFUIViewBlinkImageDefaultSet(zfnull);
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewBlinkInitSetting)
 

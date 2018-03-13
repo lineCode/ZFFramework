@@ -17,12 +17,12 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIViewCapture,
 {
     if(view == zfnull)
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     if(!ZFPROTOCOL_ACCESS(ZFUIViewCapture)->viewCapture(view, ret.to<ZFUIImage *>()))
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     return ret;
 }

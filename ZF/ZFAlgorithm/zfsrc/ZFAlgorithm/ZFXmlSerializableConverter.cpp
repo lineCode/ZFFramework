@@ -29,14 +29,14 @@ ZFOBJECT_CREATOR_DEFINE(xml, ZFObjectCreatorType_xml)
     ZFXmlItem xmlElement = ZFXmlParseFirstElement(ZFInputCallbackForPathInfoString(data));
     if(xmlElement.xmlIsNull())
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     ZFSerializableData serializableData;
     if(ZFSerializableDataFromXml(serializableData, xmlElement))
     {
         return ZFObjectFromData(serializableData);
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 
 // ============================================================

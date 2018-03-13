@@ -45,7 +45,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, zfSkin,
         }
         else
         {
-            return zfautoObjectNull();
+            return zfnull;
         }
     }
 }

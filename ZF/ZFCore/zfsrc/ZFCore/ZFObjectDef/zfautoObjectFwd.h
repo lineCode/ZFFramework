@@ -28,6 +28,7 @@ public:
     ZFObject *obj;
 public:
     _ZFP_zfautoObjectPrivate(void) : refCount(1), obj(zfnull) {}
+    _ZFP_zfautoObjectPrivate(ZF_IN ZFObject *obj) : refCount(1), obj(obj) {}
 };
 
 /**
@@ -56,7 +57,6 @@ zffinal zfclassLikePOD ZF_ENV_EXPORT zfautoObject
 public:
     zfautoObject(void) : d(zfnull) {}
     zfautoObject(ZF_IN zfautoObject const &ref);
-    zfautoObject(ZF_IN zft_zfnull obj) : d(zfnull) {(void)obj;}
     template<typename T_ZFObject>
     zfautoObject(ZF_IN T_ZFObject *obj);
     template<typename T_ZFObject>
@@ -65,23 +65,12 @@ public:
 
 public:
     zfautoObject &operator = (ZF_IN zfautoObject const &ref);
-    zfautoObject &operator = (ZF_IN zft_zfnull obj);
     template<typename T_ZFObject>
     zfautoObject &operator = (ZF_IN T_ZFObject *obj);
     template<typename T_ZFObject>
     zfautoObject &operator = (ZF_IN T_ZFObject const &obj);
 
 public:
-    zfbool operator == (ZF_IN zft_zfnull obj) const
-    {
-        (void)obj;
-        return (this->toObject() == zfnull);
-    }
-    zfbool operator != (ZF_IN zft_zfnull obj) const
-    {
-        (void)obj;
-        return (this->toObject() != zfnull);
-    }
     template<typename T_ZFObject>
     zfbool operator == (ZF_IN T_ZFObject *obj) const
     {
@@ -95,12 +84,12 @@ public:
     template<typename T_ZFObject>
     zfbool operator == (ZF_IN T_ZFObject const &obj) const
     {
-        return (this->toObject() == obj.toObject());
+        return (this->toObject() == _ZFP_ZFAnyCast(T_ZFObject, obj));
     }
     template<typename T_ZFObject>
     zfbool operator != (ZF_IN T_ZFObject const &obj) const
     {
-        return (this->toObject() != obj.toObject());
+        return (this->toObject() != _ZFP_ZFAnyCast(T_ZFObject, obj));
     }
     /** @endcond */
 
@@ -117,6 +106,10 @@ public:
     ZFObject *operator -> (void) const
     {
         return this->toObject();
+    }
+    operator bool (void) const
+    {
+        return (this->toObject() != zfnull);
     }
     template<typename T_ZFObject>
     operator T_ZFObject * (void) const

@@ -46,7 +46,7 @@ zfbool ZFAnimationTimeLineProperty::serializableOnSerializeFromData(ZF_IN const 
             {
                 return zffalse;
             }
-            if(step == zfautoObjectNull())
+            if(step == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("invalid step: %s"), ZFObjectInfoOfInstance(step.toObject()).cString());

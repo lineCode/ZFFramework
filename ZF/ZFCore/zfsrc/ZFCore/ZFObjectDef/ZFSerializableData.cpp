@@ -646,7 +646,7 @@ zfautoObject ZFSerializableData::serializableDataTagRemoveAndGet(ZF_IN const zfc
             return ret;
         }
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 void ZFSerializableData::serializableDataTagRemoveAll(void)
 {

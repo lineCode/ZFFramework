@@ -22,7 +22,7 @@ ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusViewBlinkOff)
 // ============================================================
 ZFEXPORT_VAR_DEFINE(ZFFilterForZFObject, ZFUIViewBlinkWhenFocusFilter, ZFFilterForZFObject())
 ZFEXPORT_VAR_DEFINE(zfbool, ZFUIViewBlinkWhenFocusAutoApply, zftrue)
-ZFEXPORT_VAR_DEFINE(zfautoObject, ZFUIViewBlinkWhenFocusMaskImage, zfautoObjectNull())
+ZFEXPORT_VAR_DEFINE(zfautoObject, ZFUIViewBlinkWhenFocusMaskImage, zfnull)
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkWhenFocus_settingInit, ZFLevelZFFrameworkHigh)
 {
@@ -68,7 +68,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewBlinkWhenFocusDataHolder)
 {
     ZFObjectGlobalEventObserver().observerRemove(ZFGlobalEvent::EventViewBlinkOn(), this->viewBlinkOnListener);
     ZFObjectGlobalEventObserver().observerRemove(ZFGlobalEvent::EventViewBlinkOff(), this->viewBlinkOffListener);
-    ZFUIViewBlinkWhenFocusMaskImageSet(zfautoObjectNull());
+    ZFUIViewBlinkWhenFocusMaskImageSet(zfnull);
 }
 public:
     zfautoObject maskImageCur;

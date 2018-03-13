@@ -86,7 +86,7 @@ zfbool ZFPropertySerializeFrom(ZF_IN ZFObject *ownerObject,
         {
             return zffalse;
         }
-        if(obj != zfautoObjectNull() && !obj.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        if(obj != zfnull && !obj.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
                 zfText("object %s not type of %s"),

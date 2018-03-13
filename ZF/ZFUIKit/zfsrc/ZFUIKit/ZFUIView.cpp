@@ -487,7 +487,7 @@ public:
         {
             return zffalse;
         }
-        if(internalView == zfautoObjectNull())
+        if(internalView == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                 zfText("null view"));
@@ -721,7 +721,7 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
             {
                 return zffalse;
             }
-            if(element == zfautoObjectNull())
+            if(element == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("null view"));
@@ -746,7 +746,7 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
             {
                 return zffalse;
             }
-            if(layoutParam == zfautoObjectNull())
+            if(layoutParam == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("null layoutParam"));
@@ -896,7 +896,7 @@ zfbool ZFUIView::serializableOnCheckNeedSerializeChildren(void)
 ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfstring, viewDelegateClass)
 {
     zfautoObject viewDelegateTmp = ZFClass::newInstanceForName(this->viewDelegateClass());
-    if(!this->viewDelegateSupported() && viewDelegateTmp != zfautoObjectNull())
+    if(!this->viewDelegateSupported() && viewDelegateTmp != zfnull)
     {
         zfCoreCriticalMessage(zfTextA("viewDelegate not supported"));
         return ;
@@ -1592,9 +1592,9 @@ void ZFUIView::_ZFP_ZFUIView_scaleSetRecursively(ZF_IN zffloat scaleFixed,
 ZFMETHOD_DEFINE_0(ZFUIView, zfautoObject, layoutParamCreate)
 {
     zfautoObject layoutParam = this->layoutParamClass()->newInstance();
-    if(layoutParam == zfautoObjectNull() || !layoutParam.toObject()->classData()->classIsTypeOf(ZFUIViewLayoutParam::ClassData()))
+    if(layoutParam == zfnull || !layoutParam.toObject()->classData()->classIsTypeOf(ZFUIViewLayoutParam::ClassData()))
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     this->layoutParamOnUpdate(layoutParam.to<ZFUIViewLayoutParam *>());
     return layoutParam;

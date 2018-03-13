@@ -151,7 +151,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFTimerExecute,
 {
     if(param.timerInterval() <= 0 || !param.timerCallback().callbackIsValid())
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     zfblockedAlloc(ZFTimer, timer);
     timer->timerIntervalSet(param.timerInterval());

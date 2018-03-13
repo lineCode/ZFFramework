@@ -91,7 +91,7 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
     public:
         static zfautoObject get_zfnull(void)
         {
-            return zfautoObjectNull();
+            return zfnull;
         }
     };
     ZFImpl_ZFLua_luaFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_zfnull"), _ZFP_ZFImpl_ZFLua_zfnullHolder::get_zfnull);
@@ -233,7 +233,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(_ZFP_ZFImpl_ZFLua_implDispatchReturnValueN
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(_ZFP_ZFImpl_ZFLua_implDispatchReturnValueNotSetInstanceInit)
 {
-    _ZFP_ZFImpl_ZFLua_implDispatchReturnValueNotSetInstance = zfautoObjectNull();
+    _ZFP_ZFImpl_ZFLua_implDispatchReturnValueNotSetInstance = zfnull;
 }
 ZF_GLOBAL_INITIALIZER_END(_ZFP_ZFImpl_ZFLua_implDispatchReturnValueNotSetInstanceInit)
 

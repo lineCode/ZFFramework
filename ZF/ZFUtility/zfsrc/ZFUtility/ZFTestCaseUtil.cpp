@@ -27,7 +27,7 @@ zfbool ZFTestCaseRun(ZF_IN const ZFClass *cls,
         return zffalse;
     }
     zfautoObject testCaseTmp = cls->newInstance();
-    if(testCaseTmp == zfautoObjectNull() || !testCaseTmp.toObject()->classData()->classIsTypeOf(ZFTestCase::ClassData()))
+    if(testCaseTmp == zfnull || !testCaseTmp.toObject()->classData()->classIsTypeOf(ZFTestCase::ClassData()))
     {
         return zffalse;
     }

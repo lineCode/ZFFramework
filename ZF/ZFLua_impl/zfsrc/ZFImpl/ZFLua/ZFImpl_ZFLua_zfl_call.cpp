@@ -61,7 +61,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
                     break;
                 }
 
-                if(paramList[i] == zfautoObjectNull())
+                if(paramList[i] == zfnull)
                 {
                     if(!ZFObjectFromString(paramList[i], t->zfv, t->zfv.length()))
                     {
@@ -90,7 +90,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
             continue;
         }
 
-        ret = zfautoObjectNull();
+        ret = zfnull;
         if(method->methodGenericInvoker()(method, obj, &errorHint, ret
                 , paramList[0]
                 , paramList[1]
@@ -229,7 +229,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
         obj = objTmp->zfv;
     }
 
-    if(obj.toObject() == zfnull)
+    if(obj == zfnull)
     {
         ZFLuaErrorOccurredTrim(zfText("[zfl_call] caller object must not be null, while executing: %s"),
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());

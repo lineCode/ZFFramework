@@ -27,7 +27,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFMethodGenericInvokerDefaultParamInit)
     zfRelease(_ZFP_ZFMethodGenericInvokerDefaultParamRef);
     _ZFP_ZFMethodGenericInvokerDefaultParamRef = zfnull;
 
-    _ZFP_ZFMethodGenericInvokerDefaultParamHolderRef = zfautoObjectNull();
+    _ZFP_ZFMethodGenericInvokerDefaultParamHolderRef = zfnull;
 }
 ZF_GLOBAL_INITIALIZER_END(ZFMethodGenericInvokerDefaultParamInit)
 

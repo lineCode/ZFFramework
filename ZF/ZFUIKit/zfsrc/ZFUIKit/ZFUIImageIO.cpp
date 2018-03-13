@@ -21,7 +21,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageScale,
 {
     if(image == zfnull || image->nativeImage() == zfnull)
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     zffloat scale = image->imageScaleFixed();
     void *nativeImage = ZFPROTOCOL_ACCESS(ZFUIImageIO)->imageApplyScale(
@@ -31,7 +31,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageScale,
         ZFUIMarginApplyScale(image->imageNinePatch(), scale));
     if(nativeImage == zfnull)
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     ret.to<ZFUIImage *>()->nativeImageSet(nativeImage);
@@ -46,7 +46,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromNativeImage,
 {
     if(nativeImage == zfnull)
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     ret.to<ZFUIImage *>()->nativeImageSet(nativeImage);
@@ -84,7 +84,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromInput,
     ZFUIImage *image = ret;
     if(!ZFUIImageEncodeFromFile(image, input))
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 
     if(input.callbackSerializeCustomType() != zfnull)
@@ -179,7 +179,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageLoadFromColor,
         ZFUISizeApplyScale(sizeTmp, ZFUIGlobalStyle::DefaultStyle()->imageScale()));
     if(nativeImage == zfnull)
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();

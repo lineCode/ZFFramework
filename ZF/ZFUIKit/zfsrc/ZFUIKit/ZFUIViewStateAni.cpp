@@ -195,7 +195,7 @@ private:
                 return ;
             }
             zfstlmap<ZFUIView *, _ZFP_ZFUIViewStateAniTaskData>::iterator it = this->tasks.find(parent);
-            if(it != this->tasks.end() && it->second.ani != zfautoObjectNull())
+            if(it != this->tasks.end() && it->second.ani != zfnull)
             {
                 return ;
             }
@@ -208,7 +208,7 @@ private:
             this->viewAttach(view);
         }
         _ZFP_ZFUIViewStateAniTaskData &taskData = this->tasks[view];
-        if(taskData.ani.toObject() != zfnull)
+        if(taskData.ani != zfnull)
         {
             return ;
         }

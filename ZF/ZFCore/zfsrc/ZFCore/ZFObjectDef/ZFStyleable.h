@@ -216,7 +216,7 @@ private:
                 return zfnull; \
             } \
             zfautoObject obj = _ZFP_ZFStyleableDefault_##YourStyle::ClassData()->newInstance(); \
-            if(obj != zfautoObjectNull()) \
+            if(obj != zfnull) \
             { \
                 zfself::_ZFP_ZFStyleablEnumDefaultStyleSet(obj.to<YourStyle *>()); \
             } \

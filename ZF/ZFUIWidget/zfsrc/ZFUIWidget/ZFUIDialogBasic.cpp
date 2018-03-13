@@ -72,7 +72,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFUIDialogBasicDataHolder)
 
 ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(ZFUIDialogBasic, ZFUIDialogContent *, dialogContent)
 {
-    if(propertyValueOld == zfautoObjectNull())
+    if(propertyValueOld == zfnull)
     {
         zfCoreCriticalMessage(zfTextA("change dialogContent to null is not allowed"));
         return ;

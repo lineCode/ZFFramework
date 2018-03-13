@@ -32,7 +32,7 @@ zfautoObject ZFUIListAdapter::cellCacheDefaultAccess(ZF_IN const zfchar *key)
     }
     else
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 }
 void ZFUIListAdapter::cellCacheDefaultRecycle(ZF_IN const zfchar *key, ZF_IN ZFUIListCell *cell)

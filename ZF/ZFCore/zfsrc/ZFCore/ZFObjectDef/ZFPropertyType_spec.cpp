@@ -21,7 +21,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER_WITH_CUSTOM_WRAPPER(zfautoObjec
     })
 ZFOUTPUT_TYPE_DEFINE(zfautoObject, {
         output.execute(
-            (v == zfautoObjectNull())
+            (v == zfnull)
             ? ZFTOKEN_zfnull
             : v.toObject()->objectInfo()
         );

@@ -51,7 +51,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
     }
     else
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFLuaExecuteT,
@@ -76,7 +76,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfautoObject, ZFLuaExecute,
     }
     else
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
 }
 ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFLuaExecuteT,

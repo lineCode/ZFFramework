@@ -526,7 +526,7 @@ zfautoObject ZFClass::newInstanceGeneric(
 {
     if(d->constructor == zfnull)
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     if(zftrue
         && param0 == ZFMethodGenericInvokerDefaultParam()
@@ -547,7 +547,7 @@ zfautoObject ZFClass::newInstanceGeneric(
     this->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
     if(objectOnInitMethodList.isEmpty())
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     ZFObject *obj = d->constructor();
     zfautoObject dummy;
@@ -563,7 +563,7 @@ zfautoObject ZFClass::newInstanceGeneric(
         }
     }
     d->destructor(obj);
-    return zfautoObjectNull();
+    return zfnull;
 }
 zfautoObject ZFClass::newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectOnInitMethod
                                                    , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
@@ -601,7 +601,7 @@ zfautoObject ZFClass::newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectO
         return obj;
     }
     d->destructor(obj);
-    return zfautoObjectNull();
+    return zfnull;
 }
 
 zfindex ZFClass::implementedInterfaceCount(void) const
@@ -879,7 +879,7 @@ zfautoObject ZFClass::classTagRemoveAndGet(ZF_IN const zfchar *key) const
             return ret;
         }
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 void ZFClass::classTagRemoveAll(void) const
 {

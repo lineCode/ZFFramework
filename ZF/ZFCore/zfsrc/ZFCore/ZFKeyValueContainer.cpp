@@ -51,7 +51,7 @@ zfbool ZFKeyValueContainer::serializableOnSerializeFromData(ZF_IN const ZFSerial
 
         if(zfscmpTheSame(category, ZFSerializableKeyword_ZFKeyValueContainer_key))
         {
-            if(key != zfautoObjectNull())
+            if(key != zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
                     zfText("missing value for key %s (%s)"),
@@ -63,7 +63,7 @@ zfbool ZFKeyValueContainer::serializableOnSerializeFromData(ZF_IN const ZFSerial
             {
                 return zffalse;
             }
-            if(key == zfautoObjectNull())
+            if(key == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, zfText("null key"));
                 return zffalse;
@@ -71,7 +71,7 @@ zfbool ZFKeyValueContainer::serializableOnSerializeFromData(ZF_IN const ZFSerial
         }
         else if(zfscmpTheSame(category, ZFSerializableKeyword_ZFKeyValueContainer_value))
         {
-            if(key == zfautoObjectNull())
+            if(key == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
                     zfText("missing key"));
@@ -81,17 +81,17 @@ zfbool ZFKeyValueContainer::serializableOnSerializeFromData(ZF_IN const ZFSerial
             {
                 return zffalse;
             }
-            if(value == zfautoObjectNull())
+            if(value == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, zfText("null value"));
                 return zffalse;
             }
             this->iteratorAddKeyValue(key.toObject(), value.toObject());
-            key = zfautoObjectNull();
-            value = zfautoObjectNull();
+            key = zfnull;
+            value = zfnull;
         }
     }
-    if(key != zfautoObjectNull())
+    if(key != zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
             zfText("missing value for key %s (%s)"),

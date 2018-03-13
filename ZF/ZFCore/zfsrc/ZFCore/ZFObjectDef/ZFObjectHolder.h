@@ -43,14 +43,8 @@ protected:
         this->holdedObj = obj;
     }
     /** @brief see #ZFObject::objectOnInit */
-    virtual void objectOnInit(ZF_IN const ZFAny &obj)
-    {
-        this->objectOnInit();
-        this->holdedObj = obj;
-    }
-    /** @brief see #ZFObject::objectOnInit */
     template<typename T_ZFObject>
-    void objectOnInit(ZF_IN const ZFAnyT<T_ZFObject> &obj)
+    void objectOnInit(ZF_IN T_ZFObject const &obj)
     {
         this->objectOnInit();
         this->holdedObj = obj;

@@ -53,14 +53,14 @@ ZFOBJECT_CREATOR_DEFINE(json, ZFObjectCreatorType_json)
     ZFJsonItem jsonObject = ZFJsonItemFromInput(ZFInputCallbackForPathInfoString(data));
     if(jsonObject.jsonIsNull())
     {
-        return zfautoObjectNull();
+        return zfnull;
     }
     ZFSerializableData serializableData;
     if(ZFSerializableDataFromJson(serializableData, jsonObject))
     {
         return ZFObjectFromData(serializableData);
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 
 // ============================================================

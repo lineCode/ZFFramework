@@ -302,7 +302,7 @@ zfautoObject ZFCallback::callbackTagRemoveAndGet(ZF_IN const zfchar *key)
             return ret;
         }
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 void ZFCallback::callbackTagRemoveAll(void)
 {

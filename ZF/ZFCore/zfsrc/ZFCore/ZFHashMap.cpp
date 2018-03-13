@@ -265,7 +265,7 @@ zfautoObject ZFHashMap::removeAndGet(ZF_IN ZFObject *pKey)
             return tmpValue;
         }
     }
-    return zfautoObjectNull();
+    return zfnull;
 }
 ZFKeyValuePairHolder ZFHashMap::removeAndGetPair(ZF_IN ZFObject *pKey)
 {

@@ -310,7 +310,7 @@ zfbool ZFAnimationGroup::serializableOnSerializeFromData(ZF_IN const ZFSerializa
             {
                 return zffalse;
             }
-            if(element == zfautoObjectNull())
+            if(element == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("null child"));
