@@ -96,27 +96,10 @@ public:
      * this value is used for property's advanced copy function,
      * see #ZFPropertySerializeFrom
      * @note for retain property, this value is always #ZFPropertyTypeId_ZFObject
-     * @note for non-serializable property (see #propertyIsSerializable),
-     *   this value is always #ZFPropertyTypeId_none
      */
     inline const zfchar *propertyTypeId(void) const
     {
         return this->_ZFP_ZFProperty_typeId.cString();
-    }
-    /**
-     * @brief whether this property is declared as serializable
-     *
-     * by default, all property can be serialized,
-     * you may explicitly declare a property not serializable by
-     * -  for assign property, using #ZFPROPERTY_ASSIGN_NOT_SERIALIZABLE,
-     *   or declare property with #ZFPropertyTypeId_none as type id
-     * -  for retain property, using #ZFPROPERTY_RETAIN_NOT_SERIALIZABLE
-     *
-     * a non-serializable property would be ignored while serializing its owner object
-     */
-    inline zfbool propertyIsSerializable(void) const
-    {
-        return this->_ZFP_ZFProperty_serializable;
     }
     /**
      * @brief get the getter method
@@ -221,7 +204,6 @@ public:
     zfstring _ZFP_ZFProperty_name;
     zfstring _ZFP_ZFProperty_typeName;
     zfstring _ZFP_ZFProperty_typeId;
-    zfbool _ZFP_ZFProperty_serializable;
     const ZFMethod *_ZFP_ZFProperty_setterMethod;
     const ZFMethod *_ZFP_ZFProperty_getterMethod;
     const ZFClass *_ZFP_ZFProperty_propertyClassOfRetainProperty;

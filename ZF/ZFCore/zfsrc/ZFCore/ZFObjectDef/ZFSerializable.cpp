@@ -530,11 +530,6 @@ void ZFSerializable::serializableGetAllSerializableEmbededPropertyT(ZF_OUT ZFCor
 
 ZFSerializablePropertyType ZFSerializable::serializableOnCheckPropertyType(ZF_IN const ZFProperty *property)
 {
-    if(!property->propertyIsSerializable())
-    {
-        return ZFSerializablePropertyTypeNotSerializable;
-    }
-
     if(property->propertyIsRetainProperty())
     {
         if(property->setterMethod()->methodPrivilegeType() == ZFMethodPrivilegeTypePrivate)
@@ -563,14 +558,7 @@ ZFSerializablePropertyType ZFSerializable::serializableOnCheckPropertyType(ZF_IN
     }
     else
     {
-        if(property->propertyIsSerializable())
-        {
-            return ZFSerializablePropertyTypeSerializableProperty;
-        }
-        else
-        {
-            return ZFSerializablePropertyTypeNotSerializable;
-        }
+        return ZFSerializablePropertyTypeSerializableProperty;
     }
 }
 
@@ -631,8 +619,7 @@ zfbool ZFSerializable::serializableOnSerializePropertyToData(ZF_OUT ZFSerializab
     {
         return zftrue;
     }
-    if(!property->propertyIsSerializable()
-        || property->callbackIsInitValue(property, this->toObject(), zfnull))
+    if(property->callbackIsInitValue(property, this->toObject(), zfnull))
     {
         return zftrue;
     }

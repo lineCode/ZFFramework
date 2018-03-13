@@ -590,23 +590,6 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
                                        ZFPropertyInitValueOrNoInitValue) \
     public:
 
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_RETAIN_NOT_SERIALIZABLE(Type, Name) \
-    ZFPROPERTY_RETAIN_NOT_SERIALIZABLE_DETAIL( \
-        Type, Name, ZFPropertyNoInitValue, \
-        public, public)
-
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_RETAIN_NOT_SERIALIZABLE_DETAIL( \
-    Type, Name, ZFPropertyInitValueOrNoInitValue, \
-    SetterAccessType, GetterAccessType) \
-        _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
-        /** @brief see @ref Name */ \
-        _ZFP_ZFPROPERTY_SETTER_RETAIN(SetterAccessType, Type, Name) \
-        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFPropertyTypeId_none, Name, \
-                                       ZFPropertyInitValueOrNoInitValue) \
-    public:
-
 // ============================================================
 /** @brief see #ZFPROPERTY_RETAIN */
 #define ZFPROPERTY_ASSIGN(Type, Name) \
@@ -634,23 +617,6 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         /** @brief see @ref Name */ \
         _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name) \
         _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeIdData<zftTraits<Type>::TrNoRef>::PropertyTypeId(), Name, \
-                                       ZFPropertyInitValueOrNoInitValue) \
-    public:
-
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_ASSIGN_NOT_SERIALIZABLE(Type, Name) \
-    ZFPROPERTY_ASSIGN_NOT_SERIALIZABLE_DETAIL( \
-        Type, Name, ZFPropertyNoInitValue, \
-        public, public)
-
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_ASSIGN_NOT_SERIALIZABLE_DETAIL( \
-    Type, Name, ZFPropertyInitValueOrNoInitValue, \
-    SetterAccessType, GetterAccessType) \
-        _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
-        /** @brief see @ref Name */ \
-        _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name) \
-        _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeId_none, Name, \
                                        ZFPropertyInitValueOrNoInitValue) \
     public:
 

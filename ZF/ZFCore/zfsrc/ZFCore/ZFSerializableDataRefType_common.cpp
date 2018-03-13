@@ -97,13 +97,6 @@ ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE(ZFObjectCreator, ZFSerializableDataRefT
                     propertyName.cString());
                 return zffalse;
             }
-            if(!property->propertyIsSerializable())
-            {
-                ZFSerializableUtil::errorOccurred(outErrorHint,
-                    zfText("property \"%s\" is not serializable"),
-                    propertyName.cString());
-                return zffalse;
-            }
 
             return ZFPropertySerializeTo(property, obj, serializableData, outErrorHint);
         }
