@@ -79,11 +79,11 @@ public:
     /** @cond ZFPrivateDoc */
     ZFFileFindData(void);
     ZFFileFindData(ZF_IN ZFFileFindData const &ref);
-    ZFFileFindData &operator=(ZF_IN ZFFileFindData const &ref);
-    zfbool operator==(ZF_IN ZFFileFindData const &ref) const;
-    zfbool operator!=(ZF_IN ZFFileFindData const &ref) const
+    ZFFileFindData &operator = (ZF_IN ZFFileFindData const &ref);
+    zfbool operator == (ZF_IN ZFFileFindData const &ref) const;
+    zfbool operator != (ZF_IN ZFFileFindData const &ref) const
     {
-        return !this->operator==(ref);
+        return !this->operator == (ref);
     }
     /** @endcond */
     ~ZFFileFindData(void);

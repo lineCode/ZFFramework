@@ -217,7 +217,7 @@ zfbool ZFSerializable::serializeFromData(ZF_IN const ZFSerializableData &seriali
                 return zffalse;
             }
 
-            ZFCastZFObjectUnchecked(ZFStyleable *, this)->styleableCopyFrom(ZFCastZFObjectUnchecked(ZFStyleable *, styleableObj));
+            ZFCastZFObjectUnchecked(ZFStyleable *, this)->styleableCopyFrom(styleableObj);
         }
         this->serializableStyleableTypeSet(styleableType);
         this->serializableStyleableDataSet(styleableData);
@@ -747,7 +747,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyToData(ZF_OUT ZFSer
     }
     if(propertyRef == zfnull)
     {
-        propertyRef = ZFCastZFObjectUnchecked(ZFSerializable *, initValue);
+        propertyRef = initValue;
     }
 
     if(!ZFCastZFObjectUnchecked(zfself *, obj)->serializeToData(propertyData, outErrorHint, propertyRef))

@@ -186,7 +186,7 @@ public:
     /** @cond ZFPrivateDoc */
     ZFIOBufferedCallbackUsingTmpFile(void);
     ZFIOBufferedCallbackUsingTmpFile(ZF_IN const ZFIOBufferedCallbackUsingTmpFile &ref);
-    ZFIOBufferedCallbackUsingTmpFile &operator =(ZF_IN const ZFIOBufferedCallbackUsingTmpFile &ref);
+    ZFIOBufferedCallbackUsingTmpFile &operator = (ZF_IN const ZFIOBufferedCallbackUsingTmpFile &ref);
     /** @endcond */
     virtual ~ZFIOBufferedCallbackUsingTmpFile(void);
 

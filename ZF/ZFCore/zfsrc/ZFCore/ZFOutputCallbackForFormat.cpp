@@ -195,7 +195,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputCallbackForFormat, ZFCallbackSer
     {
         return zffalse;
     }
-    ZFOutputFormat *format = ZFCastZFObject(ZFOutputFormat *, formatHolder);
+    ZFOutputFormat *format = formatHolder;
     if(format == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *formatData,

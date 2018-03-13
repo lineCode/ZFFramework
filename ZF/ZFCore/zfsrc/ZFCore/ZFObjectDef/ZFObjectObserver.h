@@ -169,8 +169,8 @@ public:
         ZFCallback::executeExact<void, const ZFListenerData &, ZFObject *>(listenerData, userData);
     }
     /** @brief see #ZFListener */
-    inline void operator()(ZF_IN const ZFListenerData &listenerData,
-                           ZF_IN_OPT ZFObject *userData = zfnull) const
+    inline void operator () (ZF_IN const ZFListenerData &listenerData,
+                             ZF_IN_OPT ZFObject *userData = zfnull) const
     {
         ZFCallback::executeExact<void, const ZFListenerData &, ZFObject *>(listenerData, userData);
     }

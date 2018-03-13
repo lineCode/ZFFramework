@@ -24,12 +24,12 @@ JNIString::~JNIString(void)
 {
     delete (std::string *)_d;
 }
-JNIString &JNIString::operator =(JNIString const &ref)
+JNIString &JNIString::operator = (JNIString const &ref)
 {
     *(std::string *)_d = *(const std::string *)ref._d;
     return *this;
 }
-JNIString &JNIString::operator =(const char *s)
+JNIString &JNIString::operator = (const char *s)
 {
     *(std::string *)_d = s;
     return *this;
@@ -38,7 +38,7 @@ const char *JNIString::c_str(void) const
 {
     return ((std::string *)_d)->c_str();
 }
-JNIString::operator const char *(void) const
+JNIString::operator const char * (void) const
 {
     return this->c_str();
 }
@@ -264,7 +264,7 @@ JNIType::JNIType(const JNIType &ref)
     this->setType(ref.getType());
     this->setClassNameOrArrayElementTypeId(ref.getClassNameOrArrayElementTypeId());
 }
-JNIType &JNIType::operator =(const JNIType &ref)
+JNIType &JNIType::operator = (const JNIType &ref)
 {
     if(d != ref.d)
     {

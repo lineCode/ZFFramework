@@ -551,7 +551,7 @@ ZFIOBufferedCallbackUsingTmpFile::ZFIOBufferedCallbackUsingTmpFile(ZF_IN const Z
 {
     d = zfRetain(ref.d);
 }
-ZFIOBufferedCallbackUsingTmpFile &ZFIOBufferedCallbackUsingTmpFile::operator =(ZF_IN const ZFIOBufferedCallbackUsingTmpFile &ref)
+ZFIOBufferedCallbackUsingTmpFile &ZFIOBufferedCallbackUsingTmpFile::operator = (ZF_IN const ZFIOBufferedCallbackUsingTmpFile &ref)
 {
     zfRetain(ref.d);
     zfRelease(d);

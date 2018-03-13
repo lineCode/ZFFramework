@@ -26,7 +26,7 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
         zfautoObject clsHolder;
         if(ZFImpl_ZFLua_toObject(clsHolder, L, 1))
         {
-            v_ZFClass *clsWrapper = ZFCastZFObject(v_ZFClass *, clsHolder);
+            v_ZFClass *clsWrapper = clsHolder;
             if(clsWrapper != zfnull)
             {
                 if(clsWrapper->zfv == zfnull)

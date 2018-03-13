@@ -95,7 +95,7 @@ zfclassNotPOD ZF_ENV_EXPORT zfcharConst_zfstlHasher
 {
 public:
     /** @cond ZFPrivateDoc */
-    zfstlsize operator()(const zfchar * const &v) const
+    zfstlsize operator () (const zfchar * const &v) const
     {
         return (zfstlsize)zfidentityCalcString(v);
     }
@@ -108,7 +108,7 @@ zfclassNotPOD ZF_ENV_EXPORT zfchar_zfstlHasher
 {
 public:
     /** @cond ZFPrivateDoc */
-    zfstlsize operator()(zfchar * const &v) const
+    zfstlsize operator () (zfchar * const &v) const
     {
         return (zfstlsize)zfidentityCalcString(v);
     }
@@ -122,7 +122,7 @@ zfclassNotPOD ZF_ENV_EXPORT zfstring_zfstlHasher
 {
 public:
     /** @cond ZFPrivateDoc */
-    zfstlsize operator()(zfstring const &v) const
+    zfstlsize operator () (zfstring const &v) const
     {
         return (zfstlsize)zfidentityCalcString(v.cString());
     }
@@ -137,7 +137,7 @@ zfclassNotPOD ZF_ENV_EXPORT zfpointer_zfstlHasher
 {
 public:
     /** @cond ZFPrivateDoc */
-    zfstlsize operator()(T_Pointer const &v) const
+    zfstlsize operator () (T_Pointer const &v) const
     {
         return (zfstlsize)zfidentityCalcPointer((const void *)v);
     }

@@ -106,7 +106,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define ZFCLASS_DISALLOW_COPY_CONSTRUCTOR(ClassName) \
     private: \
         ClassName(const ClassName &); \
-        ClassName &operator =(const ClassName &); \
+        ClassName &operator = (const ClassName &); \
     public:
 
 // ============================================================

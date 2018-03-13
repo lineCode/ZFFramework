@@ -38,9 +38,9 @@ public:
     template<typename T_Ref> zftValue(ZF_IN T_Ref const &ref) : zfv(ref) {}
     inline zftValue<T_Type> &operator = (ZF_IN T_Type const &ref) {zfv = ref; return *this;}
     inline zftValue<T_Type> &operator = (ZF_IN zftValue<T_Type> const &ref) {zfv = ref.zfv; return *this;}
-    template<typename T_Ref> inline zftValue<T_Type> &operator =(ZF_IN T_Ref const &ref) {zfv = ref; return *this;}
-    inline operator T_Type const &(void) const {return zfv;}
-    inline operator T_Type &(void) {return zfv;}
+    template<typename T_Ref> inline zftValue<T_Type> &operator = (ZF_IN T_Ref const &ref) {zfv = ref; return *this;}
+    inline operator T_Type const & (void) const {return zfv;}
+    inline operator T_Type & (void) {return zfv;}
     /** @endcond */
 };
 

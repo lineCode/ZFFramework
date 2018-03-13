@@ -243,7 +243,7 @@ inline zfbool zfcmpPODTheSame(ZF_IN T_Element const &v0, ZF_IN T_Element const &
 }
 
 /**
- * @brief utile macro to declare a operator== comparer of POD type
+ * @brief utile macro to declare a operator == comparer of POD type
  */
 #define ZFCORE_POD_COMPARER_DECLARE(Type) \
     /** @brief compare by value */ \

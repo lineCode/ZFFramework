@@ -127,7 +127,7 @@ ZFSerializableData::ZFSerializableData(ZF_IN const ZFSerializableData &ref)
     d = ref.d;
     ++(d->refCount);
 }
-ZFSerializableData &ZFSerializableData::operator =(ZF_IN const ZFSerializableData &ref)
+ZFSerializableData &ZFSerializableData::operator = (ZF_IN const ZFSerializableData &ref)
 {
     zfCoreMutexLocker();
     _ZFP_ZFSerializableDataPrivate *dTmp = d;
@@ -140,7 +140,7 @@ ZFSerializableData &ZFSerializableData::operator =(ZF_IN const ZFSerializableDat
     }
     return *this;
 }
-zfbool ZFSerializableData::operator ==(ZF_IN const ZFSerializableData &ref) const
+zfbool ZFSerializableData::operator == (ZF_IN const ZFSerializableData &ref) const
 {
     return (d == ref.d);
 }

@@ -32,9 +32,9 @@ protected:
         // encode image to binary and load it again to test
         zfautoObject imageHolder = zfRes(zfText("test_normal.png"));
         ZFIOBufferedCallbackUsingBuffer io;
-        ZFUIImageEncodeToFile(io, imageHolder.toAny());
+        ZFUIImageEncodeToFile(io, imageHolder);
         zfautoObject imageNew = ZFUIImageEncodeFromFile(io);
-        view->imageSet(imageNew.toAny());
+        view->imageSet(imageNew);
 
         this->prepareSettingButton(window, view);
     }

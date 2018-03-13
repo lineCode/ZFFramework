@@ -57,8 +57,8 @@ public:
             >(
             );
     }
-    inline T_Return operator()(
-                               ) const
+    inline T_Return operator () (
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
             >(
@@ -93,9 +93,9 @@ public:
                   param0
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -136,10 +136,10 @@ public:
                 , param1
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -186,11 +186,11 @@ public:
                 , param2
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               , ZF_IN T_Param2 param2
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 , ZF_IN T_Param2 param2
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -243,12 +243,12 @@ public:
                 , param3
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               , ZF_IN T_Param2 param2
-                               , ZF_IN T_Param3 param3
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 , ZF_IN T_Param2 param2
+                                 , ZF_IN T_Param3 param3
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -307,13 +307,13 @@ public:
                 , param4
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               , ZF_IN T_Param2 param2
-                               , ZF_IN T_Param3 param3
-                               , ZF_IN T_Param4 param4
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 , ZF_IN T_Param2 param2
+                                 , ZF_IN T_Param3 param3
+                                 , ZF_IN T_Param4 param4
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -378,14 +378,14 @@ public:
                 , param5
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               , ZF_IN T_Param2 param2
-                               , ZF_IN T_Param3 param3
-                               , ZF_IN T_Param4 param4
-                               , ZF_IN T_Param5 param5
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 , ZF_IN T_Param2 param2
+                                 , ZF_IN T_Param3 param3
+                                 , ZF_IN T_Param4 param4
+                                 , ZF_IN T_Param5 param5
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -456,15 +456,15 @@ public:
                 , param6
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               , ZF_IN T_Param2 param2
-                               , ZF_IN T_Param3 param3
-                               , ZF_IN T_Param4 param4
-                               , ZF_IN T_Param5 param5
-                               , ZF_IN T_Param6 param6
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 , ZF_IN T_Param2 param2
+                                 , ZF_IN T_Param3 param3
+                                 , ZF_IN T_Param4 param4
+                                 , ZF_IN T_Param5 param5
+                                 , ZF_IN T_Param6 param6
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0
@@ -541,16 +541,16 @@ public:
                 , param7
             );
     }
-    inline T_Return operator()(
-                                 ZF_IN T_Param0 param0
-                               , ZF_IN T_Param1 param1
-                               , ZF_IN T_Param2 param2
-                               , ZF_IN T_Param3 param3
-                               , ZF_IN T_Param4 param4
-                               , ZF_IN T_Param5 param5
-                               , ZF_IN T_Param6 param6
-                               , ZF_IN T_Param7 param7
-                               ) const
+    inline T_Return operator () (
+                                   ZF_IN T_Param0 param0
+                                 , ZF_IN T_Param1 param1
+                                 , ZF_IN T_Param2 param2
+                                 , ZF_IN T_Param3 param3
+                                 , ZF_IN T_Param4 param4
+                                 , ZF_IN T_Param5 param5
+                                 , ZF_IN T_Param6 param6
+                                 , ZF_IN T_Param7 param7
+                                 ) const
     {
         return ZFCallback::executeExact<T_Return
                 , T_Param0

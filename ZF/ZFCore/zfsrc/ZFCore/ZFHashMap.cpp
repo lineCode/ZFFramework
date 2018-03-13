@@ -18,7 +18,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 zfclassNotPOD _ZFP_ZFHashMapKeyHasher
 {
 public:
-    zfstlsize operator()(ZFObject *const &v) const
+    zfstlsize operator () (ZFObject *const &v) const
     {
         return (zfstlsize)v->objectHash();
     }
@@ -26,7 +26,7 @@ public:
 zfclassNotPOD _ZFP_ZFHashMapKeyComparer
 {
 public:
-    zfbool operator()(ZFObject * const &v0, ZFObject * const &v1) const
+    zfbool operator () (ZFObject * const &v0, ZFObject * const &v1) const
     {
         return (v0->objectCompare(v1) == ZFCompareTheSame);
     }
@@ -409,7 +409,7 @@ ZFMETHOD_DEFINE_1(ZFHashMap, ZFObject *, iteratorNextKey,
     if(data != zfnull && *data != d->data.end())
     {
         ZFObject *ret = (*data)->first;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return zfnull;
@@ -421,7 +421,7 @@ ZFMETHOD_DEFINE_1(ZFHashMap, ZFObject *, iteratorNextValue,
     if(data != zfnull && *data != d->data.end())
     {
         ZFObject *ret = (*data)->second;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return zfnull;
@@ -435,7 +435,7 @@ ZFMETHOD_DEFINE_1(ZFHashMap, ZFKeyValuePair, iteratorNextPair,
     {
         ret.key = (*data)->first;
         ret.value = (*data)->second;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return ret;

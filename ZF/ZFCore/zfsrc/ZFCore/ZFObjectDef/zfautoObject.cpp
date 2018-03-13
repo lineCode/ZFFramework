@@ -13,20 +13,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @cond ZFPrivateDoc */
-zfautoObject::zfautoObject(ZF_IN ZFObject *obj)
-{
-    zfCoreMutexLock();
-    if(obj)
-    {
-        d = zfnew(_ZFP_zfautoObjectPrivate);
-        d->obj = zflockfree_zfRetain(obj);
-    }
-    else
-    {
-        d = zfnull;
-    }
-    zfCoreMutexUnlock();
-}
 zfautoObject::zfautoObject(ZF_IN zfautoObject const &ref)
 {
     zfCoreMutexLock();
@@ -51,31 +37,7 @@ zfautoObject::~zfautoObject(void)
     }
     zfCoreMutexUnlock();
 }
-zfautoObject &zfautoObject::operator = (ZF_IN ZFObject *obj)
-{
-    zfCoreMutexLock();
-    zflockfree_zfRetain(obj);
-    if(d)
-    {
-        --(d->refCount);
-        if(d->refCount == 0)
-        {
-            zflockfree_zfRelease(d->obj);
-            zfdelete(d);
-        }
-    }
-    if(obj)
-    {
-        d = zfnew(_ZFP_zfautoObjectPrivate);
-        d->obj = obj;
-    }
-    else
-    {
-        d = zfnull;
-    }
-    zfCoreMutexUnlock();
-    return *this;
-}
+
 zfautoObject &zfautoObject::operator = (ZF_IN zfautoObject const &ref)
 {
     zfCoreMutexLock();
@@ -86,6 +48,24 @@ zfautoObject &zfautoObject::operator = (ZF_IN zfautoObject const &ref)
         ++(d->refCount);
     }
     if(dTmp != zfnull)
+    {
+        --(dTmp->refCount);
+        if(dTmp->refCount == 0)
+        {
+            zflockfree_zfRelease(dTmp->obj);
+            zfdelete(dTmp);
+        }
+    }
+    zfCoreMutexUnlock();
+    return *this;
+}
+zfautoObject &zfautoObject::operator = (ZF_IN zft_zfnull obj)
+{
+    zfCoreMutexLock();
+    (void)obj;
+    _ZFP_zfautoObjectPrivate *dTmp = d;
+    d = zfnull;
+    if(dTmp)
     {
         --(dTmp->refCount);
         if(dTmp->refCount == 0)

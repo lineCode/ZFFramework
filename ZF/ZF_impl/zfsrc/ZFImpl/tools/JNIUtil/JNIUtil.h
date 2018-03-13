@@ -50,10 +50,10 @@ public:
     JNIString(JNIString const &ref);
     JNIString(const char *s);
     ~JNIString(void);
-    JNIString &operator =(JNIString const &ref);
-    JNIString &operator =(const char *s);
+    JNIString &operator = (JNIString const &ref);
+    JNIString &operator = (const char *s);
     const char *c_str(void) const;
-    operator const char *(void) const;
+    operator const char * (void) const;
     JNIString &operator += (char c);
     JNIString &operator += (const char *s);
     void clear(void);
@@ -194,7 +194,7 @@ public:
     JNIType(JNIType::Type type,
             const char *classNameOrArrayElementTypeId = NULL);
     JNIType(const JNIType &ref);
-    JNIType &operator =(const JNIType &ref);
+    JNIType &operator = (const JNIType &ref);
 
 public:
     /**

@@ -136,7 +136,7 @@ static zfbool _ZFP_ZFImpl_ZFLua_metatable_concat_action(ZF_IN_OUT zfstring &v, Z
     if(lua_isuserdata(L, luaStackOffset))
     {
         zfautoObject const &param = ZFImpl_ZFLua_luaGet(L, luaStackOffset);
-        ZFPropertyTypeWrapper *wrapper = ZFCastZFObject(ZFPropertyTypeWrapper *, param);
+        ZFPropertyTypeWrapper *wrapper = param;
         if(wrapper != zfnull)
         {
             if(wrapper->wrappedValueToString(v))

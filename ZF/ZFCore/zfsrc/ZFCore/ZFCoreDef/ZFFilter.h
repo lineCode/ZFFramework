@@ -120,7 +120,7 @@ public:
     /**
      * @brief retain only
      */
-    virtual ZFFilterBase<T_Public, T_Internal> &operator =(ZF_IN const ZFFilterBase<T_Public, T_Internal> &ref)
+    virtual ZFFilterBase<T_Public, T_Internal> &operator = (ZF_IN const ZFFilterBase<T_Public, T_Internal> &ref)
     {
         if(this != &ref)
         {
@@ -493,9 +493,9 @@ public:
     {
     }
     /** @cond ZFPrivateDoc */
-    virtual ZFFilterBasic<T_Public, T_Internal> &operator =(ZF_IN const ZFFilterBasic<T_Public, T_Internal> &ref)
+    virtual ZFFilterBasic<T_Public, T_Internal> &operator = (ZF_IN const ZFFilterBasic<T_Public, T_Internal> &ref)
     {
-        zfsuper::operator =(ref);
+        zfsuper::operator = (ref);
         return *this;
     }
     /** @endcond */
@@ -566,9 +566,9 @@ public:
     {
     }
     /** @cond ZFPrivateDoc */
-    virtual ZFFilterForStringBase<T_Public, T_Internal> &operator =(ZF_IN const ZFFilterForStringBase<T_Public, T_Internal> &ref)
+    virtual ZFFilterForStringBase<T_Public, T_Internal> &operator = (ZF_IN const ZFFilterForStringBase<T_Public, T_Internal> &ref)
     {
-        zfsuper::operator =(ref);
+        zfsuper::operator = (ref);
         return *this;
     }
     /** @endcond */

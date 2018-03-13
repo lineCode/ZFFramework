@@ -65,7 +65,7 @@ public:
     zfbool operator != (ZF_IN ZFKeyValuePair const &ref) const {return (this->key != ref.key || this->value != ref.value);}
     ZFKeyValuePairHolder &operator = (ZF_IN ZFKeyValuePairHolder const &ref) {this->key = ref.key; this->value = ref.value; return *this;}
     ZFKeyValuePairHolder &operator = (ZF_IN ZFKeyValuePair const &ref) {this->key = ref.key; this->value = ref.value; return *this;}
-    operator ZFKeyValuePair(void) const {return ZFKeyValuePairMake(this->key, this->value);}
+    operator ZFKeyValuePair (void) const {return ZFKeyValuePairMake(this->key, this->value);}
     /** @endcond */
 };
 

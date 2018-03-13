@@ -217,7 +217,7 @@ public:
         ++(d->refCount);
     }
     /** @cond ZFPrivateDoc */
-    zffinal ZFBuffer &operator =(ZF_IN const ZFBuffer &ref)
+    zffinal ZFBuffer &operator = (ZF_IN const ZFBuffer &ref)
     {
         _ZFP_ZFBufferPrivate *dTmp = d;
         d = ref.d;

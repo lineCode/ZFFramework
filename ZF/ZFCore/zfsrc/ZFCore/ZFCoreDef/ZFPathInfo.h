@@ -54,7 +54,7 @@ public:
     ZFPathInfo(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData) : pathType(pathType), pathData(pathData) {}
     ZFPathInfo &operator = (ZF_IN const ZFPathInfo &pathInfo) {this->pathType = pathInfo.pathType; this->pathData = pathInfo.pathData; return *this;}
     zfbool operator == (ZF_IN const ZFPathInfo &pathInfo) const {return (this->pathType == pathInfo.pathType && this->pathData == pathInfo.pathData);}
-    zfbool operator != (ZF_IN const ZFPathInfo &pathInfo) const {return !this->operator==(pathInfo);}
+    zfbool operator != (ZF_IN const ZFPathInfo &pathInfo) const {return !this->operator == (pathInfo);}
     /** @endcond */
 };
 

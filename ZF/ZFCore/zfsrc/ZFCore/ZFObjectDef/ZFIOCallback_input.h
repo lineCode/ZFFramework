@@ -47,8 +47,8 @@ public:
         return ZFCallback::executeExact<zfindex, void *, zfindex>(buf, count);
     }
     /** @brief see #ZFInputCallback */
-    inline zfindex operator()(ZF_OUT void *buf,
-                              ZF_IN zfindex count) const
+    inline zfindex operator () (ZF_OUT void *buf,
+                                ZF_IN zfindex count) const
     {
         return ZFCallback::executeExact<zfindex, void *, zfindex>(buf, count);
     }

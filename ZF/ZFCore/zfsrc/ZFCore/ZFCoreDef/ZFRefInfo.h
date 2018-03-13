@@ -38,7 +38,7 @@ public:
     ZFRefInfo(ZF_IN const zfchar *refType, ZF_IN const zfchar *refData) : refType(refType), refData(refData) {}
     ZFRefInfo &operator = (ZF_IN const ZFRefInfo &refInfo) {this->refType = refInfo.refType; this->refData = refInfo.refData; return *this;}
     zfbool operator == (ZF_IN const ZFRefInfo &refInfo) const {return (this->refType == refInfo.refType && this->refData == refInfo.refData);}
-    zfbool operator != (ZF_IN const ZFRefInfo &refInfo) const {return !this->operator==(refInfo);}
+    zfbool operator != (ZF_IN const ZFRefInfo &refInfo) const {return !this->operator == (refInfo);}
     /** @endcond */
 };
 

@@ -26,14 +26,14 @@ protected:
         this->viewBackgroundColorSet(ZFUIColorYellow());
 
         zfautoObject imageSmall = zfRes(zfText("test_normal.png"));
-        zfautoObject imageLarge = ZFUIImageScale(imageSmall.toAny(), ZFUISizeMake(600));
+        zfautoObject imageLarge = ZFUIImageScale(imageSmall, ZFUISizeMake(600));
 
         this->childAdd(this->imageViewSmall());
-        this->imageViewSmall()->imageSet(imageSmall.toAny());
+        this->imageViewSmall()->imageSet(imageSmall);
         this->imageViewSmall()->viewBackgroundColorSet(ZFUIColorRed());
 
         this->childAdd(this->imageViewLarge());
-        this->imageViewLarge()->imageSet(imageLarge.toAny());
+        this->imageViewLarge()->imageSet(imageLarge);
         this->imageViewLarge()->viewBackgroundColorSet(ZFUIColorBlue());
     }
     zfoverride

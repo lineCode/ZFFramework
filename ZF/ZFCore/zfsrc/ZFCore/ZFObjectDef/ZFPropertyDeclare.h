@@ -499,7 +499,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  * -  ZFProperty support those type only:
  *   -  base type, such as zfcharA, int, const zfcharA *
  *   -  ZFObject *
- *   -  classes that have constructor with no argument and have operator= support
+ *   -  classes that have constructor with no argument and have operator = support
  * -  ZFProperty is also reflectable,
  *   you may reflect the ZFProperty itself by #ZFClass::propertyForName,
  *   or reflect the setter and getter as ZFMethod,

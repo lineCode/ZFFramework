@@ -57,7 +57,7 @@ ZFFileFindData::ZFFileFindData(ZF_IN ZFFileFindData const &ref)
 {
     ++(d->refCount);
 }
-ZFFileFindData &ZFFileFindData::operator=(ZF_IN ZFFileFindData const &ref)
+ZFFileFindData &ZFFileFindData::operator = (ZF_IN ZFFileFindData const &ref)
 {
     ++(ref.d->refCount);
     --(d->refCount);
@@ -68,7 +68,7 @@ ZFFileFindData &ZFFileFindData::operator=(ZF_IN ZFFileFindData const &ref)
     d = ref.d;
     return *this;
 }
-zfbool ZFFileFindData::operator==(ZF_IN ZFFileFindData const &ref) const
+zfbool ZFFileFindData::operator == (ZF_IN ZFFileFindData const &ref) const
 {
     return (zftrue
             && zfscmpTheSame(d->implName.cString(), ref.d->implName.cString())

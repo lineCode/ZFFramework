@@ -49,7 +49,7 @@ public:
         }
         if(zfmRand(3) == 0)
         {
-            tmp->cellIcon()->imageSet(ZFUIImageLoadFromColor(ZFUIColorRandom(), ZFUISizeMake(40)).toAny());
+            tmp->cellIcon()->imageSet(ZFUIImageLoadFromColor(ZFUIColorRandom(), ZFUISizeMake(40)));
         }
         tmp->viewBackgroundColorSet(ZFUIColorRandom());
     }

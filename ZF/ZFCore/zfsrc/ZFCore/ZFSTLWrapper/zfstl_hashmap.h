@@ -38,7 +38,7 @@
         class _ZFP_zfstlhashmap_Hash<zfstlstringZ>
         {
         public:
-            size_t operator() (zfstlstringZ const &k) const
+            size_t operator () (zfstlstringZ const &k) const
             {
                 return (size_t)zfidentityCalcString(k.c_str());
             }
@@ -47,7 +47,7 @@
         class _ZFP_zfstlhashmap_EqualTo<zfstlstringZ>
         {
         public:
-            bool operator() (zfstlstringZ const &k0, zfstlstringZ const &k1) const
+            bool operator () (zfstlstringZ const &k0, zfstlstringZ const &k1) const
             {
                 return (k0.compare(k1) == 0);
             }
@@ -59,7 +59,7 @@
             public:
                 enum {bucket_size = 4, min_buckets = 8};
             public:
-                size_t operator()(T_Key const &_Keyval) const
+                size_t operator () (T_Key const &_Keyval) const
                 {
                     long _Quot = _hashFunc(_Keyval) & LONG_MAX;
                     ldiv_t _Qrem = ldiv(_Quot, 127773);
@@ -67,7 +67,7 @@
                     if (_Qrem.rem < 0) {_Qrem.rem += LONG_MAX;}
                     return ((size_t)_Qrem.rem);
                 }
-                bool operator()(T_Key const &_Keyval1, T_Key const &_Keyval2) const
+                bool operator () (T_Key const &_Keyval1, T_Key const &_Keyval2) const
                 {
                     return !_equalToFunc(_Keyval1, _Keyval2);
                 }
@@ -96,7 +96,7 @@
             public:
                 typedef size_t result_type;
                 typedef zfstlstringZ argument_type;
-                result_type operator()(argument_type const &v) const
+                result_type operator () (argument_type const &v) const
                 {
                     hash<zfstlstring> t;
                     return t(ZFStringW2A(v.c_str()));

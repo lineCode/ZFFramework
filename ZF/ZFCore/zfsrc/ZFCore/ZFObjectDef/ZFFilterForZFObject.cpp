@@ -23,9 +23,9 @@ ZFFilterForZFObject::ZFFilterForZFObject(ZF_IN const ZFFilterForZFObject &ref)
 , classFilter(ref.classFilter)
 {
 }
-ZFFilterForZFObject &ZFFilterForZFObject::operator =(ZF_IN const ZFFilterForZFObject &ref)
+ZFFilterForZFObject &ZFFilterForZFObject::operator = (ZF_IN const ZFFilterForZFObject &ref)
 {
-    zfsuper::operator =(ref);
+    zfsuper::operator = (ref);
     this->classFilter = ref.classFilter;
     return *this;
 }

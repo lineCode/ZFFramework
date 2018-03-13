@@ -224,7 +224,7 @@ public:
 
 public:
     /** @cond ZFPrivateDoc */
-    inline T_Pointer const & operator ->(void) const
+    inline T_Pointer const & operator -> (void) const
     {
         return d->pointerValue;
     }
@@ -274,7 +274,7 @@ public:
             zfdelete(d);
         }
     }
-    ZFCorePointer<T_Pointer, T_ZFCorePointerType> &operator =(ZF_IN const ZFCorePointer<T_Pointer, T_ZFCorePointerType> &ref)
+    ZFCorePointer<T_Pointer, T_ZFCorePointerType> &operator = (ZF_IN const ZFCorePointer<T_Pointer, T_ZFCorePointerType> &ref)
     {
         _ZFP_ZFCorePointerPrivate<T_Pointer> *dTmp = d;
         d = ref.d;
@@ -290,12 +290,12 @@ public:
         }
         return *this;
     }
-    ZFCorePointer<T_Pointer, T_ZFCorePointerType> &operator =(ZF_IN T_Pointer const &value)
+    ZFCorePointer<T_Pointer, T_ZFCorePointerType> &operator = (ZF_IN T_Pointer const &value)
     {
         this->pointerValueSet(value);
         return *this;
     }
-    operator T_Pointer const &(void) const
+    operator T_Pointer const & (void) const
     {
         return d->pointerValue;
     }

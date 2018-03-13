@@ -98,10 +98,10 @@ zfclassNotPOD _ZFP_ZFLogAutoSpaceOn {};
 zfclassNotPOD _ZFP_ZFLogAutoSpaceOff {};
 zfclassNotPOD _ZFP_ZFLogAutoEndlOn {};
 zfclassNotPOD _ZFP_ZFLogAutoEndlOff {};
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator <<(const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOn const &v);
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator <<(const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOff const &v);
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator <<(const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOn const &v);
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator <<(const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOff const &v);
+extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOn const &v);
+extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOff const &v);
+extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOn const &v);
+extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOff const &v);
 /** @endcond */
 
 /** @brief see #zfLogTrimT */

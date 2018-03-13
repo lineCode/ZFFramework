@@ -109,8 +109,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         _zft_##D(const T t_) : t(t_) {} \
         inline D &operator = (const D &t_) {t = t_.t; return *this;} \
         template<typename T2> inline D &operator = (const T2 &t_) {t = t_; return *this;} \
-        inline operator const T &(void) const {return t;} \
-        inline operator T &(void) {return t;} \
+        inline operator const T & (void) const {return t;} \
+        inline operator T & (void) {return t;} \
         inline bool operator ! (void) const {return (t == 0);} \
         inline bool operator == (const D &t_) const {return (t == t_.t);} \
         inline bool operator != (const D &t_) const {return (t != t_.t);} \

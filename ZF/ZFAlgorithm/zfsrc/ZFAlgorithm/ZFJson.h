@@ -380,7 +380,7 @@ public:
     // quick access
 public:
     /** @brief access #jsonValue */
-    operator const zfchar *(void) const {return this->jsonValue();}
+    operator const zfchar * (void) const {return this->jsonValue();}
     /** @brief access #jsonItem */
     inline ZFJsonItem operator [] (ZF_IN const zfchar *key) const {return this->jsonItem(key);}
     /** @brief access #jsonObjectAtIndex */

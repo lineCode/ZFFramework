@@ -181,7 +181,7 @@ public:
             case 1:
             {
                 zfblockedAlloc(ZFUIImageView, v);
-                v->imageSet(ZFUIImageLoadFromColor(ZFUIColorRed()).toAny());
+                v->imageSet(ZFUIImageLoadFromColor(ZFUIColorRed()));
                 return v;
             }
             case 2:

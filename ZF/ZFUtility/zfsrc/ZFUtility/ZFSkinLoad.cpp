@@ -24,7 +24,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, zfSkinLoad,
             if(k != zfnull)
             {
                 zfautoObject obj = ZFObjectFromData(item.elementAtIndex(0));
-                ZFStyleable *skinValue = ZFCastZFObject(ZFStyleable *, obj);
+                ZFStyleable *skinValue = obj;
                 if(skinValue != zfnull)
                 {
                     zfSkinSet(k, skinValue);

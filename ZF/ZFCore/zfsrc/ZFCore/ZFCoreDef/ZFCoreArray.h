@@ -198,7 +198,7 @@ public:
     /**
      * @brief retain the array, if you want to copy, use #copyFrom instead
      */
-    ZFCoreArray<T_Element> &operator =(ZF_IN const ZFCoreArray<T_Element> &ref)
+    ZFCoreArray<T_Element> &operator = (ZF_IN const ZFCoreArray<T_Element> &ref)
     {
         _ZFP_ZFCoreArrayPrivate<T_Element> *dTmp = d;
         d = ref.d;
@@ -211,8 +211,8 @@ public:
         return *this;
     }
     /** @cond ZFPrivateDoc */
-    zfbool operator ==(ZF_IN const ZFCoreArray<T_Element> &ref) const {return (d == ref.d);}
-    inline zfbool operator !=(ZF_IN const ZFCoreArray<T_Element> &ref) const {return !this->operator == (ref);}
+    zfbool operator == (ZF_IN const ZFCoreArray<T_Element> &ref) const {return (d == ref.d);}
+    inline zfbool operator != (ZF_IN const ZFCoreArray<T_Element> &ref) const {return !this->operator == (ref);}
     /** @endcond */
     /**
      * @brief copy all settings and contents from another array
@@ -761,7 +761,7 @@ public:
     /**
      * @brief get element's reference at index
      */
-    T_Element &operator[] (ZF_IN zfindex index)
+    T_Element &operator [] (ZF_IN zfindex index)
     {
         if(index >= this->count())
         {
@@ -772,7 +772,7 @@ public:
     /**
      * @brief get element's const reference at index
      */
-    T_Element const &operator[] (ZF_IN zfindex index) const
+    T_Element const &operator [] (ZF_IN zfindex index) const
     {
         if(index >= this->count())
         {
@@ -914,7 +914,7 @@ public:
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD<T_Element> &operator =(ZF_IN const ZFCoreArray<T_Element> &ref)
+    ZFCoreArrayPOD<T_Element> &operator = (ZF_IN const ZFCoreArray<T_Element> &ref)
     {
         ZFCoreArray<T_Element>::operator = (ref);
         return *this;
@@ -922,7 +922,7 @@ public:
     /**
      * @brief see #ZFCoreArray
      */
-    ZFCoreArrayPOD<T_Element> &operator =(ZF_IN const ZFCoreArrayPOD<T_Element> &ref)
+    ZFCoreArrayPOD<T_Element> &operator = (ZF_IN const ZFCoreArrayPOD<T_Element> &ref)
     {
         ZFCoreArray<T_Element>::operator = (ref);
         return *this;

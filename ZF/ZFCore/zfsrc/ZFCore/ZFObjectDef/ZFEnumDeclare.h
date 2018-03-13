@@ -424,7 +424,7 @@ extern ZF_ENV_EXPORT _ZFP_ZFEnumData *_ZFP_ZFEnumDataAccess(ZF_IN const ZFClass 
         void enumValueSet(ZF_IN const zfuint &flags) {this->flags = flags;} \
         void enumValueSet(ZF_IN const EnumName##Enum &flags) {this->flags = (zfuint)flags;} \
     public: \
-        operator const zfuint &(void) const {return this->flags;} \
+        operator const zfuint & (void) const {return this->flags;} \
         EnumFlagsName &operator = (ZF_IN const zfuint &flags) {this->flags = flags; return *this;} \
         EnumFlagsName &operator = (ZF_IN const EnumName##Enum &flags) {this->flags = (zfuint)flags; return *this;} \
         EnumFlagsName &operator = (ZF_IN const EnumFlagsName &ref) {this->flags = ref.flags; return *this;} \

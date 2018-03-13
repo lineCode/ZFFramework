@@ -18,8 +18,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 zfclassNotPOD _ZFP_ZFMapKeyComparer
 {
 public:
-    inline zfbool operator()(ZFObject *obj1,
-                             ZFObject *obj2) const
+    inline zfbool operator () (ZF_IN ZFObject *obj1,
+                               ZF_IN ZFObject *obj2) const
     {
         ZFCompareResult cmp = ZFObjectCompare(obj1, obj2);
         zfCoreAssertWithMessageTrim(cmp != ZFCompareUncomparable, zfTextA("[ZFMap] key must comparable: %s, %s"),
@@ -433,7 +433,7 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorNextKey,
     if(data != zfnull && *data != d->data.end())
     {
         ZFObject *ret = (*data)->first;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return zfnull;
@@ -445,7 +445,7 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorNextValue,
     if(data != zfnull && *data != d->data.end())
     {
         ZFObject *ret = (*data)->second;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return zfnull;
@@ -459,7 +459,7 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFKeyValuePair, iteratorNextPair,
     {
         ret.key = (*data)->first;
         ret.value = (*data)->second;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return ret;
@@ -471,7 +471,7 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorPrevKey,
     if(data != zfnull && *data != d->data.end())
     {
         ZFObject *ret = (*data)->first;
-        data->operator --();
+        data->operator -- ();
         return ret;
     }
     return zfnull;
@@ -483,7 +483,7 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorPrevValue,
     if(data != zfnull && *data != d->data.end())
     {
         ZFObject *ret = (*data)->second;
-        data->operator --();
+        data->operator -- ();
         return ret;
     }
     return zfnull;
@@ -497,7 +497,7 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFKeyValuePair, iteratorPrevPair,
     {
         ret.key = (*data)->first;
         ret.value = (*data)->second;
-        data->operator --();
+        data->operator -- ();
         return ret;
     }
     return ret;

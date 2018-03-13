@@ -206,29 +206,29 @@ ZFMETHOD_FUNC_DECLARE_INLINE_1(zfstring, ZFTimeValueToStringFriendly,
 }
 
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT zfbool operator <(ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT zfbool operator < (ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT zfbool operator <=(ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT zfbool operator <= (ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT zfbool operator >(ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT zfbool operator > (ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT zfbool operator >=(ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT zfbool operator >= (ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT ZFTimeValue operator +(ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT ZFTimeValue operator + (ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT ZFTimeValue operator -(ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT ZFTimeValue operator - (ZF_IN const ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT void operator +=(ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT void operator += (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT void operator -=(ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
+extern ZF_ENV_EXPORT void operator -= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT ZFTimeValue operator *(ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT ZFTimeValue operator * (ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT ZFTimeValue operator /(ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT ZFTimeValue operator / (ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT void operator *=(ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT void operator /=(ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
 
 // ============================================================
 // ZFTimeInfo

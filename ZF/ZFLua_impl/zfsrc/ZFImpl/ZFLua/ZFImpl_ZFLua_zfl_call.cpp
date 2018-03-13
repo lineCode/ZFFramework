@@ -223,7 +223,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
-    v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj);
+    v_zfautoObject *objTmp = obj;
     if(objTmp != zfnull)
     {
         obj = objTmp->zfv;
@@ -269,7 +269,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
         zfautoObject methodHolder;
         if(ZFImpl_ZFLua_toObject(methodHolder, L, 2))
         {
-            v_ZFMethod *methodWrapper = ZFCastZFObject(v_ZFMethod *, methodHolder);
+            v_ZFMethod *methodWrapper = methodHolder;
             if(methodWrapper != zfnull)
             {
                 if(methodWrapper->zfv == zfnull)
@@ -366,7 +366,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
         zfautoObject methodHolder;
         if(ZFImpl_ZFLua_toObject(methodHolder, L, 1))
         {
-            v_ZFMethod *methodWrapper = ZFCastZFObject(v_ZFMethod *, methodHolder);
+            v_ZFMethod *methodWrapper = methodHolder;
             if(methodWrapper != zfnull)
             {
                 if(methodWrapper->zfv == zfnull)

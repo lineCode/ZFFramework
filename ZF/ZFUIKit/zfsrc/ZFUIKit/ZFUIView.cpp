@@ -760,7 +760,7 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
                 return zffalse;
             }
 
-            d->layoutParamSet(this, ZFCastZFObjectUnchecked(ZFUIViewLayoutParam *, layoutParam));
+            d->layoutParamSet(this, layoutParam);
         }
         else if(zfscmpTheSame(category, ZFSerializableKeyword_ZFUIView_internalImplView))
         {
@@ -901,7 +901,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfstring, viewDelegateClass)
         zfCoreCriticalMessage(zfTextA("viewDelegate not supported"));
         return ;
     }
-    this->viewDelegateSet(ZFCastZFObject(ZFUIView *, viewDelegateTmp));
+    this->viewDelegateSet(viewDelegateTmp);
 }
 ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewVisible)
 {

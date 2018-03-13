@@ -475,7 +475,7 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         if(lua_isuserdata(L, -1))
         {
             *luaResult = ZFImpl_ZFLua_luaGet(L, -1);
-            v_zfautoObject *tmp = ZFCastZFObject(v_zfautoObject *, *luaResult);
+            v_zfautoObject *tmp = *luaResult;
             if(tmp != zfnull)
             {
                 *luaResult = tmp->zfv;

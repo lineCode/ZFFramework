@@ -29,6 +29,7 @@ public:
 public:
     _ZFP_zfautoObjectPrivate(void) : refCount(1), obj(zfnull) {}
 };
+
 /**
  * @brief a ZFObject holder which would release content object automatically when destroyed
  *
@@ -54,54 +55,52 @@ zffinal zfclassLikePOD ZF_ENV_EXPORT zfautoObject
     /** @cond ZFPrivateDoc */
 public:
     zfautoObject(void) : d(zfnull) {}
-    zfautoObject(ZF_IN ZFObject *obj);
     zfautoObject(ZF_IN zfautoObject const &ref);
+    zfautoObject(ZF_IN zft_zfnull obj) : d(zfnull) {(void)obj;}
+    template<typename T_ZFObject>
+    zfautoObject(ZF_IN T_ZFObject *obj);
     template<typename T_ZFObject>
     zfautoObject(ZF_IN T_ZFObject const &obj);
     ~zfautoObject(void);
 
-    ZFObject *operator -> (void) const
-    {
-        return this->toObject();
-    }
-
-    zfautoObject &operator = (ZF_IN ZFObject *obj);
+public:
     zfautoObject &operator = (ZF_IN zfautoObject const &ref);
+    zfautoObject &operator = (ZF_IN zft_zfnull obj);
     template<typename T_ZFObject>
-    zfautoObject &operator = (ZF_IN T_ZFObject const &p);
+    zfautoObject &operator = (ZF_IN T_ZFObject *obj);
+    template<typename T_ZFObject>
+    zfautoObject &operator = (ZF_IN T_ZFObject const &obj);
 
-    operator ZFObject *(void) const
+public:
+    zfbool operator == (ZF_IN zft_zfnull obj) const
     {
-        return this->toObject();
+        (void)obj;
+        return (this->toObject() == zfnull);
+    }
+    zfbool operator != (ZF_IN zft_zfnull obj) const
+    {
+        (void)obj;
+        return (this->toObject() != zfnull);
     }
     template<typename T_ZFObject>
-    operator T_ZFObject (void) const
+    zfbool operator == (ZF_IN T_ZFObject *obj) const
     {
-        return ZFCastZFObject(T_ZFObject, this->toObject());
-    }
-
-    zfbool operator == (ZF_IN ZFObject *ref) const
-    {
-        return (this->toObject() == ref);
-    }
-    zfbool operator != (ZF_IN ZFObject *ref) const
-    {
-        return (this->toObject() != ref);
-    }
-    zfbool operator == (ZF_IN zfautoObject const &ref) const
-    {
-        return (this->toObject() == ref.toObject());
-    }
-    zfbool operator != (ZF_IN zfautoObject const &ref) const
-    {
-        return (this->toObject() != ref.toObject());
+        return (this->toObject() == (obj ? obj->toObject() : zfnull));
     }
     template<typename T_ZFObject>
-    zfbool operator == (ZF_IN T_ZFObject const &p) const;
-    template<typename T_ZFObject>
-    zfbool operator != (ZF_IN T_ZFObject const &p) const
+    zfbool operator != (ZF_IN T_ZFObject *obj) const
     {
-        return !this->operator==(p);
+        return (this->toObject() != (obj ? obj->toObject() : zfnull));
+    }
+    template<typename T_ZFObject>
+    zfbool operator == (ZF_IN T_ZFObject const &obj) const
+    {
+        return (this->toObject() == obj.toObject());
+    }
+    template<typename T_ZFObject>
+    zfbool operator != (ZF_IN T_ZFObject const &obj) const
+    {
+        return (this->toObject() != obj.toObject());
     }
     /** @endcond */
 
@@ -115,6 +114,15 @@ public:
     }
 
 public:
+    ZFObject *operator -> (void) const
+    {
+        return this->toObject();
+    }
+    template<typename T_ZFObject>
+    operator T_ZFObject * (void) const
+    {
+        return ZFCastZFObject(T_ZFObject *, this->toObject());
+    }
     /**
      * @brief get the holded object
      */
@@ -130,13 +138,6 @@ public:
     {
         return ZFCastZFObjectUnchecked(T_ZFObject, this->toObject());
     }
-    /**
-     * @brief get the holded object
-     */
-    inline ZFAny toAny(void) const
-    {
-        return ZFAny(this->toObject());
-    }
 
 private:
     _ZFP_zfautoObjectPrivate *d;
@@ -147,16 +148,6 @@ extern ZF_ENV_EXPORT const zfautoObject _ZFP_zfautoObjectNull;
  * @brief global null zfautoObject
  */
 #define zfautoObjectNull() _ZFP_zfautoObjectNull
-
-// ============================================================
-// ZFCastZFObject fix for ZFAny
-inline ZFObject *_ZFP_ObjCastFromUnknown(zfautoObject const &obj);
-inline void _ZFP_ObjCastToUnknown(zfautoObject &ret,
-                                  ZFObject * const &obj);
-
-inline ZFObject *_ZFP_ObjCastFromUnknownUnchecked(zfautoObject const &obj);
-inline void _ZFP_ObjCastToUnknownUnchecked(zfautoObject &ret,
-                                           ZFObject * const &obj);
 
 ZF_NAMESPACE_GLOBAL_END
 

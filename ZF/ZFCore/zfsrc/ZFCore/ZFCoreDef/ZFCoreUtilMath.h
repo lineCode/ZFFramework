@@ -246,7 +246,7 @@ zfindex _ZFP_zfmSort(ZF_IN T_Holder &holder,
     return left;
 }
 /**
- * @brief sort with custom comparer in range [left, right], holder must support operator[]
+ * @brief sort with custom comparer in range [left, right], holder must support operator []
  */
 template<typename T_Element, typename T_Holder>
 void zfmSort(ZF_IN T_Holder &holder,

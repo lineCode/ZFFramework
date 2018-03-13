@@ -52,7 +52,7 @@ zfbool ZFAnimationTimeLineProperty::serializableOnSerializeFromData(ZF_IN const 
                     zfText("invalid step: %s"), ZFObjectInfoOfInstance(step.toObject()).cString());
                 return zffalse;
             }
-            this->stepAdd(ZFCastZFObjectUnchecked(ZFTimeLineProperty *, step));
+            this->stepAdd(step);
 
             categoryData.resolveMark();
         }

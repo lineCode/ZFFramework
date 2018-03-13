@@ -36,7 +36,7 @@ protected:
                 "    end), window:objectHolder())\n"
                 "return window\n"
             ));
-        zfCoreAssert(ZFCastZFObject(ZFUIWindow *, result) != zfnull);
+        zfCoreAssert(result != zfnull);
 
         ZFLISTENER_LOCAL(windowOnHide, {
             ZFLISTENER_LOCAL(testCaseStopDelay, {

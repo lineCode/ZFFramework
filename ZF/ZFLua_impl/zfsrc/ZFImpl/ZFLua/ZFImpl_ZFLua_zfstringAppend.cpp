@@ -26,7 +26,7 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
 
     if(!stringValid)
     {
-        v_zfstring *s = ZFCastZFObject(v_zfstring *, obj);
+        v_zfstring *s = obj;
         if(s != zfnull)
         {
             stringValid = zftrue;
@@ -36,7 +36,7 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
 
     if(!stringValid)
     {
-        ZFStringEditable *s = ZFCastZFObject(ZFStringEditable *, obj);
+        ZFStringEditable *s = obj;
         if(s != zfnull)
         {
             stringValid = zftrue;

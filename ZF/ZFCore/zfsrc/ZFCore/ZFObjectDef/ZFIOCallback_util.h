@@ -56,14 +56,14 @@ public:
     /**
      * @brief implicit convert to input callback
      */
-    virtual operator ZFInputCallback(void)
+    virtual operator ZFInputCallback (void)
     {
         return this->inputCallback();
     }
     /**
      * @brief implicit convert to output callback
      */
-    virtual operator ZFOutputCallback(void)
+    virtual operator ZFOutputCallback (void)
     {
         return this->outputCallback();
     }
@@ -102,7 +102,7 @@ public:
     /** @cond ZFPrivateDoc */
     ZFIOBufferedCallbackUsingBuffer(void);
     ZFIOBufferedCallbackUsingBuffer(ZF_IN const ZFIOBufferedCallbackUsingBuffer &ref);
-    ZFIOBufferedCallbackUsingBuffer &operator =(ZF_IN const ZFIOBufferedCallbackUsingBuffer &ref);
+    ZFIOBufferedCallbackUsingBuffer &operator = (ZF_IN const ZFIOBufferedCallbackUsingBuffer &ref);
     /** @endcond */
     virtual ~ZFIOBufferedCallbackUsingBuffer(void);
 

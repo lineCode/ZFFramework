@@ -126,7 +126,7 @@ public:
                 if(block != zfnull)
                 {
                     zfautoObject aniHolder = this->aniForBlockAppear();
-                    ZFAnimation *ani = aniHolder.toAny();
+                    ZFAnimation *ani = aniHolder;
                     this->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
                     ani->aniTargetSet(block);
                 }
@@ -148,7 +148,7 @@ public:
                 continue;
             }
             zfautoObject aniHolder = this->aniForBlockMoveTo(action.from, action.to);
-            ZFAnimation *ani = aniHolder.toAny();
+            ZFAnimation *ani = aniHolder;
             this->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
             ani->aniTargetSet(this->gameUI->blockAtIndex(action.from.x, action.from.y));
         }
@@ -171,7 +171,7 @@ public:
                 if(action.isNewBlock)
                 {
                     zfautoObject aniHolder = game->d->aniForBlockAppear();
-                    ZFAnimation *ani = aniHolder.toAny();
+                    ZFAnimation *ani = aniHolder;
                     game->d->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
                     ani->aniTargetSet(game->d->gameUI->blockAtIndex(action.from.x, action.from.y));
                     continue;
@@ -182,7 +182,7 @@ public:
                 {
                     mergedPosCheck.remove(movedTo);
                     zfautoObject aniHolder = game->d->aniForBlockMerge();
-                    ZFAnimation *ani = aniHolder.toAny();
+                    ZFAnimation *ani = aniHolder;
                     game->d->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
                     ani->aniTargetSet(game->d->gameUI->blockAtIndex(action.to.x, action.to.y));
                 }

@@ -51,7 +51,7 @@ public:
 private:
     // we don't allow copy
     ZFCoreQueuePOD(ZF_IN const ZFCoreQueuePOD<T_POD> &ref);
-    ZFCoreQueuePOD<T_POD> &operator =(ZF_IN const ZFCoreQueuePOD<T_POD> &ref);
+    ZFCoreQueuePOD<T_POD> &operator = (ZF_IN const ZFCoreQueuePOD<T_POD> &ref);
 
 public:
     /**

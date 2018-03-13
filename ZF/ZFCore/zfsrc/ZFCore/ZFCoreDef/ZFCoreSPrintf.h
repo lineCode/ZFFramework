@@ -51,8 +51,8 @@ void _ZFP_zfstringAppend(ZF_OUT T_Str &s,
  * @brief a light-weight sprintf-like string formatter
  *
  * s to append could be any types that support:
- * -  operator+=(CharType)
- * -  operator+=(const CharType *)
+ * -  operator += (CharType)
+ * -  operator += (const CharType *)
  *
  * supported format tokens:
  * -  "b": zfbool (e.g. true)

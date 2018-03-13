@@ -47,8 +47,8 @@ public:
         return ZFCallback::executeExact<zfindex, const void *, zfindex>(src, count);
     }
     /** @brief see #ZFOutputCallback */
-    inline zfindex operator()(ZF_IN const void *src,
-                              ZF_IN_OPT zfindex count = zfindexMax()) const
+    inline zfindex operator () (ZF_IN const void *src,
+                                ZF_IN_OPT zfindex count = zfindexMax()) const
     {
         return ZFCallback::executeExact<zfindex, const void *, zfindex>(src, count);
     }
@@ -89,7 +89,7 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
  */
 #define ZFOUTPUT_TYPE(T_Type, outputAction) \
     /** @cond ZFPrivateDoc */ \
-    inline const ZFOutputCallback &operator <<(const ZFOutputCallback &output, T_Type const &v) \
+    inline const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v) \
     { \
         if(output.callbackIsValid()) \
         outputAction \
@@ -110,7 +110,7 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
 #define ZFOUTPUT_TYPE_TEMPLATE(templateList, T_Type, outputAction) \
     /** @cond ZFPrivateDoc */ \
     template<templateList> \
-    inline const ZFOutputCallback &operator <<(const ZFOutputCallback &output, T_Type const &v) \
+    inline const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v) \
     { \
         outputAction \
         return output; \
@@ -146,13 +146,13 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
  */
 #define ZFOUTPUT_TYPE_DECLARE(T_Type) \
     /** @cond ZFPrivateDoc */ \
-    extern ZF_ENV_EXPORT const ZFOutputCallback &operator <<(const ZFOutputCallback &output, T_Type const &v); \
+    extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v); \
     _ZFP_ZFOUTPUT_EXPAND(T_Type) \
     /** @endcond */
 /** @brief see #ZFOUTPUT_TYPE_DECLARE */
 #define ZFOUTPUT_TYPE_DEFINE(T_Type, outputAction) \
     /** @cond ZFPrivateDoc */ \
-    const ZFOutputCallback &operator <<(const ZFOutputCallback &output, T_Type const &v) \
+    const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v) \
     { \
         outputAction \
         return output; \
@@ -212,7 +212,7 @@ public:
 };
 
 template<typename T_Type>
-const ZFOutputCallback &operator <<(const ZFOutputCallback &output, const T_Type * const &v)
+const ZFOutputCallback &operator << (const ZFOutputCallback &output, const T_Type * const &v)
 {
     if(v == zfnull)
     {
@@ -225,7 +225,7 @@ const ZFOutputCallback &operator <<(const ZFOutputCallback &output, const T_Type
     return output;
 }
 template<typename T_Type>
-const ZFOutputCallback &operator <<(const ZFOutputCallback &output, T_Type * const &v)
+const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type * const &v)
 {
     if(v == zfnull)
     {

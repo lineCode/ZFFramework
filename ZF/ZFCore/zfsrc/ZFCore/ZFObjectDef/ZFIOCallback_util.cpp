@@ -176,9 +176,9 @@ ZFIOBufferedCallbackUsingBuffer::ZFIOBufferedCallbackUsingBuffer(ZF_IN const ZFI
 : ZFIOBufferedCallback(ref)
 {
     d = zfnull;
-    this->operator=(ref);
+    this->operator = (ref);
 }
-ZFIOBufferedCallbackUsingBuffer &ZFIOBufferedCallbackUsingBuffer::operator =(ZF_IN const ZFIOBufferedCallbackUsingBuffer &ref)
+ZFIOBufferedCallbackUsingBuffer &ZFIOBufferedCallbackUsingBuffer::operator = (ZF_IN const ZFIOBufferedCallbackUsingBuffer &ref)
 {
     zfRetain(ref.d);
     zfRelease(d);

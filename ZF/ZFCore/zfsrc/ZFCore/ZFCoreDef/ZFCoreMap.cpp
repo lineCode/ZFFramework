@@ -74,7 +74,7 @@ ZFCoreMap::ZFCoreMap(ZF_IN const ZFCoreMap &ref)
 {
     ++(d->refCount);
 }
-ZFCoreMap &ZFCoreMap::operator =(ZF_IN const ZFCoreMap &ref)
+ZFCoreMap &ZFCoreMap::operator = (ZF_IN const ZFCoreMap &ref)
 {
     _ZFP_ZFCoreMapPrivate *dTmp = d;
     d = ref.d;
@@ -86,7 +86,7 @@ ZFCoreMap &ZFCoreMap::operator =(ZF_IN const ZFCoreMap &ref)
     }
     return *this;
 }
-zfbool ZFCoreMap::operator ==(ZF_IN const ZFCoreMap &ref) const
+zfbool ZFCoreMap::operator == (ZF_IN const ZFCoreMap &ref) const
 {
     return (d == ref.d);
 }
@@ -378,7 +378,7 @@ const zfchar *ZFCoreMap::iteratorNextKey(ZF_IN_OUT zfiterator &it) const
     if(data)
     {
         const zfchar *ret = (*data)->first.c_str();
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return zfnull;
@@ -389,7 +389,7 @@ ZFCorePointerBase *ZFCoreMap::iteratorNextValue(ZF_IN_OUT zfiterator &it) const
     if(data)
     {
         ZFCorePointerBase *ret = (*data)->second;
-        data->operator ++();
+        data->operator ++ ();
         return ret;
     }
     return zfnull;
@@ -402,7 +402,7 @@ ZFCoreMapPair ZFCoreMap::iteratorNextPair(ZF_IN_OUT zfiterator &it) const
     {
         ret.key = (*data)->first.c_str();
         ret.value = (*data)->second;
-        data->operator ++();
+        data->operator ++ ();
     }
     return ret;
 }
@@ -416,7 +416,7 @@ const zfchar *ZFCoreMap::iteratorPrevKey(ZF_IN_OUT zfiterator &it) const
     if(data)
     {
         const zfchar *ret = (*data)->first;
-        data->operator --();
+        data->operator -- ();
         return ret;
     }
 #endif
@@ -431,7 +431,7 @@ ZFCorePointerBase *ZFCoreMap::iteratorPrevValue(ZF_IN_OUT zfiterator &it) const
     if(data)
     {
         ZFCorePointerBase *ret = (*data)->second;
-        data->operator --();
+        data->operator -- ();
         return ret;
     }
 #endif
@@ -448,7 +448,7 @@ ZFCoreMapPair ZFCoreMap::iteratorPrevPair(ZF_IN_OUT zfiterator &it) const
     {
         ret.key = (*data)->first;
         ret.value = (*data)->second;
-        data->operator --();
+        data->operator -- ();
     }
 #endif
     return ret;

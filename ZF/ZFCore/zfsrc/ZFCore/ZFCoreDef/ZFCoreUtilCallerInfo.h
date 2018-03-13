@@ -116,7 +116,7 @@ public:
     , _callerLine(ref._callerLine)
     {
     }
-    virtual ZFCallerInfo &operator =(ZF_IN const ZFCallerInfo &ref)
+    virtual ZFCallerInfo &operator = (ZF_IN const ZFCallerInfo &ref)
     {
         _callerFile = ref._callerFile;
         _callerFunc = ref._callerFunc;
@@ -300,7 +300,7 @@ zfclassLikePOD ZF_ENV_EXPORT ZFCallerInfoHolder : zfextendsLikePOD ZFCallerInfo
             ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, zfsCoreA2Z(ref.callerFile()));
             ZFCallerInfo::callerInfoSet(_callerFileHolder, _callerFuncHolder, ref.callerLine());
         }
-        virtual ZFCallerInfoHolder &operator =(ZF_IN const ZFCallerInfo &ref)
+        virtual ZFCallerInfoHolder &operator = (ZF_IN const ZFCallerInfo &ref)
         {
             _callerFileHolder.removeAll();
             ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, zfsCoreA2Z(ref.callerFile()));
@@ -338,7 +338,7 @@ zfclassLikePOD ZF_ENV_EXPORT ZFCallerInfoHolder : zfextendsLikePOD ZFCallerInfo
         : ZFCallerInfo(ref)
         {
         }
-        virtual ZFCallerInfoHolder &operator =(ZF_IN const ZFCallerInfo &ref)
+        virtual ZFCallerInfoHolder &operator = (ZF_IN const ZFCallerInfo &ref)
         {
             ZFCallerInfo::operator = (ref);
             return *this;

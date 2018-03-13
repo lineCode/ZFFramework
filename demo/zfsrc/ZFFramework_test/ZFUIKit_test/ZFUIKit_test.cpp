@@ -118,7 +118,7 @@ void ZFUIKit_test_prepareSettingButtonWithTestWindow(ZF_IN ZFUIWindow *window,
                                                      ZF_IN ZFArray *settings)
 {
     zfautoObject buttonHolder = ZFUIKit_test_prepareSettingButton(settings);
-    ZFUIButton *button = buttonHolder.toAny();
+    ZFUIButton *button = buttonHolder;
     window->childAdd(button);
     button->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
 }

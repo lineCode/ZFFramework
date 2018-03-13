@@ -19,41 +19,12 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-// ============================================================
-ZFM_CLASS_HAS_MEMBER_DECLARE(zfautoObject, toObject, ZFObject *(T::*F)(void))
-template<typename T, int T_isZFObject>
-zfclassNotPOD _ZFP_zfautoObjectWrap
-{
-public:
-    static void assign(ZF_IN_OUT zfautoObject &v, ZF_IN T const &p)
-    {
-        v = zfautoObject(ZFCastZFObjectUnchecked(ZFObject *, p));
-    }
-    static zfbool equal(ZF_IN const zfautoObject &v, ZF_IN T const &p)
-    {
-        return (v.toObject() == ZFCastZFObjectUnchecked(ZFObject *, p));
-    }
-};
-template<typename T>
-zfclassNotPOD _ZFP_zfautoObjectWrap<T, 0>
-{
-public:
-    static void assign(ZF_IN_OUT zfautoObject &v, ZF_IN T const &p)
-    {
-        zfCoreAssert(p == 0);
-        v = zfautoObjectNull();
-    }
-    static zfbool equal(ZF_IN const zfautoObject &v, ZF_IN T const &p)
-    {
-        return (v.toObject() == zfnull && p == 0);
-    }
-};
 /** @cond ZFPrivateDoc */
 template<typename T_ZFObject>
-zfautoObject::zfautoObject(ZF_IN T_ZFObject const &p)
+zfautoObject::zfautoObject(ZF_IN T_ZFObject *p)
 {
     zfCoreMutexLock();
-    ZFObject *obj = ZFCastZFObjectUnchecked(ZFObject *, p);
+    ZFObject *obj = (p ? p->toObject() : zfnull);
     if(obj)
     {
         d = zfnew(_ZFP_zfautoObjectPrivate);
@@ -66,45 +37,77 @@ zfautoObject::zfautoObject(ZF_IN T_ZFObject const &p)
     zfCoreMutexUnlock();
 }
 template<typename T_ZFObject>
-zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject const &p)
+zfautoObject::zfautoObject(ZF_IN T_ZFObject const &p)
 {
-    _ZFP_zfautoObjectWrap<
-            T_ZFObject,
-            ZFM_CLASS_HAS_MEMBER(zfautoObject, toObject, typename zftTraits<T_ZFObject>::TrType) ? 1 : 0
-        >::assign(*this, p);
+    zfCoreMutexLock();
+    ZFObject *obj = p.toObject();
+    if(obj)
+    {
+        d = zfnew(_ZFP_zfautoObjectPrivate);
+        d->obj = zflockfree_zfRetain(obj);
+    }
+    else
+    {
+        d = zfnull;
+    }
+    zfCoreMutexUnlock();
+}
+
+template<typename T_ZFObject>
+zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject *p)
+{
+    zfCoreMutexLock();
+    ZFObject *obj = (p ? p->toObject() : zfnull);
+    zflockfree_zfRetain(obj);
+    if(d)
+    {
+        --(d->refCount);
+        if(d->refCount == 0)
+        {
+            zflockfree_zfRelease(d->obj);
+            zfdelete(d);
+        }
+    }
+    if(obj)
+    {
+        d = zfnew(_ZFP_zfautoObjectPrivate);
+        d->obj = obj;
+    }
+    else
+    {
+        d = zfnull;
+    }
+    zfCoreMutexUnlock();
     return *this;
 }
 template<typename T_ZFObject>
-zfbool zfautoObject::operator == (ZF_IN T_ZFObject const &p) const
+zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject const &p)
 {
-    return _ZFP_zfautoObjectWrap<
-            T_ZFObject,
-            ZFM_CLASS_HAS_MEMBER(zfautoObject, toObject, typename zftTraits<T_ZFObject>::TrType) ? 1 : 0
-        >::equal(*this, p);
+    zfCoreMutexLock();
+    ZFObject *obj = p.toObject();
+    zflockfree_zfRetain(obj);
+    if(d)
+    {
+        --(d->refCount);
+        if(d->refCount == 0)
+        {
+            zflockfree_zfRelease(d->obj);
+            zfdelete(d);
+        }
+    }
+    if(obj)
+    {
+        d = zfnew(_ZFP_zfautoObjectPrivate);
+        d->obj = obj;
+    }
+    else
+    {
+        d = zfnull;
+    }
+    zfCoreMutexUnlock();
+    return *this;
 }
 /** @endcond */
-
-// ============================================================
-// ZFCastZFObject fix for ZFAny
-inline ZFObject *_ZFP_ObjCastFromUnknown(zfautoObject const &obj)
-{
-    return obj.toObject();
-}
-inline void _ZFP_ObjCastToUnknown(zfautoObject &ret,
-                                  ZFObject * const &obj)
-{
-    ret = obj;
-}
-
-inline ZFObject *_ZFP_ObjCastFromUnknownUnchecked(zfautoObject const &obj)
-{
-    return obj.toObject();
-}
-inline void _ZFP_ObjCastToUnknownUnchecked(zfautoObject &ret,
-                                           ZFObject * const &obj)
-{
-    ret = obj;
-}
 
 ZF_NAMESPACE_GLOBAL_END
 

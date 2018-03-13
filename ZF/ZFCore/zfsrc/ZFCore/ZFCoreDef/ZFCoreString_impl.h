@@ -164,7 +164,7 @@ public:
 
 public:
     /** @cond ZFPrivateDoc */
-    inline operator const T_Char *(void) const {return this->cString();}
+    inline operator const T_Char * (void) const {return this->cString();}
     /** @endcond */
 
 public:
@@ -223,11 +223,11 @@ public:
 
 public:
     /** @cond ZFPrivateDoc */
-    inline T_Char &operator[] (ZF_IN zfindex pos)
+    inline T_Char &operator [] (ZF_IN zfindex pos)
     {
         return d.buf()[pos];
     }
-    inline const T_Char &operator[] (ZF_IN zfindex pos) const
+    inline const T_Char &operator [] (ZF_IN zfindex pos) const
     {
         return d.buf()[pos];
     }
