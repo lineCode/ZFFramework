@@ -6,6 +6,7 @@
 * optimize external ZFModule build logic and script
 * reduce recursive header include to improve compile time
 * optimize method declaration
+* trim output executable size
 
 # 0.1.0 (20180218)
 
