@@ -1,24 +1,34 @@
 /**
  * @page DocTag_Setup_iOS iOS
  *
+ * @section DocTag_Setup_iOS_Requirement Requirement
+ *
  * you must have these settings being prepared:
  * -  have XCode installed
  *
- * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files\n
- * \n
- * \n
- * or, use [Cocoapods](https://cocoapods.org)
+ * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files
+ *
+ * @section DocTag_Setup_iOS_Cocoapods Using as Cocoapods
+ *
+ * you may also use ZFFramework as [Cocoapods](https://cocoapods.org) for convenient
  * @code
  *   pod 'ZFFramework'
  * @endcode
+ * then add cpp files as usual\n
  * \n
- * \n
+ * specially, when adding resource files,
+ * you must ensure they are placed under `YourApp.app/zfres/`,
+ * see the Manual Setup below for how to do it
+ *
+ * @section DocTag_Setup_iOS_ManualSetup Manual Setup
+ *
  * if you really want to setup manually:
+ *
  * -# build necessary libraries of ZFFramework, by one of these methods:
  *   -  tools from ~/tools/release
  *   -  manually build projects under ~/ZF
  * -# create your own iOS project
- * -# drag and drop ZFFramework's libraries (*.a files) to your project
+ * -# drag and drop ZFFramework's libraries (*.a or *.dylib files) to your project
  * -# modify your project's target settings:
  *   -  Header Search Paths
  *   -  Library Search Paths

@@ -1,13 +1,17 @@
 /**
  * @page DocTag_Setup_Qt Qt
  *
+ * @section DocTag_Setup_Qt_Requirement Requirement
+ *
  * you must have these settings being prepared:
  * -  have qmake and proper make in your system path
  *
- * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files\n
- * \n
- * \n
+ * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files
+ *
+ * @section DocTag_Setup_Qt_ManualSetup Manual Setup
+ *
  * if you really want to setup manually:
+ *
  * -# build necessary libraries of ZFFramework, by one of these methods:
  *   -  tools from ~/tools/release
  *   -  manually build projects under ~/ZF
@@ -33,6 +37,23 @@
  *     }
  *   @endcode
  * -# copy all res and libs to your product output or proper location accorrding to your platform
+ *   -  for Windows or Linux
+ *     @code
+ *       ~/
+ *           YourApp.exe
+ *           QtCore.dll
+ *           ZFCore.dll
+ *           zfres/
+ *     @endcode
+ *   -  for MacOS
+ *     @code
+ *       YourApp.app/
+ *           Contents/
+ *               Frameworks/
+ *                   ZFCore.dylib
+ *               Resources/
+ *                   zfres/
+ *     @endcode
  * -# create cpp files in your project
  *   and follow the @ref DocTag_Tutorial "Tutorial" to code with ZFFramework, enjoy
  */

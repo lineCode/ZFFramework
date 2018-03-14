@@ -91,16 +91,6 @@ public:
     {
         return (this->toObject() != _ZFP_ZFAnyCast(T_ZFObject, obj));
     }
-    /** @endcond */
-
-public:
-    /**
-     * @brief get current retain count
-     */
-    zfindex objectRetainCount(void) const
-    {
-        return (zfindex)(d ? d->refCount : 0);
-    }
 
 public:
     ZFObject *operator -> (void) const
@@ -116,6 +106,16 @@ public:
     {
         return ZFCastZFObject(T_ZFObject *, this->toObject());
     }
+    /** @endcond */
+
+public:
+    /**
+     * @brief get current retain count
+     */
+    zfindex objectRetainCount(void) const
+    {
+        return (zfindex)(d ? d->refCount : 0);
+    }
     /**
      * @brief get the holded object
      */
@@ -124,7 +124,7 @@ public:
         return (d ? d->obj : zfnull);
     }
     /**
-     * @brief get the holded object
+     * @brief cast by #ZFCastZFObjectUnchecked
      */
     template<typename T_ZFObject>
     inline T_ZFObject to(void) const

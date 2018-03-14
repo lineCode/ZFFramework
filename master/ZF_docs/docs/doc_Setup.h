@@ -9,7 +9,10 @@
  * \n
  * the tools would help you create all necessary project files for you,
  * however, you still need to setup proper IDE and system settings manually,
- * see each platform spec for more info
+ * see each platform spec for more info\n
+ * \n
+ * after setup, simply add your own cpp files to `zfsrc` dir,
+ * they would be compiled automatically for all projects
  *
  * @section DocTag_Setup_SupportedIDE Supported IDE
  *

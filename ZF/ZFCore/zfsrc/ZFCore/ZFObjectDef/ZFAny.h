@@ -129,16 +129,24 @@ public:
     {
         return ZFCastZFObject(T_ZFObject *, this->_obj);
     }
+    /** @endcond */
+
+public:
+    /**
+     * @brief get the holded object
+     */
     inline ZFObject *toObject(void) const
     {
         return this->_obj;
     }
+    /**
+     * @brief cast by #ZFCastZFObjectUnchecked
+     */
     template<typename T_ZFObject>
     inline T_ZFObject to(void) const
     {
         return ZFCastZFObjectUnchecked(T_ZFObject, this->_obj);
     }
-    /** @endcond */
 
 private:
     ZFObject *_obj;
