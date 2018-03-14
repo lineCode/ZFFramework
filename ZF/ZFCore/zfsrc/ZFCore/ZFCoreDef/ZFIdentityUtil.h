@@ -8,18 +8,20 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFCoreIdentityUtil.h
+ * @file ZFIdentityUtil.h
  * @brief identity generator utility
  */
 
-#ifndef _ZFI_ZFCoreIdentityUtil_h_
-#define _ZFI_ZFCoreIdentityUtil_h_
+#ifndef _ZFI_ZFIdentityUtil_h_
+#define _ZFI_ZFIdentityUtil_h_
 
-#include "ZFCoreArray.h"
+#include "ZFCoreTypeDef.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
+template<typename T_Element>
+zfclassFwd ZFCoreArray;
 zfclassFwd _ZFP_ZFIdentityGeneratorPrivate;
 /**
  * @brief identity generator utility
@@ -87,13 +89,6 @@ public:
      * @brief get all identity currently used, for debug use only
      */
     void allUsed(ZF_IN_OUT ZFCoreArray<zfidentity> &ret) const;
-    /** @brief see #allUsed */
-    inline ZFCoreArrayPOD<zfidentity> allUsed(void) const
-    {
-        ZFCoreArrayPOD<zfidentity> ret;
-        this->allUsed(ret);
-        return ret;
-    }
 
 private:
     _ZFP_ZFIdentityGeneratorPrivate *d;
@@ -128,5 +123,5 @@ extern ZF_ENV_EXPORT zfidentity zfidentityCalcPointer(ZF_IN ZFFuncAddrType p);
 
 ZF_NAMESPACE_GLOBAL_END
 
-#endif // #ifndef _ZFI_ZFCoreIdentityUtil_h_
+#endif // #ifndef _ZFI_ZFIdentityUtil_h_
 

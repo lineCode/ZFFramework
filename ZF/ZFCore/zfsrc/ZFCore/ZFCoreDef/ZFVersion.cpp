@@ -75,8 +75,8 @@ ZFCompareResult _ZFP_ZFComparerForVersion(ZF_IN const zfchar *const &v0, ZF_IN c
 {
     zfindex n0 = 0;
     zfindex n1 = 0;
-    if(!zfsToIntT(n0, v0, zfindexMax(), zfHint("radix")36, zfHint("allowNegative")zffalse)
-       || !zfsToIntT(n1, v1, zfindexMax(), zfHint("radix")36, zfHint("allowNegative")zffalse))
+    if(!zfsToIntT(n0, v0, zfindexMax(), 36, /* allowNegative */zffalse)
+       || !zfsToIntT(n1, v1, zfindexMax(), 36, /* allowNegative */zffalse))
     {
         return ZFCompareUncomparable;
     }

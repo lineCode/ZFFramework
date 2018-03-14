@@ -17,8 +17,7 @@
 #ifndef _ZFI_ZFCoreLog_h_
 #define _ZFI_ZFCoreLog_h_
 
-#include "ZFCoreUtil.h"
-#include "ZFCoreStringUtil.h"
+#include "ZFCallerInfo.h"
 #include <assert.h>
 ZF_NAMESPACE_GLOBAL_BEGIN
 

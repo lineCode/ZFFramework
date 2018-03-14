@@ -20,7 +20,10 @@
 // ============================================================
 /** @brief stl wrapper */
 #ifndef zfstlhashmap
-    #if (defined(_MSC_VER) && ((_MSC_VER < 1500) || !_HAS_TR1)) // old hash_map of MSVC
+    #if __cplusplus >= 201103L
+        #define zfstlhashmap std::unordered_map
+        #include <unordered_map>
+    #elif (defined(_MSC_VER) && ((_MSC_VER < 1500) || !_HAS_TR1)) // old hash_map of MSVC
         #define zfstlhashmap _ZFP_zfstlhashmap
 
         ZF_ENV_SENSITIVE("old MSVC spec, not for production, for compatibility test only")

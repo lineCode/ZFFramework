@@ -7,7 +7,8 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFCoreIdentityUtil.h"
+#include "ZFIdentityUtil.h"
+#include "ZFCoreArray.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

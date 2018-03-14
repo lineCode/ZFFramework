@@ -15,8 +15,6 @@
 #ifndef _ZFI_ZFFilter_h_
 #define _ZFI_ZFFilter_h_
 
-#include "ZFCoreUtilStringConvert.h"
-#include "ZFCoreUtilComparer.h"
 #include "ZFCoreArray.h"
 #include "ZFCoreSPrintf.h"
 
@@ -380,7 +378,7 @@ public:
     {
         this->_filters.objectInfoOfContentT(ret,
             _ZFP_ZFFilterBase_contentInfoGetter,
-            zfHint("max count")5,
+            5, // max count
             ZFTokenForContainerDefault());
     }
     /** @brief see #objectInfoT */

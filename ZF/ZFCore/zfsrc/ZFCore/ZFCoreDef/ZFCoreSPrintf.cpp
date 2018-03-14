@@ -8,7 +8,8 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFCoreSPrintf.h"
-#include "ZFCoreUtil.h"
+#include "ZFCoreStringUtil.h"
+#include "ZFCoreUtilMacro.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

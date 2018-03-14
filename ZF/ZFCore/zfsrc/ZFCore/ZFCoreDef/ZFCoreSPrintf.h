@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFCoreSPrintf_h_
 #define _ZFI_ZFCoreSPrintf_h_
 
-#include "ZFCoreUtilCharTypeWrapper.h"
+#include "ZFCoreTypeDef.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

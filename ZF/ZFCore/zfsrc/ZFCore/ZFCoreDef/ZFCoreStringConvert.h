@@ -8,12 +8,12 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFCoreUtilStringConvert.h
+ * @file ZFCoreStringConvert.h
  * @brief utilities for ZFFramework
  */
 
-#ifndef _ZFI_ZFCoreUtilStringConvert_h_
-#define _ZFI_ZFCoreUtilStringConvert_h_
+#ifndef _ZFI_ZFCoreStringConvert_h_
+#define _ZFI_ZFCoreStringConvert_h_
 
 #include "ZFCoreTypeDef.h"
 
@@ -76,5 +76,5 @@ extern ZF_ENV_EXPORT zfindex zfsCheckMatch(ZF_IN const zfchar **tokens,
 
 ZF_NAMESPACE_GLOBAL_END
 
-#endif // #ifndef _ZFI_ZFCoreUtilStringConvert_h_
+#endif // #ifndef _ZFI_ZFCoreStringConvert_h_
 

@@ -16,7 +16,6 @@
 #define _ZFI_ZFBuffer_h_
 
 #include "ZFCoreTypeDef.h"
-#include "ZFCoreSPrintf.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -248,10 +247,7 @@ public:
     /**
      * @brief get a short info
      */
-    zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const
-    {
-        zfstringAppend(ret, zfText("<ZFBuffer %p(%zi)>"), this->buffer(), this->bufferSize());
-    }
+    zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const;
     /** @brief see #objectInfoT */
     zffinal zfstring objectInfo(void) const
     {

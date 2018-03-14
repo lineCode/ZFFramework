@@ -15,7 +15,6 @@
 #ifndef _ZFI_ZFCoreTypeDef_CorePrimitiveType_h_
 #define _ZFI_ZFCoreTypeDef_CorePrimitiveType_h_
 
-#include "ZFNamespace.h"
 #include "ZFCoreEnvDef.h"
 #include <stddef.h>
 

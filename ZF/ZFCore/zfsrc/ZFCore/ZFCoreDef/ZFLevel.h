@@ -8,13 +8,13 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFCoreLevel.h
+ * @file ZFLevel.h
  * @brief level for logic which depends on order
  */
-#ifndef _ZFI_ZFCoreLevel_h_
-#define _ZFI_ZFCoreLevel_h_
+#ifndef _ZFI_ZFLevel_h_
+#define _ZFI_ZFLevel_h_
 
-#include "ZFCoreUtilStringConvert.h"
+#include "ZFCoreTypeDef.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -75,5 +75,5 @@ typedef enum
 #define ZFTOKEN_ZFLevelZFFrameworkPostStatic zfText("LevelZFFrameworkPostStatic")
 
 ZF_NAMESPACE_GLOBAL_END
-#endif // #ifndef _ZFI_ZFCoreLevel_h_
+#endif // #ifndef _ZFI_ZFLevel_h_
 

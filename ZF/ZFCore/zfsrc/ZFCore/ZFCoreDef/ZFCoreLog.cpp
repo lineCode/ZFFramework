@@ -10,7 +10,6 @@
 #include "ZFCoreLog.h"
 #include "ZFCoreSPrintf.h"
 #include "ZFCoreStaticInitializer.h"
-#include "ZFCoreGlobalInitializer.h"
 #include "ZFCoreArray.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

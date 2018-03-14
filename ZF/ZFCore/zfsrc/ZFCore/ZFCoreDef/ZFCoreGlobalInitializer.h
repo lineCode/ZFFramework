@@ -14,7 +14,7 @@
 #ifndef _ZFI_ZFCoreGlobalInitializer_h_
 #define _ZFI_ZFCoreGlobalInitializer_h_
 
-#include "ZFCoreLevel.h"
+#include "ZFLevel.h"
 #include "ZFCoreStaticRegister.h"
 #include "ZFCoreArray.h"
 

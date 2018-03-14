@@ -16,7 +16,7 @@
 #define _ZFI_ZFCoreArray_h_
 
 #include "ZFCoreLog_CommonLog.h"
-#include "ZFCoreUtilComparer.h"
+#include "ZFComparer.h"
 #include "ZFCoreUtilMath.h"
 #include "ZFToken.h"
 

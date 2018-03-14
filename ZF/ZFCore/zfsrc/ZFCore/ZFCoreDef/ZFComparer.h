@@ -8,12 +8,12 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFCoreUtilComparer.h
+ * @file ZFComparer.h
  * @brief common comparer for ZFFramework
  */
 
-#ifndef _ZFI_ZFCoreUtilComparer_h_
-#define _ZFI_ZFCoreUtilComparer_h_
+#ifndef _ZFI_ZFComparer_h_
+#define _ZFI_ZFComparer_h_
 
 #include "ZFCoreUtilTemplate.h"
 #include "ZFCoreUtilMath.h"
@@ -264,5 +264,5 @@ inline zfbool zfcmpPODTheSame(ZF_IN T_Element const &v0, ZF_IN T_Element const &
 
 ZF_NAMESPACE_GLOBAL_END
 
-#endif // #ifndef _ZFI_ZFCoreUtilComparer_h_
+#endif // #ifndef _ZFI_ZFComparer_h_
 

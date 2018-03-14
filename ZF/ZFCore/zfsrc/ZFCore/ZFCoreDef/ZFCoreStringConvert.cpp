@@ -7,8 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFCoreUtilStringConvert.h"
-#include "ZFCoreUtil.h"
+#include "ZFCoreStringConvert.h"
 #include "ZFCoreArray.h"
 #include "ZFCoreDataPairSplit.h"
 

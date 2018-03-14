@@ -8,13 +8,12 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFCoreUtilCallerInfo.h
+ * @file ZFCallerInfo.h
  * @brief caller info utils
  */
-#ifndef _ZFI_ZFCoreUtilCallerInfo_h_
-#define _ZFI_ZFCoreUtilCallerInfo_h_
+#ifndef _ZFI_ZFCallerInfo_h_
+#define _ZFI_ZFCallerInfo_h_
 
-#include "ZFCoreUtilCharTypeWrapper.h"
 #include "ZFCoreStringUtil.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -362,5 +361,5 @@ zfclassLikePOD ZF_ENV_EXPORT ZFCallerInfoHolder : zfextendsLikePOD ZFCallerInfo
 };
 
 ZF_NAMESPACE_GLOBAL_END
-#endif // #ifndef _ZFI_ZFCoreUtilCallerInfo_h_
+#endif // #ifndef _ZFI_ZFCallerInfo_h_
 

@@ -8,6 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFBuffer.h"
+#include "ZFCoreSPrintf.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -78,6 +79,11 @@ void ZFBuffer::bufferFree(void)
         d->bufferSize = 0;
         d->bufferAutoFree = zffalse;
     }
+}
+
+void ZFBuffer::objectInfoT(ZF_IN_OUT zfstring &ret) const
+{
+    zfstringAppend(ret, zfText("<ZFBuffer %p(%zi)>"), this->buffer(), this->bufferSize());
 }
 
 ZF_NAMESPACE_GLOBAL_END

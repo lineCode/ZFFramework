@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFVersion_h_
 #define _ZFI_ZFVersion_h_
 
-#include "ZFCoreUtilComparer.h"
+#include "ZFComparer.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

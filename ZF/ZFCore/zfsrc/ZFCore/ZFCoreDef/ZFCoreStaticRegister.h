@@ -15,6 +15,7 @@
 #define _ZFI_ZFCoreStaticRegister_h_
 
 #include "ZFCoreTypeDef.h"
+#include "ZFCoreUtilMacro.h" // for ZFM_TOSTRING
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
