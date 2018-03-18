@@ -81,20 +81,20 @@ public:
      * while #ZFUIOrientation::e_Bottom means layout children from bottom to top
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, layoutOrientation,
-                                ZFPropertyInitValue(ZFUIOrientation::e_Left))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIOrientationEnum, layoutOrientation);
+                                ZFUIOrientation::e_Left)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIOrientationEnum, layoutOrientation);
 
     /**
      * @brief extra margin independent from children's layout param's margin, #ZFUIMarginZero by default
      */
     ZFPROPERTY_ASSIGN(ZFUIMargin, layoutChildMargin)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIMargin, layoutChildMargin);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIMargin, layoutChildMargin);
 
     /**
      * @brief extra space between each child independent from children's layout param, 0 by default
      */
     ZFPROPERTY_ASSIGN(zfint, layoutChildSpace)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, layoutChildSpace);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, layoutChildSpace);
 
     // ============================================================
     // override ZFUIView

@@ -893,7 +893,7 @@ zfbool ZFUIView::serializableOnCheckNeedSerializeChildren(void)
 
 // ============================================================
 // properties
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfstring, viewDelegateClass)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zfstring, viewDelegateClass)
 {
     zfautoObject viewDelegateTmp = ZFClass::newInstanceForName(this->viewDelegateClass());
     if(!this->viewDelegateSupported() && viewDelegateTmp != zfnull)
@@ -903,7 +903,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfstring, viewDelegateClass)
     }
     this->viewDelegateSet(viewDelegateTmp);
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewVisible)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewVisible)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewVisibleSet(this, this->viewVisible());
     if(this->viewVisible() != propertyValueOld)
@@ -911,11 +911,11 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewVisible)
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zffloat, viewAlpha)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zffloat, viewAlpha)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewAlphaSet(this, this->viewAlpha());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewFocusable)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewFocusable)
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFUIViewFocus) *impl = ZFPROTOCOL_TRY_ACCESS(ZFUIViewFocus);
     if(impl != zfnull)
@@ -923,41 +923,41 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewFocusable)
         impl->viewFocusableSet(this, this->viewFocusable());
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewUIEnable)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewUIEnable)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewUIEnableSet(this, this->viewUIEnable());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewUIEnableTree)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewUIEnableTree)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewUIEnableTreeSet(this, this->viewUIEnableTree());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewMouseHoverEventEnable)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, zfbool, viewMouseHoverEventEnable)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewMouseHoverEventEnableSet(this, this->viewMouseHoverEventEnable());
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, ZFUISize, viewSizePrefered)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, ZFUISize, viewSizePrefered)
 {
     if(this->viewSizePrefered() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, ZFUISize, viewSizeMin)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, ZFUISize, viewSizeMin)
 {
     if(this->viewSizeMin() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, ZFUISize, viewSizeMax)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, ZFUISize, viewSizeMax)
 {
     if(this->viewSizeMax() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIView, ZFUIColor, viewBackgroundColor)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIView, ZFUIColor, viewBackgroundColor)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewBackgroundColorSet(this, this->viewBackgroundColor());
 }

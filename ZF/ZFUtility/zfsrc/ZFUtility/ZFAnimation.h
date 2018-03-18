@@ -91,7 +91,7 @@ public:
      * @brief animation's duration in miliseconds, 250 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration,
-                                ZFPropertyInitValue(250))
+                                250)
     /**
      * @brief whether automatically stop previous animation attached to #aniTarget,
      *   false by default

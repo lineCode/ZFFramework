@@ -115,7 +115,7 @@ zfclass ZFUIPageRequestPageGroupResume : zfextends ZFUIPageRequest
 
 public:
     /** @brief page group id to resume */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfstring, pageGroupId, ZFPropertyInitValue(ZFUIPageGroupIdInvalid))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfstring, pageGroupId, ZFUIPageGroupIdInvalid)
 };
 
 /**

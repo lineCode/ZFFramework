@@ -119,24 +119,24 @@ public:
      * if true, a dummy param would be created if param is null while starting operation,
      * param is created by #createParam and would be cached during this operation's life time
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, taskAllowDummyParam, ZFPropertyInitValue(zffalse))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, taskAllowDummyParam, zffalse)
     /**
      * @brief see #ZFOperationTaskDuplicateAction, default value for #ZFOperationStartParam::taskDuplicateActionSet
      *   when not specified
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationTaskDuplicateActionEnum, taskDuplicateAction,
-                                ZFPropertyInitValue(ZFOperationTaskDuplicateAction::e_Merge))
+                                ZFOperationTaskDuplicateAction::e_Merge)
     /**
      * @brief see #ZFOperationCacheMatchAction, default value for #ZFOperationStartParam::cacheMatchActionSet
      *   when not specified
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationCacheMatchActionEnum, cacheMatchAction,
-                                ZFPropertyInitValue(ZFOperationCacheMatchAction::e_NotifyFinish))
+                                ZFOperationCacheMatchAction::e_NotifyFinish)
     /**
      * @brief max cache size, or #zfindexMax for no limit, 10 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheMaxSize,
-                                ZFPropertyInitValue(10))
+                                10)
     /**
      * @brief default cache expire time, default is ZFOperationCacheExpireTimeDisable
      *
@@ -148,18 +148,18 @@ public:
      * which would override cache setting if not #ZFOperationCacheExpireTimeUnspecified
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, cacheExpireTimeDefault,
-                                ZFPropertyInitValue(ZFOperationCacheExpireTimeDisable))
+                                ZFOperationCacheExpireTimeDisable)
 
     /**
      * @brief whether invoke #cacheTrim when receive #ZFGlobalEvent::EventAppOnReceiveMemoryWarning, true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cacheTrimWhenReceiveMemoryWarning, ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning);
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cacheTrimWhenReceiveMemoryWarning, zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning);
 
     /**
      * @brief leave how many cache alive while #cacheTrim, 3 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheTrimThreshold, ZFPropertyInitValue(3))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheTrimThreshold, 3)
 
     /**
      * @brief max operation allowed to start, default is 5, use zfindexMax() for unlimited
@@ -172,7 +172,7 @@ public:
      * use to prevent too many thread being started
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, taskToStartMax,
-                                ZFPropertyInitValue(5))
+                                5)
 
     // ============================================================
     // type create
@@ -666,12 +666,12 @@ public:
      * @brief used for storing an operation id
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfidentity, operationId,
-                                ZFPropertyInitValue(zfidentityInvalid()))
+                                zfidentityInvalid())
     /**
      * @brief task category, can be used to stop task by #ZFOperation::taskStopForCategory
      */
     ZFPROPERTY_RETAIN_READONLY(ZFSetEditable *, taskCategory,
-                               ZFPropertyInitValue(zflineAlloc(ZFSetEditable)))
+                               zflineAlloc(ZFSetEditable))
     /**
      * @brief used for storing an operation param
      */

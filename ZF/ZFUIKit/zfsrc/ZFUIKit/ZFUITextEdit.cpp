@@ -60,30 +60,30 @@ ZFOBSERVER_EVENT_REGISTER(ZFUITextEdit, TextOnChange)
 ZFOBSERVER_EVENT_REGISTER(ZFUITextEdit, TextOnReturnClick)
 ZFOBSERVER_EVENT_REGISTER(ZFUITextEdit, TextOnEditConfirm)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfbool, textEditEnable)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, zfbool, textEditEnable)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textEditEnableSet(this, this->textEditEnable());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfbool, textEditSecured)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, zfbool, textEditSecured)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textEditSecuredSet(this, this->textEditSecured());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextEditKeyboardTypeEnum, textEditKeyboardType)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextEditKeyboardTypeEnum, textEditKeyboardType)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textEditKeyboardTypeSet(this, this->textEditKeyboardType());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextEditKeyboardReturnTypeEnum, textEditKeyboardReturnType)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextEditKeyboardReturnTypeEnum, textEditKeyboardReturnType)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textEditKeyboardReturnTypeSet(this, this->textEditKeyboardReturnType());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFRegExp *, textEditFilter)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFRegExp *, textEditFilter)
 {
     if(!this->text().isEmpty() && !this->textShouldChange(this->text()))
     {
         this->textSet(zfText(""));
     }
 }
-ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
 {
     zfindex textLength = this->text().length();
     if(propertyValue.start >= textLength)
@@ -95,7 +95,7 @@ ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
         propertyValue.count = textLength - propertyValue.start;
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
 {
     if(d->textSelectRangeChangedByImplFlag)
     {
@@ -107,14 +107,14 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
     }
 }
 
-ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(ZFUITextEdit, zfstring, text)
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUITextEdit, zfstring, text)
 {
     if(!propertyValue.isEmpty() && !this->textShouldChange(propertyValue))
     {
         propertyValue.removeAll();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfstring, text)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, zfstring, text)
 {
     if(d->textChangedByImplFlag)
     {
@@ -131,7 +131,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfstring, text)
     }
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextAppearanceEnum, textAppearance)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextAppearanceEnum, textAppearance)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textAppearanceSet(this, this->textAppearance());
     if(this->textAppearance() != propertyValueOld)
@@ -139,24 +139,24 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUITextAppearanceEnum, textApp
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUIAlignFlags, textAlign)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUIAlignFlags, textAlign)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textAlignSet(this, this->textAlign());
     this->textPlaceHolder()->textAlignSet(this->textAlign());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUIColor, textColor)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUIColor, textColor)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textColorSet(this, this->textColor());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUIColor, textShadowColor)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUIColor, textShadowColor)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textShadowColorSet(this, this->textShadowColor());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUISize, textShadowOffset)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, ZFUISize, textShadowOffset)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textShadowOffsetSet(this, ZFUISizeApplyScale(this->textShadowOffset(), this->scaleFixed()));
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEdit, zfint, textSize)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEdit, zfint, textSize)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textSizeSet(this, ZFUISizeApplyScale(this->textSize(), this->scaleFixed()));
     if(this->textSize() != propertyValueOld)

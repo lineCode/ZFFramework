@@ -181,14 +181,14 @@ ZFOBJECT_REGISTER(ZFUIButtonBasic)
 ZFSTYLE_DEFAULT_DEFINE(ZFUIButtonBasic)
 
 #define _ZFP_ZFUIBUTTONBASIC_BUTTON_COMPONENT_DEFINE(Type, ComponentName, StateName) \
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DEFINE(ZFUIButtonBasic, Type, button##ComponentName##Style##StateName) \
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIButtonBasic, Type, button##ComponentName##Style##StateName) \
     { \
         this->button##ComponentName##Style##StateName()->toObject()->observerAdd( \
             ZFObject::EventObjectPropertyValueOnUpdate(), \
             ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIButtonBasicListenerHolder)->button##ComponentName##Style##StateName##ChangedListener, \
             this->objectHolder()); \
     } \
-    ZFPROPERTY_CUSTOM_ON_DETACH_DEFINE(ZFUIButtonBasic, Type, button##ComponentName##Style##StateName) \
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIButtonBasic, Type, button##ComponentName##Style##StateName) \
     { \
         this->button##ComponentName##Style##StateName()->toObject()->observerRemove( \
             ZFObject::EventObjectPropertyValueOnUpdate(), \

@@ -39,21 +39,21 @@ public:
      * @brief whether enable auto fit, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, autoFitEnable,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, autoFitEnable);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, autoFitEnable);
     /**
      * @brief whether auto move focused view to visible position, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, autoFitFocusedViewToVisible,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, autoFitFocusedViewToVisible);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, autoFitFocusedViewToVisible);
 
     /**
      * @brief whether allow manually scroll when auto fit enabled, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, autoFitScrollEnable,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, autoFitScrollEnable);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, autoFitScrollEnable);
 
 public:
     /**

@@ -21,21 +21,21 @@ ZFOBJECT_REGISTER(ZFUILinearLayoutParam)
 // ZFUILinearLayout
 ZFOBJECT_REGISTER(ZFUILinearLayout)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUILinearLayout, ZFUIOrientationEnum, layoutOrientation)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUILinearLayout, ZFUIOrientationEnum, layoutOrientation)
 {
     if(this->layoutOrientation() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUILinearLayout, ZFUIMargin, layoutChildMargin)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUILinearLayout, ZFUIMargin, layoutChildMargin)
 {
     if(this->layoutChildMargin() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUILinearLayout, zfint, layoutChildSpace)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUILinearLayout, zfint, layoutChildSpace)
 {
     if(this->layoutChildSpace() != propertyValueOld)
     {

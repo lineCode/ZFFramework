@@ -42,7 +42,7 @@ public:
      * @brief dialog title view
      */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, titleTextView, ZFPropertyNoInitValue)
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, titleTextView)
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, titleTextView)
     {
         zfblockedAlloc(ZFUITextView, titleTextView);
         propertyValue = titleTextView;
@@ -54,7 +54,7 @@ public:
      * @brief dialog content view
      */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, contentTextView, ZFPropertyNoInitValue)
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, contentTextView)
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, contentTextView)
     {
         zfblockedAlloc(ZFUITextView, contentTextView);
         propertyValue = contentTextView;

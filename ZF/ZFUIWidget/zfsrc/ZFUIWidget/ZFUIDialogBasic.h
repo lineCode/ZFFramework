@@ -296,10 +296,10 @@ public:
      * @brief dialog content, create instance from #ZFUIDialogContentClass by default
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIDialogContent *, dialogContent,
-                                ZFPropertyInitValue(ZFUIDialogContentClass()->newInstance().to<ZFUIDialogContent *>()))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(ZFUIDialogContent *, dialogContent);
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIDialogContent *, dialogContent);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIDialogContent *, dialogContent);
+                                ZFUIDialogContentClass()->newInstance().to<ZFUIDialogContent *>())
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFUIDialogContent *, dialogContent);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIDialogContent *, dialogContent);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIDialogContent *, dialogContent);
 
 public:
     // ============================================================

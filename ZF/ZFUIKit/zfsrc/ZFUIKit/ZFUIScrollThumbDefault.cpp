@@ -152,14 +152,14 @@ void ZFUIScrollThumbDefault::objectOnDealloc(void)
     zfsuper::objectOnDealloc();
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIScrollThumbDefault, ZFUIImage *, scrollThumbImageHorizontal)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollThumbDefault, ZFUIImage *, scrollThumbImageHorizontal)
 {
     if(this->scrollThumbHorizontal())
     {
         d->thumbView->imageSet(this->scrollThumbImageHorizontal());
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIScrollThumbDefault, ZFUIImage *, scrollThumbImageVertical)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollThumbDefault, ZFUIImage *, scrollThumbImageVertical)
 {
     if(!this->scrollThumbHorizontal())
     {

@@ -585,7 +585,7 @@ public:
     }
 ZF_GLOBAL_INITIALIZER_END(ZFOperationDataHolder)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFOperation, zfbool, cacheTrimWhenReceiveMemoryWarning)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFOperation, zfbool, cacheTrimWhenReceiveMemoryWarning)
 {
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFOperationDataHolder)->cacheTrimListenerSetup(
         this, this->cacheTrimWhenReceiveMemoryWarning());

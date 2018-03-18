@@ -208,6 +208,12 @@ public:
     const ZFMethod *_ZFP_ZFProperty_getterMethod;
     const ZFClass *_ZFP_ZFProperty_propertyClassOfRetainProperty;
     _ZFP_ZFPropertyCallbackDealloc _ZFP_ZFProperty_callbackDealloc;
+    ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnInit;
+    ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnDealloc;
+    ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnVerify;
+    ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnAttach;
+    ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnDetach;
+    ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnUpdate;
 };
 
 // ============================================================

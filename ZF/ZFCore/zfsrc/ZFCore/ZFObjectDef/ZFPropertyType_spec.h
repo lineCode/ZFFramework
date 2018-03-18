@@ -186,7 +186,7 @@ public:
             else
             {
                 zfautoObject *holder = zfnew(zfautoObject, obj);
-                _ZFP_PropAliasAttach(obj, holder, _ZFP_PropAliasAction);
+                _ZFP_PropAliasAttach(obj, holder, zfText("zfautoObject"), _ZFP_PropAliasOnDetach);
                 return *holder;
             }
         }
@@ -209,14 +209,14 @@ public:
             else
             {
                 zfautoObject *holder = zfnew(zfautoObject, obj);
-                _ZFP_PropAliasAttach(obj, holder, _ZFP_PropAliasAction);
+                _ZFP_PropAliasAttach(obj, holder, zfText("zfautoObject"), _ZFP_PropAliasOnDetach);
                 return holder;
             }
         }
     };
 private:
-    static void _ZFP_PropAliasAction(ZF_IN ZFObject *obj,
-                                     ZF_IN void *v)
+    static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
+                                       ZF_IN void *v)
     {
         zfautoObject *vTmp = (zfautoObject *)v;
         v_zfautoObject *holder = ZFCastZFObject(v_zfautoObject *, obj);

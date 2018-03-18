@@ -84,7 +84,7 @@ void ZFUIWindow::objectOnDealloc(void)
 
 // ============================================================
 // properties
-ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(ZFUIWindow, ZFUIWindowLevelEnum, windowLevel)
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIWindow, ZFUIWindowLevelEnum, windowLevel)
 {
     zfCoreAssertWithMessage(!this->windowShowing(), zfTextA("you must not change window level while it's showing"));
 }

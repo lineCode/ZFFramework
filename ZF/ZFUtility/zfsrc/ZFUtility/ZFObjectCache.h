@@ -29,18 +29,18 @@ zfclass ZF_ENV_EXPORT ZFObjectCache : zfextends ZFObject
     /**
      * @brief max cache size, 10 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheMaxSize, ZFPropertyInitValue(10))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheMaxSize, 10)
 
     /**
      * @brief whether invoke #cacheTrim when receive #ZFGlobalEvent::EventAppOnReceiveMemoryWarning, true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cacheTrimWhenReceiveMemoryWarning, ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning);
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cacheTrimWhenReceiveMemoryWarning, zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning);
 
     /**
      * @brief leave how many cache alive while #cacheTrim, 3 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheTrimThreshold, ZFPropertyInitValue(3))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheTrimThreshold, 3)
 
 public:
     /**

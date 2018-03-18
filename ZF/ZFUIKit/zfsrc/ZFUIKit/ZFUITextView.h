@@ -49,7 +49,7 @@ public:
      * @brief text, may be null if not set
      */
     ZFPROPERTY_ASSIGN(zfstring, text)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfstring, text);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfstring, text);
 
     /**
      * @brief text appearance, #ZFUIGlobalStyle::textAppearance by default
@@ -57,8 +57,8 @@ public:
      * note, for some implementations and font settings, italic or bold may or may not be supported
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextAppearanceEnum, textAppearance,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->textAppearance()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUITextAppearanceEnum, textAppearance);
+                                ZFUIGlobalStyle::DefaultStyle()->textAppearance())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUITextAppearanceEnum, textAppearance);
 
     /**
      * @brief text alignment, #ZFUIGlobalStyle::textAlign by default
@@ -66,15 +66,15 @@ public:
      * @note only LeftInner, Center, RightInner would be supported for sure
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIAlignFlags, textAlign,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->textAlign()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIAlignFlags, textAlign);
+                                ZFUIGlobalStyle::DefaultStyle()->textAlign())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIAlignFlags, textAlign);
 
     /**
      * @brief text color, #ZFUIGlobalStyle::textColorDefault by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textColor,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->textColorDefault()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIColor, textColor);
+                                ZFUIGlobalStyle::DefaultStyle()->textColorDefault())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIColor, textColor);
 
     /**
      * @brief text shadow color, #ZFUIColorTransparent by default, use transparent to disable text shadow
@@ -82,8 +82,8 @@ public:
      * note that implementation may have no text shadow support
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textShadowColor,
-                                ZFPropertyInitValue(ZFUIColorTransparent()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIColor, textShadowColor);
+                                ZFUIColorTransparent())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIColor, textShadowColor);
 
     /**
      * @brief text shadow offset, (1, 1) by default
@@ -91,15 +91,15 @@ public:
      * note that implementation may have no text shadow support
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, textShadowOffset,
-                                ZFPropertyInitValue((ZFUISizeMake(1, 1))))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUISize, textShadowOffset);
+                                (ZFUISizeMake(1, 1)))
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, textShadowOffset);
 
     /**
      * @brief text size in pixel, #ZFUIGlobalStyle::textSizeNormal by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSize,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->textSizeNormal()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, textSize);
+                                ZFUIGlobalStyle::DefaultStyle()->textSizeNormal())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, textSize);
 
     /**
      * @brief if not 0, auto decrease text size
@@ -107,30 +107,30 @@ public:
      *   #ZFUIGlobalStyle::textSizeTiny by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSizeAutoChangeMinSize,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->textSizeTiny()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, textSizeAutoChangeMinSize);
+                                ZFUIGlobalStyle::DefaultStyle()->textSizeTiny())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, textSizeAutoChangeMinSize);
     /**
      * @brief if not 0 and larger than #textSizeAutoChangeMinSize,
      *   auto increase text size when the view is bigger than current text need,
      *   0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSizeAutoChangeMaxSize,
-                                ZFPropertyInitValue(0))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, textSizeAutoChangeMaxSize);
+                                0)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, textSizeAutoChangeMaxSize);
 
     /**
      * @brief single line or not, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, textSingleLine,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, textSingleLine);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, textSingleLine);
 
     /**
      * @brief text truncate mode, #ZFUITextTruncateMode::e_Disable by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextTruncateModeEnum, textTruncateMode,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->textTruncateMode()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUITextTruncateModeEnum, textTruncateMode);
+                                ZFUIGlobalStyle::DefaultStyle()->textTruncateMode())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUITextTruncateModeEnum, textTruncateMode);
 
 protected:
     zfoverride

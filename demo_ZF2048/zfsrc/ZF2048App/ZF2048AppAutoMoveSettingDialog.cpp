@@ -17,7 +17,7 @@ zfclass _ZFP_ZF2048AppAutoMoveActionItem : zfextends ZF2048AppButton
     ZFOBJECT_DECLARE(_ZFP_ZF2048AppAutoMoveActionItem, ZF2048AppButton)
 
     ZFPROPERTY_ASSIGN(ZF2048AppAutoMoveActionEnum, actionValue)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZF2048AppAutoMoveActionEnum, actionValue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZF2048AppAutoMoveActionEnum, actionValue)
     {
         zfLangApplyZFUIButtonBasicTextNormal(this,
             zfstringWithFormat(zfText("ZF2048AutoMove_%s"), ZF2048AppAutoMoveAction::EnumNameForValue(propertyValue)));
@@ -31,18 +31,18 @@ zfclass _ZFP_ZF2048AppAutoMoveSettingDialogPrivate : zfextends ZFUILinearLayout
 public:
     ZF2048AppAutoMoveSettingDialog *owner;
 
-    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, hintText, ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUIListAdapterArray *, actionListAdapter, ZFPropertyInitValue(zflineAlloc(ZFUIListAdapterArray)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUIListView *, actionList, ZFPropertyInitValue(zflineAlloc(ZFUIListView)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, addActionLayout, ZFPropertyInitValue(zflineAlloc(ZFUILinearLayout)))
-    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_left, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem)))
-    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_top, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem)))
-    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_right, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem)))
-    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_bottom, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem)))
-    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_random, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, buttonLayout, ZFPropertyInitValue(zflineAlloc(ZFUILinearLayout)))
-    ZFPROPERTY_RETAIN_READONLY(ZF2048AppButton *, confirmButton, ZFPropertyInitValue(zflineAlloc(ZF2048AppButton)))
-    ZFPROPERTY_RETAIN_READONLY(ZF2048AppButton *, cancelButton, ZFPropertyInitValue(zflineAlloc(ZF2048AppButton)))
+    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, hintText, zflineAlloc(ZFUITextView))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIListAdapterArray *, actionListAdapter, zflineAlloc(ZFUIListAdapterArray))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIListView *, actionList, zflineAlloc(ZFUIListView))
+    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, addActionLayout, zflineAlloc(ZFUILinearLayout))
+    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_left, zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem))
+    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_top, zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem))
+    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_right, zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem))
+    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_bottom, zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem))
+    ZFPROPERTY_RETAIN_READONLY(_ZFP_ZF2048AppAutoMoveActionItem *, addAction_random, zflineAlloc(_ZFP_ZF2048AppAutoMoveActionItem))
+    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, buttonLayout, zflineAlloc(ZFUILinearLayout))
+    ZFPROPERTY_RETAIN_READONLY(ZF2048AppButton *, confirmButton, zflineAlloc(ZF2048AppButton))
+    ZFPROPERTY_RETAIN_READONLY(ZF2048AppButton *, cancelButton, zflineAlloc(ZF2048AppButton))
 
 protected:
     virtual void objectOnInit(ZF_IN ZF2048AppAutoMoveSettingDialog *owner)

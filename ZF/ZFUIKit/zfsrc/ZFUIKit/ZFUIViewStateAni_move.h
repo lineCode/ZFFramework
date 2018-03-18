@@ -35,7 +35,7 @@ zfclass ZF_ENV_EXPORT ZFUIViewStateAniSettingForMove : zfextends ZFStyleableObje
     /**
      * @brief whether enable this ani
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniEnable, ZFPropertyInitValue(zftrue))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniEnable, zftrue)
     /**
      * @brief filter to ignore views from being auto animated, empty by default
      */
@@ -43,15 +43,15 @@ zfclass ZF_ENV_EXPORT ZFUIViewStateAniSettingForMove : zfextends ZFStyleableObje
     /**
      * @brief minimum offset to apply the animation, #ZFUIGlobalStyle::itemSpace by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTolerance, ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->itemSpace()))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTolerance, ZFUIGlobalStyle::DefaultStyle()->itemSpace())
     /**
      * @brief ani duration, #ZFUIGlobalStyle::aniDurationLong by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration, ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->aniDurationLong()))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration, ZFUIGlobalStyle::DefaultStyle()->aniDurationLong())
     /**
      * @brief ani curve, #ZFAnimationNativeViewCurve::e_EaseOut by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFAnimationNativeViewCurveEnum, aniCurve, ZFPropertyInitValue(ZFAnimationNativeViewCurve::e_EaseOut))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFAnimationNativeViewCurveEnum, aniCurve, ZFAnimationNativeViewCurve::e_EaseOut)
 };
 
 ZF_NAMESPACE_GLOBAL_END

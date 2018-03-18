@@ -32,12 +32,10 @@ zfclass ZFUIKit_test_Button : zfextends ZFUIButtonBasic
 
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
-        ZFPROPERTY_OVERRIDE_ON_INIT_CALL_SUPER(zfsuper, ZFUIImageView *, buttonBackgroundStyleNormal);
         propertyValue.to<ZFUIImageView *>()->viewBackgroundColorSet(ZFUIColorGreen());
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
     {
-        ZFPROPERTY_OVERRIDE_ON_INIT_CALL_SUPER(zfsuper, ZFUIImageView *, buttonBackgroundStyleHighlighted);
         propertyValue.to<ZFUIImageView *>()->viewBackgroundColorSet(ZFUIColorBlue());
     }
 };

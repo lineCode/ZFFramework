@@ -239,7 +239,7 @@ public:
 };
 
 // ============================================================
-#define _ZFP_ZFPropertyUserRegister_PropInit_Retain(registerSig, Type, ZFPropertyInitValueOrNoInitValue) \
+#define _ZFP_ZFPropertyUserRegister_PropInit_Retain(registerSig, Type, InitValueOrEmpty) \
     zfclassNotPOD _ZFP_PropURInit_##registerSig \
     { \
     public: \
@@ -247,19 +247,19 @@ public:
         { \
             typedef Type T_Type; \
             T_Type *valueTmp = zfnull; \
-            zflockfree_zfRetain(*(valueTmp = zfpoolNew(T_Type, ZFPropertyInitValueOrNoInitValue))); \
+            zflockfree_zfRetain(*(valueTmp = zfpoolNew(T_Type, InitValueOrEmpty))); \
             *(zfautoObject *)p = *valueTmp; \
             zfpoolDelete(valueTmp); \
         } \
     };
-#define _ZFP_ZFPropertyUserRegister_PropInit_Assign(registerSig, Type, ZFPropertyInitValueOrNoInitValue) \
+#define _ZFP_ZFPropertyUserRegister_PropInit_Assign(registerSig, Type, InitValueOrEmpty) \
     zfclassNotPOD _ZFP_PropURInit_##registerSig \
     { \
     public: \
         static void propertyInit(ZF_IN_OUT void *p) \
         { \
             typedef Type T_Type; \
-            T_Type *valueTmp = zfpoolNew(T_Type, ZFPropertyInitValueOrNoInitValue); \
+            T_Type *valueTmp = zfpoolNew(T_Type, InitValueOrEmpty); \
             *(T_Type *)p = *valueTmp; \
             zfpoolDelete(valueTmp); \
         } \
@@ -333,7 +333,7 @@ public:
 
 // ============================================================
 #define _ZFP_ZFPropertyUserRegister(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         RetainOrAssign, \
         ZFPropertyTypeId_noneOrType, \
@@ -357,7 +357,7 @@ public:
         ZFMethodUserRegisterDetail_0(getterMethod, Func_ZFPropertyGetterInvoker, _ownerClass, \
             GetterAccessType, ZFMethodIsVirtual, \
             Type const &, _propertyName); \
-        _ZFP_ZFPropertyUserRegister_PropInit_##RetainOrAssign(_, Type, ZFPropertyInitValueOrNoInitValue) \
+        _ZFP_ZFPropertyUserRegister_PropInit_##RetainOrAssign(_, Type, InitValueOrEmpty) \
         resultProperty = _ZFP_ZFPropertyRegister _ZFP_ZFPropertyUserRegister_ParamExpand_##RetainOrAssign( \
                 _, _ownerClass, \
                 Type, _propertyName, \
@@ -372,7 +372,7 @@ public:
     ZFUNUSED(resultProperty)
 
 #define _ZFP_ZFPROPERTY_USER_REGISTER(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         RetainOrAssign, \
         ZFPropertyTypeId_noneOrType, \
@@ -402,7 +402,7 @@ public:
             return getterMethod; \
         } \
     }; \
-    _ZFP_ZFPropertyUserRegister_PropInit_##RetainOrAssign(ownerClassSig##_##propertyNameSig, Type, ZFPropertyInitValueOrNoInitValue) \
+    _ZFP_ZFPropertyUserRegister_PropInit_##RetainOrAssign(ownerClassSig##_##propertyNameSig, Type, InitValueOrEmpty) \
     static _ZFP_ZFPropertyRegisterHolder _ZFP_PropURH_##ownerClassSig##_##propertyNameSig \
         _ZFP_ZFPropertyUserRegister_ParamExpand_##RetainOrAssign( \
             ownerClassSig##_##propertyNameSig, ownerClassSig::ClassData(), \
@@ -485,11 +485,11 @@ public:
  *   it can only be accessed by #ZFProperty's method
  */
 #define ZFPropertyUserRegisterRetain(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
     ) \
     ZFPropertyUserRegisterRetainDetail(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::setterInvoker \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::getterInvoker \
@@ -499,7 +499,7 @@ public:
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPropertyUserRegisterRetainDetail(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \
@@ -508,7 +508,7 @@ public:
         , Func_ZFPropertyCallbackCompare \
     ) \
     _ZFP_ZFPropertyUserRegister(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Retain, \
         ZFPropertyTypeId_ZFObject, \
@@ -521,11 +521,11 @@ public:
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPROPERTY_USER_REGISTER_RETAIN(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
     ) \
     ZFPROPERTY_USER_REGISTER_RETAIN_DETAIL(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::setterInvoker \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::getterInvoker \
@@ -535,7 +535,7 @@ public:
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPROPERTY_USER_REGISTER_RETAIN_DETAIL(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \
@@ -544,7 +544,7 @@ public:
         , Func_ZFPropertyCallbackCompare \
     ) \
     _ZFP_ZFPROPERTY_USER_REGISTER(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Retain, \
         ZFPropertyTypeId_ZFObject, \
@@ -559,11 +559,11 @@ public:
 // ============================================================
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPropertyUserRegisterAssign(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
     ) \
     ZFPropertyUserRegisterAssignDetail(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::setterInvoker \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::getterInvoker \
@@ -573,7 +573,7 @@ public:
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPropertyUserRegisterAssignDetail(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \
@@ -582,7 +582,7 @@ public:
         , Func_ZFPropertyCallbackCompare \
     ) \
     _ZFP_ZFPropertyUserRegister(resultProperty, ownerClass, \
-        Type, propertyNameString, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Assign, \
         ZFPropertyTypeIdData<zftTraits<Type>::TrNoRef>::PropertyTypeId(), \
@@ -595,11 +595,11 @@ public:
     )
 /** @brief see #ZFPropertyUserRegisterAssign */
 #define ZFPROPERTY_USER_REGISTER_ASSIGN(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
     ) \
     ZFPROPERTY_USER_REGISTER_ASSIGN_DETAIL(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::setterInvoker \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::getterInvoker \
@@ -609,7 +609,7 @@ public:
     )
 /** @brief see #ZFPropertyUserRegisterAssign */
 #define ZFPROPERTY_USER_REGISTER_ASSIGN_DETAIL(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \
@@ -618,7 +618,7 @@ public:
         , Func_ZFPropertyCallbackCompare \
     ) \
     _ZFP_ZFPROPERTY_USER_REGISTER(ownerClassSig, \
-        Type, propertyNameSig, ZFPropertyInitValueOrNoInitValue, \
+        Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Assign, \
         ZFPropertyTypeIdData<zftTraits<Type>::TrNoRef>::PropertyTypeId(), \

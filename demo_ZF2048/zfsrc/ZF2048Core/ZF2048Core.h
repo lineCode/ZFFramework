@@ -44,7 +44,7 @@ zfclass ZF2048Core : zfextends ZFObject
     ZFOBSERVER_EVENT(GameDataOnChange)
 
 public:
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, historyCountMax, ZFPropertyInitValue(10))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, historyCountMax, 10)
 
 public:
     virtual zfindex dataWidth(void);

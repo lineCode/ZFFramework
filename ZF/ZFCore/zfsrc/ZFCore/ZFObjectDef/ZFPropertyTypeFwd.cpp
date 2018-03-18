@@ -71,48 +71,47 @@ void ZFPropertyTypeIdDataGetAllT(ZF_OUT ZFCoreArray<const ZFPropertyTypeIdDataBa
 
 // ============================================================
 // special alias implicit convert
-zfclassPOD _ZFP_PropAliasData
-{
-public:
-    void *v;
-    _ZFP_PropAliasConverter converter;
-};
 zfclass _ZFP_I_PropAliasHolder : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(_ZFP_I_PropAliasHolder, ZFObject)
 public:
     ZFObject *obj;
-    zfstlvector<_ZFP_PropAliasData> l;
+    void *v;
+    _ZFP_PropAliasDetachCallback detachCallback;
 
 protected:
     zfoverride
     virtual void objectOnDeallocPrepare(void)
     {
-        for(zfstlsize i = 0; i < this->l.size(); ++i)
-        {
-            _ZFP_PropAliasData &d = this->l[i];
-            d.converter(this->obj, d.v);
-        }
+        this->detachCallback(this->obj, this->v);
         zfsuper::objectOnDeallocPrepare();
     }
 };
 
 void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
                           ZF_IN void *v,
-                          ZF_IN _ZFP_PropAliasConverter converter)
+                          ZF_IN const zfchar *typeName,
+                          ZF_IN _ZFP_PropAliasDetachCallback detachCallback)
 {
-    _ZFP_I_PropAliasHolder *d = obj->tagGet<_ZFP_I_PropAliasHolder *>(_ZFP_PropAliasKey);
+    zfstring key = zfText("_ZFP_PropTypeAlias_");
+    key += typeName;
+    _ZFP_I_PropAliasHolder *d = obj->tagGet<_ZFP_I_PropAliasHolder *>(key);
     if(d == zfnull)
     {
         d = zfAlloc(_ZFP_I_PropAliasHolder);
         d->obj = obj;
-        obj->tagSet(_ZFP_PropAliasKey, d);
+        d->v = v;
+        d->detachCallback = detachCallback;
+        obj->tagSet(key, d);
         zfRelease(d);
     }
-    _ZFP_PropAliasData data;
-    data.v = v;
-    data.converter = converter;
-    d->l.push_back(data);
+    else
+    {
+        d->detachCallback(d->obj, d->v);
+        d->obj = obj;
+        d->v = v;
+        d->detachCallback = detachCallback;
+    }
 }
 
 ZF_NAMESPACE_GLOBAL_END

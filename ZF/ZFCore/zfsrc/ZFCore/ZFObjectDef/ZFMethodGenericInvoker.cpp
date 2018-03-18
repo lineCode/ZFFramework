@@ -33,17 +33,28 @@ ZF_GLOBAL_INITIALIZER_END(ZFMethodGenericInvokerDefaultParamInit)
 
 zfautoObject _ZFP_ZFMethodGenericInvokerDefaultParamHolderRef;
 
-void _ZFP_MtdGIParamError(ZF_OUT_OPT zfstring *errorHint,
-                          ZF_IN zfindex paramIndex,
-                          ZF_IN const zfchar *paramType,
-                          ZF_IN ZFObject *param)
+zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
+                            ZF_IN zfbool accessAvailable,
+                            ZF_IN const ZFMethod *invokerMethod,
+                            ZF_IN zfindex paramIndex,
+                            ZF_IN const zfchar *paramType,
+                            ZF_IN ZFObject *param)
 {
-    zfstringAppend(errorHint,
-            zfText("[ZFMethodGenericInvoker] unable to access param%zi as type (%s): %s"),
-            paramIndex,
-            paramType,
-            ZFObjectInfo(param).cString()
-        );
+    if((param != ZFMethodGenericInvokerDefaultParam() && !accessAvailable)
+        || (param == ZFMethodGenericInvokerDefaultParam() && paramIndex < invokerMethod->methodParamDefaultBeginIndex()))
+    {
+        zfstringAppend(errorHint,
+                zfText("[ZFMethodGenericInvoker] unable to access param%zi as type (%s): %s"),
+                paramIndex,
+                paramType,
+                ZFObjectInfo(param).cString()
+            );
+        return zffalse;
+    }
+    else
+    {
+        return zftrue;
+    }
 }
 void _ZFP_MtdGIRetError(ZF_OUT_OPT zfstring *errorHint,
                         ZF_IN const zfchar *returnTypeId,

@@ -52,7 +52,7 @@ public:
     /**
      * @brief whether copy owner animation group's target (if not null) to self, true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, childAutoCopyTarget, ZFPropertyInitValue(zftrue))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, childAutoCopyTarget, zftrue)
 };
 
 /** @brief keyword for serialize */
@@ -168,7 +168,7 @@ public:
     /**
      * @brief whether to start child animations parallel(true) or serial(false), true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniParallel, ZFPropertyInitValue(zftrue))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniParallel, zftrue)
 
     // ============================================================
     // start stop

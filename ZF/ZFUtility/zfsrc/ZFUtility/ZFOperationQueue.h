@@ -62,7 +62,7 @@ public:
      * see #stopQueueIfFail
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, stopQueueIfCancel,
-                                ZFPropertyInitValue(zftrue))
+                                zftrue)
     /**
      * @brief whether regard queue as fail if this child task failed, true by default
      *
@@ -71,7 +71,7 @@ public:
      * #ZFOperationQueueResult::childResults
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, stopQueueIfFail,
-                                ZFPropertyInitValue(zftrue))
+                                zftrue)
 
 public:
     zfoverride
@@ -95,12 +95,12 @@ public:
      * @brief child task datas to start, hold type of #ZFOperationQueueChildTaskData
      */
     ZFPROPERTY_RETAIN_READONLY(ZFArrayEditable *, childTaskDatas,
-                               ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)))
+                               zflineAlloc(ZFArrayEditable))
 
     /**
      * @brief how many task to start at a time, 1 by default, must greater than 0
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, childToStartMax, ZFPropertyInitValue(1))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, childToStartMax, 1)
 };
 
 // ============================================================
@@ -131,12 +131,12 @@ public:
      *   use #childResultsInOrder instead
      */
     ZFPROPERTY_RETAIN_READONLY(ZFArrayEditable *, childResults,
-                               ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)))
+                               zflineAlloc(ZFArrayEditable))
     /**
      * @brief child results that have same order with #ZFOperationQueueParam, hold type of #ZFOperationTaskData
      */
     ZFPROPERTY_RETAIN_READONLY(ZFArrayEditable *, childResultsInOrder,
-                               ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)))
+                               zflineAlloc(ZFArrayEditable))
 };
 
 // ============================================================
@@ -168,7 +168,7 @@ public:
      * otherwise, it would store the latest progress data of the child has notified
      */
     ZFPROPERTY_RETAIN_READONLY(ZFArrayEditable *, childLastProgressDatas,
-                               ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)))
+                               zflineAlloc(ZFArrayEditable))
 };
 
 // ============================================================

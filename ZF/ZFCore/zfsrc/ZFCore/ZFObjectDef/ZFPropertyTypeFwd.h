@@ -642,7 +642,7 @@ public:
                 AliasToType const &aliasValue = ZFPropertyTypeIdData<AliasToType>::Value<AliasToType const &>::access(obj); \
                 _ZFP_PropTypeW_##TypeName *v = zfnew(_ZFP_PropTypeW_##TypeName); \
                 *v = (_ZFP_PropTypeW_##TypeName)aliasValue; \
-                _ZFP_PropAliasAttach(obj, v, _ZFP_PropAliasAction); \
+                _ZFP_PropAliasAttach(obj, v, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
                 return *v; \
             } \
         }; \
@@ -659,13 +659,13 @@ public:
                 AliasToType const &aliasValue = ZFPropertyTypeIdData<AliasToType>::Value<AliasToType const &>::access(obj); \
                 _ZFP_PropTypeW_##TypeName *v = zfnew(_ZFP_PropTypeW_##TypeName); \
                 *v = (_ZFP_PropTypeW_##TypeName)aliasValue; \
-                _ZFP_PropAliasAttach(obj, v, _ZFP_PropAliasAction); \
+                _ZFP_PropAliasAttach(obj, v, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
                 return v; \
             } \
         }; \
     private: \
-        static void _ZFP_PropAliasAction(ZF_IN ZFObject *obj, \
-                                         ZF_IN void *v) \
+        static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
+                                           ZF_IN void *v) \
         { \
             _ZFP_PropTypeW_##TypeName *vTmp = (_ZFP_PropTypeW_##TypeName *)v; \
             if(ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::accessAvailable(obj)) \
@@ -687,13 +687,12 @@ public:
 
 // ============================================================
 // special alias implicit convert
-#define _ZFP_PropAliasKey zfText("_ZFP_PropAlias")
-typedef void (*_ZFP_PropAliasConverter)(ZF_IN ZFObject *obj,
-                                        ZF_IN void *v);
+typedef void (*_ZFP_PropAliasDetachCallback)(ZF_IN ZFObject *obj,
+                                             ZF_IN void *v);
 extern ZF_ENV_EXPORT void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
                                                ZF_IN void *v,
-                                               ZF_IN _ZFP_PropAliasConverter converter);
-#define _ZFP_PropAliasDetach(obj) if(obj) obj->tagRemove(_ZFP_PropAliasKey)
+                                               ZF_IN const zfchar *typeName,
+                                               ZF_IN _ZFP_PropAliasDetachCallback detachCallback);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPropertyTypeFwd_h_

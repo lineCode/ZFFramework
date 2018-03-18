@@ -256,22 +256,22 @@ public:
      * @brief see #ZFUIViewLayoutParam, default is #ZFUISizeInvalid
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, sizeHint,
-                                ZFPropertyInitValue(ZFUISizeInvalid()))
+                                ZFUISizeInvalid())
     /**
      * @brief see #ZFUIViewLayoutParam, default is #ZFUISizeParamWrapWrap
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISizeParam, sizeParam,
-                                ZFPropertyInitValue(ZFUISizeParamWrapWrap()))
+                                ZFUISizeParamWrapWrap())
     /**
      * @brief see #ZFUIViewLayoutParam, default is (ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner)
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIAlignFlags, layoutAlign,
-                                ZFPropertyInitValue(ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner))
+                                ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner)
     /**
      * @brief see #ZFUIViewLayoutParam, default is (0, 0, 0, 0)
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, layoutMargin,
-                                ZFPropertyInitValue(ZFUIMarginZero()))
+                                ZFUIMarginZero())
 };
 
 ZF_NAMESPACE_GLOBAL_END

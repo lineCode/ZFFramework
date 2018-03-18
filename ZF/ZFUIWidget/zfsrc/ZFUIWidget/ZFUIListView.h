@@ -79,7 +79,7 @@ public:
      * @brief list adapter, no auto retain
      */
     ZFPROPERTY_ASSIGN(ZFUIListAdapter *, listAdapter)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIListAdapter *, listAdapter);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIListAdapter *, listAdapter);
     /**
      * @brief set and retain the list adapter
      *
@@ -92,7 +92,7 @@ public:
     /**
      * @brief list updater to update list cells, holds #ZFUIListCellUpdater
      */
-    ZFPROPERTY_RETAIN_READONLY(ZFArrayEditable *, cellUpdater, ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)))
+    ZFPROPERTY_RETAIN_READONLY(ZFArrayEditable *, cellUpdater, zflineAlloc(ZFArrayEditable))
 
     /**
      * @brief direction to layout children, #ZFUIOrientation::e_Top by default
@@ -101,8 +101,8 @@ public:
      * while #ZFUIOrientation::e_Bottom means layout children from bottom to top
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, listOrientation,
-                                ZFPropertyInitValue(ZFUIOrientation::e_Top))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIOrientationEnum, listOrientation);
+                                ZFUIOrientation::e_Top)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIOrientationEnum, listOrientation);
 
     /**
      * @brief list cell's hint size which would be passed to #ZFUIListAdapter,
@@ -110,15 +110,15 @@ public:
      *   #ZFUIGlobalStyle::itemSizeListCell by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHint,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, cellSizeHint);
+                                ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, cellSizeHint);
 
     /**
      * @brief whether auto update #ZFUIScrollView::scrollBounceVertical series accorrding to #listOrientation,
      *   true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, listBounce, ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, listBounce);
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, listBounce, zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, listBounce);
 
     // ============================================================
     // override

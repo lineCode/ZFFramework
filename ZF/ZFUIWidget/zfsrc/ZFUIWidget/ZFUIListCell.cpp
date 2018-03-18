@@ -15,14 +15,14 @@ ZFSTYLE_DEFAULT_DEFINE(ZFUIListCell)
 
 // ============================================================
 ZFOBJECT_REGISTER(ZFUIListCell)
-ZFPROPERTY_CUSTOM_ON_ATTACH_DEFINE(ZFUIListCell, ZFUIView *, cellView)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListCell, ZFUIView *, cellView)
 {
     if(this->cellView() != zfnull)
     {
         this->internalFgViewAdd(this->cellView(), this->cellViewLayoutParam());
     }
 }
-ZFPROPERTY_CUSTOM_ON_DETACH_DEFINE(ZFUIListCell, ZFUIView *, cellView)
+ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIListCell, ZFUIView *, cellView)
 {
     if(this->cellView() != zfnull)
     {

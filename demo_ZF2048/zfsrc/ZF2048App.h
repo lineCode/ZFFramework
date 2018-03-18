@@ -18,7 +18,7 @@ zfclass ZF2048App : zfextends ZFUIView
 {
     ZFOBJECT_DECLARE(ZF2048App, ZFUIView)
 
-    ZFPROPERTY_RETAIN_READONLY(ZF2048Game *, game, ZFPropertyInitValue(zflineAlloc(ZF2048Game)))
+    ZFPROPERTY_RETAIN_READONLY(ZF2048Game *, game, zflineAlloc(ZF2048Game))
 
 protected:
     zfoverride

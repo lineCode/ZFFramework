@@ -38,36 +38,36 @@ public:
      * @brief horizontal scroll thumb image, null to hide it
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, scrollThumbImageHorizontal,
-                                ZFPropertyInitValue(zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml"))))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIImage *, scrollThumbImageHorizontal);
+                                zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml")))
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIImage *, scrollThumbImageHorizontal);
     /**
      * @brief vertical scroll thumb image, null to hide it
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, scrollThumbImageVertical,
-                                ZFPropertyInitValue(zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml"))))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIImage *, scrollThumbImageVertical);
+                                zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml")))
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIImage *, scrollThumbImageVertical);
 
     /**
      * @brief delay to auto hide, #ZFUIGlobalStyle::aniDelayNormal by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, scrollThumbAutoHideDelayHorizontal,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->aniDelayNormal()))
+                                ZFUIGlobalStyle::DefaultStyle()->aniDelayNormal())
     /**
      * @brief delay to auto hide, #ZFUIGlobalStyle::aniDelayNormal by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, scrollThumbAutoHideDelayVertical,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->aniDelayNormal()))
+                                ZFUIGlobalStyle::DefaultStyle()->aniDelayNormal())
 
     /**
      * @brief time to auto hide, #ZFUIGlobalStyle::aniDurationNormal by default, 0 means never hide
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, scrollThumbAutoHideDurationHorizontal,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal()))
+                                ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal())
     /**
      * @brief time to auto hide, #ZFUIGlobalStyle::aniDurationNormal by default, 0 means never hide
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, scrollThumbAutoHideDurationVertical,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal()))
+                                ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal())
 
 public:
     zfoverride

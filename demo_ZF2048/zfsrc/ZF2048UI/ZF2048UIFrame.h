@@ -39,10 +39,10 @@ public:
     }
 
     ZFPROPERTY_RETAIN(ZFUIImage *, frameBackgroundImage)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIImage *, frameBackgroundImage);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIImage *, frameBackgroundImage);
 
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, frameMargin, ZFPropertyInitValue(ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemSpace())))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIMargin, frameMargin);
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, frameMargin, ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemSpace()))
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIMargin, frameMargin);
 
 public:
     virtual void update(ZF_IN const ZF2048Value *data,

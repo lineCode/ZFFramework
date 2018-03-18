@@ -46,7 +46,7 @@ protected:
         startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
     }
 
-    ZFPROPERTY_RETAIN_READONLY(ZFAnimationNativeView *, ani, ZFPropertyInitValue(zflineAlloc(ZFAnimationNativeView)))
+    ZFPROPERTY_RETAIN_READONLY(ZFAnimationNativeView *, ani, zflineAlloc(ZFAnimationNativeView))
 
 private:
     void prepareSettingButton(ZF_IN ZFUIWindow *window,

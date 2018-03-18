@@ -32,7 +32,7 @@
  *       ZFOBJECT_DECLARE(SomeStyle, Parent)
  *
  *       ZFPROPERTY_RETAIN_WITH_INIT(SomeType, someName,
- *                                   ZFPropertyInitValue(OtherStyle::DefaultStyle()->sth()))
+ *                                   OtherStyle::DefaultStyle()->sth())
  *   };
  * @endcode
  *

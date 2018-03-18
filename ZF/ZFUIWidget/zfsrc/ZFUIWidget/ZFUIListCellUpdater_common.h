@@ -31,13 +31,13 @@ public:
      * @brief separator size, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, separatorSize,
-                                ZFPropertyInitValue(1))
+                                1)
 
     /**
      * @brief separator color, #ZFUIGlobalStyle::colorSeparator by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, separatorColor,
-                                ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->colorSeparator()))
+                                ZFUIGlobalStyle::DefaultStyle()->colorSeparator())
 
     /**
      * @brief separator margin, #ZFUIMarginZero by default

@@ -25,18 +25,18 @@ public:
     }
 };
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZF2048AppDialog, zfstring, dialogTitle)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZF2048AppDialog, zfstring, dialogTitle)
 {
     d->dialogTitleView->textSet(this->dialogTitle());
 }
-ZFPROPERTY_CUSTOM_ON_ATTACH_DEFINE(ZF2048AppDialog, ZFUIView *, dialogContent)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048AppDialog, ZFUIView *, dialogContent)
 {
     if(this->dialogContent() != zfnull)
     {
         d->dialogContainer->childAdd(this->dialogContent());
     }
 }
-ZFPROPERTY_CUSTOM_ON_DETACH_DEFINE(ZF2048AppDialog, ZFUIView *, dialogContent)
+ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZF2048AppDialog, ZFUIView *, dialogContent)
 {
     if(this->dialogContent() != zfnull)
     {

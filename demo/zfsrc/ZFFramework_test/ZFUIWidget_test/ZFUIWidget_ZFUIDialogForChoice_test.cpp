@@ -15,7 +15,7 @@ zfclass ZFUIWidget_ZFUIDialogForChoice_test : zfextends ZFFramework_test_TestCas
 {
     ZFOBJECT_DECLARE(ZFUIWidget_ZFUIDialogForChoice_test, ZFFramework_test_TestCase)
 
-    ZFPROPERTY_RETAIN_READONLY(ZFUIDialogForChoice *, dialog, ZFPropertyInitValue(zflineAlloc(ZFUIDialogForChoice)))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIDialogForChoice *, dialog, zflineAlloc(ZFUIDialogForChoice))
 
 protected:
     zfoverride

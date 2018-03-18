@@ -73,11 +73,11 @@ ZFOBJECT_REGISTER(ZF2048UIFrame)
 
 ZFOBSERVER_EVENT_REGISTER(ZF2048UIFrame, FrameOnMove)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZF2048UIFrame, ZFUIImage *, frameBackgroundImage)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZF2048UIFrame, ZFUIImage *, frameBackgroundImage)
 {
     d->backgroundView->imageSet(this->frameBackgroundImage());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZF2048UIFrame, ZFUIMargin, frameMargin)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZF2048UIFrame, ZFUIMargin, frameMargin)
 {
     this->layoutRequest();
 }

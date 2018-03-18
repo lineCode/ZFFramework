@@ -156,14 +156,14 @@ public:
      * @brief window's level
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIWindowLevelEnum, windowLevel,
-                                ZFPropertyInitValue(ZFUIWindowLevel::EnumDefault()))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(ZFUIWindowLevelEnum, windowLevel);
+                                ZFUIWindowLevel::EnumDefault())
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFUIWindowLevelEnum, windowLevel);
 
     /**
      * @brief whether this window update layout accorrding to #ZFUISysWindow::sysWindowMargin,
      *   true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, sysWindowMarginShouldApply, ZFPropertyInitValue(zftrue))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, sysWindowMarginShouldApply, zftrue)
 
 public:
     /**

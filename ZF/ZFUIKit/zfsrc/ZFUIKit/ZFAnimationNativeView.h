@@ -71,55 +71,55 @@ public:
      * @brief whether automatically disable #ZFAnimation::aniTarget while animating, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniTargetAutoDisable,
-                                ZFPropertyInitValue(zftrue))
+                                zftrue)
 
     /**
      * @brief animation's curve, #ZFAnimationNativeViewCurve::e_Linear by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFAnimationNativeViewCurveEnum, aniCurve,
-                                ZFPropertyInitValue(ZFAnimationNativeViewCurve::e_Linear))
+                                ZFAnimationNativeViewCurve::e_Linear)
 
     /**
      * @brief alpha from, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniAlphaFrom,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
     /**
      * @brief alpha to, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniAlphaTo,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
 
     /**
      * @brief scale x from, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniScaleXFrom,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
     /**
      * @brief scale x to, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniScaleXTo,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
     /**
      * @brief scale y from, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniScaleYFrom,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
     /**
      * @brief scale y to, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniScaleYTo,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
     /**
      * @brief scale y from, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniScaleZFrom,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
     /**
      * @brief scale y to, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniScaleZTo,
-                                ZFPropertyInitValue(1.0f))
+                                1.0f)
 
     /**
      * @brief translate x from, 0 by default
@@ -127,42 +127,42 @@ public:
      * this value is relative to target view's size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniTranslateXFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate x to, 0 by default
      *
      * this value is relative to target view's size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniTranslateXTo,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y from, 0 by default
      *
      * this value is relative to target view's size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniTranslateYFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y to, 0 by default
      *
      * this value is relative to target view's size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniTranslateYTo,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y from, 0 by default
      *
      * this value is relative to target view's size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniTranslateZFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y to, 0 by default
      *
      * this value is relative to target view's size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, aniTranslateZTo,
-                                ZFPropertyInitValue(0))
+                                0)
 
     /**
      * @brief translate x from, 0 by default
@@ -170,73 +170,73 @@ public:
      * this value is absolute pixel size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTranslatePixelXFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate x to, 0 by default
      *
      * this value is absolute pixel size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTranslatePixelXTo,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y from, 0 by default
      *
      * this value is absolute pixel size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTranslatePixelYFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y to, 0 by default
      *
      * this value is absolute pixel size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTranslatePixelYTo,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y from, 0 by default
      *
      * this value is absolute pixel size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTranslatePixelZFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief translate y to, 0 by default
      *
      * this value is absolute pixel size
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniTranslatePixelZTo,
-                                ZFPropertyInitValue(0))
+                                0)
 
     /**
      * @brief rotate x from, 0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniRotateXFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief rotate x to, 0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniRotateXTo,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief rotate y from, 0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniRotateYFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief rotate y to, 0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniRotateYTo,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief rotate z from, 0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniRotateZFrom,
-                                ZFPropertyInitValue(0))
+                                0)
     /**
      * @brief rotate z to, 0 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniRotateZTo,
-                                ZFPropertyInitValue(0))
+                                0)
 
     // ============================================================
     // start stop

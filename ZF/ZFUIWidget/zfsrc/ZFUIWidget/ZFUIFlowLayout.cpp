@@ -21,35 +21,35 @@ ZFOBJECT_REGISTER(ZFUIFlowLayoutParam)
 // ZFUIFlowLayout
 ZFOBJECT_REGISTER(ZFUIFlowLayout)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIFlowLayout, ZFUIOrientationEnum, layoutOrientationMain)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIFlowLayout, ZFUIOrientationEnum, layoutOrientationMain)
 {
     if(this->layoutOrientationMain() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIFlowLayout, ZFUIOrientationEnum, layoutOrientationSecondary)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIFlowLayout, ZFUIOrientationEnum, layoutOrientationSecondary)
 {
     if(this->layoutOrientationSecondary() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIFlowLayout, ZFUIMargin, layoutChildMargin)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIFlowLayout, ZFUIMargin, layoutChildMargin)
 {
     if(this->layoutChildMargin() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIFlowLayout, zfint, layoutChildSpaceX)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIFlowLayout, zfint, layoutChildSpaceX)
 {
     if(this->layoutChildSpaceX() != propertyValueOld)
     {
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIFlowLayout, zfint, layoutChildSpaceY)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIFlowLayout, zfint, layoutChildSpaceY)
 {
     if(this->layoutChildSpaceY() != propertyValueOld)
     {

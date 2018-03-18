@@ -145,18 +145,18 @@ static void _ZFP_ZFUIButtonGroup_cleanup_Tab(ZF_IN ZFUIButtonGroup *buttonGroup,
         ZFUIButton::EventButtonOnClick(),
         ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIButtonGroupListenerHolder_Tab)->buttonOnClickListener);
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIButtonGroup, zfbool, buttonTabAllowUnchecked)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIButtonGroup, zfbool, buttonTabAllowUnchecked)
 {
     if(!this->buttonTabAllowUnchecked() && this->buttonCount() > 0 && this->buttonTabChecked() == zfindexMax())
     {
         this->buttonTabCheckedSet(0);
     }
 }
-ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(ZFUIButtonGroup, zfindex, buttonTabChecked)
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIButtonGroup, zfindex, buttonTabChecked)
 {
     propertyValue = ((propertyValue >= this->buttonCount()) ? zfindexMax() : propertyValue);
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIButtonGroup, zfindex, buttonTabChecked)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIButtonGroup, zfindex, buttonTabChecked)
 {
     if(this->buttonTabChecked() != propertyValueOld)
     {
@@ -210,7 +210,7 @@ static void _ZFP_ZFUIButtonGroup_cleanup(ZF_IN ZFUIButtonGroup *buttonGroup,
     }
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIButtonGroup, ZFUIButtonGroupTypeEnum, buttonGroupType)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIButtonGroup, ZFUIButtonGroupTypeEnum, buttonGroupType)
 {
     if(this->buttonGroupType() == propertyValueOld)
     {

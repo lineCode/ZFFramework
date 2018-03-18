@@ -25,59 +25,59 @@ public:
     ZFPROPERTY_ASSIGN_READONLY(zfstring, propertyAssignReadonly, ZFPropertyNoInitValue)
 
     // custom callback
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_CUSTOM_ON_DEALLOC_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_DEALLOC_DECLARE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
 
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_CUSTOM_ON_DEALLOC_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_DEALLOC_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfstring, propertyAssign);
 };
-ZFPROPERTY_CUSTOM_ON_INIT_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
+ZFPROPERTY_OVERRIDE_ON_INIT_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }
-ZFPROPERTY_CUSTOM_ON_DEALLOC_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
+ZFPROPERTY_OVERRIDE_ON_DEALLOC_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }
-ZFPROPERTY_CUSTOM_ON_VERIFY_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }
-ZFPROPERTY_CUSTOM_ON_ATTACH_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }
-ZFPROPERTY_CUSTOM_ON_DETACH_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
+ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }

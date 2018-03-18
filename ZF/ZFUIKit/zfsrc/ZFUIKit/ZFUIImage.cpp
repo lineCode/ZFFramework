@@ -263,7 +263,7 @@ void ZFUIImage::copyableOnCopyFrom(ZF_IN ZFObject *anotherObj)
     d->copyFrom(ZFCastZFObjectUnchecked(zfself *, anotherObj)->d);
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIImage, zffloat, imageScale)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIImage, zffloat, imageScale)
 {
     d->imageSizeUpdate();
     this->imageScaleOnChange();

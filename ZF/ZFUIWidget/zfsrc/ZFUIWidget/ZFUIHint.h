@@ -95,8 +95,8 @@ public:
      * @brief the actual hint view
      */
     ZFPROPERTY_RETAIN(ZFUIView *, hintContent)
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIView *, hintContent);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIView *, hintContent);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIView *, hintContent);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIView *, hintContent);
     /**
      * @brief the animation to show the hint, null by default
      */
@@ -106,7 +106,7 @@ public:
      *
      * @note show and hide animation won't be included in #hintDuration
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, hintDuration, ZFPropertyInitValue(ZFUIHintDurationDefault()))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, hintDuration, ZFUIHintDurationDefault())
     /**
      * @brief the animation to hide the hint, null by default
      */
@@ -116,8 +116,8 @@ public:
      * @brief whether automatically fix frame accorrding to #ZFUIOnScreenKeyboardAutoResizeStart,
      *   true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, hintWindowAutoResize, ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, hintWindowAutoResize);
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, hintWindowAutoResize, zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, hintWindowAutoResize);
 
 public:
     /**

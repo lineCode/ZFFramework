@@ -108,7 +108,7 @@ public:
     /**
      * @brief valid only if #cellSizeHintOverride, -1 by default, see #ZFUIListAdapter::cellSizeAtIndex
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHintOverrideValue, ZFPropertyInitValue(-1))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHintOverrideValue, -1)
 
 public:
     ZFMETHOD_INLINE_0(zfindex, cellCount)

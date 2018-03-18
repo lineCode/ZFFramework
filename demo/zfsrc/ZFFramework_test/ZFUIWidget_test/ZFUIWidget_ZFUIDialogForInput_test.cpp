@@ -15,7 +15,7 @@ zfclass ZFUIWidget_ZFUIDialogForInput_test : zfextends ZFFramework_test_TestCase
 {
     ZFOBJECT_DECLARE(ZFUIWidget_ZFUIDialogForInput_test, ZFFramework_test_TestCase)
 
-    ZFPROPERTY_RETAIN_READONLY(ZFUIDialogForInput *, dialog, ZFPropertyInitValue(zflineAlloc(ZFUIDialogForInput)))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIDialogForInput *, dialog, zflineAlloc(ZFUIDialogForInput))
 
 protected:
     zfoverride

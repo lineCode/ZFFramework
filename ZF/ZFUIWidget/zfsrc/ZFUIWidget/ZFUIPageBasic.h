@@ -38,7 +38,7 @@ public:
     /**
      * @brief the page view, also used as page ani target
      */
-    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, pageContainer, ZFPropertyInitValue(_ZFP_pageContainerInit()))
+    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, pageContainer, _ZFP_pageContainerInit())
 
 protected:
     zfoverride

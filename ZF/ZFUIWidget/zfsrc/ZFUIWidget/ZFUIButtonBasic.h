@@ -54,195 +54,195 @@ public:
     /**
      * @brief button icon's orientation (relative to label), #ZFUIOrientation::e_Left by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, buttonContentIconPosition, ZFPropertyInitValue(ZFUIOrientation::e_Left))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, buttonContentIconPosition, ZFUIOrientation::e_Left)
     /**
      * @brief button content(icon, label)'s layout align, #ZFUIAlign::e_Center by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIAlignFlags, buttonContentAlign, ZFPropertyInitValue(ZFUIAlign::e_Center))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIAlignFlags, buttonContentAlign, ZFUIAlign::e_Center)
     /**
      * @brief button content(icon, label)'s layout margin, #ZFUIGlobalStyle::itemMargin by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, buttonContentMargin, ZFPropertyInitValue(ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin())))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, buttonContentMargin, ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin()))
     /**
      * @brief button icon and label's space, #ZFUIGlobalStyle::itemSpace by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, buttonContentSpace, ZFPropertyInitValue(ZFUIGlobalStyle::DefaultStyle()->itemSpace()))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, buttonContentSpace, ZFUIGlobalStyle::DefaultStyle()->itemSpace())
 
     /**
      * @brief button background's layout margin, #ZFUIMarginZero by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, buttonBackgroundMargin, ZFPropertyInitValue(ZFUIMarginZero()))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, buttonBackgroundMargin, ZFUIMarginZero())
 
     // ============================================================
     // label
     /** @brief label style in normal state */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, buttonLabelStyleNormal,
-                               ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleNormal)
+                               zflineAlloc(ZFUITextView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleNormal)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
         v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorNormal());
 
         this->prepareButtonLabel();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleNormal);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleNormal);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleNormal);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleNormal);
 
     /** @brief label style in highlighted state */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, buttonLabelStyleHighlighted,
-                               ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleHighlighted)
+                               zflineAlloc(ZFUITextView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleHighlighted)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
         v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorHighlighted());
 
         this->prepareButtonLabel();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleHighlighted);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleHighlighted);
 
     /** @brief label style in checked state */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, buttonLabelStyleChecked,
-                               ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleChecked)
+                               zflineAlloc(ZFUITextView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleChecked)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
         v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorChecked());
 
         this->prepareButtonLabel();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleChecked);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleChecked);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleChecked);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleChecked);
 
     /** @brief label style in checked highlighted state */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, buttonLabelStyleCheckedHighlighted,
-                               ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleCheckedHighlighted)
+                               zflineAlloc(ZFUITextView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleCheckedHighlighted)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
         v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorCheckedHighlighted());
 
         this->prepareButtonLabel();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleCheckedHighlighted);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleCheckedHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleCheckedHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleCheckedHighlighted);
 
     /** @brief label style in disabled state */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, buttonLabelStyleDisabled,
-                               ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleDisabled)
+                               zflineAlloc(ZFUITextView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleDisabled)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
         v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorDisabled());
 
         this->prepareButtonLabel();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleDisabled);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleDisabled);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextView *, buttonLabelStyleDisabled);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUITextView *, buttonLabelStyleDisabled);
 
     // ============================================================
     // icon
     /** @brief icon style in normal state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonIconStyleNormal,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleNormal)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleNormal)
     {
         this->prepareButtonIcon();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleNormal);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleNormal);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleNormal);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleNormal);
 
     /** @brief icon style in highlighted state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonIconStyleHighlighted,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleHighlighted)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleHighlighted)
     {
         this->prepareButtonIcon();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleHighlighted);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleHighlighted);
 
     /** @brief icon style in checked state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonIconStyleChecked,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleChecked)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleChecked)
     {
         this->prepareButtonIcon();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleChecked);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleChecked);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleChecked);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleChecked);
 
     /** @brief icon style in checked highlighted state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonIconStyleCheckedHighlighted,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleCheckedHighlighted)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleCheckedHighlighted)
     {
         this->prepareButtonIcon();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleCheckedHighlighted);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleCheckedHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleCheckedHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleCheckedHighlighted);
 
     /** @brief icon style in disabled state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonIconStyleDisabled,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleDisabled)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonIconStyleDisabled)
     {
         this->prepareButtonIcon();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleDisabled);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleDisabled);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonIconStyleDisabled);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonIconStyleDisabled);
 
     // ============================================================
     // background
     /** @brief background style in normal state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonBackgroundStyleNormal,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
         this->prepareButtonBackground();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal);
 
     /** @brief background style in highlighted state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonBackgroundStyleHighlighted,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
     {
         this->prepareButtonBackground();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted);
 
     /** @brief background style in checked state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonBackgroundStyleChecked,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleChecked)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleChecked)
     {
         this->prepareButtonBackground();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleChecked);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleChecked);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleChecked);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleChecked);
 
     /** @brief background style in checked highlighted state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted)
     {
         this->prepareButtonBackground();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleCheckedHighlighted);
 
     /** @brief background style in disabled state */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, buttonBackgroundStyleDisabled,
-                               ZFPropertyInitValue(zflineAlloc(ZFUIImageView)))
-    ZFPROPERTY_CUSTOM_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleDisabled)
+                               zflineAlloc(ZFUIImageView))
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleDisabled)
     {
         this->prepareButtonBackground();
     }
-    ZFPROPERTY_CUSTOM_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleDisabled);
-    ZFPROPERTY_CUSTOM_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleDisabled);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleDisabled);
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImageView *, buttonBackgroundStyleDisabled);
 
     // ============================================================
     // util method

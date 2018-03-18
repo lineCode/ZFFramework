@@ -231,7 +231,7 @@ public:
     /**
      * @brief page group id, see #ZFUIPageManager::requestPageGroupResume for more info
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfstring, pageGroupId, ZFPropertyInitValue(ZFUIPageGroupIdInvalid))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfstring, pageGroupId, ZFUIPageGroupIdInvalid)
     /**
      * @brief page's animation
      *

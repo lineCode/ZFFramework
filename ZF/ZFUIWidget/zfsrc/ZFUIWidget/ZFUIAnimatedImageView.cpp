@@ -41,7 +41,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFUIAnimatedImageViewDataHolder)
 // ZFUIAnimatedImageView
 ZFOBJECT_REGISTER(ZFUIAnimatedImageView)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUIAnimatedImageView, zfbool, animatedImageWrapToImage)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIAnimatedImageView, zfbool, animatedImageWrapToImage)
 {
     if(this->animatedImageWrapToImage() != propertyValueOld)
     {

@@ -28,10 +28,10 @@ zfclass ZF2048UIBlock : zfextends ZFUIImageView, zfimplements ZFCacheable
     ZFCACHEABLE_DECLARE(ZF2048UIBlock)
 
 public:
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZF2048Value, blockValue, ZFPropertyInitValue(0))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZF2048Value, blockValue);
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZF2048Value, blockValue, 0)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZF2048Value, blockValue);
 
-    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, blockTitle, ZFPropertyInitValue(zflineAlloc(ZFUITextView)))
+    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, blockTitle, zflineAlloc(ZFUITextView))
 
 protected:
     zfoverride

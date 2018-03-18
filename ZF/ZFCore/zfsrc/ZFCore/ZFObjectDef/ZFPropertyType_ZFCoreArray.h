@@ -31,7 +31,7 @@ public:
     template<typename T_Type>
     static zfbool accessAvailable(ZF_IN ZFObject *obj);
     template<typename T_Type>
-    static T_ZFCoreArray *access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasConverter converter);
+    static T_ZFCoreArray *access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasDetachCallback detachCallback);
 };
 
 template<>
@@ -45,7 +45,7 @@ public:
     template<typename T_Type>
     static zfbool accessAvailable(ZF_IN ZFObject *obj);
     template<typename T_Type>
-    static ZFCoreArray<zfautoObject> *access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasConverter converter);
+    static ZFCoreArray<zfautoObject> *access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasDetachCallback detachCallback);
 };
 
 // ============================================================
@@ -237,7 +237,7 @@ public:
         }
         static T_Access access(ZF_IN ZFObject *obj)
         {
-            return *_ZFP_ZFCoreArrayConvert<ZFCoreArray<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasAction);
+            return *_ZFP_ZFCoreArrayConvert<ZFCoreArray<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasOnDetach);
         }
     };
     template<typename T_Access>
@@ -250,12 +250,12 @@ public:
         }
         static typename zftTraits<T_Access>::TrNoRef access(ZF_IN ZFObject *obj)
         {
-            return _ZFP_ZFCoreArrayConvert<ZFCoreArray<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasAction);
+            return _ZFP_ZFCoreArrayConvert<ZFCoreArray<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasOnDetach);
         }
     };
 private:
-    static void _ZFP_PropAliasAction(ZF_IN ZFObject *obj,
-                                     ZF_IN void *v)
+    static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
+                                       ZF_IN void *v)
     {
         ZFCoreArray<zfautoObject> holderTmp;
         ZFCoreArray<T_Type> &vTmp = *(ZFCoreArray<T_Type> *)v;
@@ -302,7 +302,7 @@ public:
         }
         static T_Access access(ZF_IN ZFObject *obj)
         {
-            return *_ZFP_ZFCoreArrayConvert<ZFCoreArrayPOD<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasAction);
+            return *_ZFP_ZFCoreArrayConvert<ZFCoreArrayPOD<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasOnDetach);
         }
     };
     template<typename T_Access>
@@ -315,12 +315,12 @@ public:
         }
         static typename zftTraits<T_Access>::TrNoRef access(ZF_IN ZFObject *obj)
         {
-            return _ZFP_ZFCoreArrayConvert<ZFCoreArrayPOD<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasAction);
+            return _ZFP_ZFCoreArrayConvert<ZFCoreArrayPOD<T_Type> >::template access<T_Type>(obj, _ZFP_PropAliasOnDetach);
         }
     };
 private:
-    static void _ZFP_PropAliasAction(ZF_IN ZFObject *obj,
-                                     ZF_IN void *v)
+    static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
+                                       ZF_IN void *v)
     {
         ZFCoreArray<zfautoObject> holderTmp;
         ZFCoreArrayPOD<T_Type> &vTmp = *(ZFCoreArrayPOD<T_Type> *)v;
@@ -387,12 +387,12 @@ zfbool _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::accessAvailable(ZF_IN ZFObject *o
 
 template<typename T_ZFCoreArray>
 template<typename T_Type>
-T_ZFCoreArray *_ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasConverter converter)
+T_ZFCoreArray *_ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasDetachCallback detachCallback)
 {
     v_ZFCoreArray *holder = ZFCastZFObjectUnchecked(v_ZFCoreArray *, obj);
     T_ZFCoreArray *tmp = zfnew(T_ZFCoreArray);
     _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::template to<T_Type>(holder->zfv, *tmp);
-    _ZFP_PropAliasAttach(obj, tmp, converter);
+    _ZFP_PropAliasAttach(obj, tmp, zfText("ZFCoreArray"), detachCallback);
     return tmp;
 }
 
@@ -418,7 +418,7 @@ zfbool _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::accessAvailable(ZF_I
 }
 
 template<typename T_Type>
-ZFCoreArray<zfautoObject> *_ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasConverter converter)
+ZFCoreArray<zfautoObject> *_ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::access(ZF_IN ZFObject *obj, ZF_IN _ZFP_PropAliasDetachCallback detachCallback)
 {
     return &(ZFCastZFObjectUnchecked(v_ZFCoreArray *, obj)->zfv);
 }

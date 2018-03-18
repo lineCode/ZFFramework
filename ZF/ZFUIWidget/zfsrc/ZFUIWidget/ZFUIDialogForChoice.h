@@ -98,8 +98,8 @@ public:
      * @brief choice mode, #ZFUIDialogForChoiceMode::EnumDefault by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIDialogForChoiceModeEnum, choiceMode,
-                                ZFPropertyInitValue(ZFUIDialogForChoiceMode::EnumDefault()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIDialogForChoiceModeEnum, choiceMode)
+                                ZFUIDialogForChoiceMode::EnumDefault())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIDialogForChoiceModeEnum, choiceMode)
     {
         if(this->choiceMode() != propertyValueOld)
         {
@@ -112,14 +112,14 @@ public:
      * @brief list of choice items, empty by default,
      *   use #choiceAdd/#choiceRemove to access the choice list
      */
-    ZFPROPERTY_RETAIN_DETAIL(ZFArrayEditable *, list, ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)),
+    ZFPROPERTY_RETAIN_DETAIL(ZFArrayEditable *, list, zflineAlloc(ZFArrayEditable),
                              private, protected)
 
     /**
      * @brief list of selected items' index, empty by default,
      *   holds #ZFValue::indexValue
      */
-    ZFPROPERTY_RETAIN_DETAIL(ZFArrayEditable *, selected, ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)),
+    ZFPROPERTY_RETAIN_DETAIL(ZFArrayEditable *, selected, zflineAlloc(ZFArrayEditable),
                              private, protected)
 
 public:

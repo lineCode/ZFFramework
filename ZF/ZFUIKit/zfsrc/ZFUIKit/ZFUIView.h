@@ -277,7 +277,7 @@ public:
      * -  #ZFUIView::layoutOnLayoutFinish
      */
     ZFPROPERTY_ASSIGN(zfstring, viewDelegateClass)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfstring, viewDelegateClass);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfstring, viewDelegateClass);
     /**
      * @brief used to identify a view, empty by default
      *
@@ -292,52 +292,52 @@ public:
      * @brief visible or not, zftrue by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewVisible,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, viewVisible);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewVisible);
 
     /**
      * @brief view's alpha, 1 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, viewAlpha,
-                                ZFPropertyInitValue(1))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(zffloat, viewAlpha)
+                                1)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zffloat, viewAlpha)
     {
         propertyValue = zfmApplyRange<zffloat>(propertyValue, 0, 1);
     }
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zffloat, viewAlpha);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zffloat, viewAlpha);
 
     /**
      * @brief whether the view should receive user interaction
      *   (doesn't affect children, see #viewUIEnableTree)
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewUIEnable,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, viewUIEnable);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewUIEnable);
 
     /**
      * @brief whether the view as well as all its children should receive user interaction,
      *   see #viewUIEnable
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewUIEnableTree,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, viewUIEnableTree);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewUIEnableTree);
 
     /**
      * @brief whether enable mouse hover event, see #ZFUIView::viewEventOnMouseEvent, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, viewMouseHoverEventEnable)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, viewMouseHoverEventEnable);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewMouseHoverEventEnable);
 
     /**
      * @brief whether the view can be focused, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, viewFocusable)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, viewFocusable);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewFocusable);
     /**
      * @brief whether try to obtain focus when clicked down, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewFocusObtainWhenClick,
-                                ZFPropertyInitValue(zftrue))
+                                zftrue)
 
     /**
      * @brief prefered size, #ZFUISizeInvalid by default
@@ -346,26 +346,26 @@ public:
      * the prefered size would be used to measure the view,
      * if prefered size not set, size hint would be used
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizePrefered, ZFPropertyInitValue(ZFUISizeInvalid()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUISize, viewSizePrefered);
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizePrefered, ZFUISizeInvalid())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, viewSizePrefered);
     /**
      * @brief min size, #ZFUISizeZero by default
      */
     ZFPROPERTY_ASSIGN(ZFUISize, viewSizeMin)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUISize, viewSizeMin);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, viewSizeMin);
     /**
      * @brief max size, negative value means not set, #ZFUISizeInvalid by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizeMax,
-                                ZFPropertyInitValue(ZFUISizeInvalid()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUISize, viewSizeMax);
+                                ZFUISizeInvalid())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, viewSizeMax);
 
     /**
      * @brief background color, #ZFUIColorTransparent by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, viewBackgroundColor,
-                                ZFPropertyInitValue(ZFUIColorTransparent()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIColor, viewBackgroundColor);
+                                ZFUIColorTransparent())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIColor, viewBackgroundColor);
 
     // ============================================================
     // init and dealloc

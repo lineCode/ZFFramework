@@ -28,7 +28,7 @@ static void _ZFP_ZFUITextView_updateSizeRelatedProperty(ZF_IN ZFUITextView *owne
 // ZFUITextView
 ZFOBJECT_REGISTER(ZFUITextView)
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfstring, text)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, zfstring, text)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textSet(this, this->text());
     if(propertyValueOld.compare(this->text()) != 0)
@@ -37,7 +37,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfstring, text)
     }
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUITextAppearanceEnum, textAppearance)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, ZFUITextAppearanceEnum, textAppearance)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textAppearanceSet(this, this->textAppearance());
     if(this->textAppearance() != propertyValueOld)
@@ -45,23 +45,23 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUITextAppearanceEnum, textApp
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUIAlignFlags, textAlign)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, ZFUIAlignFlags, textAlign)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textAlignSet(this, this->textAlign());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUIColor, textColor)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, ZFUIColor, textColor)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textColorSet(this, this->textColor());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUIColor, textShadowColor)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, ZFUIColor, textShadowColor)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textShadowColorSet(this, this->textShadowColor());
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUISize, textShadowOffset)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, ZFUISize, textShadowOffset)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textShadowOffsetSet(this, ZFUISizeApplyScale(this->textShadowOffset(), this->scaleFixed()));
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSize)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSize)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeSet(this, ZFUISizeApplyScale(this->textSize(), this->scaleFixed()));
     if(this->textSize() != propertyValueOld)
@@ -69,7 +69,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSize)
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMinSize)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMinSize)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeAutoChangeMinSizeSet(this, ZFUISizeApplyScale(this->textSizeAutoChangeMinSize(), this->scaleFixed()));
     if(this->textSizeAutoChangeMinSize() != propertyValueOld)
@@ -77,7 +77,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMinSiz
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMaxSize)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMaxSize)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeAutoChangeMaxSizeSet(this, ZFUISizeApplyScale(this->textSizeAutoChangeMaxSize(), this->scaleFixed()));
     if(this->textSizeAutoChangeMaxSize() != propertyValueOld)
@@ -85,7 +85,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMaxSiz
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfbool, textSingleLine)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, zfbool, textSingleLine)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textSingleLineSet(this, this->textSingleLine());
     if(this->textSingleLine() != propertyValueOld)
@@ -93,7 +93,7 @@ ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, zfbool, textSingleLine)
         this->layoutRequest();
     }
 }
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextView, ZFUITextTruncateModeEnum, textTruncateMode)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextView, ZFUITextTruncateModeEnum, textTruncateMode)
 {
     ZFPROTOCOL_ACCESS(ZFUITextView)->textTruncateModeSet(this, this->textTruncateMode());
     if(this->textTruncateMode() != propertyValueOld)

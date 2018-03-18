@@ -129,39 +129,39 @@ public:
      * @brief whether the scroll view is scrollable, zftrue by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, scrollEnable,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollEnable);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollEnable);
 
     /**
      * @brief if content is larger than scroll view, make it scrollable even if reaches edge, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, scrollBounceHorizontal,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollBounceHorizontal);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollBounceHorizontal);
     /**
      * @brief if content is larger than scroll view, make it scrollable even if reaches edge, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, scrollBounceVertical,
-                                ZFPropertyInitValue(zftrue))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollBounceVertical);
+                                zftrue)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollBounceVertical);
     /**
      * @brief scrollable even if content is not larger than scrollview, false by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, scrollBounceHorizontalAlways,
-                                ZFPropertyInitValue(zffalse))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollBounceHorizontalAlways);
+                                zffalse)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollBounceHorizontalAlways);
     /**
      * @brief scrollable even if content is not larger than scrollview, false by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, scrollBounceVerticalAlways,
-                                ZFPropertyInitValue(zffalse))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollBounceVerticalAlways);
+                                zffalse)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollBounceVerticalAlways);
 
     /**
      * @brief whether limit scroll horizontal or vertical only, false by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, scrollAlignToAxis,
-                                ZFPropertyInitValue(zffalse))
+                                zffalse)
     /**
      * @brief whether align to page when scroll, false by default
      *
@@ -170,7 +170,7 @@ public:
      * if align to page, #scrollAlignToAxis would be activated no matter what value of it
      */
     ZFPROPERTY_ASSIGN(zfbool, scrollAlignToPageHorizontal)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollAlignToPageHorizontal);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollAlignToPageHorizontal);
     /**
      * @brief whether align to page when scroll, false by default
      *
@@ -179,7 +179,7 @@ public:
      * if align to page, #scrollAlignToAxis would be activated no matter what value of it
      */
     ZFPROPERTY_ASSIGN(zfbool, scrollAlignToPageVertical)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, scrollAlignToPageVertical);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, scrollAlignToPageVertical);
 
     /**
      * @brief scroll view's content frame
@@ -193,7 +193,7 @@ public:
      *   instead of the view's frame
      */
     ZFPROPERTY_ASSIGN(ZFUIRect, scrollContentFrame)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIRect, scrollContentFrame);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIRect, scrollContentFrame);
     zffinal void _ZFP_ZFUIScrollView_scrollContentFrameSetByImpl(ZF_IN const ZFUIRect &rect);
 
 protected:

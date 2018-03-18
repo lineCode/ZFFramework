@@ -67,11 +67,11 @@ public:
     /**
      * @brief interval to update time line, in miliseconds, 30 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniTimeLineInterval, ZFPropertyInitValue(30))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniTimeLineInterval, 30)
     /**
      * @brief whether time line callback should be called in main thread, true by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniTimeLineNotifyInMainThread, ZFPropertyInitValue(zftrue))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniTimeLineNotifyInMainThread, zftrue)
 
     // ============================================================
     // start stop

@@ -4,8 +4,8 @@
 * update CI script
 * impl lib's header can now be exported
 * optimize external ZFModule build logic and script
+* optimize method and property declaration
 * reduce recursive header include to improve compile time
-* optimize method declaration
 * trim output executable size
 
 # 0.1.0 (20180218)

@@ -27,7 +27,7 @@ static void _ZFP_ZFUITextEditWidget_updateClearButton(ZF_IN ZFUITextEditWidget *
     }
 }
 
-ZFPROPERTY_CUSTOM_ON_UPDATE_DEFINE(ZFUITextEditWidget, zfbool, textEditClearButtonAutoEnable)
+ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUITextEditWidget, zfbool, textEditClearButtonAutoEnable)
 {
     _ZFP_ZFUITextEditWidget_updateClearButton(this);
 }

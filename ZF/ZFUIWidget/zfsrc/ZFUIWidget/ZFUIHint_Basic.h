@@ -43,7 +43,6 @@ public:
 
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextView *, buttonLabelStyleNormal)
     {
-        ZFPROPERTY_OVERRIDE_ON_INIT_CALL_SUPER(zfsuper, ZFUITextView *, buttonLabelStyleNormal);
         ZFUITextView *value = propertyValue.to<ZFUITextView *>();
         value->textColorSet(ZFUIColorWhite());
         value->textSingleLineSet(zffalse);
@@ -51,7 +50,6 @@ public:
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
-        ZFPROPERTY_OVERRIDE_ON_INIT_CALL_SUPER(zfsuper, ZFUIImageView *, buttonBackgroundStyleNormal);
         ZFUIImageView *value = propertyValue;
         value->imageSet(zfRes(zfText("ZFUIWidget/ZFUIHintContentBasic_background.xml")));
     }

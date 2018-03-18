@@ -37,20 +37,20 @@ zfclass _ZFP_ZF2048AppPrivate : zfextends ZFObject
 public:
     ZF2048App *owner;
 
-    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, mainLayout, ZFPropertyInitValue(zflineAlloc(ZFUILinearLayout)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, headerLayout, ZFPropertyInitValue(zflineAlloc(ZFUILinearLayout)))
+    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, mainLayout, zflineAlloc(ZFUILinearLayout))
+    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, headerLayout, zflineAlloc(ZFUILinearLayout))
 
-    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, autoMoveButton, ZFPropertyInitValue(zflineAlloc(ZF2048AppButton)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, undoButton, ZFPropertyInitValue(zflineAlloc(ZF2048AppButton)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUIViewLayout *, scoreLayoutHolder, ZFPropertyInitValue(zflineAlloc(ZFUIViewLayout)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, scoreLayout, ZFPropertyInitValue(zflineAlloc(ZFUILinearLayout)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, scoreHint, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppTextView)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, scoreLabel, ZFPropertyInitValue(zflineAlloc(_ZFP_ZF2048AppTextView)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, settingButton, ZFPropertyInitValue(zflineAlloc(ZF2048AppButton)))
-    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, aboutButton, ZFPropertyInitValue(zflineAlloc(ZF2048AppButton)))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, autoMoveButton, zflineAlloc(ZF2048AppButton))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, undoButton, zflineAlloc(ZF2048AppButton))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIViewLayout *, scoreLayoutHolder, zflineAlloc(ZFUIViewLayout))
+    ZFPROPERTY_RETAIN_READONLY(ZFUILinearLayout *, scoreLayout, zflineAlloc(ZFUILinearLayout))
+    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, scoreHint, zflineAlloc(_ZFP_ZF2048AppTextView))
+    ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, scoreLabel, zflineAlloc(_ZFP_ZF2048AppTextView))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, settingButton, zflineAlloc(ZF2048AppButton))
+    ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, aboutButton, zflineAlloc(ZF2048AppButton))
 
-    ZFPROPERTY_RETAIN_READONLY(ZF2048AppAutoMoveSettingDialog *, autoMoveSettingDialog, ZFPropertyInitValue(zflineAlloc(ZF2048AppAutoMoveSettingDialog)))
-    ZFPROPERTY_RETAIN_READONLY(ZF2048AppAutoMoveRunner *, autoMoveRunner, ZFPropertyInitValue(zflineAlloc(ZF2048AppAutoMoveRunner)))
+    ZFPROPERTY_RETAIN_READONLY(ZF2048AppAutoMoveSettingDialog *, autoMoveSettingDialog, zflineAlloc(ZF2048AppAutoMoveSettingDialog))
+    ZFPROPERTY_RETAIN_READONLY(ZF2048AppAutoMoveRunner *, autoMoveRunner, zflineAlloc(ZF2048AppAutoMoveRunner))
 
 public:
     void orientationUpdate(void)

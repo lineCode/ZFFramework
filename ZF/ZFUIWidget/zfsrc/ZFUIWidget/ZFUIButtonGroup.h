@@ -87,11 +87,11 @@ public:
      * @brief button group's type, see #ZFUIButtonGroupType::e_Normal for more info
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIButtonGroupTypeEnum, buttonGroupType,
-                                ZFPropertyInitValue(ZFUIButtonGroupType::EnumDefault()))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIButtonGroupTypeEnum, buttonGroupType);
+                                ZFUIButtonGroupType::EnumDefault())
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIButtonGroupTypeEnum, buttonGroupType);
 
 private:
-    ZFPROPERTY_RETAIN_WITH_INIT(ZFArrayEditable *, _ZFP_ZFUIButtonGroup_buttons, ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)))
+    ZFPROPERTY_RETAIN_WITH_INIT(ZFArrayEditable *, _ZFP_ZFUIButtonGroup_buttons, zflineAlloc(ZFArrayEditable))
 public:
     /**
      * @brief button count
@@ -227,15 +227,15 @@ public:
     /**
      * @brief for #ZFUIButtonGroupType::e_Tab type only, whether allow uncheck all button, false by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, buttonTabAllowUnchecked, ZFPropertyInitValue(zffalse))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfbool, buttonTabAllowUnchecked);
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, buttonTabAllowUnchecked, zffalse)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, buttonTabAllowUnchecked);
 
     /**
      * @brief for #ZFUIButtonGroupType::e_Tab type only, the checked tab index, zfindexMax() by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, buttonTabChecked, ZFPropertyInitValue(zfindexMax()))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(zfindex, buttonTabChecked);
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfindex, buttonTabChecked);
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, buttonTabChecked, zfindexMax())
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfindex, buttonTabChecked);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfindex, buttonTabChecked);
 
 public:
     zffinal inline void _ZFP_ZFUIButtonGroup_buttonTabOnChange(ZF_IN ZFUIButton *button,

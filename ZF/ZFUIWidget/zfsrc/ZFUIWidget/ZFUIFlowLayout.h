@@ -91,8 +91,8 @@ public:
      * while #ZFUIOrientation::e_Bottom means layout children from bottom to top
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, layoutOrientationMain,
-                                ZFPropertyInitValue(ZFUIOrientation::e_Left))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIOrientationEnum, layoutOrientationMain);
+                                ZFUIOrientation::e_Left)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIOrientationEnum, layoutOrientationMain);
     /**
      * @brief secondary direction to layout children, #ZFUIOrientation::e_Top by default
      *
@@ -106,27 +106,27 @@ public:
      *   treated as #ZFUIOrientation::e_Left
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, layoutOrientationSecondary,
-                                ZFPropertyInitValue(ZFUIOrientation::e_Top))
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIOrientationEnum, layoutOrientationSecondary);
+                                ZFUIOrientation::e_Top)
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIOrientationEnum, layoutOrientationSecondary);
 
     /**
      * @brief extra margin independent from children's layout param's margin, #ZFUIMarginZero by default
      */
     ZFPROPERTY_ASSIGN(ZFUIMargin, layoutChildMargin)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(ZFUIMargin, layoutChildMargin);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIMargin, layoutChildMargin);
 
     /**
      * @brief extra space between each child independent from children's layout param,
      *   in x direction, 0 by default
      */
     ZFPROPERTY_ASSIGN(zfint, layoutChildSpaceX)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, layoutChildSpaceX);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, layoutChildSpaceX);
     /**
      * @brief extra space between each child independent from children's layout param,
      *   in y direction, 0 by default
      */
     ZFPROPERTY_ASSIGN(zfint, layoutChildSpaceY)
-    ZFPROPERTY_CUSTOM_ON_UPDATE_DECLARE(zfint, layoutChildSpaceY);
+    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, layoutChildSpaceY);
 
     // ============================================================
     // override ZFUIView

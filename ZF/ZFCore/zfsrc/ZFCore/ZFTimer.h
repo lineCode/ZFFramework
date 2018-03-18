@@ -101,8 +101,8 @@ public:
      *
      * assert fail if interval is less than 0
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, timerInterval, ZFPropertyInitValue(1000))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(zftimet, timerInterval)
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, timerInterval, 1000)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zftimet, timerInterval)
     {
         zfCoreAssert(!this->timerStarted());
         zfCoreAssert(this->timerInterval() > 0);
@@ -114,8 +114,8 @@ public:
      * if delay is less than 10, it's treated as 0\n
      * else, first timer event would be fired after (timerDelay + timerInterval)
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, timerDelay, ZFPropertyInitValue(0))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(zftimet, timerDelay)
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, timerDelay, 0)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zftimet, timerDelay)
     {
         zfCoreAssert(!this->timerStarted());
         zfCoreAssert(this->timerDelay() >= 0);
@@ -127,8 +127,8 @@ public:
      * fired in main thread for convenience but may cause timer to be more inaccurate,
      * use only if necessary
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, timerActivateInMainThread, ZFPropertyInitValue(zffalse))
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(zfbool, timerActivateInMainThread)
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, timerActivateInMainThread, zffalse)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfbool, timerActivateInMainThread)
     {
         zfCoreAssert(!this->timerStarted());
     }
@@ -140,7 +140,7 @@ public:
      * it won't be released after timer stop
      */
     ZFPROPERTY_RETAIN(ZFObject *, timerParam0)
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(ZFObject *, timerParam0)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFObject *, timerParam0)
     {
         zfCoreAssert(!this->timerStarted());
     }
@@ -152,7 +152,7 @@ public:
      * it won't be released after timer stop
      */
     ZFPROPERTY_RETAIN(ZFObject *, timerParam1)
-    ZFPROPERTY_CUSTOM_ON_VERIFY_DECLARE(ZFObject *, timerParam1)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFObject *, timerParam1)
     {
         zfCoreAssert(!this->timerStarted());
     }

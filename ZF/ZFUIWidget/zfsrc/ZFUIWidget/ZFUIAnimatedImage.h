@@ -39,7 +39,7 @@ public:
      * negative value means not specified, use #ZFUIAnimatedImage::aniFrameDurationDefault\n
      * 0 means disable this frame
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniFrameDuration, ZFPropertyInitValue(-1))
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniFrameDuration, -1)
 };
 
 // ============================================================
@@ -98,13 +98,13 @@ public:
      * @brief default duration between each frame, 10 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniFrameDurationDefault,
-                                ZFPropertyInitValue(10))
+                                10)
 
     /**
      * @brief whether keep previous state when start animating, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, aniKeepPreviousState,
-                                ZFPropertyInitValue(zftrue))
+                                zftrue)
 
     /**
      * @brief number of times to repeat, zfindexMax() by default
@@ -113,13 +113,13 @@ public:
      * -  zfindexMax() means repeat until stop manually
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, aniRepeatCount,
-                                ZFPropertyInitValue(zfindexMax()))
+                                zfindexMax())
 
     /**
      * @brief ani frames, holds #ZFUIAnimatedImageAniFrame
      */
     ZFPROPERTY_RETAIN_DETAIL(ZFArrayEditable *, aniFrames,
-                             ZFPropertyInitValue(zflineAlloc(ZFArrayEditable)),
+                             zflineAlloc(ZFArrayEditable),
                              protected, protected)
 
 public:
