@@ -36,7 +36,23 @@ for ZF_MODULE_NAME list, please refer to https://github.com/ZFFramework/ZFFramew
   s.requires_arc     = true
   s.frameworks       = 'Foundation'
   s.libraries        = 'c++'
-  s.prepare_command  = 'sh zf3rd_setup.sh'
+  # ZFTAG_ADD_MODULE
+  s.prepare_command  = <<-CMD
+          sh zfsetup.sh
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFAlgorithm.mm ZF/ZFAlgorithm/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFAlgorithm_impl.mm ZF/ZFAlgorithm_impl/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFCore.mm ZF/ZFCore/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFCore_impl.mm ZF/ZFCore_impl/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFLua.mm ZF/ZFLua/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFLua_impl.mm ZF/ZFLua_impl/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFUIKit.mm ZF/ZFUIKit/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFUIKit_impl.mm ZF/ZFUIKit_impl/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFUIWebKit.mm ZF/ZFUIWebKit/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFUIWebKit_impl.mm ZF/ZFUIWebKit_impl/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFUIWidget.mm ZF/ZFUIWidget/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZFUtility.mm ZF/ZFUtility/zfsrc
+          sh tools/common/unity_build.sh _tmp/cocoapods/zfgensrc_ZF_impl.mm ZF/ZF_impl/zfsrc
+      CMD
   s.xcconfig         = {
       'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/Headers/Public/ZFFramework"',
       'OTHER_LDFLAGS' => '-ObjC -all_load',
@@ -49,8 +65,10 @@ for ZF_MODULE_NAME list, please refer to https://github.com/ZFFramework/ZFFramew
         ss.public_header_files = 'ZF/' + moduleName + '/zfsrc/**/*.{h,hpp}'
         ss.header_mappings_dir = 'ZF/' + moduleName + '/zfsrc'
         ss.source_files = [
-          'ZF/' + moduleName + '/zfsrc/**/*.{h,hpp,c,cpp,m,mm}',
-          'ZF/' + moduleName + '/zfsrc_ext/**/*.{h,hpp,c,cpp,m,mm}' ]
+          'ZF/' + moduleName + '/zfsrc/**/*.{h,hpp}',
+          'ZF/' + moduleName + '/zfsrc_ext/**/*.{h,hpp,c,cpp,m,mm}',
+          '_tmp/cocoapods/zfgensrc_' + moduleName + '.mm',
+        ]
         ss.resources = [ 'ZF/' + moduleName + '/zfres' ]
         ss.exclude_files = 'ZF/**/ZF_PUT_RES_FILES_HERE' # not work for now, but no other side effect
         ss.preserve_paths   = '**/*'

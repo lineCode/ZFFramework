@@ -12,7 +12,7 @@
  * -  <b>Q</b>: compile error\n
  *   <b>A</b>: try running zfcleanup.sh/zfcleanup.bat and build again\n
  *   if error still occurred:
- *   -# try running "~/zf3rd_setup.sh" to check whether it setup properly
+ *   -# try running "~/zfsetup.sh" to check whether it setup properly
  *   -# try running proper release script under "~/tools/release",
  *     and check the error message
  */

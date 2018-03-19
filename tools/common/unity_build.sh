@@ -17,11 +17,12 @@ echo "/* auto generated file */" > "${TARGET_FILE}.tmp"
 
 for item in $SRC_DIRS
 do
-    find "$item" -name "*.c" >> "${TARGET_FILE}.tmp" 2>/dev/null
-    find "$item" -name "*.cxx" >> "${TARGET_FILE}.tmp" 2>/dev/null
-    find "$item" -name "*.cpp" >> "${TARGET_FILE}.tmp" 2>/dev/null
-    find "$item" -name "*.m" >> "${TARGET_FILE}.tmp" 2>/dev/null
-    find "$item" -name "*.mm" >> "${TARGET_FILE}.tmp" 2>/dev/null
+    itemAbs=$(cd -- "$item" && pwd)
+    find "$itemAbs" -name "*.c" >> "${TARGET_FILE}.tmp" 2>/dev/null
+    find "$itemAbs" -name "*.cxx" >> "${TARGET_FILE}.tmp" 2>/dev/null
+    find "$itemAbs" -name "*.cpp" >> "${TARGET_FILE}.tmp" 2>/dev/null
+    find "$itemAbs" -name "*.m" >> "${TARGET_FILE}.tmp" 2>/dev/null
+    find "$itemAbs" -name "*.mm" >> "${TARGET_FILE}.tmp" 2>/dev/null
 done
 
 sed '2,$s/^\(.*\)$/#include "\1"/g' "${TARGET_FILE}.tmp" > "${TARGET_FILE}.tmp2"
