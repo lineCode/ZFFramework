@@ -17,6 +17,7 @@
 #ifndef _ZFI_ZFCoreEnvConfig_h_
 #define _ZFI_ZFCoreEnvConfig_h_
 
+/* ZFTAG_ADD_MODULE */
 /**
  * @def ZF_ENV_ZFVERSION_MAIN
  * @brief see #ZF_ENV_ZFVERSION
@@ -29,7 +30,7 @@
  */
 #define ZF_ENV_ZFVERSION_MAIN()       0
 #define ZF_ENV_ZFVERSION_SUB()        1
-#define ZF_ENV_ZFVERSION_MINOR()      0
+#define ZF_ENV_ZFVERSION_MINOR()      1
 
 #define ZF_ENV_ZFVERSION() _ZFP_ZF_ENV_ZFVERSION(ZF_ENV_ZFVERSION_MAIN(), ZF_ENV_ZFVERSION_SUB(), ZF_ENV_ZFVERSION_MINOR())
 #define _ZFP_ZF_ENV_ZFVERSION(vMain, vSub, vMinor) ZFM_TOSTRING(vMain) zfText(".") ZFM_TOSTRING(vSub) zfText(".") ZFM_TOSTRING(vMinor)
