@@ -143,18 +143,6 @@ matrix:
         ./master/ZF_CI/doc.sh;
 
   # pod lint takes too long time to build, always timeout, disable for now
-  #
-  # - language: cpp
-  #   env:
-  #     - ZF_BUILD=cocoapods_lint
-  #   os: osx
-  #   compiler: clang
-  #   if: repo = ZFFramework/ZFFramework AND branch = master
-  #   script:
-  #     - sudo gem install cocoapods;
-  #     - chmod +x master/ZF_CI/cocoapods_lint.sh;
-  #       travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh;
-  #
   # - language: cpp
   #   env:
   #     - ZF_BUILD=cocoapods_push
@@ -165,6 +153,139 @@ matrix:
   #     - sudo gem install cocoapods;
   #     - chmod +x master/ZF_CI/cocoapods_push.sh;
   #       travis_wait 30 ./master/ZF_CI/cocoapods_push.sh;
+
+  # pod lint takes too long time to build, separate by subspec
+  # ZFTAG_ADD_MODULE
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFAlgorithm;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFAlgorithm_impl;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFCore;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFCore_impl;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFLua;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFLua_impl;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFUIKit;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFUIKit_impl;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFUIWebKit;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFUIWebKit_impl;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFUIWidget;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZFUtility;
+  - language: cpp
+    env:
+      - ZF_BUILD=cocoapods_lint
+    os: osx
+    compiler: clang
+    if: repo = ZFFramework/ZFFramework AND branch = master
+    script:
+      - sudo gem install cocoapods;
+      - chmod +x master/ZF_CI/cocoapods_lint.sh;
+        travis_wait 30 ./master/ZF_CI/cocoapods_lint.sh ZF_impl;
 
 
 install:
