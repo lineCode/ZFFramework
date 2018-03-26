@@ -109,21 +109,21 @@ static void _ZFP_ZFPropertyLifeCycleCallAction(ZF_IN ZFCoreArrayPOD<_ZFP_PropLif
 {
     if(subclassFirst)
     {
-        for(zfindex i = d.count() - 1; i != zfindexMax(); --i)
+        for(const _ZFP_PropLifeCycleData *p = d.arrayBuf() + d.count() - 1, *pEnd = d.arrayBuf() - 1; p != pEnd; --p)
         {
-            if(propertyOwnerObject->classData()->classIsTypeOf(d[i].propertyOwnerClass))
+            if(propertyOwnerObject->classData()->classIsTypeOf(p->propertyOwnerClass))
             {
-                d[i].propertyLifeCycleWrapper(propertyOwnerObject, propertyValue, propertyValueOld);
+                p->propertyLifeCycleWrapper(propertyOwnerObject, propertyValue, propertyValueOld);
             }
         }
     }
     else
     {
-        for(zfindex i = 0; i < d.count(); ++i)
+        for(const _ZFP_PropLifeCycleData *p = d.arrayBuf(), *pEnd = d.arrayBuf() + d.count(); p != pEnd; ++p)
         {
-            if(propertyOwnerObject->classData()->classIsTypeOf(d[i].propertyOwnerClass))
+            if(propertyOwnerObject->classData()->classIsTypeOf(p->propertyOwnerClass))
             {
-                d[i].propertyLifeCycleWrapper(propertyOwnerObject, propertyValue, propertyValueOld);
+                p->propertyLifeCycleWrapper(propertyOwnerObject, propertyValue, propertyValueOld);
             }
         }
     }

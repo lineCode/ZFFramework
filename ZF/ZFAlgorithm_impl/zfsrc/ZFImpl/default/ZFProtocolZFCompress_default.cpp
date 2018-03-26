@@ -208,7 +208,7 @@ public:
         }
         ZFBuffer buffer;
         buffer.bufferMalloc((size + 1) * sizeof(char));
-        mz_zip_reader_get_filename(zip, (mz_uint)fileIndexInZip, buffer.bufferT<char *>(), size);
+        mz_zip_reader_get_filename(zip, (mz_uint)fileIndexInZip, buffer.bufferT<char *>(), (mz_uint)size);
         filePathInZip += ZFStringA2Z(buffer.bufferT<char *>());
         return zftrue;
     }

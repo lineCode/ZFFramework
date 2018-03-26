@@ -68,7 +68,7 @@ task ZFSetup {
             }
             exec {
                 executable 'cmd.exe'
-                args '/c', ZF_ROOT_PATH + '/tools/release/release_Android_check.bat'
+                args '/c', ZF_ROOT_PATH + '/tools/release/release_Android.bat', 1
             }
             exec {
                 executable 'cmd.exe'
@@ -118,7 +118,7 @@ task ZFSetup {
             }
             exec {
                 executable 'sh'
-                args ZF_ROOT_PATH + '/tools/release/release_Android_check.sh'
+                args ZF_ROOT_PATH + '/tools/release/release_Android.sh', 1
             }
             exec {
                 executable 'sh'

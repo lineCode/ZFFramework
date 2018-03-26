@@ -273,7 +273,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh \"${SRCROOT}/../../../../zfsetup.sh\"\nsh \"${SRCROOT}/../../../../../ZFFramework/tools/release/release_iOS_check.sh\"\n";
+			shellScript = "sh \"${SRCROOT}/../../../../zfsetup.sh\"\nsh \"${SRCROOT}/../../../../../ZFFramework/tools/release/release_iOS.sh\" 1\n";
 		};
 		DF92A51A18FBF1F769B8F6B25EED5772 /* ZFCompileSource */ = {
 			isa = PBXShellScriptBuildPhase;
