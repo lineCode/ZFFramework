@@ -1,4 +1,5 @@
 # master
+* update build script
 
 # 0.1.1 (20180319)
 

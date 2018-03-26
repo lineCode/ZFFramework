@@ -114,7 +114,7 @@ macx {
 }
 
 system($${_ZF_SCRIPT_CALL} $$system_path($$_PRO_FILE_PWD_/../../../../zfsetup.$${_ZF_SCRIPT_EXT}))
-system($${_ZF_SCRIPT_CALL} $$system_path($$ZF_TOOLS_PATH/release/release_$${_ZF_QT_TYPE}_check.$${_ZF_SCRIPT_EXT}))
+system($${_ZF_SCRIPT_CALL} $$system_path($$ZF_TOOLS_PATH/release/release_$${_ZF_QT_TYPE}.$${_ZF_SCRIPT_EXT}) 1)
 
 CONFIG(debug, debug|release) {
     _ZF_BUILD_TYPE=debug
