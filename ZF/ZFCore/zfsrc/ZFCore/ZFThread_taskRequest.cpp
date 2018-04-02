@@ -61,7 +61,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFThreadTaskRequestDataHolder)
 
 static void _ZFP_ZFThreadTaskRequest_taskStop(ZF_IN ZFThreadTaskRequestData *taskData)
 {
-    _ZFP_ZFThreadTaskRequestTaskIdHolder.markUnused(taskData->taskId());
+    _ZFP_ZFThreadTaskRequestTaskIdHolder.idRelease(taskData->taskId());
 }
 
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadTaskRequestCallback_action)
@@ -195,13 +195,13 @@ ZFMETHOD_FUNC_DEFINE_2(zfidentity, ZFThreadTaskRequest,
         }
         else
         {
-            taskId = _ZFP_ZFThreadTaskRequestTaskIdHolder.nextMarkUsed();
+            taskId = _ZFP_ZFThreadTaskRequestTaskIdHolder.idAcquire();
             _ZFP_ZFThread_taskDatas->add(taskRequestData);
         }
     }
     else
     {
-        taskId = _ZFP_ZFThreadTaskRequestTaskIdHolder.nextMarkUsed();
+        taskId = _ZFP_ZFThreadTaskRequestTaskIdHolder.idAcquire();
         _ZFP_ZFThread_taskDatas->add(taskRequestData);
     }
     ZFPropertyAccess(ZFThreadTaskRequestData, taskId)->setterMethod()->execute<void, zfidentity const &>(taskRequestData, taskId);

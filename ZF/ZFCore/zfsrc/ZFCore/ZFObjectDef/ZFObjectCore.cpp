@@ -225,7 +225,7 @@ zfidentity ZFObject::observerAdd(ZF_IN const zfidentity &eventId,
     {
         zfCoreCriticalMessageTrim(zfTextA("[ZFObject] you must not add observer while object is deallocating, class: %s, event: %s"),
             zfsCoreZ2A(this->classData()->className()),
-            ZFObserverEventGetName(eventId));
+            ZFIdMapGetName(eventId));
         return zfidentityInvalid();
     }
 

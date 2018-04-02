@@ -20,22 +20,22 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-extern ZF_ENV_EXPORT const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const zfchar *moduleName, ZF_IN const zfchar *idName);
-extern ZF_ENV_EXPORT void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const zfchar *moduleName, ZF_IN zfidentity idValue);
+extern ZF_ENV_EXPORT const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const zfchar *idName);
+extern ZF_ENV_EXPORT void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN zfidentity idValue);
 /**
  * @brief see #ZFIDMAP
  *
  * get id name from id value, or null if no such id
  * @note can be found only if accessed or registered by #ZFIDMAP_REGISTER
  */
-extern ZF_ENV_EXPORT const zfchar *ZFIdMapGetName(ZF_IN const zfchar *moduleName, ZF_IN const zfidentity &idValue);
+extern ZF_ENV_EXPORT const zfchar *ZFIdMapGetName(ZF_IN const zfidentity &idValue);
 /**
  * @brief see #ZFIDMAP
  *
  * get id value from id name, or #zfidentityInvalid if no such id name
  * @note can be found only if accessed or registered by #ZFIDMAP_REGISTER
  */
-extern ZF_ENV_EXPORT zfidentity ZFIdMapGetId(ZF_IN const zfchar *moduleName, ZF_IN const zfchar *idName);
+extern ZF_ENV_EXPORT zfidentity ZFIdMapGetId(ZF_IN const zfchar *idName);
 
 /**
  * @brief see #ZFIDMAP
@@ -43,17 +43,16 @@ extern ZF_ENV_EXPORT zfidentity ZFIdMapGetId(ZF_IN const zfchar *moduleName, ZF_
  * get all registered id data, for debug use only
  * @note can be found only if accessed or registered by #ZFIDMAP_REGISTER
  */
-extern ZF_ENV_EXPORT void ZFIdMapGetAll(ZF_IN const zfchar *moduleName, ZF_OUT ZFCoreArrayPOD<zfidentity> &idValues, ZF_OUT ZFCoreArrayPOD<const zfchar *> &idNames);
+extern ZF_ENV_EXPORT void ZFIdMapGetAll(ZF_OUT ZFCoreArrayPOD<zfidentity> &idValues, ZF_OUT ZFCoreArrayPOD<const zfchar *> &idNames);
 
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFIdMapHolder
 {
 public:
-    _ZFP_ZFIdMapHolder(ZF_IN const zfchar *moduleName, ZF_IN const zfchar *idName);
+    _ZFP_ZFIdMapHolder(ZF_IN const zfchar *idName);
     ~_ZFP_ZFIdMapHolder(void);
 
 public:
     zfbool ZFCoreLibDestroyFlag;
-    zfstring moduleName;
     zfstring idName;
     const zfidentity *idValue;
 };
@@ -64,11 +63,11 @@ public:
  * @code
  *   zfclass YourClass ...
  *   {
- *       ZFIDMAP(YourModuleName, YourSth)
+ *       ZFIDMAP(YourSth)
  *   };
  *
  *   // optional, in cpp files only, required only if you need ZFIdMapGetId/ZFIdMapGetName
- *   ZFIDMAP_REGISTER(YourModuleName, YourClass, YourSth)
+ *   ZFIDMAP_REGISTER(YourClass, YourSth)
  * @endcode
  * declared id can be accessed by:
  * @code
@@ -89,10 +88,10 @@ public:
  *   and you can use #ZFIdMapGetId or #ZFIdMapGetName
  *   to convert them easily
  */
-#define ZFIDMAP(YourModuleName, YourIdName) \
-    ZFIDMAP_DETAIL(YourModuleName, Id, YourIdName)
+#define ZFIDMAP(YourIdName) \
+    ZFIDMAP_DETAIL(Id, YourIdName)
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_DETAIL(YourModuleName, prefix, YourIdName) \
+#define ZFIDMAP_DETAIL(prefix, YourIdName) \
     public: \
         /** \n */ \
         static zfidentity prefix##YourIdName(void) \
@@ -107,7 +106,6 @@ public:
         static _ZFP_ZFIdMapHolder &_ZFP_IM_##prefix##YourIdName(void) \
         { \
             static _ZFP_ZFIdMapHolder d( \
-                    ZFM_TOSTRING(YourModuleName), \
                     zfsConnectLineFree(zfself::ClassData()->className(), zfText("::"), ZFM_TOSTRING_DIRECT(prefix), ZFM_TOSTRING_DIRECT(YourIdName)) \
                 ); \
             return d; \
@@ -121,28 +119,28 @@ public:
  *   // in header files
  *   ZF_NAMESPACE_BEGIN(YourNamespace)
  *   / ** @brief you can add doxygen docs here * /
- *   ZFIDMAP_GLOBAL(YourModuleName, YourNamespace, YourSth)
+ *   ZFIDMAP_GLOBAL(YourNamespace, YourSth)
  *   ZF_NAMESPACE_END(YourNamespace)
  *
  *   // optional, in cpp files only, required only if you need ZFIdMapGetId/ZFIdMapGetName
- *   ZFIDMAP_GLOBAL_REGISTER(YourModuleName, YourNamespace, YourSth)
+ *   ZFIDMAP_GLOBAL_REGISTER(YourNamespace, YourSth)
  *
  *   // use the id
  *   zfidentity idValue = YourNamespace::IdYourSth();
  * @endcode
  * unlike #ZFIDMAP, this macro would declare id outside of class scope
  */
-#define ZFIDMAP_GLOBAL(YourModuleName, YourNamespace, YourIdName) \
-    ZFIDMAP_GLOBAL_DETAIL(YourModuleName, YourNamespace, Id, YourIdName)
+#define ZFIDMAP_GLOBAL(YourNamespace, YourIdName) \
+    ZFIDMAP_GLOBAL_DETAIL(YourNamespace, Id, YourIdName)
 /** @brief see #ZFIDMAP_GLOBAL */
-#define ZFIDMAP_GLOBAL_DETAIL(YourModuleName, GlobalNamespace, prefix, YourIdName) \
+#define ZFIDMAP_GLOBAL_DETAIL(GlobalNamespace, prefix, YourIdName) \
     /** @cond ZFPrivateDoc */ \
-    zfclass ZF_ENV_EXPORT _ZFP_ZFIdMapHolder_##YourModuleName##_##GlobalNamespace##_##prefix##_##YourIdName \
+    zfclass ZF_ENV_EXPORT _ZFP_ZFIdMapHolder_##GlobalNamespace##_##prefix##_##YourIdName \
     { \
     public: \
         static zfidentity idValue(void) \
         { \
-            static _ZFP_ZFIdMapHolder d(ZFM_TOSTRING(YourModuleName), idName()); \
+            static _ZFP_ZFIdMapHolder d(idName()); \
             return *(d.idValue); \
         } \
         static const zfchar *idName(void) \
@@ -154,20 +152,20 @@ public:
     /** \n see #ZFIDMAP_GLOBAL */ \
     inline zfidentity prefix##YourIdName(void) \
     { \
-        return _ZFP_ZFIdMapHolder_##YourModuleName##_##GlobalNamespace##_##prefix##_##YourIdName::idValue(); \
+        return _ZFP_ZFIdMapHolder_##GlobalNamespace##_##prefix##_##YourIdName::idValue(); \
     } \
     /** @brief see @ref prefix##YourIdName, @ref ZFIDMAP_GLOBAL */ \
     inline const zfchar *prefix##YourIdName##_name(void) \
     { \
-        return _ZFP_ZFIdMapHolder_##YourModuleName##_##GlobalNamespace##_##prefix##_##YourIdName::idName(); \
+        return _ZFP_ZFIdMapHolder_##GlobalNamespace##_##prefix##_##YourIdName::idName(); \
     }
 
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_REGISTER(YourModuleName, Scope, YourIdName) \
-    ZFIDMAP_DETAIL_REGISTER(YourModuleName, Scope, Id, YourIdName)
+#define ZFIDMAP_REGISTER(Scope, YourIdName) \
+    ZFIDMAP_DETAIL_REGISTER(Scope, Id, YourIdName)
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_DETAIL_REGISTER(YourModuleName, Scope, prefix, YourIdName) \
-    ZF_STATIC_REGISTER_INIT(ZFIdMap_##YourModuleName##_##Scope##_##YourIdName) \
+#define ZFIDMAP_DETAIL_REGISTER(Scope, prefix, YourIdName) \
+    ZF_STATIC_REGISTER_INIT(ZFIdMap_##Scope##_##YourIdName) \
     { \
         (void)Scope::prefix##YourIdName(); \
         \
@@ -191,19 +189,19 @@ public:
     const ZFMethod *m_idName; \
     static const zfchar *i_idName(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj) \
     {return Scope::prefix##YourIdName##_name();} \
-    ZF_STATIC_REGISTER_DESTROY(ZFIdMap_##YourModuleName##_##Scope##_##YourIdName) \
+    ZF_STATIC_REGISTER_DESTROY(ZFIdMap_##Scope##_##YourIdName) \
     { \
         ZFMethodUserUnregister(this->m_id); \
         ZFMethodUserUnregister(this->m_idName); \
     } \
-    ZF_STATIC_REGISTER_END(ZFIdMap_##YourModuleName##_##Scope##_##YourIdName)
+    ZF_STATIC_REGISTER_END(ZFIdMap_##Scope##_##YourIdName)
 
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_GLOBAL_REGISTER(YourModuleName, Scope, YourIdName) \
-    ZFIDMAP_GLOBAL_DETAIL_REGISTER(YourModuleName, Scope, Id, YourIdName)
+#define ZFIDMAP_GLOBAL_REGISTER(Scope, YourIdName) \
+    ZFIDMAP_GLOBAL_DETAIL_REGISTER(Scope, Id, YourIdName)
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_GLOBAL_DETAIL_REGISTER(YourModuleName, Scope, prefix, YourIdName) \
-    ZF_STATIC_REGISTER_INIT(ZFIdMap_##YourModuleName##_##Scope##_##YourIdName) \
+#define ZFIDMAP_GLOBAL_DETAIL_REGISTER(Scope, prefix, YourIdName) \
+    ZF_STATIC_REGISTER_INIT(ZFIdMap_##Scope##_##YourIdName) \
     { \
         (void)Scope::prefix##YourIdName(); \
         \
@@ -218,7 +216,7 @@ public:
             this->m_idName = resultMethod; \
         } \
     } \
-    ZF_STATIC_REGISTER_DESTROY(ZFIdMap_##YourModuleName##_##Scope##_##YourIdName) \
+    ZF_STATIC_REGISTER_DESTROY(ZFIdMap_##Scope##_##YourIdName) \
     { \
         ZFMethodFuncUserUnregister(this->m_id); \
         ZFMethodFuncUserUnregister(this->m_idName); \
@@ -230,7 +228,7 @@ public:
     const ZFMethod *m_idName; \
     static const zfchar *i_idName(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj) \
     {return Scope::prefix##YourIdName##_name();} \
-    ZF_STATIC_REGISTER_END(ZFIdMap_##YourModuleName##_##Scope##_##YourIdName) \
+    ZF_STATIC_REGISTER_END(ZFIdMap_##Scope##_##YourIdName) \
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFIdMap_h_

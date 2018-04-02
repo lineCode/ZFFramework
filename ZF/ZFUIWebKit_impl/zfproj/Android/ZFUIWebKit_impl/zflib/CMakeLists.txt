@@ -18,18 +18,17 @@ target_link_libraries(ZFUIWebKit_impl ${android-lib} ${log-lib})
 include_directories(${PROJECT_SOURCE_DIR}/../../../../zfsrc)
 include_directories(${ZF_ROOT_PATH}/_release/Android/all/src/main/cpp/include)
 
-function(ZFAddLib ZF_ROOT_PATH_ PROJ_NAME_ ZF_LIB_NAME_)
+function(ZFAddLib ZF_LIB_NAME_)
     add_library(${ZF_LIB_NAME_} SHARED IMPORTED)
-    set_target_properties(${ZF_LIB_NAME_} PROPERTIES IMPORTED_LOCATION ${ZF_ROOT_PATH_}/_release/Android/all/src/main/jniLibs/${ANDROID_ABI}/lib${ZF_LIB_NAME_}.so)
-    target_link_libraries(${PROJ_NAME_} ${ZF_LIB_NAME_})
+    set_target_properties(${ZF_LIB_NAME_} PROPERTIES IMPORTED_LOCATION ${ZF_ROOT_PATH}/_release/Android/all/src/main/jniLibs/${ANDROID_ABI}/lib${ZF_LIB_NAME_}.so)
+    target_link_libraries(ZFUIWebKit_impl ${ZF_LIB_NAME_})
 endfunction(ZFAddLib)
 
 
-ZFAddLib(${ZF_ROOT_PATH} ZFUIWebKit_impl ZFCore)
-ZFAddLib(${ZF_ROOT_PATH} ZFUIWebKit_impl ZFAlgorithm)
-ZFAddLib(${ZF_ROOT_PATH} ZFUIWebKit_impl ZFUtility)
-ZFAddLib(${ZF_ROOT_PATH} ZFUIWebKit_impl ZFUIKit)
-ZFAddLib(${ZF_ROOT_PATH} ZFUIWebKit_impl ZFUIWebKit)
-
-ZFAddLib(${ZF_ROOT_PATH} ZFUIWebKit_impl ZF_impl)
+ZFAddLib(ZFCore)
+ZFAddLib(ZFAlgorithm)
+ZFAddLib(ZFUtility)
+ZFAddLib(ZFUIKit)
+ZFAddLib(ZFUIWebKit)
+ZFAddLib(ZF_impl)
 

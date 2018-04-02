@@ -172,12 +172,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00336750C69DDAD7A3FF89B02C926361 /* Build configuration list for PBXNativeTarget "ZFFramework_test" */;
 			buildPhases = (
-				69AB979184D38A8DA37CA310A76ABAD3 /* ZFSetup */,
-				7FCD62D18BA094EEEE893575549DECEC /* ZFCompileSource */,
+				FAB4BC8AD986CABA0ED445F089EBBF1C /* ZFSetup */,
 				FE49BA0E80CC9A58BCB9A963C16E449E /* Sources */,
 				3C8782C48508D2AB3E45AA571B89A89B /* Frameworks */,
 				83745D09F71B763541FB81C529246249 /* Resources */,
-				66786696BA566155E5E702519BF87E54 /* ZFCopyResource */,
 				3F6CA79DDDC822FBCBD41F196DDEC8EA /* ZFUniqueProj */,
 			);
 			buildRules = (
@@ -254,21 +252,7 @@
 			shellPath = /bin/sh;
 			shellScript = "sh ${SRCROOT}/../../../../../ZFFramework/tools/spec/iOS/unique_proj.sh \"${SRCROOT}/${PROJECT_NAME}.xcodeproj\"";
 		};
-		66786696BA566155E5E702519BF87E54 /* ZFCopyResource */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = ZFCopyResource;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sh ${SRCROOT}/ZFFramework_test.xcodeproj/ZFCopyResource.sh ${SRCROOT} ${CONFIGURATION_BUILD_DIR} ${CONTENTS_FOLDER_PATH}";
-		};
-		69AB979184D38A8DA37CA310A76ABAD3 /* ZFSetup */ = {
+		FAB4BC8AD986CABA0ED445F089EBBF1C /* ZFSetup */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,21 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh \"${SRCROOT}/../../../../zfsetup.sh\"\n";
-		};
-		7FCD62D18BA094EEEE893575549DECEC /* ZFCompileSource */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = ZFCompileSource;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sh ${SRCROOT}/ZFFramework_test.xcodeproj/ZFCompileSource.sh ${SRCROOT}";
+			shellScript = "sh \"${SRCROOT}/../../../../zfsetup.sh\"\nsh ${SRCROOT}/ZFFramework_test.xcodeproj/zfsetup.sh ${SRCROOT} ${CONFIGURATION_BUILD_DIR} ${CONTENTS_FOLDER_PATH}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

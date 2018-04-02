@@ -555,6 +555,11 @@ public:
      *   };
      *   someEventSender->observerAdd(someEvent, yourStandaloneListener, userData);
      * @endcode
+     *
+     * this method is ensured thread safe,
+     * and the notified observer would be executed in the same thread that call this method,
+     * if you want to notify in main thread,
+     * you may use #ZFObserverNotifyInMainThread for short
      */
     zffinal inline void observerNotify(ZF_IN const zfidentity &eventId,
                                        ZF_IN_OPT ZFObject *param0 = zfnull,

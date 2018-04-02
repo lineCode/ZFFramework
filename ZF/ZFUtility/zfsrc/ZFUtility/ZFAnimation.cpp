@@ -32,7 +32,7 @@ public:
     zfidentity aniDummyThreadId;
     zfbool aniStopCalled;
     zfbool aniStoppedByUser;
-    ZFIdentityGenerator aniIdGenerator;
+    zfidentity aniId;
 
 public:
     _ZFP_ZFAnimationPrivate(void)
@@ -44,7 +44,7 @@ public:
     , aniDummyThreadId(zfidentityInvalid())
     , aniStopCalled(zffalse)
     , aniStoppedByUser(zffalse)
-    , aniIdGenerator()
+    , aniId(zfidentityInvalid())
     {
     }
 };
@@ -142,7 +142,7 @@ ZFMETHOD_DEFINE_0(ZFAnimation, void, aniStart)
 
     d->aniRunning = zftrue;
     d->aniStopCalled = zffalse;
-    d->aniIdGenerator.next();
+    ++(d->aniId);
     this->aniOnStart();
 
     if(this->aniDelay() > 0)
@@ -172,7 +172,7 @@ ZFMETHOD_DEFINE_0(ZFAnimation, void, aniStop)
     }
     d->aniStopCalled = zftrue;
     d->aniStoppedByUser = zftrue;
-    d->aniIdGenerator.next();
+    ++(d->aniId);
     if(d->aniDelaying)
     {
         d->aniDelaying = zffalse;
@@ -191,7 +191,7 @@ ZFMETHOD_DEFINE_0(ZFAnimation, zfbool, aniStoppedByUser)
 
 ZFMETHOD_DEFINE_0(ZFAnimation, zfidentity, aniId)
 {
-    return d->aniIdGenerator.current();
+    return d->aniId;
 }
 
 ZFMETHOD_DEFINE_0(ZFAnimation, zfbool, aniValid)

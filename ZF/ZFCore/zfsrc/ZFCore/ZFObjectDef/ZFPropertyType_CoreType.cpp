@@ -10,6 +10,7 @@
 #include "ZFPropertyType_CoreType.h"
 #include "ZFObjectImpl.h"
 #include "ZFSerializableDataStringConverter.h"
+#include "ZFIdMap.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -205,11 +206,7 @@ zfbool zfstringToData(ZF_OUT ZFSerializableData &serializableData,
         })
 #define _ZFP_ZFPROPERTY_TYPE_DEFINE_int_disallow_negative(TypeName, Type) \
     ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(TypeName, Type, { \
-            if(srcLen == zfindexMax()) \
-            { \
-                srcLen = zfslen(src); \
-            } \
-            if(srcLen == 2 && src != zfnull && zfsncmp(src, zfText("-1"), srcLen) == 0) \
+            if(src != zfnull && zfsncmp(src, zfText("-1"), 2) == 0) \
             { \
                 v = (Type)-1; \
                 return zftrue; \
@@ -269,7 +266,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(zfbyte, zfbyte, {
 
 // ============================================================
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(zfchar, zfchar, {
-        if(src == zfnull)
+        if(src == zfnull || srcLen == 0)
         {
             return zffalse;
         }
@@ -282,10 +279,6 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(zfchar, zfchar, {
 
 // ============================================================
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(zfstring, zfstring, {
-        if(src == zfnull)
-        {
-            return zffalse;
-        }
         v.append(src, srcLen);
         return zftrue;
     }, {
@@ -316,7 +309,66 @@ _ZFP_ZFPROPERTY_TYPE_DEFINE_float(zflongdouble, zflongdouble)
 _ZFP_ZFPROPERTY_TYPE_DEFINE_int_allow_negative(zftimet, zftimet)
 
 // ============================================================
-_ZFP_ZFPROPERTY_TYPE_DEFINE_int_disallow_negative(zfidentity, zfidentity)
+ZFPROPERTY_TYPE_DEFINE(zfidentity, zfidentity, {
+        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_zfidentity(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        {
+            return zffalse;
+        }
+        const zfchar *valueString = ZFSerializableUtil::checkPropertyValue(serializableData);
+        if(valueString == zfnull)
+        {
+            v = zfidentityInvalid();
+            return zftrue;
+        }
+        if(!zfidentityFromString(v, valueString))
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
+                zfText("invalid value: \"%s\""), valueString);
+            return zffalse;
+        }
+        serializableData.resolveMark();
+        return zftrue;
+    }, {
+        serializableData.itemClassSet(ZFPropertyTypeId_zfidentity());
+        zfstring s;
+        if(!zfidentityToString(s, v))
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint,
+                zfText("unable to convert value to string"));
+            return zffalse;
+        }
+        serializableData.propertyValueSet(s.isEmpty() ? zfnull : s.cString());
+        return zftrue;
+    }, {
+        if(src == zfnull
+            || srcLen == 0
+            || zfsncmp(src, ZFTOKEN_zfidentityInvalid, srcLen) == 0)
+        {
+            v = zfidentityInvalid();
+            return zftrue;
+        }
+        v = ZFIdMapGetId(srcLen == zfindexMax() ? src : zfstring(src, srcLen).cString());
+        return (v != zfidentityInvalid());
+    }, {
+        if(v == zfidentityInvalid())
+        {
+            s += ZFTOKEN_zfidentityInvalid;
+            return zftrue;
+        }
+        else
+        {
+            const zfchar *name = ZFIdMapGetName(v);
+            if(name == zfnull)
+            {
+                return zffalse;
+            }
+            else
+            {
+                s += name;
+                return zftrue;
+            }
+        }
+    })
 
 // ============================================================
 _ZFP_ZFPROPERTY_TYPE_DEFINE_int_disallow_negative(zfflags, zfflags)

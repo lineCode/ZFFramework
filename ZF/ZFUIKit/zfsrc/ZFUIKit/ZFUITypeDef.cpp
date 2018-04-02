@@ -99,7 +99,6 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIPoint, ZFUIPointApplyScaleReversely,
                               ZFMP_IN(const ZFUIPoint &, point),
                               ZFMP_IN(zffloat, scale))
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIPoint, ZFUIPoint, {
-        zfCoreAssert(src != zfnull);
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 2, src, srcLen))
         {
@@ -159,7 +158,6 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIMargin, ZFUIMarginDec,
                               ZFMP_IN(const ZFUIMargin &, v0),
                               ZFMP_IN(const ZFUIMargin &, v1))
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIMargin, ZFUIMargin, {
-        zfCoreAssert(src != zfnull);
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 4, src, srcLen))
         {
@@ -255,7 +253,6 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUISize, ZFUISizeApplyMarginReversely,
                               ZFMP_IN(const ZFUIMargin &, margin))
 
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUISize, ZFUISize, {
-        zfCoreAssert(src != zfnull);
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 2, src, srcLen))
         {
@@ -346,7 +343,6 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIRect, ZFUIRectApplyMarginReversely,
                               ZFMP_IN(const ZFUIRect &, rect),
                               ZFMP_IN(const ZFUIMargin &, margin))
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIRect, ZFUIRect, {
-        zfCoreAssert(src != zfnull);
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 4, src, srcLen))
         {

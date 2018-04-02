@@ -1,5 +1,7 @@
 # master
+
 * update build script
+* optimize identity logic
 
 # 0.1.1 (20180319)
 

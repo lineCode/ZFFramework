@@ -16,7 +16,6 @@ ZFENUM_DEFINE(ZFUISizeType)
 // ============================================================
 // ZFUISizeParam
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUISizeParam, ZFUISizeParam, {
-        zfCoreAssert(src != zfnull);
         ZFCoreArrayPOD<zfindexRange> pos;
         if(!zfCoreDataPairSplitString(pos, 2, src, srcLen))
         {

@@ -23,18 +23,18 @@ public:
     ZFTimer *timer;
 private:
     zfbool timerThreadStarted;
-    ZFIdentityGenerator threadCallbackIdGenerator;
+    zfidentity threadCallbackTaskId;
     zfidentity threadCallbackId;
-    ZFIdentityGenerator mainThreadCallbackIdGenerator;
+    zfidentity mainThreadCallbackTaskId;
     zfidentity mainThreadCallbackId;
 protected:
     _ZFP_ZFTimerImpl_default_Timer(void)
     : impl(zfnull)
     , timer(zfnull)
     , timerThreadStarted(zffalse)
-    , threadCallbackIdGenerator()
+    , threadCallbackTaskId(zfidentityInvalid())
     , threadCallbackId(zfidentityInvalid())
-    , mainThreadCallbackIdGenerator()
+    , mainThreadCallbackTaskId(zfidentityInvalid())
     , mainThreadCallbackId(zfidentityInvalid())
     {
     }
@@ -42,16 +42,17 @@ protected:
 public:
     zffinal void timerStart(void)
     {
+        ++(this->threadCallbackTaskId);
         this->threadCallbackId = ZFThreadExecuteInNewThread(
             ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, threadCallback)),
             this /* pass this as dummy param to keep retain count */,
-            ZFListenerData().param0Set(ZFValue::identityValueCreate(this->threadCallbackIdGenerator.next()))
+            ZFListenerData().param0Set(ZFValue::identityValueCreate(this->threadCallbackTaskId))
             );
     }
     zffinal void timerStop(void)
     {
-        this->threadCallbackIdGenerator.next();
-        this->mainThreadCallbackIdGenerator.next();
+        ++(this->threadCallbackTaskId);
+        ++(this->mainThreadCallbackTaskId);
         ZFThreadExecuteCancel(this->threadCallbackId);
         ZFThreadExecuteCancel(this->mainThreadCallbackId);
         if(this->timerThreadStarted)
@@ -67,27 +68,28 @@ public:
         zfidentity curId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
 
         // delay
-        if(curId != this->threadCallbackIdGenerator.current()) {return ;}
+        if(curId != this->threadCallbackTaskId) {return ;}
         if(this->timer->timerDelay() > 0)
         {
             ZFThread::sleep(this->timer->timerDelay());
         }
 
         // start
-        if(curId != this->threadCallbackIdGenerator.current()) {return ;}
+        if(curId != this->threadCallbackTaskId) {return ;}
         this->timerThreadStarted = zftrue;
         this->impl->notifyTimerStart(this->timer);
-        if(curId != this->threadCallbackIdGenerator.current()) {return ;}
+        if(curId != this->threadCallbackTaskId) {return ;}
 
         // timer
-        while(curId == this->threadCallbackIdGenerator.current())
+        while(curId == this->threadCallbackTaskId)
         {
             if(this->timer->timerActivateInMainThread())
             {
+                ++(this->mainThreadCallbackTaskId);
                 this->mainThreadCallbackId = ZFThreadExecuteInNewThread(
                     ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, mainThreadCallback)),
                     zfnull,
-                    ZFListenerData().param0Set(ZFValue::identityValueCreate(this->mainThreadCallbackIdGenerator.next()).toObject())
+                    ZFListenerData().param0Set(ZFValue::identityValueCreate(this->mainThreadCallbackTaskId).toObject())
                     );
             }
             else
@@ -100,7 +102,7 @@ public:
     ZFLISTENER_INLINE(mainThreadCallback)
     {
         zfidentity curId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
-        if(curId != this->mainThreadCallbackIdGenerator.current()) {return ;}
+        if(curId != this->mainThreadCallbackTaskId) {return ;}
         this->impl->notifyTimerActivate(this->timer);
     }
 };

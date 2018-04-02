@@ -13,6 +13,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFFileBOM, ZFFileBOM, {
+        zfmemset(v.BOM, 0, sizeof(v.BOM));
+        if(src == zfnull || srcLen == 0)
+        {
+            return zftrue;
+        }
         if(srcLen == zfindexMax())
         {
             srcLen = zfslen(src);
@@ -21,8 +26,6 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFFileBOM, ZFFileBOM, {
         {
             return zffalse;
         }
-
-        zfmemset(v.BOM, 0, sizeof(v.BOM));
 
         for(zfindex i = 0; ; ++i, src += 2)
         {

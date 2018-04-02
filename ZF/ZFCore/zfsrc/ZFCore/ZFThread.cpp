@@ -331,7 +331,7 @@ static void _ZFP_ZFThreadRunnableCleanup(ZF_IN _ZFP_I_ZFThreadRunnableData *runn
     {
         zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
     }
-    _ZFP_ZFThread_idGenerator.markUnused(taskIdSaved);
+    _ZFP_ZFThread_idGenerator.idRelease(taskIdSaved);
     if(lockAvailable)
     {
         zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
@@ -600,7 +600,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThread,
         zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
     }
     _ZFP_I_ZFThreadRunnableData *runnableData = zfAlloc(_ZFP_I_ZFThreadRunnableData);
-    zfidentity taskId = _ZFP_ZFThread_idGenerator.nextMarkUsed();
+    zfidentity taskId = _ZFP_ZFThread_idGenerator.idAcquire();
     runnableData->taskId = taskId;
     runnableData->runnableType = _ZFP_ZFThreadRunnableTypeExecuteInMainThread;
     runnableData->runnableSet(runnable);
@@ -665,7 +665,7 @@ static zfidentity _ZFP_ZFThreadExecuteInNewThread(ZF_IN const ZFListener &runnab
     ownerZFThreadPrivate->startFlag = zftrue;
 
     _ZFP_I_ZFThreadRunnableData *runnableData = zfAlloc(_ZFP_I_ZFThreadRunnableData);
-    zfidentity taskId = _ZFP_ZFThread_idGenerator.nextMarkUsed();
+    zfidentity taskId = _ZFP_ZFThread_idGenerator.idAcquire();
     runnableData->taskId = taskId;
     runnableData->runnableType = _ZFP_ZFThreadRunnableTypeExecuteInNewThread;
     runnableData->runnableSet(runnable);
@@ -743,7 +743,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThreadAfterDelay,
         zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
     }
     _ZFP_I_ZFThreadRunnableData *runnableData = zfAlloc(_ZFP_I_ZFThreadRunnableData);
-    zfidentity taskId = _ZFP_ZFThread_idGenerator.nextMarkUsed();
+    zfidentity taskId = _ZFP_ZFThread_idGenerator.idAcquire();
     runnableData->taskId = taskId;
     runnableData->runnableType = _ZFP_ZFThreadRunnableTypeExecuteInMainThreadAfterDelay;
     runnableData->runnableSet(runnable);
@@ -982,7 +982,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverAdd,
         && eventId != ZFThread::EventThreadOnCancel())
     {
         zfCoreCriticalMessage(zfTextA("thread task can only add ZFThread's observer event, event: %s"),
-            ZFObserverEventGetName(eventId));
+            ZFIdMapGetName(eventId));
         return ;
     }
     if(taskId != zfidentityInvalid())
@@ -1017,7 +1017,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverRemove,
         && eventId != ZFThread::EventThreadOnCancel())
     {
         zfCoreCriticalMessage(zfTextA("thread task can only add ZFThread's observer event, event: %s"),
-            ZFObserverEventGetName(eventId));
+            ZFIdMapGetName(eventId));
         return ;
     }
     if(taskId != zfidentityInvalid())

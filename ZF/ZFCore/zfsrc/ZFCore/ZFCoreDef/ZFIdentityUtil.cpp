@@ -68,47 +68,25 @@ ZFIdentityGenerator::~ZFIdentityGenerator(void)
 }
 /** @endcond */
 
-zfidentity ZFIdentityGenerator::current(void) const
-{
-    return d->cur;
-}
-zfidentity ZFIdentityGenerator::next(void)
+zfidentity ZFIdentityGenerator::idAcquire(void)
 {
     do
     {
         ++(d->cur);
-    } while(d->used.find(d->cur) != d->used.end());
-    return d->cur;
-}
-zfidentity ZFIdentityGenerator::nextMarkUsed(void)
-{
-    do
-    {
-        ++(d->cur);
-    } while(d->used.find(d->cur) != d->used.end());
+    } while(d->cur == zfidentityInvalid() || d->used.find(d->cur) != d->used.end());
     d->used[d->cur] = zftrue;
     return d->cur;
 }
-zfbool ZFIdentityGenerator::used(ZF_IN zfidentity identity) const
-{
-    return (d->used.find(identity) != d->used.end());
-}
-void ZFIdentityGenerator::markUsed(ZF_IN zfidentity identity)
-{
-    d->used[identity] = zftrue;
-}
-void ZFIdentityGenerator::markUnused(ZF_IN zfidentity identity)
+void ZFIdentityGenerator::idRelease(ZF_IN zfidentity identity)
 {
     d->used.erase(identity);
 }
 
-void ZFIdentityGenerator::removeAll(void)
+zfbool ZFIdentityGenerator::idUsed(ZF_IN zfidentity identity) const
 {
-    d->used.clear();
-    d->used[zfidentityInvalid()] = zftrue;
+    return (d->used.find(identity) != d->used.end());
 }
-
-void ZFIdentityGenerator::allUsed(ZF_IN_OUT ZFCoreArray<zfidentity> &ret) const
+void ZFIdentityGenerator::idUsedGetAll(ZF_IN_OUT ZFCoreArray<zfidentity> &ret) const
 {
     ret.capacitySet(ret.capacity() + (zfindex)d->used.size());
     for(zfstlmap<zfidentity, zfbool>::iterator it = d->used.begin(); it != d->used.end(); ++it)

@@ -16,9 +16,6 @@
 # ZF settings
 # ======================================================================
 
-# whether to build static lib
-ZF_BUILD_STATIC_LIB = 0
-
 # whether to use unity builds
 # NOTE: you must ensure no Q_OBJECT used while unity builds enabled
 ZF_UNITY_BUILD = 1
@@ -38,53 +35,67 @@ ZF_BUILD_PATH = $$_PRO_FILE_PWD_/../../../../_tmp
 ZF_PROJ_SRC_PATH =
 ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../zfsrc
 
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFCore/zfsrc
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFAlgorithm/zfsrc
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUtility/zfsrc
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIKit/zfsrc
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIWidget/zfsrc
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFLua/zfsrc
-ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIWebKit/zfsrc
-
 # extra source files, ensured no unity build
 ZF_PROJ_SRC_EXT_PATH =
 ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../zfsrc_ext
-
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZF_impl/zfsrc
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFCore_impl/zfsrc
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFAlgorithm_impl/zfsrc
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIKit_impl/zfsrc
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFLua_impl/zfsrc
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIWebKit_impl/zfsrc
-
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFCore/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFAlgorithm/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUtility/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIKit/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIWidget/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFLua/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIWebKit/zfsrc_ext
-
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZF_impl/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFCore_impl/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFAlgorithm_impl/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIKit_impl/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFLua_impl/zfsrc_ext
-ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/ZFUIWebKit_impl/zfsrc_ext
 
 # res path of your project
 # can hold one or more paths, separated by space
 ZF_PROJ_RES_PATH = $$_PRO_FILE_PWD_/../../../zfres
 
+
+# ======================================================================
 win32 {
     _ZF_QT_TYPE=Qt_Windows
+    _ZF_SCRIPT_CALL=call
+    _ZF_SCRIPT_EXT=bat
+    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/zfres)
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/.)
 }
 unix:!macx {
     _ZF_QT_TYPE=Qt_Posix
+    _ZF_SCRIPT_CALL=sh
+    _ZF_SCRIPT_EXT=sh
+    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/zfres)
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/.)
 }
 macx {
     _ZF_QT_TYPE=Qt_MacOS
+    _ZF_SCRIPT_CALL=sh
+    _ZF_SCRIPT_EXT=sh
+    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/"$$TARGET".app/Contents/Resources/zfres)
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/"$$TARGET".app/Contents/Frameworks)
 }
+
+defineReplace(ZFAddLib) {
+    _ZF_IS_IMPL=$$1
+    _ZF_LIBNAME=$$2
+    equals(_ZF_IS_IMPL, 1) {
+        ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/$$_ZF_LIBNAME/zfsrc
+        ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/$$_ZF_LIBNAME/zfsrc_ext
+    } else {
+        ZF_PROJ_SRC_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/$$_ZF_LIBNAME/zfsrc
+        ZF_PROJ_SRC_EXT_PATH += $$_PRO_FILE_PWD_/../../../../../ZFFramework/ZF/$$_ZF_LIBNAME/zfsrc_ext
+    }
+    INCLUDEPATH += $$ZF_ROOT_PATH/ZF/$$_ZF_LIBNAME/zfsrc
+    QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT) $$system_path($$ZF_ROOT_PATH/ZF/$$_ZF_LIBNAME/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
+}
+
+# ZF dependency
+
+$$ZFAddLib(0, ZFCore)
+$$ZFAddLib(0, ZFAlgorithm)
+$$ZFAddLib(0, ZFUtility)
+$$ZFAddLib(0, ZFUIKit)
+$$ZFAddLib(0, ZFUIWidget)
+$$ZFAddLib(0, ZFLua)
+$$ZFAddLib(0, ZFUIWebKit)
+$$ZFAddLib(1, ZF_impl)
+$$ZFAddLib(1, ZFCore_impl)
+$$ZFAddLib(1, ZFAlgorithm_impl)
+$$ZFAddLib(1, ZFUIKit_impl)
+$$ZFAddLib(1, ZFLua_impl)
+$$ZFAddLib(1, ZFUIWebKit_impl)
 
 
 # ======================================================================
@@ -98,7 +109,7 @@ qtHaveModule(webenginewidgets) {QT += webenginewidgets} else {qtHaveModule(webki
 
 
 # ======================================================================
-# Qt project settings, no need to change for most case
+# no need to change these
 # ======================================================================
 INCLUDEPATH += $$_PRO_FILE_PWD_/../../../zfsrc
 
@@ -110,45 +121,18 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -Wno-unused-parameter
 CONFIG += warn_off
 
+CONFIG(debug, debug|release) {
+    _ZF_BUILD_TYPE=debug
+    DEFINES += DEBUG
+} else {
+    _ZF_BUILD_TYPE=release
+}
+
 exists($${ZF_PROJ_NAME}.ico) {
     RC_ICONS = $${ZF_PROJ_NAME}.ico
 }
 exists($${ZF_PROJ_NAME}.icns) {
     ICON = $${ZF_PROJ_NAME}.icns
-}
-
-
-# ======================================================================
-# no need to change these
-# ======================================================================
-win32 {
-    # NOTE: for 32-bit MinGW, it's too easy to reach section limit
-    #       (too many sections), disable it for Windows by default
-    ZF_UNITY_BUILD = 0
-}
-
-win32 {
-    _ZF_QT_TYPE=Qt_Windows
-    _ZF_SCRIPT_CALL=call
-    _ZF_SCRIPT_EXT=bat
-}
-unix:!macx {
-    _ZF_QT_TYPE=Qt_Posix
-    _ZF_SCRIPT_CALL=sh
-    _ZF_SCRIPT_EXT=sh
-}
-macx {
-    _ZF_QT_TYPE=Qt_MacOS
-    _ZF_SCRIPT_CALL=sh
-    _ZF_SCRIPT_EXT=sh
-}
-
-system($${_ZF_SCRIPT_CALL} $$system_path($$_PRO_FILE_PWD_/../../../../zfsetup.$${_ZF_SCRIPT_EXT}))
-
-CONFIG(debug, debug|release) {
-    _ZF_BUILD_TYPE=debug
-} else {
-    _ZF_BUILD_TYPE=release
 }
 
 DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
@@ -157,107 +141,25 @@ MOC_DIR = $${DESTDIR}/.moc
 RCC_DIR = $${DESTDIR}/.rcc
 UI_DIR = $${DESTDIR}/.ui
 
-win32 {
-    _ZF_copy_res = $$system_path($$ZF_TOOLS_PATH/util/copy_res.bat)
-    _ZF_install_lib = $$system_path($$ZF_TOOLS_PATH/spec/Qt/install_lib.bat)
-} else {
-    _ZF_copy_res = sh $$system_path($$ZF_TOOLS_PATH/util/copy_res.sh)
-    _ZF_install_lib = sh $$system_path($$ZF_TOOLS_PATH/spec/Qt/install_lib.sh)
-}
-
-equals(ZF_BUILD_STATIC_LIB, 1) {
-    _ZF_install_lib = echo
-}
-
-win32 {
-    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/.)
-}
-unix:!macx {
-    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/.)
-}
-macx {
-    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/"$$TARGET".app/Contents/Resources/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/"$$TARGET".app/Contents/Frameworks)
-}
-
-equals(ZF_BUILD_STATIC_LIB, 1) {
-    macx {
-        _ZF_LINKER_FLAGS = -Wl,-all_load
-    } else {
-        _ZF_LINKER_FLAGS = -Wl,--whole-archive
-    }
-} else {
-    _ZF_LINKER_FLAGS =
-}
-
 # ======================================================================
-# lib dependency
-# ======================================================================
-# ZF dependency
-# INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFDependencyLib/zfsrc
-# QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFDependencyLib/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
+system($${_ZF_SCRIPT_CALL} $$system_path($$_PRO_FILE_PWD_/../../../../zfsetup.$${_ZF_SCRIPT_EXT}))
 
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFCore/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFCore/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFAlgorithm/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFAlgorithm/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFUtility/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFUtility/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFUIKit/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFUIKit/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFUIWidget/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFUIWidget/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFLua/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFLua/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFUIWebKit/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFUIWebKit/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZF_impl/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZF_impl/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFCore_impl/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFCore_impl/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFAlgorithm_impl/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFAlgorithm_impl/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFUIKit_impl/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFUIKit_impl/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFLua_impl/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFLua_impl/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-INCLUDEPATH += $$ZF_ROOT_PATH/ZF/ZFUIWebKit_impl/zfsrc
-QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$ZF_ROOT_PATH/ZF/ZFUIWebKit_impl/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
-
-
-# ======================================================================
 exists(qt_main.cpp) {
     SOURCES += qt_main.cpp
 }
 
+win32 {
+    # NOTE: for 32-bit MinGW, it's too easy to reach section limit
+    #       (too many sections), disable it for Windows by default
+    ZF_UNITY_BUILD = 0
+}
 equals(ZF_UNITY_BUILD, 1) {
-    win32 {
-        _ZF_unity_build_cmd = call $$system_path($$ZF_TOOLS_PATH/common/unity_build.bat)
-    } else {
-        _ZF_unity_build_cmd = sh $$system_path($$ZF_TOOLS_PATH/common/unity_build.sh)
-    }
     for(src_path, ZF_PROJ_SRC_PATH) {
         _ZF_COMPILE_MODULE_NAME = $$src_path
         _ZF_COMPILE_MODULE_NAME = $$replace(_ZF_COMPILE_MODULE_NAME,[\\/\.:],_)
         _ZF_COMPILE_MODULE_NAME = $$replace(_ZF_COMPILE_MODULE_NAME,__+,_)
-        _ZF_UNITY_BUILD_FILE = zfgensrc_$${ZF_PROJ_NAME}_$${_ZF_COMPILE_MODULE_NAME}.cpp
-        system($$_ZF_unity_build_cmd $$system_path($$_ZF_UNITY_BUILD_FILE) $$system_path($$src_path))
+        _ZF_UNITY_BUILD_FILE = $$_PRO_FILE_PWD_/zfgensrc_$${ZF_PROJ_NAME}_$${_ZF_COMPILE_MODULE_NAME}.cpp
+        system($$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/common/unity_build.$$_ZF_SCRIPT_EXT) $$system_path($$_ZF_UNITY_BUILD_FILE) $$system_path($$src_path))
         SOURCES += $$system_path($$_ZF_UNITY_BUILD_FILE)
     }
 } else {
@@ -298,20 +200,14 @@ win32 {
     }
 }
 
-CONFIG(debug, debug|release) {
-    DEFINES += DEBUG
-}
-
+# ======================================================================
 for(path, ZF_PROJ_RES_PATH) {
-    QMAKE_POST_LINK += $$_ZF_copy_res $$system_path($$path) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT) $$system_path($$path) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
 }
 
-equals(ZF_BUILD_STATIC_LIB, 0) {
-    unix:!macx {
-        QMAKE_LFLAGS += -Wl,--rpath=${ORIGIN}
-    }
+unix:!macx {
+    QMAKE_LFLAGS += -Wl,--rpath=${ORIGIN}
 }
-
 macx {
     QMAKE_POST_LINK += macdeployqt $$system_path($$DESTDIR/"$$TARGET".app) >/dev/null 2>&1 $$escape_expand(\\n\\t)
 }

@@ -83,14 +83,10 @@ ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(void, zfCoreDataDecode, ZFMP_OUT(zfstring
 
 // ============================================================
 // ZFIdentityGenerator
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFIdentityGenerator, zfidentity, current)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFIdentityGenerator, zfidentity, next)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFIdentityGenerator, zfidentity, nextMarkUsed)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, zfbool, used, ZFMP_IN(zfidentity, identity))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, void, markUsed, ZFMP_IN(zfidentity, identity))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, void, markUnused, ZFMP_IN(zfidentity, identity))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFIdentityGenerator, void, removeAll)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, void, allUsed, ZFMP_IN_OUT(ZFCoreArray<zfidentity> &, ret))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFIdentityGenerator, zfidentity, idAcquire)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, void, idRelease, ZFMP_IN(zfidentity, identity))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, zfbool, idUsed, ZFMP_IN(zfidentity, identity))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFIdentityGenerator, void, idUsedGetAll, ZFMP_IN_OUT(ZFCoreArray<zfidentity> &, ret))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfidentity, zfidentityCalcString, ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfidentity, zfidentityCalcBuf, ZFMP_IN(const void *, src), ZFMP_IN(zfindex, srcLen))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, zfidentityCalcPointer, ZFMP_IN(const void *, p))

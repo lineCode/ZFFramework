@@ -45,50 +45,27 @@ public:
 
 public:
     /**
-     * @brief get current identity,
-     *   may be invalid or used,
-     *   typically you should use #next
-     */
-    zfidentity current(void) const;
-    /**
-     * @brief get next identity,
-     *   ensured valid and ensured unused
-     */
-    zfidentity next(void);
-    /**
      * @brief get next identity,
      *   ensured valid and ensured unused,
-     *   and auto mark it as used,
-     *   see #next, #markUsed
+     *   and auto mark it as used
      */
-    zfidentity nextMarkUsed(void);
-    /**
-     * @brief true if the identity is not used
-     */
-    zfbool used(ZF_IN zfidentity identity) const;
-    /**
-     * @brief mark the identity used
-     *
-     * by default, #zfidentityInvalid would be marked as used
-     */
-    void markUsed(ZF_IN zfidentity identity);
+    zfidentity idAcquire(void);
     /**
      * @brief mark the identity unused
-     *
-     * by default, #zfidentityInvalid would be marked as used
      */
-    void markUnused(ZF_IN zfidentity identity);
+    void idRelease(ZF_IN zfidentity identity);
 
     /**
-     * @brief remove all data
+     * @brief true if the identity is not used
+     *
+     * #zfidentityInvalid is always treated as used
      */
-    void removeAll(void);
+    zfbool idUsed(ZF_IN zfidentity identity) const;
 
-public:
     /**
      * @brief get all identity currently used, for debug use only
      */
-    void allUsed(ZF_IN_OUT ZFCoreArray<zfidentity> &ret) const;
+    void idUsedGetAll(ZF_IN_OUT ZFCoreArray<zfidentity> &ret) const;
 
 private:
     _ZFP_ZFIdentityGeneratorPrivate *d;

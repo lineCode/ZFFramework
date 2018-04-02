@@ -321,7 +321,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
                 zfText("unable to convert value to string")); \
             return zffalse; \
         } \
-        serializableData.propertyValueSet(s.cString()); \
+        serializableData.propertyValueSet(s.isEmpty() ? zfnull : s.cString()); \
         return zftrue; \
     }, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction))
 

@@ -38,7 +38,7 @@ protected:
         ZFLISTENER_LOCAL(buttonGroupAction, {
             zfLogTrimT()
                 << listenerData.sender
-                << ZFObserverEventGetName(listenerData.eventId)
+                << ZFIdMapGetName(listenerData.eventId)
                 << zfText(", checked:") << listenerData.param1;
         })
         layout->observerAdd(ZFUIButtonGroup::EventButtonTabOnClickChecked(), buttonGroupAction);

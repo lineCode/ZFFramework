@@ -167,13 +167,13 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
                 return ;
             }
 
-            ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.markUnused(delayTaskId->identityValue());
+            ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.idRelease(delayTaskId->identityValue());
             _ZFP_ZFUIViewBlink_noAni_doOff(view);
         })
         view->observerAdd(ZFObject::EventObjectBeforeDealloc(), ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->viewOnDeallocListener);
 
         ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(view, ZFGlobalEvent::EventViewBlinkOn());
-        zfidentity delayTaskId = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.nextMarkUsed();
+        zfidentity delayTaskId = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.idAcquire();
         zfautoObject delayTaskIdTag = ZFValue::identityValueCreate(delayTaskId);
         view->tagSet(_ZFP_ZFUIViewBlink_tag_delayTaskId, delayTaskIdTag.toObject());
         zfidentity delayId = ZFThreadExecuteInMainThreadAfterDelay(

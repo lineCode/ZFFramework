@@ -181,6 +181,14 @@ ZFT_INT_STRONG(zft_zfuint32, zfflags)
 // ============================================================
 /**
  * @brief identity type, ensured at least 32 bit, ensured unsigned
+ * @note typically, an identity type has these usage:
+ *   -  use as task id, the actual value is not important,
+ *     and should not be serialized
+ *   -  use as event id, the actual value may change during app launch,
+ *     while event name would be stable
+ *
+ *   because of the above reasons,
+ *   #zfidentity would always be serialized by the name of #ZFIdMapGetName
  */
 ZFT_INT_STRONG(zft_zfindex, zfidentity)
 /** @brief zero value */
@@ -189,6 +197,8 @@ ZFT_INT_STRONG(zft_zfindex, zfidentity)
  * @brief an invalid id value, ensured ((zfidentity)-1)
  */
 #define zfidentityInvalid() ((zfidentity)-1)
+/** @brief string tokens */
+#define ZFTOKEN_zfidentityInvalid zfText("zfidentityInvalid")
 
 ZF_NAMESPACE_GLOBAL_END
 

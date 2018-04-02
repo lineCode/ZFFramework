@@ -21,7 +21,7 @@ void ZFListenerData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
     ret += ZFTOKEN_ZFObjectInfoLeft;
     zfstringAppend(ret, zfText("ZFListenerData(%p)"), this);
-    const zfchar *eventName = ZFObserverEventGetName(this->eventId);
+    const zfchar *eventName = ZFIdMapGetName(this->eventId);
     if(eventName != zfnull)
     {
         ret += zfText(", event: ");
@@ -140,7 +140,7 @@ public:
                 toNotify.push_back(observerData);
                 if(observerData.autoRemoveAfterActivate)
                 {
-                    this->taskIdGenerator.markUnused(observerData.taskId);
+                    this->taskIdGenerator.idRelease(observerData.taskId);
                     if(observerData.userData != zfnull)
                     {
                         toRelease.push_back(observerData.userData);
@@ -214,7 +214,7 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN const zfidentity &eventId,
         return zfidentityInvalid();
     }
 
-    zfidentity taskId = d->taskIdGenerator.nextMarkUsed();
+    zfidentity taskId = d->taskIdGenerator.idAcquire();
     _ZFP_ZFObserverListType &observerList = d->observerMap[eventId];
     zfstlsize index = observerList.size();
     while(index > 0 && observerList.at(index - 1).observerLevel > observerLevel)
@@ -255,7 +255,7 @@ void ZFObserverHolder::observerRemove(ZF_IN const zfidentity &eventId,
             if(observerData.observer.objectCompareByInstance(callback) == ZFCompareTheSame
                 && (userDataComparer == zfnull || userDataComparer(userData, observerData.userData) == ZFCompareTheSame))
             {
-                d->taskIdGenerator.markUnused(observerData.taskId);
+                d->taskIdGenerator.idRelease(observerData.taskId);
 
                 ZFObject *toRemove = observerData.userData;
                 it->second.erase(it->second.begin() + iObserver);
@@ -300,7 +300,7 @@ void ZFObserverHolder::observerRemoveByTaskId(ZF_IN zfidentity taskId) const
         {
             if(it->second[iObserver].taskId == taskId)
             {
-                d->taskIdGenerator.markUnused(taskId);
+                d->taskIdGenerator.idRelease(taskId);
                 removed = zftrue;
                 removedUserData = it->second[iObserver].userData;
                 it->second.erase(it->second.begin() + iObserver);
@@ -340,7 +340,7 @@ void ZFObserverHolder::observerRemoveByOwner(ZF_IN ZFObject *owner) const
         {
             if(it->second[iObserver].owner == owner)
             {
-                d->taskIdGenerator.markUnused(it->second[iObserver].taskId);
+                d->taskIdGenerator.idRelease(it->second[iObserver].taskId);
                 removedUserData.push_back(it->second[iObserver].userData);
                 it->second.erase(it->second.begin() + iObserver);
                 --iObserver;
@@ -394,7 +394,7 @@ void ZFObserverHolder::observerRemoveAll(ZF_IN const zfidentity &eventId) const
         {
             for(zfstlsize i = removed.size() - 1; i != (zfstlsize)-1; --i)
             {
-                d->taskIdGenerator.markUnused(removed[i].taskId);
+                d->taskIdGenerator.idRelease(removed[i].taskId);
                 zflockfree_zfRelease(removed[i].userData);
             }
         }
@@ -427,7 +427,7 @@ void ZFObserverHolder::observerRemoveAll(void) const
     {
         for(zfstlsize iObserver = it->second.size() - 1; iObserver != (zfstlsize)-1; --iObserver)
         {
-            d->taskIdGenerator.markUnused(it->second[iObserver].taskId);
+            d->taskIdGenerator.idRelease(it->second[iObserver].taskId);
             zflockfree_zfRelease(it->second[iObserver].userData);
         }
     }
@@ -507,7 +507,7 @@ void ZFObserverHolder::objectInfoT(ZF_OUT zfstring &ret) const
             ++it)
         {
             ret += zfText("\n  ");
-            ret += ZFObserverEventGetName(it->first);
+            ret += ZFIdMapGetName(it->first);
             ret += zfText(":");
 
             for(zfstlsize iObserver = 0; iObserver < it->second.size(); ++iObserver)
@@ -583,10 +583,6 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_4(v_ZFObserverHolder, void, observerNoti
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFObserverHolder, ZFObject *, observerOwner)
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFObserverHolder &, ZFObjectGlobalEventObserver)
-
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(const zfchar *, ZFObserverEventGetName, ZFMP_IN(const zfidentity &, eventId))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, ZFObserverEventGetId, ZFMP_IN(const zfchar *, name))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFObserverEventGetId, ZFMP_OUT(ZFCoreArrayPOD<zfidentity> &, idValues), ZFMP_OUT(ZFCoreArrayPOD<const zfchar *> &, idNames))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

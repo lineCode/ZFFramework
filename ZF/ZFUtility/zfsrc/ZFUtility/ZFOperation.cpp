@@ -239,7 +239,6 @@ public:
     {
         taskObserverData->taskIsDuplicate = taskIsDuplicate;
         zfidentity operationId = taskObserverData->operationTaskData->operationId();
-        this->idGenerator.markUsed(operationId);
         taskObserverData->ownerTaskData->operationIds.add(operationId);
         if(!this->startFirstFlag)
         {
@@ -284,7 +283,7 @@ public:
 
             for(zfindex iOperationId = 0; iOperationId < taskData->operationIds.count(); ++iOperationId)
             {
-                this->idGenerator.markUnused(taskData->operationIds[iOperationId]);
+                this->idGenerator.idRelease(taskData->operationIds[iOperationId]);
             }
             toNotifyTaskObserverDatas->addFrom(taskData->taskObserverDatas);
         }
@@ -313,7 +312,7 @@ public:
                         {
                             for(zfindex iOperationIdTmp = 0; iOperationIdTmp < taskData->operationIds.count(); ++iOperationIdTmp)
                             {
-                                this->idGenerator.markUnused(taskData->operationIds[iOperationIdTmp]);
+                                this->idGenerator.idRelease(taskData->operationIds[iOperationIdTmp]);
                             }
 
                             taskArray->remove(iTask);
@@ -353,7 +352,7 @@ public:
 
                         for(zfindex iOperationIdTmp = 0; iOperationIdTmp < taskData->operationIds.count(); ++iOperationIdTmp)
                         {
-                            this->idGenerator.markUnused(taskData->operationIds[iOperationIdTmp]);
+                            this->idGenerator.idRelease(taskData->operationIds[iOperationIdTmp]);
                         }
 
                         toNotifyTaskObserverDatas->addFrom(taskData->taskObserverDatas);
@@ -398,7 +397,7 @@ public:
 
                 for(zfindex iOperationId = 0; iOperationId < taskData->operationIds.count(); ++iOperationId)
                 {
-                    this->idGenerator.markUnused(taskData->operationIds[iOperationId]);
+                    this->idGenerator.idRelease(taskData->operationIds[iOperationId]);
                 }
 
                 toNotifyTaskObserverDatas->addFrom(taskData->taskObserverDatas);
@@ -441,7 +440,7 @@ public:
                     {
                         for(zfindex iOperationId = 0; iOperationId < taskData->operationIds.count(); ++iOperationId)
                         {
-                            this->idGenerator.markUnused(taskData->operationIds[iOperationId]);
+                            this->idGenerator.idRelease(taskData->operationIds[iOperationId]);
                         }
 
                         taskArray->remove(iTask);
@@ -828,9 +827,6 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
 
     this->cacheRestore();
 
-    zfidentity operationId = d->idGenerator.next();
-    operationTaskData->operationIdSet(operationId);
-
     // search for cache
     zfindex cacheIndex = d->caches->count() - 1;
     while(cacheIndex != zfindexMax())
@@ -962,6 +958,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
         {
             if(taskDuplicateAction == ZFOperationTaskDuplicateAction::e_Merge)
             {
+                operationTaskData->operationIdSet(d->idGenerator.idAcquire());
                 _ZFP_I_ZFOperationPrivateTaskObserverData *taskObserverData = zfAlloc(_ZFP_I_ZFOperationPrivateTaskObserverData);
                 taskObserverData->ownerTaskData = dupTaskData;
                 taskObserverData->operationTaskData = operationTaskData;
@@ -971,7 +968,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
                 {
                     d->doStart(taskObserverData, zftrue);
                 }
-                return operationId;
+                return operationTaskData->operationId();
             }
             else
             {
@@ -984,6 +981,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
     zfblockedAlloc(_ZFP_I_ZFOperationPrivateTaskData, taskData);
     zfRetainChange(taskData->operationParam, operationParam);
 
+    operationTaskData->operationIdSet(d->idGenerator.idAcquire());
     zfblockedAlloc(_ZFP_I_ZFOperationPrivateTaskObserverData, taskObserverData);
     taskData->taskObserverDatas->add(taskObserverData);
     taskObserverData->ownerTaskData = taskData;
@@ -1005,7 +1003,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
         d->tasksQueued->add(taskData);
     }
 
-    return operationId;
+    return operationTaskData->operationId();
 }
 ZFMETHOD_DEFINE_1(ZFOperation, void, taskStop,
                   ZFMP_IN(zfidentity, operationId))
