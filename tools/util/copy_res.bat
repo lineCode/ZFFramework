@@ -41,3 +41,5 @@ for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%
 for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
 for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
 
+exit /b 0
+

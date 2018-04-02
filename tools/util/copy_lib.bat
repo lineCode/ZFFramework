@@ -20,3 +20,5 @@ mkdir "%DST_PATH%" >nul 2>&1
 copy "%SRC_PATH%\\*.a" "%DST_PATH%" >nul 2>&1
 copy "%SRC_PATH%\\*.dll" "%DST_PATH%" >nul 2>&1
 
+exit /b 0
+

@@ -14,3 +14,5 @@ find "$SRC_PATH" -regex ".*/.*\.a.*" 2>/dev/null | xargs -I{} cp -L -R {} "$DST_
 find "$SRC_PATH" -regex ".*/.*\.so.*" 2>/dev/null | xargs -I{} cp -L -R {} "$DST_PATH/lib$PROJ_NAME.so" >/dev/null 2>&1
 find "$SRC_PATH" -regex ".*/.*\.dylib.*" 2>/dev/null | xargs -I{} cp -L -R {} "$DST_PATH/lib$PROJ_NAME.dylib" >/dev/null 2>&1
 
+exit 0
+

@@ -19,3 +19,5 @@ find "$DST_PATH" -type d -name "_tmp" 2>/dev/null | xargs -I{} rm -rf {} >/dev/n
 find "$DST_PATH" -type f -name "ZF_PUT_RES_FILES_HERE" 2>/dev/null | xargs -I{} rm -rf {} >/dev/null 2>&1
 find "$DST_PATH" -depth -type d -empty -exec rm -rf {} ';' >/dev/null 2>&1
 
+exit 0
+
