@@ -71,8 +71,10 @@ defineReplace(ZFAddLib) {
     _ZF_IS_IMPL=$$1
     _ZF_LIBNAME=$$2
     LIBS += -L$$ZF_ROOT_PATH/_release/$$_ZF_QT_TYPE/all/lib -l$$_ZF_LIBNAME
+    export(LIBS)
     macx {
         QMAKE_POST_LINK += install_name_tool -change "lib$$_ZF_LIBNAME.1.dylib" "@rpath/lib$$_ZF_LIBNAME.dylib" $$system_path($$OUT_PWD/lib$${ZF_PROJ_NAME}.dylib) $$escape_expand(\\n\\t)
+        export(QMAKE_POST_LINK)
     }
 }
 
