@@ -461,6 +461,7 @@ public:
         #if 0
         nativeViewTmp->setVisible(viewVisible);
         #endif
+        nativeViewTmp->_ZFP_ownerZFUIView = zfnull;
         nativeViewTmp->setGraphicsEffect(zfnull);
         nativeViewTmp->_ZFP_viewUIEnableSet(zftrue);
         nativeViewTmp->_ZFP_viewUIEnableTreeSet(zftrue);

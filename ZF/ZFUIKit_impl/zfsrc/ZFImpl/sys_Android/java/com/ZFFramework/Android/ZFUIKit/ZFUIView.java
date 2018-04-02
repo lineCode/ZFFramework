@@ -44,7 +44,11 @@ public class ZFUIView extends ViewGroup {
     private ZFAndroidRect _rectCache = new ZFAndroidRect();
 
     // ============================================================
-    public static void native_nativeViewCacheReset(Object nativeView, long zfjniPointerOwnerZFUIView) {
+    public static void native_nativeViewCacheOnSave(Object nativeView) {
+        ZFUIView nativeViewTmp = (ZFUIView)nativeView;
+        nativeViewTmp.zfjniPointerOwnerZFUIView = 0;
+    }
+    public static void native_nativeViewCacheOnRestore(Object nativeView, long zfjniPointerOwnerZFUIView) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;
         nativeViewTmp.zfjniPointerOwnerZFUIView = zfjniPointerOwnerZFUIView;
         ZFUIView.requestLayoutOverride = true;

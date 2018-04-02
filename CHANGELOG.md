@@ -2,6 +2,7 @@
 
 * update build script
 * optimize identity logic
+* bugfix: native view cache doesn't properly reset state
 
 # 0.1.1 (20180319)
 

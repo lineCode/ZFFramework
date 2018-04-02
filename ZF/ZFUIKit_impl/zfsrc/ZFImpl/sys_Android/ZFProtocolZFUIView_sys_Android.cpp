@@ -57,13 +57,20 @@ public:
 public:
     virtual zfbool nativeViewCacheOnSave(ZF_IN void *nativeView)
     {
+        JNIEnv *jniEnv = JNIGetJNIEnv();
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewCacheOnSave"),
+            JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
+                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+            ).c_str());
+        JNIUtilCallStaticVoidMethod(jniEnv, this->jclsZFUIView, jmId,
+            ZFCastStatic(jobject, nativeView));
         return zftrue;
     }
     virtual void nativeViewCacheOnRestore(ZF_IN ZFUIView *view,
                                           ZF_IN void *nativeView)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewCacheReset"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewCacheOnRestore"),
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIPointerJNIType)
