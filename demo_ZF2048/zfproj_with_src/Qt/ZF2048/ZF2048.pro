@@ -84,6 +84,7 @@ defineReplace(ZFAddLib) {
     export(INCLUDEPATH)
     QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT) $$system_path($$ZF_ROOT_PATH/ZF/$$_ZF_LIBNAME/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
     export(QMAKE_POST_LINK)
+    return (true)
 }
 
 # ZF dependency

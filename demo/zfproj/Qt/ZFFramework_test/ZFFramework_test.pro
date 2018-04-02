@@ -78,6 +78,7 @@ defineReplace(ZFAddLib) {
         QMAKE_POST_LINK += install_name_tool -change "lib$$_ZF_LIBNAME.1.dylib" "@rpath/lib$$_ZF_LIBNAME.dylib" $$system_path($$DESTDIR/"$$TARGET".app/Contents/MacOS/$$ZF_PROJ_NAME) $$escape_expand(\\n\\t)
     }
     export(QMAKE_POST_LINK)
+    return (true)
 }
 
 # ZF dependency
