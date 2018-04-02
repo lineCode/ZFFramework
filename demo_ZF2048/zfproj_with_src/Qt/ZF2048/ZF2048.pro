@@ -45,26 +45,36 @@ ZF_PROJ_RES_PATH = $$_PRO_FILE_PWD_/../../../zfres
 
 
 # ======================================================================
+CONFIG(debug, debug|release) {
+    _ZF_BUILD_TYPE=debug
+    DEFINES += DEBUG
+} else {
+    _ZF_BUILD_TYPE=release
+}
+
 win32 {
     _ZF_QT_TYPE=Qt_Windows
     _ZF_SCRIPT_CALL=call
     _ZF_SCRIPT_EXT=bat
-    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/.)
+    _ZF_DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
+    _ZF_RES_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/zfres)
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/.)
 }
 unix:!macx {
     _ZF_QT_TYPE=Qt_Posix
     _ZF_SCRIPT_CALL=sh
     _ZF_SCRIPT_EXT=sh
-    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/.)
+    _ZF_DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
+    _ZF_RES_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/zfres)
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/.)
 }
 macx {
     _ZF_QT_TYPE=Qt_MacOS
     _ZF_SCRIPT_CALL=sh
     _ZF_SCRIPT_EXT=sh
-    _ZF_RES_DEPLOY_PATH=$$system_path($$DESTDIR/"$$TARGET".app/Contents/Resources/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$DESTDIR/"$$TARGET".app/Contents/Frameworks)
+    _ZF_DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
+    _ZF_RES_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/"$$TARGET".app/Contents/Resources/zfres)
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/"$$TARGET".app/Contents/Frameworks)
 }
 
 defineReplace(ZFAddLib) {
@@ -122,13 +132,6 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -Wno-unused-parameter
 CONFIG += warn_off
 
-CONFIG(debug, debug|release) {
-    _ZF_BUILD_TYPE=debug
-    DEFINES += DEBUG
-} else {
-    _ZF_BUILD_TYPE=release
-}
-
 exists($${ZF_PROJ_NAME}.ico) {
     RC_ICONS = $${ZF_PROJ_NAME}.ico
 }
@@ -136,7 +139,7 @@ exists($${ZF_PROJ_NAME}.icns) {
     ICON = $${ZF_PROJ_NAME}.icns
 }
 
-DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
+DESTDIR = $$_ZF_DESTDIR
 OBJECTS_DIR = $${DESTDIR}/.obj
 MOC_DIR = $${DESTDIR}/.moc
 RCC_DIR = $${DESTDIR}/.rcc
@@ -210,6 +213,6 @@ unix:!macx {
     QMAKE_LFLAGS += -Wl,--rpath=${ORIGIN}
 }
 macx {
-    QMAKE_POST_LINK += macdeployqt $$system_path($$DESTDIR/"$$TARGET".app) >/dev/null 2>&1 $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += macdeployqt $$system_path($$_ZF_DESTDIR/"$$TARGET".app) >/dev/null 2>&1 $$escape_expand(\\n\\t)
 }
 
