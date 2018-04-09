@@ -190,7 +190,7 @@ ZFT_INT_STRONG(zft_zfuint32, zfflags)
  *   because of the above reasons,
  *   #zfidentity would always be serialized by the name of #ZFIdMapGetName
  */
-ZFT_INT_STRONG(zft_zfuint, zfidentity)
+ZFT_INT_STRONG(zft_zfuint32, zfidentity)
 /** @brief zero value */
 #define zfidentityZero() ((zfidentity)0)
 /**
