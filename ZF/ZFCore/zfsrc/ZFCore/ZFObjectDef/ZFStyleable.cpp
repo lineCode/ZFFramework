@@ -126,13 +126,13 @@ void ZFStyleable::styleableOnCopyPropertyFrom(ZF_IN ZFStyleable *anotherStyleabl
     {
         case ZFStyleable::PropertyTypeNormal:
         {
-            property->callbackCopy(property, this->toObject(), anotherStyleable->toObject());
+            ZFPropertyCopy(property, this->toObject(), anotherStyleable->toObject());
         }
             break;
         case ZFStyleable::PropertyTypeStyleable:
         {
-            ZFStyleable *selfPropertyValue = ZFCastZFObject(ZFStyleable *, property->callbackRetainGet(property, this->toObject()));
-            ZFStyleable *anotherPropertyValue = ZFCastZFObject(ZFStyleable *, property->callbackRetainGet(property, anotherStyleable->toObject()));
+            ZFStyleable *selfPropertyValue = ((const zfautoObject *)property->callbackValueGet(property, this->toObject()))->to<ZFStyleable *>();
+            ZFStyleable *anotherPropertyValue = ((const zfautoObject *)property->callbackValueGet(property, anotherStyleable->toObject()))->to<ZFStyleable *>();
             if(selfPropertyValue != zfnull && anotherPropertyValue != zfnull)
             {
                 selfPropertyValue->styleableCopyFrom(anotherPropertyValue);
@@ -141,8 +141,8 @@ void ZFStyleable::styleableOnCopyPropertyFrom(ZF_IN ZFStyleable *anotherStyleabl
             break;
         case ZFStyleable::PropertyTypeCopyable:
         {
-            ZFCopyable *selfPropertyValue = ZFCastZFObject(ZFCopyable *, property->callbackRetainGet(property, this->toObject()));
-            ZFObject *anotherPropertyValue = property->callbackRetainGet(property, anotherStyleable->toObject());
+            ZFCopyable *selfPropertyValue = ((const zfautoObject *)property->callbackValueGet(property, this->toObject()))->to<ZFCopyable *>();
+            ZFObject *anotherPropertyValue = ((const zfautoObject *)property->callbackValueGet(property, anotherStyleable->toObject()))->toObject();
             if(selfPropertyValue != zfnull && anotherPropertyValue != zfnull)
             {
                 selfPropertyValue->copyFrom(anotherPropertyValue);

@@ -217,6 +217,71 @@ inline void _ZFP_zfRelease(ZF_IN const ZFAnyT<T_ZFObject *> &any)
 #define zflockfree_zfRelease(obj) \
     _ZFP_zfRelease(obj)
 
+// ============================================================
+/**
+ * @brief util to release property's old value, retain new value, then set to property
+ *
+ * this macro is similar to the retain property in Object-C\n
+ * typical usage:
+ * @code
+ *   ZFObject *property = ...;
+ *   ZFObject *newProperty = ...;
+ *
+ *   // OK, release property, retain newProperty, then set to property
+ *   zfRetainChange(property, newProperty);
+ *
+ *   // OK, use return value of a function as new value
+ *   // but keep it in mind, that the new value will be retained
+ *   zfRetainChange(property, funcThatReturnZFObject());
+ *
+ *   // OK, same as release old property and set it to zfnull
+ *   zfRetainChange(property, zfnull);
+ *
+ *   // error, new value must be ZFObject
+ *   // zfRetainChange(property, 123);
+ *
+ *   // error, property must be a variable contains a (ZFObject *)
+ *   // zfRetainChange(zfnull, newProperty);
+ *   // zfRetainChange(funcThatReturnZFObject(), newProperty);
+ * @endcode
+ * @see zfRetain, zfRelease, ZFPROPERTY_RETAIN
+ */
+#define zfRetainChange(property, propertyValue) \
+    do \
+    { \
+        zfCoreMutexLock(); \
+        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
+        zflockfree_zfRetain(property = propertyValue); \
+        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
+        zfCoreMutexUnlock(); \
+    } while(zffalse)
+/** @brief no lock version of #zfRetainChange, use with causion */
+#define zflockfree_zfRetainChange(property, propertyValue) \
+    do \
+    { \
+        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
+        zflockfree_zfRetain(property = propertyValue); \
+        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
+    } while(zffalse)
+/** @see zfRetainChange */
+#define zfRetainChange(property, propertyValue) \
+    do \
+    { \
+        zfCoreMutexLock(); \
+        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
+        zflockfree_zfRetain(property = propertyValue); \
+        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
+        zfCoreMutexUnlock(); \
+    } while(zffalse)
+/** @brief no lock version of #zfRetainChange, use with causion */
+#define zflockfree_zfRetainChange(property, propertyValue) \
+    do \
+    { \
+        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
+        zflockfree_zfRetain(property = propertyValue); \
+        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
+    } while(zffalse)
+
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectRetain_h_
 

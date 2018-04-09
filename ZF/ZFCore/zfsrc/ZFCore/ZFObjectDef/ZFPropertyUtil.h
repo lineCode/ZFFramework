@@ -20,155 +20,56 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-/**
- * @brief for retain property only,
- *   release property's old value, retain new value, then set to property
- *
- * this macro is similar to the retain property in Object-C\n
- * typical usage:
- * @code
- *   ZFObject *property = ...;
- *   ZFObject *newProperty = ...;
- *
- *   // OK, release property, retain newProperty, then set to property
- *   zfRetainChange(property, newProperty);
- *
- *   // OK, use return value of a function as new value
- *   // but keep it in mind, that the new value will be retained
- *   zfRetainChange(property, funcThatReturnZFObject());
- *
- *   // OK, same as release old property and set it to zfnull
- *   zfRetainChange(property, zfnull);
- *
- *   // error, new value must be ZFObject
- *   // zfRetainChange(property, 123);
- *
- *   // error, property must be a variable contains a (ZFObject *)
- *   // zfRetainChange(zfnull, newProperty);
- *   // zfRetainChange(funcThatReturnZFObject(), newProperty);
- * @endcode
- * @see zfRetain, zfRelease, ZFPROPERTY_RETAIN
- */
-#define zfRetainChange(property, propertyValue) \
-    do \
-    { \
-        zfCoreMutexLock(); \
-        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
-        zflockfree_zfRetain(property = propertyValue); \
-        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
-        zfCoreMutexUnlock(); \
-    } while(zffalse)
-/** @brief no lock version of #zfRetainChange, use with causion */
-#define zflockfree_zfRetainChange(property, propertyValue) \
-    do \
-    { \
-        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
-        zflockfree_zfRetain(property = propertyValue); \
-        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
-    } while(zffalse)
-/** @see zfRetainChange */
-#define zfRetainChange(property, propertyValue) \
-    do \
-    { \
-        zfCoreMutexLock(); \
-        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
-        zflockfree_zfRetain(property = propertyValue); \
-        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
-        zfCoreMutexUnlock(); \
-    } while(zffalse)
-/** @brief no lock version of #zfRetainChange, use with causion */
-#define zflockfree_zfRetainChange(property, propertyValue) \
-    do \
-    { \
-        ZFAny _ZFP_zfRetainChangeTmpValue = property; \
-        zflockfree_zfRetain(property = propertyValue); \
-        zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
-    } while(zffalse)
-
-// ============================================================
 // ZFPropertyIsValueAccessed
 /**
- * @brief check whether the property is in init value state,
- *   see #ZFPropertyCallbackIsValueAccessed
+ * @brief util for #ZFPropertyCallbackIsValueAccessed
  */
-extern ZF_ENV_EXPORT zfbool ZFPropertyIsValueAccessed(ZF_IN const ZFProperty *propertyInfo,
-                                                      ZF_IN ZFObject *ownerObj);
+inline zfbool ZFPropertyIsValueAccessed(ZF_IN const ZFProperty *propertyInfo,
+                                        ZF_IN ZFObject *ownerObj)
+{
+    return propertyInfo->callbackIsValueAccessed(propertyInfo, ownerObj);
+}
 
 // ============================================================
 // ZFPropertyIsInitValue
 /**
- * @brief check whether the property is in init value state,
- *   see #ZFPropertyCallbackIsInitValue
+ * @brief util for #ZFPropertyCallbackIsInitValue
  */
-extern ZF_ENV_EXPORT zfbool ZFPropertyIsInitValue(ZF_IN const ZFProperty *propertyInfo,
-                                                  ZF_IN ZFObject *ownerObj);
-
-// ============================================================
-// ZFPropertyCompare
-/**
- * @brief compare two object's property value,
- *   see #ZFPropertyCallbackCompare
- */
-extern ZF_ENV_EXPORT ZFCompareResult ZFPropertyCompare(ZF_IN const ZFProperty *propertyInfo,
-                                                       ZF_IN ZFObject *obj0,
-                                                       ZF_IN ZFObject *obj1,
-                                                       ZF_OUT_OPT zfbool *successfullyCompared = zfnull);
-
-// ============================================================
-// ZFPropertyCompare
-/**
- * @brief copy property value to dstObj from srcObj
- *   see #ZFPropertyCallbackCopy
- */
-extern ZF_ENV_EXPORT zfbool ZFPropertyCopy(ZF_IN const ZFProperty *propertyInfo,
-                                           ZF_IN ZFObject *dstObj,
-                                           ZF_IN ZFObject *srcObj);
-
-// ============================================================
-// retain property reflect
-/**
- * @brief set a retain property without knowing the type,
- *   return false if src's type not match the property's type
- *
- * see #ZFPropertyCallbackRetainSet, #ZFProperty::callbackRetainSet
- */
-extern ZF_ENV_EXPORT zfbool ZFPropertyRetainSet(ZF_IN const ZFProperty *propertyInfo,
-                                                ZF_IN ZFObject *dstObj,
-                                                ZF_IN ZFObject *src);
-/** @brief see #ZFPropertyRetainSet */
-extern ZF_ENV_EXPORT ZFObject *ZFPropertyRetainGet(ZF_IN const ZFProperty *propertyInfo,
-                                                   ZF_IN ZFObject *ownerObj,
-                                                   ZF_OUT_OPT zfbool *success = zfnull);
-
-// ============================================================
-// assign property reflect
-/**
- * @brief set a assign property
- *
- * you must ensure the src's type is correct
- * (or safe and valid to cast to desired type by reinterpret pointer cast),
- * otherwise, data may be invalid and app may crash
- *
- * see #ZFPropertyCallbackAssignSet, #ZFProperty::callbackAssignSet
- */
-extern ZF_ENV_EXPORT zfbool ZFPropertyAssignSet(ZF_IN const ZFProperty *propertyInfo,
-                                                ZF_IN ZFObject *dstObj,
-                                                ZF_IN void *src,
-                                                ZF_IN const zfchar *srcTypeName = ZFPropertyTypeId_none);
-/** @brief see #ZFPropertyAssignSet */
-extern ZF_ENV_EXPORT const void *ZFPropertyAssignGet(ZF_IN const ZFProperty *propertyInfo,
-                                                     ZF_IN ZFObject *ownerObj);
-/** @brief see #ZFPropertyAssignSet */
-template<typename T_Type>
-const T_Type *ZFPropertyAssignGet(ZF_IN const ZFProperty *propertyInfo,
-                                  ZF_IN ZFObject *ownerObj)
+inline zfbool ZFPropertyIsInitValue(ZF_IN const ZFProperty *propertyInfo,
+                                    ZF_IN ZFObject *ownerObj)
 {
-    const void *ret = ZFPropertyAssignGet(propertyInfo, ownerObj);
-    if(ret == zfnull)
-    {
-        return zfnull;
-    }
-    return ZFCastStatic(const T_Type *, ret);
+    return propertyInfo->callbackIsInitValue(propertyInfo, ownerObj, zfnull);
+}
+
+// ============================================================
+// ZFPropertyCompare
+/**
+ * @brief util for #ZFPropertyCallbackCompare
+ */
+inline ZFCompareResult ZFPropertyCompare(ZF_IN const ZFProperty *propertyInfo,
+                                         ZF_IN ZFObject *obj0,
+                                         ZF_IN ZFObject *obj1)
+{
+    return propertyInfo->callbackCompare(
+        propertyInfo,
+        obj0,
+        propertyInfo->callbackValueGet(propertyInfo, obj0),
+        propertyInfo->callbackValueGet(propertyInfo, obj1));
+}
+
+// ============================================================
+// ZFPropertyCopy
+/**
+ * @brief util to copy property between object
+ */
+inline void ZFPropertyCopy(ZF_IN const ZFProperty *propertyInfo,
+                           ZF_IN ZFObject *dstObj,
+                           ZF_IN ZFObject *srcObj)
+{
+    propertyInfo->callbackValueSet(
+        propertyInfo,
+        dstObj,
+        propertyInfo->callbackValueGet(propertyInfo, srcObj));
 }
 
 // ============================================================
@@ -183,7 +84,7 @@ const T_Type *ZFPropertyAssignGet(ZF_IN const ZFProperty *propertyInfo,
  * and type is compared by ZFProperty::propertyTypeId\n
  * it's your responsibility to make sure the copy is valid
  * @note this function may cost much time if there are many properties in the inherit tree,
- *   you may want to use #ZFProperty::callbackCopy directly for performance
+ *   you may want to use #ZFPropertyCopy directly for performance
  */
 extern ZF_ENV_EXPORT void ZFPropertyCopyAll(ZF_IN ZFObject *dstObj,
                                             ZF_IN ZFObject *srcObj,
@@ -193,15 +94,18 @@ extern ZF_ENV_EXPORT void ZFPropertyCopyAll(ZF_IN ZFObject *dstObj,
 // ============================================================
 // ZFPropertyGetInfo
 /**
- * @brief get property instance info
- *
- * for retain property, #ZFObject::objectInfo would be returned\n
- * for assign property, #ZFCoreElementInfoGetter would be returned,
- * it's recommended to use #ZFOUTPUT_TYPE to declare info getter for your types
+ * @brief util for #ZFPropertyCallbackGetInfo
  */
-extern ZF_ENV_EXPORT void ZFPropertyGetInfo(ZF_IN_OUT zfstring &ret,
-                                            ZF_IN const ZFProperty *propertyInfo,
-                                            ZF_IN ZFObject *ownerObject);
+inline void ZFPropertyGetInfo(ZF_IN_OUT zfstring &ret,
+                              ZF_IN const ZFProperty *propertyInfo,
+                              ZF_IN ZFObject *ownerObject)
+{
+    propertyInfo->callbackGetInfo(
+        propertyInfo,
+        ownerObject,
+        propertyInfo->callbackValueGet(propertyInfo, ownerObject),
+        ret);
+}
 /** @brief see #ZFPropertyGetInfo */
 inline zfstring ZFPropertyGetInfo(ZF_IN const ZFProperty *propertyInfo,
                                   ZF_IN ZFObject *ownerObject)

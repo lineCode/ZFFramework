@@ -589,6 +589,57 @@ protected:
     }
 };
 
+// ============================================================
+/**
+ * @brief register Type's progress update logic
+ *
+ * a progress update means,
+ * the type can be changed by timeline by supply a "from/to" value range\n
+ * for example, an float type with range "[0.5, 3.0]" and progress "0.3",
+ * would result "0.5 + (3.0 - 0.5) * 0.3", which is 1.25\n
+ * this is useful to make a property change with animation\n
+ * \n
+ * to use this, register your type by this macro, with this proto type:
+ * @code
+ *   void update(ZF_IN_OUT void *ret,
+ *               ZF_IN const void *from,
+ *               ZF_IN const void *to,
+ *               ZF_IN zffloat progress);
+ * @endcode
+ * then use them by #ZFProperty::callbackProgressUpdate
+ */
+#define ZFPROPERTY_PROGRESS_DECLARE(Type, progressUpdateAction) \
+    template<typename T_Type> \
+    zfclassNotPOD _ZFP_ZFPropertyProgressHolder< \
+            T_Type, \
+            typename zftEnableIf<zftTypeIsTypeOf<T_Type, Type>::TypeIsTypeOf>::EnableIf \
+        > \
+    { \
+    public: \
+        static zfbool update(ZF_IN_OUT_OPT void *_ret = zfnull, \
+                             ZF_IN_OPT const void *_from = zfnull, \
+                             ZF_IN_OPT const void *_to = zfnull, \
+                             ZF_IN_OPT zffloat progress = 1) \
+        { \
+            if(_ret == zfnull) {return zftrue;} \
+            typedef Type _ZFP_PP; \
+            _ZFP_PP &ret = *(_ZFP_PP *)_ret; \
+            _ZFP_PP const &from = *(const _ZFP_PP *)_from; \
+            _ZFP_PP const &to = *(const _ZFP_PP *)_to; \
+            { \
+                progressUpdateAction \
+            } \
+            return zftrue; \
+        } \
+    };
+/**
+ * @brief util macro to declare #ZFPROPERTY_PROGRESS_DECLARE by raw value calculating
+ */
+#define ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(Type) \
+    ZFPROPERTY_PROGRESS_DECLARE(Type, { \
+            ret = (Type)(from + (Type)((to - from) * progress)); \
+        })
+
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPropertyType_Core_h_
 

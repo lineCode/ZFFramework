@@ -26,18 +26,26 @@ ZFEXPORT_VAR_DECLARE(ZFFilterForZFObject, ZFUIViewStateAniFilter)
 
 // ============================================================
 /**
- * @brief advanced animation that apply by state
+ * @brief advanced animation that apply by view state
  *
+ * for app level users, simply call this method and change your view settings,
+ * animations would be applied automatically\n
+ * \n
+ * this method use native animation to performan view animations,
+ * typically has better performance but may cause strange animation\n
+ * you may also use #ZFPropertyAniBegin/#ZFPropertyAniEnd to perform property change animation,
+ * which are implemented by update property value accorrding to timeline,
+ * best compatibility but may has worse performance,
+ * and only the properties that supply #ZFPROPERTY_PROGRESS_DECLARE are supported\n
+ * \n
+ * \n
+ * \n
+ * for those who want to care about implementations:\n
  * state animation are implemented by:
  * -# attach observer to #ZFUIView::EventViewLayoutOnLayoutRequest
  * -# when the view layout finished (#ZFUIView::EventViewLayoutOnLayoutFinish),
  *   compare view's state, if changed, apply animation accorrding to the change
  *
- * \n
- * for top level uses, simply call this method and change your view settings,
- * and animations would be attached automatically
- * (this method can be called more than once,
- * while only the first one take effect)\n
  * \n
  * for animation impl, attach observer to these events and apply your animation:
  * -  #ZFUIViewStateAniImpl::EventStateAniOnInit

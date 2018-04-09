@@ -124,7 +124,7 @@ public:
      */
     inline zfbool propertyIsRetainProperty(void) const
     {
-        return (this->callbackRetainSet != zfnull);
+        return (this->_ZFP_ZFProperty_propertyClassOfRetainProperty != zfnull);
     }
     /**
      * @brief for retain property only, get the retain property's declared class
@@ -137,42 +137,24 @@ public:
     }
 
 public:
-    /**
-     * @brief used to check whether the property has been accessed
-     */
+    /** @brief see #ZFPropertyCallbackIsValueAccessed */
     ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed;
-    /**
-     * @brief used to check whether the property is in init value state
-     */
+    /** @brief see #ZFPropertyCallbackIsInitValue */
     ZFPropertyCallbackIsInitValue callbackIsInitValue;
-    /**
-     * @brief used to compare two object's property value
-     */
+    /** @brief see #ZFPropertyCallbackValueSet */
+    ZFPropertyCallbackValueSet callbackValueSet;
+    /** @brief see #ZFPropertyCallbackValueGet */
+    ZFPropertyCallbackValueGet callbackValueGet;
+    /** @brief see #ZFPropertyCallbackCompare */
     ZFPropertyCallbackCompare callbackCompare;
-    /**
-     * @brief used to copy property from another object
-     */
-    ZFPropertyCallbackCopy callbackCopy;
-    /**
-     * @brief see #ZFPropertyRetainSet
-     */
-    ZFPropertyCallbackRetainSet callbackRetainSet;
-    /**
-     * @brief see #ZFPropertyRetainGet
-     */
-    ZFPropertyCallbackRetainGet callbackRetainGet;
-    /**
-     * @brief see #ZFPropertyAssignSet
-     */
-    ZFPropertyCallbackAssignSet callbackAssignSet;
-    /**
-     * @brief see #ZFPropertyAssignGet
-     */
-    ZFPropertyCallbackAssignGet callbackAssignGet;
-    /**
-     * @brief see #ZFPropertyGetInfo
-     */
+    /** @brief see #ZFPropertyCallbackGetInfo */
     ZFPropertyCallbackGetInfo callbackGetInfo;
+    /** @brief see #ZFPropertyCallbackValueStore */
+    ZFPropertyCallbackValueStore callbackValueStore;
+    /** @brief see #ZFPropertyCallbackValueRelease */
+    ZFPropertyCallbackValueRelease callbackValueRelease;
+    /** @brief see #ZFPropertyCallbackProgressUpdate */
+    ZFPropertyCallbackProgressUpdate callbackProgressUpdate;
 
     /**
      * @brief see #ZFPropertyUserRegisterAssign
@@ -244,13 +226,13 @@ extern ZF_ENV_EXPORT ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIs
                                                          , ZF_IN const ZFClass *propertyClassOfRetainProperty
                                                          , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                                          , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
+                                                         , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
+                                                         , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
                                                          , ZF_IN ZFPropertyCallbackCompare callbackCompare
-                                                         , ZF_IN ZFPropertyCallbackCopy callbackCopy
-                                                         , ZF_IN ZFPropertyCallbackRetainSet callbackRetainSet
-                                                         , ZF_IN ZFPropertyCallbackRetainGet callbackRetainGet
-                                                         , ZF_IN ZFPropertyCallbackAssignSet callbackAssignSet
-                                                         , ZF_IN ZFPropertyCallbackAssignGet callbackAssignGet
                                                          , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
+                                                         , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
+                                                         , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
+                                                         , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                                          , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
                                                          , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                                          );
@@ -269,13 +251,13 @@ public:
                                   , ZF_IN const ZFClass *propertyClassOfRetainProperty
                                   , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                   , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
+                                  , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
+                                  , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
                                   , ZF_IN ZFPropertyCallbackCompare callbackCompare
-                                  , ZF_IN ZFPropertyCallbackCopy callbackCopy
-                                  , ZF_IN ZFPropertyCallbackRetainSet callbackRetainSet
-                                  , ZF_IN ZFPropertyCallbackRetainGet callbackRetainGet
-                                  , ZF_IN ZFPropertyCallbackAssignSet callbackAssignSet
-                                  , ZF_IN ZFPropertyCallbackAssignGet callbackAssignGet
                                   , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
+                                  , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
+                                  , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
+                                  , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                   , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
                                   , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                   )
@@ -289,13 +271,13 @@ public:
                                            , propertyClassOfRetainProperty
                                            , callbackIsValueAccessed
                                            , callbackIsInitValue
+                                           , callbackValueSet
+                                           , callbackValueGet
                                            , callbackCompare
-                                           , callbackCopy
-                                           , callbackRetainSet
-                                           , callbackRetainGet
-                                           , callbackAssignSet
-                                           , callbackAssignGet
                                            , callbackGetInfo
+                                           , callbackValueStore
+                                           , callbackValueRelease
+                                           , callbackProgressUpdate
                                            , callbackUserRegisterInitValueSetup
                                            , callbackDealloc
                                            ))
@@ -311,68 +293,106 @@ public:
 
 // ============================================================
 /** @brief default property callback impl */
-template<typename T_Type>
+template<typename T_PropHT, typename T_PropVT>
+inline void ZFPropertyCallbackValueSetDefault(ZF_IN const ZFProperty *property,
+                                              ZF_IN ZFObject *dstObj,
+                                              ZF_IN const void *value)
+{
+    property->setterMethod()->execute<void, T_PropVT const &>(dstObj, *(const T_PropHT *)value);
+}
+
+/** @brief default property callback impl */
+template<typename T_PropHT, typename T_PropVT>
+inline const void *ZFPropertyCallbackValueGetDefault_assign(ZF_IN const ZFProperty *property,
+                                                            ZF_IN ZFObject *ownerObj)
+{
+    return &(property->getterMethod()->execute<T_PropVT const &>(ownerObj));
+}
+
+/** @brief default property callback impl */
+template<typename T_PropHT>
 inline ZFCompareResult ZFPropertyCallbackCompareDefault(ZF_IN const ZFProperty *property,
-                                                        ZF_IN ZFObject *obj0,
-                                                        ZF_IN ZFObject *obj1)
+                                                        ZF_IN ZFObject *ownerObj,
+                                                        ZF_IN const void *v0,
+                                                        ZF_IN const void *v1)
 {
-    return ZFComparerDefault(
-        property->getterMethod()->execute<T_Type const &>(obj0),
-        property->getterMethod()->execute<T_Type const &>(obj1));
+    return ZFComparerDefault(*(const T_PropHT *)v0, *(const T_PropHT *)v1);
 }
 
 /** @brief default property callback impl */
-template<typename T_Type>
-inline void ZFPropertyCallbackCopyDefault(ZF_IN const ZFProperty *property,
-                                          ZF_IN ZFObject *dstObj,
-                                          ZF_IN ZFObject *srcObj)
-{
-    property->setterMethod()->execute<void, T_Type const &>(dstObj,
-        property->getterMethod()->execute<T_Type const &>(srcObj));
-}
-
-/** @brief default property callback impl */
-template<typename T_Type>
-inline void ZFPropertyCallbackRetainSetDefault(ZF_IN const ZFProperty *property,
-                                               ZF_IN ZFObject *dstObj,
-                                               ZF_IN ZFObject *src)
-{
-    property->setterMethod()->execute<void, T_Type const &>(dstObj, ZFCastZFObjectUnchecked(T_Type, src));
-}
-
-/** @brief default property callback impl */
-template<typename T_Type>
-inline ZFObject *ZFPropertyCallbackRetainGetDefault(ZF_IN const ZFProperty *property,
-                                                    ZF_IN ZFObject *ownerObj)
-{
-    return ZFCastZFObjectUnchecked(ZFObject *, property->getterMethod()->execute<T_Type const &>(ownerObj));
-}
-
-/** @brief default property callback impl */
-template<typename T_Type>
-inline void ZFPropertyCallbackAssignSetDefault(ZF_IN const ZFProperty *property,
-                                               ZF_IN ZFObject *dstObj,
-                                               ZF_IN void *src)
-{
-    property->setterMethod()->execute<void, T_Type const &>(dstObj, *(ZFCastStatic(T_Type *, src)));
-}
-
-/** @brief default property callback impl */
-template<typename T_Type>
-inline const void *ZFPropertyCallbackAssignGetDefault(ZF_IN const ZFProperty *property,
-                                                      ZF_IN ZFObject *ownerObj)
-{
-    return &(property->getterMethod()->execute<T_Type const &>(ownerObj));
-}
-
-/** @brief default property callback impl */
-template<typename T_Type>
+template<typename T_PropHT>
 inline void ZFPropertyCallbackGetInfoDefault(ZF_IN const ZFProperty *property,
                                              ZF_IN ZFObject *ownerObj,
+                                             ZF_IN const void *value,
                                              ZF_IN_OUT zfstring &ret)
 {
-    ZFCoreElementInfoGetter<T_Type>::elementInfoGetter(ret,
-        property->getterMethod()->execute<T_Type const &>(ownerObj));
+    ZFCoreElementInfoGetter<T_PropHT>::elementInfoGetter(ret, *(const T_PropHT *)value);
+}
+
+extern ZF_ENV_EXPORT void _ZFP_ZFPropertyValueStoreImpl(ZF_IN const ZFProperty *property,
+                                                        ZF_IN ZFObject *ownerObj,
+                                                        ZF_IN void *valueStored,
+                                                        ZF_IN ZFCorePointerBase *valueHolder);
+extern ZF_ENV_EXPORT void _ZFP_ZFPropertyValueReleaseImpl(ZF_IN const ZFProperty *property,
+                                                          ZF_IN ZFObject *ownerObj,
+                                                          ZF_IN void *valueStored);
+/** @brief default property callback impl */
+template<typename T_PropHT>
+inline void *ZFPropertyCallbackValueStoreDefault(ZF_IN const ZFProperty *property,
+                                                 ZF_IN ZFObject *ownerObj,
+                                                 ZF_IN_OPT const void *value)
+{
+    T_PropHT *valueStored = zfnew(T_PropHT, *(const T_PropHT *)value);
+    _ZFP_ZFPropertyValueStoreImpl(property, ownerObj, valueStored, zfnew(ZFCorePointerForObject<T_PropHT *>, valueStored));
+    return valueStored;
+}
+
+/** @brief default property callback impl */
+template<typename T_PropHT>
+inline void ZFPropertyCallbackValueReleaseDefault(ZF_IN const ZFProperty *property,
+                                                  ZF_IN ZFObject *ownerObj,
+                                                  ZF_IN void *value)
+{
+    _ZFP_ZFPropertyValueReleaseImpl(property, ownerObj, value);
+}
+
+template<typename T_Type, typename T_TypeFix = void, typename T_ReservedFix = void>
+zfclassNotPOD _ZFP_ZFPropertyProgressHolder
+{
+public:
+    static zfbool update(ZF_IN_OUT_OPT void *ret = zfnull,
+                         ZF_IN_OPT const void *from = zfnull,
+                         ZF_IN_OPT const void *to = zfnull,
+                         ZF_IN_OPT zffloat progress = 1)
+    {
+        return zffalse;
+    }
+};
+/** @brief default property callback impl */
+template<typename T_PropHT, typename T_PropVT>
+inline zfbool ZFPropertyCallbackProgressUpdateDefault(ZF_IN const ZFProperty *property,
+                                                      ZF_IN ZFObject *ownerObj,
+                                                      ZF_IN_OPT const void *from = zfnull,
+                                                      ZF_IN_OPT const void *to = zfnull,
+                                                      ZF_IN_OPT zffloat progress = 1)
+{
+    if(from == zfnull)
+    {
+        return _ZFP_ZFPropertyProgressHolder<T_PropHT>::update();
+    }
+    else
+    {
+        T_PropHT v = T_PropHT();
+        if(_ZFP_ZFPropertyProgressHolder<T_PropHT>::update(&v, from, to, progress))
+        {
+            property->setterMethod()->execute<void, T_PropVT const &>(ownerObj, v);
+            return zftrue;
+        }
+        else
+        {
+            return zffalse;
+        }
+    }
 }
 
 ZF_NAMESPACE_GLOBAL_END

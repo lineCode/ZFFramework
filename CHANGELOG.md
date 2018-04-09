@@ -2,6 +2,9 @@
 
 * update build script
 * optimize identity logic
+* optimize timeline animation impl
+* add property animation
+* optimize event dispatch
 * bugfix: native view cache doesn't properly reset state
 
 # 0.1.1 (20180319)

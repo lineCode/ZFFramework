@@ -102,11 +102,12 @@ ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE(ZFObjectCreator, ZFSerializableDataRefT
         }
         else
         {
-            obj = ZFPropertyRetainGet(property, obj);
-            if(obj == zfnull)
+            const zfautoObject *t = (const zfautoObject *)property->callbackValueGet(property, obj);
+            if(t == zfnull)
             {
                 return zftrue;
             }
+            obj = *t;
             if(i + 1 == pos.count())
             {
                 return ZFObjectToData(serializableData, obj);

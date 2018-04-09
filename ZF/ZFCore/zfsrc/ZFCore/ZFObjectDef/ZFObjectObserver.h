@@ -278,6 +278,41 @@ public:
 
 public:
     /**
+     * @brief attach a state that indicate whether the observer has add,
+     *   for performance usage
+     *
+     * notifying an observer requires much CPU to check and execute,
+     * even if no observer has ever added\n
+     * to optimize this, you may attach a flag to indicate whether
+     * any observer has ever added\n
+     * usage:
+     * @code
+     *   enum {
+     *       Flag_MyEvent0,
+     *       Flag_MyEvent1,
+     *   };
+     *   zfuint myFlag = 0;
+     *   observer.observerHasAddStateAttach(EventXXX, &myFlag, Flag_MyEvent0);
+     *   observer.observerHasAddStateAttach(EventXXX, &myFlag, Flag_MyEvent1);
+     *
+     *   if(ZFBitTest(myFlag, Flag_MyEvent0))
+     *   {
+     *       observer.observerNotify(...);
+     *   }
+     * @endcode
+     */
+    zffinal void observerHasAddStateAttach(ZF_IN const zfidentity &eventId,
+                                           ZF_IN_OUT zfuint *flag,
+                                           ZF_IN_OUT zfuint flagBit);
+    /**
+     * @brief see #observerHasAddStateAttach
+     */
+    zffinal void observerHasAddStateDetach(ZF_IN const zfidentity &eventId,
+                                           ZF_IN_OUT zfuint *flag,
+                                           ZF_IN_OUT zfuint flagBit);
+
+public:
+    /**
      * @brief return a short string describe the object
      */
     void objectInfoT(ZF_OUT zfstring &ret) const;
@@ -293,11 +328,15 @@ public:
 
 public:
     /** @brief owner object of this observer holder, or null if none */
-    ZFObject *observerOwner(void) const;
-    zffinal void _ZFP_ZFObserverHolder_observerOwnerSet(ZF_IN ZFObject *obj);
+    inline ZFObject *observerOwner(void) const
+    {
+        return this->_observerOwner;
+    }
+    zffinal void _ZFP_ZFObserverHolder_observerOwnerSet(ZF_IN ZFObject *obj) const;
 
 private:
     _ZFP_ZFObserverHolderPrivate *d;
+    ZFObject *_observerOwner;
 };
 
 // ============================================================

@@ -108,7 +108,7 @@ zfbool allPropertyIsEqual(ZF_IN ZFObject *obj0,
     for(zfindex i = allProperty.count() - 1; i != zfindexMax(); --i)
     {
         if(cls1->classIsTypeOf(allProperty[i]->propertyOwnerClass())
-            && allProperty[i]->callbackCompare(allProperty[i], obj0, obj1) != ZFCompareTheSame)
+            && ZFPropertyCompare(allProperty[i], obj0, obj1) != ZFCompareTheSame)
         {
             return zffalse;
         }

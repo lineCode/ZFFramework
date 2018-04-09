@@ -134,94 +134,60 @@ extern void ZFUIKit_test_prepareSettingButtonWithTestWindow(ZF_IN ZFUIWindow *wi
                                                             ZF_IN ZFArray *settings);
 extern void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
                                                    ZF_IN ZFObject *obj,
-                                                   ZF_IN ZFTimeLineProperty *modifier,
-                                                   ZF_IN zffloat step);
+                                                   ZF_IN const ZFProperty *property,
+                                                   ZF_IN const ZFListener &nextCallback,
+                                                   ZF_IN ZFObject *userData);
 
 // ============================================================
 extern void ZFUIKit_test_prepareSettingForBoolProperty(ZF_IN_OUT ZFArrayEditable *settings,
                                                        ZF_IN ZFObject *obj,
                                                        ZF_IN const ZFProperty *property);
 
-zfclassNotPOD _ZFP_ZFUIKit_test_prepareSettingForNormalProperty_ProgressBase
+zfclass _ZFP_I_ZFUIKit_test_prepareSettingForNormalProperty_Holder : zfextends ZFObject
 {
+    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFUIKit_test_prepareSettingForNormalProperty_Holder, ZFObject)
 public:
-    virtual ~_ZFP_ZFUIKit_test_prepareSettingForNormalProperty_ProgressBase(void) {}
-
+    ZFObject *obj;
+    const ZFProperty *property;
+    ZFCoreArrayBase *propertyValues;
+    zfindex index;
 public:
-    virtual void progressOnUpdate(ZF_IN const ZFProperty *ownerProperty,
-                                  ZF_IN ZFObject *ownerObj,
-                                  ZF_IN zffloat progress) zfpurevirtual;
-    virtual void stateOnSave(ZF_IN const ZFProperty *ownerProperty,
-                             ZF_IN ZFObject *ownerObj) zfpurevirtual;
-    virtual void stateOnRestore(ZF_IN const ZFProperty *ownerProperty,
-                                ZF_IN ZFObject *ownerObj) zfpurevirtual;
-};
-zfclass _ZFP_ZFUIKit_test_prepareSettingForNormalProperty_TimeLine : zfextends ZFTimeLineProperty
-{
-    ZFOBJECT_DECLARE(_ZFP_ZFUIKit_test_prepareSettingForNormalProperty_TimeLine, ZFTimeLineProperty)
+    _ZFP_I_ZFUIKit_test_prepareSettingForNormalProperty_Holder(void)
+    : obj(zfnull)
+    , property(zfnull)
+    , propertyValues(zfnull)
+    , index(0)
+    {
+    }
 protected:
-    zfoverride
-    virtual void progressOnUpdate(ZF_IN ZFObject *ownerObj,
-                                  ZF_IN zffloat progress)
+    virtual void objectOnDeallocPrepare(void)
     {
-        zfsuper::progressOnUpdate(ownerObj, progress);
-        this->action->progressOnUpdate(this->ownerProperty(), ownerObj, progress);
-    }
-    zfoverride
-    virtual void stateOnSave(ZF_IN ZFObject *ownerObj)
-    {
-        zfsuper::stateOnSave(ownerObj);
-        this->action->stateOnSave(this->ownerProperty(), ownerObj);
-    }
-    zfoverride
-    virtual void stateOnRestore(ZF_IN ZFObject *ownerObj)
-    {
-        zfsuper::stateOnRestore(ownerObj);
-        this->action->stateOnRestore(this->ownerProperty(), ownerObj);
-    }
-public:
-    _ZFP_ZFUIKit_test_prepareSettingForNormalProperty_ProgressBase *action;
-protected:
-    zfoverride
-    virtual void objectOnDealloc(void)
-    {
-        zfdelete(this->action);
-        zfsuper::objectOnDealloc();
+        if(this->propertyValues)
+        {
+            this->propertyValues->refDelete();
+        }
+        zfsuper::objectOnDeallocPrepare();
     }
 };
-#define ZFUIKit_test_prepareSettingForNormalProperty(settings, obj, PropertyType, property, propertyValues_) \
-    zfCoreAssert(!propertyValues_.isEmpty()); \
-    zfclassNotPOD ZFUniqueName(_ZFP_ZFUIKit_test_prepareSettingForNormalProperty_Progress) : public _ZFP_ZFUIKit_test_prepareSettingForNormalProperty_ProgressBase \
-    { \
-    public: \
-        virtual void progressOnUpdate(ZF_IN const ZFProperty *ownerProperty, \
-                                      ZF_IN ZFObject *ownerObj, \
-                                      ZF_IN zffloat progress) \
-        { \
-            zffloat step = 1.0f / propertyValues.count(); \
-            zfindex index = (zfindex)((progress + step / 2) / step); \
-            ownerProperty->setterMethod()->execute<void, PropertyType const &>(ownerObj, this->propertyValues[index]); \
-        } \
-        virtual void stateOnSave(ZF_IN const ZFProperty *ownerProperty, \
-                                 ZF_IN ZFObject *ownerObj) \
-        { \
-            this->_savedState = ownerProperty->getterMethod()->execute<PropertyType const &>(ownerObj); \
-        } \
-        virtual void stateOnRestore(ZF_IN const ZFProperty *ownerProperty, \
-                                    ZF_IN ZFObject *ownerObj) \
-        { \
-            ownerProperty->setterMethod()->execute<void, PropertyType const &>(ownerObj, this->_savedState); \
-        } \
-    public: \
-        ZFCoreArray<PropertyType> propertyValues; \
-    private: \
-        PropertyType _savedState; \
-    }; \
-    zfblockedAlloc(_ZFP_ZFUIKit_test_prepareSettingForNormalProperty_TimeLine, ZFUniqueName(modifier)); \
-    ZFUniqueName(modifier)->ownerPropertySet(property); \
-    ZFUniqueName(modifier)->action = zfnew(ZFUniqueName(_ZFP_ZFUIKit_test_prepareSettingForNormalProperty_Progress)); \
-    ((ZFUniqueName(_ZFP_ZFUIKit_test_prepareSettingForNormalProperty_Progress) *)(ZFUniqueName(modifier)->action))->propertyValues = propertyValues_; \
-    ZFUIKit_test_prepareSettingForProperty(settings, obj, ZFUniqueName(modifier), 1.0f / propertyValues_.count())
+#define ZFUIKit_test_prepareSettingForNormalProperty(settings, obj_, PropertyType, property_, propertyValues_) \
+    do { \
+        zfblockedAlloc(_ZFP_I_ZFUIKit_test_prepareSettingForNormalProperty_Holder, userData); \
+        userData->obj = obj_; \
+        userData->property = property_; \
+        userData->propertyValues = propertyValues_.refNew(); \
+        ZFLISTENER_LOCAL(nextCallback, { \
+                _ZFP_I_ZFUIKit_test_prepareSettingForNormalProperty_Holder *holder = userData->toAny(); \
+                ZFCoreArray<PropertyType> const &propertyValues = *(const ZFCoreArray<PropertyType> *)holder->propertyValues; \
+                ++(holder->index); \
+                if(holder->index >= propertyValues.count()) \
+                { \
+                    holder->index = 0; \
+                } \
+                holder->property->setterMethod()->execute<void ZFM_COMMA() PropertyType const &>( \
+                    holder->obj, propertyValues[holder->index]); \
+            }) \
+        ZFUIKit_test_prepareSettingForProperty(settings, userData->obj, userData->property, nextCallback, userData); \
+    } while(zffalse)
 
 extern void ZFUIKit_test_prepareSettingForLayoutRequest(ZF_IN_OUT ZFArrayEditable *settings,
                                                         ZF_IN ZFUIView *view);

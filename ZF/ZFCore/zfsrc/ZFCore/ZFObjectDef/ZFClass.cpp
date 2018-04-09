@@ -1380,14 +1380,7 @@ void ZFClass::_ZFP_ZFClass_propertyAutoInitAction(ZF_IN ZFObject *owner) const
     for(zfstlmap<const ZFProperty *, zfbool>::iterator it = d->propertyAutoInitMap.begin(); it != d->propertyAutoInitMap.end(); ++it)
     {
         const ZFProperty *property = it->first;
-        if(property->propertyIsRetainProperty())
-        {
-            property->callbackRetainGet(property, owner);
-        }
-        else
-        {
-            property->callbackAssignGet(property, owner);
-        }
+        property->callbackValueGet(property, owner);
     }
 }
 void ZFClass::_ZFP_ZFClass_propertyInitStepRegister(ZF_IN const ZFProperty *property) const

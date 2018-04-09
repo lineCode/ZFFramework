@@ -245,6 +245,7 @@ protected:
     /** @cond ZFPrivateDoc */
     ZFObject(void)
     : d(zfnull)
+    , _observerHolder()
     {
     }
     virtual ~ZFObject(void)
@@ -269,23 +270,10 @@ public:
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified during #objectOnRetain\n
-     * this event is only designed for convenient and for debug use only
-     */
-    ZFOBSERVER_EVENT(ObjectOnRetain)
-    /**
-     * @brief see #ZFObject::observerNotify
-     *
-     * notified during #objectOnRelease\n
-     * this event is only designed for convenient and for debug use only
-     */
-    ZFOBSERVER_EVENT(ObjectOnRelease)
-    /**
-     * @brief see #ZFObject::observerNotify
-     *
      * param0 is a #ZFPointerHolder holds a (const ZFProperty *) value\n
-     * param1 is a #ZFPointerHolder holds the old property value,
-     * or null if no old value:
+     * param1 is a #ZFPointerHolder holds the old property value
+     * (holds null when first time accessed)\n
+     * the param1 holds these types:
      * -  for retain property, it points to (const zfautoObject *)
      * -  for assign property, it points to (const YourPropertyType *)
      *
@@ -433,22 +421,28 @@ public:
      * @brief internal observer holder,
      *   notifying to the holder is equivalent to notifying to the object
      */
-    zffinal const ZFObserverHolder &observerHolder(void);
+    inline const ZFObserverHolder &observerHolder(void)
+    {
+        return this->_observerHolder;
+    }
     /**
      * @brief see #observerNotify
      */
-    zffinal zfidentity observerAdd(ZF_IN const zfidentity &eventId,
-                                   ZF_IN const ZFListener &observer,
-                                   ZF_IN_OPT ZFObject *userData = zfnull,
-                                   ZF_IN_OPT ZFObject *owner = zfnull,
-                                   ZF_IN_OPT zfbool autoRemoveAfterActivate = zffalse,
-                                   ZF_IN_OPT ZFLevel observerLevel = ZFLevelAppNormal);
+    zffinal inline zfidentity observerAdd(ZF_IN const zfidentity &eventId,
+                                          ZF_IN const ZFListener &observer,
+                                          ZF_IN_OPT ZFObject *userData = zfnull,
+                                          ZF_IN_OPT ZFObject *owner = zfnull,
+                                          ZF_IN_OPT zfbool autoRemoveAfterActivate = zffalse,
+                                          ZF_IN_OPT ZFLevel observerLevel = ZFLevelAppNormal)
+    {
+        return this->observerHolder().observerAdd(eventId, observer, userData, owner, autoRemoveAfterActivate, observerLevel);
+    }
     /**
      * @brief see #observerNotify
      */
     zffinal inline zfidentity observerAdd(ZF_IN const ZFObserverAddParam &param)
     {
-        return this->observerAdd(
+        return this->observerHolder().observerAdd(
             param.eventId(),
             param.observer(),
             param.userData(),
@@ -752,6 +746,7 @@ protected:
 
 private:
     _ZFP_ZFObjectPrivate *d;
+    ZFObserverHolder _observerHolder;
     friend zfclassFwd ZFClass;
     friend zfclassFwd ZFObserverHolder;
     friend zfclassFwd _ZFP_ZFObserverHolderPrivate;

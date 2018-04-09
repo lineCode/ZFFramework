@@ -29,8 +29,6 @@ zfclassFwd ZFObject;
  *   const ZFProperty *propertyInfo = ...;
  *   propertyInfo->callbackIsValueAccessed(propertyInfo, ownerObj);
  * @endcode
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyIsValueAccessed if necessary
  */
 typedef zfbool (*ZFPropertyCallbackIsValueAccessed)(ZF_IN const ZFProperty *property,
                                                     ZF_IN ZFObject *ownerObj);
@@ -46,120 +44,110 @@ extern ZF_ENV_EXPORT void ZFPropertyCallbackIsValueAccessedChange(ZF_IN const ZF
  *   const ZFProperty *propertyInfo = ...;
  *   propertyInfo->callbackIsInitValue(propertyInfo, ownerObj, zfnull);
  * @endcode
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyIsInitValue if necessary
- * @note the outInitValue can be set to access the init value (only if the checker returned false)\n
- *   for assign property, it should be a pointer of your property type\n
- *   for retain property, it should be a pointer to #zfautoObject
+ * @note the outInitValue can be set to access the init value (only when the checker returned false)
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
  */
 typedef zfbool (*ZFPropertyCallbackIsInitValue)(ZF_IN const ZFProperty *property,
                                                 ZF_IN ZFObject *ownerObj,
-                                                ZF_OUT_OPT void *outInitValue);
+                                                ZF_OUT_OPT void *outInitValue /* = zfnull */);
 /** @brief change default impl for #ZFPropertyCallbackIsInitValue, use with caution */
 extern ZF_ENV_EXPORT void ZFPropertyCallbackIsInitValueChange(ZF_IN const ZFProperty *property,
                                                               ZF_IN ZFPropertyCallbackIsInitValue callback);
 
 /**
- * @brief used to compare two object's property
+ * @brief used to set property value without knowing the type
+ *
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
+ */
+typedef void (*ZFPropertyCallbackValueSet)(ZF_IN const ZFProperty *property,
+                                           ZF_IN ZFObject *dstObj,
+                                           ZF_IN const void *value);
+/** @brief change default impl for #ZFPropertyCallbackValueSet, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueSetChange(ZF_IN const ZFProperty *property,
+                                                           ZF_IN ZFPropertyCallbackValueSet callback);
+
+/**
+ * @brief used to get property value without knowing the type
+ *
+ * @note for retain property, the returned pointer points to a #zfautoObject\n
+ *   for assign property, the returned pointer pointer
+ */
+typedef const void *(*ZFPropertyCallbackValueGet)(ZF_IN const ZFProperty *property,
+                                                  ZF_IN ZFObject *ownerObj);
+/** @brief change default impl for #ZFPropertyCallbackValueGet, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueGetChange(ZF_IN const ZFProperty *property,
+                                                           ZF_IN ZFPropertyCallbackValueGet callback);
+
+/**
+ * @brief used to compare property's value
  *
  * usage:
  * @code
  *   const ZFProperty *propertyInfo = ...;
- *   propertyInfo->callbackCompare(propertyInfo, obj0, obj1);
+ *   ZFCompareResult result = propertyInfo->callbackCompare(propertyInfo, ownerObj, v0, v1);
  * @endcode
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyCompare if necessary
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
  */
 typedef ZFCompareResult (*ZFPropertyCallbackCompare)(ZF_IN const ZFProperty *property,
-                                                     ZF_IN ZFObject *obj0,
-                                                     ZF_IN ZFObject *obj1);
+                                                     ZF_IN ZFObject *ownerObj,
+                                                     ZF_IN const void *v0,
+                                                     ZF_IN const void *v1);
 /** @brief change default impl for #ZFPropertyCallbackCompare, use with caution */
 extern ZF_ENV_EXPORT void ZFPropertyCallbackCompareChange(ZF_IN const ZFProperty *property,
                                                           ZF_IN ZFPropertyCallbackCompare callback);
 
 /**
- * @brief used to copy property from different object
- *
- * usage:
- * @code
- *   const ZFProperty *propertyInfo = ...;
- *   propertyInfo->callbackCopy(propertyInfo, dstObj, srcObj);
- * @endcode
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyCopyAll if necessary
- */
-typedef void (*ZFPropertyCallbackCopy)(ZF_IN const ZFProperty *property,
-                                       ZF_IN ZFObject *dstObj,
-                                       ZF_IN ZFObject *srcObj);
-/** @brief change default impl for #ZFPropertyCallbackCopy, use with caution */
-extern ZF_ENV_EXPORT void ZFPropertyCallbackCopyChange(ZF_IN const ZFProperty *property,
-                                                       ZF_IN ZFPropertyCallbackCopy callback);
-
-/**
- * @brief used to set retain property without knowing the type
- *
- * do nothing if error
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyRetainSet if necessary
- */
-typedef void (*ZFPropertyCallbackRetainSet)(ZF_IN const ZFProperty *property,
-                                            ZF_IN ZFObject *dstObj,
-                                            ZF_IN ZFObject *src);
-/** @brief change default impl for #ZFPropertyCallbackRetainSet, use with caution */
-extern ZF_ENV_EXPORT void ZFPropertyCallbackRetainSetChange(ZF_IN const ZFProperty *property,
-                                                            ZF_IN ZFPropertyCallbackRetainSet callback);
-
-/**
- * @brief used to get retain property without knowing the type
- *
- * return null if error
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyRetainGet if necessary
- */
-typedef ZFObject *(*ZFPropertyCallbackRetainGet)(ZF_IN const ZFProperty *property,
-                                                 ZF_IN ZFObject *ownerObj);
-/** @brief change default impl for #ZFPropertyCallbackRetainSet, use with caution */
-extern ZF_ENV_EXPORT void ZFPropertyCallbackRetainGetChange(ZF_IN const ZFProperty *property,
-                                                            ZF_IN ZFPropertyCallbackRetainGet callback);
-
-/**
- * @brief used to set assign property without knowing the type
- *
- * you must ensure the src's type is correct
- * (or safe and valid to cast to desired type by reinterpret pointer cast),
- * otherwise, data may be invalid and app may crash
- * @note this method has no type or runtime safe check,
- *   use #ZFPropertyAssignSet if necessary
- */
-typedef void (*ZFPropertyCallbackAssignSet)(ZF_IN const ZFProperty *property,
-                                            ZF_IN ZFObject *dstObj,
-                                            ZF_IN void *src);
-/** @brief change default impl for #ZFPropertyCallbackAssignSet, use with caution */
-extern ZF_ENV_EXPORT void ZFPropertyCallbackAssignSetChange(ZF_IN const ZFProperty *property,
-                                                            ZF_IN ZFPropertyCallbackAssignSet callback);
-
-/**
- * @brief used to get assign property without knowing the type
- *
- * return the property's address as (const void *) pointer,
- * or null if error
- */
-typedef const void *(*ZFPropertyCallbackAssignGet)(ZF_IN const ZFProperty *property,
-                                                   ZF_IN ZFObject *ownerObj);
-/** @brief change default impl for #ZFPropertyCallbackAssignGet, use with caution */
-extern ZF_ENV_EXPORT void ZFPropertyCallbackAssignGetChange(ZF_IN const ZFProperty *property,
-                                                            ZF_IN ZFPropertyCallbackAssignGet callback);
-
-/**
  * @brief used to get info of the property without knowing the type,
  *   usually for debug use
+ *
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
  */
 typedef void (*ZFPropertyCallbackGetInfo)(ZF_IN const ZFProperty *property,
                                           ZF_IN ZFObject *ownerObj,
+                                          ZF_IN const void *value,
                                           ZF_IN_OUT zfstring &ret);
 /** @brief change default impl for #ZFPropertyCallbackGetInfo, use with caution */
 extern ZF_ENV_EXPORT void ZFPropertyCallbackGetInfoChange(ZF_IN const ZFProperty *property,
                                                           ZF_IN ZFPropertyCallbackGetInfo callback);
+
+/**
+ * @brief used to store the property value
+ *
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
+ */
+typedef void *(*ZFPropertyCallbackValueStore)(ZF_IN const ZFProperty *property,
+                                              ZF_IN ZFObject *ownerObj,
+                                              ZF_IN_OPT const void *value /* = zfnull */);
+/** @brief change default impl for #ZFPropertyCallbackValueStore, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueStoreChange(ZF_IN const ZFProperty *property,
+                                                             ZF_IN ZFPropertyCallbackValueStore callback);
+
+/**
+ * @brief used to release the property value that was stored by #ZFPropertyCallbackValueStore
+ *
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
+ */
+typedef void (*ZFPropertyCallbackValueRelease)(ZF_IN const ZFProperty *property,
+                                               ZF_IN ZFObject *ownerObj,
+                                               ZF_IN void *valueStored);
+/** @brief change default impl for #ZFPropertyCallbackValueRelease, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueReleaseChange(ZF_IN const ZFProperty *property,
+                                                               ZF_IN ZFPropertyCallbackValueRelease callback);
+
+/**
+ * @brief used to update property value accorrding to progress,
+ *   see #ZFPROPERTY_PROGRESS_DECLARE
+ *
+ * @note for the type of the value, see #ZFPropertyCallbackValueGet
+ */
+typedef zfbool (*ZFPropertyCallbackProgressUpdate)(ZF_IN const ZFProperty *property,
+                                                   ZF_IN ZFObject *ownerObj,
+                                                   ZF_IN_OPT const void *from /* = zfnull */,
+                                                   ZF_IN_OPT const void *to /* = zfnull */,
+                                                   ZF_IN_OPT zffloat progress /* = 1 */);
+/** @brief change default impl for #ZFPropertyCallbackProgressUpdate, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackProgressUpdateChange(ZF_IN const ZFProperty *property,
+                                                                 ZF_IN ZFPropertyCallbackProgressUpdate callback);
 
 /**
  * @brief for user registered property only, used to setup a property's init value

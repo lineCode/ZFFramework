@@ -93,7 +93,7 @@ zfbool ZFPropertySerializeFrom(ZF_IN ZFObject *ownerObject,
                 obj.toObject()->objectInfoOfInstance().cString(), property->propertyClassOfRetainProperty()->className());
             return zffalse;
         }
-        property->callbackRetainSet(property, ownerObject, obj.toObject());
+        property->callbackValueSet(property, ownerObject, &obj);
         return zftrue;
     }
 
@@ -127,8 +127,8 @@ zfbool ZFPropertySerializeTo(ZF_IN const ZFProperty *propertyInfo,
     }
     if(propertyInfo->propertyIsRetainProperty())
     {
-        ZFObject *obj = propertyInfo->callbackRetainGet(propertyInfo, ownerObject);
-        if(!ZFObjectToData(serializableData, obj, outErrorHint))
+        const zfautoObject *obj = (const zfautoObject *)propertyInfo->callbackValueGet(propertyInfo, ownerObject);
+        if(obj == zfnull || !ZFObjectToData(serializableData, *obj, outErrorHint))
         {
             return zffalse;
         }

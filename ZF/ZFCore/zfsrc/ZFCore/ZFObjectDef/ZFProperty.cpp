@@ -13,6 +13,8 @@
 #include "ZFPropertyDeclare.h"
 #include "ZFPropertyUserRegister.h"
 
+#include "../ZFSTLWrapper/zfstl_map.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -37,13 +39,13 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
 ZFProperty::ZFProperty(void)
 : callbackIsValueAccessed(zfnull)
 , callbackIsInitValue(zfnull)
+, callbackValueSet(zfnull)
+, callbackValueGet(zfnull)
 , callbackCompare(zfnull)
-, callbackCopy(zfnull)
-, callbackRetainSet(zfnull)
-, callbackRetainGet(zfnull)
-, callbackAssignSet(zfnull)
-, callbackAssignGet(zfnull)
 , callbackGetInfo(zfnull)
+, callbackValueStore(zfnull)
+, callbackValueRelease(zfnull)
+, callbackProgressUpdate(zfnull)
 , callbackUserRegisterInitValueSetup(zfnull)
 , _ZFP_ZFPropertyNeedInit(zftrue)
 , _ZFP_ZFProperty_propertyIsUserRegister(zffalse)
@@ -210,13 +212,13 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
                                     , ZF_IN const ZFClass *propertyClassOfRetainProperty
                                     , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                     , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
+                                    , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
+                                    , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
                                     , ZF_IN ZFPropertyCallbackCompare callbackCompare
-                                    , ZF_IN ZFPropertyCallbackCopy callbackCopy
-                                    , ZF_IN ZFPropertyCallbackRetainSet callbackRetainSet
-                                    , ZF_IN ZFPropertyCallbackRetainGet callbackRetainGet
-                                    , ZF_IN ZFPropertyCallbackAssignSet callbackAssignSet
-                                    , ZF_IN ZFPropertyCallbackAssignGet callbackAssignGet
                                     , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
+                                    , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
+                                    , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
+                                    , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                     , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
                                     , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                     )
@@ -232,11 +234,13 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
     zfCoreAssert(getterMethod != zfnull);
     zfCoreAssert(callbackIsValueAccessed != zfnull);
     zfCoreAssert(callbackIsInitValue != zfnull);
+    zfCoreAssert(callbackValueSet != zfnull);
+    zfCoreAssert(callbackValueGet != zfnull);
     zfCoreAssert(callbackCompare != zfnull);
-    zfCoreAssert(callbackCopy != zfnull);
-    zfCoreAssert((callbackRetainSet != zfnull && callbackRetainGet != zfnull)
-        || (callbackAssignSet != zfnull && callbackAssignGet != zfnull));
     zfCoreAssert(callbackGetInfo != zfnull);
+    zfCoreAssert(callbackValueStore != zfnull);
+    zfCoreAssert(callbackValueRelease != zfnull);
+    zfCoreAssert(callbackProgressUpdate != zfnull);
 
     zfstring propertyInternalId;
     _ZFP_ZFPropertyInstanceSig(propertyInternalId, propertyOwnerClass->className(), name);
@@ -265,13 +269,13 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
             propertyClassOfRetainProperty);
         propertyInfo->callbackIsValueAccessed = callbackIsValueAccessed;
         propertyInfo->callbackIsInitValue = callbackIsInitValue;
+        propertyInfo->callbackValueSet = callbackValueSet;
+        propertyInfo->callbackValueGet = callbackValueGet;
         propertyInfo->callbackCompare = callbackCompare;
-        propertyInfo->callbackCopy = callbackCopy;
-        propertyInfo->callbackRetainSet = callbackRetainSet;
-        propertyInfo->callbackRetainGet = callbackRetainGet;
-        propertyInfo->callbackAssignSet = callbackAssignSet;
-        propertyInfo->callbackAssignGet = callbackAssignGet;
         propertyInfo->callbackGetInfo = callbackGetInfo;
+        propertyInfo->callbackValueStore = callbackValueStore;
+        propertyInfo->callbackValueRelease = callbackValueRelease;
+        propertyInfo->callbackProgressUpdate = callbackProgressUpdate;
         propertyInfo->callbackUserRegisterInitValueSetup = callbackUserRegisterInitValueSetup;
         propertyInfo->_ZFP_ZFProperty_callbackDealloc = callbackDealloc;
 
@@ -294,6 +298,54 @@ void _ZFP_ZFPropertyUnregister(ZF_IN const ZFProperty *propertyInfo)
     }
 
     _ZFP_ZFPropertyInstanceCleanup(propertyInfo);
+}
+
+// ============================================================
+zfclass _ZFP_I_ZFPropertyValueStoreHolder : zfextends ZFObject
+{
+    ZFOBJECT_DECLARE(_ZFP_I_ZFPropertyValueStoreHolder, ZFObject)
+
+public:
+    zfstlmap<const ZFProperty *, zfstlmap<void *, ZFCorePointerForObject<ZFCorePointerBase *> > > d;
+};
+void _ZFP_ZFPropertyValueStoreImpl(ZF_IN const ZFProperty *property,
+                                   ZF_IN ZFObject *ownerObj,
+                                   ZF_IN void *valueStored,
+                                   ZF_IN ZFCorePointerBase *valueHolder)
+{
+    zfCoreMutexLocker();
+    _ZFP_I_ZFPropertyValueStoreHolder *d = ownerObj->tagGet<_ZFP_I_ZFPropertyValueStoreHolder *>(
+            _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->className());
+    if(d == zfnull)
+    {
+        d = zfAlloc(_ZFP_I_ZFPropertyValueStoreHolder);
+        ownerObj->tagSet(_ZFP_I_ZFPropertyValueStoreHolder::ClassData()->className(), d);
+        zfRelease(d);
+    }
+    d->d[property][valueStored] = ZFCorePointerForObject<ZFCorePointerBase *>(valueHolder);
+}
+void _ZFP_ZFPropertyValueReleaseImpl(ZF_IN const ZFProperty *property,
+                                     ZF_IN ZFObject *ownerObj,
+                                     ZF_IN void *valueStored)
+{
+    zfCoreMutexLocker();
+    _ZFP_I_ZFPropertyValueStoreHolder *d = ownerObj->tagGet<_ZFP_I_ZFPropertyValueStoreHolder *>(
+            _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->className());
+    if(d == zfnull)
+    {
+        return ;
+    }
+    zfstlmap<const ZFProperty *, zfstlmap<void *, ZFCorePointerForObject<ZFCorePointerBase *> > >::iterator it =
+        d->d.find(property);
+    if(it == d->d.end())
+    {
+        return ;
+    }
+    it->second.erase(valueStored);
+    if(it->second.empty())
+    {
+        d->d.erase(it);
+    }
 }
 
 ZF_NAMESPACE_GLOBAL_END

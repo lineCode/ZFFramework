@@ -18,7 +18,7 @@
 #include "ZFUIKit/ZFAnimationNativeView.h"
 #include "ZFUIKit/ZFEnvInfo_ZFUIKit.h"
 #include "ZFUIKit/ZFObjectIO_image.h"
-#include "ZFUIKit/ZFTimeLineProperty_ZFUIKit.h"
+#include "ZFUIKit/ZFTimeLineCurve_UI.h"
 #include "ZFUIKit/ZFUIColor_common.h"
 #include "ZFUIKit/ZFUIEvent.h"
 #include "ZFUIKit/ZFUIGlobalStyle.h"

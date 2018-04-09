@@ -24,47 +24,47 @@ void ZFPropertyCallbackIsInitValueChange(ZF_IN const ZFProperty *property,
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackIsInitValue = callback;
 }
+void ZFPropertyCallbackValueSetChange(ZF_IN const ZFProperty *property,
+                                      ZF_IN ZFPropertyCallbackValueSet callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackValueSet = callback;
+}
+void ZFPropertyCallbackValueGetChange(ZF_IN const ZFProperty *property,
+                                      ZF_IN ZFPropertyCallbackValueGet callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackValueGet = callback;
+}
 void ZFPropertyCallbackCompareChange(ZF_IN const ZFProperty *property,
                                      ZF_IN ZFPropertyCallbackCompare callback)
 {
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackCompare = callback;
 }
-void ZFPropertyCallbackCopyChange(ZF_IN const ZFProperty *property,
-                                  ZF_IN ZFPropertyCallbackCopy callback)
-{
-    zfCoreAssert(property != zfnull && callback != zfnull);
-    property->_ZFP_ZFProperty_removeConst()->callbackCopy = callback;
-}
-void ZFPropertyCallbackRetainSetChange(ZF_IN const ZFProperty *property,
-                                       ZF_IN ZFPropertyCallbackRetainSet callback)
-{
-    zfCoreAssert(property != zfnull && callback != zfnull);
-    property->_ZFP_ZFProperty_removeConst()->callbackRetainSet = callback;
-}
-void ZFPropertyCallbackRetainGetChange(ZF_IN const ZFProperty *property,
-                                       ZF_IN ZFPropertyCallbackRetainGet callback)
-{
-    zfCoreAssert(property != zfnull && callback != zfnull);
-    property->_ZFP_ZFProperty_removeConst()->callbackRetainGet = callback;
-}
-void ZFPropertyCallbackAssignSetChange(ZF_IN const ZFProperty *property,
-                                       ZF_IN ZFPropertyCallbackAssignSet callback)
-{
-    zfCoreAssert(property != zfnull && callback != zfnull);
-    property->_ZFP_ZFProperty_removeConst()->callbackAssignSet = callback;
-}
-void ZFPropertyCallbackAssignGetChange(ZF_IN const ZFProperty *property,
-                                       ZF_IN ZFPropertyCallbackAssignGet callback)
-{
-    zfCoreAssert(property != zfnull && callback != zfnull);
-    property->_ZFP_ZFProperty_removeConst()->callbackAssignGet = callback;
-}
 void ZFPropertyCallbackGetInfoChange(ZF_IN const ZFProperty *property,
                                      ZF_IN ZFPropertyCallbackGetInfo callback)
 {
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackGetInfo = callback;
+}
+void ZFPropertyCallbackValueStoreChange(ZF_IN const ZFProperty *property,
+                                        ZF_IN ZFPropertyCallbackValueStore callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackValueStore = callback;
+}
+void ZFPropertyCallbackValueReleaseChange(ZF_IN const ZFProperty *property,
+                                          ZF_IN ZFPropertyCallbackValueRelease callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackValueRelease = callback;
+}
+void ZFPropertyCallbackProgressUpdateChange(ZF_IN const ZFProperty *property,
+                                            ZF_IN ZFPropertyCallbackProgressUpdate callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackProgressUpdate = callback;
 }
 
 ZF_NAMESPACE_GLOBAL_END

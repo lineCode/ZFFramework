@@ -179,6 +179,7 @@ ZFPROPERTY_TYPE_ALIAS_DECLARE(zfstring, zfstring, cString, const zfchar *)
  */
 ZFPROPERTY_TYPE_DECLARE(zfint, zfint)
 ZFOUTPUT_TYPE(zfint, {output.execute(zfintToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zfint)
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE
  *
@@ -191,6 +192,7 @@ ZFOUTPUT_TYPE(zfint, {output.execute(zfintToString(v));})
  */
 ZFPROPERTY_TYPE_DECLARE(zfuint, zfuint)
 ZFOUTPUT_TYPE(zfuint, {output.execute(zfuintToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zfuint)
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE
@@ -204,6 +206,7 @@ ZFOUTPUT_TYPE(zfuint, {output.execute(zfuintToString(v));})
  */
 ZFPROPERTY_TYPE_DECLARE(zfindex, zfindex)
 ZFOUTPUT_TYPE(zfindex, {output.execute(zfindexToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zfindex)
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE
@@ -215,6 +218,7 @@ ZFOUTPUT_TYPE(zfindex, {output.execute(zfindexToString(v));})
  */
 ZFPROPERTY_TYPE_DECLARE(zffloat, zffloat)
 ZFOUTPUT_TYPE(zffloat, {output.execute(zffloatToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zffloat)
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE
@@ -226,6 +230,7 @@ ZFOUTPUT_TYPE(zffloat, {output.execute(zffloatToString(v));})
  */
 ZFPROPERTY_TYPE_DECLARE(zfdouble, zfdouble)
 ZFOUTPUT_TYPE(zfdouble, {output.execute(zfdoubleToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zfdouble)
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE
@@ -237,6 +242,7 @@ ZFOUTPUT_TYPE(zfdouble, {output.execute(zfdoubleToString(v));})
  */
 ZFPROPERTY_TYPE_DECLARE(zflongdouble, zflongdouble)
 ZFOUTPUT_TYPE(zflongdouble, {output.execute(zflongdoubleToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zflongdouble)
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE
@@ -248,6 +254,7 @@ ZFOUTPUT_TYPE(zflongdouble, {output.execute(zflongdoubleToString(v));})
  */
 ZFPROPERTY_TYPE_DECLARE(zftimet, zftimet)
 ZFOUTPUT_TYPE(zftimet, {output.execute(zftimetToString(v));})
+ZFPROPERTY_PROGRESS_DECLARE_BY_VALUE(zftimet)
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE

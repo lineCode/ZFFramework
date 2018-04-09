@@ -113,7 +113,7 @@ public:
             button->prepareButton##T_Component(); \
             if(button->buttonState() == ZFUIButtonState::e_##T_State) \
             { \
-                property->callbackCopy(property, button->button##T_Component()->toObject(), listenerData.sender); \
+                ZFPropertyCopy(property, button->button##T_Component()->toObject(), listenerData.sender); \
             } \
             else if(property == ZFPropertyAccess(ZFUITextView, text)) \
             { \

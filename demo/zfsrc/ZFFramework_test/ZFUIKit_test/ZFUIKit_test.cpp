@@ -125,48 +125,32 @@ void ZFUIKit_test_prepareSettingButtonWithTestWindow(ZF_IN ZFUIWindow *window,
 
 void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
                                             ZF_IN ZFObject *obj,
-                                            ZF_IN ZFTimeLineProperty *modifier,
-                                            ZF_IN zffloat step)
+                                            ZF_IN const ZFProperty *property,
+                                            ZF_IN const ZFListener &nextCallback,
+                                            ZF_IN ZFObject *userData)
 {
     zfCoreAssert(settings != zfnull);
-    zfCoreAssert(obj != zfnull && modifier != zfnull && modifier->ownerProperty() != zfnull);
-    zfCoreAssert(obj->classData()->classIsTypeOf(modifier->ownerProperty()->propertyOwnerClass()));
+    zfCoreAssert(nextCallback.callbackIsValid());
 
-    zfblockedAlloc(ZFObject, userData);
-    userData->tagSet(zfText("obj"), obj->objectHolder());
-    userData->tagSet(zfText("modifier"), modifier);
-    userData->tagSet(zfText("step"), ZFValue::floatValueCreate(step).toObject());
-    userData->tagSet(zfText("progress"), ZFValueEditable::floatValueCreate(0).toObject());
+    zfblockedAlloc(ZFObject, holder);
+    holder->tagSet(zfText("obj"), obj->objectHolder());
+    holder->tagSet(zfText("property"), zflineAlloc(ZFPointerHolder, property));
+    holder->tagSet(zfText("nextCallback"), zflineAlloc(ZFTypeHolder, zfnew(ZFListener, nextCallback), ZFTypeHolderTypeObject<ZFListener *>));
+    holder->tagSet(zfText("userData"), userData);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
         ZFObject *obj = userData->tagGet<ZFObjectHolder *>(zfText("obj"))->holdedObj;
-        ZFTimeLineProperty *modifier = userData->tagGet<ZFTimeLineProperty *>(zfText("modifier"));
+        const ZFProperty *property = userData->tagGet<ZFPointerHolder *>(zfText("property"))->holdedDataPointer<const ZFProperty *>();
 
         ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-        const ZFProperty *property = modifier->ownerProperty();
         text->stringValueSet(zfstringWithFormat(zfText("%s : %s"), property->propertyName(), ZFPropertyGetInfo(property, obj).cString()));
     })
     ZFLISTENER_LOCAL(buttonClickListener, {
-        ZFObject *obj = userData->tagGet<ZFObjectHolder *>(zfText("obj"))->holdedObj;
-        ZFTimeLineProperty *modifier = userData->tagGet<ZFTimeLineProperty *>(zfText("modifier"));
-        zffloat step = userData->tagGet<ZFValue *>(zfText("step"))->floatValue();
-        ZFValueEditable *progress = userData->tagGet<ZFValueEditable *>(zfText("progress"));
-
-        zffloat progressNew = (progress->floatValue() + step);
-        while(zffloatIsSmaller(progressNew, 0.0f))
-        {
-            progressNew += 1.0f;
-        }
-        while(!zffloatIsSmaller(progressNew, 1.0f))
-        {
-            progressNew -= 1.0f;
-        }
-        progress->floatValueSet(progressNew);
-
-        modifier->progressUpdate(obj, progressNew);
+        const ZFListener &nextCallback = userData->tagGet<ZFTypeHolder *>(zfText("nextCallback"))->holdedDataRef<const ZFListener &>();
+        nextCallback.execute(ZFListenerData(), userData->tagGet(zfText("userData")));
     })
 
-    settings->add(zflineAlloc(ZFUIKit_test_SettingData, buttonTextGetter, buttonClickListener, userData));
+    settings->add(zflineAlloc(ZFUIKit_test_SettingData, buttonTextGetter, buttonClickListener, holder));
 }
 
 void ZFUIKit_test_prepareSettingForBoolProperty(ZF_IN_OUT ZFArrayEditable *settings,
