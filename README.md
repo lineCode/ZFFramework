@@ -1,44 +1,57 @@
-[![Build Status](https://travis-ci.org/ZFFramework/ZFFramework.svg?branch=master)](https://travis-ci.org/ZFFramework/ZFFramework)
+<!-- vim-markdown-toc GFM -->
+
+* [Introduction](#introduction)
+* [Main features](#main-features)
+* [Quick overview](#quick-overview)
+* [Requirement](#requirement)
+* [Current status](#current-status)
+* [What we do](#what-we-do)
+* [Getting started](#getting-started)
+* [License](#license)
+
+<!-- vim-markdown-toc -->
 
 # Introduction
 
-welcome to [ZFFramework](http://ZFFramework.com), a cross-platform, lightweight, mid-level application framework in C++
+welcome to ZFFramework, a cross-platform, lightweight, mid-level application framework in C++
 
 everything here starts with "ZF", which stands for "Zero Framework"
 
-* it's a framework, you are able to write all of your code under ZFFramework to build your app quickly
-* it's not a traditional framework, it's able to be loaded like a dynamic library, plug and play
-
-    you are able to embed ZFFramework to your native framework, or embed your native code to ZFFramework
-
-* as a mid-level framework, it's designed to be able to run at any platform that supplies C++03
-
-    normal app, OpenGL app, or even text-based console app, everything's done if you are able to supply your own implementation
+* it's not a traditional framework, can be loaded like a dynamic library, plug and play
+* designed to be able to run at any platform that supplies C++03 compatible implementation
 
 
-Online docs: http://ZFFramework.com
+Homepage:
 
-Github repo: https://github.com/ZFFramework/ZFFramework
+* Online docs: http://ZFFramework.com
+* Github repo: https://github.com/ZFFramework/ZFFramework [![Build Status](https://travis-ci.org/ZFFramework/ZFFramework.svg?branch=master)](https://travis-ci.org/ZFFramework/ZFFramework)
 
-NOTE: this repo would keep clean (remove unnecessary history) and update frequently,
-if you want stable or history version, please refer to https://github.com/ZFFrameworkDist/ZFFramework
+    NOTE: this repo would keep clean (remove unnecessary history) and update frequently,
+    if you want stable or history version, please refer to [ZFFrameworkDist](https://github.com/ZFFrameworkDist/ZFFramework)
 
-# Current status
+# Main features
 
-* finished
-    * core module (memory management, reflection, serialization)
-    * basic UI module (view, window, label, image view, button, layout, scroll view, list view)
-    * basic algorithm (xml, json, regexp, md5, base64, crc32, encryption, compression)
-    * common platform implementations (iOS, Android, Qt)
-    * auto lua binding by reflection
-* working
-    * more useful UI modules
-    * basic network module
-    * basic database module
-* future
-    * standalone visual UI editor
-    * more IDE / compile env integrations
-    * more platform implementations
+* minimum requirement
+* powerful reflection, serialzation, styleable logic
+
+    * automatic lua binding, no extra bind code or config are necessary
+    * automatic UI serialization
+    * stateful property animation
+    * enhanced global event observer
+
+* fully modularization, "core + protocol + dynamic implementation" design
+
+    support any platform if you are able to supply a native C++ implementation,
+    most of implementation can be replaced easily, and implementation is required only if its owner module being used
+
+* easy to communicate with native code
+
+    even to embed UI elements and native UI elements with each other
+
+* UI module to write cross-platform UI easily
+* built-in auto scale logic to support multiple screen size
+
+    you have no need to write size-dependent code in both app and implementation
 
 
 # Quick overview
@@ -126,25 +139,23 @@ if you want stable or history version, please refer to https://github.com/ZFFram
     * depends on the actual platform implementation
 
 
-# Main features
+# Current status
 
-* minimum requirement
-* built-in reflection, serialzation, styleable
-* "core + protocol + dynamic implementation" design
+* finished
+    * core module (memory management, reflection, serialization)
+    * basic UI module (view, window, label, image view, button, layout, scroll view, list view)
+    * basic algorithm (xml, json, regexp, md5, base64, crc32, encryption, compression)
+    * common platform implementations (iOS, Android, Qt)
+    * auto lua binding by reflection
+* working
+    * more useful UI modules
+    * basic network module
+    * basic database module
+* future
+    * standalone visual UI editor
+    * more IDE / compile env integrations
+    * more platform implementations
 
-    support any platform if you are able to supply a native C++ implementation,
-    most of implementation can be replaced easily, and implementation is required only if its owner module being used
-
-* easy to communicate with native code
-
-    even to embed UI elements and native UI elements with each other
-
-* UI module to write cross-platform UI easily
-* built-in auto scale logic to support multiple screen size
-
-    you have no need to write size-dependent code in both app and implementation
-
-* automatic lua binding, no extra bind code or config are necessary
 
 # What we do
 
