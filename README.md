@@ -1,16 +1,3 @@
-<!-- vim-markdown-toc GFM -->
-
-* [Introduction](#introduction)
-* [Main features](#main-features)
-* [Quick overview](#quick-overview)
-* [Requirement](#requirement)
-* [Current status](#current-status)
-* [What we do](#what-we-do)
-* [Getting started](#getting-started)
-* [License](#license)
-
-<!-- vim-markdown-toc -->
-
 # Introduction
 
 welcome to ZFFramework, a cross-platform, lightweight, mid-level application framework in C++
