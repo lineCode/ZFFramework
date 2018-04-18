@@ -53,10 +53,7 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
     ret += zfText("');"
             "    return pathInfo;"
             "end;"
-            "local function ZFLuaExecuteLocalFileT(localFilePath, ...)"
-            "    return ZFLuaExecuteT(ZFInputCallbackForLocalFile(zfl_pathInfo(), localFilePath), ...);"
-            "end;"
-            "local function ZFLuaExecuteLocalFile(localFilePath, ...)"
+            "local function ZFLuaImport(localFilePath, ...)"
             "    return ZFLuaExecute(ZFInputCallbackForLocalFile(zfl_pathInfo(), localFilePath), ...);"
             "end;"
         );
@@ -75,12 +72,8 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(PathInfo, {
             ));
 
         ZFImpl_ZFLua_execute(L, zfText(
-                "function ZFLuaExecuteLocalFileT(localFilePath, ...)\n"
-                "    error('ZFLuaExecuteLocalFile can only be called within file context', 2);\n"
-                "    return zffalse;\n"
-                "end\n"
-                "function ZFLuaExecuteLocalFile(localFilePath, ...)\n"
-                "    error('ZFLuaExecuteLocalFile can only be called within file context', 2);\n"
+                "function ZFLuaImport(localFilePath, ...)\n"
+                "    error('ZFLuaImport can only be called within file context', 2);\n"
                 "    return zffalse;\n"
                 "end\n"
             ));

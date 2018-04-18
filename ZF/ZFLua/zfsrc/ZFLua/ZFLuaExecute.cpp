@@ -54,14 +54,6 @@ ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
         return zfnull;
     }
 }
-ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFLuaExecuteT,
-                       ZFMP_IN(const ZFInputCallback &, input),
-                       ZFMP_OUT_OPT(zfautoObject *, luaResult, zfnull),
-                       ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
-                       ZFMP_IN_OPT(void *, L, zfnull))
-{
-    return _ZFP_ZFLuaExecute(input.pathInfo(), input, luaResult, luaParams, L);
-}
 
 ZFMETHOD_FUNC_DEFINE_4(zfautoObject, ZFLuaExecute,
                        ZFMP_IN(const zfchar *, buf),
@@ -78,15 +70,6 @@ ZFMETHOD_FUNC_DEFINE_4(zfautoObject, ZFLuaExecute,
     {
         return zfnull;
     }
-}
-ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFLuaExecuteT,
-                       ZFMP_IN(const zfchar *, buf),
-                       ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
-                       ZFMP_OUT_OPT(zfautoObject *, luaResult, zfnull),
-                       ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
-                       ZFMP_IN_OPT(void *, L, zfnull))
-{
-    return _ZFP_ZFLuaExecute(zfnull, ZFInputCallbackForBuffer(buf, bufLen), luaResult, luaParams, L);
 }
 
 ZF_NAMESPACE_GLOBAL_END

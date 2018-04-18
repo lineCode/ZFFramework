@@ -138,7 +138,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  path info
  *   -  `zfl_pathInfo()`\n
  *     return path info of current context, null if not available
- *   -  `ZFLuaExecuteLocalFile(localFilePath [, luaParams, L])`\n
+ *   -  `ZFLuaImport(localFilePath [, luaParams, L])`\n
  *     util method for #ZFLuaExecute + #ZFInputCallbackForLocalFile with local file
  * -  debug helper
  *   -  `zfLog(fmt, ...)`
@@ -162,22 +162,9 @@ ZFMETHOD_FUNC_DECLARE_3(zfautoObject, ZFLuaExecute,
                         ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                         ZFMP_IN_OPT(void *, L, zfnull))
 /** @brief see #ZFLuaExecute */
-ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFLuaExecuteT,
-                        ZFMP_IN(const ZFInputCallback &, input),
-                        ZFMP_OUT_OPT(zfautoObject *, luaResult, zfnull),
-                        ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
-                        ZFMP_IN_OPT(void *, L, zfnull))
-/** @brief see #ZFLuaExecute */
 ZFMETHOD_FUNC_DECLARE_4(zfautoObject, ZFLuaExecute,
                         ZFMP_IN(const zfchar *, buf),
                         ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
-                        ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
-                        ZFMP_IN_OPT(void *, L, zfnull))
-/** @brief see #ZFLuaExecute */
-ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFLuaExecuteT,
-                        ZFMP_IN(const zfchar *, buf),
-                        ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
-                        ZFMP_OUT_OPT(zfautoObject *, luaResult, zfnull),
                         ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                         ZFMP_IN_OPT(void *, L, zfnull))
 

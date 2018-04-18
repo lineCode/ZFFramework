@@ -288,7 +288,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataToJson,
                        ZFMP_IN_OPT(const ZFJsonOutputFlags &, flags, ZFJsonOutputFlagsDefault()))
 {
     ZFJsonItem jsonObject;
-    if(!ZFSerializableDataToJson(jsonObject, serializableData, outErrorHint))
+    if(ZFSerializableDataToJson(jsonObject, serializableData, outErrorHint))
     {
         zfbool ret = ZFJsonItemToOutput(outputCallback, jsonObject, flags);
         outputCallback.execute(zfText("\n"));
