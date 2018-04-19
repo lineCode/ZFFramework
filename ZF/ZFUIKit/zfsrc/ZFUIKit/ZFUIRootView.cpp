@@ -25,6 +25,12 @@ ZFMETHOD_DEFINE_1(ZFUIRootView, void, scaleForAppSet,
     }
 }
 
+void ZFUIRootView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
+{
+    zfCoreAssertWithMessage(viewDelegate == zfnull,
+        zfTextA("you must not set delegate view from ZFUIRootView, delegate: %s"),
+        zfsCoreZ2A(ZFObjectInfo(viewDelegate).cString()));
+}
 void ZFUIRootView::viewOnAddToParent(ZF_IN ZFUIView *parent)
 {
     zfCoreCriticalMessage(

@@ -38,6 +38,8 @@ public:
 
 protected:
     zfoverride
+    virtual void viewDelegateSet(ZF_IN ZFUIView *viewDelegate);
+    zfoverride
     virtual void viewOnAddToParent(ZF_IN ZFUIView *parent);
     zfoverride
     virtual void viewOnRemoveFromParent(ZF_IN ZFUIView *parent);
