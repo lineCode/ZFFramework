@@ -320,28 +320,29 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
      _ZFP_ZFPROPERTY_LIFE_CYCLE_OVERRIDE_DEFINE(OwnerClass, Type, Name, OnUpdate, ZFM_EXPAND)
 
 // ============================================================
+template<typename T_ZFObject>
 zfclassNotPOD _ZFP_ZFPropertyRetainValueHolder
 {
 public:
     zfautoObject valueHolder;
-    void *value;
+    T_ZFObject value;
 public:
     _ZFP_ZFPropertyRetainValueHolder(void)
     : valueHolder()
     , value(zfnull)
     {
     }
-    template<typename T_ZFObject>
-    _ZFP_ZFPropertyRetainValueHolder(ZF_IN T_ZFObject obj)
+    template<typename T_ZFObject2>
+    _ZFP_ZFPropertyRetainValueHolder(ZF_IN T_ZFObject2 obj)
     : valueHolder(obj)
-    , value(valueHolder.toObject())
+    , value(valueHolder)
     {
     }
 public:
     void valueSet(ZF_IN ZFObject *obj)
     {
-        this->value = obj;
         this->valueHolder = obj;
+        this->value = this->valueHolder;
     }
 };
 #define _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
@@ -425,7 +426,7 @@ public:
             { \
                 if(!(this->value)) \
                 { \
-                    this->value = zfpoolNew(_ZFP_ZFPropertyRetainValueHolder, InitValueOrEmpty); \
+                    this->value = zfpoolNew(_ZFP_ZFPropertyRetainValueHolder<zfself::PropVT_##Name>, InitValueOrEmpty); \
                     _ZFP_ZFPropertyLifeCycleCall_init_retain( \
                         zfself::_ZFP_Prop_##Name(), \
                         owner, \
@@ -434,7 +435,7 @@ public:
                         rawValueStoreCallback, \
                         this); \
                 } \
-                return *(zfself::PropVT_##Name *)&(this->value->value); \
+                return this->value->value; \
             } \
             inline zfbool propertyAccessed(void) const \
             { \
@@ -454,7 +455,7 @@ public:
                 ((_ZFP_PropV_##Name *)rawValueStoreToken)->value->valueSet(value); \
             } \
         public: \
-            _ZFP_ZFPropertyRetainValueHolder *value; \
+            _ZFP_ZFPropertyRetainValueHolder<zfself::PropVT_##Name> *value; \
         }; \
         zfself::_ZFP_PropV_##Name Name##_PropV; \
     private: \
