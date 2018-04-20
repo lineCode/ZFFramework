@@ -137,13 +137,12 @@ void _ZFP_ZFPropertyLifeCycleCall_init_retain(ZF_IN const ZFProperty *property,
                                               ZF_IN void *rawValueStoreToken)
 {
     zfautoObject valueHolder = value;
-    zflockfree_zfRelease(value);
     _ZFP_ZFPropertyLifeCycleCallAction(
         property->_ZFP_ZFPropertyLifeCycle_OnInit,
         propertyOwnerObject,
         &valueHolder,
         &valueHolder);
-    rawValueStoreCallback(rawValueStoreToken, zflockfree_zfRetain(valueHolder.toObject()));
+    rawValueStoreCallback(rawValueStoreToken, valueHolder);
 
     if(needNotifyOwner)
     {
@@ -206,7 +205,6 @@ void _ZFP_ZFPropertyLifeCycleCall_dealloc_retain(ZF_IN const ZFProperty *propert
         &valueHolder,
         &valueHolder,
         zftrue);
-    zflockfree_zfRelease(value);
 }
 void _ZFP_ZFPropertyLifeCycleCall_dealloc_assign(ZF_IN const ZFProperty *property,
                                                  ZF_IN ZFObject *propertyOwnerObject,
@@ -254,7 +252,6 @@ void _ZFP_ZFPropertyLifeCycleCall_setter_retain(ZF_IN const ZFProperty *property
             zftrue);
     }
 
-    zflockfree_zfRelease(propertyValueOld);
     rawValueStoreCallback(rawValueStoreToken, valueNew);
     _ZFP_ZFPropertyLifeCycleCallAction(
         property->_ZFP_ZFPropertyLifeCycle_OnVerify,
@@ -262,7 +259,6 @@ void _ZFP_ZFPropertyLifeCycleCall_setter_retain(ZF_IN const ZFProperty *property
         &valueNew,
         &valueOld);
     rawValueStoreCallback(rawValueStoreToken, valueNew);
-    zflockfree_zfRetain(valueNew.toObject());
 
     _ZFP_ZFPropertyLifeCycleCallAction(
         property->_ZFP_ZFPropertyLifeCycle_OnAttach,

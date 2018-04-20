@@ -320,6 +320,30 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
      _ZFP_ZFPROPERTY_LIFE_CYCLE_OVERRIDE_DEFINE(OwnerClass, Type, Name, OnUpdate, ZFM_EXPAND)
 
 // ============================================================
+zfclassNotPOD _ZFP_ZFPropertyRetainValueHolder
+{
+public:
+    zfautoObject valueHolder;
+    void *value;
+public:
+    _ZFP_ZFPropertyRetainValueHolder(void)
+    : valueHolder()
+    , value(zfnull)
+    {
+    }
+    template<typename T_ZFObject>
+    _ZFP_ZFPropertyRetainValueHolder(ZF_IN T_ZFObject obj)
+    : valueHolder(obj)
+    , value(valueHolder.toObject())
+    {
+    }
+public:
+    void valueSet(ZF_IN ZFObject *obj)
+    {
+        this->value = obj;
+        this->valueHolder = obj;
+    }
+};
 #define _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
                                                 propertyClassOfRetainProperty) \
     public: \
@@ -393,11 +417,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
             } \
             ~_ZFP_PropV_##Name(void) \
             { \
-                if(this->value != zfnull) \
-                { \
-                    zflockfree_zfRelease(*(this->value)); \
-                    zfpoolDelete(this->value); \
-                } \
+                zfpoolDelete(this->value); \
             } \
         public: \
             zfself::PropVT_##Name &propertyInit(ZF_IN ZFObject *owner, \
@@ -405,16 +425,16 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
             { \
                 if(!(this->value)) \
                 { \
-                    zflockfree_zfRetain(*(this->value = zfpoolNew(zfself::PropVT_##Name, InitValueOrEmpty))); \
+                    this->value = zfpoolNew(_ZFP_ZFPropertyRetainValueHolder, InitValueOrEmpty); \
                     _ZFP_ZFPropertyLifeCycleCall_init_retain( \
                         zfself::_ZFP_Prop_##Name(), \
                         owner, \
-                        ZFObjectToObject(*(this->value)), \
+                        this->value->valueHolder, \
                         needNotifyOwner, \
                         rawValueStoreCallback, \
                         this); \
                 } \
-                return (*(this->value)); \
+                return *(zfself::PropVT_##Name *)&(this->value->value); \
             } \
             inline zfbool propertyAccessed(void) const \
             { \
@@ -425,19 +445,16 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
                 _ZFP_ZFPropertyLifeCycleCall_dealloc_retain( \
                     zfself::_ZFP_Prop_##Name(), \
                     owner, \
-                    ZFObjectToObject(*(this->value))); \
+                    this->value->valueHolder); \
                 zfpoolDelete(this->value); \
                 this->value = zfnull; \
             } \
             static void rawValueStoreCallback(ZF_IN void *rawValueStoreToken, ZF_IN ZFObject *value) \
             { \
-                _ZFP_PropV_##Name &holder = *(_ZFP_PropV_##Name *)rawValueStoreToken; \
-                *(holder.value) = ZFCastZFObjectUnchecked(zfself::PropVT_##Name, value); \
-                holder.valueHolder = value; \
+                ((_ZFP_PropV_##Name *)rawValueStoreToken)->value->valueSet(value); \
             } \
         public: \
-            zfself::PropHT_##Name valueHolder; \
-            zfself::PropVT_##Name *value; \
+            _ZFP_ZFPropertyRetainValueHolder *value; \
         }; \
         zfself::_ZFP_PropV_##Name Name##_PropV; \
     private: \
@@ -470,7 +487,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
             zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             t->Name##_PropV.propertyInit(ownerObj); \
-            return &(t->Name##_PropV.valueHolder); \
+            return &(t->Name##_PropV.value->valueHolder); \
         } \
     public:
 #define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
