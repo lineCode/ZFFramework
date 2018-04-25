@@ -29,8 +29,8 @@ void ZFUIKit_test_prepareTestWindow(ZF_OUT ZFUIWindow *&window,
     closeButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
     closeButton->buttonLabelTextSet(zfText("close"));
     ZFLISTENER_LOCAL(onClickCloseButton, {
-        ZFUIWindow *window = userData->tagGet<ZFObjectHolder *>(zfText("window"))->holdedObj;
-        ZFTestCase *testCase = userData->tagGet<ZFObjectHolder *>(zfText("testCaseToStop"))->holdedObj;
+        ZFUIWindow *window = userData->tagGet(zfText("window"))->objectHolded();
+        ZFTestCase *testCase = userData->tagGet(zfText("testCaseToStop"))->objectHolded();
         window->windowHide();
         testCase->testCaseStop();
     })
@@ -57,8 +57,7 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
     settingsButton->tagSet(zfText("setting window"), window);
     window->viewAlphaSet(0.8f);
     ZFLISTENER_LOCAL(onClickSetting, {
-        ZFUIWindow *window = userData->to<ZFObjectHolder *>()->holdedObj;
-        window->windowShow();
+        userData->objectHolded<ZFUIWindow *>()->windowShow();
     })
     settingsButton->observerAdd(ZFUIButton::EventButtonOnClick(), onClickSetting, window->objectHolder());
 
@@ -67,8 +66,7 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
     closeButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
     closeButton->buttonLabelStyle()->textSet(zfText("done"));
     ZFLISTENER_LOCAL(onClickCloseButton, {
-        ZFUIWindow *window = userData->to<ZFObjectHolder *>()->holdedObj;
-        window->windowHide();
+        userData->objectHolded<ZFUIWindow *>()->windowHide();
     })
     closeButton->observerAdd(ZFUIButton::EventButtonOnClick(), onClickCloseButton, window->objectHolder());
 
@@ -139,7 +137,7 @@ void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
     holder->tagSet(zfText("userData"), userData);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
-        ZFObject *obj = userData->tagGet<ZFObjectHolder *>(zfText("obj"))->holdedObj;
+        ZFObject *obj = userData->tagGet(zfText("obj"))->objectHolded();
         const ZFProperty *property = userData->tagGet<ZFPointerHolder *>(zfText("property"))->holdedDataPointer<const ZFProperty *>();
 
         ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
@@ -177,8 +175,7 @@ void ZFUIKit_test_prepareSettingForLayoutRequest(ZF_IN_OUT ZFArrayEditable *sett
         text->stringValueSet(zfText("layoutRequest"));
     })
     ZFLISTENER_LOCAL(buttonClickListener, {
-        ZFUIView *view = userData->to<ZFObjectHolder *>()->holdedObj;
-        view->layoutRequest();
+        userData->objectHolded<ZFUIView *>()->layoutRequest();
     })
 
     settings->add(zflineAlloc(ZFUIKit_test_SettingData, buttonTextGetter, buttonClickListener, view->objectHolder()));
@@ -205,8 +202,8 @@ void ZFUIKit_test_prepareSettingForResetProperty(ZF_IN_OUT ZFArrayEditable *sett
     setting->buttonTextGetterSet(buttonTextGetter);
 
     ZFLISTENER_LOCAL(buttonClickListener, {
-        ZFObject *obj = userData->tagGet<ZFObjectHolder *>(zfText("obj"))->holdedObj;
-        ZFArray *settings = userData->tagGet<ZFObjectHolder *>(zfText("settings"))->holdedObj;
+        ZFObject *obj = userData->tagGet(zfText("obj"))->objectHolded();
+        ZFArray *settings = userData->tagGet(zfText("settings"))->objectHolded();
         const ZFCoreArrayPOD<const ZFProperty *> &toReset = userData->tagGet<ZFTypeHolder *>(zfText("propertyList"))->holdedDataRef<const ZFCoreArrayPOD<const ZFProperty *> &>();
 
         if(obj == zfnull || settings == zfnull || toReset.isEmpty())

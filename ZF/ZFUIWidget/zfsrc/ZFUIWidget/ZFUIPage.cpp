@@ -65,7 +65,7 @@ void ZFUIPage::pageDelayDestroyOnCheck(void)
     if(this->pageAni() != zfnull && this->pageAni()->aniRunning())
     {
         ZFLISTENER_LOCAL(pageAniOnFinish, {
-                ZFUIPage *page = userData->to<ZFObjectHolder *>()->holdedObj;
+                ZFUIPage *page = userData->objectHolded();
                 page->_ZFP_pageDelayDestroyNotifyFinish();
             })
         this->pageAni()->observerAdd(ZFObserverAddParam()

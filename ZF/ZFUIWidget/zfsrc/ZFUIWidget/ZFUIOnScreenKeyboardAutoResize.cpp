@@ -257,7 +257,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIOnScreenKeyboardAutoResize_onScreenK
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowOnUpdateLayout)
 {
     ZFUIRootView *rootView = listenerData.sender->to<ZFUIRootView *>();
-    ZFUIWindow *window = userData->to<ZFObjectHolder *>()->holdedObj;
+    ZFUIWindow *window = userData->objectHolded();
     if(rootView->layoutedFrame() != rootView->layoutedFramePrev())
     {
         _ZFP_ZFUIOnScreenKeyboardAutoResize_apply(window, ZFUIOnScreenKeyboardState::instanceForView(window));
@@ -286,7 +286,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowLay
     }
 
     ZFUIViewLayoutParam *layoutParam = listenerData.sender->to<ZFUIViewLayoutParam *>();
-    ZFUIWindow *window = userData->to<ZFObjectHolder *>()->holdedObj;
+    ZFUIWindow *window = userData->objectHolded();
     _ZFP_I_ZFUIOnScreenKeyboardAutoResizeTaskData *taskData = ZFAny(window->tagGet(
         _ZFP_I_ZFUIOnScreenKeyboardAutoResizeTaskData::ClassData()->className()));
     if(taskData == zfnull)

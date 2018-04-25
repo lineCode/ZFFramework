@@ -45,7 +45,7 @@ private:
                              ZF_IN ZFUIAnimatedImageView *animatedImageView)
     {
         ZFLISTENER_LOCAL(manualOnClick, {
-            ZFUIAnimatedImageView *animatedImageView = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIAnimatedImageView *animatedImageView = userData->objectHolded();
             animatedImageView->animatedImage()->aniManualNext();
         })
         zfblockedAlloc(ZFUIKit_test_Button, manualButton);
@@ -55,7 +55,7 @@ private:
         manualButton->observerAdd(ZFUIButton::EventButtonOnClick(), manualOnClick, animatedImageView->objectHolder());
 
         ZFLISTENER_LOCAL(startOnClick, {
-            ZFUIAnimatedImageView *animatedImageView = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIAnimatedImageView *animatedImageView = userData->objectHolded();
             animatedImageView->aniStart();
         })
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
@@ -65,7 +65,7 @@ private:
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, animatedImageView->objectHolder());
 
         ZFLISTENER_LOCAL(stopOnClick, {
-            ZFUIAnimatedImageView *animatedImageView = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIAnimatedImageView *animatedImageView = userData->objectHolded();
             animatedImageView->aniStop();
         })
         zfblockedAlloc(ZFUIKit_test_Button, stopButton);

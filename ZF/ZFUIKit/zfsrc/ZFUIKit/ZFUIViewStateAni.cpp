@@ -82,10 +82,10 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(viewAniOnStop)
     {
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniDataHolder);
-        d->viewDetach(userData->to<ZFObjectHolder *>()->holdedObj);
+        d->viewDetach(userData->objectHolded());
         #if _ZFP_ZFUIViewStateAni_DEBUG
             zfLogTrimT() << zfLogCurTimeString() << zfText("[ZFUIViewStateAni]")
-                << zfText("aniStop") << userData->to<ZFObjectHolder *>()->holdedObj << listenerData.sender;
+                << zfText("aniStop") << userData->objectHolded() << listenerData.sender;
         #endif
     }
 

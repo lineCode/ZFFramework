@@ -38,8 +38,7 @@ protected:
         this->_titleLeftView()->viewBackgroundColorSet(ZFUIColorRandom());
         {
             ZFLISTENER_LOCAL(_titleLeftViewOnClick, {
-                ZFUIPage *page = userData->to<ZFObjectHolder *>()->holdedObj;
-                page->pageDestroy();
+                userData->objectHolded<ZFUIPage *>()->pageDestroy();
             })
             this->_titleLeftView()->observerAdd(ZFUIButton::EventButtonOnClick(), _titleLeftViewOnClick, this->objectHolder());
         }
@@ -55,7 +54,7 @@ protected:
         this->_contentView()->buttonLabelTextSet(zfstringWithFormat(zfText("belong to %s"), this->pageGroupId().cString()));
         {
             ZFLISTENER_LOCAL(_contentViewOnClick, {
-                ZFUIPage *page = userData->to<ZFObjectHolder *>()->holdedObj;
+                ZFUIPage *page = userData->objectHolded();
                 page->pageManager()->requestPageCreate(ZFUIPageRequestPageCreateParam()
                     .pageSet(zflineAlloc(zfself))
                     .pageGroupIdSet(page->pageGroupId()));
@@ -125,7 +124,7 @@ protected:
             button->buttonLabelTextSet(zfstringWithFormat(zfText("tab %zi"), i));
             button->buttonCheckableSet(zftrue);
             ZFLISTENER_LOCAL(buttonOnClick, {
-                ZFUIWidget_ZFUIPage_test_PageManager *pageManager = userData->tagGet<ZFObjectHolder *>(zfText("pageManager"))->holdedObj;
+                ZFUIWidget_ZFUIPage_test_PageManager *pageManager = userData->tagGet(zfText("pageManager"))->objectHolded();
                 ZFString *pageGroupId = userData->tagGet<ZFString *>(zfText("pageGroupId"));
 
                 if(!listenerData.sender->to<ZFUIButton *>()->buttonChecked())

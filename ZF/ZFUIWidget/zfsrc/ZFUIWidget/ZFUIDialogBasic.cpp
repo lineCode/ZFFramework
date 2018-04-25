@@ -60,12 +60,12 @@ public:
     ZFListener dialogButtonOnRemoveListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(dialogButtonOnAdd)
     {
-        userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialogBasic *>()
+        userData->objectHolded<ZFUIDialogBasic *>()
             ->_ZFP_ZFUIDialogBasic_dialogButtonOnAdd(listenerData.param0->to<ZFUIButton *>());
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(dialogButtonOnRemove)
     {
-        userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialogBasic *>()
+        userData->objectHolded<ZFUIDialogBasic *>()
             ->_ZFP_ZFUIDialogBasic_dialogButtonOnRemove(listenerData.param0->to<ZFUIButton *>());
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIDialogBasicDataHolder)

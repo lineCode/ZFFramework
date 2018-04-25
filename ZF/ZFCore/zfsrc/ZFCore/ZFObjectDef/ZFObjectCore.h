@@ -286,12 +286,24 @@ public:
      * @brief return the object's retain count
      * @see zfRetain, zfRelease
      */
-    virtual zfindex objectRetainCount(void);
+    zffinal zfindex objectRetainCount(void);
 
     /**
      * @brief return an object holder that hold this object without affecting retain count
      */
-    virtual ZFObjectHolder *objectHolder(void);
+    zffinal ZFObjectHolder *objectHolder(void);
+    /**
+     * @brief util method to access the original object holded by #objectHolder
+     */
+    zffinal ZFAny objectHolded(void);
+    /**
+     * @brief util method to access the original object holded by #objectHolder
+     */
+    template<typename T_ZFObject>
+    T_ZFObject objectHolded(void)
+    {
+        return this->objectHolded().to<T_ZFObject>();
+    }
 
     /**
      * @brief return a short string describe the object instance
@@ -370,18 +382,18 @@ public:
      * @brief see #tagSet, true if this object has tag,
      *   and tag can be checked by #tagGetAllKeyValue
      */
-    virtual zfbool tagHasSet(void);
+    zffinal zfbool tagHasSet(void);
     /**
      * @brief used to hold a object for app's use, auto retained
      *
      * replace if existing, remove if tag is null
      */
-    virtual void tagSet(ZF_IN const zfchar *key,
+    zffinal void tagSet(ZF_IN const zfchar *key,
                         ZF_IN ZFObject *tag);
     /**
      * @brief see #tagSet
      */
-    virtual ZFObject *tagGet(ZF_IN const zfchar *key);
+    zffinal ZFObject *tagGet(ZF_IN const zfchar *key);
     /**
      * @brief see #tagSet
      */
@@ -393,19 +405,19 @@ public:
     /**
      * @brief get all key value
      */
-    virtual void tagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
+    zffinal void tagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
                                    ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue);
     /**
      * @brief remove tag, same as set tag to null
      */
-    virtual inline void tagRemove(ZF_IN const zfchar *key)
+    zffinal inline void tagRemove(ZF_IN const zfchar *key)
     {
         this->tagSet(key, zfnull);
     }
     /**
      * @brief remove tag, return removed tag or #zfautoObjectNull if not exist
      */
-    virtual zfautoObject tagRemoveAndGet(ZF_IN const zfchar *key);
+    zffinal zfautoObject tagRemoveAndGet(ZF_IN const zfchar *key);
     /**
      * @brief remove all tag
      *
@@ -414,7 +426,7 @@ public:
      *   remove only if necessary\n
      *   typically, you should remove exactly the one you have added
      */
-    virtual void tagRemoveAll(void);
+    zffinal void tagRemoveAll(void);
 
 public:
     /**
@@ -705,7 +717,7 @@ public:
     /**
      * @brief object instance's state
      */
-    virtual ZFObjectInstanceState objectInstanceState(void);
+    zffinal ZFObjectInstanceState objectInstanceState(void);
 
 public:
     /**

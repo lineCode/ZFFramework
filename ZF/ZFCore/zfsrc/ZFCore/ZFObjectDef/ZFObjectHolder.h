@@ -35,19 +35,36 @@ zffinal zfclass ZF_ENV_EXPORT ZFObjectHolder : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(ZFObjectHolder, ZFObject)
 
+public:
+    /**
+     * @brief set the holded object
+     */
+    inline void objectHoldedSet(ZF_IN ZFObject *obj)
+    {
+        this->_ZFP_objectHolded = obj;
+    }
+    /**
+     * @brief set the holded object
+     */
+    template<typename T_ZFObject>
+    inline void objectHoldedSet(ZF_IN T_ZFObject obj)
+    {
+        this->_ZFP_objectHolded = obj;
+    }
+
 protected:
     /** @brief see #ZFObject::objectOnInit */
     virtual void objectOnInit(ZF_IN ZFObject *obj)
     {
         this->objectOnInit();
-        this->holdedObj = obj;
+        this->_ZFP_objectHolded = obj;
     }
     /** @brief see #ZFObject::objectOnInit */
     template<typename T_ZFObject>
     void objectOnInit(ZF_IN T_ZFObject const &obj)
     {
         this->objectOnInit();
-        this->holdedObj = obj;
+        this->_ZFP_objectHolded = obj;
     }
 
     zfoverride
@@ -66,10 +83,7 @@ public:
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
 
 public:
-    /**
-     * @brief the object, no retain, see #ZFObjectHolder
-     */
-    ZFAny holdedObj;
+    ZFAny _ZFP_objectHolded;
 };
 
 // ============================================================

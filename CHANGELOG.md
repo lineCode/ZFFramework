@@ -1,5 +1,9 @@
 # master
 
+* trim output executable size
+
+# 0.1.2 (20180423)
+
 * update build script
 * optimize identity logic
 * optimize timeline animation impl

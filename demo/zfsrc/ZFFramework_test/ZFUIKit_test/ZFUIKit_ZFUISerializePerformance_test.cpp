@@ -85,7 +85,7 @@ protected:
         startButton->buttonLabelTextSet(zfText("start"));
 
         ZFLISTENER_LOCAL_BEGIN(onStart) {
-            ZFUIKit_ZFUISerializePerformance_test *owner = userData->tagGet<ZFObjectHolder *>(zfText("owner"))->holdedObj;
+            ZFUIKit_ZFUISerializePerformance_test *owner = userData->tagGet(zfText("owner"))->objectHolded();
             zfautoObject testObject = owner->prepareTestObject();
             ZFUITextView *outputView = userData->tagGet<ZFUITextView *>(zfText("outputView"));
             outputView->textSet(zfText("running..."));
@@ -147,7 +147,7 @@ private:
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIKit_ZFUISerializePerformance_test *t = userData->to<ZFObjectHolder *>()->holdedObj;
+                ZFUIKit_ZFUISerializePerformance_test *t = userData->objectHolded();
                 t->testObjectType = ((t->testObjectType + 1) % t->testObjectTypeCount);
             })
             setting->buttonClickListenerSet(buttonClickListener);

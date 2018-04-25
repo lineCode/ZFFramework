@@ -43,8 +43,8 @@ protected:
         ZFLISTENER_LOCAL(startOnClick, {
             ZFPropertyAniBlock(setting);
 
-            ZFUIView *testContainer = userData->to<ZFObjectHolder *>()->holdedObj;
-            ZFUIKit_ZFPropertyAni_test *owner = testContainer->tagGet<ZFObjectHolder *>(zfText("owner"))->holdedObj;
+            ZFUIView *testContainer = userData->objectHolded();
+            ZFUIKit_ZFPropertyAni_test *owner = testContainer->tagGet(zfText("owner"))->objectHolded();
             zfint xMargin = testContainer->layoutedFrame().size.width - 80;
             zfint yMargin = testContainer->layoutedFrame().size.height - 80;
 

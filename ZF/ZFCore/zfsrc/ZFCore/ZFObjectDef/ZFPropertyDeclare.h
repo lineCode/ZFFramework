@@ -321,19 +321,19 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
 
 // ============================================================
 template<typename T_ZFObject>
-zfclassNotPOD _ZFP_ZFPropertyRetainValueHolder
+zfclassNotPOD _ZFP_PropRVH
 {
 public:
     zfautoObject valueHolder;
     T_ZFObject value;
 public:
-    _ZFP_ZFPropertyRetainValueHolder(void)
+    _ZFP_PropRVH(void)
     : valueHolder()
     , value(zfnull)
     {
     }
     template<typename T_ZFObject2>
-    _ZFP_ZFPropertyRetainValueHolder(ZF_IN T_ZFObject2 obj)
+    _ZFP_PropRVH(ZF_IN T_ZFObject2 obj)
     : valueHolder(obj)
     , value(valueHolder)
     {
@@ -345,6 +345,17 @@ public:
         this->value = this->valueHolder;
     }
 };
+template<typename T_Type>
+void _ZFP_Prop_rawValueStoreCallback_retain(ZF_IN void *rawValueStoreToken, ZF_IN ZFObject *value)
+{
+    ((_ZFP_PropRVH<T_Type> *)rawValueStoreToken)->valueSet(value);
+}
+template<typename T_Type>
+void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_IN const void *value)
+{
+    *(T_Type *)rawValueStoreToken = *(T_Type *)value;
+    return rawValueStoreToken;
+}
 #define _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
                                                 propertyClassOfRetainProperty) \
     public: \
@@ -360,13 +371,13 @@ public:
                     , propertyClassOfRetainProperty \
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
-                    , ZFPropertyCallbackValueSetDefault<zfself::PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
                     , zfself::_ZFP_propCbGet_##Name \
-                    , ZFPropertyCallbackCompareDefault<zfself::PropHT_##Name> \
-                    , ZFPropertyCallbackGetInfoDefault<zfself::PropHT_##Name> \
-                    , ZFPropertyCallbackValueStoreDefault<PropHT_##Name> \
-                    , ZFPropertyCallbackValueReleaseDefault<PropHT_##Name> \
-                    , ZFPropertyCallbackProgressUpdateDefault<PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
+                    , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
+                    , _ZFP_propCbDValueStore<PropHT_##Name> \
+                    , _ZFP_propCbDValueRelease<PropHT_##Name> \
+                    , _ZFP_propCbDProgressUpdate<PropHT_##Name, zfself::PropVT_##Name> \
                     , zfnull \
                     , zfself::_ZFP_propCbDel_##Name \
                 ); \
@@ -387,13 +398,13 @@ public:
                     , propertyClassOfRetainProperty \
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
-                    , ZFPropertyCallbackValueSetDefault<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , ZFPropertyCallbackValueGetDefault_assign<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , ZFPropertyCallbackCompareDefault<zfself::PropHT_##Name> \
-                    , ZFPropertyCallbackGetInfoDefault<zfself::PropHT_##Name> \
-                    , ZFPropertyCallbackValueStoreDefault<PropHT_##Name> \
-                    , ZFPropertyCallbackValueReleaseDefault<PropHT_##Name> \
-                    , ZFPropertyCallbackProgressUpdateDefault<PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDValueGet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
+                    , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
+                    , _ZFP_propCbDValueStore<PropHT_##Name> \
+                    , _ZFP_propCbDValueRelease<PropHT_##Name> \
+                    , _ZFP_propCbDProgressUpdate<PropHT_##Name, zfself::PropVT_##Name> \
                     , zfnull \
                     , zfself::_ZFP_propCbDel_##Name \
                 ); \
@@ -412,50 +423,52 @@ public:
         { \
         public: \
             _ZFP_PropV_##Name(void) \
-            : value(zfnull) \
+            : _ZFP_v(zfnull) \
             { \
                 zfself::_ZFP_Prop_##Name(); \
             } \
             ~_ZFP_PropV_##Name(void) \
             { \
-                zfpoolDelete(this->value); \
+                zfpoolDelete(this->_ZFP_v); \
             } \
         public: \
-            zfself::PropVT_##Name &propertyInit(ZF_IN ZFObject *owner, \
-                                                ZF_IN_OPT zfbool needNotifyOwner = zftrue) \
+            zfself::PropVT_##Name &_ZFP_init(ZF_IN ZFObject *owner, \
+                                             ZF_IN_OPT zfbool needNotifyOwner = zftrue) \
             { \
-                if(!(this->value)) \
+                if(!(this->_ZFP_v)) \
                 { \
-                    this->value = zfpoolNew(_ZFP_ZFPropertyRetainValueHolder<zfself::PropVT_##Name>, InitValueOrEmpty); \
+                    this->_ZFP_v = zfpoolNew(_ZFP_PropRVH<zfself::PropVT_##Name>, InitValueOrEmpty); \
                     _ZFP_ZFPropertyLifeCycleCall_init_retain( \
                         zfself::_ZFP_Prop_##Name(), \
                         owner, \
-                        this->value->valueHolder, \
+                        this->_ZFP_v->valueHolder, \
                         needNotifyOwner, \
-                        rawValueStoreCallback, \
-                        this); \
+                        _ZFP_Prop_rawValueStoreCallback_retain<zfself::PropVT_##Name>, \
+                        this->_ZFP_v); \
                 } \
-                return this->value->value; \
+                return this->_ZFP_v->value; \
             } \
-            inline zfbool propertyAccessed(void) const \
+            inline zfbool _ZFP_accessed(void) const \
             { \
-                return (this->value != zfnull); \
+                return (this->_ZFP_v != zfnull); \
             } \
-            void propertyDealloc(ZF_IN ZFObject *owner) \
+            void _ZFP_dealloc(ZF_IN ZFObject *owner) \
             { \
                 _ZFP_ZFPropertyLifeCycleCall_dealloc_retain( \
                     zfself::_ZFP_Prop_##Name(), \
                     owner, \
-                    this->value->valueHolder); \
-                zfpoolDelete(this->value); \
-                this->value = zfnull; \
+                    this->_ZFP_v->valueHolder); \
+                zfpoolDelete(this->_ZFP_v); \
+                this->_ZFP_v = zfnull; \
             } \
-            static void rawValueStoreCallback(ZF_IN void *rawValueStoreToken, ZF_IN ZFObject *value) \
+            const void *_ZFP_get(ZF_IN ZFObject *owner) \
             { \
-                ((_ZFP_PropV_##Name *)rawValueStoreToken)->value->valueSet(value); \
+                zfCoreMutexLocker(); \
+                this->_ZFP_init(owner); \
+                return &(this->_ZFP_v->valueHolder); \
             } \
         public: \
-            _ZFP_ZFPropertyRetainValueHolder<zfself::PropVT_##Name> *value; \
+            _ZFP_PropRVH<zfself::PropVT_##Name> *_ZFP_v; \
         }; \
         zfself::_ZFP_PropV_##Name Name##_PropV; \
     private: \
@@ -465,16 +478,15 @@ public:
         { \
             zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
-            if(t->Name##_PropV.propertyAccessed()) \
+            if(t->Name##_PropV._ZFP_accessed()) \
             { \
                 zfself::_ZFP_PropV_##Name _holder; \
                 if(outInitValue != zfnull) \
                 { \
-                    *(zfself::PropHT_##Name *)outInitValue = \
-                        ZFCastZFObjectUnchecked(ZFObject *, _holder.propertyInit(ownerObj, zffalse)); \
+                    *(zfself::PropHT_##Name *)outInitValue = _holder._ZFP_init(ownerObj, zffalse); \
                 } \
                 return (ZFComparerDefault( \
-                        t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder.propertyInit(ownerObj, zffalse)) \
+                        t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder._ZFP_init(ownerObj, zffalse)) \
                     == ZFCompareTheSame); \
             } \
             else \
@@ -487,8 +499,8 @@ public:
         { \
             zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
-            t->Name##_PropV.propertyInit(ownerObj); \
-            return &(t->Name##_PropV.value->valueHolder); \
+            t->Name##_PropV._ZFP_init(ownerObj); \
+            return &(t->Name##_PropV._ZFP_v->valueHolder); \
         } \
     public:
 #define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
@@ -503,48 +515,44 @@ public:
         { \
         public: \
             _ZFP_PropV_##Name(void) \
-            : value(zfnull) \
+            : _ZFP_v(zfnull) \
             { \
                 zfself::_ZFP_Prop_##Name(); \
             } \
             ~_ZFP_PropV_##Name(void) \
             { \
-                zfpoolDelete(this->value); \
+                zfpoolDelete(this->_ZFP_v); \
             } \
         public: \
-            zfself::PropVT_##Name &propertyInit(ZF_IN ZFObject *owner, \
-                                                ZF_IN_OPT zfbool needNotifyOwner = zftrue) \
+            zfself::PropVT_##Name &_ZFP_init(ZF_IN ZFObject *owner, \
+                                             ZF_IN_OPT zfbool needNotifyOwner = zftrue) \
             { \
-                if(!(this->value)) \
+                if(!(this->_ZFP_v)) \
                 { \
-                    this->value = zfpoolNew(zfself::PropVT_##Name, InitValueOrEmpty); \
+                    this->_ZFP_v = zfpoolNew(zfself::PropVT_##Name, InitValueOrEmpty); \
                     _ZFP_ZFPropertyLifeCycleCall_init_assign( \
                         zfself::_ZFP_Prop_##Name(), \
                         owner, \
-                        this->value, \
+                        this->_ZFP_v, \
                         needNotifyOwner); \
                 } \
-                return (*(this->value)); \
+                return (*(this->_ZFP_v)); \
             } \
-            inline zfbool propertyAccessed(void) const \
+            inline zfbool _ZFP_accessed(void) const \
             { \
-                return (this->value != zfnull); \
+                return (this->_ZFP_v != zfnull); \
             } \
-            void propertyDealloc(ZF_IN ZFObject *owner) \
+            void _ZFP_dealloc(ZF_IN ZFObject *owner) \
             { \
                 _ZFP_ZFPropertyLifeCycleCall_dealloc_assign( \
                     zfself::_ZFP_Prop_##Name(), \
                     owner, \
-                    this->value); \
-                zfpoolDelete(this->value); \
-                this->value = zfnull; \
+                    this->_ZFP_v); \
+                zfpoolDelete(this->_ZFP_v); \
+                this->_ZFP_v = zfnull; \
             } \
-            static void *rawValueStoreCallback(ZF_IN void *rawValueStoreToken, ZF_IN const void *value) \
-            { \
-                return &(*(((_ZFP_PropV_##Name *)rawValueStoreToken)->value) = *(const zfself::PropVT_##Name *)value); \
-            } \
-        private: \
-            zfself::PropVT_##Name *value; \
+        public: \
+            zfself::PropVT_##Name *_ZFP_v; \
         }; \
         zfself::_ZFP_PropV_##Name Name##_PropV; \
     private: \
@@ -554,15 +562,15 @@ public:
         { \
             zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
-            if(t->Name##_PropV.propertyAccessed()) \
+            if(t->Name##_PropV._ZFP_accessed()) \
             { \
                 zfself::_ZFP_PropV_##Name _holder; \
                 if(outInitValue != zfnull) \
                 { \
-                    *(zfself::PropHT_##Name *)outInitValue = _holder.propertyInit(ownerObj, zffalse); \
+                    *(zfself::PropHT_##Name *)outInitValue = _holder._ZFP_init(ownerObj, zffalse); \
                 } \
                 return (ZFComparerDefault( \
-                        t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder.propertyInit(ownerObj, zffalse)) \
+                        t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder._ZFP_init(ownerObj, zffalse)) \
                     == ZFCompareTheSame); \
             } \
             else \
@@ -578,13 +586,13 @@ public:
         static zfbool _ZFP_propCbAccessed_##Name(ZF_IN const ZFProperty *property, \
                                                  ZF_IN ZFObject *ownerObj) \
         { \
-            return ZFCastZFObjectUnchecked(zfself *, ownerObj)->Name##_PropV.propertyAccessed(); \
+            return ZFCastZFObjectUnchecked(zfself *, ownerObj)->Name##_PropV._ZFP_accessed(); \
         } \
     private: \
         static void _ZFP_propCbDel_##Name(ZF_IN ZFObject *owner, ZF_IN const ZFProperty *property) \
         { \
             zfCoreMutexLocker(); \
-            ZFCastZFObjectUnchecked(zfself *, owner)->Name##_PropV.propertyDealloc(owner); \
+            ZFCastZFObjectUnchecked(zfself *, owner)->Name##_PropV._ZFP_dealloc(owner); \
         } \
     public:
 
@@ -629,11 +637,11 @@ public:
             _ZFP_ZFPropertyLifeCycleCall_setter_retain( \
                 zfself::_ZFP_Prop_##Name(), \
                 this->toObject(), \
-                Name##_PropV.propertyAccessed(), \
-                ZFObjectToObject(Name##_PropV.propertyInit(this->toObject(), zffalse)), \
+                Name##_PropV._ZFP_accessed(), \
+                ZFObjectToObject(Name##_PropV._ZFP_init(this->toObject(), zffalse)), \
                 ZFObjectToObject(propertyValue), \
-                _ZFP_PropV_##Name::rawValueStoreCallback, \
-                &Name##_PropV); \
+                _ZFP_Prop_rawValueStoreCallback_retain<zfself::PropVT_##Name>, \
+                Name##_PropV._ZFP_v); \
             zfCoreMutexUnlock(); \
         } \
     public:
@@ -654,15 +662,15 @@ public:
             ) \
         { \
             zfCoreMutexLock(); \
-            Type valueOld = Name##_PropV.propertyInit(this->toObject(), zffalse); \
+            Type valueOld = Name##_PropV._ZFP_init(this->toObject(), zffalse); \
             _ZFP_ZFPropertyLifeCycleCall_setter_assign( \
                 zfself::_ZFP_Prop_##Name(), \
                 this->toObject(), \
-                Name##_PropV.propertyAccessed(), \
+                Name##_PropV._ZFP_accessed(), \
                 &valueOld, \
                 &propertyValue, \
-                _ZFP_PropV_##Name::rawValueStoreCallback, \
-                &Name##_PropV); \
+                _ZFP_Prop_rawValueStoreCallback_assign<zfself::PropVT_##Name>, \
+                Name##_PropV._ZFP_v); \
             zfCoreMutexUnlock(); \
         } \
     public:
@@ -683,7 +691,7 @@ public:
             ) \
         { \
             zfCoreMutexLocker(); \
-            return Name##_PropV.propertyInit(this->toObject()); \
+            return Name##_PropV._ZFP_init(this->toObject()); \
         } \
     public:
 

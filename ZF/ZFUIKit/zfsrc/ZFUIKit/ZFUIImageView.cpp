@@ -26,7 +26,7 @@ public:
         const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
         if(property == ZFPropertyAccess(ZFUIImage, imageNinePatch))
         {
-            ZFUIImageView *imageView = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIImageView *imageView = userData->objectHolded();
             ZFUIImage *image = imageView->image();
             ZFPROTOCOL_ACCESS(ZFUIImageView)->imageNinePatchChanged(
                 imageView,

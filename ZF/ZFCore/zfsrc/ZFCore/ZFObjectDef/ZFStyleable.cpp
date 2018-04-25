@@ -267,7 +267,7 @@ public:
         styles.copyFrom(taskData->styles);
         for(zfindex i = 0; i < styles.count(); ++i)
         {
-            ZFPropertyCopy(property, styles[i]->holdedObj, listenerData.sender);
+            ZFPropertyCopy(property, styles[i]->objectHolded(), listenerData.sender);
         }
     }
 ZF_GLOBAL_INITIALIZER_END(ZFStyleDefaultApplyAutoCopyDataHolder)

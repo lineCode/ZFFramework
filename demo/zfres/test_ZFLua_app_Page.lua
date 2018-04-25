@@ -21,7 +21,7 @@ _ZFP_ZFLua_app_test_setupPage = function(page)
                 pageView:buttonLabelTextSet(page:objectInfoOfInstance());
                 pageView:viewBackgroundColorSet(ZFUIColorRandom());
                 pageView:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function(listenerData, userData)
-                        local page = userData:holdedObj();
+                        local page = userData:objectHolded();
                         page:pageManager():requestPageCreate(_ZFP_ZFLua_app_test_setupPage(ZFUIPageBasic()));
                     end), page:objectHolder());
             end));

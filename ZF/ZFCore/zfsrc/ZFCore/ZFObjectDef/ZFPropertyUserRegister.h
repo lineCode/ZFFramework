@@ -318,13 +318,13 @@ private:
         , propertyClassOfRetainProperty \
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
-        , ZFPropertyCallbackValueSetDefault<zfautoObject, Type> \
+        , _ZFP_propCbDValueSet<zfautoObject, Type> \
         , Func_ZFPropertyCallbackValueGet \
-        , ZFPropertyCallbackCompareDefault<zfautoObject> \
-        , ZFPropertyCallbackGetInfoDefault<zfautoObject> \
-        , ZFPropertyCallbackValueStoreDefault<zfautoObject> \
-        , ZFPropertyCallbackValueReleaseDefault<zfautoObject> \
-        , ZFPropertyCallbackProgressUpdateDefault<zfautoObject, Type> \
+        , _ZFP_propCbDCompare<zfautoObject> \
+        , _ZFP_propCbDGetInfo<zfautoObject> \
+        , _ZFP_propCbDValueStore<zfautoObject> \
+        , _ZFP_propCbDValueRelease<zfautoObject> \
+        , _ZFP_propCbDProgressUpdate<zfautoObject, Type> \
         , _ZFP_PropURInit_##registerSig::propertyInit \
         , zfnull \
     );
@@ -351,13 +351,13 @@ private:
         , propertyClassOfRetainProperty \
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
-        , ZFPropertyCallbackValueSetDefault<Type, Type> \
+        , _ZFP_propCbDValueSet<Type, Type> \
         , Func_ZFPropertyCallbackValueGet \
-        , ZFPropertyCallbackCompareDefault<Type> \
-        , ZFPropertyCallbackGetInfoDefault<Type> \
-        , ZFPropertyCallbackValueStoreDefault<Type> \
-        , ZFPropertyCallbackValueReleaseDefault<Type> \
-        , ZFPropertyCallbackProgressUpdateDefault<Type, Type> \
+        , _ZFP_propCbDCompare<Type> \
+        , _ZFP_propCbDGetInfo<Type> \
+        , _ZFP_propCbDValueStore<Type> \
+        , _ZFP_propCbDValueRelease<Type> \
+        , _ZFP_propCbDProgressUpdate<Type, Type> \
         , _ZFP_PropURInit_##registerSig::propertyInit \
         , zfnull \
     )

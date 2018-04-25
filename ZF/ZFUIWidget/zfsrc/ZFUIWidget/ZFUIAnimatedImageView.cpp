@@ -23,7 +23,7 @@ public:
     ZFListener animatedImageOnUpdateListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(animatedImageOnUpdate)
     {
-        ZFUIAnimatedImageView *view = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIAnimatedImageView *view = userData->objectHolded();
         if(view->animatedImageWrapToImage())
         {
             view->imageSet(view->animatedImage()->aniFrameImageCurrent());

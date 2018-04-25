@@ -101,6 +101,10 @@ ZFObjectHolder *ZFObject::objectHolder(void)
     }
     return d->objectHolder;
 }
+ZFAny ZFObject::objectHolded(void)
+{
+    return this->to<ZFObjectHolder *>()->_ZFP_objectHolded;
+}
 
 void ZFObject::objectInfoOfInstanceT(ZF_IN_OUT zfstring &ret)
 {
@@ -397,7 +401,7 @@ void ZFObject::objectOnDealloc(void)
 
     if(d->objectHolder)
     {
-        d->objectHolder->holdedObj = (ZFObject *)zfnull;
+        d->objectHolder->objectHoldedSet(zfnull);
         zfRelease(d->objectHolder);
     }
 
@@ -510,6 +514,7 @@ ZFEXPORT_ENUM_DEFINE(ZFObjectInstanceState, ZFObjectInstanceStateOnInit, ZFObjec
 
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, const ZFClass *, classData)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, ZFObjectHolder *, objectHolder)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, ZFAny, objectHolded)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, void, objectInfoOfInstanceT, ZFMP_IN_OUT(zfstring &, ret))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, zfstring, objectInfoOfInstance)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, void, objectInfoT, ZFMP_IN_OUT(zfstring &, ret))

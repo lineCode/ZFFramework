@@ -20,7 +20,7 @@ void ZFUIDialogForInput::objectOnInit(void)
     this->dialogContentContainer()->childAdd(this->inputView());
 
     ZFLISTENER_LOCAL(inputOnConfirm, {
-        ZFUIDialogForInput *dialog = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIDialogForInput *dialog = userData->objectHolded();
         ZFUIButton *button = dialog->dialogButtonYes(zffalse);
         if(button != zfnull)
         {

@@ -283,7 +283,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(globalImageScaleOnChange)
     const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
     if(property == ZFPropertyAccess(ZFUIGlobalStyle, imageScale))
     {
-        ZFUIImage *image = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIImage *image = userData->objectHolded();
         image->_ZFP_ZFUIImage_imageScaleOnChange();
     }
 }

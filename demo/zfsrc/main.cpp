@@ -185,7 +185,7 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModule(ZF_IN ZFUIView *conta
             containerView->childAdd(closeButton);
             closeButton->buttonLabelTextSet(zfText("back"));
             ZFLISTENER_LOCAL(closeButtonOnClick, {
-                userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIWindow *>()->windowHide();
+                userData->objectHolded<ZFUIWindow *>()->windowHide();
             })
             closeButton->observerAdd(ZFUIButton::EventButtonOnClick(), closeButtonOnClick, subModuleWindow->objectHolder());
             closeButton->buttonBackgroundStyle()->viewBackgroundColorSet(ZFUIColorRed());
@@ -218,14 +218,14 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModuleTest(ZF_IN ZFUIView *c
 
     ZFLISTENER_LOCAL(onClickButton, {
         const ZFClass *testCase = userData->tagGet<ZFPointerHolder *>(zfText("testCase"))->holdedDataPointer<const ZFClass *>();
-        ZFUIView *containerView = userData->tagGet<ZFObjectHolder *>(zfText("containerView"))->holdedObj;
+        ZFUIView *containerView = userData->tagGet(zfText("containerView"))->objectHolded();
         ZFTestCase *running = zfnull;
         containerView->viewUIEnableTreeSet(zffalse);
         ZFTestCaseRun(testCase, &running);
         if(running != zfnull)
         {
             ZFLISTENER_LOCAL(testCaseOnStop, {
-                ZFUIView *containerView = userData->tagGet<ZFObjectHolder *>(zfText("containerView"))->holdedObj;
+                ZFUIView *containerView = userData->tagGet(zfText("containerView"))->objectHolded();
                 containerView->viewUIEnableTreeSet(zftrue);
             })
             running->observerAdd(ZFTestCase::EventTestCaseOnStop(), testCaseOnStop, userData);

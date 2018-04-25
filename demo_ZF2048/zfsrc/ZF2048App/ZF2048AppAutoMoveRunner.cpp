@@ -33,7 +33,7 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(timerEvent)
     {
-        ZF2048AppAutoMoveRunner *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048AppAutoMoveRunner *owner = userData->objectHolded();
         if(owner->d->loopIndex >= owner->actionList.count())
         {
             owner->d->loopIndex = 0;

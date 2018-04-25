@@ -41,8 +41,7 @@ protected:
         ZFPropertyAniEnd();
 
         ZFLISTENER_LOCAL(finishDelay, {
-            ZFTestCase *testCase = userData->to<ZFObjectHolder *>()->holdedObj;
-            testCase->testCaseStop();
+            userData->objectHolded<ZFTestCase *>()->testCaseStop();
         })
         ZFThreadExecuteInMainThreadAfterDelay(1000, finishDelay, this->objectHolder());
     }

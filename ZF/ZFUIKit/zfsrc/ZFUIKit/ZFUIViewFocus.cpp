@@ -50,8 +50,8 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewFocusNextSet,
     ZFObjectHolder *nextFocusHolderOld = from->tagGet<ZFObjectHolder *>(_ZFP_ZFUIViewFocus_tag_nextFocus);
     if(nextFocusHolderOld != zfnull)
     {
-        nextFocusHolderOld->holdedObj.toObject()->observerRemove(ZFObject::EventObjectBeforeDealloc(), d->nextFocusOnDeallocListener);
-        nextFocusHolderOld->holdedObj.toObject()->tagRemove(_ZFP_ZFUIViewFocus_tag_nextFocusOwner);
+        nextFocusHolderOld->objectHolded().toObject()->observerRemove(ZFObject::EventObjectBeforeDealloc(), d->nextFocusOnDeallocListener);
+        nextFocusHolderOld->objectHolded().toObject()->tagRemove(_ZFP_ZFUIViewFocus_tag_nextFocusOwner);
         from->tagRemove(_ZFP_ZFUIViewFocus_tag_nextFocus);
     }
 
@@ -361,7 +361,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFUIView *, ZFUIViewFocusNextFind,
         ZFObjectHolder *t = view->tagGet<ZFObjectHolder *>(_ZFP_ZFUIViewFocus_tag_nextFocus);
         if(t != zfnull)
         {
-            return t->holdedObj;
+            return t->objectHolded();
         }
     }
 

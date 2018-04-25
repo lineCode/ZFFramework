@@ -16,7 +16,7 @@ ZFOBJECT_REGISTER(ZFUIPageManagerBasic)
 #define _ZFP_ZFUIPageManagerBasic_window zfText("_ZFP_ZFUIPageManagerBasic_window")
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerResume)
 {
-    ZFUIPageManager *pm = userData->to<ZFObjectHolder *>()->holdedObj;
+    ZFUIPageManager *pm = userData->objectHolded();
     if(!pm->managerResumed())
     {
         if(!pm->managerCreated())
@@ -28,7 +28,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerResume)
 }
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerPause)
 {
-    ZFUIPageManager *pm = userData->to<ZFObjectHolder *>()->holdedObj;
+    ZFUIPageManager *pm = userData->objectHolded();
     if(pm->managerResumed())
     {
         pm->embededPause();
@@ -36,7 +36,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerPause)
 }
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerDestroy)
 {
-    ZFUIPageManager *pm = userData->to<ZFObjectHolder *>()->holdedObj;
+    ZFUIPageManager *pm = userData->objectHolded();
     pm->toObject()->tagRemove(_ZFP_ZFUIPageManagerBasic_window);
     if(pm->managerCreated())
     {
@@ -54,7 +54,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerOnDestroy)
     pm->managerContainer()->viewRemoveFromParent();
     if(windowHolder != zfnull)
     {
-        windowHolder->holdedObj.to<ZFUIWindow *>()->windowHide();
+        windowHolder->objectHolded<ZFUIWindow *>()->windowHide();
     }
 }
 ZFMETHOD_DEFINE_0(ZFUIPageManagerBasic, zfautoObject, embededCreateWindow)

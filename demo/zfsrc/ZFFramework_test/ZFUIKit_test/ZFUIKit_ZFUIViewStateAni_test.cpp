@@ -45,7 +45,7 @@ protected:
         ZFLISTENER_LOCAL(startOnClick, {
             ZFUIViewStateAniStart();
 
-            ZFUIView *testContainer = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIView *testContainer = userData->objectHolded();
 
             {
                 ZFUIView *testDummy = testContainer->tagGet<ZFUIView *>(zfText("testDummy"));

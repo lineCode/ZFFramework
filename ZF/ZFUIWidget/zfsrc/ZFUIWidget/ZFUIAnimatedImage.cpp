@@ -103,7 +103,7 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(aniFramesOnChange)
     {
-        ZFUIAnimatedImage *pimplOwner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIAnimatedImage *pimplOwner = userData->objectHolded();
         if(pimplOwner->aniRunning())
         {
             zfCoreCriticalMessageTrim(zfTextA("[ZFUIAnimatedImage] you must not modify aniFrame while animating"));
@@ -111,7 +111,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(aniFrameDurationOnFinish)
     {
-        ZFUIAnimatedImage *pimplOwner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIAnimatedImage *pimplOwner = userData->objectHolded();
         pimplOwner->d->aniRunNext();
     }
 };

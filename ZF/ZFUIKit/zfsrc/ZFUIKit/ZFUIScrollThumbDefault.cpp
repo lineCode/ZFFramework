@@ -87,7 +87,7 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(aniOnStop)
     {
-        ZFUIScrollThumbDefault *owner = userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIScrollThumbDefault *>();
+        ZFUIScrollThumbDefault *owner = userData->objectHolded();
         if(owner != zfnull)
         {
             owner->d->thumbView->viewAlphaSet(1);
@@ -96,7 +96,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(thumbHideAniAutoStop)
     {
-        ZFUIScrollThumbDefault *owner = userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIScrollThumbDefault *>();
+        ZFUIScrollThumbDefault *owner = userData->objectHolded();
         if(owner != zfnull)
         {
             owner->d->thumbHideAni->aniStop();

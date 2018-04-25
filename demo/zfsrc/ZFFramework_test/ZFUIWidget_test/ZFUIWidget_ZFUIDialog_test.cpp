@@ -42,7 +42,7 @@ protected:
         container->childAdd(showButton);
         showButton->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
         ZFLISTENER_LOCAL(showButtonOnClick, {
-            userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialog *>()->dialogShow();
+            userData->objectHolded<ZFUIDialog *>()->dialogShow();
         })
         showButton->observerAdd(ZFUIButton::EventButtonOnClick(), showButtonOnClick, this->dialog()->objectHolder());
 

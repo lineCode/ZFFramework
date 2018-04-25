@@ -160,13 +160,13 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("listView"), listView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIListView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIListView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(zfText("autoScrollSpeedX: %d"), listView->autoScrollSpeedX()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIListView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIListView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 if(listView->autoScrollSpeedX() == 0)
                 {
                     listView->autoScrollStartX(_ZFP_ZFUIWidget_ZFUIListView_test_autoScrollSpeed * ((zfmRand(2) == 0) ? 1 : -1));
@@ -184,13 +184,13 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("listView"), listView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIListView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIListView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(zfText("autoScrollSpeedY: %d"), listView->autoScrollSpeedY()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIListView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIListView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 if(listView->autoScrollSpeedY() == 0)
                 {
                     listView->autoScrollStartY(_ZFP_ZFUIWidget_ZFUIListView_test_autoScrollSpeed * ((zfmRand(2) == 0) ? 1 : -1));
@@ -207,7 +207,7 @@ private:
             zfblockedAlloc(ZFObject, userData);
             userData->tagSet(zfText("listView"), listView->objectHolder());
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIListView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIListView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 zfbool toHead = (zfmRand(2) == 0);
                 zfindex toIndex = zfmRand(listView->listAdapter()->cellCount());
                 zfint toOffset = (ZFUIOrientationIsHorizontal(listView->listOrientation())
@@ -238,14 +238,14 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("listView"), listView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIScrollView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(zfText("scrollAreaMargin: %s"),
                     ZFUIMarginToString(listView->scrollAreaMargin()).cString()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *listView = userData->tagGet<ZFObjectHolder *>(zfText("listView"))->holdedObj;
+                ZFUIScrollView *listView = userData->tagGet(zfText("listView"))->objectHolded();
                 if(listView->scrollAreaMargin().left >= 40)
                 {
                     listView->scrollAreaMarginRemove(listView->scrollAreaMargin());

@@ -32,11 +32,11 @@ protected:
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonYes());
         this->dialog()->dialogButtonYesTextSet(zfText("confirm"));
         ZFLISTENER_LOCAL(choiceOnConfirm, {
-            ZFUIDialogForChoice *dialog = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIDialogForChoice *dialog = userData->objectHolded();
             zfLogT() << zfText("onConfirm") << dialog->choiceSelectedNameList();
         })
         ZFLISTENER_LOCAL(choiceOnChange, {
-            ZFUIDialogForChoice *dialog = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIDialogForChoice *dialog = userData->objectHolded();
             zfLogT() << zfText("onChange") << dialog->choiceSelectedNameList();
         })
         this->dialog()->observerAdd(ZFUIDialogForChoice::EventChoiceOnConfirm(), choiceOnConfirm, this->dialog()->objectHolder());
@@ -51,7 +51,7 @@ protected:
         container->childAdd(showButton);
         showButton->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
         ZFLISTENER_LOCAL(showButtonOnClick, {
-            userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialogForChoice *>()->dialogShow();
+            userData->objectHolded<ZFUIDialogForChoice *>()->dialogShow();
         })
         showButton->observerAdd(ZFUIButton::EventButtonOnClick(), showButtonOnClick, this->dialog()->objectHolder());
 

@@ -20,7 +20,7 @@ pm:observerAdd(ZFUIPageManager.EventManagerOnCreate(), ZFCallbackForLua(function
         leftButton:layoutParam():layoutReserveSpaceWhenNotVisibleSet(zftrue);
         leftButton:viewVisibleSet(zffalse);
         leftButton:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function(listenerData, userData)
-                local pm = userData:holdedObj();
+                local pm = userData:objectHolded();
                 pm:pageAtIndex(pm:pageCount() - 1):pageDestroy();
             end), pm:objectHolder());
 
@@ -37,7 +37,7 @@ pm:observerAdd(ZFUIPageManager.EventManagerOnCreate(), ZFCallbackForLua(function
         rightButton:buttonLabelTextSet("ExitTest");
         rightButton:viewBackgroundColorSet(ZFUIColorRandom());
         rightButton:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function(listenerData, userData)
-                local pm = userData:holdedObj();
+                local pm = userData:objectHolded();
                 pm:embededPause();
                 pm:embededDestroy();
             end), pm:objectHolder());

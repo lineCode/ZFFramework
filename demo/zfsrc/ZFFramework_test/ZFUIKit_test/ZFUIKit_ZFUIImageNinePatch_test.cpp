@@ -48,14 +48,14 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("imageView"), imageView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIImageView *imageView = userData->tagGet<ZFObjectHolder *>(zfText("imageView"))->holdedObj;
+                ZFUIImageView *imageView = userData->tagGet(zfText("imageView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 zfbool fill = (imageView->layoutParam()->sizeParam().width == ZFUISizeType::e_Fill);
                 text->stringValueSet(fill ? zfText("fill") : zfText("wrap"));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIImageView *imageView = userData->tagGet<ZFObjectHolder *>(zfText("imageView"))->holdedObj;
+                ZFUIImageView *imageView = userData->tagGet(zfText("imageView"))->objectHolded();
                 zfbool fill = (imageView->layoutParam()->sizeParam().width == ZFUISizeType::e_Fill);
                 imageView->layoutParam()->sizeParamSet(fill ? ZFUISizeParamWrapWrap() : ZFUISizeParamFillFill());
             })

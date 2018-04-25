@@ -41,7 +41,7 @@ private:
         zfblockedAlloc(ZFUIKit_test_Button, addButton);
         container->childAdd(addButton);
         ZFLISTENER_LOCAL(addButtonOnClick, {
-            ZFUIView *layout = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIView *layout = userData->objectHolded();
             zfblockedAlloc(ZFUITextView, view);
             layout->childAdd(view);
             view->viewBackgroundColorSet(ZFUIColorRandom());
@@ -63,7 +63,7 @@ private:
         container->childAdd(removeButton);
         removeButton->layoutParam()->layoutMarginSet(ZFUIMarginMake(70, 0, 0, 0));
         ZFLISTENER_LOCAL(removeButtonOnClick, {
-            ZFUIView *layout = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIView *layout = userData->objectHolded();
             if(layout->childCount() > 0)
             {
                 layout->childRemoveAtIndex(layout->childCount() - 1);

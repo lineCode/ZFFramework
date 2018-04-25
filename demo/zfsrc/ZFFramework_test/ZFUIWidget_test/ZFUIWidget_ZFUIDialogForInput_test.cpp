@@ -32,7 +32,7 @@ protected:
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonYes());
         this->dialog()->dialogButtonYesTextSet(zfText("confirm"));
         ZFLISTENER_LOCAL(yesOnClick, {
-            ZFUIDialogForInput *dialog = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIDialogForInput *dialog = userData->objectHolded();
             zfLogT() << zfText("onConfirm") << listenerData.sender
                 << zfText("text:") << dialog->inputText();
         })
@@ -45,7 +45,7 @@ protected:
         container->childAdd(showButton);
         showButton->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
         ZFLISTENER_LOCAL(showButtonOnClick, {
-            userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialogForInput *>()->dialogShow();
+            userData->objectHolded<ZFUIDialogForInput *>()->dialogShow();
         })
         showButton->observerAdd(ZFUIButton::EventButtonOnClick(), showButtonOnClick, this->dialog()->objectHolder());
 

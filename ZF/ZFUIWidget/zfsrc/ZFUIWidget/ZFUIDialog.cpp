@@ -449,7 +449,7 @@ ZFMETHOD_DEFINE_1(ZFUIDialog, void, dialogApplyAutoHide,
         return ;
     }
     ZFLISTENER_LOCAL(buttonOnClick, {
-        userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialog *>()->dialogHide();
+        userData->objectHolded<ZFUIDialog *>()->dialogHide();
     })
     button->observerAdd(ZFObserverAddParam()
             .eventIdSet(ZFUIButton::EventButtonOnClick())

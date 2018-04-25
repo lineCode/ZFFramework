@@ -156,7 +156,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(hintAniShowOnStop)
     {
         zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
-        ZFUIHint *hint = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIHint *hint = userData->objectHolded();
         hint->d->hintDoShowDelay();
     }
     void hintDoShowDelay(void)
@@ -170,7 +170,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(hintShowDelayTimeout)
     {
         zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
-        ZFUIHint *hint = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIHint *hint = userData->objectHolded();
         hint->d->hintShowDelayTaskId = zfidentityInvalid();
         hint->d->hintDoHide();
     }
@@ -195,7 +195,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(hintAniHideOnStop)
     {
         zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
-        ZFUIHint *hint = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIHint *hint = userData->objectHolded();
         hint->d->hintDoFinish();
     }
     void hintDoFinish(void)
@@ -384,7 +384,7 @@ void ZFUIHint::objectOnInit(void)
 
     ZFLISTENER_LOCAL(hintWindowChanged, {
         zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
-        ZFUIHint *hint = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIHint *hint = userData->objectHolded();
         zfCoreAssertWithMessage(!hint->hintShowing(), zfTextA("you must not change ZFUIHint's window while it's showing or delaying"));
         ZFUISysWindow *sysWindowOld = listenerData.param0->to<ZFUISysWindow *>();
         ZFArrayEditable *hintListOld = _ZFP_ZFUIHint_hintListForWrite(sysWindowOld);
@@ -412,7 +412,7 @@ void ZFUIHint::objectOnInit(void)
 
     ZFLISTENER_LOCAL(hintWindowOnLayoutPrepare, {
         zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
-        ZFUIHint *hint = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIHint *hint = userData->objectHolded();
         hint->hintOnUpdate();
     })
     d->hintWindow->observerAdd(ZFUIView::EventViewLayoutOnLayoutPrepare(), hintWindowOnLayoutPrepare, this->objectHolder());

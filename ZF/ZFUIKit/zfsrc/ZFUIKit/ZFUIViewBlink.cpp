@@ -121,7 +121,7 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
         ZFLISTENER_LOCAL(aniOnStopListener, {
             ZFAnimation *ani = listenerData.sender->to<ZFAnimation *>();
             ZFUIView *blinkView = ani->aniTarget()->to<ZFUIView *>();
-            ZFUIView *view = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIView *view = userData->objectHolded();
 
             ZFValueEditable *blinkCountLeft = view->tagGet<ZFValueEditable *>(_ZFP_ZFUIViewBlink_tag_blinkCountLeft);
             if(blinkCountLeft != zfnull)
@@ -159,7 +159,7 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
     else
     {
         ZFLISTENER_LOCAL(blinkDelayOnFinish, {
-            ZFUIView *view = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZFUIView *view = userData->objectHolded();
             ZFValue *delayTaskId = listenerData.param0->to<ZFValue *>();
             ZFValue *delayTaskIdCur = view->tagGet<ZFValue *>(_ZFP_ZFUIViewBlink_tag_delayTaskId);
             if(delayTaskId != delayTaskIdCur)

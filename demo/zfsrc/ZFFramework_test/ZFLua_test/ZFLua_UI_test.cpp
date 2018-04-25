@@ -32,7 +32,7 @@ protected:
                 "button:viewBackgroundColorSet(ZFUIColorRandom())\n"
                 "button:buttonLabelTextSet('close')\n"
                 "button:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function (listenerData, userData)\n"
-                "        userData:holdedObj():windowHide()\n"
+                "        userData:objectHolded():windowHide()\n"
                 "    end), window:objectHolder())\n"
                 "return window\n"
             ));
@@ -41,7 +41,7 @@ protected:
         ZFLISTENER_LOCAL(windowOnHide, {
             ZFLISTENER_LOCAL(testCaseStopDelay, {
                 ZFLuaGC();
-                ZFTestCase *testCase = userData->to<ZFObjectHolder *>()->holdedObj;
+                ZFTestCase *testCase = userData->objectHolded();
                 testCase->testCaseStop();
             })
             ZFThreadTaskRequest(testCaseStopDelay, userData);

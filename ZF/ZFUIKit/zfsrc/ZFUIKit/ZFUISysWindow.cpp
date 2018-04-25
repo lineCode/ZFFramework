@@ -48,7 +48,7 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(sysWindowLayoutParamOnChange)
     {
-        ZFUISysWindow *sysWindow = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUISysWindow *sysWindow = userData->objectHolded();
         if(sysWindow->nativeWindowEmbedImpl() != zfnull)
         {
             sysWindow->nativeWindowEmbedImpl()->sysWindowLayoutParamOnChange(sysWindow);

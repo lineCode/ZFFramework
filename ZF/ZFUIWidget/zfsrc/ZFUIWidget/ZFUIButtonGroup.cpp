@@ -30,7 +30,7 @@ public:
     ZFListener buttonEventListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(buttonEvent)
     {
-        ZFUIButtonGroup *buttonGroup = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIButtonGroup *buttonGroup = userData->objectHolded();
         ZFUIButton *button = listenerData.sender->to<ZFUIButton *>();
         zfindex buttonIndex = buttonGroup->buttonFind(button);
         zfCoreAssert(buttonIndex != zfindexMax());
@@ -92,7 +92,7 @@ public:
     ZFListener buttonOnClickListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(buttonOnClick)
     {
-        ZFUIButtonGroup *buttonGroup = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIButtonGroup *buttonGroup = userData->objectHolded();
         ZFUIButton *button = listenerData.sender->to<ZFUIButton *>();
         zfindex buttonIndex = buttonGroup->buttonFind(button);
         zfCoreAssert(buttonIndex != zfindexMax());

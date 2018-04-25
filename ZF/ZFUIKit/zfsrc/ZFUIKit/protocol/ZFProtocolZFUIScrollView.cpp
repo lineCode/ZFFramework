@@ -24,7 +24,7 @@ zftimet _ZFP_ZFProtocolZFUIScrollView_scrollViewScrollAnimationStart(ZF_IN ZFPRO
     scrollTimer->timerIntervalSet(recommendTimerInterval);
     ZFLISTENER_LOCAL(scrollTimerEvent, {
         ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView) *impl = (ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView) *)(userData->tagGet<ZFTypeHolder *>(zfText("_ZFP_ZFProtocolZFUIScrollView_impl"))->holdedData);
-        ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("_ZFP_ZFProtocolZFUIScrollView_scrollView"))->holdedObj;
+        ZFUIScrollView *scrollView = userData->tagGet(zfText("_ZFP_ZFProtocolZFUIScrollView_scrollView"))->objectHolded();
         impl->notifyScrollViewScrollAnimation(scrollView, ZFTime::timestamp());
     })
     zfblockedAlloc(ZFObject, userData);

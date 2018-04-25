@@ -59,14 +59,14 @@ public:
     ZFListener delayOnFinishListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(delayOnFinish)
     {
-        ZFAnimation *ani = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFAnimation *ani = userData->objectHolded();
         ZFValue *taskId = listenerData.param0->to<ZFValue *>();
         ani->_ZFP_ZFAnimation_aniImplDelayNotifyFinish(taskId->identityValue());
     }
     ZFListener dummyOnFinishListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(dummyOnFinish)
     {
-        ZFAnimation *ani = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFAnimation *ani = userData->objectHolded();
         ani->_ZFP_ZFAnimation_aniDummyNotifyStop();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFAnimationTaskHolder)

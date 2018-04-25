@@ -32,11 +32,11 @@ public:
 private:
     static ZFLISTENER_PROTOTYPE_EXPAND(layoutParamChanged)
     {
-        userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIView *>()->layoutRequest();
+        userData->objectHolded<ZFUIView *>()->layoutRequest();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(viewPropertyOnUpdate)
     {
-        userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIView *>()->_ZFP_ZFUIView_viewPropertyNotifyUpdate();
+        userData->objectHolded<ZFUIView *>()->_ZFP_ZFUIView_viewPropertyNotifyUpdate();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewListenerHolder)
 

@@ -153,7 +153,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(onScreenKeyboardStateOnChange)
     {
         ZFUIOnScreenKeyboardState *keyboardState = listenerData.sender->to<ZFUIOnScreenKeyboardState *>();
-        ZFUIOnScreenKeyboardAutoFitLayout *layout = userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIOnScreenKeyboardAutoFitLayout *>();
+        ZFUIOnScreenKeyboardAutoFitLayout *layout = userData->objectHolded();
         if(keyboardState->keyboardShowing())
         {
             if(layout->autoFitFocusedView() != zfnull)
@@ -177,7 +177,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(viewFocusOnChange)
     {
-        ZFUIOnScreenKeyboardAutoFitLayout *layout = userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIOnScreenKeyboardAutoFitLayout *>();
+        ZFUIOnScreenKeyboardAutoFitLayout *layout = userData->objectHolded();
         ZFUIView *view = listenerData.sender->to<ZFUIView *>();
         if(!view->viewFocused())
         {
@@ -209,7 +209,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(scrollFocusedViewToVisibleDelay)
     {
-        ZFUIOnScreenKeyboardAutoFitLayout *layout = userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIOnScreenKeyboardAutoFitLayout *>();
+        ZFUIOnScreenKeyboardAutoFitLayout *layout = userData->objectHolded();
         if(layout->autoFitFocusedView() != zfnull)
         {
             #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG

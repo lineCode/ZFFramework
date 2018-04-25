@@ -79,7 +79,7 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(listAdapterOnReload)
     {
-        ZFUIListView *listView = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZFUIListView *listView = userData->objectHolded();
         ZFValue *atIndex = listenerData.param0->to<ZFValue *>();
         if(atIndex == zfnull || atIndex->indexValue() == zfindexMax())
         {

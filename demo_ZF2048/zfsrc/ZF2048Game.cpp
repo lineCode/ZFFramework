@@ -50,7 +50,7 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(gameOnMove)
     {
-        ZF2048Game *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048Game *owner = userData->objectHolded();
         owner->d->aniStop();
 
         ZFUIOrientation *direction = listenerData.param0->toAny();
@@ -84,7 +84,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(gameDataOnChange)
     {
-        ZF2048Game *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048Game *owner = userData->objectHolded();
         owner->d->gameDataOnChange_update();
     }
 public:
@@ -153,7 +153,7 @@ public:
             ani->aniTargetSet(this->gameUI->blockAtIndex(action.from.x, action.from.y));
         }
         ZFLISTENER_LOCAL(moveAniOnStop, {
-            ZF2048Game *game = userData->to<ZFObjectHolder *>()->holdedObj;
+            ZF2048Game *game = userData->objectHolded();
             game->d->aniStop();
             game->d->gameUI->update(game->d->gameCore->data(), game->d->gameCore->dataWidth(), game->d->gameCore->dataHeight());
             if(listenerData.sender->to<ZFAnimation *>()->aniStoppedByUser())

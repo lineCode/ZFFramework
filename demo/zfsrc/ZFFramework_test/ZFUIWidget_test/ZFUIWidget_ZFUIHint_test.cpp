@@ -27,8 +27,7 @@ protected:
 #if 0
         ZFLISTENER_LOCAL(hintOnHide, {
             zfLogT();
-            ZFTestCase *testCase = userData->to<ZFObjectHolder *>()->holdedObj;
-            testCase->testCaseStop();
+            userData->objectHolded<ZFTestCase *>()->testCaseStop();
         })
 #else
         ZFLISTENER_LOCAL(hintOnHide, {
@@ -41,8 +40,7 @@ protected:
                 zfText(" long long long long long long long long long long")
                 zfText(" long long long long long long long long long hint"));
             ZFLISTENER_LOCAL(lastHintOnHide, {
-                ZFTestCase *testCase = userData->to<ZFObjectHolder *>()->holdedObj;
-                testCase->testCaseStop();
+                userData->objectHolded<ZFTestCase *>()->testCaseStop();
             })
             last.toObject()->observerAdd(ZFUIHint::EventHintOnHide(), lastHintOnHide, userData);
         })

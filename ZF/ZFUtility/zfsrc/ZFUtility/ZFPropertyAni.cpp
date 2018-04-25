@@ -128,7 +128,7 @@ public:
     {
         _ZFP_ZFPropertyAniStateAssert();
         _ZFP_ZFPropertyAniProcessFlag = zftrue;
-        _ZFP_I_ZFPropertyAniTaskData *taskData = userData->to<ZFObjectHolder *>()->holdedObj;
+        _ZFP_I_ZFPropertyAniTaskData *taskData = userData->objectHolded();
         zftimet curTime = ZFTime::timestamp();
         zffloat progress = (zffloat)(curTime - taskData->startTime) / taskData->setting->aniDuration();
         zfbool finished = zffalse;

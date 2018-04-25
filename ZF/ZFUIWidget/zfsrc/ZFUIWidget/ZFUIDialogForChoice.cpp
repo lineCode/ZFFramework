@@ -209,7 +209,7 @@ public:
     ZFListener dialogOnConfirmListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(dialogOnConfirm)
     {
-        userData->to<ZFObjectHolder *>()->holdedObj.to<ZFUIDialogForChoice *>()->choiceConfirmNotify();
+        userData->objectHolded<ZFUIDialogForChoice *>()->choiceConfirmNotify();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIDialogForChoiceDataHolder)
 

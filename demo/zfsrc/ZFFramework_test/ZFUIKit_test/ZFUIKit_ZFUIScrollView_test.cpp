@@ -137,13 +137,13 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("scrollView"), scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(zfText("autoScrollSpeedX: %d"), scrollView->autoScrollSpeedX()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 if(scrollView->autoScrollSpeedX() == 0)
                 {
                     scrollView->autoScrollStartX(_ZFP_ZFUIKit_ZFUIScrollView_test_autoScrollSpeed * ((zfmRand(2) == 0) ? 1 : -1));
@@ -161,13 +161,13 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("scrollView"), scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(zfText("autoScrollSpeedY: %d"), scrollView->autoScrollSpeedY()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 if(scrollView->autoScrollSpeedY() == 0)
                 {
                     scrollView->autoScrollStartY(_ZFP_ZFUIKit_ZFUIScrollView_test_autoScrollSpeed * ((zfmRand(2) == 0) ? 1 : -1));
@@ -191,7 +191,7 @@ private:
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 zfindex index = scrollView->childCount() / 2;
                 scrollView->scrollChildToVisible(scrollView->childAtIndex(index));
             })
@@ -204,14 +204,14 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet(zfText("scrollView"), scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(zfText("scrollAreaMargin: %s"),
                     ZFUIMarginToString(scrollView->scrollAreaMargin()).cString()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet<ZFObjectHolder *>(zfText("scrollView"))->holdedObj;
+                ZFUIScrollView *scrollView = userData->tagGet(zfText("scrollView"))->objectHolded();
                 if(scrollView->scrollAreaMargin().left >= 40)
                 {
                     scrollView->scrollAreaMarginRemove(scrollView->scrollAreaMargin());

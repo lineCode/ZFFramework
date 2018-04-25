@@ -105,7 +105,7 @@ protected:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(addActionOnClick)
     {
-        ZF2048AppAutoMoveSettingDialog *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048AppAutoMoveSettingDialog *owner = userData->objectHolded();
         _ZFP_ZF2048AppAutoMoveActionItem *clicked = listenerData.sender->toAny();
 
         owner->autoMoves.add(clicked->actionValue());
@@ -121,7 +121,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(actionItemOnClick)
     {
-        ZF2048AppAutoMoveSettingDialog *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048AppAutoMoveSettingDialog *owner = userData->objectHolded();
         _ZFP_ZF2048AppAutoMoveActionItem *actionItem = listenerData.sender->toAny();
 
         zfindex index = owner->d->actionListAdapter()->cellArray()->find(actionItem->viewParent(), ZFComparerCheckEqual);
@@ -134,13 +134,13 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(confirmButtonOnClick)
     {
-        ZF2048AppAutoMoveSettingDialog *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048AppAutoMoveSettingDialog *owner = userData->objectHolded();
         owner->autoMoveSettingOnChange();
         owner->dialogHide();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(cancelButtonOnClick)
     {
-        ZF2048AppAutoMoveSettingDialog *owner = userData->to<ZFObjectHolder *>()->holdedObj;
+        ZF2048AppAutoMoveSettingDialog *owner = userData->objectHolded();
         owner->dialogHide();
     }
 private:

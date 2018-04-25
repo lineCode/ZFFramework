@@ -182,9 +182,9 @@ private:
     void prepareLogic(void)
     {
         ZFLISTENER_LOCAL(increaseOnClick, {
-            ZFUIButtonBasic *increase = userData->tagGet<ZFObjectHolder *>(zfText("increase"))->holdedObj;
-            ZFUITextEdit *edit = userData->tagGet<ZFObjectHolder *>(zfText("edit"))->holdedObj;
-            ZFUIButtonBasic *decrease = userData->tagGet<ZFObjectHolder *>(zfText("decrease"))->holdedObj;
+            ZFUIButtonBasic *increase = userData->tagGet(zfText("increase"))->objectHolded();
+            ZFUITextEdit *edit = userData->tagGet(zfText("edit"))->objectHolded();
+            ZFUIButtonBasic *decrease = userData->tagGet(zfText("decrease"))->objectHolded();
             zfindex value = _ZFP_ZF2048AppSettingDialogPrivate::readData(edit);
             ++value;
             value = zfmApplyRange<zfindex>(value, _ZFP_ZF2048AppDataWidthMin, _ZFP_ZF2048AppDataWidthMax);
@@ -193,9 +193,9 @@ private:
             decrease->buttonEnableSet(value != _ZFP_ZF2048AppDataWidthMin);
         })
         ZFLISTENER_LOCAL(decreaseOnClick, {
-            ZFUIButtonBasic *increase = userData->tagGet<ZFObjectHolder *>(zfText("increase"))->holdedObj;
-            ZFUITextEdit *edit = userData->tagGet<ZFObjectHolder *>(zfText("edit"))->holdedObj;
-            ZFUIButtonBasic *decrease = userData->tagGet<ZFObjectHolder *>(zfText("decrease"))->holdedObj;
+            ZFUIButtonBasic *increase = userData->tagGet(zfText("increase"))->objectHolded();
+            ZFUITextEdit *edit = userData->tagGet(zfText("edit"))->objectHolded();
+            ZFUIButtonBasic *decrease = userData->tagGet(zfText("decrease"))->objectHolded();
             zfindex value = _ZFP_ZF2048AppSettingDialogPrivate::readData(edit);
             --value;
             value = zfmApplyRange<zfindex>(value, _ZFP_ZF2048AppDataWidthMin, _ZFP_ZF2048AppDataWidthMax);
@@ -204,9 +204,9 @@ private:
             decrease->buttonEnableSet(value != _ZFP_ZF2048AppDataWidthMin);
         })
         ZFLISTENER_LOCAL(editOnChange, {
-            ZFUIButtonBasic *increase = userData->tagGet<ZFObjectHolder *>(zfText("increase"))->holdedObj;
-            ZFUITextEdit *edit = userData->tagGet<ZFObjectHolder *>(zfText("edit"))->holdedObj;
-            ZFUIButtonBasic *decrease = userData->tagGet<ZFObjectHolder *>(zfText("decrease"))->holdedObj;
+            ZFUIButtonBasic *increase = userData->tagGet(zfText("increase"))->objectHolded();
+            ZFUITextEdit *edit = userData->tagGet(zfText("edit"))->objectHolded();
+            ZFUIButtonBasic *decrease = userData->tagGet(zfText("decrease"))->objectHolded();
             zfindex value = _ZFP_ZF2048AppSettingDialogPrivate::readData(edit);
             value = zfmApplyRange<zfindex>(value, _ZFP_ZF2048AppDataWidthMin, _ZFP_ZF2048AppDataWidthMax);
             increase->buttonEnableSet(value != _ZFP_ZF2048AppDataWidthMax);

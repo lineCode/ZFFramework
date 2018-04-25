@@ -37,7 +37,7 @@ protected:
         this->prepareSettingButton(window, this->ani());
 
         ZFLISTENER_LOCAL(startOnClick, {
-            userData->to<ZFObjectHolder *>()->holdedObj.to<ZFAnimation *>()->aniStart();
+            userData->objectHolded<ZFAnimation *>()->aniStart();
         })
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
         startButton->buttonLabelTextSet(zfText("start"));

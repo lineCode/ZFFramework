@@ -19,12 +19,12 @@ void ZFObjectHolder::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
     ret += zfText(" ");
-    zfsFromPointerT(ret, this->holdedObj.toObject());
+    zfsFromPointerT(ret, this->_ZFP_objectHolded.toObject());
 }
 
 zfidentity ZFObjectHolder::objectHash(void)
 {
-    return ZFObjectHash(this->holdedObj.toObject());
+    return ZFObjectHash(this->_ZFP_objectHolded.toObject());
 }
 ZFCompareResult ZFObjectHolder::objectCompare(ZF_IN ZFObject *anotherObj)
 {
@@ -32,7 +32,7 @@ ZFCompareResult ZFObjectHolder::objectCompare(ZF_IN ZFObject *anotherObj)
     zfself *another = ZFCastZFObject(zfself *, anotherObj);
     if(another == zfnull) {return ZFCompareUncomparable;}
 
-    return ZFObjectCompare(this->holdedObj.toObject(), another->holdedObj.toObject());
+    return ZFObjectCompare(this->_ZFP_objectHolded.toObject(), another->_ZFP_objectHolded.toObject());
 }
 
 // ============================================================
@@ -73,7 +73,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFObjectHolder, ZFAny, holdedObj)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObjectHolder, void, objectHoldedSet, ZFMP_IN(ZFObject *, obj))
 
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFListenerHolder, ZFListener, runnable)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFListenerHolder, ZFListenerData, listenerData)
