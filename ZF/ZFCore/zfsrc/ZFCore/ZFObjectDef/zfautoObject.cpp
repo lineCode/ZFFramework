@@ -70,6 +70,7 @@ void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
         if(d->refCount == 1)
         {
             d->obj = obj;
+            zflockfree_zfRelease(objTmp);
         }
         else
         {
@@ -83,7 +84,6 @@ void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
                 d = zfnull;
             }
         }
-        zflockfree_zfRelease(objTmp);
     }
     else if(obj)
     {
