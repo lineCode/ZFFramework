@@ -11,7 +11,6 @@
 #define _ZFI_ZF2048UIFrame_h_
 
 #include "ZF2048UIBlock.h"
-#include "ZF2048UISkin.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

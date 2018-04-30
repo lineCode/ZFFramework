@@ -366,11 +366,13 @@ ZFOUTPUT_TYPE(ZFFilterCallbackResult, {output.execute(ZFFilterCallbackResultToSt
  *
  * serializable data:
  * @code
- *   <ZFPathInfo value="pathType:pathData" />
+ *   <ZFPathInfo value="pathType|pathData" />
  * @endcode
  */
 ZFPROPERTY_TYPE_DECLARE(ZFPathInfo, ZFPathInfo)
 ZFOUTPUT_TYPE(ZFPathInfo, {output.execute(ZFPathInfoToString(v));})
+/** @brief keyword for serialize */
+#define ZFSerializableKeyword_ZFPathInfo_separator zfText("|")
 
 /**
  * @brief util method to parse path info for performance
@@ -378,21 +380,6 @@ ZFOUTPUT_TYPE(ZFPathInfo, {output.execute(ZFPathInfoToString(v));})
 extern ZF_ENV_EXPORT zfbool ZFPathInfoParse(ZF_IN const zfchar *pathInfo,
                                             ZF_OUT zfstring &pathType,
                                             ZF_OUT const zfchar *&pathData);
-
-/**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
- *
- * serializable data:
- * @code
- *   <ZFRefInfo refType="refType" refData="refData" />
- * @endcode
- */
-ZFPROPERTY_TYPE_DECLARE(ZFRefInfo, ZFRefInfo)
-ZFOUTPUT_TYPE(ZFRefInfo, {output.execute(ZFRefInfoToString(v));})
-/** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRefInfo_refType zfText("refType")
-/** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRefInfo_refData zfText("refData")
 
 /**
  * @brief see #ZFPROPERTY_TYPE_DECLARE

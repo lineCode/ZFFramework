@@ -10,10 +10,14 @@
 #include "ZFObjectIO.h"
 #include "ZFObjectImpl.h"
 
+#include "../ZFSTLWrapper/zfstl_string.h"
+#include "../ZFSTLWrapper/zfstl_map.h"
+#include "../ZFSTLWrapper/zfstl_deque.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-zfclassPOD _ZFP_ZFObjectIOData
+zfclassLikePOD _ZFP_ZFObjectIOData
 {
 public:
     zfstring registerSig;
@@ -21,49 +25,88 @@ public:
     _ZFP_ZFObjectIOCallback_fromInput fromInput;
     _ZFP_ZFObjectIOCallback_toOutput toOutput;
 };
-static ZFCoreArrayPOD<_ZFP_ZFObjectIOData> &_ZFP_ZFObjectIODataMap(void)
+static zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &_ZFP_ZFObjectIODataMap(void)
 {
-    static ZFCoreArrayPOD<_ZFP_ZFObjectIOData> m;
+    static zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > m;
     return m;
 }
 
 void _ZFP_ZFObjectIORegister(ZF_IN const zfchar *registerSig,
+                             ZF_IN const zfchar *fileExt,
                              ZF_IN _ZFP_ZFObjectIOCallback_checker checker,
                              ZF_IN _ZFP_ZFObjectIOCallback_fromInput fromInput,
                              ZF_IN _ZFP_ZFObjectIOCallback_toOutput toOutput)
 {
-    ZFCoreArrayPOD<_ZFP_ZFObjectIOData> &m = _ZFP_ZFObjectIODataMap();
-    for(zfindex i = 0; i < m.count(); ++i)
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &m = _ZFP_ZFObjectIODataMap();
+    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator it = m.find(fileExt);
+    if(it != m.end())
     {
-        if(zfscmpTheSame(m[i].registerSig.cString(), registerSig))
+        for(zfstlsize i = 0; i < it->second.size(); ++i)
         {
-            zfCoreCriticalMessageTrim(zfTextA("[ZFObjectIO] \"%s\" already registered"),
-                zfsCoreZ2A(registerSig));
-            return ;
+            if(it->second[i].registerSig.compare(registerSig) == 0)
+            {
+                zfCoreCriticalMessageTrim(zfTextA("[ZFObjectIO] \"%s\" already registered"),
+                    zfsCoreZ2A(registerSig));
+                return ;
+            }
         }
     }
 
     _ZFP_ZFObjectIOData data;
+    data.registerSig = registerSig;
     data.checker = checker;
     data.fromInput = fromInput;
     data.toOutput = toOutput;
-    m.add(data);
+    m[fileExt].push_back(data);
 }
 void _ZFP_ZFObjectIOUnregister(ZF_IN const zfchar *registerSig)
 {
-    ZFCoreArrayPOD<_ZFP_ZFObjectIOData> &m = _ZFP_ZFObjectIODataMap();
-    for(zfindex i = 0; i < m.count(); ++i)
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &m = _ZFP_ZFObjectIODataMap();
+    for(zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator it = m.begin(); it != m.end(); ++it)
     {
-        if(zfscmpTheSame(m[i].registerSig.cString(), registerSig))
+        for(zfstlsize i = 0; i < it->second.size(); ++i)
         {
-            m.remove(i);
-            break;
+            if(it->second[i].registerSig.compare(registerSig) == 0)
+            {
+                it->second.erase(it->second.begin() + i);
+                if(it->second.empty())
+                {
+                    m.erase(it);
+                }
+                break;
+            }
         }
     }
 }
 
 // ============================================================
-static zfbool _ZFP_ZFObjectIOCheck(ZF_OUT _ZFP_ZFObjectIOData &ret,
+static zfbool _ZFP_ZFObjectIOCheckAction(ZF_OUT _ZFP_ZFObjectIOData *&ret,
+                                         ZF_IN const ZFCallback &callback,
+                                         ZF_OUT_OPT zfstring *outErrorHint,
+                                         ZF_IN_OUT zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator &it,
+                                         ZF_IN const zfchar *fileExt)
+{
+    for(zfstlsize i = it->second.size() - 1; i != (zfstlsize)-1; --i)
+    {
+        _ZFP_ZFObjectIOData &d = it->second[i];
+        if(d.checker(*callback.pathInfo(), fileExt))
+        {
+            ret = &d;
+            // move recently matched to tail for better performance
+            if(i != it->second.size() - 1)
+            {
+                _ZFP_ZFObjectIOData t = d;
+                it->second.erase(it->second.begin() + i);
+                it->second.push_back(t);
+            }
+            return zftrue;
+        }
+    }
+    return zffalse;
+}
+static zfbool _ZFP_ZFObjectIOCheck(ZF_OUT _ZFP_ZFObjectIOData *&ret,
                                    ZF_IN const ZFCallback &callback,
                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull)
 {
@@ -83,17 +126,30 @@ static zfbool _ZFP_ZFObjectIOCheck(ZF_OUT _ZFP_ZFObjectIOData &ret,
     {
         ++fileExt;
     }
+    if(fileExt == zfnull)
+    {
+        fileExt = zfText("");
+    }
 
     zfCoreMutexLocker();
-    ZFCoreArrayPOD<_ZFP_ZFObjectIOData> &m = _ZFP_ZFObjectIODataMap();
-    for(zfindex i = m.count() - 1; i != zfindexMax(); --i)
+    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &m = _ZFP_ZFObjectIODataMap();
+    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator it = m.find(fileExt);
+    if(it != m.end())
     {
-        if(m[i].checker(*callback.pathInfo(), fileExt))
+        if(_ZFP_ZFObjectIOCheckAction(ret, callback, outErrorHint, it, fileExt))
         {
-            ret = m[i];
-            // move recently matched to tail for better performance
-            m.move(i, zfindexMax());
             return zftrue;
+        }
+    }
+    if(!zfsIsEmpty(fileExt))
+    {
+        it = m.find(zfText(""));
+        if(it != m.end())
+        {
+            if(_ZFP_ZFObjectIOCheckAction(ret, callback, outErrorHint, it, fileExt))
+            {
+                return zftrue;
+            }
         }
     }
     zfstringAppend(outErrorHint,
@@ -105,14 +161,14 @@ zfbool ZFObjectIOLoad(ZF_OUT zfautoObject &ret,
                       ZF_IN const ZFInputCallback &input,
                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
-    _ZFP_ZFObjectIOData data;
+    _ZFP_ZFObjectIOData *data = zfnull;
     if(!_ZFP_ZFObjectIOCheck(data, input, outErrorHint))
     {
         return zffalse;
     }
     else
     {
-        return data.fromInput(ret, input, outErrorHint);
+        return data->fromInput(ret, input, outErrorHint);
     }
 }
 zfautoObject ZFObjectIOLoad(ZF_IN const ZFInputCallback &input,
@@ -126,14 +182,14 @@ zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutputCallback &output,
                       ZF_IN ZFObject *obj,
                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
-    _ZFP_ZFObjectIOData data;
+    _ZFP_ZFObjectIOData *data = zfnull;
     if(!_ZFP_ZFObjectIOCheck(data, output, outErrorHint))
     {
         return zffalse;
     }
     else
     {
-        return data.toOutput(output, obj, outErrorHint);
+        return data->toOutput(output, obj, outErrorHint);
     }
 }
 

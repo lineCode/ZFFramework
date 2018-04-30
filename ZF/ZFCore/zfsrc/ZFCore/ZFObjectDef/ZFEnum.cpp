@@ -483,6 +483,11 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfflags, ZFEnum::_ZFP_ZFEnum_objectOnInit_zfflags, ZFEnum::ClassData(),
+    protected, ZFMethodIsVirtual,
+    void, zfText("objectOnInit")
+    , ZFMP_IN(zfflags, value)
+    )
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfuint, ZFEnum::_ZFP_ZFEnum_objectOnInit_zfuint, ZFEnum::ClassData(),
     protected, ZFMethodIsVirtual,
     void, zfText("objectOnInit")

@@ -424,9 +424,6 @@ private:
     _ZFP_ZFUITextEditPrivate *d;
 };
 
-// ============================================================
-ZFLANGAPPLY_DECLARE(ZFUITextEdit, ZFUITextEditPlaceHolder)
-
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUITextEdit_h_
 

@@ -239,12 +239,6 @@ extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &s
             { \
                 return zffalse; \
             } \
-            if(valueData->refInfoExistRecursively()) \
-            { \
-                ZFSerializableData refInfo; \
-                refInfo.copyFrom(*valueData); \
-                this->refInfoStateForCategorySet(key, &refInfo); \
-            } \
         } \
     } while(zffalse)
 /** @brief util macro to impl #ZFSerializable */
@@ -252,19 +246,13 @@ extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &s
     key, TypeName, thisValue, refData, defaultValue) \
     do \
     { \
-        const ZFSerializableData *refInfo = this->refInfoStateForCategory(key); \
-        if(refInfo != zfnull \
-            || (ref == zfnull && ZFComparerDefault(thisValue, defaultValue) != ZFCompareTheSame) \
+        if((ref == zfnull && ZFComparerDefault(thisValue, defaultValue) != ZFCompareTheSame) \
             || (ref != zfnull && ZFComparerDefault(thisValue, refData) != ZFCompareTheSame)) \
         { \
             ZFSerializableData categoryData; \
             if(!TypeName##ToData(categoryData, thisValue, outErrorHint)) \
             { \
                 return zffalse; \
-            } \
-            if(refInfo != zfnull) \
-            { \
-                categoryData.refInfoRestore(*refInfo); \
             } \
             categoryData.categorySet(key); \
             serializableData.elementAdd(categoryData); \

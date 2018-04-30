@@ -19,31 +19,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// xml serializable conversion
-
-/**
- * @brief see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
- *
- * format:
- * @code
- *   <Node refType="xml" refData="pathInfo, see ZFPathInfo" />
- * @endcode
- */
-#define ZFSerializableDataRefType_xml zfText("xml")
-
-/**
- * @brief see #ZFOBJECT_CREATOR_DEFINE
- *
- * data:
- * @code
- *   "pathInfo, see ZFPathInfo"
- * @endcode
- * data is a pathInfo to a xml file,
- * which should contain a serializable object
- */
-#define ZFObjectCreatorType_xml zfText("xml")
-
-// ============================================================
 /**
  * @brief parse xml formated data to serializable
  */

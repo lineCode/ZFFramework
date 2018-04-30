@@ -170,13 +170,13 @@ public:
         HANDLE hFind;
         void setup(ZFFileFindData::Impl &zfd)
         {
-            zfd.filePath = this->parentPath;
-            zfd.filePath += ZFFileSeparator();
-            zfindex t = zfd.filePath.length();
-            zfd.filePath += ZFStringW2Z(fd.cFileName);
-            zfd.fileName = zfd.filePath.cString() + t;
+            zfd.fileName = ZFStringW2Z(fd.cFileName);
 
-            zfd.fileIsDir = ZFFileFileIsDir(zfd.filePath.cString());
+            zfstring filePath = this->parentPath;
+            filePath += ZFFileSeparator();
+            filePath += zfd.fileName;
+
+            zfd.fileIsDir = ZFFileFileIsDir(filePath);
         }
     #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown // #if ZF_ENV_sys_Windows
         _ZFP_ZFFileNativeFd(void)
@@ -190,13 +190,13 @@ public:
         struct stat fStat;
         void setup(ZFFileFindData::Impl &zfd)
         {
-            zfd.filePath = this->parentPath;
-            zfd.filePath += ZFFileSeparator();
-            zfindex t = zfd.filePath.length();
-            zfd.filePath += ZFStringA2Z(pDirent->d_name);
-            zfd.fileName = zfd.filePath.cString() + t;
+            zfd.fileName = ZFStringA2Z(pDirent->d_name);
 
-            zfd.fileIsDir = ZFFileFileIsDir(zfd.filePath.cString());
+            zfstring filePath = this->parentPath;
+            filePath += ZFFileSeparator();
+            filePath += zfd.fileName;
+
+            zfd.fileIsDir = ZFFileFileIsDir(filePath);
         }
     #endif // #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown
     };
@@ -236,8 +236,8 @@ public:
         } while(zffalse);
         if(success)
         {
-            while(zfscmpTheSame(fd.fileName, zfText("."))
-                || zfscmpTheSame(fd.fileName, zfText("..")))
+            while(zfscmpTheSame(fd.fileName.cString(), zfText("."))
+                || zfscmpTheSame(fd.fileName.cString(), zfText("..")))
             {
                 if(!this->fileFindNext(fd))
                 {
@@ -264,8 +264,8 @@ public:
             if(nativeFd->pDirent == zfnull) {return zffalse;}
             nativeFd->setup(fd);
         #endif // #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown
-        if(zfscmpTheSame(fd.fileName, zfText("."))
-            || zfscmpTheSame(fd.fileName, zfText("..")))
+        if(zfscmpTheSame(fd.fileName.cString(), zfText("."))
+            || zfscmpTheSame(fd.fileName.cString(), zfText("..")))
         {
             return this->fileFindNext(fd);
         }
@@ -485,24 +485,29 @@ private:
             }
 
             ZFFileFindData::Impl fd;
-            if(this->fileFindFirst(fd, srcDir.cString()))
+            if(this->fileFindFirst(fd, srcDir))
             {
                 do
                 {
+                    zfstring srcTmp;
+                    srcTmp += srcDir;
+                    srcTmp += ZFFileSeparator();
+                    srcTmp += fd.fileName;
+
                     zfstring dstTmp;
                     dstTmp += dstDir;
                     dstTmp += ZFFileSeparator();
                     dstTmp += fd.fileName;
-                    if(this->fileIsDir(fd.filePath))
+                    if(this->fileIsDir(srcTmp))
                     {
-                        stacksDirSrc.add(fd.filePath);
-                        stacksDirDst.add(dstTmp.cString());
+                        stacksDirSrc.add(srcTmp);
+                        stacksDirDst.add(dstTmp);
                     }
                     else
                     {
                         if(isCopy)
                         {
-                            if(!this->copyFile(fd.filePath, dstTmp.cString(), isForce, errPos))
+                            if(!this->copyFile(srcTmp, dstTmp, isForce, errPos))
                             {
                                 this->fileFindClose(fd);
                                 return zffalse;
@@ -510,7 +515,7 @@ private:
                         }
                         else
                         {
-                            if(!this->moveFile(fd.filePath, dstTmp.cString(), isForce, errPos))
+                            if(!this->moveFile(srcTmp, dstTmp, isForce, errPos))
                             {
                                 this->fileFindClose(fd);
                                 return zffalse;
@@ -519,7 +524,7 @@ private:
                     }
                 } while(this->fileFindNext(fd));
                 this->fileFindClose(fd);
-            } // if(this->fileFindFirst(fd, srcDir.cString()))
+            } // if(this->fileFindFirst(fd, srcDir))
         } // while(!stacksDirSrc.empty())
 
         if(!isCopy)
@@ -585,17 +590,21 @@ private:
             }
 
             ZFFileFindData::Impl fd;
-            if(this->fileFindFirst(fd, dirPath.cString()))
+            if(this->fileFindFirst(fd, dirPath))
             {
                 do
                 {
-                    if(this->fileIsDir(fd.filePath))
+                    zfstring filePath;
+                    filePath += dirPath;
+                    filePath += ZFFileSeparator();
+                    filePath += fd.fileName;
+                    if(this->fileIsDir(filePath))
                     {
-                        dirsToCheck.add(fd.filePath);
+                        dirsToCheck.add(filePath);
                     }
                     else
                     {
-                        if(!this->removeFile(fd.filePath, isForce, errPos))
+                        if(!this->removeFile(filePath, isForce, errPos))
                         {
                             return zffalse;
                         }
@@ -614,13 +623,13 @@ private:
             #if ZF_ENV_sys_Windows
                 if(RemoveDirectoryW(ZFStringZ2W(pathTmp.cString())) == 0)
                 {
-                    zfself::SetErrPos(errPos, pathTmp.cString());
+                    zfself::SetErrPos(errPos, pathTmp);
                     return zffalse;
                 }
             #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown // #if ZF_ENV_sys_Windows
                 if(rmdir(ZFStringZ2A(pathTmp.cString())) != 0)
                 {
-                    zfself::SetErrPos(errPos, pathTmp.cString());
+                    zfself::SetErrPos(errPos, pathTmp);
                     return zffalse;
                 }
             #endif // #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown

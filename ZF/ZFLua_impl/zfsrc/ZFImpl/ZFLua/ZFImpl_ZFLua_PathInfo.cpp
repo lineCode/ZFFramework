@@ -32,6 +32,43 @@ static void _ZFP_ZFImpl_ZFLua_implSetupPathInfo_escape(ZF_OUT zfstring &ret,
         ret.append(pL, p - pL);
     }
 }
+static int _ZFP_ZFLuaImportOpen(ZF_IN lua_State *L)
+{
+    zfautoObject pathInfoHolder;
+    ZFImpl_ZFLua_toObject(pathInfoHolder, L, 1);
+    v_ZFPathInfo *pathInfo = pathInfoHolder;
+    if(pathInfo == zfnull)
+    {
+        ZFLuaErrorOccurredTrim(
+            zfText("[ZFLuaImport] unable to access pathInfo, got: %s"),
+            ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
+        return ZFImpl_ZFLua_luaError(L);
+    }
+
+    zfstring localFilePath;
+    if(!ZFImpl_ZFLua_toString(localFilePath, L, 2))
+    {
+        ZFLuaErrorOccurredTrim(
+            zfText("[ZFLuaImport] unable to access localFilePath, got: %s"),
+            ZFImpl_ZFLua_luaObjectInfo(L, 2, zftrue).cString());
+        return ZFImpl_ZFLua_luaError(L);
+    }
+
+    zfblockedAlloc(v_ZFCallback, ret);
+    ret->zfv.callbackSerializeCustomDisable();
+    ZFInputCallbackForLocalFileT(ret->zfv, pathInfo->zfv, localFilePath);
+    if(!ret->zfv.callbackIsValid())
+    {
+        ZFLuaErrorOccurredTrim(
+            zfText("[ZFLuaImport] unable to load local file \"%s\" relative to \"%s\""),
+            localFilePath.cString(),
+            ZFPathInfoToString(pathInfo->zfv).cString());
+        return ZFImpl_ZFLua_luaError(L);
+    }
+
+    ZFImpl_ZFLua_luaPush(L, ret);
+    return 1;
+}
 void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
                                     ZF_IN const ZFPathInfo *pathInfo)
 {
@@ -42,25 +79,24 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
     // no endl, to prevent native lua error from having wrong line number
     ret += zfText(
             "local function zfl_pathInfo()"
-            "    local pathInfo = ZFPathInfo();"
-            "    pathInfo:pathTypeSet('"
+            "    return ZFPathInfo('"
         );
     _ZFP_ZFImpl_ZFLua_implSetupPathInfo_escape(ret, pathInfo->pathType);
-    ret += zfText("');"
-            "    pathInfo:pathDataSet('"
-        );
+    ret += ZFSerializableKeyword_ZFPathInfo_separator;
     _ZFP_ZFImpl_ZFLua_implSetupPathInfo_escape(ret, pathInfo->pathData);
-    ret += zfText("');"
-            "    return pathInfo;"
+    ret += zfText(
+            "');"
             "end;"
             "local function ZFLuaImport(localFilePath, ...)"
-            "    return ZFLuaExecute(ZFInputCallbackForLocalFile(zfl_pathInfo(), localFilePath), ...);"
+            "    return ZFLuaExecute(_ZFP_ZFLuaImportOpen(zfl_pathInfo(), localFilePath), ...);"
             "end;"
         );
 }
 
 // ============================================================
 ZFImpl_ZFLua_implSetupCallback_DEFINE(PathInfo, {
+        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFLuaImportOpen"), _ZFP_ZFLuaImportOpen);
+
         /*
          * the default version,
          * would be hide by local one

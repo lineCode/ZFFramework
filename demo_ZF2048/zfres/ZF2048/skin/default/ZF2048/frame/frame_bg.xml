@@ -2,7 +2,7 @@
     <ZFUIMargin name="imageNinePatch" value="(6, 6, 6, 6)" />
     <ZFCallback callbackType="ZFInputCallbackForLocalFile" category="imageData" >
         <node category="callbackData" >
-            <zfstring category="filePath" value="frame_bg.png" />
+            <zfstring category="filePath" value="frame_bg._.png" />
         </node>
     </ZFCallback>
 </ZFUIImage>

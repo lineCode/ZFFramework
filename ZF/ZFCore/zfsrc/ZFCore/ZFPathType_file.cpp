@@ -15,8 +15,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPATHTYPE_FILEIO_REGISTER(file, ZFPathType_file
         , ZFFileFileIsExist
         , ZFFileFileIsDir
-        , ZFFilePathInfoCallbackPathGetDefault
-        , ZFFilePathInfoCallbackPathSetDefault
+        , ZFFilePathInfoCallbackGetFileNameDefault
+        , ZFFilePathInfoCallbackToChildDefault
+        , ZFFilePathInfoCallbackToParentDefault
         , ZFFileFilePathCreate
         , ZFFileFileRemove
         , ZFFileFileFindFirst

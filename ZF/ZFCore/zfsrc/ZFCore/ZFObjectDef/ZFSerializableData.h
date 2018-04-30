@@ -29,7 +29,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * also, no resolve state would be saved,
  * and all resolve related method would return false as resolved state\n
  * \n
- * note, you must not change this config if some seraizliation logic is processing,
+ * note, you must not change this config if some serialization logic is processing,
  * usually, change it in app entry
  */
 extern ZF_ENV_EXPORT zfbool ZFSerializableDataResolveCheckEnable;
@@ -53,16 +53,6 @@ extern ZF_ENV_EXPORT zfbool ZFSerializableDataResolveCheckEnable;
  *   see #ZFSerializableData::propertyValue
  */
 #define ZFSerializableKeyword_value zfText("value")
-/**
- * @brief keyword for #ZFSerializable to hold the reference's type,
- *   see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
- */
-#define ZFSerializableKeyword_refType zfText("refType")
-/**
- * @brief keyword for #ZFSerializable to hold the reference's data,
- *   see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
- */
-#define ZFSerializableKeyword_refData zfText("refData")
 /**
  * @brief keyword for #ZFSerializable's to hold category,
  *   see #ZFSerializableData::category
@@ -140,63 +130,6 @@ public:
      * @brief get current retain count
      */
     zffinal zfindex objectRetainCount(void) const;
-
-    // ============================================================
-    // reference logic
-public:
-    /**
-     * @brief store reference info of this node, see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
-     */
-    zffinal const ZFRefInfo *refInfo(void) const;
-    /**
-     * @brief see #refInfo
-     */
-    zffinal void refInfoSet(ZF_IN const ZFRefInfo *refInfo);
-    /**
-     * @brief see #refInfo
-     */
-    zffinal void refInfoSet(ZF_IN const zfchar *refType, ZF_IN const zfchar *refData);
-
-    /**
-     * @brief remove reference info attached to this data
-     */
-    zffinal void refInfoRemove(void);
-    /**
-     * @brief remove reference info attached to this data and all child data
-     */
-    zffinal void refInfoRemoveRecursively(void);
-
-    /**
-     * @brief true if this node contains reference info
-     */
-    zffinal zfbool refInfoExist(void) const;
-    /**
-     * @brief true if this node or child node contains reference info
-     */
-    zffinal zfbool refInfoExistRecursively(void) const;
-
-private:
-    zffinal zfbool _ZFP_ZFSerializableData_refInfoLoad(ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                                       ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
-    zffinal zfbool _ZFP_ZFSerializableData_refInfoApply(ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                                        ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
-public:
-    /**
-     * @brief load data accorrding to reference info, see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
-     *
-     * this method should be called on root node for only once
-     */
-    zffinal zfbool refInfoLoad(ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                               ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
-    /**
-     * @brief restore to original serializable data accorrding to refNode
-     *   which holds reference info, see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
-     *
-     * this method would:
-     * -  remove duplicated items in self, accorrding to refNode
-     * -  restore refType/refData accorrding to refNode
-     */
-    zffinal void refInfoRestore(ZF_IN const ZFSerializableData &refNode);
 
     // ============================================================
     // local path logic

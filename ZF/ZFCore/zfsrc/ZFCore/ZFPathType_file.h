@@ -111,15 +111,21 @@ public:
         T_Holder::pathConvert(pathDataAbs, pathData);
         return ZFFileFileIsDir(pathDataAbs);
     }
-    static zfbool callbackPathGet(ZF_IN_OUT zfstring &path,
-                                  ZF_IN const zfchar *pathData)
+    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
+                                      ZF_IN_OUT zfstring &fileName)
     {
-        return ZFFilePathInfoCallbackPathGetDefault(path, pathData);
+        return ZFFilePathInfoCallbackGetFileNameDefault(pathData, fileName);
     }
-    static zfbool callbackPathSet(ZF_IN_OUT zfstring &pathData,
-                                  ZF_IN const zfchar *path)
+    static zfbool callbackToChild(ZF_IN const zfchar *pathData,
+                                  ZF_IN_OUT zfstring &pathDataChild,
+                                  ZF_IN const zfchar *childName)
     {
-        return ZFFilePathInfoCallbackPathSetDefault(pathData, path);
+        return ZFFilePathInfoCallbackToChildDefault(pathData, pathDataChild, childName);
+    }
+    static zfbool callbackToParent(ZF_IN const zfchar *pathData,
+                                   ZF_IN_OUT zfstring &pathDataParent)
+    {
+        return ZFFilePathInfoCallbackToParentDefault(pathData, pathDataParent);
     }
     static zfbool callbackPathCreate(ZF_IN const zfchar *pathData,
                                      ZF_IN_OPT zfbool autoMakeParent,
@@ -167,8 +173,6 @@ public:
         T_Holder::pathConvert(pathDataAbs, pathData);
         if(ZFFileFileFindFirst(fd, pathDataAbs))
         {
-            T_Holder::pathRevert(fd.impl().filePath);
-            fd.impl().fileNameParse();
             return zftrue;
         }
         else
@@ -180,8 +184,6 @@ public:
     {
         if(ZFFileFileFindNext(fd))
         {
-            T_Holder::pathRevert(fd.impl().filePath);
-            fd.impl().fileNameParse();
             return zftrue;
         }
         else

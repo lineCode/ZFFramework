@@ -1419,6 +1419,10 @@ zfbool ZFClass::_ZFP_ZFClass_propertyInitStepIsTheSame(ZF_IN const ZFProperty *p
     {
         return zffalse;
     }
+    if(data->second.size() == 0)
+    {
+        return zftrue;
+    }
     if(this->classIsTypeOf(refClass) || refClass->classIsTypeOf(this))
     {
         return zftrue;

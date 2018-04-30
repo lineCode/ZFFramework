@@ -59,9 +59,6 @@ static const zfchar _ZFP_ZFSerializableEscapeCharMap[256] = {
  * {
  *     ClassNameEncoded
  *     (
- *         refTypeEncoded : refDataEncoded
- *     )
- *     (
  *         AttributeNameEncoded = AttributeValueEncoded;
  *         AttributeNameEncoded = AttributeValueEncoded;
  *     )
@@ -124,61 +121,6 @@ zfbool _ZFP_ZFSerializableDataFromString(ZF_OUT ZFSerializableData &serializable
             serializableData.itemClassSet(decodedTmp.cString());
             decodedTmp.removeAll();
         }
-
-        ZFRefInfo refInfo;
-
-        // refType
-        zfcharSkipSpaceAndEndl(encodedData, srcEnd);
-        pLeft = pRight = encodedData;
-        while(*encodedData != ':' && encodedData < srcEnd)
-        {
-            if(!zfcharIsSpace(*encodedData))
-            {
-                zfcharMoveNext(encodedData);
-                pRight = encodedData;
-            }
-            else
-            {
-                zfcharMoveNext(encodedData);
-            }
-        }
-        if(encodedData >= srcEnd || *encodedData != ':') {break;}
-        ++encodedData;
-
-        if(!(pRight == pLeft + 1 && *pLeft == '_'))
-        {
-            zfCoreDataDecode(refInfo.refType, zfstring(pLeft, pRight - pLeft).cString());
-        }
-
-        // refData
-        zfcharSkipSpaceAndEndl(encodedData, srcEnd);
-        pLeft = pRight = encodedData;
-        while(*encodedData != ')' && encodedData < srcEnd)
-        {
-            if(!zfcharIsSpace(*encodedData))
-            {
-                zfcharMoveNext(encodedData);
-                pRight = encodedData;
-            }
-            else
-            {
-                zfcharMoveNext(encodedData);
-            }
-        }
-        if(encodedData >= srcEnd || *encodedData != ')') {break;}
-        ++encodedData;
-
-        if(!(pRight == pLeft + 1 && *pLeft == '_'))
-        {
-            zfCoreDataDecode(refInfo.refData, zfstring(pLeft, pRight - pLeft).cString());
-        }
-
-        zfcharSkipSpaceAndEndl(encodedData, srcEnd);
-        while(*encodedData != '(' && encodedData < srcEnd) {zfcharMoveNext(encodedData);}
-        if(encodedData >= srcEnd || *encodedData != '(') {break;}
-        ++encodedData;
-
-        serializableData.refInfoSet(&refInfo);
 
         // attributes
         zfcharSkipSpaceAndEndl(encodedData, srcEnd);
@@ -337,20 +279,6 @@ zfbool ZFSerializableDataToString(ZF_OUT zfstring &result,
     else
     {
         zfCoreDataEncode(result, serializableData.itemClass(), zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
-    }
-
-    // refType and refData
-    if(serializableData.refInfo() == zfnull)
-    {
-        result += zfText("(_:_)");
-    }
-    else
-    {
-        result += '(';
-        zfCoreDataEncode(result, serializableData.refInfo()->refType, zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
-        result += ':';
-        zfCoreDataEncode(result, serializableData.refInfo()->refData, zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
-        result += ')';
     }
 
     // attributes

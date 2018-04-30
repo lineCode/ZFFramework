@@ -14,5 +14,7 @@ echo   file_append.bat DST_PATH SRC_PATH
 exit /b 1
 :run
 
-more "%SRC_PATH%" >> "%DST_PATH%.tmp"
+>nul 2>&1 (
+    more "%SRC_PATH%" >> "%DST_PATH%.tmp"
+)
 

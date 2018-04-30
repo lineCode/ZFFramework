@@ -1,5 +1,9 @@
 # master
 
+* redesign of skin and lang logic
+* optimize path info impl
+* fix lua operators impl
+* optimize observer performance
 * trim output executable size
 
 # 0.1.2 (20180423)

@@ -70,19 +70,19 @@ protected:
         this->loadContent();
         this->prepareLogic();
 
-        zfLangApplyProperty_zfstring(this->owner, ZFPropertyAccess(ZF2048AppDialog, dialogTitle), zfText("ZF2048SettingDialog_title"));
+        this->owner->styleKeySet(zfText("dialogTitle"), zfText("ZF2048SettingDialog_title"));
 
-        zfLangApplyZFUITextViewText(this->dataWidthHint, zfText("ZF2048SettingDialog_widthHint"));
-        zfLangApplyZFUITextViewText(this->dataHeightHint, zfText("ZF2048SettingDialog_heightHint"));
+        this->dataWidthHint->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_widthHint"));
+        this->dataHeightHint->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_heightHint"));
 
-        zfLangApplyZFUIButtonBasicTextNormal(this->dataWidthIncrease, zfText("ZF2048SettingDialog_dataIncrease"));
-        zfLangApplyZFUIButtonBasicTextNormal(this->dataWidthDecrease, zfText("ZF2048SettingDialog_dataDecrease"));
+        this->dataWidthIncrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataIncrease"));
+        this->dataWidthDecrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataDecrease"));
 
-        zfLangApplyZFUIButtonBasicTextNormal(this->dataHeightIncrease, zfText("ZF2048SettingDialog_dataIncrease"));
-        zfLangApplyZFUIButtonBasicTextNormal(this->dataHeightDecrease, zfText("ZF2048SettingDialog_dataDecrease"));
+        this->dataHeightIncrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataIncrease"));
+        this->dataHeightDecrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataDecrease"));
 
-        zfLangApplyZFUIButtonBasicTextNormal(this->confirmButton, zfText("ZF2048SettingDialog_confirm"));
-        zfLangApplyZFUIButtonBasicTextNormal(this->cancelButton, zfText("ZF2048SettingDialog_cancel"));
+        this->confirmButton->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_confirm"));
+        this->cancelButton->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_cancel"));
     }
 
 private:

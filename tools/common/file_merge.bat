@@ -14,14 +14,18 @@ echo   file_merge.bat DST_PATH FILE1_PATH [FILE2_PATH ...]
 exit /b 1
 :run
 
-more "%FILE1_PATH%" > "%DST_PATH%.tmp"
+>nul 2>&1 (
+    more "%FILE1_PATH%" > "%DST_PATH%.tmp"
+)
 
 shift
 :all_file
 shift
 set FILEN_PATH=%~1%
 if defined FILEN_PATH (
-    more "%FILEN_PATH%" >> "%DST_PATH%.tmp"
+    >nul 2>&1 (
+        more "%FILEN_PATH%" >> "%DST_PATH%.tmp"
+    )
     goto :all_file
 )
 

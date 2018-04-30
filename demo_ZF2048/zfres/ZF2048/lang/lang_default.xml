@@ -1,31 +1,31 @@
-<lang>
-    <l k="ZF2048_autoMove" v="auto" />
-    <l k="ZF2048_autoMoveStop" v="stop" />
-    <l k="ZF2048_undo" v="undo" />
-    <l k="ZF2048_score" v="score:" />
-    <l k="ZF2048_setting" v="setting" />
-    <l k="ZF2048_about" v="about" />
-    <l k="ZF2048_aboutContent" v="this is a demo for ZFFramework&#xA;please refer to:&#xA;http://ZFFramework.com&#xA;http://zsaber.com" />
+<node>
+    <ZFString name="ZF2048_autoMove" value="auto" />
+    <ZFString name="ZF2048_autoMoveStop" value="stop" />
+    <ZFString name="ZF2048_undo" value="undo" />
+    <ZFString name="ZF2048_score" value="score:" />
+    <ZFString name="ZF2048_setting" value="setting" />
+    <ZFString name="ZF2048_about" value="about" />
+    <ZFString name="ZF2048_aboutContent" value="this is a demo for ZFFramework&#xA;please refer to:&#xA;http://ZFFramework.com&#xA;http://zsaber.com" />
 
-    <l k="ZF2048_gameOver" v="game over" />
-    <l k="ZF2048_gameOver_retry" v="retry" />
-    <l k="ZF2048_gameOver_cancel" v="cancel" />
+    <ZFString name="ZF2048_gameOver" value="game over" />
+    <ZFString name="ZF2048_gameOver_retry" value="retry" />
+    <ZFString name="ZF2048_gameOver_cancel" value="cancel" />
 
-    <l k="ZF2048SettingDialog_title" v="block size" />
-    <l k="ZF2048SettingDialog_widthHint" v="width:" />
-    <l k="ZF2048SettingDialog_heightHint" v="height:" />
-    <l k="ZF2048SettingDialog_dataIncrease" v="+" />
-    <l k="ZF2048SettingDialog_dataDecrease" v="-" />
-    <l k="ZF2048SettingDialog_confirm" v="start" />
-    <l k="ZF2048SettingDialog_cancel" v="cancel" />
+    <ZFString name="ZF2048SettingDialog_title" value="block size" />
+    <ZFString name="ZF2048SettingDialog_widthHint" value="width:" />
+    <ZFString name="ZF2048SettingDialog_heightHint" value="height:" />
+    <ZFString name="ZF2048SettingDialog_dataIncrease" value="+" />
+    <ZFString name="ZF2048SettingDialog_dataDecrease" value="-" />
+    <ZFString name="ZF2048SettingDialog_confirm" value="start" />
+    <ZFString name="ZF2048SettingDialog_cancel" value="cancel" />
 
-    <l k="ZF2048AutoMove_Left" v="left" />
-    <l k="ZF2048AutoMove_Top" v="up" />
-    <l k="ZF2048AutoMove_Right" v="right" />
-    <l k="ZF2048AutoMove_Bottom" v="down" />
-    <l k="ZF2048AutoMove_Random" v="random" />
-    <l k="ZF2048AutoMoveDialog_hint" v="add action, or click to remove" />
-    <l k="ZF2048AutoMoveDialog_confirm" v="start" />
-    <l k="ZF2048AutoMoveDialog_cancel" v="cancel" />
-</lang>
+    <ZFString name="ZF2048AutoMove_Left" value="left" />
+    <ZFString name="ZF2048AutoMove_Top" value="up" />
+    <ZFString name="ZF2048AutoMove_Right" value="right" />
+    <ZFString name="ZF2048AutoMove_Bottom" value="down" />
+    <ZFString name="ZF2048AutoMove_Random" value="random" />
+    <ZFString name="ZF2048AutoMoveDialog_hint" value="add action, or click to remove" />
+    <ZFString name="ZF2048AutoMoveDialog_confirm" value="start" />
+    <ZFString name="ZF2048AutoMoveDialog_cancel" value="cancel" />
+</node>
 

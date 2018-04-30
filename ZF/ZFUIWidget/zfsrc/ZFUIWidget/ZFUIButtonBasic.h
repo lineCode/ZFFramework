@@ -458,13 +458,6 @@ private:
     friend zfclassFwd _ZFP_ZFUIButtonBasicPrivate;
 };
 
-// ============================================================
-ZFLANGAPPLY_DECLARE(ZFUIButtonBasic, ZFUIButtonBasicTextNormal)
-ZFLANGAPPLY_DECLARE(ZFUIButtonBasic, ZFUIButtonBasicTextHighlighted)
-ZFLANGAPPLY_DECLARE(ZFUIButtonBasic, ZFUIButtonBasicTextChecked)
-ZFLANGAPPLY_DECLARE(ZFUIButtonBasic, ZFUIButtonBasicTextCheckedHighlighted)
-ZFLANGAPPLY_DECLARE(ZFUIButtonBasic, ZFUIButtonBasicTextDisabled)
-
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUIButtonBasic_h_
 

@@ -733,14 +733,15 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFFilterCallbackResult, ZFFilterCallb
     })
 
 // ============================================================
-// pathType:pathData
+// pathType|pathData
+#define _ZFP_ZFPathInfo_separatorChar '|' // ZFSerializableKeyword_ZFPathInfo_separator
 zfbool ZFPathInfoParse(ZF_IN const zfchar *pathInfo,
                        ZF_OUT zfstring &pathType,
                        ZF_OUT const zfchar *&pathData)
 {
     pathData = pathInfo;
-    while(*pathData != ':' && *pathData != '\0') {++pathData;}
-    if(*pathData != ':')
+    while(*pathData != _ZFP_ZFPathInfo_separatorChar && *pathData != '\0') {++pathData;}
+    if(*pathData != _ZFP_ZFPathInfo_separatorChar)
     {
         return zffalse;
     }
@@ -763,8 +764,8 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFPathInfo, ZFPathInfo, {
         {
             const zfchar *srcEnd = src + (srcLen == zfindexMax() ? zfslen(src) : srcLen);
             const zfchar *p = src;
-            while(*p != ':' && p < srcEnd) {++p;}
-            if(*p != ':') {return zffalse;}
+            while(*p != _ZFP_ZFPathInfo_separatorChar && p < srcEnd) {++p;}
+            if(*p != _ZFP_ZFPathInfo_separatorChar) {return zffalse;}
             v.pathType.assign(src, p - src);
             ++p;
             v.pathData.assign(p, srcEnd - p);
@@ -772,19 +773,8 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFPathInfo, ZFPathInfo, {
         }
     }, {
         s += v.pathType;
-        s += ':';
+        s += _ZFP_ZFPathInfo_separatorChar;
         s += v.pathData;
-        return zftrue;
-    })
-
-// ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRefInfo, ZFRefInfo, {
-        v.refType = ZFSerializableUtil::checkAttribute(serializableData, ZFSerializableKeyword_ZFRefInfo_refType);
-        v.refData = ZFSerializableUtil::checkAttribute(serializableData, ZFSerializableKeyword_ZFRefInfo_refData);
-        return zftrue;
-    }, {
-        if(!v.refType.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFRefInfo_refType, v.refType);}
-        if(!v.refData.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFRefInfo_refData, v.refData);}
         return zftrue;
     })
 

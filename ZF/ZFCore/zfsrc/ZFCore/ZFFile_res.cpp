@@ -163,16 +163,7 @@ public:
 public:
     void copyToFd(ZF_OUT ZFFileFindData::Impl &fd) const
     {
-        zfindex t = zfstringFind(this->resAdditionalFd.impl().filePath, this->resAdditionalPath);
-        if(t == zfindexMax())
-        {
-            fd.filePath = this->resAdditionalFd.impl().filePath;
-        }
-        else
-        {
-            fd.filePath.assign(this->resAdditionalFd.impl().filePath, t);
-        }
-        fd.fileNameParse();
+        fd.fileName = this->resAdditionalFd.impl().fileName;
         fd.fileIsDir = this->resAdditionalFd.impl().fileIsDir;
     }
 };

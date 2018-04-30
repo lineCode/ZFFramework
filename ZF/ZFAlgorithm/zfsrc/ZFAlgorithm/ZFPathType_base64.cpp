@@ -38,13 +38,19 @@ public:
     {
         return zffalse;
     }
-    static zfbool callbackPathGet(ZF_IN_OUT zfstring &path,
-                                  ZF_IN const zfchar *pathData)
+    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
+                                      ZF_IN_OUT zfstring &fileName)
     {
         return zffalse;
     }
-    static zfbool callbackPathSet(ZF_IN_OUT zfstring &pathData,
-                                  ZF_IN const zfchar *path)
+    static zfbool callbackToChild(ZF_IN const zfchar *pathData,
+                                  ZF_IN_OUT zfstring &pathDataChild,
+                                  ZF_IN const zfchar *childName)
+    {
+        return zffalse;
+    }
+    static zfbool callbackToParent(ZF_IN const zfchar *pathData,
+                                   ZF_IN_OUT zfstring &pathDataParent)
     {
         return zffalse;
     }
@@ -145,8 +151,9 @@ public:
 ZFPATHTYPE_FILEIO_REGISTER(base64, ZFPathType_base64
         , _ZFP_ZFPathType_base64::callbackIsExist
         , _ZFP_ZFPathType_base64::callbackIsDir
-        , _ZFP_ZFPathType_base64::callbackPathGet
-        , _ZFP_ZFPathType_base64::callbackPathSet
+        , _ZFP_ZFPathType_base64::callbackGetFileName
+        , _ZFP_ZFPathType_base64::callbackToChild
+        , _ZFP_ZFPathType_base64::callbackToParent
         , _ZFP_ZFPathType_base64::callbackPathCreate
         , _ZFP_ZFPathType_base64::callbackRemove
         , _ZFP_ZFPathType_base64::callbackFindFirst

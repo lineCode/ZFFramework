@@ -1,31 +1,31 @@
-<lang>
-    <l k="ZF2048_autoMove" v="自动" />
-    <l k="ZF2048_autoMoveStop" v="停止" />
-    <l k="ZF2048_undo" v="撤销" />
-    <l k="ZF2048_score" v="得分:" />
-    <l k="ZF2048_setting" v="设置" />
-    <l k="ZF2048_about" v="关于" />
-    <l k="ZF2048_aboutContent" v="这是一个 ZFFramework 框架的 demo&#xA;详情请参见:&#xA;http://ZFFramework.com&#xA;http://zsaber.com" />
+<node>
+    <ZFString name="ZF2048_autoMove" value="自动" />
+    <ZFString name="ZF2048_autoMoveStop" value="停止" />
+    <ZFString name="ZF2048_undo" value="撤销" />
+    <ZFString name="ZF2048_score" value="得分:" />
+    <ZFString name="ZF2048_setting" value="设置" />
+    <ZFString name="ZF2048_about" value="关于" />
+    <ZFString name="ZF2048_aboutContent" value="这是一个 ZFFramework 框架的 demo&#xA;详情请参见:&#xA;http://ZFFramework.com&#xA;http://zsaber.com" />
 
-    <l k="ZF2048_gameOver" v="你挂了" />
-    <l k="ZF2048_gameOver_retry" v="重试" />
-    <l k="ZF2048_gameOver_cancel" v="取消" />
+    <ZFString name="ZF2048_gameOver" value="你挂了" />
+    <ZFString name="ZF2048_gameOver_retry" value="重试" />
+    <ZFString name="ZF2048_gameOver_cancel" value="取消" />
 
-    <l k="ZF2048SettingDialog_title" v="方块个数" />
-    <l k="ZF2048SettingDialog_widthHint" v="宽:" />
-    <l k="ZF2048SettingDialog_heightHint" v="高:" />
-    <l k="ZF2048SettingDialog_dataIncrease" v="+" />
-    <l k="ZF2048SettingDialog_dataDecrease" v="-" />
-    <l k="ZF2048SettingDialog_confirm" v="开始" />
-    <l k="ZF2048SettingDialog_cancel" v="取消" />
+    <ZFString name="ZF2048SettingDialog_title" value="方块个数" />
+    <ZFString name="ZF2048SettingDialog_widthHint" value="宽:" />
+    <ZFString name="ZF2048SettingDialog_heightHint" value="高:" />
+    <ZFString name="ZF2048SettingDialog_dataIncrease" value="+" />
+    <ZFString name="ZF2048SettingDialog_dataDecrease" value="-" />
+    <ZFString name="ZF2048SettingDialog_confirm" value="开始" />
+    <ZFString name="ZF2048SettingDialog_cancel" value="取消" />
 
-    <l k="ZF2048AutoMove_Left" v="左" />
-    <l k="ZF2048AutoMove_Top" v="上" />
-    <l k="ZF2048AutoMove_Right" v="右" />
-    <l k="ZF2048AutoMove_Bottom" v="下" />
-    <l k="ZF2048AutoMove_Random" v="随机" />
-    <l k="ZF2048AutoMoveDialog_hint" v="添加动作, 或点击删除" />
-    <l k="ZF2048AutoMoveDialog_confirm" v="开始" />
-    <l k="ZF2048AutoMoveDialog_cancel" v="取消" />
-</lang>
+    <ZFString name="ZF2048AutoMove_Left" value="左" />
+    <ZFString name="ZF2048AutoMove_Top" value="上" />
+    <ZFString name="ZF2048AutoMove_Right" value="右" />
+    <ZFString name="ZF2048AutoMove_Bottom" value="下" />
+    <ZFString name="ZF2048AutoMove_Random" value="随机" />
+    <ZFString name="ZF2048AutoMoveDialog_hint" value="添加动作, 或点击删除" />
+    <ZFString name="ZF2048AutoMoveDialog_confirm" value="开始" />
+    <ZFString name="ZF2048AutoMoveDialog_cancel" value="取消" />
+</node>
 

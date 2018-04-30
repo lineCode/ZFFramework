@@ -250,7 +250,7 @@ public:
     zffinal void observerRemove(ZF_IN const zfidentity &eventId,
                                 ZF_IN const ZFListener &callback,
                                 ZF_IN_OPT ZFObject *userData = zfnull,
-                                ZF_IN_OPT ZFComparer<ZFObject *>::Comparer userDataComparer = zfnull) const;
+                                ZF_IN_OPT ZFComparer<ZFObject *>::Comparer userDataComparer = ZFComparerCheckEqual) const;
     /** @brief see #ZFObject::observerNotify */
     zffinal void observerRemoveByTaskId(ZF_IN zfidentity taskId) const;
     /** @brief see #ZFObject::observerNotify */

@@ -38,7 +38,7 @@ protected:
     virtual void paintEvent(QPaintEvent *event)
     {
         QWidget::paintEvent(event);
-        if(_ZFP_owner == zfnull || _ZFP_owner->image() == zfnull)
+        if(_ZFP_owner == zfnull || _ZFP_owner->image() == zfnull || _ZFP_owner->image()->nativeImage() == zfnull)
         {
             return ;
         }

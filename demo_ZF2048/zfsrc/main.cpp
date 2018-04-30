@@ -19,8 +19,6 @@ ZFMAIN_ENTRY(params)
 {
     if(zftrue)
     {
-        zfLangLoad(ZFSerializableDataFromXml(ZFInputCallbackForResFile(zfText("ZF2048/lang/lang_default.xml"))));
-
         zfblockedAlloc(ZFUIWindow, window);
         window->windowShow();
 
@@ -144,7 +142,7 @@ private:
         }
         static ZFUIPoint lastPoint = ZFUIPointZero();
         static zfindex lastCount = 0;
-        static zfbool langFlag = zffalse;
+        static zfbool langFlag = zftrue;
         if(zfmAbs(event->mousePoint.x - lastPoint.x) <= 5
            && zfmAbs(event->mousePoint.y - lastPoint.y) <= 5)
         {
@@ -153,14 +151,8 @@ private:
             {
                 lastCount = 0;
                 langFlag = !langFlag;
-                if(langFlag)
-                {
-                    zfLangLoad(ZFSerializableDataFromXml(ZFInputCallbackForResFile(zfText("ZF2048/lang/lang_default.xml"))));
-                }
-                else
-                {
-                    zfLangLoad(ZFSerializableDataFromXml(ZFInputCallbackForResFile(zfText("ZF2048/lang/lang_zh-CN.xml"))));
-                }
+                const zfchar *langFile = langFlag ? zfText("ZF2048/lang/lang_default.xml") : zfText("ZF2048/lang/lang_zh-CN.xml");
+                ZFStyleLoad(ZFSerializableDataFromXml(ZFXmlParseFirstElement(ZFInputCallbackForResFile(langFile))));
             }
         }
         else

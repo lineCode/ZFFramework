@@ -58,7 +58,10 @@ ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
 }
 ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIImageView, ZFUIImage *, image)
 {
-    ZFPROTOCOL_ACCESS(ZFUIImageView)->imageSet(this, this->image());
+    ZFPROTOCOL_ACCESS(ZFUIImageView)->imageSet(this,
+        this->image() && this->image()->nativeImage()
+            ? this->image()
+            : zfnull);
     ZFUIImage *image = this->image();
     if(image != zfnull)
     {

@@ -119,13 +119,12 @@ zfbool ZFPROTOCOL_INTERFACE_CLASS(ZFFileResProcess)::resFindFirst(ZF_IN_OUT ZFFi
     zfstring findPath;
     findPath += this->resRootPath();
     findPath += resPath;
-    if(!ZFPROTOCOL_ACCESS(ZFFile)->fileFindFirst(*normalFd, findPath)
-       || !_ZFP_ZFImpl_ZFFileResProcess_resPathFix(this->resRootPath(), fd.filePath, normalFd->filePath))
+    if(!ZFPROTOCOL_ACCESS(ZFFile)->fileFindFirst(*normalFd, findPath))
     {
         zfdelete(normalFd);
         return zffalse;
     }
-    fd.fileNameParse();
+    fd.fileName = normalFd->fileName;
     fd.fileIsDir = normalFd->fileIsDir;
     fd.nativeFd = normalFd;
     return zftrue;
@@ -133,12 +132,11 @@ zfbool ZFPROTOCOL_INTERFACE_CLASS(ZFFileResProcess)::resFindFirst(ZF_IN_OUT ZFFi
 zfbool ZFPROTOCOL_INTERFACE_CLASS(ZFFileResProcess)::resFindNext(ZF_IN_OUT ZFFileFindData::Impl &fd)
 {
     ZFFileFindData::Impl *normalFd = ZFCastStatic(ZFFileFindData::Impl *, fd.nativeFd);
-    if(!ZFPROTOCOL_ACCESS(ZFFile)->fileFindNext(*normalFd)
-       || !_ZFP_ZFImpl_ZFFileResProcess_resPathFix(this->resRootPath(), fd.filePath, normalFd->filePath))
+    if(!ZFPROTOCOL_ACCESS(ZFFile)->fileFindNext(*normalFd))
     {
         return zffalse;
     }
-    fd.fileNameParse();
+    fd.fileName = normalFd->fileName;
     fd.fileIsDir = normalFd->fileIsDir;
     return zftrue;
 }

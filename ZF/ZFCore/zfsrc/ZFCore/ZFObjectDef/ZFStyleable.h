@@ -17,11 +17,13 @@
 
 #include "ZFSerializable.h"
 #include "ZFCopyable.h"
+#include "ZFObjectObserver.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // ZFStyleable
 zfclassFwd _ZFP_I_ZFStyleable_PropertyTypeHolder;
+zfclassFwd _ZFP_ZFStyleKeyHolder;
 /**
  * @brief styleable element that can apply style from another object
  *
@@ -37,7 +39,7 @@ zfclassFwd _ZFP_I_ZFStyleable_PropertyTypeHolder;
  */
 zfinterface ZF_ENV_EXPORT ZFStyleable : zfextends ZFInterface
 {
-    ZFINTERFACE_DECLARE(ZFStyleable, ZFSerializable, ZFCopyable)
+    ZFINTERFACE_DECLARE_WITH_CUSTOM_CTOR(ZFStyleable, ZFSerializable, ZFCopyable)
 
 public:
     /**
@@ -123,6 +125,41 @@ protected:
 
 private:
     zffinal _ZFP_I_ZFStyleable_PropertyTypeHolder *_ZFP_ZFStyleable_getPropertyTypeHolder(void);
+
+public:
+    /** @brief see #ZFStyleSet */
+    zffinal zfbool styleKeySet(ZF_IN const zfchar *styleKey);
+    /** @brief see #ZFStyleSet */
+    zffinal const zfchar *styleKey(void);
+    /** @brief see #ZFStyleSet */
+    zffinal zfbool styleKeySet(ZF_IN const ZFProperty *property, ZF_IN const zfchar *styleKey);
+    /** @brief see #ZFStyleSet */
+    zffinal const zfchar *styleKey(ZF_IN const ZFProperty *property);
+    /** @brief see #ZFStyleSet */
+    zffinal zfbool styleKeySet(ZF_IN const zfchar *propertyName, ZF_IN const zfchar *styleKey)
+    {return this->styleKeySet(this->classData()->propertyForName(propertyName), styleKey);}
+    /** @brief see #ZFStyleSet */
+    zffinal const zfchar *styleKey(ZF_IN const zfchar *propertyName)
+    {return this->styleKey(this->classData()->propertyForName(propertyName));}
+protected:
+    /**
+     * @brief called when #styleKeySet or associated style changed
+     *
+     * if the style is not valid,
+     * the styleKey would be reset to null
+     */
+    virtual inline zfbool styleKeyOnCheckValid(void)
+    {
+        return zftrue;
+    }
+private:
+    _ZFP_ZFStyleKeyHolder *_ZFP_styleKey;
+    friend zfclassFwd _ZFP_ZFStyleKeyHolder;
+protected:
+    /** @cond ZFPrivateDoc */
+    ZFStyleable(void) : _ZFP_styleKey(zfnull) {}
+    /** @endcond */
+    ZFINTERFACE_ON_DEALLOC_DECLARE();
 };
 
 // ============================================================
@@ -298,13 +335,8 @@ private:
  *   so it would result null if you access DefaultStyle before initialized or after it's deallocated
  * @note the default style holder object should only be used to hold the styles,
  *   typically you should not use it directly
- * @note it is useful to combine styleable logic and serializable logic, typical usage:
- *   @code
- *     <YourObject styleableType="method" styleableData="YourStyle::DefaultStyleReflect" />
- *   @endcode
- *   serializing this code would result to create an instance of YourObject,
- *   then copy style from YourStyle::DefaultStyleReflect by #ZFStyleable::styleableCopyFrom\n
- *   see #ZFObjectCreatorType_ZFMethod for more info
+ * @note it is useful to combine styleable logic and serializable logic,
+ *   see #ZFStyleSet for more info
  * @note for performance, the default style won't be copied to its instance by default,
  *   you may use #ZFClass::instanceObserverAdd to observe styleable object's
  *   instance alloc event, and apply your default styles\n
@@ -346,6 +378,141 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
             } \
         } \
     }
+
+// ============================================================
+// style holder
+/**
+ * @brief used to store style holder
+ *
+ * typical style logic are implemented by:
+ * 1. use #ZFStyleable::styleKeySet to attach object to observe style change
+ * 1. use #ZFStyleSet or #ZFStyleLoad to modify styles
+ * 1. during style change event,
+ *   all the styles would be copied automatically
+ *
+ * example:
+ * @code
+ *   // register
+ *   MyStyleObject *obj = xxx;
+ *   obj->styleKeySet(zfText("MyStyle/MyStyleObject"));
+ *
+ *   // change style
+ *   ZFStyleChangeBegin();
+ *       ZFStyleSet(zfText("MyStyle/MyStyleObject"), xxx);
+ *       ZFStyleChangeBegin(); // can be embeded, but must be paired
+ *           ZFStyleSet(zfText("xxx"), xxx);
+ *       ZFStyleChangeEnd();
+ *   ZFStyleChangeEnd();
+ *
+ *   // use ZFStyleLoad is recommended
+ *   ZFStyleLoad(xxx);
+ * @endcode
+ * \n
+ * \n
+ * the style logic can also be used during serialization,
+ * when serializable contains key #ZFSerializableKeyword_styleKey,
+ * the style would be copied during serialization, example:
+ * @code
+ *   <MyStyleObject styleKey="MyStyle/MyStyleObject" />
+ * @endcode
+ * during serialization, the styleKey would be stored as #ZFStyleable::styleKey,
+ * causing the referenced style copied to the target object\n
+ * \n
+ * by default, all #ZFStyleable supports style logic,
+ * for non-ZFStyleable properties,
+ * you may supply #ZFSTYLE_PROPERTY_COPY_DEFINE to register your own copy action,
+ * example:
+ * @code
+ *   // register
+ *   ZFSTYLE_PROPERTY_COPY_DEFINE(ZFPropertyTypeId_YourPropertyTypeId, {
+ *           // proto type:
+ *           //   zfbool copyFrom(ZF_IN ZFObject *propertyOwner,
+ *           //                   ZF_IN const ZFProperty *property,
+ *           //                   ZF_IN ZFStyleable *styleValue);
+ *           ... // do your copy action
+ *           return zftrue;
+ *       })
+ *
+ *   // attach style
+ *   myObject->styleKeySet(ZFPropertyAccess(MyObject, myStyleProperty), zfText("myStyleKey"));
+ * @endcode
+ */
+extern ZF_ENV_EXPORT void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue);
+/**
+ * @brief see #ZFStyleSet
+ */
+extern ZF_ENV_EXPORT ZFStyleable *ZFStyleGet(ZF_IN const zfchar *styleKey);
+/**
+ * @brief get all styles, for debug use only, see #ZFStyleSet
+ */
+extern ZF_ENV_EXPORT void ZFStyleGetAll(ZF_IN_OUT ZFCoreArrayPOD<const zfchar *> &styleKey,
+                                        ZF_IN_OUT ZFCoreArrayPOD<ZFStyleable *> &styleValue);
+/**
+ * @brief remove all styles, see #ZFStyleSet
+ */
+extern ZF_ENV_EXPORT void ZFStyleRemoveAll(void);
+
+/**
+ * @brief see #ZFStyleSet
+ */
+extern ZF_ENV_EXPORT void ZFStyleChangeBegin();
+/**
+ * @brief see #ZFStyleSet
+ */
+extern ZF_ENV_EXPORT void ZFStyleChangeEnd();
+
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+/**
+ * @brief see #ZFObject::observerNotify
+ *
+ * notified when #ZFStyleChangeEnd
+ */
+ZFOBSERVER_EVENT_GLOBAL(ZFStyleOnChange)
+/**
+ * @brief see #ZFObject::observerNotify
+ *
+ * notified when setting an invalid style value\n
+ * sender is the styleable object that changing the styleKey,
+ * param0 is a #ZFPointerHolder to #ZFProperty if chaning property
+ * or null if changing the styleable object itself,
+ * param1 is a #ZFPointerHolder to (const zfchar *)
+ * that holds the new styleKey\n
+ * \n
+ * by default, we would assert fail if invalid style occurred,
+ * you may close it by #ZFStyleInvalidCheckDisable
+ */
+ZFOBSERVER_EVENT_GLOBAL(ZFStyleOnInvalid)
+ZF_NAMESPACE_END(ZFGlobalEvent)
+
+/** @brief see #ZFGlobalEvent::EventZFStyleOnInvalid */
+extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
+
+// ============================================================
+/**
+ * @brief see #ZFStyleSet
+ */
+#define ZFSTYLE_PROPERTY_COPY_DEFINE(propertyTypeIdSig, stylePropertyCopyAction) \
+    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(StylePropCp_##propertyTypeIdSig, ZFLevelZFFrameworkNormal) \
+    { \
+        _ZFP_ZFStylePropertyCopyRegister(ZFPropertyTypeId_##propertyTypeIdSig(), zfself::action); \
+    } \
+    ZF_GLOBAL_INITIALIZER_DESTROY(StylePropCp_##propertyTypeIdSig) \
+    { \
+        _ZFP_ZFStylePropertyCopyUnregister(ZFPropertyTypeId_##propertyTypeIdSig()); \
+    } \
+    static zfbool action(ZF_IN ZFObject *propertyOwner, \
+                         ZF_IN const ZFProperty *property, \
+                         ZF_IN ZFStyleable *styleValue) \
+    { \
+        stylePropertyCopyAction \
+    } \
+    ZF_GLOBAL_INITIALIZER_END(StylePropCp_##propertyTypeIdSig)
+typedef zfbool (*_ZFP_ZFStylePropertyCopyCallback)(ZF_IN ZFObject *propertyOwner,
+                                                   ZF_IN const ZFProperty *property,
+                                                   ZF_IN ZFStyleable *styleValue);
+extern ZF_ENV_EXPORT void _ZFP_ZFStylePropertyCopyRegister(ZF_IN const zfchar *propertyTypeId,
+                                                           ZF_IN _ZFP_ZFStylePropertyCopyCallback callback);
+extern ZF_ENV_EXPORT void _ZFP_ZFStylePropertyCopyUnregister(ZF_IN const zfchar *propertyTypeId);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFStyleable_h_

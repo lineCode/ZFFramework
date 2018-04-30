@@ -38,11 +38,15 @@ extern ZF_ENV_EXPORT zfbool ZFTestCaseRun(ZF_IN const zfchar *clsName,
 // ============================================================
 ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
 /**
- * @brief about to start test case, see #ZFTestCaseRunAllStart
+ * @brief see #ZFObject::observerNotify
+ *
+ * notified when about to start test case, see #ZFTestCaseRunAllStart
  */
 ZFOBSERVER_EVENT_GLOBAL(TestCaseRunAllOnStart)
 /**
- * @brief about to stop test case, see #ZFTestCaseRunAllStop
+ * @brief see #ZFObject::observerNotify
+ *
+ * notified when about to stop test case, see #ZFTestCaseRunAllStop
  */
 ZFOBSERVER_EVENT_GLOBAL(TestCaseRunAllOnStop)
 ZF_NAMESPACE_END(ZFGlobalEvent)

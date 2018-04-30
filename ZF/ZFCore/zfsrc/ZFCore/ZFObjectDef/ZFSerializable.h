@@ -20,15 +20,10 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief keyword for #ZFSerializable to hold styleable's type,
- *   see #ZFSerializable::serializableStyleableTypeSet
+ * @brief keyword for #ZFSerializable to hold style,
+ *   see #ZFStyleSet
  */
-#define ZFSerializableKeyword_styleableType zfText("styleableType")
-/**
- * @brief keyword for #ZFSerializable to hold styleable's data,
- *   see #ZFSerializable::serializableStyleableTypeSet
- */
-#define ZFSerializableKeyword_styleableData zfText("styleableData")
+#define ZFSerializableKeyword_styleKey zfText("styleKey")
 
 /**
  * @brief used for #ZFSerializable to override default constructor
@@ -78,9 +73,6 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  * -  serializable class:
  *   ZFObject's class name or other non-ZFObject's type name,
  *   such as "ZFString", "zfstring" and "zfint"
- * -  reference info:
- *   used to hold reference info,
- *   see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE for more info
  * -  property name:
  *   used only when the serializable belongs to another serializable,
  *   it's the property name,
@@ -132,9 +124,6 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  *   and the name is the property's name
  * -  "value":
  *   for basic type only, the value for the basic type
- * -  "refType", "refData":
- *   for advanced reference logic,
- *   see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
  * -  "category":
  *   if exist this attribute,
  *   ZFSerializable would ignore this node and leave it to subclass to decode
@@ -142,8 +131,6 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  *   if exist this attribute,
  *   ZFSerializable would ignore this node and store it as raw data for future process,
  *   see #ZFSerializable::editModeData
- * -  "styleableType", "styleableData"
- *   for advanced styleable logic, use #ZFObjectCreate, see #ZFSTYLE_DEFAULT_DECLARE for more info
  *
  * \n
  * a simplest way to implement ZFSerializable is:
@@ -169,27 +156,13 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  * #serializableOnSerializeFromData and #serializableOnSerializeToData
  * to supply custom serialize step\n
  * \n
+ * serializable logic can also be used with style logic,
+ * see #ZFStyleSet for more info\n
+ * \n
  * ADVANCED:\n
  * serializable would be created by #ZFClass::newInstance while serializing from data,
  * you may supply your custom constructor,
- * see #ZFSerializableKeyword_serializableNewInstance\n
- * \n
- * ADVANCED:\n
- * serializable also supply styleable logic:
- * @code
- *   <YourSerializable styleableType="type" styleableData="data" />
- * @endcode
- * the reserved keyword "styleableType" and "styleableData" shows the styleable's source,
- * which would be created by #ZFObjectCreate,
- * created object must be #ZFSerializable and #ZFStyleable,
- * and would be copied to the object being serialized by #ZFStyleable::styleableCopyFrom\n
- * for typical styleable usage, see #ZFSTYLE_DEFAULT_DECLARE
- * @note styleable logic and reference logic can not be used together
- * @note comparing with reference logic,
- *   styleable logic would create a styleable object first then copy style from it,
- *   reference logic would load reference to serializable data then serialize from it,
- *   usually reference logic would have better performance,
- *   and styleable logic would have better flexibility
+ * see #ZFSerializableKeyword_serializableNewInstance
  */
 zfinterface ZF_ENV_EXPORT ZFSerializable : zfextends ZFInterface
 {
@@ -269,7 +242,7 @@ public:
      */
     zffinal zfbool serializeToData(ZF_OUT ZFSerializableData &serializableData,
                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                   ZF_IN_OPT ZFSerializable *referencedObject = zfnull);
+                                   ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
 
 private:
     zffinal _ZFP_I_ZFSerializablePropertyTypeHolder *_ZFP_ZFSerializable_getPropertyTypeHolder(void);
@@ -341,20 +314,6 @@ protected:
     virtual zfbool serializableOnCheck(void)
     {
         return zftrue;
-    }
-
-    /**
-     * @brief called to prepare serialize
-     */
-    virtual inline void serializableOnSerializeFromDataPrepare(ZF_IN const ZFSerializableData &serializableData)
-    {
-    }
-
-    /**
-     * @brief called to prepare serialize
-     */
-    virtual inline void serializableOnSerializeToDataPrepare(ZF_IN const ZFSerializableData &serializableData)
-    {
     }
 
     /**
@@ -470,49 +429,6 @@ public:
      */
     virtual void serializableCopyInfoFrom(ZF_IN ZFSerializable *anotherSerializable);
 
-public:
-    /**
-     * @brief for impl to store reference info, so that it can be restored when serialize back to data
-     */
-    zffinal void refInfoStateSet(ZF_IN const zfchar *key, ZF_IN const ZFSerializableData *refInfo);
-    /**
-     * @brief see #refInfoStateSet
-     */
-    zffinal const ZFSerializableData *refInfoState(ZF_IN const zfchar *key);
-public:
-    /** @brief see #refInfoStateSet */
-    zffinal inline void refInfoStateForSelfSet(ZF_IN const ZFSerializableData *refInfo)
-    {this->refInfoStateSet(zfText(""), refInfo);}
-    /** @brief see #refInfoStateSet */
-    zffinal inline const ZFSerializableData *refInfoStateForSelf(void)
-    {return this->refInfoState(zfText(""));}
-
-    /** @brief see #refInfoStateSet */
-    zffinal inline void refInfoStateForCategorySet(ZF_IN const zfchar *key, ZF_IN const ZFSerializableData *refInfo)
-    {this->refInfoStateSet(zfstringWithFormat(zfText("c:%s"), key), refInfo);}
-    /** @brief see #refInfoStateSet */
-    zffinal inline const ZFSerializableData *refInfoStateForCategory(ZF_IN const zfchar *key)
-    {return this->refInfoState(zfstringWithFormat(zfText("c:%s"), key));}
-
-public:
-    /**
-     * @brief internal use only, store the styleable data of this serializable,
-     *   see #ZFSerializable for more info
-     */
-    zffinal void serializableStyleableTypeSet(ZF_IN const zfchar *styleableType);
-    /**
-     * @brief see #serializableStyleableTypeSet
-     */
-    zffinal const zfchar *serializableStyleableTypeGet(void);
-    /**
-     * @brief see #serializableStyleableTypeSet
-     */
-    zffinal void serializableStyleableDataSet(ZF_IN const zfchar *styleableData);
-    /**
-     * @brief see #serializableStyleableTypeSet
-     */
-    zffinal const zfchar *serializableStyleableDataGet(void);
-
 private:
     _ZFP_ZFSerializablePrivate *d;
 };
@@ -577,12 +493,12 @@ extern ZF_ENV_EXPORT zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
 extern ZF_ENV_EXPORT zfbool ZFObjectToData(ZF_OUT ZFSerializableData &serializableData,
                                            ZF_IN ZFObject *obj,
                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                           ZF_IN_OPT ZFSerializable *referencedObject = zfnull);
+                                           ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
 /** @brief see #ZFObjectFromString */
 extern ZF_ENV_EXPORT ZFSerializableData ZFObjectToData(ZF_IN ZFObject *obj,
                                                        ZF_OUT_OPT zfbool *outSuccess = zfnull,
                                                        ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                                       ZF_IN_OPT ZFSerializable *referencedObject = zfnull);
+                                                       ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFSerializable_h_

@@ -51,7 +51,6 @@
 #include "ZFCoreDef/ZFLevel.h"
 #include "ZFCoreDef/ZFMemPool.h"
 #include "ZFCoreDef/ZFPathInfo.h"
-#include "ZFCoreDef/ZFRefInfo.h"
 #include "ZFCoreDef/ZFToken.h"
 #include "ZFCoreDef/ZFVersion.h"
 

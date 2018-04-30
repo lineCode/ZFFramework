@@ -69,6 +69,10 @@ protected:
     }
 
 public:
+    static void _ZFP_ZFEnum_objectOnInit_zfflags(ZF_IN const ZFMethod *invokerMethod, ZF_IN ZFObject *invokerObject, ZF_IN zfflags value)
+    {
+        invokerObject->to<ZFEnum *>()->objectOnInit((zfuint)value);
+    }
     static void _ZFP_ZFEnum_objectOnInit_zfuint(ZF_IN const ZFMethod *invokerMethod, ZF_IN ZFObject *invokerObject, ZF_IN zfuint value)
     {
         invokerObject->to<ZFEnum *>()->objectOnInit(value);

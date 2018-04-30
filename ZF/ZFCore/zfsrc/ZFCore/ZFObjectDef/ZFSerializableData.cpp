@@ -10,7 +10,6 @@
 #include "ZFSerializableData.h"
 #include "ZFObjectImpl.h"
 #include "ZFSerializableUtil.h"
-#include "ZFSerializableDataRefType.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_deque.h"
@@ -49,8 +48,6 @@ public:
     _ZFP_ZFSerializableDataPrivate *serializableDataParent;
     zfstlstringZ className;
     zfbool resolved;
-    zfbool refInfoLoaded;
-    ZFRefInfo *refInfo;
     ZFPathInfo *pathInfo;
     _ZFP_ZFSerializableDataAttributeMapType attributes;
     zfstldeque<ZFSerializableData> elements;
@@ -70,10 +67,6 @@ public:
             this->elements.clear();
         }
 
-        zfdelete(this->refInfo);
-        this->refInfo = zfnull;
-        this->refInfoLoaded = zffalse;
-
         this->serializableDataTagMap.clear();
     }
 
@@ -83,8 +76,6 @@ public:
     , serializableDataParent(zfnull)
     , className()
     , resolved(zffalse)
-    , refInfoLoaded(zffalse)
-    , refInfo(zfnull)
     , pathInfo(zfnull)
     , attributes()
     , elements()
@@ -101,7 +92,6 @@ public:
             }
         }
 
-        zfdelete(this->refInfo);
         zfdelete(this->pathInfo);
     }
 };
@@ -164,27 +154,6 @@ void ZFSerializableData::copyFrom(ZF_IN const ZFSerializableData &ref)
     d->className = ref.d->className;
     d->attributes = ref.d->attributes;
 
-    d->refInfoLoaded = ref.d->refInfoLoaded;
-    if(d->refInfo == zfnull)
-    {
-        if(ref.d->refInfo != zfnull)
-        {
-            d->refInfo = zfnew(ZFRefInfo, *(ref.d->refInfo));
-        }
-    }
-    else
-    {
-        if(ref.d->refInfo == zfnull)
-        {
-            zfdelete(d->refInfo);
-            d->refInfo = zfnull;
-        }
-        else
-        {
-            *(d->refInfo) = *(ref.d->refInfo);
-        }
-    }
-
     if(d->pathInfo == zfnull)
     {
         if(ref.d->pathInfo != zfnull)
@@ -217,244 +186,6 @@ void ZFSerializableData::copyFrom(ZF_IN const ZFSerializableData &ref)
 zfindex ZFSerializableData::objectRetainCount(void) const
 {
     return d->refCount;
-}
-
-// ============================================================
-// reference logic
-void ZFSerializableData::refInfoSet(ZF_IN const ZFRefInfo *refInfo)
-{
-    if(refInfo != zfnull && !(refInfo->refType.isEmpty() && refInfo->refData.isEmpty()))
-    {
-        if(d->refInfo == zfnull)
-        {
-            d->refInfo = zfnew(ZFRefInfo, *refInfo);
-        }
-        else
-        {
-            *(d->refInfo) = *refInfo;
-        }
-    }
-    else
-    {
-        if(d->refInfo != zfnull)
-        {
-            zfdelete(d->refInfo);
-            d->refInfo = zfnull;
-        }
-    }
-}
-void ZFSerializableData::refInfoSet(ZF_IN const zfchar *refType, ZF_IN const zfchar *refData)
-{
-    if(!zfsIsEmpty(refType) || !zfsIsEmpty(refData))
-    {
-        if(d->refInfo == zfnull)
-        {
-            d->refInfo = zfnew(ZFRefInfo, refType, refData);
-        }
-        else
-        {
-            d->refInfo->refType = refType;
-            d->refInfo->refData = refData;
-        }
-    }
-    else
-    {
-        if(d->refInfo != zfnull)
-        {
-            zfdelete(d->refInfo);
-            d->refInfo = zfnull;
-        }
-    }
-}
-const ZFRefInfo *ZFSerializableData::refInfo(void) const
-{
-    return d->refInfo;
-}
-
-void ZFSerializableData::refInfoRemove(void)
-{
-    zfdelete(d->refInfo);
-    d->refInfo = zfnull;
-    d->refInfoLoaded = zffalse;
-}
-void ZFSerializableData::refInfoRemoveRecursively(void)
-{
-    zfdelete(d->refInfo);
-    d->refInfo = zfnull;
-    d->refInfoLoaded = zffalse;
-    for(zfstlsize i = 0; i < d->elements.size(); ++i)
-    {
-        d->elements[i].refInfoRemoveRecursively();
-    }
-}
-
-zfbool ZFSerializableData::refInfoExist(void) const
-{
-    return (d->refInfo != zfnull);
-}
-zfbool ZFSerializableData::refInfoExistRecursively(void) const
-{
-    if(d->refInfo != zfnull)
-    {
-        return zftrue;
-    }
-    for(zfstlsize i = 0; i < d->elements.size(); ++i)
-    {
-        if(d->elements[i].refInfoExistRecursively())
-        {
-            return zftrue;
-        }
-    }
-    return zffalse;
-}
-
-zfbool ZFSerializableData::_ZFP_ZFSerializableData_refInfoLoad(ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
-                                                               ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
-{
-    _ZFP_ZFSerializableDataAttributeMapType::iterator itRefType = d->attributes.find(ZFSerializableKeyword_refType);
-    _ZFP_ZFSerializableDataAttributeMapType::iterator itRefData = d->attributes.find(ZFSerializableKeyword_refData);
-    if(itRefType != d->attributes.end() || itRefData != d->attributes.end())
-    {
-        if(itRefType == d->attributes.end())
-        {
-            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *this,
-                zfText("missing \"%s\""), ZFSerializableKeyword_refType);
-            return zffalse;
-        }
-        if(itRefData == d->attributes.end())
-        {
-            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *this,
-                zfText("missing \"%s\""), ZFSerializableKeyword_refData);
-            return zffalse;
-        }
-
-        this->refInfoSet(itRefType->second.attrValue.c_str(), itRefData->second.attrValue.c_str());
-        d->attributes.erase(itRefType);
-        d->attributes.erase(itRefData);
-    }
-
-    for(zfstlsize i = 0; i < d->elements.size(); ++i)
-    {
-        if(!d->elements[i]._ZFP_ZFSerializableData_refInfoLoad(outErrorHint, outErrorPos))
-        {
-            return zffalse;
-        }
-    }
-    return zftrue;
-}
-zfbool ZFSerializableData::_ZFP_ZFSerializableData_refInfoApply(ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
-                                                                ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
-{
-    zfbool recursiveRef = zffalse;
-    if(d->refInfo == zfnull)
-    {
-        _ZFP_ZFSerializableDataAttributeMapType::iterator itRefType = d->attributes.find(ZFSerializableKeyword_refType);
-        _ZFP_ZFSerializableDataAttributeMapType::iterator itRefData = d->attributes.find(ZFSerializableKeyword_refData);
-        if(itRefType != d->attributes.end() || itRefData != d->attributes.end())
-        {
-            if(itRefType == d->attributes.end())
-            {
-                ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *this,
-                    zfText("missing \"%s\""), ZFSerializableKeyword_refType);
-                return zffalse;
-            }
-            if(itRefData == d->attributes.end())
-            {
-                ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *this,
-                    zfText("missing \"%s\""), ZFSerializableKeyword_refData);
-                return zffalse;
-            }
-
-            this->refInfoSet(itRefType->second.attrValue.c_str(), itRefData->second.attrValue.c_str());
-            d->attributes.erase(itRefType);
-            d->attributes.erase(itRefData);
-        }
-    }
-    if(d->refInfo != zfnull && !d->refInfoLoaded)
-    {
-        // load reference
-        ZFSerializableData tmpData;
-        _ZFP_ZFSerializableDataRefInfoLoadCallback callback = _ZFP_ZFSerializableDataRefTypeGet(d->refInfo->refType);
-        if(callback == zfnull || !callback(tmpData, d->refInfo->refData, outErrorHint, outErrorPos))
-        {
-            return zffalse;
-        }
-
-        // remove recursive reference info
-        // only root node's reference info should be stored
-        tmpData.refInfoRemoveRecursively();
-
-        // copy all contents
-        d->attributes.insert(tmpData.d->attributes.begin(), tmpData.d->attributes.end());
-
-        for(zfstlsize i = 0; i < tmpData.d->elements.size(); ++i)
-        {
-            tmpData.d->elements[i].d->serializableDataParent = d;
-        }
-        tmpData.d->elements.insert(tmpData.d->elements.end(), d->elements.begin(), d->elements.end());
-        d->elements.clear();
-        tmpData.d->elements.swap(d->elements);
-
-        tmpData.d->serializableDataTagMap.insert(d->serializableDataTagMap.begin(), d->serializableDataTagMap.end());
-        tmpData.d->serializableDataTagMap.swap(d->serializableDataTagMap);
-
-        if(recursiveRef)
-        {
-            this->refInfoRemove();
-        }
-        else
-        {
-            d->refInfoLoaded = zftrue;
-        }
-    }
-
-    for(zfstlsize i = 0; i < d->elements.size(); ++i)
-    {
-        if(!d->elements[i]._ZFP_ZFSerializableData_refInfoApply(outErrorHint, outErrorPos))
-        {
-            return zffalse;
-        }
-    }
-    return zftrue;
-}
-zfbool ZFSerializableData::refInfoLoad(ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
-                                       ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
-{
-    return this->_ZFP_ZFSerializableData_refInfoLoad(outErrorHint, outErrorPos)
-        && this->_ZFP_ZFSerializableData_refInfoApply(outErrorHint, outErrorPos);
-}
-
-void ZFSerializableData::refInfoRestore(ZF_IN const ZFSerializableData &refNode)
-{
-    for(_ZFP_ZFSerializableDataAttributeMapType::iterator itRef = refNode.d->attributes.begin(); itRef != refNode.d->attributes.end(); ++itRef)
-    {
-        _ZFP_ZFSerializableDataAttributeMapType::iterator it = d->attributes.find(itRef->first);
-        if(it != d->attributes.end() && it->second.attrValue.compare(itRef->second.attrValue) == 0)
-        {
-            d->attributes.erase(it);
-        }
-    }
-    for(zfstlsize i = 0, iRef = 0; i < d->elements.size() && iRef < refNode.d->elements.size(); ++i, ++iRef)
-    {
-        ZFSerializableData &child = d->elements[i];
-        ZFSerializableData &childRef = refNode.d->elements[iRef];
-        child.refInfoRestore(childRef);
-        if(child.d->attributes.empty() && child.d->elements.empty())
-        {
-            this->elementRemoveAtIndex(i);
-            --i;
-        }
-    }
-
-    if(refNode.d->refInfo != zfnull)
-    {
-        this->attributeSet(ZFSerializableKeyword_refType, refNode.d->refInfo->refType);
-        this->attributeSet(ZFSerializableKeyword_refType, refNode.d->refInfo->refData);
-    }
-
-    zfdelete(d->refInfo);
-    d->refInfo = zfnull;
-    d->refInfoLoaded = zffalse;
 }
 
 // ============================================================
@@ -1092,14 +823,6 @@ void ZFSerializableData::objectInfoT(ZF_IN_OUT zfstring &ret) const
         ret += this->itemClass();
     }
 
-    if(this->refInfo() != zfnull)
-    {
-        ret += zfText("<");
-        ret += this->refInfo()->refType;
-        ret += zfText(":\"");
-        ret += this->refInfo()->refData;
-        ret += zfText("\">");
-    }
     if(this->attributeCount() > 0)
     {
         ret += '(';
@@ -1183,7 +906,6 @@ zfbool ZFSerializableData::isEmpty(void) const
         d->className.empty()
         && d->attributes.empty()
         && d->elements.empty()
-        && (d->refInfo == zfnull || (d->refInfo->refType.isEmpty() && d->refInfo->refData.isEmpty()))
         );
 }
 
@@ -1195,15 +917,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, copyFrom, ZFMP_IN(const ZFSerializableData &, ref))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, ZFSerializableData, copy)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, const ZFRefInfo *, refInfo)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, refInfoSet, ZFMP_IN(const ZFRefInfo *, refInfo))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFSerializableData, void, refInfoSet, ZFMP_IN(const zfchar *, refType), ZFMP_IN(const zfchar *, refData))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, void, refInfoRemove)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, void, refInfoRemoveRecursively)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, zfbool, refInfoExist)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, zfbool, refInfoExistRecursively)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFSerializableData, zfbool, refInfoLoad, ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull), ZFMP_OUT_OPT(ZFSerializableData *, outErrorPos, zfnull))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, refInfoRestore, ZFMP_IN(const ZFSerializableData &, refNode))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, const ZFPathInfo *, pathInfo)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, pathInfoSet, ZFMP_IN(const ZFPathInfo *, pathInfo))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFSerializableData, void, pathInfoSet, ZFMP_IN(const zfchar *, pathType), ZFMP_IN(const zfchar *, pathData))

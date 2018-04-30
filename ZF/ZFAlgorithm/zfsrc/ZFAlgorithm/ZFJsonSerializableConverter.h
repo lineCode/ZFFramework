@@ -19,31 +19,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// json serializable conversion
-
-/**
- * @brief see #ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE
- *
- * format:
- * @code
- *   <Node refType="json" refData="pathInfo, see ZFPathInfo" />
- * @endcode
- */
-#define ZFSerializableDataRefType_json zfText("json")
-
-/**
- * @brief see #ZFOBJECT_CREATOR_DEFINE
- *
- * data:
- * @code
- *   "pathInfo, see ZFPathInfo"
- * @endcode
- * data is a pathInfo to a json file,
- * which should contain a serializable object
- */
-#define ZFObjectCreatorType_json zfText("json")
-
-// ============================================================
 /**
  * @brief parse json formated data to serializable
  */

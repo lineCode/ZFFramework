@@ -11,9 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBJECTIO_DEFINE(zfsd, {
-        return zfscmpTheSame(fileExt, ZFObjectIO_zfsd);
-    }, {
+ZFOBJECTIO_DEFINE(zfsd, zfText("zfsd"), {
         return ZFObjectFromInput(ret, input, outErrorHint);
     }, {
         return ZFObjectToOutput(output, obj, outErrorHint);

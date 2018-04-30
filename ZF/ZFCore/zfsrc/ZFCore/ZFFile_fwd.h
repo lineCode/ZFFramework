@@ -90,13 +90,6 @@ public:
 
 public:
     /**
-     * @brief return path of file
-     */
-    const zfchar *filePath(void) const
-    {
-        return this->impl().filePath;
-    }
-    /**
      * @brief return file name of file
      */
     const zfchar *fileName(void) const
@@ -129,34 +122,18 @@ public:
     zffinal zfclassNotPOD Impl
     {
     public:
-        zfstring filePath; /**< @brief file path */
-        const zfchar *fileName; /**< @brief file path */
+        zfstring fileName; /**< @brief file path */
         zfbool fileIsDir; /**< @brief whether directory */
         void *nativeFd; /**< @brief for impl to store native find data */
     public:
         /** @cond ZFPrivateDoc */
         Impl(void)
-        : filePath()
-        , fileName(zfnull)
+        : fileName()
         , fileIsDir(zffalse)
         , nativeFd(zfnull)
         {
         }
         /** @endcond */
-    public:
-        /** @brief util method for impl to parse #fileName from #filePath */
-        void fileNameParse(void)
-        {
-            zfindex t = zfstringFindReversely(filePath, ZFFileSeparator());
-            if(t == zfindexMax())
-            {
-                this->fileName = this->filePath.cString();
-            }
-            else
-            {
-                this->fileName = this->filePath.cString() + t + 1;
-            }
-        }
     };
 public:
     /** @brief the impl */

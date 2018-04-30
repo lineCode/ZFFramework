@@ -92,9 +92,18 @@ static int _ZFP_ZFImpl_ZFLua_metatable_bor(ZF_IN lua_State *L)
 {
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
+    const ZFClass *cls = v_zfflags::ClassData();
+    if(v1Cls != zfnull && v1Cls->classIsTypeOf(ZFEnum::ClassData()))
+    {
+        cls = v1Cls;
+    }
+    else if(v2Cls != zfnull && v2Cls->classIsTypeOf(ZFEnum::ClassData()))
+    {
+        cls = v2Cls;
+    }
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
         (lua_Number)(v1->flagsValue() | v2->flagsValue()),
-        v1, v_zfflags::ClassData(), v2, v_zfflags::ClassData());
+        v1, cls, v2, cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_bxor(ZF_IN lua_State *L)
 {

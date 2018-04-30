@@ -347,15 +347,12 @@ public:
         zfstring refName = ZFStringA2Z(sName);
         JNIUtilReleaseStringUTFChars(jniEnv, jsPath, sName);
 
-        fd.filePath.removeAll();
         zfstring absPath = this->zfresPrefix;
         absPath += ZFFileSeparator();
         if(!d->parentPath.isEmpty())
         {
             absPath += d->parentPath;
             absPath += ZFFileSeparator();
-            fd.filePath += d->parentPath;
-            fd.filePath += ZFFileSeparator();
         }
         absPath += refName.cString();
 
@@ -366,7 +363,6 @@ public:
         if(asset == zfnull)
         {
             fd.fileIsDir = zftrue;
-            fd.filePath += refName;
         }
         else
         {
@@ -374,14 +370,13 @@ public:
             fd.fileIsDir = zffalse;
             if(zfstringFindReversely(refName, this->zfresPostfix) + this->zfresPostfixLen == refName.length())
             {
-                fd.filePath.append(refName.cString(), refName.length() - this->zfresPostfixLen);
+                fd.fileName.assign(refName.cString(), refName.length() - this->zfresPostfixLen);
             }
             else
             {
-                fd.filePath += refName;
+                fd.fileName = refName;
             }
         }
-        fd.fileNameParse();
 
         return zftrue;
     }

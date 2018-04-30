@@ -25,8 +25,9 @@ static ZFToken _ZFP_ZFFilePathInfoOpenForRes(ZF_IN const zfchar *filePath,
 ZFPATHTYPE_FILEIO_REGISTER(res, ZFPathType_res
         , ZFFileResIsExist
         , ZFFileResIsDir
-        , ZFFilePathInfoCallbackPathGetDefault
-        , ZFFilePathInfoCallbackPathSetDefault
+        , ZFFilePathInfoCallbackGetFileNameDefault
+        , ZFFilePathInfoCallbackToChildDefault
+        , ZFFilePathInfoCallbackToParentDefault
         , ZFFilePathInfoCallbackPathCreateDefault
         , ZFFilePathInfoCallbackRemoveDefault
         , ZFFileResFindFirst

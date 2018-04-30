@@ -12,9 +12,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBJECTIO_DEFINE(json, {
-        return zfscmpTheSame(fileExt, ZFObjectIO_json);
-    }, {
+ZFOBJECTIO_DEFINE(json, zfText("json"), {
         return ZFObjectFromJson(ret, input, outErrorHint);
     }, {
         return ZFObjectToJson(output, obj, outErrorHint);

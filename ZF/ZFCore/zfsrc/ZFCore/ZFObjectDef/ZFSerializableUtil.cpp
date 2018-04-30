@@ -280,7 +280,7 @@ zfbool printResolveStatus(ZF_IN const ZFSerializableData &serializableData,
     {
         return zffalse;
     }
-    zfstring tmp = zfText("not all resolved:\n");
+    zfstring tmp = zfText("[ZFSerializable] not all resolved:\n");
     zfbool ret = _ZFP_ZFSerializableUtilPrintResolveStatus(serializableData, ZFOutputCallbackForString(tmp), 1);
     if(ret)
     {

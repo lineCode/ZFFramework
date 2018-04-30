@@ -108,10 +108,9 @@ zfclassFwd _ZFP_ZFUIImagePrivate;
  *   </ZFUIImage>
  * @endcode
  */
-zffinal zfclass ZF_ENV_EXPORT ZFUIImage : zfextends ZFObject, zfimplements ZFSerializable, zfimplements ZFCopyable
+zffinal zfclass ZF_ENV_EXPORT ZFUIImage : zfextends ZFStyleableObject
 {
-    ZFOBJECT_DECLARE(ZFUIImage, ZFObject)
-    ZFIMPLEMENTS_DECLARE(ZFSerializable, ZFCopyable)
+    ZFOBJECT_DECLARE(ZFUIImage, ZFStyleableObject)
 
     /**
      * @brief see #ZFObject::observerNotify
@@ -132,7 +131,13 @@ protected:
 
 protected:
     zfoverride
-    virtual void copyableOnCopyFrom(ZF_IN ZFObject *anotherObj);
+    virtual void styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable);
+    zfoverride
+    virtual zfbool styleKeyOnCheckValid(void)
+    {
+        return zfsuperI(ZFStyleable)::styleKeyOnCheckValid()
+            && this->nativeImage() != zfnull;
+    }
 
     // ============================================================
     // property

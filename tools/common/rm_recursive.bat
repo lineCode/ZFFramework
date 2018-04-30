@@ -23,7 +23,7 @@ set ZF_EXCLUDE_TMP=%ZF_EXCLUDE%
 rem set ZF_EXCLUDE_TMP=%ZF_EXCLUDE_TMP% private
 
 rem ============================================================
-for /f %%f in ('dir /a-d/s/b %SRC_DIR%\%FILE_NAME%') do (
+for /f "tokens=*" %%f in ('dir /a-d/s/b %SRC_DIR%\%FILE_NAME%') do (
     del /f/s/q "%%f" >nul 2>&1
     rmdir /s/q "%%f" >nul 2>&1
 )

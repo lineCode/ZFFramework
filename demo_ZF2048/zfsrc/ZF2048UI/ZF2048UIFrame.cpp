@@ -25,7 +25,7 @@ protected:
     virtual void objectOnInit(void)
     {
         zfsuper::objectOnInit();
-        zfSkinApplyZFStyleable(this, zfText("ZF2048_block_bg"));
+        this->imageSet(ZFStyleCreate(zfText("ZF2048/block/block_bg")));
     }
 };
 zfclassNotPOD _ZFP_ZF2048UIFramePrivate
@@ -179,7 +179,7 @@ void ZF2048UIFrame::objectOnInit(void)
     d->blocksHolder = zfAlloc(ZFArrayEditable);
     d->blockBackgrounds = zfAlloc(ZFArrayEditable);
 
-    zfSkinApplyZFStyleable(this, zfText("ZF2048_frame"));
+    this->frameBackgroundImageSet(ZFStyleCreate(zfText("ZF2048/frame/frame_bg")));
 }
 void ZF2048UIFrame::objectOnDealloc(void)
 {

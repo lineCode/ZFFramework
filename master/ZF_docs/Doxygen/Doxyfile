@@ -2315,8 +2315,6 @@ EXPAND_AS_DEFINED     += ZFEXPORT_VAR_READONLY_ALIAS_DECLARE
 EXPAND_AS_DEFINED     += ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE
 EXPAND_AS_DEFINED     += _ZFP_ZFValue_method_DECLARE
 EXPAND_AS_DEFINED     += _ZFP_ZFValueEditable_method_DECLARE
-EXPAND_AS_DEFINED     += ZFLANGAPPLY_DECLARE
-EXPAND_AS_DEFINED     += ZFSKINAPPLY_DECLARE
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES then doxygen's preprocessor will
 # remove all references to function-like macros that are alone on a line, have

@@ -263,6 +263,47 @@ ZFMETHOD_FUNC_DEFINE_1(zfstring, ZFFileExtOf,
     ZFFileExtOf(ret, src);
     return ret;
 }
+ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathOfWithoutExt,
+                       ZFMP_OUT(zfstring &, ret),
+                       ZFMP_IN(const zfchar *, src))
+{
+    if(zfsIsEmpty(src))
+    {
+        return zffalse;
+    }
+    zfindex dotPos = zfslen(src) - 1;
+    for( ; dotPos != zfindexMax(); --dotPos)
+    {
+        if(src[dotPos] == '.')
+        {
+            break;
+        }
+        else if(src[dotPos] == '/' || src[dotPos] == '\\')
+        {
+            dotPos = zfindexMax();
+            break;
+        }
+    }
+    if(src >= ret.cString() && src < ret.cString() + ret.length())
+    {
+        if(dotPos != zfindexMax())
+        {
+            ret.remove(src - ret.cString() + dotPos, zfslen(src) - dotPos);
+        }
+    }
+    else
+    {
+        ret.append(src, dotPos);
+    }
+    return zftrue;
+}
+ZFMETHOD_FUNC_DEFINE_1(zfstring, ZFFilePathOfWithoutExt,
+                       ZFMP_IN(const zfchar *, src))
+{
+    zfstring ret;
+    ZFFilePathOfWithoutExt(ret, src);
+    return ret;
+}
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathParentOf,
                        ZFMP_OUT(zfstring &, ret),
                        ZFMP_IN(const zfchar *, src))
@@ -352,12 +393,10 @@ static void _ZFP_ZFFileTreePrint(ZF_IN const zfchar *pathData,
                                  ZF_IN const zfchar *headToken,
                                  ZF_IN const zfchar *indentToken,
                                  ZF_IN zfindex indentLevel,
-                                 ZF_IN ZFFilePathInfoCallbackFindFirst callbackFindFirst,
-                                 ZF_IN ZFFilePathInfoCallbackFindNext callbackFindNext,
-                                 ZF_IN ZFFilePathInfoCallbackFindClose callbackFindClose)
+                                 ZF_IN ZFFilePathInfoData const &fileImpl)
 {
     ZFFileFindData fd;
-    if(callbackFindFirst(fd, pathData))
+    if(fileImpl.callbackFindFirst(fd, pathData))
     {
         do
         {
@@ -376,16 +415,19 @@ static void _ZFP_ZFFileTreePrint(ZF_IN const zfchar *pathData,
             if(fd.fileIsDir())
             {
                 outputCallback << fd.fileName() << zfText("/\n");
-                _ZFP_ZFFileTreePrint(fd.filePath(), outputCallback, headToken, indentToken, indentLevel + 1,
-                    callbackFindFirst, callbackFindNext, callbackFindClose);
+                zfstring pathDataChild;
+                if(fileImpl.callbackToChild(pathData, pathDataChild, fd.fileName()))
+                {
+                    _ZFP_ZFFileTreePrint(pathDataChild, outputCallback, headToken, indentToken, indentLevel + 1, fileImpl);
+                }
             }
             else
             {
                 outputCallback << fd.fileName();
                 outputCallback << zfText("\n");
             }
-        } while(callbackFindNext(fd));
-        callbackFindClose(fd);
+        } while(fileImpl.callbackFindNext(fd));
+        fileImpl.callbackFindClose(fd);
     }
 }
 
@@ -402,8 +444,7 @@ ZFMETHOD_FUNC_DEFINE_4(void, ZFFilePathInfoTreePrint,
         && data->callbackFindClose
         )
     {
-        _ZFP_ZFFileTreePrint(pathInfo.pathData, outputCallback, headToken, indentToken, 0,
-            data->callbackFindFirst, data->callbackFindNext, data->callbackFindClose);
+        _ZFP_ZFFileTreePrint(pathInfo.pathData, outputCallback, headToken, indentToken, 0, *data);
     }
 }
 

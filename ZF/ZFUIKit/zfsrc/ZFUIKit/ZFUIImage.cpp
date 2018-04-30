@@ -129,6 +129,22 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
 {
     if(!zfsuperI(ZFSerializable)::serializableOnSerializeFromData(serializableData, outErrorHint, outErrorPos)) {return zffalse;}
 
+    // style
+    if(this->styleKey() != zfnull)
+    {
+        if(d->nativeImage == zfnull)
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
+                zfText("unable to load image from style \"%s\""),
+                this->styleKey());
+            return zffalse;
+        }
+        else
+        {
+            return zftrue;
+        }
+    }
+
     // imageBin
     const zfchar *imageBin = zfnull;
     ZFSerializableUtilSerializeCategoryFromData(serializableData, outErrorHint, outErrorPos,
@@ -228,10 +244,6 @@ zfbool ZFUIImage::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &se
 
                 ZFSerializableData categoryData = this->imageSerializableData()->copy();
                 categoryData.categorySet(ZFSerializableKeyword_ZFUIImage_imageData);
-                if(this->imageSerializableData()->refInfoExistRecursively())
-                {
-                    categoryData.refInfoRestore(*(this->imageSerializableData()));
-                }
                 serializableData.elementAdd(categoryData);
             }
         }
@@ -256,11 +268,10 @@ zfbool ZFUIImage::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &se
     return zftrue;
 }
 
-void ZFUIImage::copyableOnCopyFrom(ZF_IN ZFObject *anotherObj)
+void ZFUIImage::styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable)
 {
-    zfsuperI(ZFCopyable)::copyableOnCopyFrom(anotherObj);
-
-    d->copyFrom(ZFCastZFObjectUnchecked(zfself *, anotherObj)->d);
+    zfsuperI(ZFCopyable)::styleableOnCopyFrom(anotherStyleable);
+    d->copyFrom(ZFCastZFObjectUnchecked(zfself *, anotherStyleable)->d);
 }
 
 ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIImage, zffloat, imageScale)
@@ -306,16 +317,13 @@ void ZFUIImage::objectOnInit(void)
 }
 void ZFUIImage::objectOnDealloc(void)
 {
-    if(d != zfnull)
+    if(d->nativeImage != zfnull)
     {
-        if(d->nativeImage != zfnull)
-        {
-            ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(d->nativeImage);
-            d->nativeImage = zfnull;
-        }
-        zfpoolDelete(d);
-        d = zfnull;
+        ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(d->nativeImage);
+        d->nativeImage = zfnull;
     }
+    zfpoolDelete(d);
+    d = zfnull;
     zfsuper::objectOnDealloc();
 }
 void ZFUIImage::objectOnInitFinish(void)

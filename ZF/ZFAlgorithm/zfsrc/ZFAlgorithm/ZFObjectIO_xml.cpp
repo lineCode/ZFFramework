@@ -12,9 +12,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBJECTIO_DEFINE(xml, {
-        return zfscmpTheSame(fileExt, ZFObjectIO_xml);
-    }, {
+ZFOBJECTIO_DEFINE(xml, zfText("xml"), {
         return ZFObjectFromXml(ret, input, outErrorHint);
     }, {
         return ZFObjectToXml(output, obj, outErrorHint);

@@ -14,6 +14,9 @@
 #include "ZFPropertyUtil.h"
 #include "ZFListenerDeclare.h"
 
+#include "../ZFSTLWrapper/zfstl_string.h"
+#include "../ZFSTLWrapper/zfstl_map.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFStyleable *ZFStyleable::defaultStyle(void)
@@ -298,6 +301,116 @@ void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style)
     }
 }
 
+// ============================================================
+// style holder
+static zfstlmap<zfstlstringZ, zfautoObject> &_ZFP_ZFStyleHolder(void)
+{
+    static zfstlmap<zfstlstringZ, zfautoObject> d;
+    return d;
+}
+void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue)
+{
+    if(styleValue)
+    {
+        zfCoreMutexLock();
+        _ZFP_ZFStyleHolder()[styleKey] = styleValue;
+        zfCoreMutexUnlock();
+    }
+}
+ZFStyleable *ZFStyleGet(ZF_IN const zfchar *styleKey)
+{
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, zfautoObject> &d = _ZFP_ZFStyleHolder();
+    zfstlmap<zfstlstringZ, zfautoObject>::iterator it = d.find(styleKey);
+    if(it != d.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return zfnull;
+    }
+}
+void ZFStyleGetAll(ZF_IN_OUT ZFCoreArrayPOD<const zfchar *> &styleKey,
+                   ZF_IN_OUT ZFCoreArrayPOD<ZFStyleable *> &styleValue)
+{
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, zfautoObject> &d = _ZFP_ZFStyleHolder();
+    for(zfstlmap<zfstlstringZ, zfautoObject>::iterator it = d.begin(); it != d.end(); ++it)
+    {
+        styleKey.add(it->first.c_str());
+        styleValue.add(it->second);
+    }
+}
+void ZFStyleRemoveAll(void)
+{
+    zfCoreMutexLock();
+    zfstlmap<zfstlstringZ, zfautoObject> d;
+    d.swap(_ZFP_ZFStyleHolder());
+    zfCoreMutexUnlock();
+}
+
+static zfint _ZFP_ZFStyleChangeBeginFlag = 0;
+void ZFStyleChangeBegin()
+{
+    zfCoreMutexLock();
+    ++_ZFP_ZFStyleChangeBeginFlag;
+}
+void ZFStyleChangeEnd()
+{
+    zfCoreAssertWithMessageTrim(_ZFP_ZFStyleChangeBeginFlag != 0,
+        zfTextA("ZFStyleChangeBegin/ZFStyleChangeEnd not paired"));
+    --_ZFP_ZFStyleChangeBeginFlag;
+    zfbool needNotify = (_ZFP_ZFStyleChangeBeginFlag == 0);
+    zfCoreMutexUnlock();
+    if(needNotify)
+    {
+        ZFObjectGlobalEventObserver().observerNotify(ZFGlobalEvent::EventZFStyleOnChange());
+    }
+}
+
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFStyleOnChange)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFStyleOnInvalid)
+
+static zfbool _ZFP_ZFStyleInvalidCheckDisableFlag = zffalse;
+void ZFStyleInvalidCheckDisable(ZF_IN zfbool enable)
+{
+    _ZFP_ZFStyleInvalidCheckDisableFlag = zftrue;
+}
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleInvalidAssert, ZFLevelZFFrameworkHigh)
+{
+    ZFLISTENER_LOCAL(action, {
+            if(_ZFP_ZFStyleInvalidCheckDisableFlag) {return ;}
+            const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
+            const zfchar *styleKey = listenerData.param1->to<ZFPointerHolder *>()->holdedDataPointer<const zfchar *>();
+            if(property == zfnull)
+            {
+                zfCoreCriticalMessageTrim(
+                    zfTextA("[ZFStyle] %s unable to apply style \"%s\""),
+                    zfsCoreZ2A(listenerData.sender->objectInfoOfInstance().cString()),
+                    zfsCoreZ2A(styleKey));
+            }
+            else
+            {
+                zfCoreCriticalMessageTrim(
+                    zfTextA("[ZFStyle] %s unable to apply style \"%s\" for property %s"),
+                    zfsCoreZ2A(listenerData.sender->objectInfoOfInstance().cString()),
+                    zfsCoreZ2A(styleKey),
+                    zfsCoreZ2A(property->objectInfo().cString()));
+            }
+        })
+    this->taskId = ZFObjectGlobalEventObserver().observerAdd(
+        ZFGlobalEvent::EventZFStyleOnInvalid(),
+        action);
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFStyleInvalidAssert)
+{
+    _ZFP_ZFStyleInvalidCheckDisableFlag = zffalse;
+    ZFObjectGlobalEventObserver().observerRemoveByTaskId(this->taskId);
+}
+zfidentity taskId;
+ZF_GLOBAL_INITIALIZER_END(ZFStyleInvalidAssert)
+
 ZF_NAMESPACE_GLOBAL_END
 
 #if _ZFP_ZFOBJECT_METHOD_REG
@@ -307,8 +420,21 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFStyleable, ZFStyleable *, defaultStyle)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFStyleable, void, styleableCopyFrom, ZFMP_IN(ZFStyleable *, anotherStyleable))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFStyleable, zfbool, styleableIsDefaultStyle)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFStyleable, zfbool, styleKeySet, ZFMP_IN(const zfchar *, styleKey))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFStyleable, const zfchar *, styleKey)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFStyleable, zfbool, styleKeySet, ZFMP_IN(const ZFProperty *, property), ZFMP_IN(const zfchar *, styleKey))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFStyleable, const zfchar *, styleKey, ZFMP_IN(const ZFProperty *, property))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFStyleable, zfbool, styleKeySet, ZFMP_IN(const zfchar *, propertyName), ZFMP_IN(const zfchar *, styleKey))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFStyleable, const zfchar *, styleKey, ZFMP_IN(const zfchar *, propertyName))
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFStyleDefaultApplyAutoCopy, ZFMP_IN(ZFStyleable *, style))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFStyleDefaultApplyAutoCopy, ZFMP_IN(ZFStyleable *, styleValue))
+
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFStyleSet, ZFMP_IN(const zfchar *, styleKey), ZFMP_IN(ZFStyleable *, styleValue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFStyleable *, ZFStyleGet, ZFMP_IN(const zfchar *, styleKey))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFStyleGetAll, ZFMP_IN_OUT(ZFCoreArrayPOD<const zfchar *> &, styleKey), ZFMP_IN_OUT(ZFCoreArrayPOD<ZFStyleable *>, styleValue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(void, ZFStyleRemoveAll)
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(void, ZFStyleChangeBegin)
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(void, ZFStyleChangeEnd)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

@@ -70,10 +70,7 @@ ZFFileFindData &ZFFileFindData::operator = (ZF_IN ZFFileFindData const &ref)
 }
 zfbool ZFFileFindData::operator == (ZF_IN ZFFileFindData const &ref) const
 {
-    return (zftrue
-            && zfscmpTheSame(d->implName.cString(), ref.d->implName.cString())
-            && zfscmpTheSame(d->impl.filePath.cString(), ref.d->impl.filePath.cString())
-        );
+    return (d->impl.nativeFd == ref.d->impl.nativeFd);
 }
 ZFFileFindData::~ZFFileFindData(void)
 {
@@ -134,7 +131,6 @@ void *ZFFileFindData::implCheck(ZF_IN const zfchar *implName) const
 
 // ============================================================
 ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFFileFindData, ZFFileFindData)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFileFindData, const zfchar *, filePath)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFileFindData, const zfchar *, fileName)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFileFindData, zfbool, fileIsDir)
 

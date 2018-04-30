@@ -12,7 +12,6 @@
 
 #include "ZFUIWidget.h"
 #include "../ZF2048Core/ZF2048Types.h"
-#include "ZF2048UISkin.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

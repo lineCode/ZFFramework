@@ -12,34 +12,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZFSERIALIZABLEDATA_REFERENCE_TYPE_DEFINE(xml, ZFSerializableDataRefType_xml)
-{
-    ZFXmlItem xmlElement = ZFXmlParseFirstElement(ZFInputCallbackForPathInfoString(refData));
-    if(xmlElement.xmlType() == ZFXmlType::e_XmlNull)
-    {
-        ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("failed to load xml element from \"%s\""), refData);
-        return zffalse;
-    }
-    return ZFSerializableDataFromXml(serializableData, xmlElement);
-}
-
-ZFOBJECT_CREATOR_DEFINE(xml, ZFObjectCreatorType_xml)
-{
-    ZFXmlItem xmlElement = ZFXmlParseFirstElement(ZFInputCallbackForPathInfoString(data));
-    if(xmlElement.xmlIsNull())
-    {
-        return zfnull;
-    }
-    ZFSerializableData serializableData;
-    if(ZFSerializableDataFromXml(serializableData, xmlElement))
-    {
-        return ZFObjectFromData(serializableData);
-    }
-    return zfnull;
-}
-
-// ============================================================
 static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializableData,
                                              ZF_IN const ZFXmlItem &xmlElement,
                                              ZF_OUT_OPT zfstring *outErrorHint = zfnull,
@@ -76,7 +48,6 @@ static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializ
     serializableData.itemClassSet(xmlElement.xmlName());
 
     ZFXmlItem attribute = xmlElement.xmlAttributeFirst();
-    ZFRefInfo refInfo;
     while(!attribute.xmlIsNull())
     {
         if(attribute.xmlName() == zfnull)
@@ -88,22 +59,10 @@ static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializ
             }
             return zffalse;
         }
-        if(zfscmpTheSame(attribute.xmlName(), ZFSerializableKeyword_refType))
-        {
-            refInfo.refType = attribute.xmlValue();
-        }
-        else if(zfscmpTheSame(attribute.xmlName(), ZFSerializableKeyword_refData))
-        {
-            refInfo.refData = attribute.xmlValue();
-        }
-        else
-        {
-            serializableData.attributeSet(attribute.xmlName(), attribute.xmlValue());
-        }
+        serializableData.attributeSet(attribute.xmlName(), attribute.xmlValue());
 
         attribute = attribute.xmlAttributeNext();
     }
-    serializableData.refInfoSet(&refInfo);
 
     ZFXmlItem element = xmlElement.xmlChildElementFirst();
     while(!element.xmlIsNull())
@@ -127,8 +86,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataFromXml,
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull),
                        ZFMP_OUT_OPT(ZFXmlItem *, outErrorPos, zfnull))
 {
-    return _ZFP_ZFSerializableDataFromXml(serializableData, xmlElement, outErrorHint, outErrorPos)
-        && serializableData.refInfoLoad();
+    return _ZFP_ZFSerializableDataFromXml(serializableData, xmlElement, outErrorHint, outErrorPos);
 }
 ZFMETHOD_FUNC_DEFINE_3(ZFSerializableData, ZFSerializableDataFromXml,
                        ZFMP_IN(const ZFXmlItem &, xmlElement),
@@ -167,12 +125,6 @@ ZFMETHOD_FUNC_DEFINE_3(ZFXmlItem, ZFSerializableDataToXml,
 
     ZFXmlItem ret(ZFXmlType::e_XmlElement);
     ret.xmlNameSet(serializableData.itemClass());
-
-    if(serializableData.refInfo() != zfnull)
-    {
-        ret.xmlAttributeAdd(ZFSerializableKeyword_refType, serializableData.refInfo()->refType);
-        ret.xmlAttributeAdd(ZFSerializableKeyword_refData, serializableData.refInfo()->refData);
-    }
 
     for(zfiterator it = serializableData.attributeIterator();
         serializableData.attributeIteratorIsValid(it);

@@ -182,9 +182,6 @@ protected:
     virtual void internalImplViewOnLayout(ZF_IN const ZFUIRect &bounds);
 };
 
-// ============================================================
-ZFLANGAPPLY_DECLARE(ZFUITextView, ZFUITextViewText)
-
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUITextView_h_
 

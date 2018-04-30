@@ -220,10 +220,9 @@ zfclassFwd _ZFP_ZFStringPrivate;
  *   />
  * @endcode
  */
-zfclass ZF_ENV_EXPORT ZFString : zfextends ZFObject, zfimplements ZFSerializable, zfimplements ZFCopyable
+zfclass ZF_ENV_EXPORT ZFString : zfextends ZFStyleableObject
 {
-    ZFOBJECT_DECLARE(ZFString, ZFObject)
-    ZFIMPLEMENTS_DECLARE(ZFSerializable, ZFCopyable)
+    ZFOBJECT_DECLARE(ZFString, ZFStyleableObject)
 
 protected:
     zfoverride
@@ -237,10 +236,10 @@ protected:
 
 protected:
     zfoverride
-    virtual void copyableOnCopyFrom(ZF_IN ZFObject *anotherObj)
+    virtual void styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable)
     {
-        zfsuperI(ZFCopyable)::copyableOnCopyFrom(anotherObj);
-        this->stringValueSet(ZFCastZFObjectUnchecked(zfself *, anotherObj)->stringValue());
+        zfsuperI(ZFStyleable)::styleableOnCopyFrom(anotherStyleable);
+        this->stringValueSet(ZFCastZFObjectUnchecked(zfself *, anotherStyleable)->stringValue());
     }
 
     // ============================================================

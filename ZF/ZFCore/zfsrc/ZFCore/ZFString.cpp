@@ -398,5 +398,19 @@ void ZFString::stringValueSet(ZF_IN ZFString *another)
     _ZFP_ZFString_cleanup(dTmp);
 }
 
+// ============================================================
+ZFSTYLE_PROPERTY_COPY_DEFINE(zfstring, ZFM_EXPAND({
+        ZFString *ref = ZFCastZFObject(ZFString *, styleValue);
+        if(ref != zfnull)
+        {
+            property->setterMethod()->execute<void, zfstring const &>(propertyOwner, ref->stringValue());
+            return zftrue;
+        }
+        else
+        {
+            return zffalse;
+        }
+    }))
+
 ZF_NAMESPACE_GLOBAL_END
 

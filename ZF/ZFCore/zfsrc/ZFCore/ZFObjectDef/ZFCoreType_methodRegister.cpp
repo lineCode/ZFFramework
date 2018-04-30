@@ -231,11 +231,6 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFPathInfo, zfstring, pathType)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFPathInfo, zfstring, pathData)
 
 // ============================================================
-// ZFRefInfo
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRefInfo, zfstring, refType)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRefInfo, zfstring, refData)
-
-// ============================================================
 // ZFTokenForContainer
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFTokenForContainer, const zfchar *, tokenLeft)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFTokenForContainer, const zfchar *, tokenRight)

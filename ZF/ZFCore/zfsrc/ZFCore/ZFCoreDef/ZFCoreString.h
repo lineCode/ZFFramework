@@ -31,7 +31,7 @@ public:
     union {
         struct {
             T_Char *s;
-            zfindex capacity;
+            zfuint capacity;
         } s;
         T_Char buf[_ZFP_zfstr_bufSize];
     } d;
@@ -40,9 +40,9 @@ public:
 
 public:
     _zfstrD(void)
-    : builtinBuf(zftrue)
+    : d()
     , length(0)
-    , d()
+    , builtinBuf(zftrue)
     {
     }
 
@@ -401,7 +401,7 @@ public:
         }
         else
         {
-            return d.d.s.capacity;
+            return (zfindex)d.d.s.capacity;
         }
     }
     /** @brief remove part of the string */
@@ -482,7 +482,7 @@ private:
                 T_Char *buf = (T_Char *)zfmalloc(capacity * sizeof(T_Char));
                 zfmemcpy(buf, d.d.buf, d.length * sizeof(T_Char));
                 d.d.s.s = buf;
-                d.d.s.capacity = capacity;
+                d.d.s.capacity = (zfuint)capacity;
                 d.builtinBuf = zffalse;
                 return d.d.s.s;
             }
@@ -490,7 +490,7 @@ private:
         }
         else
         {
-            if(size >= d.d.s.capacity)
+            if((zfuint)size >= d.d.s.capacity)
             {
                 do
                 {

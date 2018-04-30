@@ -220,13 +220,20 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, zfbool, nativeWindowIsResumed)
 
 ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUIOrientationEnum, sysWindowOrientation)
 {
-    if(d->embedImpl != zfnull)
+    if(d->nativeWindowCreated)
     {
-        return d->embedImpl->sysWindowOrientation(this);
+        if(d->embedImpl != zfnull)
+        {
+            return d->embedImpl->sysWindowOrientation(this);
+        }
+        else
+        {
+            return ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowOrientation(this);
+        }
     }
     else
     {
-        return ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowOrientation(this);
+        return ZFUIOrientation::e_Top;
     }
 }
 ZFMETHOD_DEFINE_1(ZFUISysWindow, void, sysWindowOrientationFlagsSet,

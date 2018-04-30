@@ -20,22 +20,20 @@ ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZF2048UIBlock, ZF2048Value, blockValue)
 {
     if(this->blockValue() == 0)
     {
-        zfSkinApplyCancelZFStyleable(this);
+        this->imageSet(zfnull);
         this->blockTitle()->viewVisibleSet(zffalse);
         return ;
     }
 
-    zfstring skinKey = zfstringWithFormat(zfText("ZF2048_block_%d"), (zfint)this->blockValue());
-    zfautoObject skin = zfSkin(skinKey);
-    if(skin == zfnull)
+    zfstring skinKey = zfstringWithFormat(zfText("ZF2048/block/block_%d"), (zfint)this->blockValue());
+    this->imageSet(ZFStyleCreate(skinKey));
+    if(this->image() == zfnull)
     {
-        zfSkinApplyZFStyleable(this, zfText("ZF2048_block_na"));
-        this->blockTitle()->textSet(zfstringWithFormat(zfText("%d"), (zfint)this->blockValue()));
+        this->imageSet(ZFStyleCreate(zfText("ZF2048/block/block_na")));
         this->blockTitle()->viewVisibleSet(zftrue);
     }
     else
     {
-        zfSkinApplyZFStyleable(this, skinKey);
         this->blockTitle()->viewVisibleSet(zffalse);
     }
 }

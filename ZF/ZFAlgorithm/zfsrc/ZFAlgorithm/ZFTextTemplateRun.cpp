@@ -136,10 +136,12 @@ static zfbool _ZFP_ZFTextTemplateRun_applyDir(ZF_IN_OUT zfstring &path,
     {
         do
         {
+            zfstring fullPath = path;
+            fullPath += ZFFileSeparator();
+            fullPath += fd.fileName();
             if(fd.fileIsDir())
             {
-                zfstring dirPath = fd.filePath();
-                if(!_ZFP_ZFTextTemplateRun_applyDir(dirPath, textTemplateParam, runParam, outErrorHint))
+                if(!_ZFP_ZFTextTemplateRun_applyDir(fullPath, textTemplateParam, runParam, outErrorHint))
                 {
                     ret = zffalse;
                     break;
@@ -147,8 +149,7 @@ static zfbool _ZFP_ZFTextTemplateRun_applyDir(ZF_IN_OUT zfstring &path,
             }
             else
             {
-                zfstring filePath = fd.filePath();
-                if(!_ZFP_ZFTextTemplateRun_applyFile(filePath, textTemplateParam, runParam, outErrorHint))
+                if(!_ZFP_ZFTextTemplateRun_applyFile(fullPath, textTemplateParam, runParam, outErrorHint))
                 {
                     ret = zffalse;
                     break;

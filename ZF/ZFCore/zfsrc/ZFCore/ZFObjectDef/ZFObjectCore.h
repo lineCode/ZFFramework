@@ -468,7 +468,7 @@ public:
     zffinal inline void observerRemove(ZF_IN const zfidentity &eventId,
                                        ZF_IN const ZFListener &callback,
                                        ZF_IN_OPT ZFObject *userData = zfnull,
-                                       ZF_IN_OPT ZFComparer<ZFObject *>::Comparer userDataComparer = zfnull)
+                                       ZF_IN_OPT ZFComparer<ZFObject *>::Comparer userDataComparer = ZFComparerCheckEqual)
     {
         this->observerHolder().observerRemove(eventId, callback, userData, userDataComparer);
     }

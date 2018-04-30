@@ -23,15 +23,27 @@ zfbool ZFFilePathInfoCallbackIsDirDefault(ZF_IN const zfchar *pathData)
 {
     return zffalse;
 }
-zfbool ZFFilePathInfoCallbackPathGetDefault(ZF_OUT zfstring &path,
-                                            ZF_IN const zfchar *pathData)
+zfbool ZFFilePathInfoCallbackGetFileNameDefault(ZF_IN const zfchar *pathData,
+                                                ZF_OUT zfstring &fileName)
 {
-    return ZFFilePathFormat(path, pathData);
+    return ZFFileNameOf(fileName, pathData);
 }
-zfbool ZFFilePathInfoCallbackPathSetDefault(ZF_OUT zfstring &pathData,
-                                            ZF_IN const zfchar *path)
+zfbool ZFFilePathInfoCallbackToChildDefault(ZF_IN const zfchar *pathData,
+                                            ZF_IN_OUT zfstring &pathDataChild,
+                                            ZF_IN const zfchar *childName)
 {
-    return ZFFilePathFormat(pathData, path);
+    pathDataChild += pathData;
+    pathDataChild += ZFFileSeparator();
+    pathDataChild += childName;
+    return zftrue;
+}
+zfbool ZFFilePathInfoCallbackToParentDefault(ZF_IN const zfchar *pathData,
+                                             ZF_IN_OUT zfstring &pathDataParent)
+{
+    ZFFilePathParentOf(pathDataParent, pathData);
+    // always return true
+    // typical case: pathData is file at root path
+    return zftrue;
 }
 zfbool ZFFilePathInfoCallbackPathCreateDefault(ZF_IN const zfchar *pathData,
                                                ZF_IN_OPT zfbool autoMakeParent /* = zftrue */,
@@ -153,32 +165,47 @@ ZFMETHOD_FUNC_DEFINE_1(zfbool, ZFFilePathInfoIsDir,
         return data->callbackIsDir(pathInfo.pathData);
     }
 }
-ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathInfoPathGet,
-                       ZFMP_OUT(zfstring &, path),
-                       ZFMP_IN(const ZFPathInfo &, pathInfo))
+ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathInfoGetFileName,
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_OUT(zfstring &, fileName))
 {
     ZFFilePathInfoData *data = _ZFP_ZFFilePathInfoDataGet(pathInfo.pathType);
     if(data == zfnull)
     {
-        return ZFFilePathInfoCallbackPathGetDefault(path, pathInfo.pathData);
+        return ZFFilePathInfoCallbackGetFileNameDefault(pathInfo.pathData, fileName);
     }
     else
     {
-        return data->callbackPathGet(path, pathInfo.pathData);
+        return data->callbackGetFileName(pathInfo.pathData, fileName);
     }
 }
-ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathInfoPathSet,
-                       ZFMP_IN_OUT(ZFPathInfo &, pathInfo),
-                       ZFMP_IN(const zfchar *, path))
+ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoToChild,
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_IN_OUT(zfstring &, pathDataChild),
+                       ZFMP_IN(const zfchar *, childName))
 {
     ZFFilePathInfoData *data = _ZFP_ZFFilePathInfoDataGet(pathInfo.pathType);
     if(data == zfnull)
     {
-        return ZFFilePathInfoCallbackPathSetDefault(pathInfo.pathData, path);
+        return ZFFilePathInfoCallbackToChildDefault(pathInfo.pathData, pathDataChild, childName);
     }
     else
     {
-        return data->callbackPathSet(pathInfo.pathData, path);
+        return data->callbackToChild(pathInfo.pathData, pathDataChild, childName);
+    }
+}
+ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathInfoToParent,
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_IN_OUT(zfstring &, pathDataParent))
+{
+    ZFFilePathInfoData *data = _ZFP_ZFFilePathInfoDataGet(pathInfo.pathType);
+    if(data == zfnull)
+    {
+        return ZFFilePathInfoCallbackToParentDefault(pathInfo.pathData, pathDataParent);
+    }
+    else
+    {
+        return data->callbackToParent(pathInfo.pathData, pathDataParent);
     }
 }
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoPathCreate,
@@ -213,8 +240,8 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFFilePathInfoRemove,
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathInfoFindFirst,
-                       ZFMP_IN_OUT(ZFFileFindData &, fd),
-                       ZFMP_IN(const ZFPathInfo &, pathInfo))
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_IN_OUT(ZFFileFindData &, fd))
 {
     ZFFilePathInfoData *data = _ZFP_ZFFilePathInfoDataGet(pathInfo.pathType);
     if(data == zfnull)
@@ -413,8 +440,9 @@ void _ZFP_ZFFilePathInfoRegister(ZF_IN const zfchar *pathType,
     zfCoreAssert(zftrue
             && data.callbackIsExist != zfnull
             && data.callbackIsDir != zfnull
-            && data.callbackPathGet != zfnull
-            && data.callbackPathSet != zfnull
+            && data.callbackGetFileName != zfnull
+            && data.callbackToChild != zfnull
+            && data.callbackToParent != zfnull
             && data.callbackPathCreate != zfnull
             && data.callbackRemove != zfnull
             && data.callbackFindFirst != zfnull
@@ -929,24 +957,18 @@ static zfbool _ZFP_ZFFileCallbackForLocalFileGetAbsPath(ZF_OUT zfstring &pathDat
     {
         return zffalse;
     }
-    if(!impl->callbackPathGet(pathDataAbs, pathInfo.pathData))
-    {
-        return zffalse;
-    }
     if(!impl->callbackIsDir(pathInfo.pathData))
     {
-        if(ZFFilePathParentOf(pathDataAbs, pathDataAbs))
+        zfstring pathDataParent;
+        if(!impl->callbackToParent(pathInfo.pathData, pathDataParent))
         {
-            pathDataAbs += ZFFileSeparator();
+            return zffalse;
         }
-        pathDataAbs += localPath;
-        return zftrue;
+        return impl->callbackToChild(pathDataParent, pathDataAbs, localPath);
     }
     else
     {
-        pathDataAbs += ZFFileSeparator();
-        pathDataAbs += localPath;
-        return impl->callbackPathSet(pathDataAbs, pathDataAbs);
+        return impl->callbackToChild(pathInfo.pathData, pathDataAbs, localPath);
     }
 }
 

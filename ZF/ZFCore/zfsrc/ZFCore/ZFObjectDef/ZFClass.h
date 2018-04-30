@@ -579,7 +579,9 @@ inline ZFCoreArrayPOD<const ZFClass *> ZFClassGetAll(ZF_IN_OPT const ZFFilterFor
 // ============================================================
 ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
 /**
- * @brief notified when any class data changed, notified to #ZFClassDataChangeObserver,
+ * @brief see #ZFObject::observerNotify
+ *
+ * notified when any class data changed, notified to #ZFClassDataChangeObserver,
  *   see #ZFObject::observerNotify
  *
  * param0 is a #ZFPointerHolder holds a (const #ZFClassDataChangeData *) value\n

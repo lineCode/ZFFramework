@@ -827,5 +827,33 @@ _ZFP_ZFValueEditable_create_DEFINE(flags, zfflags, zft_zfflags)
 _ZFP_ZFValueEditable_create_DEFINE(identity, zfidentity, zft_zfidentity)
 _ZFP_ZFValueEditable_create_DEFINE(serializableData, ZFSerializableData, void)
 
+// ============================================================
+#define _ZFP_ZFValue_StylePropertyCopy_DEFINE(TypeName, Type) \
+    ZFSTYLE_PROPERTY_COPY_DEFINE(Type, ZFM_EXPAND({ \
+            ZFValue *ref = ZFCastZFObject(ZFValue *, styleValue); \
+            if(ref != zfnull && ref->valueConvertableTo(ZFValueType::e_##TypeName)) \
+            { \
+                property->setterMethod()->execute<void, Type const &>(propertyOwner, ref->TypeName##Value()); \
+                return zftrue; \
+            } \
+            else \
+            { \
+                return zffalse; \
+            } \
+        }))
+
+// ZFTAG_ZFVALUE_TYPE_TO_ADD
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(bool, zfbool)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(char, zfchar)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(int, zfint)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(unsignedInt, zfuint)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(index, zfindex)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(float, zffloat)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(double, zfdouble)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(longDouble, zflongdouble)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(time, zftimet)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(flags, zfflags)
+_ZFP_ZFValue_StylePropertyCopy_DEFINE(identity, zfidentity)
+
 ZF_NAMESPACE_GLOBAL_END
 

@@ -35,8 +35,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     ZFPATHTYPE_FILEIO_REGISTER(registerSig, pathType \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackIsExist \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackIsDir \
-            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackPathGet \
-            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackPathSet \
+            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackGetFileName \
+            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackToChild \
+            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackToParent \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackPathCreate \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackRemove \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackFindFirst \
@@ -86,13 +87,19 @@ public:
     {
         return zffalse;
     }
-    static zfbool callbackPathGet(ZF_IN_OUT zfstring &path,
-                                  ZF_IN const zfchar *pathData)
+    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
+                                      ZF_IN_OUT zfstring &fileName)
     {
         return zffalse;
     }
-    static zfbool callbackPathSet(ZF_IN_OUT zfstring &pathData,
-                                  ZF_IN const zfchar *path)
+    static zfbool callbackToChild(ZF_IN const zfchar *pathData,
+                                  ZF_IN_OUT zfstring &pathDataChild,
+                                  ZF_IN const zfchar *childName)
+    {
+        return zffalse;
+    }
+    static zfbool callbackToParent(ZF_IN const zfchar *pathData,
+                                   ZF_IN_OUT zfstring &pathDataParent)
     {
         return zffalse;
     }
@@ -192,8 +199,9 @@ public:
 ZFPATHTYPE_FILEIO_REGISTER(text, ZFPathType_text
         , _ZFP_ZFPathType_text::callbackIsExist
         , _ZFP_ZFPathType_text::callbackIsDir
-        , _ZFP_ZFPathType_text::callbackPathGet
-        , _ZFP_ZFPathType_text::callbackPathSet
+        , _ZFP_ZFPathType_text::callbackGetFileName
+        , _ZFP_ZFPathType_text::callbackToChild
+        , _ZFP_ZFPathType_text::callbackToParent
         , _ZFP_ZFPathType_text::callbackPathCreate
         , _ZFP_ZFPathType_text::callbackRemove
         , _ZFP_ZFPathType_text::callbackFindFirst
