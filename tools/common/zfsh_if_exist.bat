@@ -16,6 +16,6 @@ if not exist "%SCRIPT_FILE%" (
     exit /b 0
 )
 
-for /f "tokens=1,* delims= " %%a in ("%*") do set ALL_VAR=%%b
+for /f "tokens=1,* delims= " %%a in ("%*") do set ALL_VAR=%%a
 call "%WORK_DIR%\zfsh.bat" "%SCRIPT_FILE%" %ALL_VAR%
 

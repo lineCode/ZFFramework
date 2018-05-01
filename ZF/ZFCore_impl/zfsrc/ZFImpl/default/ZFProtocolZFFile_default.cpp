@@ -218,8 +218,8 @@ public:
             tmp += ZFFileSeparator();
             tmp += '*';
             nativeFd->hFind = FindFirstFileW(
-                &(nativeFd->fd),
-                ZFStringZ2W(tmp.cString()));
+                ZFStringZ2W(tmp.cString()),
+                &(nativeFd->fd));
             if(nativeFd->hFind == INVALID_HANDLE_VALUE) {break;}
 
             nativeFd->setup(fd);

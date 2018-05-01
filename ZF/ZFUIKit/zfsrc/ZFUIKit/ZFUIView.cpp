@@ -1096,14 +1096,10 @@ void ZFUIView::objectOnDeallocPrepare(void)
     { // directly remove all children, better performance
         this->implChildOnRemoveAllForDealloc();
 
-        ZFCoreArrayPOD<ZFUIView *> layerNormal = d->layerNormal.views;
-        d->layerNormal.views = ZFCoreArrayPOD<ZFUIView *>();
-        ZFCoreArrayPOD<ZFUIView *> layerInternalFg = d->layerInternalFg.views;
-        d->layerInternalFg.views = ZFCoreArrayPOD<ZFUIView *>();
-        ZFCoreArrayPOD<ZFUIView *> layerInternalBg = d->layerInternalBg.views;
-        d->layerInternalBg.views = ZFCoreArrayPOD<ZFUIView *>();
-        ZFCoreArrayPOD<ZFUIView *> layerInternalImpl = d->layerInternalImpl.views;
-        d->layerInternalImpl.views = ZFCoreArrayPOD<ZFUIView *>();
+        ZFCoreArrayPOD<ZFUIView *> &layerNormal = d->layerNormal.views;
+        ZFCoreArrayPOD<ZFUIView *> &layerInternalFg = d->layerInternalFg.views;
+        ZFCoreArrayPOD<ZFUIView *> &layerInternalBg = d->layerInternalBg.views;
+        ZFCoreArrayPOD<ZFUIView *> &layerInternalImpl = d->layerInternalImpl.views;
 
         for(zfindex i = layerNormal.count() - 1; i != zfindexMax(); --i)
         {
@@ -1138,6 +1134,10 @@ void ZFUIView::objectOnDeallocPrepare(void)
             zfRelease(child);
         }
 
+        layerNormal.removeAll();
+        layerInternalFg.removeAll();
+        layerInternalBg.removeAll();
+        layerInternalImpl.removeAll();
         this->viewChildOnChange();
     }
     else

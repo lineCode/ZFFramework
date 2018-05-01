@@ -9,7 +9,6 @@
  * ====================================================================== */
 #include "ZFStyleable.h"
 #include "ZFObjectImpl.h"
-#include "ZFObjectUtil.h"
 #include "ZFClassUtil.h"
 #include "ZFPropertyUtil.h"
 #include "ZFListenerDeclare.h"
@@ -297,6 +296,13 @@ ZFINTERFACE_ON_DEALLOC_DEFINE(ZFStyleable)
     {
         zffree(_ZFP_styleKey->styleKey);
         _ZFP_styleKey->styleKey = zfnull;
+        if(!_ZFP_styleKey->stylePropertyKeyMap.empty())
+        {
+            ZFObjectGlobalEventObserver().observerRemove(
+                ZFGlobalEvent::EventZFStyleOnChange(),
+                ZF_GLOBAL_INITIALIZER_INSTANCE(ZFStylePropertyChangeDataHolder)->stylePropertyOnChangeListener,
+                this->toObject()->objectHolder());
+        }
         zfpoolDelete(_ZFP_styleKey);
     }
 }

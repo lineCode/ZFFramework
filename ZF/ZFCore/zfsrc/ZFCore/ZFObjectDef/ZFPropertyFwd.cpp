@@ -36,6 +36,12 @@ void ZFPropertyCallbackValueGetChange(ZF_IN const ZFProperty *property,
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackValueGet = callback;
 }
+void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
+                                        ZF_IN ZFPropertyCallbackValueReset callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackValueReset = callback;
+}
 void ZFPropertyCallbackCompareChange(ZF_IN const ZFProperty *property,
                                      ZF_IN ZFPropertyCallbackCompare callback)
 {

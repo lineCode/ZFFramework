@@ -78,7 +78,7 @@ public:
     /**
      * @brief list adapter, no auto retain
      */
-    ZFPROPERTY_ASSIGN(ZFUIListAdapter *, listAdapter)
+    ZFPROPERTY_WEAK(ZFUIListAdapter *, listAdapter)
     ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIListAdapter *, listAdapter);
     /**
      * @brief set and retain the list adapter

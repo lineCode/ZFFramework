@@ -16,10 +16,8 @@ exit /b 1
 
 rem ============================================================
 rem Qt
->nul 2>&1 (
-    for /f "tokens=*" %%i in ('dir /a:d /s /b "%PROJ_ROOT%\build-*"') do (
-        rmdir /s/q %%i >nul 2>&1
-    )
+for /f "tokens=*" %%i in ('dir /a:d /s /b "%PROJ_ROOT%\build-*"') do (
+    rmdir /s/q %%i >nul 2>&1
 )
 
 del /f/s/q "%PROJ_ROOT%\*.pro.user" >nul 2>&1

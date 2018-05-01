@@ -16,10 +16,8 @@ exit /b 1
 
 rem ============================================================
 rem iOS
->nul 2>&1 (
-    for /f "tokens=*" %%i in ('dir /a/d /b /s "%PROJ_ROOT%\xcuserdata*"') do (
-        rmdir /s/q %%i >nul 2>&1
-    )
+for /f "tokens=*" %%i in ('dir /a/d /b /s "%PROJ_ROOT%\xcuserdata*" 2^>nul') do (
+    rmdir /s/q %%i >nul 2>&1
 )
 
 del /f/s/q "%PROJ_ROOT%\*.DS_Store" >nul 2>&1

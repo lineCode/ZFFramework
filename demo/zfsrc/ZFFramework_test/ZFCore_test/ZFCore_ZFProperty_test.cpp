@@ -24,6 +24,9 @@ public:
     ZFPROPERTY_ASSIGN(zfstring, propertyAssign)
     ZFPROPERTY_ASSIGN_READONLY(zfstring, propertyAssignReadonly, ZFPropertyNoInitValue)
 
+    // weak
+    ZFPROPERTY_WEAK(ZFObject *, propertyWeak)
+
     // custom callback
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFObject *, propertyRetain)
     {
@@ -150,6 +153,14 @@ protected:
             p->propertyAssignReadonlySet(zfstring());
 #endif
             zfLogT() << p->propertyAssignReadonly();
+
+            // weak
+            {
+                zfblockedAlloc(ZFObject, value);
+                p->propertyWeakSet(value);
+                zfLogT() << p->propertyWeak();
+            }
+            zfLogT() << p->propertyWeak();
 
             // copy
             this->testCaseOutputSeparator();

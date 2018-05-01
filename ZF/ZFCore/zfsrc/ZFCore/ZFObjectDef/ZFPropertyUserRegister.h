@@ -137,6 +137,14 @@ public:
         _ZFP_I_PropURDIVH *holder = _ZFP_valueHolderAccess(property, ownerObj);
         return &(holder->retainValueHolder);
     }
+    /** @brief default impl for #ZFPropertyUserRegisterRetain */
+    static void callbackValueReset(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
+    {
+        zfCoreMutexLocker();
+        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        key += property->propertyName();
+        ownerObj->tagRemove(key);
+    }
 private:
     static _ZFP_I_PropURDIVH *_ZFP_valueHolderAccess(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
@@ -242,6 +250,14 @@ public:
         _ZFP_I_PropURDIVH *holder = _ZFP_valueHolderAccess(property, ownerObj);
         return holder->v;
     }
+    /** @brief default impl for #ZFPropertyUserRegisterRetain */
+    static void callbackValueReset(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
+    {
+        zfCoreMutexLocker();
+        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        key += property->propertyName();
+        ownerObj->tagRemove(key);
+    }
 private:
     static _ZFP_I_PropURDIVH *_ZFP_valueHolderAccess(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
@@ -306,6 +322,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     ( \
         zftrue \
@@ -320,6 +337,7 @@ private:
         , Func_ZFPropertyCallbackIsInitValue \
         , _ZFP_propCbDValueSet<zfautoObject, Type> \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
         , _ZFP_propCbDCompare<zfautoObject> \
         , _ZFP_propCbDGetInfo<zfautoObject> \
         , _ZFP_propCbDValueStore<zfautoObject> \
@@ -339,6 +357,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     ( \
         zftrue \
@@ -353,6 +372,7 @@ private:
         , Func_ZFPropertyCallbackIsInitValue \
         , _ZFP_propCbDValueSet<Type, Type> \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
         , _ZFP_propCbDCompare<Type> \
         , _ZFP_propCbDGetInfo<Type> \
         , _ZFP_propCbDValueStore<Type> \
@@ -374,6 +394,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     const ZFProperty *resultProperty = zfnull; \
     { \
@@ -398,6 +419,7 @@ private:
                 , Func_ZFPropertyCallbackIsValueAccessed \
                 , Func_ZFPropertyCallbackIsInitValue \
                 , Func_ZFPropertyCallbackValueGet \
+                , Func_ZFPropertyCallbackValueReset \
             ); \
     } \
     ZFUNUSED(resultProperty)
@@ -413,6 +435,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     zfclassNotPOD _ZFP_PropURMH_##ownerClassSig##_##propertyNameSig \
     { \
@@ -445,6 +468,7 @@ private:
             , Func_ZFPropertyCallbackIsValueAccessed \
             , Func_ZFPropertyCallbackIsInitValue \
             , Func_ZFPropertyCallbackValueGet \
+            , Func_ZFPropertyCallbackValueReset \
         );
 
 // ============================================================
@@ -459,6 +483,7 @@ private:
  *   static zfbool myCallbackIsValueAccessed(ZF_IN const ZFProperty *, ZF_IN ZFObject *ownerObj) {...}
  *   static zfbool myCallbackIsInitValue(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj, ZF_OUT_OPT void *outInitValue) {...}
  *   static const void *myCallbackValueGet(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj) {...}
+ *   static void myCallbackValueReset(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj) {...}
  *
  *   // register it, using ZF_GLOBAL_INITIALIZER_INIT is recommended
  *   ZF_GLOBAL_INITIALIZER_INIT(MyPropertyRegister)
@@ -471,6 +496,7 @@ private:
  *           , myCallbackIsValueAccessed
  *           , myCallbackIsInitValue
  *           , myCallbackValueGet
+ *           , myCallbackValueReset
  *           );
  *       _property = resultProperty;
  *       zfLogTrimT() << resultProperty;
@@ -491,6 +517,7 @@ private:
  *       , myCallbackIsValueAccessed
  *       , myCallbackIsInitValue
  *       , myCallbackValueGet
+ *       , myCallbackValueReset
  *       )
  *
  *   // or, if you simply want to register a raw value,
@@ -503,6 +530,7 @@ private:
  *       ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackIsValueAccessed,
  *       ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackIsInitValue,
  *       ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackValueGet
+ *       ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackValueReset
  *       )
  * @endcode
  *
@@ -527,6 +555,7 @@ private:
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackIsValueAccessed \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackIsInitValue \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackValueGet \
+        , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackValueReset \
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPropertyUserRegisterRetainDetail(resultProperty, ownerClass, \
@@ -537,6 +566,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     _ZFP_ZFPropertyUserRegister(resultProperty, ownerClass, \
         Type, propertyNameString, InitValueOrEmpty, \
@@ -549,6 +579,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPROPERTY_USER_REGISTER_RETAIN(ownerClassSig, \
@@ -563,6 +594,7 @@ private:
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackIsValueAccessed \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackIsInitValue \
         , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackValueGet \
+        , ZFPropertyUserRegisterDefaultImplRetain<Type>::callbackValueReset \
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPROPERTY_USER_REGISTER_RETAIN_DETAIL(ownerClassSig, \
@@ -573,6 +605,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     _ZFP_ZFPROPERTY_USER_REGISTER(ownerClassSig, \
         Type, propertyNameSig, InitValueOrEmpty, \
@@ -585,6 +618,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     )
 
 // ============================================================
@@ -601,6 +635,7 @@ private:
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackIsValueAccessed \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackIsInitValue \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackValueGet \
+        , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackValueReset \
     )
 /** @brief see #ZFPropertyUserRegisterRetain */
 #define ZFPropertyUserRegisterAssignDetail(resultProperty, ownerClass, \
@@ -611,6 +646,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     _ZFP_ZFPropertyUserRegister(resultProperty, ownerClass, \
         Type, propertyNameString, InitValueOrEmpty, \
@@ -623,6 +659,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     )
 /** @brief see #ZFPropertyUserRegisterAssign */
 #define ZFPROPERTY_USER_REGISTER_ASSIGN(ownerClassSig, \
@@ -637,6 +674,7 @@ private:
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackIsValueAccessed \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackIsInitValue \
         , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackValueGet \
+        , ZFPropertyUserRegisterDefaultImplAssign<Type>::callbackValueReset \
     )
 /** @brief see #ZFPropertyUserRegisterAssign */
 #define ZFPROPERTY_USER_REGISTER_ASSIGN_DETAIL(ownerClassSig, \
@@ -647,6 +685,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     ) \
     _ZFP_ZFPROPERTY_USER_REGISTER(ownerClassSig, \
         Type, propertyNameSig, InitValueOrEmpty, \
@@ -659,6 +698,7 @@ private:
         , Func_ZFPropertyCallbackIsValueAccessed \
         , Func_ZFPropertyCallbackIsInitValue \
         , Func_ZFPropertyCallbackValueGet \
+        , Func_ZFPropertyCallbackValueReset \
     )
 
 // ============================================================

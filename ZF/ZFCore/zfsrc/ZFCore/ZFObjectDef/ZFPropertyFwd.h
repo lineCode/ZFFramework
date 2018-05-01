@@ -79,6 +79,15 @@ extern ZF_ENV_EXPORT void ZFPropertyCallbackValueGetChange(ZF_IN const ZFPropert
                                                            ZF_IN ZFPropertyCallbackValueGet callback);
 
 /**
+ * @brief used to reset the property to its init state
+ */
+typedef void (*ZFPropertyCallbackValueReset)(ZF_IN const ZFProperty *property,
+                                             ZF_IN ZFObject *ownerObj);
+/** @brief change default impl for #ZFPropertyCallbackValueReset, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
+                                                             ZF_IN ZFPropertyCallbackValueReset callback);
+
+/**
  * @brief used to compare property's value
  *
  * usage:

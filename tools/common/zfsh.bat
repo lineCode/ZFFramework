@@ -68,7 +68,7 @@ for /f "tokens=*" %%a in (%ZFSH_PATH%) do (
     echo !line!>>"%TMP_PATH%"
 )
 
-for /f "tokens=1,* delims= " %%a in ("%*") do set ALL_BUT_FIRST=%%b
+for /f "tokens=1,* delims= " %%a in ("%*") do set ALL_BUT_FIRST=%%a
 call "%TMP_PATH%" %ALL_BUT_FIRST%
 set RESULT=%errorlevel%
 del /f/s/q "%TMP_PATH%" >nul 2>&1

@@ -41,6 +41,7 @@ ZFProperty::ZFProperty(void)
 , callbackIsInitValue(zfnull)
 , callbackValueSet(zfnull)
 , callbackValueGet(zfnull)
+, callbackValueReset(zfnull)
 , callbackCompare(zfnull)
 , callbackGetInfo(zfnull)
 , callbackValueStore(zfnull)
@@ -214,6 +215,7 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
                                     , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                     , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
                                     , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
+                                    , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
                                     , ZF_IN ZFPropertyCallbackCompare callbackCompare
                                     , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
                                     , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
@@ -236,6 +238,7 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
     zfCoreAssert(callbackIsInitValue != zfnull);
     zfCoreAssert(callbackValueSet != zfnull);
     zfCoreAssert(callbackValueGet != zfnull);
+    zfCoreAssert(callbackValueReset != zfnull);
     zfCoreAssert(callbackCompare != zfnull);
     zfCoreAssert(callbackGetInfo != zfnull);
     zfCoreAssert(callbackValueStore != zfnull);
@@ -271,6 +274,7 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
         propertyInfo->callbackIsInitValue = callbackIsInitValue;
         propertyInfo->callbackValueSet = callbackValueSet;
         propertyInfo->callbackValueGet = callbackValueGet;
+        propertyInfo->callbackValueReset = callbackValueReset;
         propertyInfo->callbackCompare = callbackCompare;
         propertyInfo->callbackGetInfo = callbackGetInfo;
         propertyInfo->callbackValueStore = callbackValueStore;

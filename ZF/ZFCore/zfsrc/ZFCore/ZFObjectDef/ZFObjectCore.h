@@ -742,10 +742,8 @@ public:
     virtual void objectIsInternalSet(ZF_IN zfbool value);
 
 public:
-    zffinal void _ZFP_ZFObject_objectPropertyValueAttach(ZF_IN const ZFProperty *property,
-                                                         ZF_IN zfbool firstTimeAccess);
-    zffinal void _ZFP_ZFObject_objectPropertyValueDetach(ZF_IN const ZFProperty *property,
-                                                         ZF_IN zfbool completeDetach);
+    zffinal void _ZFP_ZFObject_objectPropertyValueAttach(ZF_IN const ZFProperty *property);
+    zffinal void _ZFP_ZFObject_objectPropertyValueDetach(ZF_IN const ZFProperty *property);
     zffinal inline void _ZFP_ZFObject_objectPropertyValueOnUpdate(ZF_IN const ZFProperty *property, ZF_IN const void *oldValue)
     {
         this->objectPropertyValueOnUpdate(property, oldValue);

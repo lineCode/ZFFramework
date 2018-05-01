@@ -361,7 +361,7 @@ void ZFObject::_ZFP_ZFObjectDealloc(ZFObject *obj)
     for(zfstlsize i = obj->d->propertyAccessed.size() - 1; i != (zfstlsize)-1; --i)
     {
         const ZFProperty *property = obj->d->propertyAccessed[i];
-        property->_ZFP_ZFProperty_callbackDealloc(obj, property);
+        property->_ZFP_ZFProperty_callbackDealloc(property, obj);
     }
     obj->d->objectInstanceState = ZFObjectInstanceStateOnDealloc;
     obj->objectOnDealloc();
@@ -465,25 +465,17 @@ void ZFObject::objectIsInternalSet(ZF_IN zfbool value)
     }
 }
 
-void ZFObject::_ZFP_ZFObject_objectPropertyValueAttach(ZF_IN const ZFProperty *property,
-                                                       ZF_IN zfbool firstTimeAccess)
+void ZFObject::_ZFP_ZFObject_objectPropertyValueAttach(ZF_IN const ZFProperty *property)
 {
-    if(firstTimeAccess)
-    {
-        d->propertyAccessed.push_back(property);
-    }
+    d->propertyAccessed.push_back(property);
 }
-void ZFObject::_ZFP_ZFObject_objectPropertyValueDetach(ZF_IN const ZFProperty *property,
-                                                       ZF_IN zfbool completeDetach)
+void ZFObject::_ZFP_ZFObject_objectPropertyValueDetach(ZF_IN const ZFProperty *property)
 {
-    if(completeDetach)
+    for(zfstlsize i = d->propertyAccessed.size() - 1; i != (zfstlsize)-1; --i)
     {
-        for(zfstlsize i = d->propertyAccessed.size() - 1; i != (zfstlsize)-1; --i)
+        if(d->propertyAccessed[i] == property)
         {
-            if(d->propertyAccessed[i] == property)
-            {
-                d->propertyAccessed.erase(d->propertyAccessed.begin() + i);
-            }
+            d->propertyAccessed.erase(d->propertyAccessed.begin() + i);
         }
     }
 }

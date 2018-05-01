@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 zfclassFwd ZFProperty;
-typedef void (*_ZFP_ZFPropertyCallbackDealloc)(ZF_IN ZFObject *owner, ZF_IN const ZFProperty *property);
+typedef void (*_ZFP_ZFPropertyCallbackDealloc)(ZF_IN const ZFProperty *property, ZF_IN ZFObject *owner);
 /**
  * @brief info for a property for ZFObject, see #ZFPROPERTY_RETAIN for more info
  */
@@ -145,6 +145,8 @@ public:
     ZFPropertyCallbackValueSet callbackValueSet;
     /** @brief see #ZFPropertyCallbackValueGet */
     ZFPropertyCallbackValueGet callbackValueGet;
+    /** @brief see #ZFPropertyCallbackValueReset */
+    ZFPropertyCallbackValueReset callbackValueReset;
     /** @brief see #ZFPropertyCallbackCompare */
     ZFPropertyCallbackCompare callbackCompare;
     /** @brief see #ZFPropertyCallbackGetInfo */
@@ -228,6 +230,7 @@ extern ZF_ENV_EXPORT ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIs
                                                          , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                                          , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
                                                          , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
+                                                         , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
                                                          , ZF_IN ZFPropertyCallbackCompare callbackCompare
                                                          , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
                                                          , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
@@ -253,6 +256,7 @@ public:
                                   , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                   , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
                                   , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
+                                  , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
                                   , ZF_IN ZFPropertyCallbackCompare callbackCompare
                                   , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
                                   , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
@@ -273,6 +277,7 @@ public:
                                            , callbackIsInitValue
                                            , callbackValueSet
                                            , callbackValueGet
+                                           , callbackValueReset
                                            , callbackCompare
                                            , callbackGetInfo
                                            , callbackValueStore

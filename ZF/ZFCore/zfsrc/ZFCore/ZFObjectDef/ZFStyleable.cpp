@@ -9,7 +9,6 @@
  * ====================================================================== */
 #include "ZFStyleable.h"
 #include "ZFObjectImpl.h"
-#include "ZFObjectUtil.h"
 #include "ZFClassUtil.h"
 #include "ZFPropertyUtil.h"
 #include "ZFListenerDeclare.h"

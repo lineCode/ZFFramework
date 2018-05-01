@@ -26,7 +26,10 @@
 #include "ZFCallbackSerializable.h"
 #include "ZFObjectSmartPointer.h"
 #include "ZFCoreType_IODef.h"
+#include "ZFPointerHolder.h"
+#include "ZFTypeHolder.h"
 #include "ZFObjectHolder.h"
+#include "ZFObjectUtil.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

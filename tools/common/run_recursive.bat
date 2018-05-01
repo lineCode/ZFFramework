@@ -23,8 +23,8 @@ set ZF_EXCLUDE_TMP=%ZF_EXCLUDE%
 set ZF_EXCLUDE_TMP=%ZF_EXCLUDE_TMP% private
 
 rem ============================================================
-for /f "tokens=2,* delims= " %%a in ("%*") do set ALL_VAR=%%b
-for /f "tokens=*" %%f in ('dir /a-d/s/b %SRC_DIR%\%FILE_NAME%') do (
+for /f "tokens=2,* delims= " %%a in ("%*") do set ALL_VAR=%%a
+for /f "tokens=*" %%f in ('dir /a-d/s/b %SRC_DIR%\%FILE_NAME% 2^>nul') do (
     call :run_with_filter %%f
 )
 
