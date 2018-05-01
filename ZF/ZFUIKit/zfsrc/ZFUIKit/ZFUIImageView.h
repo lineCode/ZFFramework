@@ -47,14 +47,13 @@ public:
     ZFPROPERTY_RETAIN(ZFUIImage *, image)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, image);
     ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIImage *, image);
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIImage *, image);
 
     /**
      * @brief image scale type, fill by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIContentScaleTypeEnum, imageScaleType,
                                 ZFUIContentScaleType::EnumDefault())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIContentScaleTypeEnum, imageScaleType)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIContentScaleTypeEnum, imageScaleType)
     {
         this->layoutRequest();
     }
@@ -63,7 +62,7 @@ public:
      * @brief margin of the content image
      */
     ZFPROPERTY_ASSIGN(ZFUIMargin, imageMargin)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIMargin, imageMargin)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIMargin, imageMargin)
     {
         this->nativeImplViewMarginUpdate();
     }

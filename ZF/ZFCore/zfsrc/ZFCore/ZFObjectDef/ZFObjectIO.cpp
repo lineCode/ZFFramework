@@ -75,7 +75,7 @@ void _ZFP_ZFObjectIOUnregister(ZF_IN const zfchar *registerSig)
                 {
                     m.erase(it);
                 }
-                break;
+                return ;
             }
         }
     }

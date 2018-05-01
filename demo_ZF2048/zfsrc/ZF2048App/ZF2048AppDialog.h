@@ -28,7 +28,7 @@ zfclass ZF2048AppDialog : zfextends ZFUIDialog
     }
 
     ZFPROPERTY_ASSIGN(zfstring, dialogTitle)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfstring, dialogTitle);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, dialogTitle);
 
     ZFPROPERTY_RETAIN(ZFUIView *, dialogContent)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIView *, dialogContent);

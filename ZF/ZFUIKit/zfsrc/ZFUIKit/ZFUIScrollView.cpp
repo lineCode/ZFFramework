@@ -631,37 +631,37 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIScrollView, ScrollAutoScrollOnStart)
 ZFOBSERVER_EVENT_REGISTER(ZFUIScrollView, ScrollAutoScrollOnStop)
 ZFOBSERVER_EVENT_REGISTER(ZFUIScrollView, ScrollOnScrolledByUser)
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollEnable)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollEnable)
 {
     d->xScrollEnable = this->scrollEnable();
     d->yScrollEnable = this->scrollEnable();
     ZFPROTOCOL_ACCESS(ZFUIScrollView)->scrollViewScrollEnableSet(this, this->scrollEnable());
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollBounceHorizontal)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollBounceHorizontal)
 {
     d->scrollBounceChanged();
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollBounceVertical)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollBounceVertical)
 {
     d->scrollBounceChanged();
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollBounceHorizontalAlways)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollBounceHorizontalAlways)
 {
     d->scrollBounceChanged();
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollBounceVerticalAlways)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollBounceVerticalAlways)
 {
     d->scrollBounceChanged();
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollAlignToPageHorizontal)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollAlignToPageHorizontal)
 {
     d->scrollAlignToPageChanged();
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, zfbool, scrollAlignToPageVertical)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollAlignToPageVertical)
 {
     d->scrollAlignToPageChanged();
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIScrollView, ZFUIRect, scrollContentFrame)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, ZFUIRect, scrollContentFrame)
 {
     if(d->xScroll->scrollContentOffset() != propertyValueOld.point.x
         || d->xScroll->scrollContentSize() != propertyValue.size.width)

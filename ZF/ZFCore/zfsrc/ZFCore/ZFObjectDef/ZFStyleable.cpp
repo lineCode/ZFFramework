@@ -307,6 +307,15 @@ static zfstlmap<zfstlstringZ, zfautoObject> &_ZFP_ZFStyleHolder(void)
     static zfstlmap<zfstlstringZ, zfautoObject> d;
     return d;
 }
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleCleanup, ZFLevelZFFrameworkHigh)
+{
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFStyleCleanup)
+{
+    _ZFP_ZFStyleHolder().clear();
+}
+ZF_GLOBAL_INITIALIZER_END(ZFStyleCleanup)
+
 void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue)
 {
     if(styleValue)

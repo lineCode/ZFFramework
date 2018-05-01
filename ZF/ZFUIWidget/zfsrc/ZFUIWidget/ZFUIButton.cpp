@@ -390,11 +390,11 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIButton, ButtonMouseOnMoveOutside)
 ZFOBSERVER_EVENT_REGISTER(ZFUIButton, ButtonMouseOnUpInside)
 ZFOBSERVER_EVENT_REGISTER(ZFUIButton, ButtonMouseOnUp)
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIButton, zfbool, buttonEnable)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIButton, zfbool, buttonEnable)
 {
     d->buttonEnableSet(this->buttonEnable());
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIButton, zfbool, buttonCheckable)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIButton, zfbool, buttonCheckable)
 {
     if(!this->buttonCheckable() && this->buttonChecked())
     {
@@ -408,7 +408,7 @@ ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIButton, zfbool, buttonChecked)
         propertyValue = zffalse;
     }
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIButton, zfbool, buttonChecked)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIButton, zfbool, buttonChecked)
 {
     if(this->buttonEnable())
     {

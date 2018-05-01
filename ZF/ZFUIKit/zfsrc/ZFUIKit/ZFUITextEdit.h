@@ -165,22 +165,22 @@ public:
      * @brief whether the text is editable, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, textEditEnable, zftrue)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, textEditEnable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, textEditEnable);
     /**
      * @brief whether the text is secured, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, textEditSecured)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, textEditSecured);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, textEditSecured);
     /**
      * @brief keyboard hint, see #ZFUITextEditKeyboardType, #ZFUITextEditKeyboardType::EnumDefault by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextEditKeyboardTypeEnum, textEditKeyboardType, ZFUITextEditKeyboardType::EnumDefault())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUITextEditKeyboardTypeEnum, textEditKeyboardType);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextEditKeyboardTypeEnum, textEditKeyboardType);
     /**
      * @brief keyboard hint, see #ZFUITextEditKeyboardReturnType, #ZFUITextEditKeyboardReturnType::EnumDefault by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextEditKeyboardReturnTypeEnum, textEditKeyboardReturnType, ZFUITextEditKeyboardReturnType::EnumDefault())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUITextEditKeyboardReturnTypeEnum, textEditKeyboardReturnType);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextEditKeyboardReturnTypeEnum, textEditKeyboardReturnType);
     /**
      * @brief action to perform when click return, see #ZFUITextEditKeyboardReturnAction, #ZFUITextEditKeyboardReturnAction::EnumDefault by default
      */
@@ -207,14 +207,14 @@ public:
      * @note null or empty text would always treated as match for safe
      */
     ZFPROPERTY_RETAIN(ZFRegExp *, textEditFilter)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFRegExp *, textEditFilter);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFRegExp *, textEditFilter);
 
     /**
      * @brief text edit's cursor position
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfindexRange, textSelectRange, zfindexRangeZero())
     ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfindexRange, textSelectRange);
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfindexRange, textSelectRange);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfindexRange, textSelectRange);
 
     /**
      * @brief whether #textEditNotifyConfirm when lost focus, true by default
@@ -227,7 +227,7 @@ public:
      */
     ZFPROPERTY_ASSIGN(zfstring, text)
     ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFString *, text);
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFString *, text);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFString *, text);
 
     /**
      * @brief text appearance, #ZFUIGlobalStyle::textAppearance by default
@@ -236,7 +236,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextAppearanceEnum, textAppearance,
                                 ZFUIGlobalStyle::DefaultStyle()->textAppearance())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUITextAppearanceEnum, textAppearance);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextAppearanceEnum, textAppearance);
 
     /**
      * @brief text alignment, #ZFUIGlobalStyle::textAlign by default
@@ -246,14 +246,14 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIAlignFlags, textAlign,
                                 ZFUIGlobalStyle::DefaultStyle()->textAlign())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIAlignFlags, textAlign);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIAlignFlags, textAlign);
 
     /**
      * @brief text color, #ZFUIGlobalStyle::textColorDefault by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textColor,
                                 ZFUIGlobalStyle::DefaultStyle()->textColorDefault())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIColor, textColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textColor);
 
     /**
      * @brief text shadow color, #ZFUIColorTransparent by default, use transparent to disable text shadow
@@ -262,7 +262,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textShadowColor,
                                 ZFUIColorTransparent())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIColor, textShadowColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textShadowColor);
 
     /**
      * @brief text shadow offset, (1, 1) by default
@@ -271,14 +271,14 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, textShadowOffset,
                                 (ZFUISizeMake(1, 1)))
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, textShadowOffset);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, textShadowOffset);
 
     /**
      * @brief text size in pixel, #ZFUIGlobalStyle::textSizeNormal by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSize,
                                 ZFUIGlobalStyle::DefaultStyle()->textSizeNormal())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfint, textSize);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSize);
 
 public:
     /**

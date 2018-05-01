@@ -1380,9 +1380,8 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIListView, ListCellOnDetach)
 ZFOBSERVER_EVENT_REGISTER(ZFUIListView, ListVisibleCellOnChange)
 
 #define _ZFP_ZFUIListView_listAdapterHolderTag zfText("_ZFP_ZFUIListView_listAdapterHolderTag")
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIListView, ZFUIListAdapter *, listAdapter)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, ZFUIListAdapter *, listAdapter)
 {
-    d->listAdapterBeforeDetach();
     d->listAdapter = this->listAdapter();
     d->listAdapterAfterAttach();
 
@@ -1390,6 +1389,11 @@ ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIListView, ZFUIListAdapter *, listAdapte
     {
         this->listReload();
     }
+}
+ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIListView, ZFUIListAdapter *, listAdapter)
+{
+    d->listAdapterBeforeDetach();
+    d->listAdapter = zfnull;
     this->tagRemove(_ZFP_ZFUIListView_listAdapterHolderTag);
 }
 ZFMETHOD_DEFINE_1(ZFUIListView, void, listAdapterSetAutoRetain,
@@ -1401,7 +1405,7 @@ ZFMETHOD_DEFINE_1(ZFUIListView, void, listAdapterSetAutoRetain,
     zfRelease(listAdapter);
 }
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIListView, ZFUIOrientationEnum, listOrientation)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, ZFUIOrientationEnum, listOrientation)
 {
     if(this->listOrientation() != propertyValueOld)
     {
@@ -1410,14 +1414,14 @@ ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIListView, ZFUIOrientationEnum, listOrie
         this->listReload();
     }
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIListView, zfint, cellSizeHint)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, zfint, cellSizeHint)
 {
     if(this->cellSizeHint() != propertyValueOld)
     {
         this->listReload();
     }
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIListView, zfbool, listBounce)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, zfbool, listBounce)
 {
     if(this->listBounce() != propertyValueOld)
     {

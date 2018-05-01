@@ -277,7 +277,7 @@ public:
      * -  #ZFUIView::layoutOnLayoutFinish
      */
     ZFPROPERTY_ASSIGN(zfstring, viewDelegateClass)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfstring, viewDelegateClass);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, viewDelegateClass);
     /**
      * @brief used to identify a view, empty by default
      *
@@ -293,7 +293,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewVisible,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewVisible);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewVisible);
 
     /**
      * @brief view's alpha, 1 by default
@@ -304,7 +304,7 @@ public:
     {
         propertyValue = zfmApplyRange<zffloat>(propertyValue, 0, 1);
     }
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zffloat, viewAlpha);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zffloat, viewAlpha);
 
     /**
      * @brief whether the view should receive user interaction
@@ -312,7 +312,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewUIEnable,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewUIEnable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewUIEnable);
 
     /**
      * @brief whether the view as well as all its children should receive user interaction,
@@ -320,19 +320,19 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewUIEnableTree,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewUIEnableTree);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewUIEnableTree);
 
     /**
      * @brief whether enable mouse hover event, see #ZFUIView::viewEventOnMouseEvent, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, viewMouseHoverEventEnable)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewMouseHoverEventEnable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewMouseHoverEventEnable);
 
     /**
      * @brief whether the view can be focused, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, viewFocusable)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, viewFocusable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewFocusable);
     /**
      * @brief whether try to obtain focus when clicked down, true by default
      */
@@ -347,25 +347,25 @@ public:
      * if prefered size not set, size hint would be used
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizePrefered, ZFUISizeInvalid())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, viewSizePrefered);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizePrefered);
     /**
      * @brief min size, #ZFUISizeZero by default
      */
     ZFPROPERTY_ASSIGN(ZFUISize, viewSizeMin)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, viewSizeMin);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMin);
     /**
      * @brief max size, negative value means not set, #ZFUISizeInvalid by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizeMax,
                                 ZFUISizeInvalid())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUISize, viewSizeMax);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMax);
 
     /**
      * @brief background color, #ZFUIColorTransparent by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, viewBackgroundColor,
                                 ZFUIColorTransparent())
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIColor, viewBackgroundColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, viewBackgroundColor);
 
     // ============================================================
     // init and dealloc

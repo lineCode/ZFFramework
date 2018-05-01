@@ -346,13 +346,6 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
 #define ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(OwnerClass, Type, Name) \
      _ZFP_ZFPROPERTY_LIFE_CYCLE_OVERRIDE_DEFINE(OwnerClass, Type, Name, OnDetach, ZFM_EXPAND)
 
-/** @brief see #ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE */
-#define ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(Type, Name) \
-     _ZFP_ZFPROPERTY_LIFE_CYCLE_OVERRIDE_DECLARE(Type, Name, OnUpdate, ZFM_EXPAND, ZFM_EMPTY())
-/** @brief see #ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE */
-#define ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(OwnerClass, Type, Name) \
-     _ZFP_ZFPROPERTY_LIFE_CYCLE_OVERRIDE_DEFINE(OwnerClass, Type, Name, OnUpdate, ZFM_EXPAND)
-
 // ============================================================
 template<typename T_ZFObject>
 zfclassNotPOD _ZFP_PropRVH

@@ -25,7 +25,7 @@ public:
     }
 };
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZF2048AppDialog, zfstring, dialogTitle)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048AppDialog, zfstring, dialogTitle)
 {
     d->dialogTitleView->textSet(this->dialogTitle());
 }

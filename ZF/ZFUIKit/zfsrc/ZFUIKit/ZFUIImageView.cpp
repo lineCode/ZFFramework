@@ -47,17 +47,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
     {
         this->image()->observerAdd(ZFObject::EventObjectPropertyValueOnUpdate(), listenerHolder->imageNinePatchChangedListener, this->objectHolder());
     }
-}
-ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
-{
-    ZF_GLOBAL_INITIALIZER_CLASS(ZFUIImageViewListenerHolder) *listenerHolder = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIImageViewListenerHolder);
-    if(this->image() != zfnull)
-    {
-        this->image()->observerRemove(ZFObject::EventObjectPropertyValueOnUpdate(), listenerHolder->imageNinePatchChangedListener);
-    }
-}
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIImageView, ZFUIImage *, image)
-{
+
     ZFPROTOCOL_ACCESS(ZFUIImageView)->imageSet(this,
         this->image() && this->image()->nativeImage()
             ? this->image()
@@ -71,6 +61,14 @@ ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIImageView, ZFUIImage *, image)
             ZFUIMarginApplyScale(image->imageNinePatch(), image->imageScaleFixed()));
     }
     this->layoutRequest();
+}
+ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
+{
+    ZF_GLOBAL_INITIALIZER_CLASS(ZFUIImageViewListenerHolder) *listenerHolder = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIImageViewListenerHolder);
+    if(this->image() != zfnull)
+    {
+        this->image()->observerRemove(ZFObject::EventObjectPropertyValueOnUpdate(), listenerHolder->imageNinePatchChangedListener);
+    }
 }
 
 ZFMETHOD_DEFINE_1(ZFUIImageView, void, measureImageView,

@@ -274,7 +274,7 @@ void ZFUIImage::styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable)
     d->copyFrom(ZFCastZFObjectUnchecked(zfself *, anotherStyleable)->d);
 }
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIImage, zffloat, imageScale)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIImage, zffloat, imageScale)
 {
     d->imageSizeUpdate();
     this->imageScaleOnChange();

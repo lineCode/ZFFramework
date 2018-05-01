@@ -238,21 +238,21 @@ public:
 // ZFUIOnScreenKeyboardAutoFitLayout
 ZFOBJECT_REGISTER(ZFUIOnScreenKeyboardAutoFitLayout)
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIOnScreenKeyboardAutoFitLayout, zfbool, autoFitEnable)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIOnScreenKeyboardAutoFitLayout, zfbool, autoFitEnable)
 {
     if(this->autoFitEnable() != propertyValueOld)
     {
         d->autoFitEnableSet(this->autoFitEnable());
     }
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIOnScreenKeyboardAutoFitLayout, zfbool, autoFitFocusedViewToVisible)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIOnScreenKeyboardAutoFitLayout, zfbool, autoFitFocusedViewToVisible)
 {
     if(this->autoFitFocusedViewToVisible() != propertyValueOld)
     {
         d->autoFitFocusedViewToVisibleSet(this->autoFitFocusedViewToVisible());
     }
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIOnScreenKeyboardAutoFitLayout, zfbool, autoFitScrollEnable)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIOnScreenKeyboardAutoFitLayout, zfbool, autoFitScrollEnable)
 {
     if(this->autoFitFocusedViewToVisible() != propertyValueOld)
     {

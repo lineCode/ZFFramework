@@ -279,7 +279,7 @@ ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIHint, ZFUIView *, hintContent)
         this->hintContent()->viewRemoveFromParent();
     }
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIHint, zfbool, hintWindowAutoResize)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIHint, zfbool, hintWindowAutoResize)
 {
     if(this->hintWindowAutoResize() != propertyValueOld)
     {

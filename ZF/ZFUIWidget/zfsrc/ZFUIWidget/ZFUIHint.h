@@ -117,7 +117,7 @@ public:
      *   true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, hintWindowAutoResize, zftrue)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, hintWindowAutoResize);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, hintWindowAutoResize);
 
 public:
     /**

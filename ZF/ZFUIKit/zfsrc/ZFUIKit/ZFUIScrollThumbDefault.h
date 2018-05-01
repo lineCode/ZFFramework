@@ -39,13 +39,13 @@ public:
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, scrollThumbImageHorizontal,
                                 zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml")))
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIImage *, scrollThumbImageHorizontal);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, scrollThumbImageHorizontal);
     /**
      * @brief vertical scroll thumb image, null to hide it
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, scrollThumbImageVertical,
                                 zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml")))
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFUIImage *, scrollThumbImageVertical);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, scrollThumbImageVertical);
 
     /**
      * @brief delay to auto hide, #ZFUIGlobalStyle::aniDelayNormal by default

@@ -35,7 +35,7 @@ zfclass ZF_ENV_EXPORT ZFObjectCache : zfextends ZFObject
      * @brief whether invoke #cacheTrim when receive #ZFGlobalEvent::EventAppOnReceiveMemoryWarning, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cacheTrimWhenReceiveMemoryWarning, zftrue)
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning);
 
     /**
      * @brief leave how many cache alive while #cacheTrim, 3 by default

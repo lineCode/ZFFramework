@@ -311,11 +311,11 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIDialog, DialogBeforeHide)
 ZFOBSERVER_EVENT_REGISTER(ZFUIDialog, DialogAfterHide)
 ZFOBSERVER_EVENT_REGISTER(ZFUIDialog, DialogFocusOnUpdate)
 
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIDialog, ZFUIColor, dialogWindowColor)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIDialog, ZFUIColor, dialogWindowColor)
 {
     d->dialogWindowBg->viewBackgroundColorSet(this->dialogWindowColor());
 }
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFUIDialog, ZFUIImage *, dialogBackgroundImage)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIDialog, ZFUIImage *, dialogBackgroundImage)
 {
     d->dialogBg->imageSet(this->dialogBackgroundImage());
 }

@@ -96,7 +96,7 @@ public:
 };
 
 // ============================================================
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(ZFObjectCache, zfbool, cacheTrimWhenReceiveMemoryWarning)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFObjectCache, zfbool, cacheTrimWhenReceiveMemoryWarning)
 {
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFObjectCacheDataHolder)->cacheTrimListenerSetup(
         this, this->cacheTrimWhenReceiveMemoryWarning());

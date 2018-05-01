@@ -48,17 +48,12 @@ public:
     {
         zfLogT();
     }
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(ZFObject *, propertyRetain)
-    {
-        zfLogT();
-    }
 
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfstring, propertyAssign);
     ZFPROPERTY_OVERRIDE_ON_DEALLOC_DECLARE(zfstring, propertyAssign);
     ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfstring, propertyAssign);
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, propertyAssign);
     ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_OVERRIDE_ON_UPDATE_DECLARE(zfstring, propertyAssign);
 };
 ZFPROPERTY_OVERRIDE_ON_INIT_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
@@ -77,10 +72,6 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstr
     zfLogT();
 }
 ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
-{
-    zfLogT();
-}
-ZFPROPERTY_OVERRIDE_ON_UPDATE_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {
     zfLogT();
 }

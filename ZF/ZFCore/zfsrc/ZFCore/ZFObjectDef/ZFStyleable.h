@@ -436,6 +436,9 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  *   // attach style
  *   myObject->styleKeySet(ZFPropertyAccess(MyObject, myStyleProperty), zfText("myStyleKey"));
  * @endcode
+ * \n
+ * \n
+ * note, by default, all styles would be cleared during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
  */
 extern ZF_ENV_EXPORT void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue);
 /**
