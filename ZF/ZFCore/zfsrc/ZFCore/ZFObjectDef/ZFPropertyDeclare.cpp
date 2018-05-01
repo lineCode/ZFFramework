@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFPropertyDeclare.h"
 #include "ZFObjectImpl.h"
+#include "ZFListenerDeclare.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
