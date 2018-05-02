@@ -20,4 +20,5 @@ mkdir "%_DST_PARENT%" >nul 2>&1
 >nul 2>&1 (
     more "%SRC_PATH%" >> "%DST_PATH%.tmp"
 )
+move /y "%DST_PATH%.tmp" "%DST_PATH%" >nul 2>&1
 

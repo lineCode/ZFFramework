@@ -6,7 +6,7 @@ set WORK_DIR=%~dp0
 set PROJ_GIT=%~1%
 set GIT_BRANCH=%~2%
 set DST_PATH=%~3%
-for /f "tokens=3,* delims= " %%a in ("%*") do set CLONE_OPTION=%%a
+for /f "tokens=4,* delims= " %%a in ("%*") do set CLONE_OPTION=%%a
 
 if not defined PROJ_GIT goto :usage
 if not defined GIT_BRANCH goto :usage

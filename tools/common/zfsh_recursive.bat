@@ -27,7 +27,7 @@ set ZF_EXCLUDE_TMP=%ZF_EXCLUDE%
 set ZF_EXCLUDE_TMP=%ZF_EXCLUDE_TMP% private zfres _release _tmp
 
 rem ============================================================
-for /f "tokens=2,* delims= " %%a in ("%*") do set ALL_VAR=%%a
+for /f "tokens=3,* delims= " %%a in ("%*") do set ALL_VAR=%%a
 for /f "tokens=*" %%f in ('dir /a-d/s/b %SRC_DIR%\%FILE_NAME% 2^>nul') do (
     call :run_with_filter %%f
     if not "!errorlevel!" == "0" (

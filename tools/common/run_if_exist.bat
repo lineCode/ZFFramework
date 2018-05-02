@@ -16,6 +16,6 @@ if not exist "%SCRIPT_FILE%" (
     exit /b 0
 )
 
-for /f "tokens=1,* delims= " %%a in ("%*") do set ALL_VAR=%%a
+for /f "tokens=2,* delims= " %%a in ("%*") do set ALL_VAR=%%a
 call "%SCRIPT_FILE%" %ALL_VAR%
 

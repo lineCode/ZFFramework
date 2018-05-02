@@ -20,7 +20,7 @@ if not defined TIMESTAMP_FILE_NAME set TIMESTAMP_FILE_NAME=_zf_timestamp_
 call :GetUnixTime _CUR_TIME
 mkdir "%DIR_TO_CHECK%" >nul 2>&1
 echo %_CUR_TIME% > "%DIR_TO_CHECK%\%TIMESTAMP_FILE_NAME%"
-
+>"%DIR_TO_CHECK%\%TIMESTAMP_FILE_NAME%" set /p=%_CUR_TIME%<nul
 
 goto :EOF
 :GetUnixTime

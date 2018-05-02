@@ -7,6 +7,7 @@
 * fix lua operators impl
 * optimize observer performance
 * trim output executable size
+* optimize build script
 
 # 0.1.2 (20180423)
 
