@@ -21,7 +21,7 @@
 ZF_UNITY_BUILD = 1
 
 # ZFFramework's root path
-ZF_ROOT_PATH = $$_PRO_FILE_PWD_/../../../../../../ZFFramework
+ZF_ROOT_PATH = $$clean_path($$_PRO_FILE_PWD_/../../../../../../ZFFramework)
 ZF_TOOLS_PATH = $$ZF_ROOT_PATH/tools
 
 # name of your project

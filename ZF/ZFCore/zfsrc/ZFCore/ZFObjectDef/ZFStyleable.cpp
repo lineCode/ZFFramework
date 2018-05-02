@@ -307,7 +307,7 @@ static zfstlmap<zfstlstringZ, zfautoObject> &_ZFP_ZFStyleHolder(void)
     static zfstlmap<zfstlstringZ, zfautoObject> d;
     return d;
 }
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleCleanup, ZFLevelZFFrameworkHigh)
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleCleanup, ZFLevelZFFrameworkNormal)
 {
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFStyleCleanup)
