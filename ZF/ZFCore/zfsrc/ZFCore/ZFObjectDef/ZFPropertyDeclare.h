@@ -67,6 +67,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *     further more, when the property value deallocated,
  *     the owner object's property value would be set to null,
  *     similar to `weak` logic on Object-C
+ *     @note weak property is always not serializable
  * -  ZFProperty support those type only:
  *   -  ZFObject *
  *   -  all types that registered by #ZFPROPERTY_TYPE_DECLARE
@@ -215,7 +216,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
         /** @brief see @ref Name */ \
         _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name, _ZFP_PropIsWeak) \
-        _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeIdData<zftTraits<Type>::TrNoRef>::PropertyTypeId(), Name, \
+        _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeId_none, Name, \
                                        InitValueOrEmpty, _ZFP_PropIsWeak) \
     public:
 

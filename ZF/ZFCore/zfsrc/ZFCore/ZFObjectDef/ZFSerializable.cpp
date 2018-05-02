@@ -495,7 +495,15 @@ ZFSerializablePropertyType ZFSerializable::serializableOnCheckPropertyType(ZF_IN
     }
     else
     {
-        return ZFSerializablePropertyTypeSerializableProperty;
+        if(zfscmpTheSame(property->propertyTypeId(), ZFPropertyTypeId_none)
+            || property->getterMethod()->methodPrivilegeType() == ZFMethodPrivilegeTypePrivate)
+        {
+            return ZFSerializablePropertyTypeNotSerializable;
+        }
+        else
+        {
+            return ZFSerializablePropertyTypeSerializableProperty;
+        }
     }
 }
 
