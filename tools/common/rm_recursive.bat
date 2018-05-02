@@ -28,3 +28,5 @@ for /f "tokens=*" %%f in ('dir /a-d/s/b %SRC_DIR%\%FILE_NAME% 2^>nul') do (
     rmdir /s/q "%%f" >nul 2>&1
 )
 
+exit /b 0
+
