@@ -5,8 +5,8 @@ DST_PATH=$3
 shift 3
 CLONE_OPTION=$@
 if test "x-$PROJ_GIT" = "x-" || test "x-$DST_PATH" = "x-" ; then
-    echo usage:
-    echo   git_check.sh PROJ_GIT GIT_BRANCH DST_PATH [options]
+    echo "usage:"
+    echo "  git_check.sh PROJ_GIT GIT_BRANCH DST_PATH [options]"
     exit 1
 fi
 if test "x-$CLONE_OPTION" = "x-" ; then

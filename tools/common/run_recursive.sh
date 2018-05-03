@@ -5,10 +5,10 @@ shift 2
 VA_PARAMS=$@
 
 if test "x-$SRC_DIR" = "x-" || test "x-$FILE_NAME" = "x-" ; then
-    echo usage:
-    echo   run_recursive.sh SRC_DIR FILE_NAME [params...]
-    echo set ZF_EXCLUDE to exclude dirs, separated by space, match exact, e.g.
-    echo   export ZF_EXCLUDE=f0 f1
+    echo "usage:"
+    echo "  run_recursive.sh SRC_DIR FILE_NAME [params...]"
+    echo "set ZF_EXCLUDE to exclude dirs, separated by space, match exact, e.g."
+    echo "  export ZF_EXCLUDE=f0 f1"
     exit 1
 fi
 
@@ -25,7 +25,7 @@ done
 _FULL_CMD="${_FULL_CMD}'"
 
 for f in `eval $_FULL_CMD` ; do
-    echo running $f
+    echo "running $f"
     sh "$f" "$WORK_DIR/../.." $VA_PARAMS
     if test ! "$?" = "0" ; then
         exit 1

@@ -4,8 +4,8 @@ shift
 VA_PARAMS=$@
 
 if test "x-$SCRIPT_FILE" = "x-" ; then
-    echo usage:
-    echo   zfsh_if_exist.sh SCRIPT_FILE [...]
+    echo "usage:"
+    echo "  zfsh_if_exist.sh SCRIPT_FILE [...]"
     exit 1
 fi
 

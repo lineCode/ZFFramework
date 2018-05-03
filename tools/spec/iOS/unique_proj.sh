@@ -1,8 +1,8 @@
 WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 PROJ_PATH=$1
 if test "x-$PROJ_PATH" = "x-" ; then
-    echo usage:
-    echo   unique_proj.sh PROJ_PATH
+    echo "usage:"
+    echo "  unique_proj.sh PROJ_PATH"
     exit 1
 fi
 

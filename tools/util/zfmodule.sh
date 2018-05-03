@@ -3,8 +3,8 @@ MODULE_REPO=$1
 MODULE_NAME=$2
 MODULE_BRANCH=$3
 if test "x-$MODULE_REPO" = "x-" ; then
-    echo usage:
-    echo   zfmodule.sh MODULE_REPO [MODULE_NAME MODULE_BRANCH]
+    echo "usage:"
+    echo "  zfmodule.sh MODULE_REPO [MODULE_NAME MODULE_BRANCH]"
     exit 1
 fi
 
@@ -12,7 +12,7 @@ if test "x-$MODULE_NAME" = "x-" ; then
     MODULE_NAME=${MODULE_REPO##*[/\\]}
 fi
 if test "x-$MODULE_NAME" = "x-" ; then
-    echo unable to parse MODULE_NAME
+    echo "unable to parse MODULE_NAME"
     exit 1
 fi
 

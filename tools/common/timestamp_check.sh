@@ -3,11 +3,11 @@ DIR_TO_CHECK=$1
 CHECK_INTERVAL=$2
 TIMESTAMP_FILE_NAME=$3
 if test "x-$DIR_TO_CHECK" = "x-" || test "x-$CHECK_INTERVAL" = "x-" ; then
-    echo usage:
-    echo   timestamp_check.sh DIR_TO_CHECK CHECK_INTERVAL [TIMESTAMP_FILE_NAME]
-    echo return by "$ ?":
-    echo   0: not expired
-    echo   1: expired
+    echo "usage:"
+    echo "  timestamp_check.sh DIR_TO_CHECK CHECK_INTERVAL [TIMESTAMP_FILE_NAME]"
+    echo "return by $ ?:"
+    echo "  0: not expired"
+    echo "  1: expired"
     exit 1
 fi
 

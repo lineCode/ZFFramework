@@ -4,8 +4,8 @@ shift
 SRC_DIRS="$@"
 
 if test "x-$TARGET_FILE" = "x-" || test "x-$SRC_DIRS" = "x-" ; then
-    echo usage:
-    echo   unity_build.sh TARGET_FILE [SRC_DIRS, ...]
+    echo "usage:"
+    echo "  unity_build.sh TARGET_FILE [SRC_DIRS, ...]"
     exit 1
 fi
 

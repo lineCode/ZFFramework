@@ -3,8 +3,8 @@ iOS_SRCROOT=$1
 iOS_CONFIGURATION_BUILD_DIR=$2
 iOS_CONTENTS_FOLDER_PATH=$3
 if test "x-$iOS_SRCROOT" = "x-" || test "x-$iOS_CONFIGURATION_BUILD_DIR" = "x-" || test "x-$iOS_CONFIGURATION_BUILD_DIR" = "x-" ; then
-    echo usage:
-    echo   zfsetup.sh SRCROOT CONFIGURATION_BUILD_DIR CONTENTS_FOLDER_PATH
+    echo "usage:"
+    echo "  zfsetup.sh SRCROOT CONFIGURATION_BUILD_DIR CONTENTS_FOLDER_PATH"
     exit 1
 fi
 

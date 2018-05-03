@@ -12,8 +12,8 @@ if test "x-$PROJ_NAME" = "x-"\
     || test "x-$HEADER_PATH_OR_DUMMY" = "x-"\
     || test "x-$RES_PATH_OR_DUMMY" = "x-"\
     ; then
-    echo usage:
-    echo   aggregate.sh PROJ_NAME RELEASE_PATH BUILD_PATH COCOAPODS_PROJECT_TRUE_OR_FALSE HEADER_PATH_OR_DUMMY RES_PATH_OR_DUMMY
+    echo "usage:"
+    echo "  aggregate.sh PROJ_NAME RELEASE_PATH BUILD_PATH COCOAPODS_PROJECT_TRUE_OR_FALSE HEADER_PATH_OR_DUMMY RES_PATH_OR_DUMMY"
     exit 1
 fi
 

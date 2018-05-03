@@ -2,8 +2,8 @@ WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 DST_PATH=$1
 FILE1_PATH=$2
 if test "x-$DST_PATH" = "x-" || test "x-$FILE1_PATH" = "x-" ; then
-    echo usage:
-    echo   file_merge.sh DST_PATH FILE1_PATH [FILE2_PATH ...]
+    echo "usage:"
+    echo "  file_merge.sh DST_PATH FILE1_PATH [FILE2_PATH ...]"
     exit 1
 fi
 

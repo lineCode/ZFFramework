@@ -3,8 +3,8 @@ PROJ_NAME=$1
 PROJ_PATH=$2
 COCOAPODS_PROJECT_OR_EMPTY=$3
 if test "x-$PROJ_NAME" = "x-" || test "x-$PROJ_PATH" = "x-" ; then
-    echo usage:
-    echo   "ios_aggregate.sh PROJ_NAME PROJ_PATH [COCOAPODS_PROJECT_OR_EMPTY]"
+    echo "usage:"
+    echo "  ios_aggregate.sh PROJ_NAME PROJ_PATH [COCOAPODS_PROJECT_OR_EMPTY]"
     exit 1
 fi
 

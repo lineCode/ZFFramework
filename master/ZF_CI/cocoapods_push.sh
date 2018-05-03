@@ -1,6 +1,6 @@
 WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 if test "x-$ZFCI_COCOAPODS_TOKEN" = "x-" ; then
-    echo ZFCI_COCOAPODS_TOKEN not set
+    echo "ZFCI_COCOAPODS_TOKEN not set"
     exit 1
 fi
 

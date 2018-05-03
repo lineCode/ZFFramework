@@ -3,8 +3,8 @@ PROJ_ROOT=$1
 PROJ_NAME=$2
 
 if test "x-$PROJ_ROOT" = "x-" || test "x-$PROJ_NAME" = "x-" ; then
-    echo usage:
-    echo   cleanup_Windows.sh PROJ_ROOT PROJ_NAME
+    echo "usage:"
+    echo "  cleanup_Windows.sh PROJ_ROOT PROJ_NAME"
     exit 1
 fi
 

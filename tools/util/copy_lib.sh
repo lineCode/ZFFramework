@@ -3,8 +3,8 @@ PROJ_NAME=$1
 SRC_PATH=$2
 DST_PATH=$3
 if test "x-$PROJ_NAME" = "x-" || test "x-$SRC_PATH" = "x-" || test "x-$DST_PATH" = "x-" ; then
-    echo usage:
-    echo   copy_lib.sh PROJ_NAME SRC_PATH DST_PATH
+    echo "usage:"
+    echo "  copy_lib.sh PROJ_NAME SRC_PATH DST_PATH"
     exit 1
 fi
 

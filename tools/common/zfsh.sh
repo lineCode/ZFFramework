@@ -4,8 +4,8 @@ shift
 VA_PARAMS=$@
 
 if test "x-$ZFSH_PATH" = "x-" ; then
-    echo usage:
-    echo   zfsh.sh ZFSH_PATH [...]
+    echo "usage:"
+    echo "  zfsh.sh ZFSH_PATH [...]"
     exit 1
 fi
 

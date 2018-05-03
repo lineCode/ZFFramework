@@ -5,10 +5,10 @@ shift 2
 VA_PARAMS=$@
 
 if test "x-$SRC_DIR" = "x-" || test "x-$FILE_NAME" = "x-" ; then
-    echo usage:
-    echo   zfsh_recursive.sh SRC_DIR FILE_NAME [params...]
-    echo set ZF_EXCLUDE to exclude dirs, separated by space, match exact, e.g.
-    echo   export ZF_EXCLUDE=f0 f1
+    echo "usage:"
+    echo "  zfsh_recursive.sh SRC_DIR FILE_NAME [params...]"
+    echo "set ZF_EXCLUDE to exclude dirs, separated by space, match exact, e.g."
+    echo "  export ZF_EXCLUDE=f0 f1"
     exit 1
 fi
 
