@@ -18,7 +18,7 @@ for %%a in (%DST_PATH%\..) do set _DST_PARENT=%%~fa
 mkdir "%_DST_PARENT%" >nul 2>&1
 
 >nul 2>&1 (
-    more "%FILE1_PATH%" > "%DST_PATH%.tmp"
+    more "%FILE1_PATH%" > "%DST_PATH%"
 )
 
 shift
@@ -27,10 +27,8 @@ shift
 set FILEN_PATH=%~1%
 if defined FILEN_PATH (
     >nul 2>&1 (
-        more "%FILEN_PATH%" >> "%DST_PATH%.tmp"
+        more "%FILEN_PATH%" >> "%DST_PATH%"
     )
     goto :all_file
 )
-
-move /y "%DST_PATH%.tmp" "%DST_PATH%" >nul 2>&1
 

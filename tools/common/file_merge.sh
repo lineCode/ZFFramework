@@ -11,15 +11,13 @@ DST_PARENT=${DST_PATH%[/\\]*}
 if ! test -e "$DST_PARENT" ; then
     mkdir -p "$DST_PARENT"
 fi
-cat "$FILE1_PATH" > "$DST_PATH.tmp"
+cat "$FILE1_PATH" > "$DST_PATH"
 
 shift 2
 FILEN_PATH=$1
 while ! test "x-$FILEN_PATH" = "x-" ; do
-    cat "$FILEN_PATH" >> "$DST_PATH.tmp"
+    cat "$FILEN_PATH" >> "$DST_PATH"
     shift
     FILEN_PATH=$1
 done
-
-mv "$DST_PATH.tmp" "$DST_PATH"
 

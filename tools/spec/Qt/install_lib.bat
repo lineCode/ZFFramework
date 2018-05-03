@@ -17,6 +17,6 @@ exit /b 1
 :run
 
 mkdir "%DST_PATH%" >nul 2>&1
-copy "%SRC_PATH%\\*.dll" "%DST_PATH%"
-copy "%SRC_PATH%\\*.a" "%DST_PATH%"
+copy /y "%SRC_PATH%\\*.dll" "%DST_PATH%"
+copy /y "%SRC_PATH%\\*.a" "%DST_PATH%"
 

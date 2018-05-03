@@ -1,5 +1,6 @@
 @echo off
 setlocal
+setlocal enabledelayedexpansion
 
 set WORK_DIR=%~dp0
 set SRC_PATH=%~1%
@@ -15,14 +16,38 @@ echo "note: path must not end with \"
 exit /b 1
 :run
 
-if exist "%SRC_PATH%\*" (
-    mkdir "%DST_PATH%" >nul 2>&1
-    xcopy /s/e/y/r/h/d "%SRC_PATH%" "%DST_PATH%" >nul 2>&1
-) else (
-    for /f %%i in ("%SRC_PATH%") do (
-        echo f | xcopy /y/r/h/d "%%~fi" "%DST_PATH%" >nul 2>&1
-    )
+if not exist "%SRC_PATH%\*" (
+    call :CopyByMd5Check "%SRC_PATH%" "%DST_PATH%"
+    exit /b 0
+)
+
+for /f %%f in ("%SRC_PATH%") do set _SRC_ROOT=%%~ff
+for /f "tokens=*" %%f in ('dir /a-d/s/b "%SRC_PATH%" 2^>nul') do (
+    set _SRC_FILE_PATH=%%~ff
+    set _SRC_RELATIVE=!_SRC_FILE_PATH:%_SRC_ROOT%\=!
+    call :CopyByMd5Check "!_SRC_FILE_PATH!" "%DST_PATH%\!_SRC_RELATIVE!"
 )
 
 exit /b 0
+
+:CopyByMd5Check
+call :GetMd5 _SRC_MD5 "%~f1"
+call :GetMd5 _DST_MD5 "%~f2"
+if "x-%_SRC_MD5%" neq "x-%_DST_MD5%" (
+    copy /y "%~f1" "%~f2" >nul 2>&1
+)
+endlocal & goto :EOF
+
+:GetMd5
+set "md5="
+if not exist "%~2" (
+    set "%1=%md5%"
+    goto :EOF
+)
+for /f "skip=1 tokens=* delims=" %%# in ('certutil -hashfile "%~f2" MD5') do (
+    if not defined md5 (
+        for %%Z in (%%#) do set "md5=!md5!%%Z"
+    )
+)
+endlocal & set "%1=%md5%" & goto :EOF
 
