@@ -60,13 +60,14 @@ fi
 _CONFIG_FILE_PATH=$ZF_ROOT_PATH/_tmp/zfproj_creator.tmp
 mkdir -p "${_CONFIG_FILE_PATH%[/\\]*}" >/dev/null 2>&1
 cp "$CONFIG_FILE_PATH" "$_CONFIG_FILE_PATH"
-sed -i.bak -E 's#^ +##g' "$_CONFIG_FILE_PATH" >/dev/null 2>&1
-sed -i.bak -E 's# +$##g' "$_CONFIG_FILE_PATH" >/dev/null 2>&1
-sed -i.bak -E 's# +([\+=]+)#\1#g' "$_CONFIG_FILE_PATH" >/dev/null 2>&1
-sed -i.bak -E 's#([\+=]+) +#\1#g' "$_CONFIG_FILE_PATH" >/dev/null 2>&1
-sed -i.bak -E 's# +#☎#g' "$_CONFIG_FILE_PATH" >/dev/null 2>&1
-sed -i.bak -E 's#^([a-zA-Z_0-9]+)\+=(.*)$#\1=\"\$\1 \2\"#g' "$_CONFIG_FILE_PATH" >/dev/null 2>&1
-rm "$_CONFIG_FILE_PATH.bak" >/dev/null 2>&1
+cat "$_CONFIG_FILE_PATH" \
+    | sed -E 's#^ +##g' \
+    | sed -E 's# +$##g' \
+    | sed -E 's# +([\+=]+)#\1#g' \
+    | sed -E 's#([\+=]+) +#\1#g' \
+    | sed -E 's# +#\|#g' \
+    | sed -E 's#^([a-zA-Z_0-9]+)\+=(.*)$#\1=\"\$\1 \2\"#g' \
+      >"$_CONFIG_FILE_PATH"
 source "$_CONFIG_FILE_PATH"
 rm "$_CONFIG_FILE_PATH" >/dev/null 2>&1
 
@@ -133,7 +134,7 @@ for impl in $ZF_IMPL ; do
 done
 extIndex=0
 for ext in $ZF_EXT ; do
-    ext=`echo "$ext" | sed -E 's#☎# #g'`
+    ext=`echo "$ext" | sed -E 's#\|# #g'`
     export ZFTT_C_ext_require_${extIndex}=1
     export ZFTT_R_ext_git_${extIndex}="$ext"
     extIndex=$((extIndex+1))
@@ -159,32 +160,32 @@ if test 1 = 1 ; then
     echo "    ZFTT_C_impl_proj=$ZFTT_C_impl_proj"
     echo "    ZFTT_R_proj_name=$ZFTT_R_proj_name"
     echo "    ZFTT_R_proj_name=$ZFTT_R_proj_name"
-    echo "    ZFTT_C_lib_require_0=$ZFTT_C_lib_require_0   \tZFTT_R_lib_name_0=$ZFTT_R_lib_name_0"
-    echo "    ZFTT_C_lib_require_1=$ZFTT_C_lib_require_1   \tZFTT_R_lib_name_1=$ZFTT_R_lib_name_1"
-    echo "    ZFTT_C_lib_require_2=$ZFTT_C_lib_require_2   \tZFTT_R_lib_name_2=$ZFTT_R_lib_name_2"
-    echo "    ZFTT_C_lib_require_3=$ZFTT_C_lib_require_3   \tZFTT_R_lib_name_3=$ZFTT_R_lib_name_3"
-    echo "    ZFTT_C_lib_require_4=$ZFTT_C_lib_require_4   \tZFTT_R_lib_name_4=$ZFTT_R_lib_name_4"
-    echo "    ZFTT_C_lib_require_5=$ZFTT_C_lib_require_5   \tZFTT_R_lib_name_5=$ZFTT_R_lib_name_5"
-    echo "    ZFTT_C_lib_require_6=$ZFTT_C_lib_require_6   \tZFTT_R_lib_name_6=$ZFTT_R_lib_name_6"
-    echo "    ZFTT_C_lib_require_7=$ZFTT_C_lib_require_7   \tZFTT_R_lib_name_7=$ZFTT_R_lib_name_7"
+    echo "    ZFTT_C_lib_require_0=$ZFTT_C_lib_require_0 \t ZFTT_R_lib_name_0=$ZFTT_R_lib_name_0"
+    echo "    ZFTT_C_lib_require_1=$ZFTT_C_lib_require_1 \t ZFTT_R_lib_name_1=$ZFTT_R_lib_name_1"
+    echo "    ZFTT_C_lib_require_2=$ZFTT_C_lib_require_2 \t ZFTT_R_lib_name_2=$ZFTT_R_lib_name_2"
+    echo "    ZFTT_C_lib_require_3=$ZFTT_C_lib_require_3 \t ZFTT_R_lib_name_3=$ZFTT_R_lib_name_3"
+    echo "    ZFTT_C_lib_require_4=$ZFTT_C_lib_require_4 \t ZFTT_R_lib_name_4=$ZFTT_R_lib_name_4"
+    echo "    ZFTT_C_lib_require_5=$ZFTT_C_lib_require_5 \t ZFTT_R_lib_name_5=$ZFTT_R_lib_name_5"
+    echo "    ZFTT_C_lib_require_6=$ZFTT_C_lib_require_6 \t ZFTT_R_lib_name_6=$ZFTT_R_lib_name_6"
+    echo "    ZFTT_C_lib_require_7=$ZFTT_C_lib_require_7 \t ZFTT_R_lib_name_7=$ZFTT_R_lib_name_7"
     echo "    ..."
-    echo "    ZFTT_C_impl_require_0=$ZFTT_C_impl_require_0   \tZFTT_R_impl_name_0=$ZFTT_R_impl_name_0"
-    echo "    ZFTT_C_impl_require_1=$ZFTT_C_impl_require_1   \tZFTT_R_impl_name_1=$ZFTT_R_impl_name_1"
-    echo "    ZFTT_C_impl_require_2=$ZFTT_C_impl_require_2   \tZFTT_R_impl_name_2=$ZFTT_R_impl_name_2"
-    echo "    ZFTT_C_impl_require_3=$ZFTT_C_impl_require_3   \tZFTT_R_impl_name_3=$ZFTT_R_impl_name_3"
-    echo "    ZFTT_C_impl_require_4=$ZFTT_C_impl_require_4   \tZFTT_R_impl_name_4=$ZFTT_R_impl_name_4"
-    echo "    ZFTT_C_impl_require_5=$ZFTT_C_impl_require_5   \tZFTT_R_impl_name_5=$ZFTT_R_impl_name_5"
-    echo "    ZFTT_C_impl_require_6=$ZFTT_C_impl_require_6   \tZFTT_R_impl_name_6=$ZFTT_R_impl_name_6"
-    echo "    ZFTT_C_impl_require_7=$ZFTT_C_impl_require_7   \tZFTT_R_impl_name_7=$ZFTT_R_impl_name_7"
+    echo "    ZFTT_C_impl_require_0=$ZFTT_C_impl_require_0 \t ZFTT_R_impl_name_0=$ZFTT_R_impl_name_0"
+    echo "    ZFTT_C_impl_require_1=$ZFTT_C_impl_require_1 \t ZFTT_R_impl_name_1=$ZFTT_R_impl_name_1"
+    echo "    ZFTT_C_impl_require_2=$ZFTT_C_impl_require_2 \t ZFTT_R_impl_name_2=$ZFTT_R_impl_name_2"
+    echo "    ZFTT_C_impl_require_3=$ZFTT_C_impl_require_3 \t ZFTT_R_impl_name_3=$ZFTT_R_impl_name_3"
+    echo "    ZFTT_C_impl_require_4=$ZFTT_C_impl_require_4 \t ZFTT_R_impl_name_4=$ZFTT_R_impl_name_4"
+    echo "    ZFTT_C_impl_require_5=$ZFTT_C_impl_require_5 \t ZFTT_R_impl_name_5=$ZFTT_R_impl_name_5"
+    echo "    ZFTT_C_impl_require_6=$ZFTT_C_impl_require_6 \t ZFTT_R_impl_name_6=$ZFTT_R_impl_name_6"
+    echo "    ZFTT_C_impl_require_7=$ZFTT_C_impl_require_7 \t ZFTT_R_impl_name_7=$ZFTT_R_impl_name_7"
     echo "    ..."
-    echo "    ZFTT_C_ext_require_0=$ZFTT_C_ext_require_0   \tZFTT_R_ext_git_0=$ZFTT_R_ext_git_0"
-    echo "    ZFTT_C_ext_require_1=$ZFTT_C_ext_require_1   \tZFTT_R_ext_git_1=$ZFTT_R_ext_git_1"
-    echo "    ZFTT_C_ext_require_2=$ZFTT_C_ext_require_2   \tZFTT_R_ext_git_2=$ZFTT_R_ext_git_2"
-    echo "    ZFTT_C_ext_require_3=$ZFTT_C_ext_require_3   \tZFTT_R_ext_git_3=$ZFTT_R_ext_git_3"
-    echo "    ZFTT_C_ext_require_4=$ZFTT_C_ext_require_4   \tZFTT_R_ext_git_4=$ZFTT_R_ext_git_4"
-    echo "    ZFTT_C_ext_require_5=$ZFTT_C_ext_require_5   \tZFTT_R_ext_git_5=$ZFTT_R_ext_git_5"
-    echo "    ZFTT_C_ext_require_6=$ZFTT_C_ext_require_6   \tZFTT_R_ext_git_6=$ZFTT_R_ext_git_6"
-    echo "    ZFTT_C_ext_require_7=$ZFTT_C_ext_require_7   \tZFTT_R_ext_git_7=$ZFTT_R_ext_git_7"
+    echo "    ZFTT_C_ext_require_0=$ZFTT_C_ext_require_0 \t ZFTT_R_ext_git_0=$ZFTT_R_ext_git_0"
+    echo "    ZFTT_C_ext_require_1=$ZFTT_C_ext_require_1 \t ZFTT_R_ext_git_1=$ZFTT_R_ext_git_1"
+    echo "    ZFTT_C_ext_require_2=$ZFTT_C_ext_require_2 \t ZFTT_R_ext_git_2=$ZFTT_R_ext_git_2"
+    echo "    ZFTT_C_ext_require_3=$ZFTT_C_ext_require_3 \t ZFTT_R_ext_git_3=$ZFTT_R_ext_git_3"
+    echo "    ZFTT_C_ext_require_4=$ZFTT_C_ext_require_4 \t ZFTT_R_ext_git_4=$ZFTT_R_ext_git_4"
+    echo "    ZFTT_C_ext_require_5=$ZFTT_C_ext_require_5 \t ZFTT_R_ext_git_5=$ZFTT_R_ext_git_5"
+    echo "    ZFTT_C_ext_require_6=$ZFTT_C_ext_require_6 \t ZFTT_R_ext_git_6=$ZFTT_R_ext_git_6"
+    echo "    ZFTT_C_ext_require_7=$ZFTT_C_ext_require_7 \t ZFTT_R_ext_git_7=$ZFTT_R_ext_git_7"
     echo "    ..."
     echo "    ZFTT_C_needUIKit=$ZFTT_C_needUIKit"
     echo "    ZFTT_C_needUIWebKit=$ZFTT_C_needUIWebKit"
@@ -226,23 +227,23 @@ echo "modifying file names..."
 while ((1)) ; do
     changed=0
     # condition
-    for f in `find $_TMP_DIR -name "*{ZFTT_C_*"` ; do
+    for f in `find $_TMP_DIR -name "*\{ZFTT_C_*"` ; do
         if ! test -e "$f" ; then
             continue
         fi
         fileName=${f##*[/\\]}
         fileNameNew=$fileName
         while ((1)) ; do
-            condName=`echo "$fileNameNew" | sed -E 's#.*{(ZFTT_C_[a-zA-Z_0-9]+)}.*{ZFTT_CE}.*#\1#g'`
+            condName=`echo "$fileNameNew" | sed -E 's#.*\{(ZFTT_C_[a-zA-Z_0-9]+)\}.*\{\ZFTT_CE\}.*#\1#g'`
             if test "x-$condName" = "x-" || test "x-$condName" = "x-$fileNameNew" ; then
                 break
             fi
             cond="echo \$$condName"
             cond=`eval $cond`
             if test "x-$cond" = "x-1" ; then
-                fileNameNew=`echo "$fileNameNew" | sed -E "s#(.*){$condName}(.*){ZFTT_CE}(.*)#\1\2\3#"`
+                fileNameNew=`echo "$fileNameNew" | sed -E "s#(.*)\{$condName\}(.*)\{ZFTT_CE\}(.*)#\1\2\3#"`
             else
-                fileNameNew=`echo "$fileNameNew" | sed -E "s#(.*){$condName}(.*){ZFTT_CE}(.*)#\1\3#"`
+                fileNameNew=`echo "$fileNameNew" | sed -E "s#(.*)\{$condName\}(.*)\{ZFTT_CE\}(.*)#\1\3#"`
             fi
         done
         if ! test "x-$fileName" = "x-$fileNameNew" ; then
@@ -255,20 +256,20 @@ while ((1)) ; do
         fi
     done
     # replace
-    for f in `find $_TMP_DIR -name "*{ZFTT_R_*"` ; do
+    for f in `find $_TMP_DIR -name "*\{ZFTT_R_*"` ; do
         if ! test -e "$f" ; then
             continue
         fi
         fileName=${f##*[/\\]}
         fileNameNew=$fileName
         while ((1)) ; do
-            condName=`echo "$fileNameNew" | sed -E 's#.*{(ZFTT_R_[a-zA-Z_0-9]+)}.*#\1#g'`
+            condName=`echo "$fileNameNew" | sed -E 's#.*\{(ZFTT_R_[a-zA-Z_0-9]+)\}.*#\1#g'`
             if test "x-$condName" = "x-" || test "x-$condName" = "x-$fileNameNew" ; then
                 break
             fi
             cond="echo \$$condName"
             cond=`eval $cond`
-            fileNameNew=`echo "$fileNameNew" | sed -E "s#(.*){$condName}(.*)#\1$cond\2#"`
+            fileNameNew=`echo "$fileNameNew" | sed -E "s#(.*)\{$condName\}(.*)#\1$cond\2#"`
         done
         if ! test "x-$fileName" = "x-$fileNameNew" ; then
             changed=1
@@ -289,43 +290,50 @@ while ((1)) ; do
         fileName=${f##*[/\\]}
         # condition
         while ((1)) ; do
-            exist=`grep -o "{ZFTT_C_[a-zA-Z_0-9]\+}" "$f" | uniq`
+            exist=`grep -o "\{ZFTT_C_[a-zA-Z_0-9]\+\}" "$f" | uniq`
             if test "x-$exist" = "x-" ; then
                 break
             fi
-            condNameList=`echo "$exist" | sed -E 's#.*{(ZFTT_C_[a-zA-Z_0-9]+)}.*#\1#g'`
+            condNameList=`echo "$exist" | sed -E 's#.*\{(ZFTT_C_[a-zA-Z_0-9]+)\}.*#\1#g'`
             for condName in $condNameList ; do
-                # echo "    processing: $fileName\t$condName"
-                echo ".\c"
+                printf "\r%s    processing: $fileName\t$condName" $(tput el)
                 cond="echo \$$condName"
                 cond=`eval $cond`
-                tr "\n" "☏" <"$f" >"$f.bak"
-                sed -i.bak -E "s#{ZFTT_CE}#☎#g" "$f.bak"
                 if test "x-$cond" = "x-1" ; then
-                    sed -i.bak -E "s#{$condName}([^☎]*)☎#\1#g" "$f.bak"
+                    sedPattern="s#\{$condName\}([^%]*)%#\1#g"
                 else
-                    sed -i.bak -E "s#{$condName}([^☎]*)☎##g" "$f.bak"
+                    sedPattern="s#\{$condName\}([^%]*)%##g"
                 fi
-                rm "$f.bak.bak" >/dev/null 2>&1
-                tr -d "\n" <"$f.bak" >"$f"
-                tr "☏" "\n" <"$f" >"$f.bak"
-                mv "$f.bak" "$f" >/dev/null 2>&1
+                cat "$f" \
+                    | sed -E "s#@#__zfproj_esc1__#g" \
+                    | tr "\n" "@" \
+                    | sed -E "s#%#__zfproj_esc2__#g" \
+                    | sed -E "s#\{ZFTT_CE\}#%#g" \
+                    | sed -E "$sedPattern" \
+                    | sed -E "s#%#\{ZFTT_CE\}#g" \
+                    | tr -d "\n" \
+                    | tr "@" "\n" \
+                    | sed -E "s#__zfproj_esc1__#@#g" \
+                    | sed -E "s#__zfproj_esc2__#%#g" \
+                      >"$f.tmp"
+                mv "$f.tmp" "$f"
             done
         done
         # replace
         while ((1)) ; do
-            exist=`grep -o "{ZFTT_R_[a-zA-Z_0-9]\+}" "$f" | uniq`
+            exist=`grep -o "\{ZFTT_R_[a-zA-Z_0-9]\+\}" "$f" | uniq`
             if test "x-$exist" = "x-" ; then
                 break
             fi
-            condNameList=`echo "$exist" | sed -E 's#.*{(ZFTT_R_[a-zA-Z_0-9]+)}.*#\1#g'`
+            condNameList=`echo "$exist" | sed -E 's#.*\{(ZFTT_R_[a-zA-Z_0-9]+)\}.*#\1#g'`
             for condName in $condNameList ; do
-                # echo "    processing: $fileName\t$condName"
-                echo ".\c"
+                printf "\r%s    processing: $fileName\t$condName" $(tput el)
                 cond="echo \$$condName"
                 cond=`eval $cond`
-                sed -i.bak -E "s#{$condName}#$cond#g" "$f"
-                rm "$f.bak" >/dev/null 2>&1
+                cat "$f" \
+                    | sed -E "s#\{$condName\}#$cond#g" \
+                      >"$f.tmp"
+                mv "$f.tmp" "$f"
             done
         done
     done
@@ -334,7 +342,7 @@ while ((1)) ; do
         break
     fi
 done
-echo ""
+printf "\r%s" $(tput el)
 
 # xUnique if necessary
 _IS_MAC=`uname -a | grep -i -o "darwin"`
