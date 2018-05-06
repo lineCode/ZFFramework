@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIImageView.h"
 
 #if ZF_ENV_sys_Qt
@@ -57,17 +57,17 @@ protected:
         zfmemset(drawDatas, 0, sizeof(drawDatas));
         zfindex drawDatasCount = ZFUIImageImplNinePatchCalc(
                 drawDatas,
-                ZFUISizeApplyScaleReversely(ZFImpl_sys_Qt_ZFUIKit_ZFUISizeFromQSize(image->size()), _ZFP_imageScale),
+                ZFUISizeApplyScaleReversely(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(image->size()), _ZFP_imageScale),
                 _ZFP_imageNinePatchScaled,
-                ZFImpl_sys_Qt_ZFUIKit_ZFUISizeFromQSize(bounds.size()));
+                ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(bounds.size()));
 
         for(zfindex i = 0; i < drawDatasCount; ++i)
         {
             const ZFUIImageImplNinePatchDrawData &drawData = drawDatas[i];
             painter.drawImage(
-                ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(drawData.dst),
+                ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(drawData.dst),
                 *image,
-                ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(ZFUIRectApplyScale(drawData.src, _ZFP_imageScale)));
+                ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(ZFUIRectApplyScale(drawData.src, _ZFP_imageScale)));
         }
     }
 };

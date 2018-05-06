@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewPositionOnScreen.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 

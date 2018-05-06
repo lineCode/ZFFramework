@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_default_ZFAlgorithm.h"
+#include "ZFImpl_default_ZFAlgorithm_impl.h"
 #include "ZFAlgorithm/protocol/ZFProtocolZFJson.h"
 
 #include "../_repo/rapidjson/document.h"

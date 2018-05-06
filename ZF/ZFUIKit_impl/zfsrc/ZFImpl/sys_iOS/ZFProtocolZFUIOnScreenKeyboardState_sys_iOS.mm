@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZFUIKit.h"
+#include "ZFImpl_sys_iOS_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIOnScreenKeyboardState.h"
 
 #if ZF_ENV_sys_iOS
@@ -38,7 +38,7 @@ static _ZFP_ZFUIOnScreenKeyboardStateImpl_sys_iOS *_ZFP_ZFUIOnScreenKeyboardStat
 - (void)_keyboardOnChange:(NSNotification *)aNotification
 {
     CGRect rect = [[aNotification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    ZFUIRect keyboardFrameNew = ZFImpl_sys_iOS_ZFUIKit_ZFUIRectFromCGRect(rect);
+    ZFUIRect keyboardFrameNew = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(rect);
 
     self.keyboardShowing = (keyboardFrameNew.size.height > 0);
     if(keyboardFrameNew != self.keyboardFrame)

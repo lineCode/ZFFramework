@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFCore.h"
+#include "ZFImpl_sys_Android_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFString.h"
 #include "ZFCore/ZFString.h"
 #include "ZFImpl/tools/UTFCodeUtil/UTFCodeUtil.h"

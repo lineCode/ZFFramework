@@ -19,6 +19,11 @@
 # whether to use unity builds
 # NOTE: you must ensure no Q_OBJECT used while unity builds enabled
 ZF_UNITY_BUILD = 1
+win32 {
+    # NOTE: for 32-bit MinGW, it's too easy to reach section limit
+    #       (too many sections), disable it for Windows by default
+    ZF_UNITY_BUILD = 0
+}
 
 # ZFFramework's root path
 ZF_ROOT_PATH = $$clean_path($$_PRO_FILE_PWD_/../../../../../../ZFFramework)
@@ -112,12 +117,6 @@ win32 {
 }
 
 # ======================================================================
-
-win32 {
-    # NOTE: for 32-bit MinGW, it's too easy to reach section limit
-    #       (too many sections), disable it for Windows by default
-    ZF_UNITY_BUILD = 0
-}
 equals(ZF_UNITY_BUILD, 1) {
     for(src_path, ZF_PROJ_SRC_PATH) {
         _ZF_COMPILE_MODULE_NAME = $$src_path

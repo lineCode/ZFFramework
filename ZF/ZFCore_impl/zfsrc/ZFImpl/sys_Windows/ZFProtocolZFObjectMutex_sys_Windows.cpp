@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Windows_ZFCore.h"
+#include "ZFImpl_sys_Windows_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFObjectMutex.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"
 

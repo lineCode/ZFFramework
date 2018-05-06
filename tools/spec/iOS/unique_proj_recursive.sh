@@ -11,9 +11,8 @@ ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 
 for line in $(find "$PROJ_PATH" -name "project.pbxproj" -type f 2>/dev/null); do
     echo "$line" | grep -q "Pods.xcodeproj" && continue
+    echo "$line" | grep -q "private" && continue
     echo "$line" | grep -q "zfres" && continue
-    echo "$line" | grep -q "_release" && continue
-    echo "$line" | grep -q "_tmp" && continue
 
     echo "processing $line"
     sh "$WORK_DIR/unique_proj.sh" "$line"

@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIImageIO.h"
 
 #if ZF_ENV_sys_Qt
@@ -46,7 +46,7 @@ public:
                                      ZF_IN const ZFUISize &size)
     {
         QImage *ret = new QImage(size.width, size.height, QImage::Format_ARGB32);
-        ret->fill(ZFImpl_sys_Qt_ZFUIKit_ZFUIColorToQColor(color));
+        ret->fill(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(color));
         return ret;
     }
 
@@ -60,7 +60,7 @@ private:
         zfmemset(drawDatas, 0, sizeof(drawDatas));
         zfindex drawDatasCount = ZFUIImageImplNinePatchCalc(
             drawDatas,
-            ZFImpl_sys_Qt_ZFUIKit_ZFUISizeFromQSize(image->size()),
+            ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(image->size()),
             scaleUseNinePatch,
             scaleToSize);
 
@@ -70,7 +70,7 @@ private:
         for(zfindex i = 0; i < drawDatasCount; ++i)
         {
             const ZFUIImageImplNinePatchDrawData &drawData = drawDatas[i];
-            painter.drawImage(ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(drawData.dst), *image, ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(drawData.src));
+            painter.drawImage(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(drawData.dst), *image, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(drawData.src));
         }
         return ret;
     }

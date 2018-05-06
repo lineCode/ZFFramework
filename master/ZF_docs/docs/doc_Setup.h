@@ -3,9 +3,7 @@
  *
  * @section DocTag_Setup_QuickSetup Quick setup
  *
- * it's recommended to use <a href="https://github.com/ZFFramework/ZFProjCreator">ZFProjCreator</a> for quick setup\n
- * to use, clone the <a href="https://github.com/ZFFramework/ZFProjCreator">ZFProjCreator</a>,
- * then build and run the tool\n
+ * it's recommended to use <a href="https://github.com/ZFFramework/ZFFramework/blob/master/tools/zfproj_creator/zfproj_creator.sh">zfproj_creator.sh</a> for quick setup\n
  * \n
  * the tools would help you create all necessary project files for you,
  * however, you still need to setup proper IDE and system settings manually,
@@ -17,7 +15,7 @@
  * @section DocTag_Setup_SupportedIDE Supported IDE
  *
  * ZFFramework itself is portable on most of platform,
- * however, the project files created by ZFProjCreator are currently tested only in these platforms:
+ * however, the project files created by zfproj_creator.sh are currently tested only in these platforms:
  * -  Android : Android Studio
  * -  iOS : XCode
  * -  Qt (Windows) : QtCreator

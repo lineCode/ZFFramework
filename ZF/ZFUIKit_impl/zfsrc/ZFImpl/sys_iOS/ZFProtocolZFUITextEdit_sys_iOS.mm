@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZFUIKit.h"
+#include "ZFImpl_sys_iOS_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUITextEdit.h"
 
 #if ZF_ENV_sys_iOS
@@ -282,19 +282,19 @@ public:
                               ZF_IN ZFUIColor const &textColor)
     {
         _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *nativeImplView = (__bridge _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *)textEdit->nativeImplView();
-        nativeImplView.textColor = ZFImpl_sys_iOS_ZFUIKit_ZFUIColorToUIColor(textColor);
+        nativeImplView.textColor = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorToUIColor(textColor);
     }
     virtual void textShadowColorSet(ZF_IN ZFUITextEdit *textEdit,
                                     ZF_IN ZFUIColor const &textShadowColor)
     {
         _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *nativeImplView = (__bridge _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *)textEdit->nativeImplView();
-        nativeImplView.layer.shadowColor = ZFImpl_sys_iOS_ZFUIKit_ZFUIColorToUIColor(textShadowColor).CGColor;
+        nativeImplView.layer.shadowColor = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorToUIColor(textShadowColor).CGColor;
     }
     virtual void textShadowOffsetSet(ZF_IN ZFUITextEdit *textEdit,
                                      ZF_IN ZFUISize const &textShadowOffset)
     {
         _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *nativeImplView = (__bridge _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *)textEdit->nativeImplView();
-        nativeImplView.layer.shadowOffset = ZFImpl_sys_iOS_ZFUIKit_ZFUISizeToCGSize(textShadowOffset);
+        nativeImplView.layer.shadowOffset = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeToCGSize(textShadowOffset);
     }
     virtual void textSizeSet(ZF_IN ZFUITextEdit *textEdit,
                              ZF_IN zfint textSize)
@@ -313,7 +313,7 @@ public:
         _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *nativeImplView = (__bridge _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *)textEdit->nativeImplView();
         zfint textSizeSaved = nativeImplView.textSize;
         nativeImplView.textSize = textSize;
-        CGSize sizeTmp = ZFImpl_sys_iOS_ZFUIKit_ZFUISizeToCGSize(sizeHint);
+        CGSize sizeTmp = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeToCGSize(sizeHint);
         if(sizeTmp.width <= 0)
         {
             sizeTmp.width = 30000;
@@ -324,7 +324,7 @@ public:
         }
         sizeTmp = [nativeImplView sizeThatFits:sizeTmp];
         nativeImplView.textSize = textSizeSaved;
-        return ZFImpl_sys_iOS_ZFUIKit_ZFUISizeFromCGSize(sizeTmp);
+        return ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeFromCGSize(sizeTmp);
     }
 
 public:

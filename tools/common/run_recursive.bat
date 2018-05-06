@@ -20,7 +20,7 @@ exit /b 1
 rem ============================================================
 rem default exclude dirs
 set ZF_EXCLUDE_TMP=%ZF_EXCLUDE%
-set ZF_EXCLUDE_TMP=%ZF_EXCLUDE_TMP% private
+set ZF_EXCLUDE_TMP=%ZF_EXCLUDE_TMP% private zfres _release _tmp
 
 rem ============================================================
 for /f "tokens=3,* delims= " %%a in ("%*") do set ALL_VAR=%%a
@@ -42,9 +42,9 @@ if "%_excluded%" == "0" (
         exit /b 1
     )
 )
-goto :EOF
+exit /b 0
 
 :check_filter
 echo %1 | findstr "\%2\\" >nul 2>&1 && set %3=1
-goto :EOF
+exit /b 0
 

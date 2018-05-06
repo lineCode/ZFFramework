@@ -9,7 +9,7 @@
  * ====================================================================== */
 package com.ZFFramework.Android.NativeUtil;
 
-import com.ZFFramework.Android.ZF.ZFMainEntry;
+import com.ZFFramework.Android.ZF_impl.ZFMainEntry;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;

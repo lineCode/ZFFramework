@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIImage.h"
 
 #if ZF_ENV_sys_Qt
@@ -72,7 +72,7 @@ public:
     virtual ZFUISize nativeImageSize(ZF_IN void *nativeImage)
     {
         QImage *nativeImageTmp = ZFCastStatic(QImage *, nativeImage);
-        return ZFImpl_sys_Qt_ZFUIKit_ZFUISizeFromQSize(nativeImageTmp->size());
+        return ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(nativeImageTmp->size());
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFUIImageImpl_sys_Qt)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIImageImpl_sys_Qt)

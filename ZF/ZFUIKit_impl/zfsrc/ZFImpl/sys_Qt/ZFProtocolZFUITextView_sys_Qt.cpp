@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUITextView.h"
 
 #if ZF_ENV_sys_Qt
@@ -44,7 +44,7 @@ public:
     void _ZFP_textColorSet(ZF_IN ZFUIColor v)
     {
         QPalette palette = this->palette();
-        palette.setColor(QPalette::WindowText, ZFImpl_sys_Qt_ZFUIKit_ZFUIColorToQColor(v));
+        palette.setColor(QPalette::WindowText, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(v));
         this->setPalette(palette);
     }
     void _ZFP_textShadowUpdate(ZF_IN const ZFUIColor &textShadowColor, ZF_IN const ZFUISize &textShadowOffset)
@@ -62,7 +62,7 @@ public:
                 this->setGraphicsEffect(effect);
             }
             effect->setBlurRadius(0);
-            effect->setColor(ZFImpl_sys_Qt_ZFUIKit_ZFUIColorToQColor(textShadowColor));
+            effect->setColor(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(textShadowColor));
             effect->setOffset(textShadowOffset.width, textShadowOffset.height);
         }
     }
@@ -127,7 +127,7 @@ public:
                               ZF_IN ZFUIAlignFlags const &textAlign)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
-        nativeImplView->setAlignment(ZFImpl_sys_Qt_ZFUIKit_ZFUIAlignFlagsToQAlignment(textAlign));
+        nativeImplView->setAlignment(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignment(textAlign));
     }
     virtual void textColorSet(ZF_IN ZFUITextView *textView,
                               ZF_IN ZFUIColor const &textColor)

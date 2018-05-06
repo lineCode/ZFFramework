@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZF.h"
+#include "ZFImpl_sys_iOS_ZF_impl.h"
 #include "ZFMainEntry_sys_iOS.h"
 #include "ZFCore/ZFMainEntry.h"
 #include "ZFCore/ZFArray.h"

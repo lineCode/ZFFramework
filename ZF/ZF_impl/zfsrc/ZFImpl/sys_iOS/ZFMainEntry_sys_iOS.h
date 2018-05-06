@@ -11,7 +11,7 @@
 #define _ZFI_ZFMainEntry_sys_iOS_h_
 
 #include "ZFCore.h"
-#include "ZFImpl_sys_iOS_ZF.h"
+#include "ZFImpl_sys_iOS_ZF_impl.h"
 
 /*
  * main entry steps:

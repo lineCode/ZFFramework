@@ -11,7 +11,7 @@
 #define _ZFI_ZFMainEntry_sys_Android_h_
 
 #include "ZFCore.h"
-#include "ZFImpl_sys_Android_ZF.h"
+#include "ZFImpl_sys_Android_ZF_impl.h"
 
 /*
  * main entry steps:

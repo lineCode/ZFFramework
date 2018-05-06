@@ -50,9 +50,9 @@ if "%_excluded%" == "0" (
         exit /b 1
     )
 )
-goto :EOF
+exit /b 0
 
 :check_filter
 echo %1 | findstr "\%2\\" >nul 2>&1 && set %3=1
-goto :EOF
+exit /b 0
 

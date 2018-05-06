@@ -31,6 +31,12 @@ for /f "tokens=*" %%f in ('dir /a-d/s/b "%SRC_PATH%" 2^>nul') do (
 exit /b 0
 
 :CopyByMd5Check
+for %%a in (%~f2\..) do set DST_PARENT=%%~fa
+mkdir "%DST_PARENT%" >nul 2>&1
+if not exist "%~f2" (
+    copy /y "%~f1" "%~f2" >nul 2>&1
+    endlocal & goto :EOF
+)
 call :GetMd5 _SRC_MD5 "%~f1"
 call :GetMd5 _DST_MD5 "%~f2"
 if "x-%_SRC_MD5%" neq "x-%_DST_MD5%" (

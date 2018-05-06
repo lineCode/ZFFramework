@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFCore.h"
+#include "ZFImpl_sys_Android_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFFileResProcess.h"
 #include "ZFCore/ZFString.h"
 #include "ZFImpl/sys_Android/ZFMainEntry_sys_Android.h"
@@ -30,8 +30,8 @@
 #include <android/asset_manager_jni.h>
 
 ZF_NAMESPACE_GLOBAL_BEGIN
-#define ZFImpl_sys_Android_JNI_ID_ZFFileResProcess ZFImpl_sys_Android_JNI_ID(ZFCore_ZFFileResProcess)
-#define ZFImpl_sys_Android_JNI_NAME_ZFFileResProcess ZFImpl_sys_Android_JNI_NAME(ZFCore.ZFFileResProcess)
+#define ZFImpl_sys_Android_JNI_ID_ZFFileResProcess ZFImpl_sys_Android_JNI_ID(ZFCore_1impl_ZFFileResProcess)
+#define ZFImpl_sys_Android_JNI_NAME_ZFFileResProcess ZFImpl_sys_Android_JNI_NAME(ZFCore_impl.ZFFileResProcess)
 
 zfclassLikePOD _ZFP_ZFProtocolZFFileResProcess_sys_Android_FileToken
 {

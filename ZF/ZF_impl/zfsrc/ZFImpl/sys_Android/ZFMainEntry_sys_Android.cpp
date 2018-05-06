@@ -7,13 +7,13 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZF.h"
+#include "ZFImpl_sys_Android_ZF_impl.h"
 #include "ZFCore/ZFMainEntry.h"
 
 #if ZF_ENV_sys_Android
 
-#define ZFImpl_sys_Android_JNI_ID_ZFMainEntry ZFImpl_sys_Android_JNI_ID(ZF_ZFMainEntry)
-#define ZFImpl_sys_Android_JNI_NAME_ZFMainEntry ZFImpl_sys_Android_JNI_NAME(ZF.ZFMainEntry)
+#define ZFImpl_sys_Android_JNI_ID_ZFMainEntry ZFImpl_sys_Android_JNI_ID(ZF_1impl_ZFMainEntry)
+#define ZFImpl_sys_Android_JNI_NAME_ZFMainEntry ZFImpl_sys_Android_JNI_NAME(ZF_impl.ZFMainEntry)
 
 // ============================================================
 // main entry

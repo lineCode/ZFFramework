@@ -15,7 +15,7 @@ fi
 # ============================================================
 # default exclude dirs
 ZF_EXCLUDE_TMP=$ZF_EXCLUDE
-ZF_EXCLUDE_TMP="$ZF_EXCLUDE_TMP private"
+ZF_EXCLUDE_TMP="$ZF_EXCLUDE_TMP private zfres _release _tmp"
 
 # ============================================================
 _FULL_CMD="find '$SRC_DIR' -name '$FILE_NAME' | grep -v '\(_zf_dummy_\)"

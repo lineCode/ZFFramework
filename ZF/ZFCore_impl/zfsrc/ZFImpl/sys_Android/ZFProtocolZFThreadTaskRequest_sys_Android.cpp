@@ -7,15 +7,15 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFCore.h"
+#include "ZFImpl_sys_Android_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFThreadTaskRequest.h"
 
 #if ZF_ENV_sys_Android
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define ZFImpl_sys_Android_JNI_ID_ZFThreadTaskRequest ZFImpl_sys_Android_JNI_ID(ZFCore_ZFThreadTaskRequest)
-#define ZFImpl_sys_Android_JNI_NAME_ZFThreadTaskRequest ZFImpl_sys_Android_JNI_NAME(ZFCore.ZFThreadTaskRequest)
+#define ZFImpl_sys_Android_JNI_ID_ZFThreadTaskRequest ZFImpl_sys_Android_JNI_ID(ZFCore_1impl_ZFThreadTaskRequest)
+#define ZFImpl_sys_Android_JNI_NAME_ZFThreadTaskRequest ZFImpl_sys_Android_JNI_NAME(ZFCore_impl.ZFThreadTaskRequest)
 
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadTaskRequestImpl_sys_Android, ZFThreadTaskRequest, ZFProtocolLevel::e_SystemNormal)

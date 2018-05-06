@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewFocus.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIKeyboardState.h"
@@ -58,7 +58,7 @@ public:
             {
                 ZFUIRect nativeImplViewRect;
                 ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutNativeImplView(this->ownerZFUIView, nativeImplViewRect);
-                QRect t = ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(nativeImplViewRect);
+                QRect t = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(nativeImplViewRect);
                 if(item.layoutItem->geometry() != t)
                 {
                     item.layoutItem->setGeometry(t);
@@ -158,7 +158,7 @@ public:
 public:
     void _ZFP_frameSet(ZF_IN const ZFUIRect &v)
     {
-        QRect frame = ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(v);
+        QRect frame = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(v);
         if(this->geometry() != frame)
         {
             this->setGeometry(frame);
@@ -242,7 +242,7 @@ public:
                     }
                     if(_ZFP_layoutRequested)
                     {
-                        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(_ZFP_ownerZFUIView, ZFImpl_sys_Qt_ZFUIKit_ZFUIRectFromQRect(this->geometry()));
+                        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(_ZFP_ownerZFUIView, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
                         _ZFP_layoutRequested = zffalse;
                     }
                     return true;
@@ -270,7 +270,7 @@ public:
     }
     virtual void mouseMoveEvent(QMouseEvent *event)
     {
-        this->_ZFP_mouseMoveLastPoint = ZFImpl_sys_Qt_ZFUIKit_ZFUIPointFromQPoint(event->pos());
+        this->_ZFP_mouseMoveLastPoint = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointFromQPoint(event->pos());
         if(_ZFP_ownerZFUIView == zfnull
             || !this->_ZFP_viewUIEnableTree || !this->_ZFP_viewUIEnable)
         {
@@ -348,7 +348,7 @@ private:
         ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
         ev->mouseId = (zfidentity)event->button();
         ev->mouseAction = mouseAction;
-        ev->mousePoint = ZFImpl_sys_Qt_ZFUIKit_ZFUIPointFromQPoint(event->pos());
+        ev->mousePoint = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointFromQPoint(event->pos());
         switch(event->button())
         {
             case Qt::RightButton:
@@ -467,7 +467,7 @@ public:
         nativeViewTmp->_ZFP_viewUIEnableTreeSet(zftrue);
         _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(nativeViewTmp, zffalse);
         QPalette palette = nativeViewTmp->palette();
-        palette.setColor(QPalette::Background, ZFImpl_sys_Qt_ZFUIKit_ZFUIColorToQColor(ZFUIColorZero()));
+        palette.setColor(QPalette::Background, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(ZFUIColorZero()));
         nativeViewTmp->setPalette(palette);
 
         _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(nativeViewTmp->_ZFP_focusProxyToken, zffalse);
@@ -585,7 +585,7 @@ public:
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         QPalette palette = nativeViewTmp->palette();
-        palette.setColor(QPalette::Background, ZFImpl_sys_Qt_ZFUIKit_ZFUIColorToQColor(viewBackgroundColor));
+        palette.setColor(QPalette::Background, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(viewBackgroundColor));
         nativeViewTmp->setPalette(palette);
     }
 
@@ -656,7 +656,7 @@ public:
         }
         QSize t = nativeViewTmp->sizeHint();
         nativeViewTmp->setMaximumSize(maxSizeSaved);
-        ret = ZFImpl_sys_Qt_ZFUIKit_ZFUISizeFromQSize(t);
+        ret = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(t);
     }
 private:
     _ZFP_ZFUIViewImpl_sys_Qt_ChildChangeObserverHolder childChangeObserverHolder;

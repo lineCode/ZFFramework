@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFUIKit.h"
+#include "ZFImpl_sys_Android_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewPositionOnScreen.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 
@@ -15,8 +15,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define ZFImpl_sys_Android_JNI_ID_ZFUIViewPositionOnScreen ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFUIViewPositionOnScreen)
-#define ZFImpl_sys_Android_JNI_NAME_ZFUIViewPositionOnScreen ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFUIViewPositionOnScreen)
+#define ZFImpl_sys_Android_JNI_ID_ZFUIViewPositionOnScreen ZFImpl_sys_Android_JNI_ID(ZFUIKit_1impl_ZFUIViewPositionOnScreen)
+#define ZFImpl_sys_Android_JNI_NAME_ZFUIViewPositionOnScreen ZFImpl_sys_Android_JNI_NAME(ZFUIKit_impl.ZFUIViewPositionOnScreen)
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIViewPositionOnScreenImpl_sys_Android, ZFUIViewPositionOnScreen, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:View"))

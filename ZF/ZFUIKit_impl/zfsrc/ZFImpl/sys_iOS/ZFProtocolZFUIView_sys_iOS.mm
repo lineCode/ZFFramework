@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZFUIKit.h"
+#include "ZFImpl_sys_iOS_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewFocus.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIKeyboardState.h"
@@ -130,7 +130,7 @@
     [super layoutSubviews];
     if(self._ZFP_ownerZFUIView != zfnull && self._ZFP_ownerZFUIView->viewParent() == zfnull)
     {
-        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(self._ZFP_ownerZFUIView, ZFImpl_sys_iOS_ZFUIKit_ZFUIRectFromCGRect(self.frame));
+        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(self._ZFP_ownerZFUIView, ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(self.frame));
     }
 
     NSArray *children = self.subviews;
@@ -141,7 +141,7 @@
         {
             ZFUIRect rect;
             ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutNativeImplView(self._ZFP_ownerZFUIView, rect);
-            child.frame = ZFImpl_sys_iOS_ZFUIKit_ZFUIRectToCGRect(rect);
+            child.frame = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(rect);
         }
         else if([child isKindOfClass:[_ZFP_ZFUIViewImpl_sys_iOS_View class]])
         {
@@ -173,7 +173,7 @@
         ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseDown;
-        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -200,7 +200,7 @@
         ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseMove;
-        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -221,7 +221,7 @@
         ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseUp;
-        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -242,7 +242,7 @@
         ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseCancel;
-        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -476,7 +476,7 @@ public:
     virtual void viewBackgroundColorSet(ZF_IN ZFUIView *view,
                                         ZF_IN const ZFUIColor &viewBackgroundColor)
     {
-        ((__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView()).backgroundColor = ZFImpl_sys_iOS_ZFUIKit_ZFUIColorToUIColor(viewBackgroundColor);
+        ((__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView()).backgroundColor = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorToUIColor(viewBackgroundColor);
     }
 
 public:
@@ -521,7 +521,7 @@ public:
                               ZF_IN const ZFUIRect &rect)
     {
         ((__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView())._ZFP_frame =
-            ZFImpl_sys_iOS_ZFUIKit_ZFUIRectToCGRect(rect);
+            ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(rect);
     }
 
     virtual void layoutRequest(ZF_IN ZFUIView *view)
@@ -540,8 +540,8 @@ public:
                                    ZF_IN const ZFUISize &sizeHint)
     {
         ret = ZFUISizeMake(zfmMax(sizeHint.width, 0), zfmMax(sizeHint.height, 0));
-        ret = ZFImpl_sys_iOS_ZFUIKit_ZFUISizeFromCGSize(
-            [(__bridge UIView *)nativeView sizeThatFits:ZFImpl_sys_iOS_ZFUIKit_ZFUISizeToCGSize(ret)]);
+        ret = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeFromCGSize(
+            [(__bridge UIView *)nativeView sizeThatFits:ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeToCGSize(ret)]);
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFUIViewImpl_sys_iOS)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIViewImpl_sys_iOS)

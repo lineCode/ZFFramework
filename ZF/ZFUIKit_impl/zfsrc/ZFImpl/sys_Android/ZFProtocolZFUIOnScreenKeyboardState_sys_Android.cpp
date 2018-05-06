@@ -7,15 +7,15 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFUIKit.h"
+#include "ZFImpl_sys_Android_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIOnScreenKeyboardState.h"
 
 #if ZF_ENV_sys_Android
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFUIOnScreenKeyboardState)
-#define ZFImpl_sys_Android_JNI_NAME_ZFUIOnScreenKeyboardState ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFUIOnScreenKeyboardState)
+#define ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState ZFImpl_sys_Android_JNI_ID(ZFUIKit_1impl_ZFUIOnScreenKeyboardState)
+#define ZFImpl_sys_Android_JNI_NAME_ZFUIOnScreenKeyboardState ZFImpl_sys_Android_JNI_NAME(ZFUIKit_impl.ZFUIOnScreenKeyboardState)
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIOnScreenKeyboardStateImpl_sys_Android, ZFUIOnScreenKeyboardState, ZFProtocolLevel::e_SystemNormal)
 public:

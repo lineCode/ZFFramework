@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFAnimationNativeView.h"
 
 #if ZF_ENV_sys_Qt
@@ -417,7 +417,7 @@ public:
         this->aniDrawingTargetPrepare();
 
         ZFUIView *aniTarget = this->ownerZFAnimation->aniTarget()->to<ZFUIView *>();
-        QRect rect = ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(ZFUIRectApplyScale(aniTarget->layoutedFrame(), aniTarget->scaleFixed()));
+        QRect rect = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(ZFUIRectApplyScale(aniTarget->layoutedFrame(), aniTarget->scaleFixed()));
         this->aniTargetGeometrySaved = rect;
         this->aniTargetCached->setGeometry(QRect(rect.x(), rect.y(), rect.width() + 1, rect.height() + 1));
         this->aniTargetCached->installEventFilter(this);

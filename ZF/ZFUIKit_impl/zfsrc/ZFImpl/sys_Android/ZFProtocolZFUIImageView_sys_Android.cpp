@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFUIKit.h"
+#include "ZFImpl_sys_Android_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIImageView.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIImage.h"
 
@@ -15,8 +15,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define ZFImpl_sys_Android_JNI_ID_ZFUIImageView ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFUIImageView)
-#define ZFImpl_sys_Android_JNI_NAME_ZFUIImageView ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFUIImageView)
+#define ZFImpl_sys_Android_JNI_ID_ZFUIImageView ZFImpl_sys_Android_JNI_ID(ZFUIKit_1impl_ZFUIImageView)
+#define ZFImpl_sys_Android_JNI_NAME_ZFUIImageView ZFImpl_sys_Android_JNI_NAME(ZFUIKit_impl.ZFUIImageView)
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIImageViewImpl_sys_Android, ZFUIImageView, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:ImageView"))

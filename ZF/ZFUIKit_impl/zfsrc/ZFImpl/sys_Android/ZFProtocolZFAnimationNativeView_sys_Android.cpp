@@ -7,18 +7,18 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFUIKit.h"
+#include "ZFImpl_sys_Android_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFAnimationNativeView.h"
 
 #if ZF_ENV_sys_Android
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define ZFImpl_sys_Android_JNI_ID_ZFAnimationNativeView ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFAnimationNativeView)
-#define ZFImpl_sys_Android_JNI_NAME_ZFAnimationNativeView ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFAnimationNativeView)
+#define ZFImpl_sys_Android_JNI_ID_ZFAnimationNativeView ZFImpl_sys_Android_JNI_ID(ZFUIKit_1impl_ZFAnimationNativeView)
+#define ZFImpl_sys_Android_JNI_NAME_ZFAnimationNativeView ZFImpl_sys_Android_JNI_NAME(ZFUIKit_impl.ZFAnimationNativeView)
 
-#define ZFImpl_sys_Android_JNI_ID_ZFAnimationNativeView_NativeAnimation ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFAnimationNativeView_00024NativeAnimation)
-#define ZFImpl_sys_Android_JNI_NAME_ZFAnimationNativeView_NativeAnimation ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFAnimationNativeView$NativeAnimation)
+#define ZFImpl_sys_Android_JNI_ID_ZFAnimationNativeView_NativeAnimation ZFImpl_sys_Android_JNI_ID(ZFUIKit_1impl_ZFAnimationNativeView_00024NativeAnimation)
+#define ZFImpl_sys_Android_JNI_NAME_ZFAnimationNativeView_NativeAnimation ZFImpl_sys_Android_JNI_NAME(ZFUIKit_impl.ZFAnimationNativeView$NativeAnimation)
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFAnimationNativeViewImpl_sys_Android, ZFAnimationNativeView, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:Animation"))

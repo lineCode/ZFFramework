@@ -11,7 +11,7 @@
 #define _ZFI_ZFMainEntry_sys_Qt_h_
 
 #include "ZFCore.h"
-#include "ZFImpl_sys_Qt_ZF.h"
+#include "ZFImpl_sys_Qt_ZF_impl.h"
 
 #if ZF_ENV_sys_Qt
 

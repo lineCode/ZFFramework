@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFCore.h"
+#include "ZFImpl_sys_Qt_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFFilePath.h"
 #include "ZFCore/ZFString.h"
 

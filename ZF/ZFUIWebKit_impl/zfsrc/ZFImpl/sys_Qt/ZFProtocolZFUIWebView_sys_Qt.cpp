@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIWebKit.h"
+#include "ZFImpl_sys_Qt_ZFUIWebKit_impl.h"
 #include "ZFUIWebKit/protocol/ZFProtocolZFUIWebView.h"
 
 #if ZF_ENV_sys_Qt && (defined(QT_WEBKITWIDGETS_LIB) || defined(QT_WEBENGINEWIDGETS_LIB))

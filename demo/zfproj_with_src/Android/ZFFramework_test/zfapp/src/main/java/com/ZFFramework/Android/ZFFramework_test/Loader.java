@@ -12,7 +12,7 @@ package com.ZFFramework.Android.ZFFramework_test;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.ZFFramework.Android.ZF.ZFMainEntry;
+import com.ZFFramework.Android.ZF_impl.ZFMainEntry;
 
 public class Loader extends Activity {
     static {

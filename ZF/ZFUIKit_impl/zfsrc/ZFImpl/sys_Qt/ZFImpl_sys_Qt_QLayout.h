@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 
 #if ZF_ENV_sys_Qt
@@ -44,7 +44,7 @@ public:
             for(zfindex i = 0; i < this->layoutItemList.count(); ++i)
             {
                 QWidget *v = this->layoutItemList.get(i).widget;
-                zfLogTrimT() << zfText(" ") << ZFImpl_sys_Qt_ZFUIKit_QWidgetGetViewInfo(v);
+                zfLogTrimT() << zfText(" ") << ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(v);
             }
             zfCoreCriticalError();
         }

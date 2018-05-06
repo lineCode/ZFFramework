@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZFUIKit.h"
+#include "ZFImpl_sys_iOS_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUISysWindow.h"
 #include "ZFImpl/sys_iOS/ZFMainEntry_sys_iOS.h"
 
@@ -102,9 +102,9 @@
         }
 
         UIView *nativeRootView = (__bridge UIView *)self.ownerZFUISysWindow->rootView()->nativeView();
-        nativeRootView.frame = ZFImpl_sys_iOS_ZFUIKit_ZFUIRectToCGRect(self.impl->notifyMeasureWindow(
+        nativeRootView.frame = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(self.impl->notifyMeasureWindow(
             self.ownerZFUISysWindow,
-            ZFImpl_sys_iOS_ZFUIKit_ZFUIRectFromCGRect(self.view.bounds),
+            ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(self.view.bounds),
             sysWindowMargin));
     }
 }

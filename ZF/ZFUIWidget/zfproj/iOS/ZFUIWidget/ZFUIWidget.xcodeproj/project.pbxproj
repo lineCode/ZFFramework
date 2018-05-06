@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CCFF5AF1BBEC8C0426DEFFB7FD1DA203 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B1591844008106D61612FF9D787154 /* Foundation.framework */; };
 		DC4D05E29309522E9AF8188F51E8F088 /* zfgensrc_ZFUIWidget.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD6EC2D225FFC5EA9BE9CBBFDA6EB9 /* zfgensrc_ZFUIWidget.mm */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		4CDD6EC2D225FFC5EA9BE9CBBFDA6EB9 /* zfgensrc_ZFUIWidget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = zfgensrc_ZFUIWidget.mm; sourceTree = "<group>"; };
 		5926779DB34108909BC151E98FDA6C87 /* libZFUIWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZFUIWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7B1591844008106D61612FF9D787154 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA18C7C2BA37AF8E5A4BC7F0C23465CD /* zfsrc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zfsrc; path = ../../../zfsrc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCFF5AF1BBEC8C0426DEFFB7FD1DA203 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +93,7 @@
 		B90F1455D1EEEA490C6CEDA8C1A94AF9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7B1591844008106D61612FF9D787154 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZFCore.h"
+#include "ZFImpl_sys_iOS_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFThreadTaskRequest.h"
 
 #if ZF_ENV_sys_iOS

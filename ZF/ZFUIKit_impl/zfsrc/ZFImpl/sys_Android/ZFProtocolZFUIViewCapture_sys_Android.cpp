@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFUIKit.h"
+#include "ZFImpl_sys_Android_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewCapture.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIImage.h"
@@ -16,8 +16,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define ZFImpl_sys_Android_JNI_ID_ZFUIViewCapture ZFImpl_sys_Android_JNI_ID(ZFUIKit_ZFUIViewCapture)
-#define ZFImpl_sys_Android_JNI_NAME_ZFUIViewCapture ZFImpl_sys_Android_JNI_NAME(ZFUIKit.ZFUIViewCapture)
+#define ZFImpl_sys_Android_JNI_ID_ZFUIViewCapture ZFImpl_sys_Android_JNI_ID(ZFUIKit_1impl_ZFUIViewCapture)
+#define ZFImpl_sys_Android_JNI_NAME_ZFUIViewCapture ZFImpl_sys_Android_JNI_NAME(ZFUIKit_impl.ZFUIViewCapture)
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIViewCaptureImpl_sys_Android, ZFUIViewCapture, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:View"))

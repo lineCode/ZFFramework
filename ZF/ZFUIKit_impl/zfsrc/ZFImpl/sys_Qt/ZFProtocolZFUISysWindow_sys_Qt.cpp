@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Qt_ZFUIKit.h"
+#include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUISysWindow.h"
 #include "ZFImpl/sys_Qt/ZFMainEntry_sys_Qt.h"
 
@@ -27,7 +27,7 @@ static void _ZFP_ZFUISysWindowImpl_sys_Qt_updateWindowLayout(ZF_IN ZFUISysWindow
             ZFUIRectMake(0, 0, screenRect.width(), screenRect.height()),
             ZFUIMarginZero()
         );
-    nativeWindow->setGeometry(ZFImpl_sys_Qt_ZFUIKit_ZFUIRectToQRect(frame));
+    nativeWindow->setGeometry(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(frame));
     if(nativeWindow->layout() != zfnull)
     {
         QRect t(0, 0, frame.size.width, frame.size.height);
@@ -57,7 +57,7 @@ protected:
             case QEvent::WindowDeactivate:
                 ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnPause(owner);
                 #if ZF_ENV_DEBUG && 0
-                    zfLogTrimT() << ZFImpl_sys_Qt_ZFUIKit_QWidgetGetViewTree(ZFImpl_sys_Qt_rootWindow());
+                    zfLogTrimT() << ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree(ZFImpl_sys_Qt_rootWindow());
                 #endif
                 break;
             default:

@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_iOS_ZFUIKit.h"
+#include "ZFImpl_sys_iOS_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewPositionOnScreen.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 
@@ -35,7 +35,7 @@ public:
         {
             nativeRect = [nativeView convertRect:nativeView.bounds toView:nil];
         }
-        rect = ZFImpl_sys_iOS_ZFUIKit_ZFUIRectFromCGRect(nativeRect);
+        rect = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(nativeRect);
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFUIViewPositionOnScreenImpl_sys_iOS)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIViewPositionOnScreenImpl_sys_iOS)

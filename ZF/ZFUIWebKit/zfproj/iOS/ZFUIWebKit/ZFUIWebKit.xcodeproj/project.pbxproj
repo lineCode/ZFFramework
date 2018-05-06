@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		8C6C2209DC0DBA4A41E67F2F2CFC1070 /* zfgensrc_ZFUIWebKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFE5CB66CD00C754C11C080FE2B8BC28 /* zfgensrc_ZFUIWebKit.mm */; };
+		B4368D1C6621A92A5B0409D93D11B228 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26C3E31A989A37CC69B366AD14E307BB /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		26C3E31A989A37CC69B366AD14E307BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6A85051323B79899F28DB80663BFD721 /* zfsrc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zfsrc; path = ../../../zfsrc; sourceTree = "<group>"; };
 		A043CEC54B0F1369B0EFF7588BEF5588 /* libZFUIWebKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZFUIWebKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFE5CB66CD00C754C11C080FE2B8BC28 /* zfgensrc_ZFUIWebKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = zfgensrc_ZFUIWebKit.mm; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4368D1C6621A92A5B0409D93D11B228 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +77,7 @@
 		C3544AAC17DB4394A0AF32BA75B18D25 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				26C3E31A989A37CC69B366AD14E307BB /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

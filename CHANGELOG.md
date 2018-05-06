@@ -1,3 +1,8 @@
+# 0.1.4 (20180506)
+
+* change to use shell script to create project files
+* optimize file structure for impl projects
+
 # 0.1.3 (20180503)
 
 * redesign of skin and lang logic

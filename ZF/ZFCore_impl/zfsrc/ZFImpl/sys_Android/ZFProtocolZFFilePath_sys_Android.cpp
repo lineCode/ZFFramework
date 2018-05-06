@@ -7,13 +7,13 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFCore.h"
+#include "ZFImpl_sys_Android_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFFilePath.h"
 
 #if ZF_ENV_sys_Android
 ZF_NAMESPACE_GLOBAL_BEGIN
-#define ZFImpl_sys_Android_JNI_ID_ZFFilePath ZFImpl_sys_Android_JNI_ID(ZFCore_ZFFilePath)
-#define ZFImpl_sys_Android_JNI_NAME_ZFFilePath ZFImpl_sys_Android_JNI_NAME(ZFCore.ZFFilePath)
+#define ZFImpl_sys_Android_JNI_ID_ZFFilePath ZFImpl_sys_Android_JNI_ID(ZFCore_1impl_ZFFilePath)
+#define ZFImpl_sys_Android_JNI_NAME_ZFFilePath ZFImpl_sys_Android_JNI_NAME(ZFCore_impl.ZFFilePath)
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFilePathImpl_sys_Android, ZFFilePath, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:FileSystem"))

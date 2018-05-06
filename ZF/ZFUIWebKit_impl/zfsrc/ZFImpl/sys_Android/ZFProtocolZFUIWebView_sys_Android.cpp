@@ -7,13 +7,13 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_sys_Android_ZFUIWebKit.h"
+#include "ZFImpl_sys_Android_ZFUIWebKit_impl.h"
 #include "ZFUIWebKit/protocol/ZFProtocolZFUIWebView.h"
 
 #if ZF_ENV_sys_Android
 
-#define ZFImpl_sys_Android_JNI_ID_ZFUIWebView ZFImpl_sys_Android_JNI_ID(ZFUIWebKit_ZFUIWebView)
-#define ZFImpl_sys_Android_JNI_NAME_ZFUIWebView ZFImpl_sys_Android_JNI_NAME(ZFUIWebKit.ZFUIWebView)
+#define ZFImpl_sys_Android_JNI_ID_ZFUIWebView ZFImpl_sys_Android_JNI_ID(ZFUIWebKit_1impl_ZFUIWebView)
+#define ZFImpl_sys_Android_JNI_NAME_ZFUIWebView ZFImpl_sys_Android_JNI_NAME(ZFUIWebKit_impl.ZFUIWebView)
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
