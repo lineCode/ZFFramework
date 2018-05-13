@@ -25,7 +25,7 @@ public:
     ZFPROPERTY_ASSIGN_READONLY(zfstring, propertyAssignReadonly, ZFPropertyNoInitValue)
 
     // weak
-    ZFPROPERTY_WEAK(ZFObject *, propertyWeak)
+    ZFPROPERTY_ASSIGN(ZFObject *, propertyWeak)
 
     // custom callback
     ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFObject *, propertyRetain)

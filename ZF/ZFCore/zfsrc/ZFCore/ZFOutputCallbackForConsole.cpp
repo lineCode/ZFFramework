@@ -46,7 +46,7 @@ static zfindex _ZFP_ZFOutputCallbackForConsoleFunction(ZF_IN const void *s, ZF_I
 }
 static ZFOutputCallback _ZFP_ZFOutputCallbackForConsole_create(void)
 {
-    ZFOutputCallback ret = ZFCallbackForRawFunction(_ZFP_ZFOutputCallbackForConsoleFunction);
+    ZFOutputCallback ret = ZFCallbackForFunc(_ZFP_ZFOutputCallbackForConsoleFunction);
     ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputCallbackForConsole);
     ret.callbackSerializeCustomDataSet(ZFSerializableData());
     return ret;

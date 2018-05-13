@@ -55,53 +55,53 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define zfHint(hint)
 
 // ============================================================
-#define _ZFP_ZFM_REPEAT_0(Type, LeftCommaFix)
-#define _ZFP_ZFM_REPEAT_1(Type, LeftCommaFix) LeftCommaFix() Type(0)
-#define _ZFP_ZFM_REPEAT_2(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_1(Type, LeftCommaFix), Type(1)
-#define _ZFP_ZFM_REPEAT_3(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_2(Type, LeftCommaFix), Type(2)
-#define _ZFP_ZFM_REPEAT_4(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_3(Type, LeftCommaFix), Type(3)
-#define _ZFP_ZFM_REPEAT_5(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_4(Type, LeftCommaFix), Type(4)
-#define _ZFP_ZFM_REPEAT_6(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_5(Type, LeftCommaFix), Type(5)
-#define _ZFP_ZFM_REPEAT_7(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_6(Type, LeftCommaFix), Type(6)
-#define _ZFP_ZFM_REPEAT_8(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_7(Type, LeftCommaFix), Type(7)
-#define _ZFP_ZFM_REPEAT_9(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_8(Type, LeftCommaFix), Type(8)
-#define _ZFP_ZFM_REPEAT_10(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_9(Type, LeftCommaFix), Type(9)
-#define _ZFP_ZFM_REPEAT_11(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_10(Type, LeftCommaFix), Type(10)
-#define _ZFP_ZFM_REPEAT_12(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_11(Type, LeftCommaFix), Type(11)
-#define _ZFP_ZFM_REPEAT_13(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_12(Type, LeftCommaFix), Type(12)
-#define _ZFP_ZFM_REPEAT_14(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_13(Type, LeftCommaFix), Type(13)
-#define _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_14(Type, LeftCommaFix), Type(14)
-#define _ZFP_ZFM_REPEAT_16(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(15)
-#define _ZFP_ZFM_REPEAT_17(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(16)
-#define _ZFP_ZFM_REPEAT_18(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(17)
-#define _ZFP_ZFM_REPEAT_19(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(18)
-#define _ZFP_ZFM_REPEAT_20(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(19)
-#define _ZFP_ZFM_REPEAT_21(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(20)
-#define _ZFP_ZFM_REPEAT_22(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(21)
-#define _ZFP_ZFM_REPEAT_23(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(22)
-#define _ZFP_ZFM_REPEAT_24(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(23)
-#define _ZFP_ZFM_REPEAT_25(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(24)
-#define _ZFP_ZFM_REPEAT_26(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(25)
-#define _ZFP_ZFM_REPEAT_27(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(26)
-#define _ZFP_ZFM_REPEAT_28(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(27)
-#define _ZFP_ZFM_REPEAT_29(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(28)
-#define _ZFP_ZFM_REPEAT_30(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(29)
-#define _ZFP_ZFM_REPEAT_31(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(30)
-#define _ZFP_ZFM_REPEAT_32(Type, LeftCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix), Type(31)
-#define _ZFP_ZFM_REPEAT(N, Type, LeftCommaFix) _ZFP_ZFM_REPEAT_##N(Type, LeftCommaFix)
+#define _ZFP_ZFM_REPEAT_0(Type, LeftCommaFix, CenterCommaFix)
+#define _ZFP_ZFM_REPEAT_1(Type, LeftCommaFix, CenterCommaFix) LeftCommaFix() Type(0)
+#define _ZFP_ZFM_REPEAT_2(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_1(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(1)
+#define _ZFP_ZFM_REPEAT_3(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_2(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(2)
+#define _ZFP_ZFM_REPEAT_4(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_3(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(3)
+#define _ZFP_ZFM_REPEAT_5(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_4(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(4)
+#define _ZFP_ZFM_REPEAT_6(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_5(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(5)
+#define _ZFP_ZFM_REPEAT_7(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_6(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(6)
+#define _ZFP_ZFM_REPEAT_8(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_7(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(7)
+#define _ZFP_ZFM_REPEAT_9(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_8(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(8)
+#define _ZFP_ZFM_REPEAT_10(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_9(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(9)
+#define _ZFP_ZFM_REPEAT_11(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_10(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(10)
+#define _ZFP_ZFM_REPEAT_12(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_11(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(11)
+#define _ZFP_ZFM_REPEAT_13(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_12(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(12)
+#define _ZFP_ZFM_REPEAT_14(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_13(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(13)
+#define _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_14(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(14)
+#define _ZFP_ZFM_REPEAT_16(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(15)
+#define _ZFP_ZFM_REPEAT_17(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(16)
+#define _ZFP_ZFM_REPEAT_18(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(17)
+#define _ZFP_ZFM_REPEAT_19(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(18)
+#define _ZFP_ZFM_REPEAT_20(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(19)
+#define _ZFP_ZFM_REPEAT_21(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(20)
+#define _ZFP_ZFM_REPEAT_22(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(21)
+#define _ZFP_ZFM_REPEAT_23(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(22)
+#define _ZFP_ZFM_REPEAT_24(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(23)
+#define _ZFP_ZFM_REPEAT_25(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(24)
+#define _ZFP_ZFM_REPEAT_26(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(25)
+#define _ZFP_ZFM_REPEAT_27(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(26)
+#define _ZFP_ZFM_REPEAT_28(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(27)
+#define _ZFP_ZFM_REPEAT_29(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(28)
+#define _ZFP_ZFM_REPEAT_30(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(29)
+#define _ZFP_ZFM_REPEAT_31(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(30)
+#define _ZFP_ZFM_REPEAT_32(Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_15(Type, LeftCommaFix, CenterCommaFix) CenterCommaFix() Type(31)
+#define _ZFP_ZFM_REPEAT(N, Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT_##N(Type, LeftCommaFix, CenterCommaFix)
 /**
  * @brief macro to repeat something
  *
  * for example\n
- *   ZFM_REPEAT(2, ZFM_REPEAT_TEMPLATE, ZFM_EMPTY)\n
+ *   ZFM_REPEAT(2, ZFM_REPEAT_TEMPLATE, ZFM_EMPTY, ZFM_COMMA)\n
  * would be expand as:\n
  *   typename Type0, typename Type1\n
  * and
- *   ZFM_REPEAT(3, ZFM_REPEAT_PARAM, ZFM_COMMA)\n
+ *   ZFM_REPEAT(3, ZFM_REPEAT_PARAM, ZFM_COMMA, ZFM_COMMA)\n
  * would be expand as:\n
  *   , Type0 param0, Type1 param1, Type2 param2
  */
-#define ZFM_REPEAT(N, Type, LeftCommaFix) _ZFP_ZFM_REPEAT(N, Type, LeftCommaFix)
+#define ZFM_REPEAT(N, Type, LeftCommaFix, CenterCommaFix) _ZFP_ZFM_REPEAT(N, Type, LeftCommaFix, CenterCommaFix)
 
 #define _ZFP_ZFM_REPEAT_TEMPLATE(N) typename Type##N
 #define _ZFP_ZFM_REPEAT_TYPE(N) Type##N

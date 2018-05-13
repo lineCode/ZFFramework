@@ -43,11 +43,11 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFClass, {
 
         ZFClassDataChangeObserver.observerAdd(
             ZFGlobalEvent::EventClassDataChange(),
-            ZFCallbackForRawFunction(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange));
+            ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange));
     }, {
         ZFClassDataChangeObserver.observerRemove(
             ZFGlobalEvent::EventClassDataChange(),
-            ZFCallbackForRawFunction(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange));
+            ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange));
     })
 
 ZF_NAMESPACE_GLOBAL_END

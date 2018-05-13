@@ -426,7 +426,7 @@ static ZFListener *_ZFP_ZFThread_drainPoolCallback = zfnull;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFThreadAutoReleasePoolDrainDataHolder, ZFLevelZFFrameworkEssential)
 {
     _ZFP_ZFThread_drainPoolCallback = zfnew(ZFListener);
-    *_ZFP_ZFThread_drainPoolCallback = ZFCallbackForRawFunction(_ZFP_ZFThread_drainPoolCallbackMethod);
+    *_ZFP_ZFThread_drainPoolCallback = ZFCallbackForFunc(_ZFP_ZFThread_drainPoolCallbackMethod);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFThreadAutoReleasePoolDrainDataHolder)
 {
@@ -623,7 +623,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThread,
     zfRetain(runnableData->semaWait);
     runnableData->nativeToken = _ZFP_ZFThreadImpl->executeInMainThread(
         taskId,
-        ZFCallbackForRawFunction(_ZFP_ZFThreadCallback),
+        ZFCallbackForFunc(_ZFP_ZFThreadCallback),
         runnableData,
         zfnull);
 
@@ -692,7 +692,7 @@ static zfidentity _ZFP_ZFThreadExecuteInNewThread(ZF_IN const ZFListener &runnab
     runnableData->nativeToken = _ZFP_ZFThreadImpl->executeInNewThread(
         taskId,
         ownerZFThread,
-        ZFCallbackForRawFunction(_ZFP_ZFThreadCallback),
+        ZFCallbackForFunc(_ZFP_ZFThreadCallback),
         runnableData,
         zfnull);
     return taskId;
@@ -767,7 +767,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThreadAfterDelay,
     runnableData->nativeToken = _ZFP_ZFThreadImpl->executeInMainThreadAfterDelay(
         taskId,
         delay,
-        ZFCallbackForRawFunction(_ZFP_ZFThreadCallback),
+        ZFCallbackForFunc(_ZFP_ZFThreadCallback),
         runnableData,
         zfnull);
     zfRelease(runnableData->semaWait);

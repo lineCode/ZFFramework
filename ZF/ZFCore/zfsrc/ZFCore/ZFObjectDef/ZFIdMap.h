@@ -171,13 +171,13 @@ public:
         \
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &i_id, Scope::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfidentity, ZFM_TOSTRING(prefix##YourIdName)); \
             this->m_id = resultMethod; \
         } \
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &i_idName, Scope::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 const zfchar *, ZFM_TOSTRING(prefix##YourIdName##_name)); \
             this->m_idName = resultMethod; \
         } \

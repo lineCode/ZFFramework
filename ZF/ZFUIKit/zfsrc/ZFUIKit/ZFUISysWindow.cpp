@@ -38,7 +38,7 @@ public:
     , modalWindowOwner(zfnull)
     , modalWindowShowing(zfnull)
     , sysWindowLayoutParam(zfnull)
-    , sysWindowLayoutParamOnChangeListener(ZFCallbackForRawFunction(_ZFP_ZFUISysWindowPrivate::sysWindowLayoutParamOnChange))
+    , sysWindowLayoutParamOnChangeListener(ZFCallbackForFunc(_ZFP_ZFUISysWindowPrivate::sysWindowLayoutParamOnChange))
     , nativeWindowCreated(zffalse)
     , nativeWindowResumed(zffalse)
     , sysWindowMargin()

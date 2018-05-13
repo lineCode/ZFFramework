@@ -23,7 +23,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrintDelayed,
                        ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()))
 {
     ZFThreadTaskRequest(
-        ZFCallbackForRawFunction(_ZFP_ZFUIViewTreePrintDelayedAction),
+        ZFCallbackForFunc(_ZFP_ZFUIViewTreePrintDelayedAction),
         zflineAlloc(ZFListenerHolder, outputCallback, ZFListenerData(zfidentityInvalid(), zfnull, view)));
 }
 
@@ -34,7 +34,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFUIViewTreePrintDelayed,
 {
     ZFThreadExecuteInMainThreadAfterDelay(
         delay,
-        ZFCallbackForRawFunction(_ZFP_ZFUIViewTreePrintDelayedAction),
+        ZFCallbackForFunc(_ZFP_ZFUIViewTreePrintDelayedAction),
         zflineAlloc(ZFListenerHolder, outputCallback, ZFListenerData(zfidentityInvalid(), zfnull, view)));
 }
 

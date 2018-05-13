@@ -51,7 +51,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *   which would automatically generate setter and getter for you\n
  *   here's a list of what they'll generate
  *   (assume property's type is Type and property's name is Name):
- *   -  ZFPROPERTY_RETAIN / ZFPROPERTY_ASSIGN / ZFPROPERTY_WEAK:
+ *   -  ZFPROPERTY_RETAIN / ZFPROPERTY_ASSIGN:
  *     -  public:\n
  *       virtual void NameSet(Type const &propertyValue); // (reflectable)\n
  *       virtual Type const &Name(void); // (reflectable)
@@ -62,12 +62,9 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *     and value is set by #zfRetainChange,
  *     and would automatically be released when owner object deallocated
  *   -  for a assign property, Type could be any type except for const type
- *   -  for a weak property,
- *     setting the property value won't cause the value being retained,
- *     further more, when the property value deallocated,
- *     the owner object's property value would be set to null,
- *     similar to `weak` logic on Object-C
- *     @note weak property is always not serializable
+ *   -  when declare assign property as ZFObject type,
+ *     it is automatically treated as weak property
+ *     (similar to weak in Object-C)
  * -  ZFProperty support those type only:
  *   -  ZFObject *
  *   -  all types that registered by #ZFPROPERTY_TYPE_DECLARE
@@ -84,8 +81,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *   by using ZFPROPERTY_XXX_DETAIL:\n
  *   ZFPROPERTY_RETAIN_DETAIL(
  *       Type, Name, InitValueOrEmpty,
- *       SetterAccessType,
- *       GetterAccessType)\n
+ *       SetterAccessType, GetterAccessType)\n
  *   the InitValueOrEmpty is the init value for the property,
  *     could be your_value or ZFPropertyNoInitValue,
  *     if not set, the built-in value would be set,
@@ -100,11 +96,9 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *     {
  *         ZFOBJECT_DECLARE(OwnerClass, Base)
  *
- *         ZFPROPERTY_RETAIN_DETAIL(
- *             zfstring, ZFPropertyTypeId_zfstring(), StringProperty, \
- *             ZFPropertyNoInitValue,
- *             public,
- *             public)
+ *         ZFPROPERTY_ASSIGN_DETAIL(
+ *             zfstring, StringProperty, ZFPropertyNoInitValue,
+ *             public, public)
  *     };
  *   @endcode
  * -  to override a property in subclass, you may use ZFPROPERTY_OVERRIDE_ON_XXX
@@ -156,7 +150,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
         /** @brief see @ref Name */ \
         _ZFP_ZFPROPERTY_SETTER_RETAIN(SetterAccessType, Type, Name) \
-        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFPropertyTypeId_ZFObject, Name, \
+        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFPropertyTypeId_ZFObject(), Name, \
                                        InitValueOrEmpty) \
     public:
 
@@ -185,39 +179,9 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
     SetterAccessType, GetterAccessType) \
         _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
         /** @brief see @ref Name */ \
-        _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name, _ZFP_PropNotWeak) \
+        _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name) \
         _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeIdData<zftTraits<Type>::TrNoRef>::PropertyTypeId(), Name, \
-                                       InitValueOrEmpty, _ZFP_PropNotWeak) \
-    public:
-
-// ============================================================
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_WEAK(Type, Name) \
-    ZFPROPERTY_WEAK_DETAIL( \
-        Type, Name, ZFPropertyNoInitValue, \
-        public, public)
-
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_WEAK_WITH_INIT(Type, Name, InitValueOrEmpty) \
-    ZFPROPERTY_WEAK_DETAIL( \
-        Type, Name, InitValueOrEmpty, \
-        public, public)
-
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_WEAK_READONLY(Type, Name, InitValueOrEmpty) \
-    ZFPROPERTY_WEAK_DETAIL( \
-        Type, Name, InitValueOrEmpty, \
-        private, public)
-
-/** @brief see #ZFPROPERTY_RETAIN */
-#define ZFPROPERTY_WEAK_DETAIL( \
-    Type, Name, InitValueOrEmpty, \
-    SetterAccessType, GetterAccessType) \
-        _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
-        /** @brief see @ref Name */ \
-        _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name, _ZFP_PropIsWeak) \
-        _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeId_none, Name, \
-                                       InitValueOrEmpty, _ZFP_PropIsWeak) \
+                                       InitValueOrEmpty) \
     public:
 
 // ============================================================
@@ -385,8 +349,24 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
     return rawValueStoreToken;
 }
 
-#define _ZFP_PropIsWeak(...) __VA_ARGS__
-#define _ZFP_PropNotWeak(...) zfnull
+template<typename T_Type, int isZFObject = zftIsZFObject(typename zftTraits<T_Type>::TrType)>
+zfclassNotPOD _ZFP_PropWeak
+{
+public:
+    static inline ZFObject *v(ZF_IN T_Type const &p)
+    {
+        return zfnull;
+    }
+};
+template<typename T_Type>
+zfclassNotPOD _ZFP_PropWeak<T_Type, 1>
+{
+public:
+    static inline ZFObject *v(ZF_IN T_Type const &p)
+    {
+        return ZFObjectToObject(p);
+    }
+};
 
 #define _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
                                                 propertyClassOfRetainProperty) \
@@ -394,6 +374,8 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
         static ZFProperty *_ZFP_Prop_##Name(void) \
         { \
             static _ZFP_ZFPropertyRegisterHolder _propertyInfoHolder(zffalse \
+                    , zffalse \
+                    , zfnull \
                     , zfself::ClassData() \
                     , ZFM_TOSTRING(Name) \
                     , ZFM_TOSTRING(Type) \
@@ -422,6 +404,8 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
         static ZFProperty *_ZFP_Prop_##Name(void) \
         { \
             static _ZFP_ZFPropertyRegisterHolder _propertyInfoHolder(zffalse \
+                    , zffalse \
+                    , zfnull \
                     , zfself::ClassData() \
                     , ZFM_TOSTRING(Name) \
                     , ZFM_TOSTRING(Type) \
@@ -539,7 +523,7 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
         } \
     public:
 #define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
-                                             InitValueOrEmpty, PropIsWeakOrNot) \
+                                             InitValueOrEmpty) \
     public: \
         /** @brief original type for the property */ \
         typedef Type PropVT_##Name; \
@@ -570,7 +554,7 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
                         owner, \
                         this->_ZFP_v, \
                         needNotifyOwner, \
-                        PropIsWeakOrNot(ZFObjectToObject(*(this->_ZFP_v)))); \
+                        _ZFP_PropWeak<zfself::PropVT_##Name>::v(*(this->_ZFP_v))); \
                 } \
                 return (*(this->_ZFP_v)); \
             } \
@@ -585,7 +569,7 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
                     owner, \
                     this->_ZFP_v, \
                     completeDetach, \
-                    PropIsWeakOrNot(ZFObjectToObject(*(this->_ZFP_v)))); \
+                    _ZFP_PropWeak<zfself::PropVT_##Name>::v(*(this->_ZFP_v))); \
                 zfpoolDelete(this->_ZFP_v); \
                 this->_ZFP_v = zfnull; \
             } \
@@ -646,11 +630,11 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
                                          InitValueOrEmpty) \
     _ZFP_ZFPROPERTY_DECLARE_CALLBACK(Type, Name)
 #define _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
-                                       InitValueOrEmpty, PropIsWeakOrNot) \
+                                       InitValueOrEmpty) \
     _ZFP_ZFPROPERTY_DECLARE_REGISTER_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
                                             zfnull) \
     _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
-                                         InitValueOrEmpty, PropIsWeakOrNot) \
+                                         InitValueOrEmpty) \
     _ZFP_ZFPROPERTY_DECLARE_CALLBACK(Type, Name)
 
 // ============================================================
@@ -662,7 +646,7 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
     AccessType: \
         _ZFP_ZFMETHOD_INLINE( \
             notAutoRegister, \
-            AccessType, ZFMethodIsVirtual, \
+            AccessType, ZFMethodTypeVirtual, \
             void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
             , ZFMP_IN(Type const &, propertyValue) \
             , _ZFP_ZFMP_DUMMY() \
@@ -688,11 +672,11 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
             zfCoreMutexUnlock(); \
         } \
     public:
-#define _ZFP_ZFPROPERTY_SETTER_ASSIGN(AccessType, Type, Name, PropIsWeakOrNot) \
+#define _ZFP_ZFPROPERTY_SETTER_ASSIGN(AccessType, Type, Name) \
     AccessType: \
         _ZFP_ZFMETHOD_INLINE( \
             notAutoRegister, \
-            AccessType, ZFMethodIsVirtual, \
+            AccessType, ZFMethodTypeVirtual, \
             void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
             , ZFMP_IN(Type const &, propertyValue) \
             , _ZFP_ZFMP_DUMMY() \
@@ -715,8 +699,8 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
                 &propertyValue, \
                 _ZFP_Prop_rawValueStoreCallback_assign<zfself::PropVT_##Name>, \
                 Name##_PropV._ZFP_v, \
-                PropIsWeakOrNot(ZFObjectToObject(valueOld)), \
-                PropIsWeakOrNot(ZFObjectToObject(propertyValue))); \
+                _ZFP_PropWeak<zfself::PropVT_##Name>::v(valueOld), \
+                _ZFP_PropWeak<zfself::PropVT_##Name>::v(propertyValue)); \
             zfCoreMutexUnlock(); \
         } \
     public:
@@ -724,7 +708,7 @@ void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_
     AccessType: \
         _ZFP_ZFMETHOD_INLINE( \
             notAutoRegister, \
-            AccessType, ZFMethodIsVirtual, \
+            AccessType, ZFMethodTypeVirtual, \
             Type const &, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name), ZF_CALLER_LINE \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \

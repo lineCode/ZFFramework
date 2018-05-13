@@ -72,7 +72,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
         {
             v = ZFCallbackForMethod(method);
         }
-        else if(method->methodIsStatic())
+        else if(method->methodType() == ZFMethodTypeStatic)
         {
             v = ZFCallbackForMethod(method);
         }

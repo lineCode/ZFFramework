@@ -21,6 +21,7 @@ Homepage:
 * minimum requirement
 * powerful reflection, serialzation, styleable logic
 
+    * for how powerful ZFFramework is, you may refer to [Feature page](https://zfframework.github.io/doc/_doc_tag__feature.html)
     * automatic lua binding, no extra bind code or config are necessary
     * automatic UI serialization
     * stateful property animation

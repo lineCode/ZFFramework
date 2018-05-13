@@ -109,14 +109,14 @@ public:
     /**
      * @brief util method to apply sizeHint accorrding sizeParam
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
                               void, sizeHintApply,
                               ZFMP_OUT(zfint &, ret),
                               ZFMP_IN(zfint, size),
                               ZFMP_IN(zfint, sizeHint),
                               ZFMP_IN(ZFUISizeTypeEnum, sizeParam))
     /** @brief see #sizeHintApply */
-    ZFMETHOD_INLINE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_3(public, ZFMethodTypeStatic,
                              zfint, sizeHintApply,
                              ZFMP_IN(zfint, size),
                              ZFMP_IN(zfint, sizeHint),
@@ -130,14 +130,14 @@ public:
     /**
      * @brief util method to apply sizeHint accorrding sizeParam
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
                               void, sizeHintApply,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, size),
                               ZFMP_IN(const ZFUISize &, sizeHint),
                               ZFMP_IN(const ZFUISizeParam &, sizeParam))
     /** @brief see #sizeHintApply */
-    ZFMETHOD_INLINE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_3(public, ZFMethodTypeStatic,
                              ZFUISize, sizeHintApply,
                              ZFMP_IN(const ZFUISize &, size),
                              ZFMP_IN(const ZFUISize &, sizeHint),
@@ -151,13 +151,13 @@ public:
     /**
      * @brief merge two size hint
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
                               void, sizeHintMerge,
                               ZFMP_OUT(zfint &, ret),
                               ZFMP_IN(zfint, sizeHint0),
                               ZFMP_IN(zfint, sizeHint1))
     /** @brief see #sizeHintMerge */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
                              zfint, sizeHintMerge,
                              ZFMP_IN(zfint, sizeHint0),
                              ZFMP_IN(zfint, sizeHint1))
@@ -170,13 +170,13 @@ public:
     /**
      * @brief merge two size hint
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
                               void, sizeHintMerge,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, sizeHint0),
                               ZFMP_IN(const ZFUISize &, sizeHint1))
     /** @brief see #sizeHintMerge */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
                              ZFUISize, sizeHintMerge,
                              ZFMP_IN(const ZFUISize &, sizeHint0),
                              ZFMP_IN(const ZFUISize &, sizeHint1))
@@ -189,13 +189,13 @@ public:
     /**
      * @brief safely increase or decrease size hint, do nothing if old one is no limit
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
                               void, sizeHintOffset,
                               ZFMP_OUT(zfint &, ret),
                               ZFMP_IN(zfint, sizeHint),
                               ZFMP_IN(zfint, offset))
     /** @brief see #sizeHintOffset */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
                              zfint, sizeHintOffset,
                              ZFMP_IN(zfint, sizeHint),
                              ZFMP_IN(zfint, offset))
@@ -208,13 +208,13 @@ public:
     /**
      * @brief safely increase or decrease size hint, do nothing if old one is no limit
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
                               void, sizeHintOffset,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, sizeHint),
                               ZFMP_IN(const ZFUISize &, offset))
     /** @brief see #sizeHintOffset */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
                              ZFUISize, sizeHintOffset,
                              ZFMP_IN(const ZFUISize &, sizeHint),
                              ZFMP_IN(const ZFUISize &, offset))
@@ -227,13 +227,13 @@ public:
     /**
      * @brief safely increase or decrease size hint, do nothing if old one is no limit
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
                               void, sizeHintOffset,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, sizeHint),
                               ZFMP_IN(zfint, offset))
     /** @brief see #sizeHintOffset */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
                              ZFUISize, sizeHintOffset,
                              ZFMP_IN(const ZFUISize &, sizeHint),
                              ZFMP_IN(zfint, offset))

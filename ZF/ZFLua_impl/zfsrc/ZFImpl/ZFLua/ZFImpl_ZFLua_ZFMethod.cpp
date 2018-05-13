@@ -71,14 +71,14 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, {
 
         ZFClassDataChangeObserver.observerAdd(
             ZFGlobalEvent::EventClassDataChange(),
-            ZFCallbackForRawFunction(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange));
+            ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange));
 
         ZFImpl_ZFLua_implSetupScope(L, ZFLuaFuncNamespaceGlobal);
         ZFImpl_ZFLua_implSetupScope(L, ZFMethodFuncNamespaceGlobal);
     }, {
         ZFClassDataChangeObserver.observerRemove(
             ZFGlobalEvent::EventClassDataChange(),
-            ZFCallbackForRawFunction(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange));
+            ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange));
     })
 
 ZF_NAMESPACE_GLOBAL_END

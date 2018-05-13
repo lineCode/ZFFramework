@@ -30,8 +30,8 @@ public:
     : owner(owner)
     , gameCore(zfnull)
     , gameUI(zfnull)
-    , gameOnMoveListener(ZFCallbackForRawFunction(_ZFP_ZF2048GamePrivate::gameOnMove))
-    , gameDataOnChangeListener(ZFCallbackForRawFunction(_ZFP_ZF2048GamePrivate::gameDataOnChange))
+    , gameOnMoveListener(ZFCallbackForFunc(_ZFP_ZF2048GamePrivate::gameOnMove))
+    , gameDataOnChangeListener(ZFCallbackForFunc(_ZFP_ZF2048GamePrivate::gameDataOnChange))
     , animating(zfnull)
     , undoFlag(zffalse)
     {

@@ -542,7 +542,7 @@ typedef zfstlhashmap<ZFOperation *, zfbool,
     > _ZFP_ZFOperationMapType;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFOperationDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->cacheTrimListener = ZFCallbackForRawFunction(zfself::cacheTrim);
+    this->cacheTrimListener = ZFCallbackForFunc(zfself::cacheTrim);
 }
 public:
     ZFListener cacheTrimListener;

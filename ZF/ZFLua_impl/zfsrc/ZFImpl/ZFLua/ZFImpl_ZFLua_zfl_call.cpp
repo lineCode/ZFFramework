@@ -21,7 +21,7 @@ static void _ZFP_ZFImpl_ZFLua_zfl_callStatic_methodScopeFix(ZF_IN_OUT zfstring &
     }
 }
 static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
-                                              ZF_IN_OUT zfautoObject *paramList,
+                                              ZF_IN_OUT zfautoObject *paramList_,
                                               ZF_IN zfindex paramCount,
                                               ZF_IN const ZFCoreArrayPOD<const ZFMethod *> &methodList,
                                               ZF_IN ZFObject *obj)
@@ -41,14 +41,22 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
 
         errorHint.removeAll();
 
-        /* ZFMETHOD_MAX_PARAM */
+        zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+            paramList_[0],
+            paramList_[1],
+            paramList_[2],
+            paramList_[3],
+            paramList_[4],
+            paramList_[5],
+            paramList_[6],
+            paramList_[7],
+        };
         zfbool parseParamSuccess = zftrue;
         for(zfindex i = 0; i < paramCount; ++i)
         {
             ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramList[i].toObject());
             if(t != zfnull)
             {
-                zfautoObject tHolder = paramList[i];
                 const ZFPropertyTypeIdDataBase *typeIdData = ZFPropertyTypeIdDataGet(method->methodParamTypeIdAtIndex(i));
                 if(typeIdData == zfnull || !typeIdData->propertyWrapper(paramList[i]))
                 {
@@ -57,7 +65,6 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
                             method->methodParamTypeNameAtIndex(i)
                         );
                     parseParamSuccess = zffalse;
-                    paramList[i] = tHolder;
                     break;
                 }
 
@@ -80,7 +87,6 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
                             method->methodParamTypeNameAtIndex(i),
                             t->zfv.cString()
                         );
-                    paramList[i] = tHolder;
                     break;
                 }
             }
@@ -122,7 +128,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
             {
                 err += zfText(", ");
             }
-            err += ZFObjectInfo(paramList[i].toObject());
+            err += ZFObjectInfo(paramList_[i].toObject());
         }
         err += zfText("]");
         err += zfText(", reason: ");
@@ -143,7 +149,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
             {
                 err += zfText(", ");
             }
-            err += ZFObjectInfo(paramList[i].toObject());
+            err += ZFObjectInfo(paramList_[i].toObject());
         }
         err += zfText("]");
         err += zfText(", last error reason: ");

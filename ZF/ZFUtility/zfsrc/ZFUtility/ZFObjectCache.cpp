@@ -21,7 +21,7 @@ typedef zfstlhashmap<ZFObjectCache *, zfbool,
     > _ZFP_ZFObjectCacheAtachedObjectMapType;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObjectCacheDataHolder, ZFLevelZFFrameworkStatic)
 {
-    this->cacheTrimListener = ZFCallbackForRawFunction(zfself::cacheTrim);
+    this->cacheTrimListener = ZFCallbackForFunc(zfself::cacheTrim);
 }
 public:
     ZFListener cacheTrimListener;

@@ -28,7 +28,7 @@
  *   ZFCallback callback1 = ZFCallbackForMemberMethod(obj, method);
  *
  *   // create callback from normal function
- *   ZFCallback callback2 = ZFCallbackForRawFunction(myStaticFunc);
+ *   ZFCallback callback2 = ZFCallbackForFunc(myStaticFunc);
  *
  *   // safe to assign new value to the callback,
  *   // even if method's proto type is not the same
@@ -51,3 +51,4 @@
  * and now we are free to play with delegate/protocol/listener/observer
  * or whatever-it-called mechanisms
  */
+

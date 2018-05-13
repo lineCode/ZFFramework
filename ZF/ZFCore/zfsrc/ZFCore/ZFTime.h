@@ -354,14 +354,14 @@ public:
     /**
      * @brief return true if year is leap year
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               zfbool, leapYear,
                               ZFMP_IN(zfint, year))
     /**
      * @brief return leap year num in range [year1, year2],
      *   may return negative value if (year1 > year2)
      */
-    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodTypeStatic,
                               zfint, leapYearBetween,
                               ZFMP_IN(zfint, year1),
                               ZFMP_IN(zfint, year2))
@@ -374,18 +374,18 @@ public:
      * \n
      * typically, this method would have better performance and accuracy than #currentTimeValue
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               zftimet, timestamp)
 
     /**
      * @brief return time since #ZFTimeInfoZero, negative if before #ZFTimeInfoZero
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               ZFTimeValue, currentTimeValue)
     /**
      * @brief equal to ZFTimeValueToMiliSeconds(currentTimeValue())
      */
-    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodTypeStatic,
                              zftimet, currentTimeMiliSeconds)
     {
         return ZFTimeValueToMiliSeconds(ZFTime::currentTimeValue());
@@ -393,20 +393,20 @@ public:
     /**
      * @brief return current time info, util method to #currentTimeValue
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               ZFTimeInfo, currentTimeInfo,
                               ZFMP_IN_OPT(const ZFTimeValue &, localTimeZone, ZFTime::timeZoneLocal()))
     /**
      * @brief convert time value to time info
      */
-    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodTypeStatic,
                               zfbool, timeInfoFromTimeValue,
                               ZFMP_OUT(ZFTimeInfo &, ti),
                               ZFMP_IN(const ZFTimeValue &, tv))
     /**
      * @brief convert time info to time value
      */
-    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_2(public, ZFMethodTypeStatic,
                               zfbool, timeInfoToTimeValue,
                               ZFMP_OUT(ZFTimeValue &, tv),
                               ZFMP_IN(const ZFTimeInfo &, ti))
@@ -430,7 +430,7 @@ public:
      * time zone would be applied,
      * simply by #ZFTimeValueInc to the time value of ZFTime object
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               const ZFTimeValue &, timeZoneLocal)
 
 protected:

@@ -12,16 +12,11 @@
 #include "ZFUIKit/protocol/ZFProtocolZFUIViewFocus.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIKeyboardState.h"
 
-#define _ZFP_ZFUIViewImpl_sys_iOS_VIEW_TREE_DEBUG (ZF_ENV_DEBUG && 0)
-
 #if ZF_ENV_sys_iOS
 
 #import <objc/runtime.h>
 
 @interface _ZFP_ZFUIViewImpl_sys_iOS_View : UIView
-#if _ZFP_ZFUIViewImpl_sys_iOS_VIEW_TREE_DEBUG
-@property (nonatomic, strong) NSString *text;
-#endif
 @property (nonatomic, assign) ZFUIView *_ZFP_ownerZFUIView;
 @property (nonatomic, strong) UIView *_ZFP_nativeImplView;
 @property (nonatomic, assign) CGRect _ZFP_frame;
@@ -55,36 +50,7 @@
 - (void)dealloc
 {
     zfCoreAssert(self._ZFP_nativeImplView == nil);
-
-#if _ZFP_ZFUIViewImpl_sys_iOS_VIEW_TREE_DEBUG
-    self.text = nil;
-#endif
 }
-
-#if _ZFP_ZFUIViewImpl_sys_iOS_VIEW_TREE_DEBUG
-- (void)set_ZFP_ownerZFUIView:(ZFUIView *)newOwnerZFUIView ZFImpl_sys_iOS_overrideProperty
-{
-    ZFLISTENER_LOCAL(viewIdListener, {
-        const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
-        if(property == ZFPropertyAccess(ZFUIView, viewId))
-        {
-            ZFUIView *view = ZFCastZFObjectUnchecked(ZFUIView *, listenerData.sender);
-            const zfstring &viewId = view->viewId();
-            ((__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView()).text
-                = (viewId.isEmpty() ? nil : [NSString stringWithUTF8String:view->viewId().cString()]);
-        }
-    })
-    if(self->__ZFP_ownerZFUIView != zfnull)
-    {
-        self->__ZFP_ownerZFUIView->observerRemove(ZFObject::EventObjectPropertyValueOnUpdate(), viewIdListener);
-    }
-    self->__ZFP_ownerZFUIView = newOwnerZFUIView;
-    if(newOwnerZFUIView != zfnull)
-    {
-        newOwnerZFUIView->observerAdd(ZFObject::EventObjectPropertyValueOnUpdate(), viewIdListener);
-    }
-}
-#endif
 
 // ============================================================
 // ui and tree enable

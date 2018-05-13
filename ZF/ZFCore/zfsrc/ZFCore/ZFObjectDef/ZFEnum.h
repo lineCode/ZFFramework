@@ -131,13 +131,23 @@ public:
     virtual void *wrappedValue(void);
     zfoverride
     virtual void wrappedValueSet(ZF_IN const void *v);
+    zfoverride
+    virtual void wrappedValueGet(ZF_IN void *v);
 public:
     zfoverride
     virtual void wrappedValueReset(void);
     zfoverride
     virtual zfbool wrappedValueIsInit(void);
     zfoverride
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v);
+    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
+                                                ZF_IN const void *v1);
+    zfoverride
+    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
+                                     ZF_IN const void *v);
+    zfoverride
+    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
+                                              ZF_IN const void *to,
+                                              ZF_IN zffloat progress);
 public:
     zfoverride
     virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData,

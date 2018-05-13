@@ -36,7 +36,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   // for #ZFCallbackForMemberMethod
  *   // not supported
  *
- *   // for #ZFCallbackForRawFunction
+ *   // for #ZFCallbackForFunc
  *   // not supported
  * @endcode
  * \n

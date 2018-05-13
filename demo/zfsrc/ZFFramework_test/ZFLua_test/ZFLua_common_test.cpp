@@ -49,7 +49,7 @@ public:
         ret += zfText("(modified)");
         return ret;
     }
-    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodTypeStatic,
                              zfstring &, MyMethod, ZFMP_IN(zfstring &, param0))
     {
         zfLogT() << param0;
@@ -65,12 +65,12 @@ public:
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodTypeStatic,
                              void, MyMethodOverload, ZFMP_IN(const zfchar *, param0))
     {
         zfLogT() << param0;
     }
-    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodTypeStatic,
                              void, MyMethodOverload, ZFMP_IN(zfbool, param0))
     {
         zfLogT() << param0;

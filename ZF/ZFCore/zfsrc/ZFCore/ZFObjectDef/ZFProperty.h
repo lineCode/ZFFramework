@@ -60,6 +60,32 @@ public:
         return this->_ZFP_ZFProperty_propertyIsUserRegister;
     }
     /**
+     * @brief true if this property is registered by #ZFPropertyDynamicRegister
+     */
+    inline zfbool propertyIsDynamicRegister(void) const
+    {
+        return this->_ZFP_ZFProperty_propertyIsDynamicRegister;
+    }
+    /**
+     * @brief see #ZFPropertyDynamicRegister
+     */
+    inline ZFObject *propertyDynamicRegisterUserData(void) const
+    {
+        return this->_ZFP_ZFProperty_propertyDynamicRegisterUserData;
+    }
+    /**
+     * @brief true if the property is serializable
+     *
+     * property are serializable except:
+     * -  #propertyTypeId is #ZFPropertyTypeId_none
+     * -  assign property with #ZFPropertyTypeId_ZFObject
+     * -  #ZFPropertyTypeIdDataBase::propertySerializable returned false
+     *
+     * @note this property would be calculated at runtime,
+     *   take care of performance
+     */
+    zfbool propertySerializable(void) const;
+    /**
      * @brief get the property's owner class
      */
     inline const ZFClass *propertyOwnerClass(void) const
@@ -170,6 +196,8 @@ public:
     /** @endcond */
     zfbool _ZFP_ZFPropertyNeedInit;
     void _ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
+                             ZF_IN zfbool propertyIsDynamicRegister,
+                             ZF_IN ZFObject *propertyDynamicRegisterUserData,
                              ZF_IN const ZFClass *propertyOwnerClass,
                              ZF_IN const zfchar *name,
                              ZF_IN const zfchar *typeName,
@@ -184,6 +212,9 @@ public:
 public:
     zfstring _ZFP_ZFProperty_propertyInternalId;
     zfbool _ZFP_ZFProperty_propertyIsUserRegister;
+    zfbool _ZFP_ZFProperty_propertyIsDynamicRegister;
+    ZFObject *_ZFP_ZFProperty_propertyDynamicRegisterUserData;
+    ZFObject *_ZFP_ZFProperty_propertyDynamicRegisterUserDataWrapper;
     const ZFClass *_ZFP_ZFProperty_propertyOwnerClass;
     zfstring _ZFP_ZFProperty_name;
     zfstring _ZFP_ZFProperty_typeName;
@@ -219,6 +250,8 @@ inline ZFCoreArrayPOD<const ZFProperty *> ZFPropertyGetAll(ZF_IN_OPT const ZFFil
 
 // ============================================================
 extern ZF_ENV_EXPORT ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
+                                                         , ZF_IN zfbool propertyIsDynamicRegister
+                                                         , ZF_IN ZFObject *propertyDynamicRegisterUserData
                                                          , ZF_IN const ZFClass *propertyOwnerClass
                                                          , ZF_IN const zfchar *name
                                                          , ZF_IN const zfchar *typeName
@@ -245,6 +278,8 @@ zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFPropertyRegisterHolder
 {
 public:
     _ZFP_ZFPropertyRegisterHolder(ZF_IN zfbool propertyIsUserRegister
+                                  , ZF_IN zfbool propertyIsDynamicRegister
+                                  , ZF_IN ZFObject *propertyDynamicRegisterUserData
                                   , ZF_IN const ZFClass *propertyOwnerClass
                                   , ZF_IN const zfchar *name
                                   , ZF_IN const zfchar *typeName
@@ -266,6 +301,8 @@ public:
                                   , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                   )
     : propertyInfo(_ZFP_ZFPropertyRegister(propertyIsUserRegister
+                                           , propertyIsDynamicRegister
+                                           , propertyDynamicRegisterUserData
                                            , propertyOwnerClass
                                            , name
                                            , typeName
@@ -385,6 +422,21 @@ inline zfbool _ZFP_propCbDProgressUpdate(ZF_IN const ZFProperty *property,
         {
             return zffalse;
         }
+    }
+}
+template<typename T_PropVT>
+inline zfbool _ZFP_PropTypeProgressUpdate(ZF_IN_OUT T_PropVT &zfv,
+                                          ZF_IN_OPT const void *from = zfnull,
+                                          ZF_IN_OPT const void *to = zfnull,
+                                          ZF_IN_OPT zffloat progress = 1)
+{
+    if(from == zfnull)
+    {
+        return _ZFP_ZFPropertyProgressHolder<T_PropVT>::update();
+    }
+    else
+    {
+        return _ZFP_ZFPropertyProgressHolder<T_PropVT>::update(&zfv, from, to, progress);
     }
 }
 

@@ -40,17 +40,17 @@ public:
     {
         zfLogT();
     }
-    ZFMETHOD_INLINE_DETAIL_0(protected, ZFMethodIsVirtual,
+    ZFMETHOD_INLINE_DETAIL_0(protected, ZFMethodTypeVirtual,
                              void, methodProtected)
     {
         zfLogT();
     }
-    ZFMETHOD_INLINE_DETAIL_0(private, ZFMethodIsVirtual,
+    ZFMETHOD_INLINE_DETAIL_0(private, ZFMethodTypeVirtual,
                              void, methodPrivate)
     {
         zfLogT();
     }
-    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodTypeStatic,
                              void, methodStatic)
     {
         zfLogT();

@@ -16,7 +16,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkWhenFocus_AutoPause_DataHolder, ZFLevelZFFrameworkLow)
 {
-    this->doActionListener = ZFCallbackForRawFunction(zfself::doAction);
+    this->doActionListener = ZFCallbackForFunc(zfself::doAction);
     ZFObjectGlobalEventObserver().observerAdd(ZFUIWindow::EventWindowOnShow(), this->doActionListener);
     ZFObjectGlobalEventObserver().observerAdd(ZFUIWindow::EventWindowOnHide(), this->doActionListener);
     ZFObjectGlobalEventObserver().observerAdd(ZFUISysWindow::EventSysWindowOnResume(), this->doActionListener);

@@ -114,7 +114,7 @@ public:
         cell->cellViewSet(actionItem);
         owner->d->actionListAdapter()->cellAdd(cell);
         actionItem->actionValueSet(clicked->actionValue());
-        actionItem->observerAdd(ZFUIButtonBasic::EventButtonOnClick(), ZFCallbackForRawFunction(zfself::actionItemOnClick), owner->objectHolder());
+        actionItem->observerAdd(ZFUIButtonBasic::EventButtonOnClick(), ZFCallbackForFunc(zfself::actionItemOnClick), owner->objectHolder());
         owner->d->actionList()->listReload();
 
         owner->d->confirmButton()->buttonEnableSet(owner->d->actionListAdapter()->cellCount() > 0);
@@ -146,7 +146,7 @@ public:
 private:
     void addActionButtonSetup(void)
     {
-        ZFListener onClickListener = ZFCallbackForRawFunction(zfself::addActionOnClick);
+        ZFListener onClickListener = ZFCallbackForFunc(zfself::addActionOnClick);
         ZFObjectHolder *ownerHolder = this->owner->objectHolder();
         this->addAction_left()->actionValueSet(ZF2048AppAutoMoveAction::e_Left);
         this->addAction_left()->observerAdd(ZFUIButton::EventButtonOnClick(), onClickListener, ownerHolder);
@@ -162,8 +162,8 @@ private:
     void buttonSetup(void)
     {
         this->confirmButton()->buttonEnableSet(zffalse);
-        this->confirmButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForRawFunction(zfself::confirmButtonOnClick), this->owner->objectHolder());
-        this->cancelButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForRawFunction(zfself::cancelButtonOnClick), this->owner->objectHolder());
+        this->confirmButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForFunc(zfself::confirmButtonOnClick), this->owner->objectHolder());
+        this->cancelButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForFunc(zfself::cancelButtonOnClick), this->owner->objectHolder());
     }
 };
 

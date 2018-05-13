@@ -22,3 +22,4 @@
  * we just output "hello world" to zfLogT,
  * which would output to a proper console by default
  */
+

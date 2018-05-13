@@ -280,8 +280,8 @@ void ZFUIDialogContentBasic::dialogButtonRemoveAll(void)
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIDialogContentBasicDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->textChangeListener = ZFCallbackForRawFunction(zfself::textChange);
-    this->containerChildChangeListener = ZFCallbackForRawFunction(zfself::containerChildChange);
+    this->textChangeListener = ZFCallbackForFunc(zfself::textChange);
+    this->containerChildChangeListener = ZFCallbackForFunc(zfself::containerChildChange);
 }
 public:
     ZFListener textChangeListener;

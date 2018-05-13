@@ -18,7 +18,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewFocusNextSetDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->nextFocusOnDeallocListener = ZFCallbackForRawFunction(zfself::nextFocusOnDealloc);
+    this->nextFocusOnDeallocListener = ZFCallbackForFunc(zfself::nextFocusOnDealloc);
 }
 public:
     ZFListener nextFocusOnDeallocListener;

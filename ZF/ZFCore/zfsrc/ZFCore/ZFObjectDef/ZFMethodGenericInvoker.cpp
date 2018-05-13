@@ -12,6 +12,38 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+/* ZFMETHOD_MAX_PARAM */
+zfbool ZFMethodGenericInvoke(ZF_IN const ZFMethod *invokerMethod
+                             , ZF_IN ZFObject *invokerObject
+                             , ZF_OUT_OPT zfstring *errorHint
+                             , ZF_OUT zfautoObject &ret
+                             , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
+                             , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                             )
+{
+    return invokerMethod->methodGenericInvoker()(
+            invokerMethod
+            , invokerObject
+            , errorHint
+            , ret
+            , param0
+            , param1
+            , param2
+            , param3
+            , param4
+            , param5
+            , param6
+            , param7
+        );
+}
+
+// ============================================================
 zfclass _ZFP_I_ZFMethodGenericInvokerDefaultParamType : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(_ZFP_I_ZFMethodGenericInvokerDefaultParamType, ZFObject)
@@ -64,6 +96,34 @@ void _ZFP_MtdGIRetError(ZF_OUT_OPT zfstring *errorHint,
         zfText("[ZFMethodGenericInvoker] unable to convert return value as type %s: %s"),
         returnTypeId,
         returnValueInfo);
+}
+
+// ============================================================
+void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *method,
+                                     ZF_IN ZFObject *obj,
+                                     ZF_IN zfint pos,
+                                     ZF_IN_OPT const zfchar *errorHint /* = zfnull */)
+{
+    if(pos >= 0)
+    {
+        zfCoreCriticalMessageTrim(
+            zfTextA("[ZFMethodDynamicRegister] method %s unable to convert param %d"),
+            zfsCoreZ2A(method->objectInfo().cString()),
+            pos);
+    }
+    else if(pos == -1)
+    {
+        zfCoreCriticalMessageTrim(
+            zfTextA("[ZFMethodDynamicRegister] method %s unable to perform generic invoker, reason: %s"),
+            zfsCoreZ2A(method->objectInfo().cString()),
+            errorHint);
+    }
+    else
+    {
+        zfCoreCriticalMessageTrim(
+            zfTextA("[ZFMethodDynamicRegister] method %s unable to convert return value"),
+            zfsCoreZ2A(method->objectInfo().cString()));
+    }
 }
 
 ZF_NAMESPACE_GLOBAL_END

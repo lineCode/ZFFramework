@@ -35,6 +35,24 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += this->propertyName();
 }
 
+zfbool ZFProperty::propertySerializable(void) const
+{
+    if(zfscmpTheSame(this->propertyTypeId(), ZFPropertyTypeId_none))
+    {
+        return zffalse;
+    }
+    else if(!this->propertyIsRetainProperty() && zfscmpTheSame(this->propertyTypeId(), ZFPropertyTypeId_ZFObject()))
+    {
+        return zffalse;
+    }
+    const ZFPropertyTypeIdDataBase *t = ZFPropertyTypeIdDataGet(this->propertyTypeId());
+    if(t == zfnull || !t->propertySerializable())
+    {
+        return zffalse;
+    }
+    return zftrue;
+}
+
 /** @cond ZFPrivateDoc */
 ZFProperty::ZFProperty(void)
 : callbackIsValueAccessed(zfnull)
@@ -50,6 +68,8 @@ ZFProperty::ZFProperty(void)
 , callbackUserRegisterInitValueSetup(zfnull)
 , _ZFP_ZFPropertyNeedInit(zftrue)
 , _ZFP_ZFProperty_propertyIsUserRegister(zffalse)
+, _ZFP_ZFProperty_propertyIsDynamicRegister(zffalse)
+, _ZFP_ZFProperty_propertyDynamicRegisterUserData(zfnull)
 , _ZFP_ZFProperty_propertyOwnerClass(zfnull)
 , _ZFP_ZFProperty_name()
 , _ZFP_ZFProperty_typeName()
@@ -71,6 +91,8 @@ ZFProperty::~ZFProperty(void)
 }
 /** @endcond */
 void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
+                                     ZF_IN zfbool propertyIsDynamicRegister,
+                                     ZF_IN ZFObject *propertyDynamicRegisterUserData,
                                      ZF_IN const ZFClass *propertyOwnerClass,
                                      ZF_IN const zfchar *name,
                                      ZF_IN const zfchar *typeName,
@@ -80,10 +102,12 @@ void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
                                      ZF_IN const ZFClass *propertyClassOfRetainProperty)
 {
     this->_ZFP_ZFProperty_propertyIsUserRegister = propertyIsUserRegister;
+    this->_ZFP_ZFProperty_propertyIsDynamicRegister = propertyIsDynamicRegister;
+    this->_ZFP_ZFProperty_propertyDynamicRegisterUserData = zfRetain(propertyDynamicRegisterUserData);
     this->_ZFP_ZFProperty_propertyOwnerClass = propertyOwnerClass;
     this->_ZFP_ZFProperty_name = name;
     this->_ZFP_ZFProperty_typeName = typeName;
-    if(propertyClassOfRetainProperty == zfnull && zfscmpTheSame(typeIdName, ZFPropertyTypeId_ZFObject))
+    if(propertyClassOfRetainProperty == zfnull && zfscmpTheSame(typeIdName, ZFPropertyTypeId_ZFObject()))
     { // assign property with ZFObject type, is not serializable
         this->_ZFP_ZFProperty_typeId = ZFPropertyTypeId_none;
     }
@@ -93,6 +117,8 @@ void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
     }
     this->_ZFP_ZFProperty_setterMethod = setterMethod;
     this->_ZFP_ZFProperty_getterMethod = getterMethod;
+    setterMethod->_ZFP_ZFMethod_removeConst()->_ZFP_ZFMethod_methodOwnerProperty = this;
+    getterMethod->_ZFP_ZFMethod_removeConst()->_ZFP_ZFMethod_methodOwnerProperty = this;
     this->_ZFP_ZFProperty_propertyClassOfRetainProperty = propertyClassOfRetainProperty;
 }
 
@@ -204,6 +230,8 @@ static zfbool _ZFP_ZFPropertyInstanceCleanup(ZF_IN const ZFProperty *property)
 }
 
 ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
+                                    , ZF_IN zfbool propertyIsDynamicRegister
+                                    , ZF_IN ZFObject *propertyDynamicRegisterUserData
                                     , ZF_IN const ZFClass *propertyOwnerClass
                                     , ZF_IN const zfchar *name
                                     , ZF_IN const zfchar *typeName
@@ -256,6 +284,14 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
             zfsCoreZ2A(propertyOwnerClass->className()),
             zfsCoreZ2A(name));
     }
+    else if(propertyIsDynamicRegister)
+    {
+        propertyInfo = _ZFP_ZFPropertyInstanceFind(propertyInternalId);
+        zfCoreAssertWithMessageTrim(propertyInfo == zfnull,
+            zfTextA("[ZFPropertyDynamicRegister] registering a property that already registered, class: %s, propertyName: %s"),
+            zfsCoreZ2A(propertyOwnerClass->className()),
+            zfsCoreZ2A(name));
+    }
     propertyInfo = _ZFP_ZFPropertyInstanceAccess(propertyInternalId);
 
     if(propertyInfo->_ZFP_ZFPropertyNeedInit)
@@ -263,6 +299,8 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
         propertyInfo->_ZFP_ZFPropertyNeedInit = zffalse;
         propertyInfo->_ZFP_ZFPropertyInit(
             propertyIsUserRegister,
+            propertyIsDynamicRegister,
+            propertyDynamicRegisterUserData,
             propertyOwnerClass,
             name,
             typeName,
@@ -294,11 +332,20 @@ void _ZFP_ZFPropertyUnregister(ZF_IN const ZFProperty *propertyInfo)
     zfCoreMutexLocker();
     _ZFP_ZFClassDataChangeNotify(ZFClassDataChangeTypeDetach, zfnull, propertyInfo, zfnull);
 
+    propertyInfo->setterMethod()->_ZFP_ZFMethod_removeConst()->_ZFP_ZFMethod_methodOwnerProperty = zfnull;
+    propertyInfo->getterMethod()->_ZFP_ZFMethod_removeConst()->_ZFP_ZFMethod_methodOwnerProperty = zfnull;
     if(propertyInfo->propertyIsUserRegister())
     {
+        propertyInfo->propertyOwnerClass()->_ZFP_ZFClass_removeConst()->_ZFP_ZFClass_propertyUnregister(propertyInfo);
         ZFMethodUserUnregister(propertyInfo->setterMethod());
         ZFMethodUserUnregister(propertyInfo->getterMethod());
+    }
+    else if(propertyInfo->propertyIsDynamicRegister())
+    {
         propertyInfo->propertyOwnerClass()->_ZFP_ZFClass_removeConst()->_ZFP_ZFClass_propertyUnregister(propertyInfo);
+        ZFMethodDynamicUnregister(propertyInfo->setterMethod());
+        ZFMethodDynamicUnregister(propertyInfo->getterMethod());
+        zfRetainChange(propertyInfo->_ZFP_ZFProperty_removeConst()->_ZFP_ZFProperty_propertyDynamicRegisterUserData, zfnull);
     }
 
     _ZFP_ZFPropertyInstanceCleanup(propertyInfo);
@@ -360,6 +407,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, const zfchar *, propertyInternalId)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, zfbool, propertyIsUserRegister)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, zfbool, propertyIsDynamicRegister)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, ZFObject *, propertyDynamicRegisterUserData)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, const ZFClass *, propertyOwnerClass)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, const zfchar *, propertyName)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, const zfchar *, propertyTypeName)

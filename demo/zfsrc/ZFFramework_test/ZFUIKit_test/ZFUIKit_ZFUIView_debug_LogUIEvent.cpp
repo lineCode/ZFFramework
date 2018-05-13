@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #if 0
 ZF_GLOBAL_INITIALIZER_INIT(ZFUIKit_ZFUIView_debug_LogUIEvent)
 {
-    this->onUIEventListener = ZFCallbackForRawFunction(zfself::onUIEvent);
+    this->onUIEventListener = ZFCallbackForFunc(zfself::onUIEvent);
     ZFObjectGlobalEventObserver().observerAdd(
             ZFUIView::EventViewOnEvent(),
             this->onUIEventListener

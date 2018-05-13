@@ -50,8 +50,8 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
  */
 #define _ZFP_ZFCALLBACK_INVOKER(N) \
     /** @brief see #ZFCallback, you must assign the exact return type and param types for safe */ \
-    template<typename T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TEMPLATE, ZFM_COMMA)> \
-    T_ReturnType executeExact(ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_EMPTY)) const \
+    template<typename T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TEMPLATE, ZFM_COMMA, ZFM_COMMA)> \
+    T_ReturnType executeExact(ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_EMPTY, ZFM_COMMA)) const \
     { \
         switch(_ZFP_ZFCallbackCached_callbackType) \
         { \
@@ -59,12 +59,12 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
                 _ZFP_ZFCallback_executeNullCallback(); \
                 break; \
             case _ZFP_ZFCallbackCachedTypeClassMember: \
-                return ((T_ReturnType (*)(const ZFMethod *, ZFObject * ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA)))( \
+                return ((T_ReturnType (*)(const ZFMethod *, ZFObject * ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)))( \
                     this->_ZFP_ZFCallbackCached_callbackInvoker_method())) \
-                        (this->callbackMethod(), _ZFP_ZFCallbackCached_callbackOwnerObj ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA)); \
+                        (this->callbackMethod(), _ZFP_ZFCallbackCached_callbackOwnerObj ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA)); \
             case _ZFP_ZFCallbackCachedTypeRawFunction: \
-                return ((T_ReturnType (*)(ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_EMPTY)))(this->_ZFP_ZFCallbackCached_callbackInvoker_rawFunction())) \
-                    (ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_EMPTY)); \
+                return ((T_ReturnType (*)(ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_EMPTY, ZFM_COMMA)))(this->_ZFP_ZFCallbackCached_callbackInvoker_rawFunction())) \
+                    (ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_EMPTY, ZFM_COMMA)); \
             default: \
                 break; \
         } \
@@ -455,12 +455,12 @@ private:
  *
  * assert fail if function address not valid
  */
-#define ZFCallbackForRawFunction(callbackRawFunc) \
+#define ZFCallbackForFunc(callbackRawFunc) \
     ZFCallback::_ZFP_ZFCallbackCreate( \
         ZFCallbackTypeRawFunction, \
         zfnull, \
         zfnull, \
-        (ZFFuncAddrType)callbackRawFunc)
+        (ZFFuncAddrType)(callbackRawFunc))
 
 // ============================================================
 /**
@@ -551,7 +551,7 @@ private:
 /** @brief see #ZFCALLBACK_LOCAL_BEGIN_0 */
 #define ZFCALLBACK_LOCAL_END_WITH_TYPE(CallbackType, callbackName) \
     }; \
-    CallbackType callbackName = ZFCallbackForRawFunction((ZFFuncAddrType)(ZFM_CAT(_ZFP_ZFCallbackLocal_, callbackName)::callbackName));
+    CallbackType callbackName = ZFCallbackForFunc((ZFFuncAddrType)(ZFM_CAT(_ZFP_ZFCallbackLocal_, callbackName)::callbackName));
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFCallback_h_

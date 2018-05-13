@@ -203,7 +203,7 @@ public:
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIDialogForChoiceDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->dialogOnConfirmListener = ZFCallbackForRawFunction(zfself::dialogOnConfirm);
+    this->dialogOnConfirmListener = ZFCallbackForFunc(zfself::dialogOnConfirm);
 }
 public:
     ZFListener dialogOnConfirmListener;

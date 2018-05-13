@@ -758,13 +758,6 @@ public:
     {
         return ZFCastZFObjectUnchecked(T_LayoutParam, this->layoutParam());
     }
-    /**
-     * @brief #ZFAnyT version of #layoutParam
-     */
-    zffinal inline ZFAnyT<ZFUIViewLayoutParam *> layoutParamT(void)
-    {
-        return ZFAnyT<ZFUIViewLayoutParam *>(this->layoutParam());
-    }
 
 public:
     zffinal void _ZFP_ZFUIView_notifyLayoutRootView(ZF_IN const ZFUIRect &bounds);

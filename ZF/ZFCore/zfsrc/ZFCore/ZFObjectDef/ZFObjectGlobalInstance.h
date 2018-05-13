@@ -196,7 +196,7 @@ public:
     GetterAccessType: \
         /** \n access singleton instance */ \
         ZFMETHOD_INLINE_DETAIL_0( \
-            GetterAccessType, ZFMethodIsStatic, \
+            GetterAccessType, ZFMethodTypeStatic, \
             AccessTypeName *, accessMethodName \
             ) \
         { \
@@ -205,7 +205,7 @@ public:
     SetterAccessType: \
         /** @brief see @ref accessMethodName */ \
         ZFMETHOD_INLINE_DETAIL_1( \
-            SetterAccessType, ZFMethodIsStatic, \
+            SetterAccessType, ZFMethodTypeStatic, \
             void, accessMethodName##Set \
             , ZFMP_IN(AccessTypeName *, param0) \
             ) \
@@ -220,13 +220,13 @@ public:
     GetterAccessType: \
         /** @brief see @ref accessMethodName */ \
         ZFMETHOD_DECLARE_DETAIL_0( \
-            GetterAccessType, ZFMethodIsStatic, \
+            GetterAccessType, ZFMethodTypeStatic, \
             ZFObject *, accessMethodName##Reflect \
             ) \
     SetterAccessType: \
         /** @brief see @ref accessMethodName */ \
         ZFMETHOD_DECLARE_DETAIL_1( \
-            SetterAccessType, ZFMethodIsStatic, \
+            SetterAccessType, ZFMethodTypeStatic, \
             void, accessMethodName##Set##Reflect \
             , ZFMP_IN(ZFObject *, param0) \
             ) \

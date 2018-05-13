@@ -210,7 +210,7 @@ protected:
     /**
      * @brief set the #pageCreateParam, usually set by owner page manager only
      */
-    ZFMETHOD_INLINE_DETAIL_1(protected, ZFMethodIsVirtual,
+    ZFMETHOD_INLINE_DETAIL_1(protected, ZFMethodTypeVirtual,
                              void, pageCreateParamSet,
                              ZFMP_IN(ZFObject * const &, pageCreateParam))
     {

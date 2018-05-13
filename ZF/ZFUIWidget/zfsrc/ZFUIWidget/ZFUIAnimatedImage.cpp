@@ -39,8 +39,8 @@ public:
     , aniFrameIndexCurrent(zfindexMax())
     , aniRepeatCountCurrent(0)
     , aniFrameTaskId(zfidentityInvalid())
-    , aniFramesOnChangeListener(ZFCallbackForRawFunction(_ZFP_ZFUIAnimatedImagePrivate::aniFramesOnChange))
-    , aniFrameDurationOnFinishListener(ZFCallbackForRawFunction(_ZFP_ZFUIAnimatedImagePrivate::aniFrameDurationOnFinish))
+    , aniFramesOnChangeListener(ZFCallbackForFunc(_ZFP_ZFUIAnimatedImagePrivate::aniFramesOnChange))
+    , aniFrameDurationOnFinishListener(ZFCallbackForFunc(_ZFP_ZFUIAnimatedImagePrivate::aniFrameDurationOnFinish))
     {
     }
 

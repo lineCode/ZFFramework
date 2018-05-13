@@ -37,7 +37,7 @@ public:
     /** @brief see #ZFThreadTaskRequest */
     ZFPROPERTY_RETAIN(ZFObject *, taskUserData)
     /** @brief see #ZFThreadTaskRequest */
-    ZFPROPERTY_WEAK(ZFObject *, taskOwner)
+    ZFPROPERTY_ASSIGN(ZFObject *, taskOwner)
 };
 /** @brief see #ZFThreadTaskRequest */
 zfclass ZF_ENV_EXPORT ZFThreadTaskRequestMergeCallbackData : zfextends ZFObject

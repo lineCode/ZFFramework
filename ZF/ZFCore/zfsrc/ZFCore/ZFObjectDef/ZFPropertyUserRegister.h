@@ -110,7 +110,7 @@ public:
         zfautoObject tmp;
         if(property->callbackUserRegisterInitValueSetup)
         {
-            property->callbackUserRegisterInitValueSetup((void *)&tmp);
+            property->callbackUserRegisterInitValueSetup(property, (void *)&tmp);
         }
         if(outInitValue != zfnull)
         {
@@ -157,7 +157,7 @@ private:
             zfautoObject tmp;
             if(property->callbackUserRegisterInitValueSetup)
             {
-                property->callbackUserRegisterInitValueSetup((void *)&tmp);
+                property->callbackUserRegisterInitValueSetup(property, (void *)&tmp);
             }
 
             zfautoObject holderTmp = _ZFP_I_PropURDIVH::create(
@@ -236,7 +236,7 @@ public:
         T_Type tmp = T_Type();
         if(property->callbackUserRegisterInitValueSetup)
         {
-            property->callbackUserRegisterInitValueSetup((void *)&tmp);
+            property->callbackUserRegisterInitValueSetup(property, (void *)&tmp);
         }
         if(outInitValue != zfnull)
         {
@@ -270,7 +270,7 @@ private:
             T_Type tmp = T_Type();
             if(property->callbackUserRegisterInitValueSetup)
             {
-                property->callbackUserRegisterInitValueSetup((void *)&tmp);
+                property->callbackUserRegisterInitValueSetup(property, (void *)&tmp);
             }
 
             zfautoObject holderTmp = _ZFP_I_PropURDIVH::create(
@@ -290,7 +290,7 @@ private:
     zfclassNotPOD _ZFP_PropURInit_##registerSig \
     { \
     public: \
-        static void propertyInit(ZF_IN_OUT void *p) \
+        static void propertyInit(ZF_IN const ZFProperty *property, ZF_IN_OUT void *p) \
         { \
             typedef Type T_Type; \
             T_Type *valueTmp = zfnull; \
@@ -303,7 +303,7 @@ private:
     zfclassNotPOD _ZFP_PropURInit_##registerSig \
     { \
     public: \
-        static void propertyInit(ZF_IN_OUT void *p) \
+        static void propertyInit(ZF_IN const ZFProperty *property, ZF_IN_OUT void *p) \
         { \
             typedef Type T_Type; \
             T_Type *valueTmp = zfpoolNew(T_Type, InitValueOrEmpty); \
@@ -326,6 +326,8 @@ private:
     ) \
     ( \
         zftrue \
+        , zffalse \
+        , zfnull \
         , ownerClass \
         , propertyNameString \
         , ZFM_TOSTRING(Type) \
@@ -361,6 +363,8 @@ private:
     ) \
     ( \
         zftrue \
+        , zffalse \
+        , zfnull \
         , ownerClass \
         , propertyNameString \
         , ZFM_TOSTRING(Type) \
@@ -403,11 +407,11 @@ private:
         zfstring _propertyName(propertyNameString); \
         \
         ZFMethodUserRegisterDetail_1(setterMethod, Func_ZFPropertySetterInvoker, _ownerClass, \
-            SetterAccessType, ZFMethodIsVirtual, \
+            SetterAccessType, ZFMethodTypeVirtual, \
             void, zfstringWithFormat(zfText("%sSet"), _propertyName.cString()), \
             ZFMP_IN(Type const &, value)); \
         ZFMethodUserRegisterDetail_0(getterMethod, Func_ZFPropertyGetterInvoker, _ownerClass, \
-            GetterAccessType, ZFMethodIsVirtual, \
+            GetterAccessType, ZFMethodTypeVirtual, \
             Type const &, _propertyName); \
         _ZFP_ZFPropertyUserRegister_PropInit_##RetainOrAssign(_, Type, InitValueOrEmpty) \
         resultProperty = _ZFP_ZFPropertyRegister _ZFP_ZFPropertyUserRegister_ParamExpand_##RetainOrAssign( \
@@ -443,7 +447,7 @@ private:
         static const ZFMethod *S(void) \
         { \
             ZFMethodUserRegisterDetail_1(setterMethod, Func_ZFPropertySetterInvoker, ownerClassSig::ClassData(), \
-                SetterAccessType, ZFMethodIsVirtual, \
+                SetterAccessType, ZFMethodTypeVirtual, \
                 void, ZFM_TOSTRING(propertyNameSig) zfText("Set"), \
                 ZFMP_IN(Type const &, value)); \
             return setterMethod; \
@@ -451,7 +455,7 @@ private:
         static const ZFMethod *G(void) \
         { \
             ZFMethodUserRegisterDetail_0(getterMethod, Func_ZFPropertyGetterInvoker, ownerClassSig::ClassData(), \
-                GetterAccessType, ZFMethodIsVirtual, \
+                GetterAccessType, ZFMethodTypeVirtual, \
                 Type const &, ZFM_TOSTRING(propertyNameSig)); \
             return getterMethod; \
         } \
@@ -572,7 +576,7 @@ private:
         Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Retain, \
-        ZFPropertyTypeId_ZFObject, \
+        ZFPropertyTypeId_ZFObject(), \
         zftTraits<Type>::TrType::ClassData() \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \
@@ -611,7 +615,7 @@ private:
         Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Retain, \
-        ZFPropertyTypeId_ZFObject, \
+        ZFPropertyTypeId_ZFObject(), \
         zftTraits<Type>::TrType::ClassData() \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \

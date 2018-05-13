@@ -1,3 +1,9 @@
+# 0.2.0 (20180513)
+
+* support fully dynamic register of class/method/property
+* no need to care about weak property anymore
+* code refactor
+
 # 0.1.4 (20180506)
 
 * change to use shell script to create project files

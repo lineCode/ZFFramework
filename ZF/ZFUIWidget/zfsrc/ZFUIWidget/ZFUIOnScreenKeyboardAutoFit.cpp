@@ -226,9 +226,9 @@ public:
     , scrollEnableFlag(zffalse)
     , autoFitFocusedView(zfnull)
     , autoFitMargin(ZFUIMarginZero())
-    , onScreenKeyboardStateOnChangeListener(ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate::onScreenKeyboardStateOnChange))
-    , viewFocusOnChangeListener(ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate::viewFocusOnChange))
-    , scrollFocusedViewToVisibleDelayListener(ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate::scrollFocusedViewToVisibleDelay))
+    , onScreenKeyboardStateOnChangeListener(ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate::onScreenKeyboardStateOnChange))
+    , viewFocusOnChangeListener(ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate::viewFocusOnChange))
+    , scrollFocusedViewToVisibleDelayListener(ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate::scrollFocusedViewToVisibleDelay))
     , autoFitFocusedViewNeedUpdate(zffalse)
     {
     }

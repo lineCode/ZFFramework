@@ -23,8 +23,8 @@ ZFSTYLE_DEFAULT_DEFINE(ZFUIView)
 // attached listeners
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewListenerHolder, ZFLevelZFFrameworkEssential)
 {
-    this->layoutParamChangedListener = ZFCallbackForRawFunction(zfself::layoutParamChanged);
-    this->viewPropertyOnUpdateListener = ZFCallbackForRawFunction(zfself::viewPropertyOnUpdate);
+    this->layoutParamChangedListener = ZFCallbackForFunc(zfself::layoutParamChanged);
+    this->viewPropertyOnUpdateListener = ZFCallbackForFunc(zfself::viewPropertyOnUpdate);
 }
 public:
     ZFListener layoutParamChangedListener;

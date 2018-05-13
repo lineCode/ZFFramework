@@ -19,7 +19,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIKeyboardStateBuiltinImpl_DataHolder, Z
 {
     _ZFP_ZFUIKeyboardStateBuiltinImpl_available = zftrue;
     this->implRegisterFlag = zffalse;
-    this->viewOnEventListener = ZFCallbackForRawFunction(zfself::viewOnEvent);
+    this->viewOnEventListener = ZFCallbackForFunc(zfself::viewOnEvent);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIKeyboardStateBuiltinImpl_DataHolder)
 {

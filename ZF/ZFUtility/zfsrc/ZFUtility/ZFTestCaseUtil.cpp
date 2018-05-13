@@ -54,7 +54,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTestCaseRunAllHolder, ZFLevelZFFramework
 {
     this->running = zffalse;
     this->testCaseRunning = zfnull;
-    this->testCaseFinishListener = ZFCallbackForRawFunction(_ZFP_ZFTestCaseRunAllHolder_testCaseOnFinish);
+    this->testCaseFinishListener = ZFCallbackForFunc(_ZFP_ZFTestCaseRunAllHolder_testCaseOnFinish);
 }
 public:
     void testCaseList(ZF_OUT ZFCoreArray<const ZFClass *> &ret)

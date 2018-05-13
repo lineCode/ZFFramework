@@ -656,7 +656,7 @@ public:
     /**
      * @brief owner operation, no auto retain
      */
-    ZFPROPERTY_WEAK(ZFOperation *, operationOwner)
+    ZFPROPERTY_ASSIGN(ZFOperation *, operationOwner)
     /**
      * @brief used for storing an operation, auto retain,
      *   use #operationOwnerSet for assign only

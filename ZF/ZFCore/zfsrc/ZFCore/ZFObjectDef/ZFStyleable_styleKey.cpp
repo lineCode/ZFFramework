@@ -31,7 +31,7 @@ public:
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleChangeDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->styleOnChangeListener = ZFCallbackForRawFunction(_ZFP_ZFStyleKeyHolder::styleOnChange);
+    this->styleOnChangeListener = ZFCallbackForFunc(_ZFP_ZFStyleKeyHolder::styleOnChange);
 }
 public:
     ZFListener styleOnChangeListener;
@@ -126,7 +126,7 @@ static zfbool _ZFP_ZFStylePropertyCopy(ZF_IN ZFObject *propertyOwner,
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStylePropertyChangeDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->stylePropertyOnChangeListener = ZFCallbackForRawFunction(_ZFP_ZFStyleKeyHolder::stylePropertyOnChange);
+    this->stylePropertyOnChangeListener = ZFCallbackForFunc(_ZFP_ZFStyleKeyHolder::stylePropertyOnChange);
 }
 public:
     ZFListener stylePropertyOnChangeListener;

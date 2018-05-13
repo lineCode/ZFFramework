@@ -27,31 +27,31 @@ protected:
             this->testCaseOutput(zfText("try execute dynamically registered method"));
 
             ZFMethodUserRegisterDetail_1(method, zfself::func1, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic")
                 , ZFMP_IN(zfstring const &, param0)
                 );
 
             ZFMethodUserRegisterDetail_0(method0, zfself::func0, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic0")
                 );
 
             ZFMethodUserRegisterDetail_1(method1, zfself::func1, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic1")
                 , ZFMP_IN(zfstring const &, param0)
                 );
 
             ZFMethodUserRegisterDetail_2(method2, zfself::func2, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic2")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
                 );
 
             ZFMethodUserRegisterDetail_3(method3, zfself::func3, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic3")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -59,7 +59,7 @@ protected:
                 );
 
             ZFMethodUserRegisterDetail_4(method4, zfself::func4, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic4")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -68,7 +68,7 @@ protected:
                 );
 
             ZFMethodUserRegisterDetail_5(method5, zfself::func5, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic5")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -78,7 +78,7 @@ protected:
                 );
 
             ZFMethodUserRegisterDetail_6(method6, zfself::func6, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic6")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -89,7 +89,7 @@ protected:
                 );
 
             ZFMethodUserRegisterDetail_7(method7, zfself::func7, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic7")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -101,7 +101,7 @@ protected:
                 );
 
             ZFMethodUserRegisterDetail_8(method8, zfself::func8, zfself::ClassData(),
-                public, ZFMethodIsNormal,
+                public, ZFMethodTypeNormal,
                 zfstring, zfText("funcDynamic8")
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -247,27 +247,27 @@ ZFOBJECT_REGISTER(ZFCore_ZFMethodUserRegister_test)
 
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFCore_ZFMethodUserRegister_test_funcStatic,
     ZFCore_ZFMethodUserRegister_test::func1, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic")
     , ZFMP_IN(zfstring const &, param0)
     )
 
 ZFMETHOD_USER_REGISTER_DETAIL_0(ZFCore_ZFMethodUserRegister_test_funcStatic0,
     ZFCore_ZFMethodUserRegister_test::func0, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic0")
     )
 
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFCore_ZFMethodUserRegister_test_funcStatic1,
     ZFCore_ZFMethodUserRegister_test::func1, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic1")
     , ZFMP_IN(zfstring const &, param0)
     )
 
 ZFMETHOD_USER_REGISTER_DETAIL_2(ZFCore_ZFMethodUserRegister_test_funcStatic2,
     ZFCore_ZFMethodUserRegister_test::func2, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic2")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -275,7 +275,7 @@ ZFMETHOD_USER_REGISTER_DETAIL_2(ZFCore_ZFMethodUserRegister_test_funcStatic2,
 
 ZFMETHOD_USER_REGISTER_DETAIL_3(ZFCore_ZFMethodUserRegister_test_funcStatic3,
     ZFCore_ZFMethodUserRegister_test::func3, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic3")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -284,7 +284,7 @@ ZFMETHOD_USER_REGISTER_DETAIL_3(ZFCore_ZFMethodUserRegister_test_funcStatic3,
 
 ZFMETHOD_USER_REGISTER_DETAIL_4(ZFCore_ZFMethodUserRegister_test_funcStatic4,
     ZFCore_ZFMethodUserRegister_test::func4, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic4")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -294,7 +294,7 @@ ZFMETHOD_USER_REGISTER_DETAIL_4(ZFCore_ZFMethodUserRegister_test_funcStatic4,
 
 ZFMETHOD_USER_REGISTER_DETAIL_5(ZFCore_ZFMethodUserRegister_test_funcStatic5,
     ZFCore_ZFMethodUserRegister_test::func5, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic5")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -305,7 +305,7 @@ ZFMETHOD_USER_REGISTER_DETAIL_5(ZFCore_ZFMethodUserRegister_test_funcStatic5,
 
 ZFMETHOD_USER_REGISTER_DETAIL_6(ZFCore_ZFMethodUserRegister_test_funcStatic6,
     ZFCore_ZFMethodUserRegister_test::func6, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic6")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -317,7 +317,7 @@ ZFMETHOD_USER_REGISTER_DETAIL_6(ZFCore_ZFMethodUserRegister_test_funcStatic6,
 
 ZFMETHOD_USER_REGISTER_DETAIL_7(ZFCore_ZFMethodUserRegister_test_funcStatic7,
     ZFCore_ZFMethodUserRegister_test::func7, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic7")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -330,7 +330,7 @@ ZFMETHOD_USER_REGISTER_DETAIL_7(ZFCore_ZFMethodUserRegister_test_funcStatic7,
 
 ZFMETHOD_USER_REGISTER_DETAIL_8(ZFCore_ZFMethodUserRegister_test_funcStatic8,
     ZFCore_ZFMethodUserRegister_test::func8, ZFCore_ZFMethodUserRegister_test::ClassData(),
-    public, ZFMethodIsStatic,
+    public, ZFMethodTypeStatic,
     zfstring, zfText("funcStatic8")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)

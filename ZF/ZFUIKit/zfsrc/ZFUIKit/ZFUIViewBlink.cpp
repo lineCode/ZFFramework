@@ -38,7 +38,7 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
 static void _ZFP_ZFUIViewBlinkDoOff(ZF_IN ZFUIView *view);
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->viewOnDeallocListener = ZFCallbackForRawFunction(zfself::viewOnDealloc);
+    this->viewOnDeallocListener = ZFCallbackForFunc(zfself::viewOnDealloc);
 }
 public:
     ZFListener viewOnDeallocListener;

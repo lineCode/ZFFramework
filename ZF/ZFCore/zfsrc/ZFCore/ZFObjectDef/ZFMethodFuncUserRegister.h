@@ -35,9 +35,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     ) \
     ( \
         zftrue \
+        , zffalse \
+        , zfnull \
         , ZFCastReinterpret(ZFFuncAddrType, methodInvoker) \
         , _ZFP_ZFMETHOD_GENERIC_INVOKER_ADDR(GenericInvokerOwner) \
-        , _ZFP_ZFMethodIsWhatTypeText(ZFMethodIsStatic) \
+        , _ZFP_ZFMethodTypeText(ZFMethodTypeStatic) \
         , zfnull \
         , ZFMethodPrivilegeTypePublic \
         , methodNamespaceString \

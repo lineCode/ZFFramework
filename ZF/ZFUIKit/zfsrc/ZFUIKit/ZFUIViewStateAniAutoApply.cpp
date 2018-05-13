@@ -46,7 +46,7 @@ static zfbool _ZFP_ZFUIViewStateAniAutoApply_started = zffalse;
 static zfint _ZFP_ZFUIViewStateAniAutoApply_paused = 0;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewStateAniAutoApplyDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->taskStartListener = ZFCallbackForRawFunction(zfself::taskStart);
+    this->taskStartListener = ZFCallbackForFunc(zfself::taskStart);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewStateAniAutoApplyDataHolder)
 {
@@ -121,7 +121,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewStateAniAutoApplyPauseForTimeDataH
 {
     this->started = zffalse;
     this->delayTimer = zfnull;
-    this->doStopListener = ZFCallbackForRawFunction(zfself::doStop);
+    this->doStopListener = ZFCallbackForFunc(zfself::doStop);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewStateAniAutoApplyPauseForTimeDataHolder)
 {

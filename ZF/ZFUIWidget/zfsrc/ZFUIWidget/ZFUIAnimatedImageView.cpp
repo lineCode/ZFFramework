@@ -17,7 +17,7 @@ ZFSTYLE_DEFAULT_DEFINE(ZFUIAnimatedImageView)
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIAnimatedImageViewDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->animatedImageOnUpdateListener = ZFCallbackForRawFunction(zfself::animatedImageOnUpdate);
+    this->animatedImageOnUpdateListener = ZFCallbackForFunc(zfself::animatedImageOnUpdate);
 }
 public:
     ZFListener animatedImageOnUpdateListener;

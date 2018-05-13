@@ -391,9 +391,11 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         )) \
     { \
         static _ZFP_ZFMethodRegisterHolder _methodHolder(zffalse \
+                , zffalse \
+                , zfnull \
                 , ZFCastReinterpret(ZFFuncAddrType, &_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE::methodInvoker) \
                 , _ZFP_ZFMETHOD_GENERIC_INVOKER_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE) \
-                , _ZFP_ZFMethodIsWhatTypeText(ZFMethodIsStatic) \
+                , _ZFP_ZFMethodTypeText(ZFMethodTypeStatic) \
                 , zfnull \
                 , ZFMethodPrivilegeTypePublic \
                 , ZFM_TOSTRING(MethodNamespace) \

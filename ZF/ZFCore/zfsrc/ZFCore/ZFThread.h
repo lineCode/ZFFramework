@@ -71,14 +71,14 @@ public:
      * you must take good care when calling this method\n
      * main thread has no need to register
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               void *, nativeThreadRegister)
     /**
      * @brief see #nativeThreadRegister
      *
      * it's safe to unregister in different thread using token
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               void, nativeThreadUnregister,
                               ZFMP_IN(void *, token))
 
@@ -86,21 +86,21 @@ public:
     /**
      * @brief return main thread
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               ZFThread *, mainThread)
     /**
      * @brief return current thread,
      *   or zfnull if thread isn't started or registered by ZFThread
      *   or not registered by #ZFThread::nativeThreadRegister
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               ZFThread *, currentThread)
 
     /**
      * @brief make current thread sleep for miliSecs,
      *   note this method may be not accurate
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               void, sleep,
                               ZFMP_IN(const zftimet &, miliSecs))
 
@@ -214,7 +214,7 @@ protected:
      *
      * see #threadRunnable
      */
-    ZFMETHOD_DECLARE_DETAIL_2(protected, ZFMethodIsVirtual,
+    ZFMETHOD_DECLARE_DETAIL_2(protected, ZFMethodTypeVirtual,
                               void, threadOnRun,
                               ZFMP_IN(const ZFListenerData &, listenerData),
                               ZFMP_IN(ZFObject *, userData))

@@ -118,9 +118,9 @@ public:
     , hintDelaying(zffalse)
     , hintAnimating(zfnull)
     , hintShowDelayTaskId(zfidentityInvalid())
-    , hintAniShowOnStopListener(ZFCallbackForRawFunction(_ZFP_ZFUIHintPrivate::hintAniShowOnStop))
-    , hintShowDelayTimeoutListener(ZFCallbackForRawFunction(_ZFP_ZFUIHintPrivate::hintShowDelayTimeout))
-    , hintAniHideOnStopListener(ZFCallbackForRawFunction(_ZFP_ZFUIHintPrivate::hintAniHideOnStop))
+    , hintAniShowOnStopListener(ZFCallbackForFunc(_ZFP_ZFUIHintPrivate::hintAniShowOnStop))
+    , hintShowDelayTimeoutListener(ZFCallbackForFunc(_ZFP_ZFUIHintPrivate::hintShowDelayTimeout))
+    , hintAniHideOnStopListener(ZFCallbackForFunc(_ZFP_ZFUIHintPrivate::hintAniHideOnStop))
     {
     }
 
@@ -181,7 +181,7 @@ public:
         {
             this->hintAnimating->observerAdd(ZFObserverAddParam()
                 .eventIdSet(ZFAnimation::EventAniOnStopOrOnInvalid())
-                .observerSet(ZFCallbackForRawFunction(_ZFP_ZFUIHintPrivate::hintAniHideOnStop))
+                .observerSet(ZFCallbackForFunc(_ZFP_ZFUIHintPrivate::hintAniHideOnStop))
                 .userDataSet(this->pimplOwner->objectHolder())
                 .autoRemoveAfterActivateSet(zftrue));
             this->hintAnimating->aniTargetSet(this->pimplOwner->hintWindow());

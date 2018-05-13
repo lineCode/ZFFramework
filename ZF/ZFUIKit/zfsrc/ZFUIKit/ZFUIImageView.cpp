@@ -17,7 +17,7 @@ ZFSTYLE_DEFAULT_DEFINE(ZFUIImageView)
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIImageViewListenerHolder, ZFLevelZFFrameworkEssential)
 {
-    this->imageNinePatchChangedListener = ZFCallbackForRawFunction(zfself::imageNinePatchChanged);
+    this->imageNinePatchChangedListener = ZFCallbackForFunc(zfself::imageNinePatchChanged);
 }
 public:
     ZFListener imageNinePatchChangedListener;

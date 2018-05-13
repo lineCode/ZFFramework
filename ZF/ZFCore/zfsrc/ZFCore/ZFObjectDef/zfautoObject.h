@@ -69,6 +69,44 @@ zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject const &p)
 }
 /** @endcond */
 
+template<typename T_To, int T_ToType>
+zfclassNotPOD ZF_ENV_EXPORT _ZFP_ObjCastHolder<0, T_To, zfautoObject, T_ToType, _ZFP_ObjCastTypeUnknown>
+{
+public:
+    static inline T_To c(zfautoObject const &obj)
+    {
+        return ZFCastZFObject(T_To, obj.toObject());
+    }
+};
+template<typename T_From, int T_FromType>
+zfclassNotPOD ZF_ENV_EXPORT _ZFP_ObjCastHolder<0, zfautoObject, T_From, _ZFP_ObjCastTypeUnknown, T_FromType>
+{
+public:
+    static inline zfautoObject c(T_From obj)
+    {
+        return ZFCastZFObject(ZFObject *, obj);
+    }
+};
+
+template<typename T_To, int T_ToType>
+zfclassNotPOD ZF_ENV_EXPORT _ZFP_ObjCastUncheckedHolder<0, T_To, zfautoObject, T_ToType, _ZFP_ObjCastTypeUnknown>
+{
+public:
+    static inline T_To c(zfautoObject const &obj)
+    {
+        return ZFCastZFObjectUnchecked(T_To, obj.toObject());
+    }
+};
+template<typename T_From, int T_FromType>
+zfclassNotPOD ZF_ENV_EXPORT _ZFP_ObjCastUncheckedHolder<0, zfautoObject, T_From, _ZFP_ObjCastTypeUnknown, T_FromType>
+{
+public:
+    static inline zfautoObject c(T_From obj)
+    {
+        return ZFCastZFObjectUnchecked(ZFObject *, obj);
+    }
+};
+
 ZF_NAMESPACE_GLOBAL_END
 
 #endif // #ifndef _ZFI_zfautoObject_h_

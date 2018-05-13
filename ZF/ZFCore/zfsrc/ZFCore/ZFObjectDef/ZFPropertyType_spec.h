@@ -24,10 +24,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // void
+/** @brief see #ZFPROPERTY_TYPE_DECLARE */
+#define ZFPropertyTypeId_void() zfText("void")
 template<>
 zfclassNotPOD ZFPropertyTypeIdData<void> : zfextendsNotPOD ZFPropertyTypeIdDataBase
 {
-    _ZFP_ZFPROPERTY_TYPE_ID_DATA_BASE_EXPAND(ZFAny)
+    _ZFP_ZFPROPERTY_TYPE_ID_DATA_BASE_EXPAND(void)
 public:
     enum {
         PropertyRegistered = 1,
@@ -35,7 +37,7 @@ public:
     };
     static inline const zfchar *PropertyTypeId(void)
     {
-        return ZFPropertyTypeId_none;
+        return ZFPropertyTypeId_void();
     }
     template<typename T_Access = zfint>
     zfclassNotPOD Value
@@ -107,6 +109,8 @@ public:
     virtual void *wrappedValue(void) {return &(this->zfv);}
     zfoverride
     virtual void wrappedValueSet(ZF_IN const void *v) {this->zfv = *(const zfautoObject *)v;}
+    zfoverride
+    virtual void wrappedValueGet(ZF_IN void *v) {*(zfautoObject *)v = this->zfv;}
 public:
     zfoverride
     virtual void wrappedValueReset(void)
@@ -114,7 +118,15 @@ public:
     zfoverride
     virtual zfbool wrappedValueIsInit(void);
     zfoverride
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v);
+    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
+                                                ZF_IN const void *v1);
+    zfoverride
+    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
+                                     ZF_IN const void *v);
+    zfoverride
+    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
+                                              ZF_IN const void *to,
+                                              ZF_IN zffloat progress);
 public:
     zfoverride
     virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData,
@@ -161,7 +173,7 @@ public:
         return zftrue;
     }
     template<typename T_Access = zfautoObject
-        , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
             && zftTypeIsSame<
                     typename zftTraits<T_Access>::TrNoRef,
                     zfautoObject
@@ -174,21 +186,12 @@ public:
     public:
         static zfbool accessAvailable(ZF_IN ZFObject *obj)
         {
-            return (obj != zfnull);
+            return (ZFCastZFObject(v_zfautoObject *, obj) != zfnull);
         }
         static T_Access access(ZF_IN ZFObject *obj)
         {
             v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
-            if(t != zfnull)
-            {
-                return t->zfv;
-            }
-            else
-            {
-                zfautoObject *holder = zfnew(zfautoObject, obj);
-                _ZFP_PropAliasAttach(obj, holder, zfText("zfautoObject"), _ZFP_PropAliasOnDetach);
-                return *holder;
-            }
+            return t->zfv;
         }
     };
     template<typename T_Access>
@@ -197,35 +200,35 @@ public:
     public:
         static zfbool accessAvailable(ZF_IN ZFObject *obj)
         {
-            return (obj != zfnull);
+            return (ZFCastZFObject(v_zfautoObject *, obj) != zfnull);
         }
         static typename zftTraits<T_Access>::TrNoRef access(ZF_IN ZFObject *obj)
         {
             v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
+            return &(t->zfv);
+        }
+    };
+    template<typename T_Fix>
+    zfclassNotPOD Value<zfautoObject, 0, T_Fix>
+    {
+    public:
+        static zfbool accessAvailable(ZF_IN ZFObject *obj)
+        {
+            return zftrue;
+        }
+        static zfautoObject access(ZF_IN ZFObject *obj)
+        {
+            v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
             if(t != zfnull)
             {
-                return &(t->zfv);
+                return t->zfv;
             }
             else
             {
-                zfautoObject *holder = zfnew(zfautoObject, obj);
-                _ZFP_PropAliasAttach(obj, holder, zfText("zfautoObject"), _ZFP_PropAliasOnDetach);
-                return holder;
+                return zfautoObject(obj);
             }
         }
     };
-private:
-    static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
-                                       ZF_IN void *v)
-    {
-        zfautoObject *vTmp = (zfautoObject *)v;
-        v_zfautoObject *holder = ZFCastZFObject(v_zfautoObject *, obj);
-        if(holder != zfnull)
-        {
-            holder->zfv = *vTmp;
-        }
-        zfdelete(vTmp);
-    }
 };
 
 // ============================================================
@@ -243,34 +246,134 @@ public:
     };
     static inline const zfchar *PropertyTypeId(void)
     {
-        return ZFPropertyTypeId_ZFObject;
+        return ZFPropertyTypeId_ZFObject();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN T_Type const &v)
     {
         obj = ZFCastZFObjectUnchecked(ZFObject *, v);
         return zftrue;
     }
-    template<typename T_Access = T_Type>
+    template<typename T_Access = T_Type
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
+            && zftTypeIsSame<
+                    typename zftTraits<T_Access>::TrNoRef,
+                    T_Type
+                >::TypeIsSame != 1)
+            ? 1 : 0)
+        , typename T_Fix = void
+        >
     zfclassNotPOD Value
     {
     public:
         static zfbool accessAvailable(ZF_IN ZFObject *obj)
         {
-            v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj);
-            if(objTmp != zfnull)
+            if(obj == zfnull)
             {
-                obj = objTmp->zfv.toObject();
+                return zftrue;
             }
-            return !(obj != zfnull && ZFCastZFObject(typename zftTraits<T_Type>::TrType *, obj) == zfnull);
+            else
+            {
+                v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
+                if(t == zfnull)
+                {
+                    return (ZFCastZFObject(T_Type, obj) != zfnull);
+                }
+                else
+                {
+                    return (t->zfv.toObject() == zfnull || ZFCastZFObject(T_Type, t->zfv.toObject()) != zfnull);
+                }
+            }
         }
-        static typename zftTraits<T_Type>::TrType *access(ZF_IN ZFObject *obj)
+        static T_Access access(ZF_IN ZFObject *obj)
         {
-            v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj);
-            if(objTmp != zfnull)
+            static T_Type _d = zfnull;
+            if(obj == zfnull)
             {
-                obj = objTmp->zfv.toObject();
+                return _d;
             }
-            return ZFCastZFObject(typename zftTraits<T_Type>::TrType *, obj);
+            v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
+            if(t != zfnull)
+            {
+                if(t->zfv.toObject() == zfnull)
+                {
+                    return _d;
+                }
+                else
+                {
+                    obj = t->zfv.toObject();
+                }
+            }
+            T_Type *holder = zfnew(T_Type, ZFCastZFObject(T_Type, obj));
+            _ZFP_PropAliasAttach(obj, holder,
+                zfsConnectLineFree(zfText("ZFObject_"), zftTraits<T_Access>::ModifierId()),
+                _ZFP_PropAliasOnDetach);
+            return *holder;
+        }
+    private:
+        static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
+                                           ZF_IN void *v)
+        {
+            T_Type *vTmp = (T_Type *)v;
+            zfdelete(vTmp);
+        }
+    };
+    template<typename T_Access>
+    zfclassNotPOD Value<T_Access, 1>
+    {
+    private:
+        typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef;
+    public:
+        static zfbool accessAvailable(ZF_IN ZFObject *obj)
+        {
+            if(obj == zfnull)
+            {
+                return zftrue;
+            }
+            else
+            {
+                v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
+                if(t == zfnull)
+                {
+                    return (ZFCastZFObject(T_Type, obj) != zfnull);
+                }
+                else
+                {
+                    return (t->zfv.toObject() == zfnull || ZFCastZFObject(T_Type, t->zfv.toObject()) != zfnull);
+                }
+            }
+        }
+        static T_Access access(ZF_IN ZFObject *obj)
+        {
+            static T_Type *_d = zfnull;
+            if(obj == zfnull)
+            {
+                return _d;
+            }
+            v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
+            if(t != zfnull)
+            {
+                if(t->zfv.toObject() == zfnull)
+                {
+                    return _d;
+                }
+                else
+                {
+                    obj = t->zfv.toObject();
+                }
+            }
+            _TrNoRef *holder = zfnew(_TrNoRef);
+            *holder = ZFCastZFObject(T_Type, obj);
+            _ZFP_PropAliasAttach(obj, holder,
+                zfsConnectLineFree(zfText("ZFObject_"), zftTraits<T_Access>::ModifierId()),
+                _ZFP_PropAliasOnDetach);
+            return *holder;
+        }
+    private:
+        static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
+                                           ZF_IN void *v)
+        {
+            _TrNoRef *vTmp = (_TrNoRef *)v;
+            zfdelete(vTmp);
         }
     };
 };
@@ -288,7 +391,7 @@ public:
     };
     static inline const zfchar *PropertyTypeId(void)
     {
-        return ZFPropertyTypeId_ZFObject;
+        return ZFPropertyTypeId_ZFObject();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFAny const &v)
     {
@@ -300,57 +403,54 @@ public:
         obj = v;
         return zftrue;
     }
-    template<typename T_Access = ZFAny>
+    template<typename T_Access = ZFAny
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
+            && zftTypeIsSame<
+                    typename zftTraits<T_Access>::TrNoRef,
+                    ZFAny
+                >::TypeIsSame != 1)
+            ? 1 : 0)
+        , typename T_Fix = void
+        >
     zfclassNotPOD Value
     {
     public:
         static zfbool accessAvailable(ZF_IN ZFObject *obj)
         {
-            return zftrue;
+            return (obj != zfnull);
         }
-        static ZFAny access(ZF_IN ZFObject *obj)
+        static T_Access access(ZF_IN ZFObject *obj)
         {
-            return ZFAny(obj);
+            v_zfautoObject *t = ZFCastZFObject(v_zfautoObject *, obj);
+            if(t != zfnull)
+            {
+                obj = t->zfv;
+            }
+            ZFAny *holder = zfnew(ZFAny, obj);
+            _ZFP_PropAliasAttach(obj, holder,
+                zfsConnectLineFree(zfText("ZFAny_"), zftTraits<T_Access>::ModifierId()),
+                _ZFP_PropAliasOnDetach);
+            return *holder;
+        }
+    private:
+        static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
+                                           ZF_IN void *v)
+        {
+            ZFAny *vTmp = (ZFAny *)v;
+            zfdelete(vTmp);
         }
     };
-};
-
-// ============================================================
-// ZFAnyT
-template<typename T_Type>
-zfclassNotPOD ZFPropertyTypeIdData<ZFAnyT<T_Type> > : zfextendsNotPOD ZFPropertyTypeIdDataBase
-{
-    _ZFP_ZFPROPERTY_TYPE_ID_DATA_BASE_EXPAND(ZFAnyT<T_Type>)
-public:
-    enum {
-        PropertyRegistered = 1,
-        PropertySerializable = 1,
-    };
-    static inline const zfchar *PropertyTypeId(void)
-    {
-        return ZFPropertyTypeId_ZFObject;
-    }
-    static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFAnyT<T_Type> const &v)
-    {
-        obj = v.toObject();
-        return zftrue;
-    }
-    static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN T_Type const &v)
-    {
-        obj = ZFCastZFObjectUnchecked(ZFObject *, v);
-        return zftrue;
-    }
-    template<typename T_Access = ZFAnyT<T_Type> >
-    zfclassNotPOD Value
+    template<typename T_Access>
+    zfclassNotPOD Value<T_Access, 1>
     {
     public:
         static zfbool accessAvailable(ZF_IN ZFObject *obj)
         {
-            return !(obj != zfnull && ZFCastZFObject(T_Type, obj) == zfnull);
+            return zffalse;
         }
-        static ZFAnyT<T_Type> access(ZF_IN ZFObject *obj)
+        static ZFAny *access(ZF_IN ZFObject *obj)
         {
-            return ZFAnyT<T_Type>(ZFCastZFObject(T_Type, obj));
+            return zfnull;
         }
     };
 };
@@ -399,7 +499,7 @@ public:
         return ZFPropertyTypeIdData<T_Type_>::ValueStore(obj, *v);
     }
     template<typename T_Access = T_Type
-        , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
             && zftTypeIsSame<
                     typename zftTraits<T_Access>::TrNoRef,
                     T_Type_
@@ -427,7 +527,7 @@ public:
         {
             return ((obj == zfnull) || ZFPropertyTypeIdData<T_Type_>::template Value<T_Access>::accessAvailable(obj));
         }
-        static T_Access access(ZF_IN ZFObject *obj)
+        static typename zftTraits<T_Access>::TrNoRef access(ZF_IN ZFObject *obj)
         {
             return ((obj == zfnull) ? zfnull : ZFPropertyTypeIdData<T_Type_>::template Value<T_Access>::access(obj));
         }

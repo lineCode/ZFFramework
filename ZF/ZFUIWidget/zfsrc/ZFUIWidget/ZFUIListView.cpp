@@ -57,7 +57,7 @@ public:
     , childAddOverrideFlag(zffalse)
     , scrollContentFrameOverrideFlag(zffalse)
     , listAdapter(zfnull)
-    , listAdapterOnReloadListener(ZFCallbackForRawFunction(listAdapterOnReload))
+    , listAdapterOnReloadListener(ZFCallbackForFunc(listAdapterOnReload))
     , listReloadRequested(zftrue)
     , listQuickReloadRequested(zftrue)
     , cellNeedUpdate(zftrue)

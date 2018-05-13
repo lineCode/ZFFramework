@@ -20,7 +20,7 @@ zfclass _ZFP_ZFCore_ZFCallback_test_Class : zfextends ZFObject
         zfLogT();
     }
 
-    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodTypeStatic,
                              void, classStaticMember)
     {
         zfLogT();
@@ -85,7 +85,7 @@ protected:
         this->callbackClassStaticMember = ZFCallbackForMethod(
             _ZFP_ZFCore_ZFCallback_test_Class::ClassData()->methodForName(zfText("classStaticMember")));
 
-        this->callbackFunction = ZFCallbackForRawFunction(_ZFP_ZFCore_ZFCallback_test_StaticFunction);
+        this->callbackFunction = ZFCallbackForFunc(_ZFP_ZFCore_ZFCallback_test_StaticFunction);
     }
     zfoverride
     virtual void objectOnDealloc(void)

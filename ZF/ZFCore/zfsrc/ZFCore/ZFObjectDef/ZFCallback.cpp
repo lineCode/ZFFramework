@@ -132,7 +132,7 @@ ZFCallback ZFCallback::_ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
             break;
         case ZFCallbackTypeMethod:
             zfCoreAssertWithMessageTrim(callbackMethod != zfnull, zfTextA("[ZFCallback] method is null"));
-            zfCoreAssertWithMessageTrim(callbackMethod->methodIsStatic(),
+            zfCoreAssertWithMessageTrim(callbackMethod->methodType() == ZFMethodTypeStatic,
                 zfTextA("[ZFCallback] method \"%s\" is not class static member type"),
                 zfsCoreZ2A(callbackMethod->objectInfo().cString()));
             callback.d->callbackType = callbackType;
@@ -143,7 +143,7 @@ ZFCallback ZFCallback::_ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
                 zfTextA("[ZFCallback] invalid callback, ownerObj: %s, method: %s"),
                 zfsFromPointer<zfstringA>(callbackOwnerObj).cString(),
                 zfsFromPointer<zfstringA>(callbackMethod).cString());
-            zfCoreAssertWithMessageTrim(!callbackMethod->methodIsStatic(),
+            zfCoreAssertWithMessageTrim(callbackMethod->methodType() != ZFMethodTypeStatic,
                 zfTextA("[ZFCallback] method \"%s\" is not class member type"),
                 zfsCoreZ2A(callbackMethod->objectInfo().cString()));
             zfCoreAssertWithMessageTrim(callbackOwnerObj->classData()->classIsTypeOf(callbackMethod->methodOwnerClass()),
@@ -533,7 +533,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCallback, void, pathInfoSet, ZFMP_
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFCallback, ZFCallbackNull)
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFCallback, ZFCallbackForMethod, ZFMP_IN(const ZFMethod *, zfmethod))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFCallback, ZFCallbackForMemberMethod, ZFMP_IN(ZFObject *, obj), ZFMP_IN(const ZFMethod *, zfmethod))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFCallback, ZFCallbackForRawFunction, ZFMP_IN(ZFFuncAddrType, callbackRawFunc))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFCallback, ZFCallbackForFunc, ZFMP_IN(ZFFuncAddrType, callbackRawFunc))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

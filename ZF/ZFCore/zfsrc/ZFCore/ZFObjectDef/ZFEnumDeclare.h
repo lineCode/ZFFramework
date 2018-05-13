@@ -226,81 +226,81 @@ extern ZF_ENV_EXPORT _ZFP_ZFEnumData *_ZFP_ZFEnumDataAccess(ZF_IN const ZFClass 
         for(zfindex i = 0; i < EnumName::EnumCount(); ++i) \
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &ivk_e, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 EnumName##Enum, zfstringWithFormat(zfText("e_%s"), EnumName::EnumNameAtIndex(i))); \
             _m.add(resultMethod); \
         } \
         \
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &ivk_EnumIsFlags, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfbool, zfText("EnumIsFlags")); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &ivk_EnumDefault, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfuint, zfText("EnumDefault")); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_hashForValue, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfidentity, zfText("hashForValue"), \
                 ZFMP_IN(zfuint, value)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &ivk_EnumCount, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfindex, zfText("EnumCount")); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_EnumIndexForValue, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfindex, zfText("EnumIndexForValue"), \
                 ZFMP_IN(zfuint, value)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_EnumValueAtIndex, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfuint, zfText("EnumValueAtIndex"), \
                 ZFMP_IN(zfindex, index)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_EnumNameAtIndex, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 const zfchar *, zfText("EnumNameAtIndex"), \
                 ZFMP_IN(zfindex, index)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_EnumContainValue, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfbool, zfText("EnumContainValue"), \
                 ZFMP_IN(zfuint, value)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_EnumValueForName, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 zfuint, zfText("EnumValueForName"), \
                 ZFMP_IN(const zfchar *, name)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_EnumNameForValue, EnumName::ClassData(), \
-                public, ZFMethodIsStatic, \
+                public, ZFMethodTypeStatic, \
                 const zfchar *, zfText("EnumNameForValue"), \
                 ZFMP_IN(zfuint, value)); \
             _m.add(resultMethod); \
         } \
         { \
             ZFMethodUserRegisterDetail_1(resultMethod, &ivk_enumValueSet, EnumName::ClassData(), \
-                public, ZFMethodIsVirtual, \
+                public, ZFMethodTypeVirtual, \
                 void, zfText("enumValueSet"), \
                 ZFMP_IN(zfuint, value)); \
             _m.add(resultMethod); \

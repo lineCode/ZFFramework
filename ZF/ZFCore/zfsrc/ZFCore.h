@@ -21,6 +21,7 @@
 #include "ZFCore/ZFContainer.h"
 #include "ZFCore/ZFCoreDef.h"
 #include "ZFCore/ZFCoreStatistic_ZFTime.h"
+#include "ZFCore/ZFDynamicRegisterUtil.h"
 #include "ZFCore/ZFEnvInfo.h"
 #include "ZFCore/ZFEvent.h"
 #include "ZFCore/ZFFile.h"

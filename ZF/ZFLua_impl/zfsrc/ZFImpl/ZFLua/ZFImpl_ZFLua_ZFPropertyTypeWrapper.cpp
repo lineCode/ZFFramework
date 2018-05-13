@@ -14,6 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 static int _ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper(ZF_IN lua_State *L)
 {
+    zfint count = (zfint)lua_gettop(L);
     zfstring className;
     if(!ZFImpl_ZFLua_toString(className, L, 1))
     {
@@ -35,27 +36,132 @@ static int _ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper(ZF_IN lua_State *L)
         return ZFImpl_ZFLua_luaError(L);
     }
 
-    zfstring data;
-    if(!ZFImpl_ZFLua_toString(data, L, 2))
+    const zfindex paramCount = count - 1;
+    if(paramCount == 0)
     {
-        data.removeAll();
+        ZFImpl_ZFLua_luaPush(L, cls->newInstance());
+        return 1;
     }
+    static const zfint luaParamOffset = 1;
 
-    zfautoObject ret = cls->newInstance();
-    ZFPropertyTypeWrapper *wrapper = ret.to<ZFPropertyTypeWrapper *>();
-    if(!data.isEmpty())
+    ZFCoreArrayPOD<const ZFMethod *> methodList = cls->methodForNameGetAll(zfText("objectOnInit"));
+    if(!methodList.isEmpty())
     {
-        if(!wrapper->wrappedValueFromString(data))
+        zfautoObject paramList_[ZFMETHOD_MAX_PARAM] = {
+                  ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+                , ZFMethodGenericInvokerDefaultParamHolder()
+            };
+        for(zfindex i = 0; i < paramCount; ++i)
         {
-            ZFLuaErrorOccurredTrim(zfText("[ZFPropertyTypeWrapper] unable to convert %s from data: %s"),
-                className.cString(),
-                data.cString());
-            return ZFImpl_ZFLua_luaError(L);
+            if(!ZFImpl_ZFLua_toObject(paramList_[i], L, luaParamOffset + i + 1))
+            {
+                zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
+                if(!ZFImpl_ZFLua_toString(t->zfv, L, luaParamOffset + i + 1))
+                {
+                    ZFLuaErrorOccurredTrim(zfText("[v_%s] failed to get param%d, expect zfautoObject, got %s"),
+                        cls->className(),
+                        i,
+                        ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString());
+                    return ZFImpl_ZFLua_luaError(L);
+                }
+                paramList_[i] = t;
+            }
+        }
+        for(zfindex iMethod = 0; iMethod < methodList.count(); ++iMethod)
+        {
+            const ZFMethod *method = methodList[iMethod];
+            if(method->methodPrivilegeType() != ZFMethodPrivilegeTypePublic
+                || paramCount > method->methodParamCount()
+                || (method->methodParamDefaultBeginIndex() != zfindexMax()
+                    && paramCount < method->methodParamDefaultBeginIndex()))
+            {
+                continue;
+            }
+
+            zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+                paramList_[0],
+                paramList_[1],
+                paramList_[2],
+                paramList_[3],
+                paramList_[4],
+                paramList_[5],
+                paramList_[6],
+                paramList_[7],
+            };
+            zfbool parseParamSuccess = zftrue;
+            for(zfindex i = 0; i < paramCount; ++i)
+            {
+                ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramList[i].toObject());
+                if(t != zfnull)
+                {
+                    const ZFPropertyTypeIdDataBase *typeIdData = ZFPropertyTypeIdDataGet(method->methodParamTypeIdAtIndex(i));
+                    if(typeIdData == zfnull || !typeIdData->propertyWrapper(paramList[i]))
+                    {
+                        parseParamSuccess = zffalse;
+                        break;
+                    }
+
+                    if(paramList[i] == zfnull)
+                    {
+                        if(!ZFObjectFromString(paramList[i], t->zfv, t->zfv.length()))
+                        {
+                            parseParamSuccess = zffalse;
+                        }
+                    }
+                    else if(!paramList[i].to<ZFPropertyTypeWrapper *>()->wrappedValueFromString(t->zfv, t->zfv.length()))
+                    {
+                        parseParamSuccess = zffalse;
+                    }
+
+                    if(!parseParamSuccess)
+                    {
+                        break;
+                    }
+                }
+            }
+            if(!parseParamSuccess)
+            {
+                continue;
+            }
+
+            zfautoObject ret = cls->newInstanceGenericWithMethod(method
+                    , paramList[0]
+                    , paramList[1]
+                    , paramList[2]
+                    , paramList[3]
+                    , paramList[4]
+                    , paramList[5]
+                    , paramList[6]
+                    , paramList[7]
+                );
+            if(ret != zfnull)
+            {
+                ZFImpl_ZFLua_luaPush(L, ret);
+                return 1;
+            }
         }
     }
 
-    ZFImpl_ZFLua_luaPush(L, ret);
-    return 1;
+    zfstring paramsInfo;
+    for(zfindex i = 0; i < paramCount; ++i)
+    {
+        if(i > 0)
+        {
+            paramsInfo += zfText(", ");
+        }
+        zfstringAppend(paramsInfo, zfText("%s"),
+            ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString());
+    }
+    ZFLuaErrorOccurredTrim(zfText("[v_%s] no matching objectOnInit to call, params: %s"),
+        cls->className(),
+        paramsInfo.cString());
+    return ZFImpl_ZFLua_luaError(L);
 }
 static void _ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapperSetup(ZF_IN lua_State *L, ZF_IN const ZFClass *cls)
 {
@@ -66,9 +172,8 @@ static void _ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapperSetup(ZF_IN lua_State *L, ZF_
 
     zfstring code;
     zfstringAppend(code, zfText(
-            "function %s(data)\n"
-            "    data = data or ''\n"
-            "    return _ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper('%s', data)\n"
+            "function %s(...)\n"
+            "    return _ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper('%s', ...)\n"
             "end\n"
         ), cls->className() + ZFImpl_ZFLua_PropTypePrefixLen, cls->className());
     ZFImpl_ZFLua_execute(L, code);
@@ -107,11 +212,11 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFPropertyTypeWrapper, {
 
         ZFClassDataChangeObserver.observerAdd(
             ZFGlobalEvent::EventClassDataChange(),
-            ZFCallbackForRawFunction(_ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper_classOnChange));
+            ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper_classOnChange));
     }, {
         ZFClassDataChangeObserver.observerRemove(
             ZFGlobalEvent::EventClassDataChange(),
-            ZFCallbackForRawFunction(_ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper_classOnChange));
+            ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFPropertyTypeWrapper_classOnChange));
     })
 
 ZF_NAMESPACE_GLOBAL_END

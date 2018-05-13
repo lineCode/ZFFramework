@@ -78,7 +78,7 @@ public:
     _ZFP_ZFUIScrollThumbDefaultPrivate(void)
     : thumbView(zfnull)
     , thumbHideAni(zfnull)
-    , thumbHideAniAutoStopListener(ZFCallbackForRawFunction(thumbHideAniAutoStop))
+    , thumbHideAniAutoStopListener(ZFCallbackForFunc(thumbHideAniAutoStop))
     , lastPos(0)
     , lastSize(0)
     , lastVisibleTime(ZFTime::timestamp() - 1000)
@@ -130,7 +130,7 @@ void ZFUIScrollThumbDefault::objectOnInitFinish(void)
 
     d->thumbHideAni->observerAdd(
         ZFAnimation::EventAniOnStop(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIScrollThumbDefaultPrivate::aniOnStop),
+        ZFCallbackForFunc(_ZFP_ZFUIScrollThumbDefaultPrivate::aniOnStop),
         this->objectHolder());
 
     ZFObjectGlobalEventObserver().observerAdd(

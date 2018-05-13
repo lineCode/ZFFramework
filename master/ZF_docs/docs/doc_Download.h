@@ -14,16 +14,13 @@
  *   necessary files which contains include headers, libraries and resources,
  *   exist only after you build ZFFramework\n
  *   you may build it by the projects under ~/ZF_XXX/zfproj dir,
- *   or use the util script under ~/tools/release dir
+ *   or use the util script under ~/tools/release dir\n
+ *   by default, all app project would build ZFFramework automatically
+ *   when first time build
  * -  master:
- *   additional tools to build extra contents
+ *   additional tools to build extra contents (documents, etc)
  * -  ZF:
  *   ZFFramework main source code and projects,
  *   separated by module
- *
- *
- * @section DocTag_Download_Demo Demo
- *
- * <a href="http://pan.baidu.com/s/1i39zou5" target="_blank">pre-built demos can be downloaded from here</a>
  */
 

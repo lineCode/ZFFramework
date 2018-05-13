@@ -216,7 +216,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     } \
     ZFCORETYPE_STRING_CONVERTER_DEFINE(TypeName, Type, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction)) \
     _ZFP_ZFPROPERTY_TYPE_DEFINE_METHOD_REGISTER(TypeName, Type) \
-    _ZFP_ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type)
+    ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type)
 
 #define _ZFP_ZFPROPERTY_TYPE_DEFINE_METHOD_REGISTER(TypeName, Type) \
     ZF_STATIC_REGISTER_INIT(PropMtdReg_##TypeName) \
@@ -369,11 +369,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE */
 #define ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(TypeName, Type) \
     _ZFP_ZFPROPERTY_TYPE_ID_DATA_ACCESS_ONLY_DEFINE(TypeName, Type) \
-    _ZFP_ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type)
+    ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type)
 /** @brief see #ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE */
 #define ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
     _ZFP_ZFPROPERTY_TYPE_ID_DATA_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
-    _ZFP_ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type)
+    ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type)
 
 // ============================================================
 /**
@@ -488,6 +488,10 @@ public:
      * @brief set the value, no type safe check
      */
     virtual void wrappedValueSet(ZF_IN const void *v) zfpurevirtual;
+    /**
+     * @brief get the value, no type safe check
+     */
+    virtual void wrappedValueGet(ZF_IN void *v) zfpurevirtual;
 
 public:
     /**
@@ -501,7 +505,19 @@ public:
     /**
      * @brief compare the value
      */
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v) zfpurevirtual;
+    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
+                                                ZF_IN const void *v1) zfpurevirtual;
+    /**
+     * @brief get value info
+     */
+    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
+                                     ZF_IN const void *v) zfpurevirtual;
+    /**
+     * @brief update property value by progress, see #ZFPROPERTY_PROGRESS_DECLARE
+     */
+    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
+                                              ZF_IN const void *to,
+                                              ZF_IN zffloat progress) zfpurevirtual;
 
 public:
     /**

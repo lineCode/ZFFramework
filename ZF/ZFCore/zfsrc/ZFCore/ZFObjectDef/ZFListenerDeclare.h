@@ -16,6 +16,8 @@
 #define _ZFI_ZFListenerDeclare_h_
 
 #include "ZFObjectCore.h"
+#include "ZFMethodDeclare.h"
+#include "ZFMethodFuncDeclare.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**

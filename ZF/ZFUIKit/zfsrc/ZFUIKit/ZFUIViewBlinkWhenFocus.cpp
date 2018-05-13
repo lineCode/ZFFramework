@@ -55,12 +55,12 @@ static zfbool _ZFP_ZFUIViewBlinkWhenFocus_started = zffalse;
 static zfint _ZFP_ZFUIViewBlinkWhenFocus_paused = 0;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkWhenFocusDataHolder, ZFLevelZFFrameworkNormal)
 {
-    this->focusChangeListener = ZFCallbackForRawFunction(_ZFP_ZFUIViewBlinkWhenFocus_focusChange);
-    this->mouseDownListener = ZFCallbackForRawFunction(_ZFP_ZFUIViewBlinkWhenFocus_mouseDown);
-    this->viewOnDeallocListener = ZFCallbackForRawFunction(_ZFP_ZFUIViewBlinkWhenFocus_viewOnDealloc);
+    this->focusChangeListener = ZFCallbackForFunc(_ZFP_ZFUIViewBlinkWhenFocus_focusChange);
+    this->mouseDownListener = ZFCallbackForFunc(_ZFP_ZFUIViewBlinkWhenFocus_mouseDown);
+    this->viewOnDeallocListener = ZFCallbackForFunc(_ZFP_ZFUIViewBlinkWhenFocus_viewOnDealloc);
 
-    this->viewBlinkOnListener = ZFCallbackForRawFunction(zfself::viewBlinkOn);
-    this->viewBlinkOffListener = ZFCallbackForRawFunction(zfself::viewBlinkOff);
+    this->viewBlinkOnListener = ZFCallbackForFunc(zfself::viewBlinkOn);
+    this->viewBlinkOffListener = ZFCallbackForFunc(zfself::viewBlinkOff);
     ZFObjectGlobalEventObserver().observerAdd(ZFGlobalEvent::EventViewBlinkOn(), this->viewBlinkOnListener);
     ZFObjectGlobalEventObserver().observerAdd(ZFGlobalEvent::EventViewBlinkOff(), this->viewBlinkOffListener);
 }
@@ -221,7 +221,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkWhenFocusAutoApplyPauseForTim
 {
     this->started = zffalse;
     this->delayTimer = zfnull;
-    this->doStopListener = ZFCallbackForRawFunction(zfself::doStop);
+    this->doStopListener = ZFCallbackForFunc(zfself::doStop);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewBlinkWhenFocusAutoApplyPauseForTimeDataHolder)
 {

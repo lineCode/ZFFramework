@@ -132,6 +132,12 @@ public:
      * @brief get the impl
      */
     virtual void *refImpl(void) const zfpurevirtual;
+
+    /** @cond ZFPrivateDoc */
+    virtual ZFCoreArrayBase &operator = (ZF_IN const ZFCoreArrayBase &ref) zfpurevirtual;
+    virtual zfbool operator == (ZF_IN const ZFCoreArrayBase &ref) const zfpurevirtual;
+    virtual zfbool operator != (ZF_IN const ZFCoreArrayBase &ref) const zfpurevirtual;
+    /** @endcond */
 };
 
 // ============================================================
@@ -213,6 +219,19 @@ public:
     /** @cond ZFPrivateDoc */
     zfbool operator == (ZF_IN const ZFCoreArray<T_Element> &ref) const {return (d == ref.d);}
     inline zfbool operator != (ZF_IN const ZFCoreArray<T_Element> &ref) const {return !this->operator == (ref);}
+    zfoverride
+    virtual ZFCoreArrayBase &operator = (ZF_IN const ZFCoreArrayBase &ref)
+    {
+        return this->operator = ((const ZFCoreArray<T_Element> &)ref);
+    }
+    virtual zfbool operator == (ZF_IN const ZFCoreArrayBase &ref) const
+    {
+        return this->operator == ((const ZFCoreArray<T_Element> &)ref);
+    }
+    virtual zfbool operator != (ZF_IN const ZFCoreArrayBase &ref) const
+    {
+        return this->operator == ((const ZFCoreArray<T_Element> &)ref);
+    }
     /** @endcond */
     /**
      * @brief copy all settings and contents from another array

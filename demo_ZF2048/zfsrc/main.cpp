@@ -126,11 +126,11 @@ ZF_GLOBAL_INITIALIZER_END(AutoPrintUIViewTree)
 #if 1 // just for fun, click one view 3 times at same point, would change language
 ZF_GLOBAL_INITIALIZER_INIT(testLangLoad)
 {
-    ZFObjectGlobalEventObserver().observerAdd(ZFUIView::EventViewOnEvent(), ZFCallbackForRawFunction(zfself::action));
+    ZFObjectGlobalEventObserver().observerAdd(ZFUIView::EventViewOnEvent(), ZFCallbackForFunc(zfself::action));
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(testLangLoad)
 {
-    ZFObjectGlobalEventObserver().observerRemove(ZFUIView::EventViewOnEvent(), ZFCallbackForRawFunction(zfself::action));
+    ZFObjectGlobalEventObserver().observerRemove(ZFUIView::EventViewOnEvent(), ZFCallbackForFunc(zfself::action));
 }
 private:
     static ZFLISTENER_PROTOTYPE_EXPAND(action)

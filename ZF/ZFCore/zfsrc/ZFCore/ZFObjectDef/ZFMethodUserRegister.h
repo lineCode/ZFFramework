@@ -27,7 +27,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
 
 #define _ZFP_ZFMethodUserRegisterParamExpand( \
         GenericInvokerOwner, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -40,9 +40,11 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
     ) \
     ( \
         zftrue \
+        , zffalse \
+        , zfnull \
         , ZFCastReinterpret(ZFFuncAddrType, methodInvoker) \
         , _ZFP_ZFMETHOD_GENERIC_INVOKER_ADDR(GenericInvokerOwner) \
-        , _ZFP_ZFMethodIsWhatTypeText(ZFMethodIsWhatType) \
+        , _ZFP_ZFMethodTypeText(ZFMethodType_) \
         , ownerClass \
         , _ZFP_ZFMethod_initClassMemberType_privilege(PublicOrProtectedOrPrivate) \
         , zfnull \
@@ -96,7 +98,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
 #define _ZFP_ZFMethodUserRegister(...) \
     ZFM_EXPAND(_ZFP_ZFMethodUserRegister_(__VA_ARGS__))
 #define _ZFP_ZFMethodUserRegister_(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsWhatType, \
+        ZFMethodType_, \
         ReturnType, methodName, DECLARE_LINE \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -126,7 +128,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
     }; \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, \
             _ZFP_MtdURIvk_##ownerClassSig##_##methodName##_##DECLARE_LINE::invoker, ownerClassSig::ClassData(), \
-            public, ZFMethodIsWhatType, \
+            public, ZFMethodType_, \
             ReturnType, ZFM_TOSTRING(methodName) \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -141,7 +143,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
 #define _ZFP_ZFMethodUserRegisterDetail(...) \
     ZFM_EXPAND(_ZFP_ZFMethodUserRegisterDetail_(__VA_ARGS__))
 #define _ZFP_ZFMethodUserRegisterDetail_(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -171,7 +173,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
         }; \
         resultMethod = _ZFP_ZFMethodRegister _ZFP_ZFMethodUserRegisterParamExpand( \
                 _ZFP_MtdUR, methodInvoker, ownerClass, \
-                PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+                PublicOrProtectedOrPrivate, ZFMethodType_, \
                 ReturnType, methodNameString \
                 , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
                 , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -190,7 +192,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
     ZFM_EXPAND(_ZFP_ZFMETHOD_USER_REGISTER_(__VA_ARGS__))
 #define _ZFP_ZFMETHOD_USER_REGISTER_( \
         methodInvokerAction, ownerClassSig, \
-        ZFMethodIsWhatType, \
+        ZFMethodType_, \
         ReturnType, methodName, DECLARE_LINE \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -234,7 +236,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
             _ZFP_MtdURIvk_##ownerClassSig##_##methodName##_##DECLARE_LINE, \
             _ZFP_MtdURIvk_##ownerClassSig##_##methodName##_##DECLARE_LINE::invoker, \
             ownerClassSig::ClassData(), \
-            public, ZFMethodIsWhatType, \
+            public, ZFMethodType_, \
             ReturnType, ZFM_TOSTRING(methodName) \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -250,7 +252,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
     ZFM_EXPAND(_ZFP_ZFMETHOD_USER_REGISTER_DETAIL_(__VA_ARGS__))
 #define _ZFP_ZFMETHOD_USER_REGISTER_DETAIL_( \
         registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -281,7 +283,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
             _ZFP_MtdURIvk_##registerSig, \
             methodInvoker, \
             ownerClass, \
-            PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+            PublicOrProtectedOrPrivate, ZFMethodType_, \
             ReturnType, methodNameString \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -319,7 +321,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
                         ParamExpandOrEmpty7(ZFM_COMMA() param7) \
                     ); \
             }, ownerClassSig, \
-            ZFMethodIsVirtual, \
+            ZFMethodTypeVirtual, \
             ReturnType, methodName, DECLARE_LINE \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -357,7 +359,7 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
                         ParamExpandOrEmpty7(ZFM_COMMA() param7) \
                     ); \
             }, ownerClassSig, \
-            ZFMethodIsStatic, \
+            ZFMethodTypeStatic, \
             ReturnType, methodName, DECLARE_LINE \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
@@ -413,7 +415,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
                         ParamExpandOrEmpty6(ZFM_COMMA() param6) \
                         ParamExpandOrEmpty7(ZFM_COMMA() param7) \
                     ); \
-            }, WrapperClass, ZFMethodIsVirtual, ReturnType, methodName, ZF_CALLER_LINE \
+            }, WrapperClass, ZFMethodTypeVirtual, ReturnType, methodName, ZF_CALLER_LINE \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
             , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
@@ -448,7 +450,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
                         ParamExpandOrEmpty6(ZFM_COMMA() param6) \
                         ParamExpandOrEmpty7(ZFM_COMMA() param7) \
                     ); \
-            }, WrapperClass, ZFMethodIsStatic, ReturnType, methodName, ZF_CALLER_LINE \
+            }, WrapperClass, ZFMethodTypeStatic, ReturnType, methodName, ZF_CALLER_LINE \
             , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
             , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
             , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
@@ -471,7 +473,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
 #define _ZFP_ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR_GETTER(ownerClassSig, VarType, VarName) \
     _ZFP_ZFMETHOD_USER_REGISTER({ \
             return (VarType)(invokerObject->to<ownerClassSig *>()->VarName); \
-        }, ownerClassSig, ZFMethodIsVirtual, VarType, VarName, ZF_CALLER_LINE \
+        }, ownerClassSig, ZFMethodTypeVirtual, VarType, VarName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -484,7 +486,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
 #define _ZFP_ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR_SETTER(ownerClassSig, VarType, VarName) \
     _ZFP_ZFMETHOD_USER_REGISTER({ \
             invokerObject->to<ownerClassSig *>()->VarName = param0; \
-        }, ownerClassSig, ZFMethodIsVirtual, void, VarName##Set, ZF_CALLER_LINE \
+        }, ownerClassSig, ZFMethodTypeVirtual, void, VarName##Set, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_IN(VarType, param0)) \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -506,7 +508,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
 #define _ZFP_ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR_GETTER(ownerClassSig, VarType, VarName) \
     _ZFP_ZFMETHOD_USER_REGISTER({ \
             return (VarType)(_ZFP_MtdUR_zfv(invokerObject->to<ownerClassSig *>()->zfv).VarName); \
-        }, ownerClassSig, ZFMethodIsVirtual, VarType, VarName, ZF_CALLER_LINE \
+        }, ownerClassSig, ZFMethodTypeVirtual, VarType, VarName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -519,7 +521,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
 #define _ZFP_ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR_SETTER(ownerClassSig, VarType, VarName) \
     _ZFP_ZFMETHOD_USER_REGISTER({ \
             _ZFP_MtdUR_zfv(invokerObject->to<ownerClassSig *>()->zfv).VarName = param0; \
-        }, ownerClassSig, ZFMethodIsVirtual, void, VarName##Set, ZF_CALLER_LINE \
+        }, ownerClassSig, ZFMethodTypeVirtual, void, VarName##Set, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_IN(VarType, param0)) \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -548,7 +550,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
  *   {
  *       ZFMethodUserRegisterDetail_2(
  *           resultMethod, myInvoker, MyClassToAttachTheMethod::ClassData(),
- *           public, ZFMethodIsStatic,
+ *           public, ZFMethodTypeStatic,
  *           ReturnType, zfText("myMethodName")
  *           , ZFMP_IN(ParamType0, param0)
  *           , ZFMP_IN(ParamType1, param1));
@@ -565,7 +567,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
  *   // or, you may use this macro for short, at cpp files only
  *   ZFMETHOD_USER_REGISTER_DETAIL_2(
  *       myMethodRegisterSig, myInvoker, MyClassToAttachTheMethod::ClassData(),
- *       public, ZFMethodIsStatic,
+ *       public, ZFMethodTypeStatic,
  *       ReturnType, zfText("myMethodName")
  *       , ZFMP_IN(ParamType0, param0)
  *       , ZFMP_IN(ParamType1, param1))
@@ -580,12 +582,14 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
  * -  once registered, the method can be reflected by #ZFClass::methodForName,
  *   but there's no way to invoke the method by object directly,
  *   it can only be invoked by #ZFMethod::execute
+ *
+ * @see ZFMethodDynamicRegister
  */
 #define ZFMethodUserRegister_0(resultMethod, methodInvokerAction, ownerClassSig, \
     ReturnType, methodName \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -601,7 +605,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     ReturnType, methodName \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -614,11 +618,11 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_0(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -634,7 +638,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     ReturnType, methodName \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -650,7 +654,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     ReturnType, methodName \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -723,11 +727,11 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_0(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -747,7 +751,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_0 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
@@ -764,7 +768,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_0 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
@@ -777,12 +781,12 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_1(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
@@ -799,7 +803,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_0 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
@@ -816,7 +820,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_0 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
@@ -893,12 +897,12 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_1(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
@@ -919,7 +923,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_1 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -937,7 +941,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_1 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -950,13 +954,13 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_2(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -974,7 +978,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_1 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -992,7 +996,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_1 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1073,13 +1077,13 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_2(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1101,7 +1105,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_2 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1120,7 +1124,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_2 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1133,14 +1137,14 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_3(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1159,7 +1163,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_2 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1178,7 +1182,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_2 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1263,14 +1267,14 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_3(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1293,7 +1297,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_3 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1313,7 +1317,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_3 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1326,7 +1330,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_4(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1334,7 +1338,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_3 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1354,7 +1358,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_3 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1374,7 +1378,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_3 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1463,7 +1467,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_4(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1471,7 +1475,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_3 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1495,7 +1499,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_4 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1516,7 +1520,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_4 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1529,7 +1533,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_5(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1538,7 +1542,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_4 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1559,7 +1563,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_4 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1580,7 +1584,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_4 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1673,7 +1677,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_5(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1682,7 +1686,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_4 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1707,7 +1711,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_5 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1729,7 +1733,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_5 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1742,7 +1746,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_6(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1752,7 +1756,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_5 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1774,7 +1778,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_5 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1796,7 +1800,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_5 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1893,7 +1897,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_6(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1903,7 +1907,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_5 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1929,7 +1933,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_6 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1952,7 +1956,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_6 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1965,7 +1969,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_7(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -1976,7 +1980,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_6 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -1999,7 +2003,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_6 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2022,7 +2026,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_6 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2123,7 +2127,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_7(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -2134,7 +2138,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_6 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2161,7 +2165,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_7 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2185,7 +2189,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_7 \
     ) \
     _ZFP_ZFMethodUserRegister(resultMethod, methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2198,7 +2202,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMethodUserRegisterDetail_8(resultMethod, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -2210,7 +2214,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_7 \
     ) \
     _ZFP_ZFMethodUserRegisterDetail(resultMethod, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2234,7 +2238,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_7 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsVirtual, \
+        ZFMethodTypeVirtual, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2258,7 +2262,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_7 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER(methodInvokerAction, ownerClassSig, \
-        ZFMethodIsStatic, \
+        ZFMethodTypeStatic, \
         ReturnType, methodName, ZF_CALLER_LINE \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \
@@ -2363,7 +2367,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
         )
 /** @brief see #ZFMethodUserRegister_0 */
 #define ZFMETHOD_USER_REGISTER_DETAIL_8(registerSig, methodInvoker, ownerClass, \
-    PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+    PublicOrProtectedOrPrivate, ZFMethodType_, \
     ReturnType, methodNameString \
     , ZFMP_0 \
     , ZFMP_1 \
@@ -2375,7 +2379,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     , ZFMP_7 \
     ) \
     _ZFP_ZFMETHOD_USER_REGISTER_DETAIL(registerSig, methodInvoker, ownerClass, \
-        PublicOrProtectedOrPrivate, ZFMethodIsWhatType, \
+        PublicOrProtectedOrPrivate, ZFMethodType_, \
         ReturnType, methodNameString \
         , ZFM_EXPAND(ZFMP_0) \
         , ZFM_EXPAND(ZFMP_1) \

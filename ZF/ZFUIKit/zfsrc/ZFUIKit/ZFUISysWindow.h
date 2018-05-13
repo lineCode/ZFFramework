@@ -109,7 +109,7 @@ public:
      *
      * usually, use only one window is recommended
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               ZFUISysWindow *, mainWindow)
 
 public:

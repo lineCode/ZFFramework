@@ -66,30 +66,30 @@ ZFMETHOD_DEFINE_0(ZFUIPageManagerBasic, zfautoObject, embededCreateWindow)
     this->tagSet(_ZFP_ZFUIPageManagerBasic_window, window->objectHolder());
 
     window->observerAdd(ZFUIWindow::EventWindowOnShow(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerBasic_managerResume),
+        ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerResume),
         this->objectHolder(),
         this);
     window->observerAdd(ZFUIWindow::EventWindowOwnerSysWindowOnResume(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerBasic_managerResume),
+        ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerResume),
         this->objectHolder(),
         this);
 
     window->observerAdd(ZFUIWindow::EventWindowOnHide(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerBasic_managerPause),
+        ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerPause),
         this->objectHolder(),
         this);
     window->observerAdd(ZFUIWindow::EventWindowOwnerSysWindowOnPause(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerBasic_managerPause),
+        ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerPause),
         this->objectHolder(),
         this);
 
     window->observerAdd(ZFObject::EventObjectBeforeDealloc(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerBasic_managerDestroy),
+        ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerDestroy),
         this->objectHolder(),
         this);
 
     this->observerAdd(ZFUIPageManager::EventManagerOnDestroy(),
-        ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerBasic_managerOnDestroy),
+        ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerOnDestroy),
         zfnull,
         zfnull,
         zfHint("autoRemoveAfterActivate")zftrue);

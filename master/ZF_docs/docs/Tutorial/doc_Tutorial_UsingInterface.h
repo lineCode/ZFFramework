@@ -37,3 +37,4 @@
  * -  use ZFIMPLEMENTS_DECLARE for necessary macro expansion,
  *   an object can implement more than one interfaces
  */
+

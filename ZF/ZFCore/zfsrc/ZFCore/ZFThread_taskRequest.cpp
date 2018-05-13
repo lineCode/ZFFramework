@@ -31,13 +31,13 @@ static ZFArrayEditable *_ZFP_ZFThread_taskDatas = zfnull;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFThreadTaskRequestDataHolder, ZFLevelZFFrameworkEssential)
 {
     _ZFP_ZFThread_wrappedTaskCallback = zfnew(ZFListener);
-    *_ZFP_ZFThread_wrappedTaskCallback = ZFCallbackForRawFunction(_ZFP_ZFThreadTaskRequestCallback_action);
+    *_ZFP_ZFThread_wrappedTaskCallback = ZFCallbackForFunc(_ZFP_ZFThreadTaskRequestCallback_action);
     _ZFP_ZFThread_mergeCallbackIgnoreOldTask = zfnew(ZFListener);
-    *_ZFP_ZFThread_mergeCallbackIgnoreOldTask = ZFCallbackForRawFunction(_ZFP_ZFThreadTaskRequestMergeCallbackIgnoreOldTask_action);
+    *_ZFP_ZFThread_mergeCallbackIgnoreOldTask = ZFCallbackForFunc(_ZFP_ZFThreadTaskRequestMergeCallbackIgnoreOldTask_action);
     _ZFP_ZFThread_mergeCallbackIgnoreNewTask = zfnew(ZFListener);
-    *_ZFP_ZFThread_mergeCallbackIgnoreNewTask = ZFCallbackForRawFunction(_ZFP_ZFThreadTaskRequestMergeCallbackIgnoreNewTask_action);
+    *_ZFP_ZFThread_mergeCallbackIgnoreNewTask = ZFCallbackForFunc(_ZFP_ZFThreadTaskRequestMergeCallbackIgnoreNewTask_action);
     _ZFP_ZFThread_mergeCallbackDoNotMerge = zfnew(ZFListener);
-    *_ZFP_ZFThread_mergeCallbackDoNotMerge = ZFCallbackForRawFunction(_ZFP_ZFThreadTaskRequestMergeCallbackDoNotMerge_action);
+    *_ZFP_ZFThread_mergeCallbackDoNotMerge = ZFCallbackForFunc(_ZFP_ZFThreadTaskRequestMergeCallbackDoNotMerge_action);
     _ZFP_ZFThread_taskDatas = zfAlloc(ZFArrayEditable);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFThreadTaskRequestDataHolder)

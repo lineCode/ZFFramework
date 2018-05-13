@@ -131,7 +131,7 @@ public:
     /**
      * @brief util method to get window of a view, or null if not in a window
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               ZFUIWindow *, windowForView,
                               ZFMP_IN(ZFUIView *, forView))
 
@@ -139,7 +139,7 @@ public:
      * @brief util method to get owner sys window for the view,
      *   return null if not in view tree or failed to get
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               ZFUISysWindow *, sysWindowForView,
                               ZFMP_IN(ZFUIView *, view))
 

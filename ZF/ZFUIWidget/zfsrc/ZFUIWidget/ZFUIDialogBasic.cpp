@@ -52,8 +52,8 @@ ZFSTYLE_DEFAULT_DEFINE(ZFUIDialogBasic)
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIDialogBasicDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->dialogButtonOnAddListener = ZFCallbackForRawFunction(zfself::dialogButtonOnAdd);
-    this->dialogButtonOnRemoveListener = ZFCallbackForRawFunction(zfself::dialogButtonOnRemove);
+    this->dialogButtonOnAddListener = ZFCallbackForFunc(zfself::dialogButtonOnAdd);
+    this->dialogButtonOnRemoveListener = ZFCallbackForFunc(zfself::dialogButtonOnRemove);
 }
 public:
     ZFListener dialogButtonOnAddListener;

@@ -13,7 +13,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_GLOBAL_INITIALIZER_INIT(ZFUIKeyboardState_test)
 {
-    this->keyPressedOnChangeListener = ZFCallbackForRawFunction(zfself::keyPressedOnChange);
+    this->keyPressedOnChangeListener = ZFCallbackForFunc(zfself::keyPressedOnChange);
     ZFObjectGlobalEventObserver().observerAdd(ZFUIKeyboardState::EventKeyPressedOnChange(), this->keyPressedOnChangeListener);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIKeyboardState_test)

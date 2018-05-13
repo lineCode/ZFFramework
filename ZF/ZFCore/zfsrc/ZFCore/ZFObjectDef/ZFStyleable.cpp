@@ -230,8 +230,8 @@ public:
 };
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleDefaultApplyAutoCopyDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->styleOnDeallocListener = ZFCallbackForRawFunction(zfself::styleOnDealloc);
-    this->defaultStyleOnChangeListener = ZFCallbackForRawFunction(zfself::defaultStyleOnChange);
+    this->styleOnDeallocListener = ZFCallbackForFunc(zfself::styleOnDealloc);
+    this->defaultStyleOnChangeListener = ZFCallbackForFunc(zfself::defaultStyleOnChange);
 }
 public:
     ZFListener styleOnDeallocListener;

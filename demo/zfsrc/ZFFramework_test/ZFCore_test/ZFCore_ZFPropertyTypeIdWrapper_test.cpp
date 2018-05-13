@@ -85,22 +85,6 @@ protected:
         zfLogTrimT() << ZFPropertyTypeIdData<ZFAny>::Value<const ZFAny * &>::access(v);
         zfLogTrimT() << ZFPropertyTypeIdData<ZFAny>::Value<const ZFAny * const &>::access(v);
 
-        // ZFAnyT processed as aligned type
-        zfblockedAlloc(ZFStringEditable, test_ZFAnyT, zfText("ZFAnyT<ZFString *>"));
-        v = test_ZFAnyT;
-        typedef ZFAnyT<ZFString *> _ZFP_AliasedAnyT;
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("ZFAnyT<ZFString *>");
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<_ZFP_AliasedAnyT>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<const _ZFP_AliasedAnyT &>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<_ZFP_AliasedAnyT &>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<_ZFP_AliasedAnyT *>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<const _ZFP_AliasedAnyT *>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<_ZFP_AliasedAnyT * &>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<_ZFP_AliasedAnyT * const &>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<const _ZFP_AliasedAnyT * &>::access(v);
-        zfLogTrimT() << ZFPropertyTypeIdData<_ZFP_AliasedAnyT>::Value<const _ZFP_AliasedAnyT * const &>::access(v);
-
         this->testCaseStop();
     }
 };

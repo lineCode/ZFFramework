@@ -18,12 +18,6 @@
 #include "ZFEnumDeclare.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify {public: enum {CanModify = 0};};
-template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<const T *> {public: enum {CanModify = 0};};
-template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<T *> {public: enum {CanModify = 1};};
-template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<const T &> {public: enum {CanModify = 0};};
-template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<T &> {public: enum {CanModify = 1};};
-
 // ============================================================
 // ZFPropertyTypeWrapper
 #define _ZFP_ZFENUM_PROP_TYPE_WRAPPER_DECLARE(EnumName) \
@@ -72,7 +66,7 @@ template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<T &> {public: enum {CanM
             return zftrue; \
         } \
         template<typename T_Access = EnumName##Enum \
-            , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr \
+            , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
                 && zftTypeIsSame< \
                         typename zftTraits<T_Access>::TrNoRef, \
                         EnumName##Enum \
@@ -83,34 +77,43 @@ template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<T &> {public: enum {CanM
         zfclassNotPOD Value \
         { \
         public: \
-            typedef typename zftTraits<T_Access>::TrNoRef T_NoRef; \
-        public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull \
-                    || (ZFCastZFObject(EnumName *, obj) != zfnull && !_ZFP_ZFEnumCanModify<T_Access>::CanModify)); \
+                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
             } \
             static T_Access access(ZF_IN ZFObject *obj) \
             { \
                 /* EnumReinterpretCast */ \
-                return *(T_NoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
+                return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
         }; \
         template<typename T_Access> \
         zfclassNotPOD Value<T_Access, 1> \
         { \
-        public: \
-            typedef typename zftTraits<T_Access>::TrNoRef T_NoRef; \
+        private: \
+             typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull \
-                    || (ZFCastZFObject(EnumName *, obj) != zfnull && !_ZFP_ZFEnumCanModify<T_NoRef>::CanModify)); \
+                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
             } \
-            static T_NoRef access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN ZFObject *obj) \
             { \
+                EnumName *t = ZFCastZFObject(EnumName *, obj); \
+                _TrNoRef *holder = zfnew(_TrNoRef); \
                 /* EnumReinterpretCast */ \
-                return (T_NoRef)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
+                *holder = (_TrNoRef)(&(t->_ZFP_ZFEnum_value)); \
+                _ZFP_PropAliasAttach(obj, holder, \
+                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierId()), \
+                    _ZFP_PropAliasOnDetach); \
+                return *holder; \
+            } \
+        private: \
+            static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
+                                               ZF_IN void *v) \
+            { \
+                _TrNoRef *vTmp = (_TrNoRef *)v; \
+                zfdelete(vTmp); \
             } \
         }; \
     }; \
@@ -185,7 +188,7 @@ template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<T &> {public: enum {CanM
             return zftrue; \
         } \
         template<typename T_Access = EnumFlagsName \
-            , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr \
+            , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
                 && zftTypeIsSame< \
                         typename zftTraits<T_Access>::TrNoRef, \
                         EnumFlagsName \
@@ -196,34 +199,43 @@ template<typename T> zfclassNotPOD _ZFP_ZFEnumCanModify<T &> {public: enum {CanM
         zfclassNotPOD Value \
         { \
         public: \
-            typedef typename zftTraits<T_Access>::TrNoRef T_NoRef; \
-        public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull \
-                    || (ZFCastZFObject(EnumName *, obj) != zfnull && !_ZFP_ZFEnumCanModify<T_Access>::CanModify)); \
+                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
             } \
             static T_Access access(ZF_IN ZFObject *obj) \
             { \
                 /* EnumReinterpretCast */ \
-                return *(T_NoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
+                return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
         }; \
         template<typename T_Access> \
         zfclassNotPOD Value<T_Access, 1> \
         { \
-        public: \
-            typedef typename zftTraits<T_Access>::TrNoRef T_NoRef; \
+        private: \
+            typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull \
-                    || (ZFCastZFObject(EnumName *, obj) != zfnull && !_ZFP_ZFEnumCanModify<T_NoRef>::CanModify)); \
+                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
             } \
-            static T_NoRef access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN ZFObject *obj) \
             { \
+                EnumName *t = ZFCastZFObject(EnumName *, obj); \
+                _TrNoRef *holder = zfnew(_TrNoRef); \
                 /* EnumReinterpretCast */ \
-                return (T_NoRef)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
+                *holder = (_TrNoRef)(&(t->_ZFP_ZFEnum_value)); \
+                _ZFP_PropAliasAttach(obj, holder, \
+                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierId()), \
+                    _ZFP_PropAliasOnDetach); \
+                return *holder; \
+            } \
+        private: \
+            static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
+                                               ZF_IN void *v) \
+            { \
+                _TrNoRef *vTmp = (_TrNoRef *)v; \
+                zfdelete(vTmp); \
             } \
         }; \
     }; \

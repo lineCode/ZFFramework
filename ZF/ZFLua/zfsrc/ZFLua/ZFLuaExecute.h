@@ -76,7 +76,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     return the associated `YourTypeName` that holds the value\n
  *     "YourTypeName" represents the type name in #ZFPROPERTY_TYPE_DECLARE\n
  *     "yourTypeData" store string datas that would be decoded by YourTypeNameFromString\n
- *     "yourTypeData" are converted by #ZFImpl_ZFLua_toString
+ *     "yourTypeData" are converted by #ZFImpl_ZFLua_toString\n
+ *     if your value holder supplys reflectable #ZFObject::objectOnInit
+ *     (#ZFOBJECT_ON_INIT_DECLARE_2 series),
+ *     the value holder can also be constructed by function like call:
+ *     `YourTypeName(param0, param1)`
  *   -  `value:yourFunc()`
  *     or `YourTypeName.YourFunc()`\n
  *     for non-ZFObject types that wrapped by #ZFPROPERTY_TYPE_DECLARE,

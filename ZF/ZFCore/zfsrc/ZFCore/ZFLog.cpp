@@ -136,7 +136,7 @@ ZFOutputCallback zfLogTrimT(void)
 {
     ZFOutputCallback ret;
     ret.callbackSerializeCustomDisable();
-    ZFOutputCallbackForFormatT(ret, ZFCallbackForRawFunction(_ZFP_zfLogOnOutput), _ZFP_ZFLogFormatHolder);
+    ZFOutputCallbackForFormatT(ret, ZFCallbackForFunc(_ZFP_zfLogOnOutput), _ZFP_ZFLogFormatHolder);
     return ret;
 }
 

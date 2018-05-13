@@ -49,10 +49,10 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewStateAniDataHolder, ZFLevelZFFrame
 {
     this->taskStarted = zffalse;
     this->delayStartTaskId = zfidentityInvalid();
-    this->delayStartActionListener = ZFCallbackForRawFunction(zfself::delayStartAction);
-    this->viewOnDetachListener = ZFCallbackForRawFunction(zfself::viewOnDetach);
-    this->viewTaskOnStartListener = ZFCallbackForRawFunction(zfself::viewTaskOnStart);
-    this->viewAniOnStopListener = ZFCallbackForRawFunction(zfself::viewAniOnStop);
+    this->delayStartActionListener = ZFCallbackForFunc(zfself::delayStartAction);
+    this->viewOnDetachListener = ZFCallbackForFunc(zfself::viewOnDetach);
+    this->viewTaskOnStartListener = ZFCallbackForFunc(zfself::viewTaskOnStart);
+    this->viewAniOnStopListener = ZFCallbackForFunc(zfself::viewAniOnStop);
 }
 public:
     zfbool taskStarted;
@@ -292,13 +292,13 @@ ZFOBJECT_REGISTER(ZFUIViewStateAniImplProtocol)
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewStateAniImplDataHolder, ZFLevelZFFrameworkEssential)
 {
     this->started = zffalse;
-    this->stateAniOnInitListener = ZFCallbackForRawFunction(zfself::stateAniOnInit);
-    this->stateAniOnDeallocListener = ZFCallbackForRawFunction(zfself::stateAniOnDealloc);
-    this->stateAniViewAttachListener = ZFCallbackForRawFunction(zfself::stateAniViewAttach);
-    this->stateAniViewDetachListener = ZFCallbackForRawFunction(zfself::stateAniViewDetach);
-    this->stateAniViewAniPrepareListener = ZFCallbackForRawFunction(zfself::stateAniViewAniPrepare);
-    this->stateAniViewAniStartListener = ZFCallbackForRawFunction(zfself::stateAniViewAniStart);
-    this->stateAniViewAniStopListener = ZFCallbackForRawFunction(zfself::stateAniViewAniStop);
+    this->stateAniOnInitListener = ZFCallbackForFunc(zfself::stateAniOnInit);
+    this->stateAniOnDeallocListener = ZFCallbackForFunc(zfself::stateAniOnDealloc);
+    this->stateAniViewAttachListener = ZFCallbackForFunc(zfself::stateAniViewAttach);
+    this->stateAniViewDetachListener = ZFCallbackForFunc(zfself::stateAniViewDetach);
+    this->stateAniViewAniPrepareListener = ZFCallbackForFunc(zfself::stateAniViewAniPrepare);
+    this->stateAniViewAniStartListener = ZFCallbackForFunc(zfself::stateAniViewAniStart);
+    this->stateAniViewAniStopListener = ZFCallbackForFunc(zfself::stateAniViewAniStop);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewStateAniImplDataHolder)
 {

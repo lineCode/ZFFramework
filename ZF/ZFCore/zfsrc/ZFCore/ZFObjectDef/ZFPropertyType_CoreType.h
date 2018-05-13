@@ -20,6 +20,8 @@
 #include "ZFFilterForZFObject.h"
 #include "ZFFilterForZFMethod.h"
 #include "ZFFilterForZFProperty.h"
+#include "ZFMethodDynamicRegister.h"
+#include "ZFPropertyDynamicRegister.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -477,6 +479,24 @@ ZFOUTPUT_TYPE(ZFFilterForZFClassType, {output.execute(ZFFilterForZFClassTypeToSt
  */
 ZFPROPERTY_TYPE_DECLARE(ZFMethodPrivilegeType, ZFMethodPrivilegeType)
 ZFOUTPUT_TYPE(ZFMethodPrivilegeType, {output.execute(ZFMethodPrivilegeTypeToString(v));})
+
+/**
+ * @brief see #ZFPROPERTY_TYPE_DECLARE
+ *
+ * serializable data:
+ * @code
+ *   <ZFMethodType value="value" />
+ * @endcode
+ */
+ZFPROPERTY_TYPE_DECLARE(ZFMethodType, ZFMethodType)
+ZFOUTPUT_TYPE(ZFMethodType, {output.execute(ZFMethodTypeToString(v));})
+
+ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFMethodParamDefaultValueCallback, ZFMethodParamDefaultValueCallback)
+
+ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam)
+
+ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFPropertyDynamicRegisterInitValueCallback, ZFPropertyDynamicRegisterInitValueCallback)
+ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam)
 
 ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFComparer_ZFObject, ZFComparer<ZFObject *>::Comparer)
 

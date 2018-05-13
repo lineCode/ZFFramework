@@ -39,21 +39,10 @@ zffinal zfclassNotPOD ZF_ENV_EXPORT _ZFP_zflineRelease
 {
 public:
     template<typename T_ZFObject>
-    T_ZFObject *set(T_ZFObject *obj)
+    T_ZFObject set(T_ZFObject obj)
     {
         this->obj = ZFCastZFObjectUnchecked(ZFObject *, obj);
         return obj;
-    }
-    const ZFAny &set(ZF_IN const ZFAny &any)
-    {
-        this->obj = any.toObject();
-        return any;
-    }
-    template<typename T_ZFObject>
-    const ZFAnyT<T_ZFObject *> &set(ZF_IN const ZFAnyT<T_ZFObject *> &any)
-    {
-        this->obj = any.toObject();
-        return any;
     }
 public:
     _ZFP_zflineRelease(void)
@@ -71,21 +60,10 @@ zffinal zfclassNotPOD ZF_ENV_EXPORT _ZFP_zflockfree_zflineRelease
 {
 public:
     template<typename T_ZFObject>
-    T_ZFObject *set(T_ZFObject *obj)
+    T_ZFObject set(T_ZFObject obj)
     {
         this->obj = ZFCastZFObjectUnchecked(ZFObject *, obj);
         return obj;
-    }
-    const ZFAny &set(ZF_IN const ZFAny &any)
-    {
-        this->obj = any.toObject();
-        return any;
-    }
-    template<typename T_ZFObject>
-    const ZFAnyT<T_ZFObject *> &set(ZF_IN const ZFAnyT<T_ZFObject *> &any)
-    {
-        this->obj = any.toObject();
-        return any;
     }
 public:
     _ZFP_zflockfree_zflineRelease(void)
@@ -202,7 +180,7 @@ zffinal zfclassLikePOD ZF_ENV_EXPORT _ZFP_zfblockedReleaseContainer
 {
 public:
     template<typename T_ZFObject>
-    _ZFP_zfblockedReleaseContainer(ZF_IN T_ZFObject *obj)
+    _ZFP_zfblockedReleaseContainer(ZF_IN T_ZFObject obj)
     : obj(ZFCastZFObjectUnchecked(ZFObject *, obj))
     {
     }
@@ -217,7 +195,7 @@ zffinal zfclassLikePOD ZF_ENV_EXPORT _ZFP_zflockfree_zfblockedReleaseContainer
 {
 public:
     template<typename T_ZFObject>
-    _ZFP_zflockfree_zfblockedReleaseContainer(ZF_IN T_ZFObject *obj)
+    _ZFP_zflockfree_zfblockedReleaseContainer(ZF_IN T_ZFObject obj)
     : obj(ZFCastZFObjectUnchecked(ZFObject *, obj))
     {
     }

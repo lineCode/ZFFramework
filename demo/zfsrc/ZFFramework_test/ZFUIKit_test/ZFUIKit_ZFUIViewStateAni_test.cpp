@@ -106,13 +106,13 @@ ZFOBJECT_REGISTER(ZFUIKit_ZFUIViewStateAni_test)
 #if 0
 ZF_GLOBAL_INITIALIZER_INIT(ZFUIViewStateAniDebug)
 {
-    this->debugEventStateAniOnInitListener = ZFCallbackForRawFunction(zfself::debugEventStateAniOnInit);
-    this->debugEventStateAniOnDeallocListener = ZFCallbackForRawFunction(zfself::debugEventStateAniOnDealloc);
-    this->debugEventStateAniViewAttachListener = ZFCallbackForRawFunction(zfself::debugEventStateAniViewAttach);
-    this->debugEventStateAniViewDetachListener = ZFCallbackForRawFunction(zfself::debugEventStateAniViewDetach);
-    this->debugEventStateAniViewAniPrepareListener = ZFCallbackForRawFunction(zfself::debugEventStateAniViewAniPrepare);
-    this->debugEventStateAniViewAniStartListener = ZFCallbackForRawFunction(zfself::debugEventStateAniViewAniStart);
-    this->debugEventStateAniViewAniStopListener = ZFCallbackForRawFunction(zfself::debugEventStateAniViewAniStop);
+    this->debugEventStateAniOnInitListener = ZFCallbackForFunc(zfself::debugEventStateAniOnInit);
+    this->debugEventStateAniOnDeallocListener = ZFCallbackForFunc(zfself::debugEventStateAniOnDealloc);
+    this->debugEventStateAniViewAttachListener = ZFCallbackForFunc(zfself::debugEventStateAniViewAttach);
+    this->debugEventStateAniViewDetachListener = ZFCallbackForFunc(zfself::debugEventStateAniViewDetach);
+    this->debugEventStateAniViewAniPrepareListener = ZFCallbackForFunc(zfself::debugEventStateAniViewAniPrepare);
+    this->debugEventStateAniViewAniStartListener = ZFCallbackForFunc(zfself::debugEventStateAniViewAniStart);
+    this->debugEventStateAniViewAniStopListener = ZFCallbackForFunc(zfself::debugEventStateAniViewAniStop);
 
     ZFGlobalEventCenter::instance()->observerAdd(ZFUIViewStateAniImpl::EventStateAniOnInit(), this->debugEventStateAniOnInitListener);
     ZFGlobalEventCenter::instance()->observerAdd(ZFUIViewStateAniImpl::EventStateAniOnDealloc(), this->debugEventStateAniOnDeallocListener);

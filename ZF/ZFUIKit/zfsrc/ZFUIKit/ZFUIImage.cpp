@@ -286,7 +286,7 @@ void ZFUIImage::_ZFP_ZFUIImage_imageScaleOnChange(void)
 }
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIImageScaleChangeListenerHolder, ZFLevelZFFrameworkEssential)
 {
-    this->globalImageScaleOnChangeListener = ZFCallbackForRawFunction(zfself::globalImageScaleOnChange);
+    this->globalImageScaleOnChangeListener = ZFCallbackForFunc(zfself::globalImageScaleOnChange);
 }
 ZFListener globalImageScaleOnChangeListener;
 static ZFLISTENER_PROTOTYPE_EXPAND(globalImageScaleOnChange)

@@ -930,6 +930,57 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFMethodPrivilegeType, ZFMethodPrivil
     })
 
 // ============================================================
+ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFMethodType, ZFMethodType, {
+        const zfchar *tokens[] = ZFM_EXPAND({
+            ZFTOKEN_ZFMethodTypeNormal,
+            ZFTOKEN_ZFMethodTypeStatic,
+            ZFTOKEN_ZFMethodTypeVirtual,
+        });
+        zfindex matched = zfsCheckMatch(tokens, ZFM_ARRAY_SIZE(tokens), src, srcLen);
+        v = ZFMethodTypeNormal;
+        switch(matched)
+        {
+            case 0:
+                v = ZFMethodTypeNormal;
+                return zftrue;
+            case 1:
+                v = ZFMethodTypeStatic;
+                return zftrue;
+            case 2:
+                v = ZFMethodTypeVirtual;
+                return zftrue;
+            default:
+                return zffalse;
+        }
+    }, {
+        switch(v)
+        {
+            case ZFMethodTypeNormal:
+                s += ZFTOKEN_ZFMethodTypeNormal;
+                return zftrue;
+            case ZFMethodTypeStatic:
+                s += ZFTOKEN_ZFMethodTypeStatic;
+                return zftrue;
+            case ZFMethodTypeVirtual:
+                s += ZFTOKEN_ZFMethodTypeVirtual;
+                return zftrue;
+            default:
+                zfCoreCriticalShouldNotGoHere();
+                return zffalse;
+        }
+    })
+
+// ============================================================
+ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFMethodParamDefaultValueCallback, ZFMethodParamDefaultValueCallback)
+
+// ============================================================
+ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam)
+
+// ============================================================
+ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFPropertyDynamicRegisterInitValueCallback, ZFPropertyDynamicRegisterInitValueCallback)
+ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam)
+
+// ============================================================
 ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFComparer_ZFObject, ZFComparer<ZFObject *>::Comparer)
 
 // ============================================================

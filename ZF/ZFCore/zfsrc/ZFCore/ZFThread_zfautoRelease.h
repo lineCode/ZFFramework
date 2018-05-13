@@ -21,12 +21,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 extern ZF_ENV_EXPORT void _ZFP_zfautoReleaseAction(ZF_IN ZFObject *obj);
 template<typename T_ZFObject>
-inline T_ZFObject *_ZFP_zfautoRelease(ZF_IN T_ZFObject *obj)
+inline T_ZFObject _ZFP_zfautoRelease(ZF_IN T_ZFObject obj)
 {
-    if(obj)
-    {
-        _ZFP_zfautoReleaseAction(ZFCastZFObjectUnchecked(ZFObject *, obj));
-    }
+    _ZFP_zfautoReleaseAction(ZFCastZFObjectUnchecked(ZFObject *, obj));
     return obj;
 }
 /**

@@ -19,7 +19,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 static ZFObject *_ZFP_zfautoRelease_poolDrain(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData);
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(zfautoRelease_poolDrainDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->drainTask = ZFCallbackForRawFunction(_ZFP_zfautoRelease_poolDrain);
+    this->drainTask = ZFCallbackForFunc(_ZFP_zfautoRelease_poolDrain);
     this->drainTaskRequested = zffalse;
 }
 public:
@@ -35,33 +35,36 @@ static ZFObject *_ZFP_zfautoRelease_poolDrain(ZF_IN const ZFListenerData &listen
 
 void _ZFP_zfautoReleaseAction(ZF_IN ZFObject *obj)
 {
-    if(ZFPROTOCOL_IS_AVAILABLE(ZFThread))
+    if(obj)
     {
-        ZFThread *threadCur = ZFThread::currentThread();
-        if(threadCur == zfnull)
+        if(ZFPROTOCOL_IS_AVAILABLE(ZFThread))
         {
-            zfCoreCriticalMessageTrim(zfTextA("[zfautoRelease] current thread is null, make sure the thread is started or registered by ZFThread"));
-            return ;
-        }
-        threadCur->_ZFP_ZFThreadAutoReleasePoolAdd(obj);
-    }
-    else
-    {
-        ZFAutoReleasePool::instance()->poolAdd(obj);
-
-        if(ZFPROTOCOL_IS_AVAILABLE(ZFThreadTaskRequest))
-        {
-            ZF_GLOBAL_INITIALIZER_CLASS(zfautoRelease_poolDrainDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(zfautoRelease_poolDrainDataHolder);
-            if(!d->drainTaskRequested)
+            ZFThread *threadCur = ZFThread::currentThread();
+            if(threadCur == zfnull)
             {
-                d->drainTaskRequested = zftrue;
-                ZFThreadTaskRequest(d->drainTask);
+                zfCoreCriticalMessageTrim(zfTextA("[zfautoRelease] current thread is null, make sure the thread is started or registered by ZFThread"));
+                return ;
             }
+            threadCur->_ZFP_ZFThreadAutoReleasePoolAdd(obj);
         }
         else
         {
-            zfCoreLogTrim(zfTextA("[zfautoRelease] zfautoRelease called while no auto drain logic support, object %s would not be released normally"),
-                zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+            ZFAutoReleasePool::instance()->poolAdd(obj);
+
+            if(ZFPROTOCOL_IS_AVAILABLE(ZFThreadTaskRequest))
+            {
+                ZF_GLOBAL_INITIALIZER_CLASS(zfautoRelease_poolDrainDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(zfautoRelease_poolDrainDataHolder);
+                if(!d->drainTaskRequested)
+                {
+                    d->drainTaskRequested = zftrue;
+                    ZFThreadTaskRequest(d->drainTask);
+                }
+            }
+            else
+            {
+                zfCoreLogTrim(zfTextA("[zfautoRelease] zfautoRelease called while no auto drain logic support, object %s would not be released normally"),
+                    zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+            }
         }
     }
 }

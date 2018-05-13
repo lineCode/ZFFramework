@@ -439,11 +439,11 @@ public:
     , pageLastResume(zfnull)
     , pageAniLastResume(zfnull)
     , pageAniLastPause(zfnull)
-    , pageAniOnStopOrOnInvalidListener(ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerPrivate::pageAniOnStopOrOnInvalid))
-    , pageAniOnStartListener(ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerPrivate::pageAniOnStart))
-    , pageAniOnStopListener(ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerPrivate::pageAniOnStop))
+    , pageAniOnStopOrOnInvalidListener(ZFCallbackForFunc(_ZFP_ZFUIPageManagerPrivate::pageAniOnStopOrOnInvalid))
+    , pageAniOnStartListener(ZFCallbackForFunc(_ZFP_ZFUIPageManagerPrivate::pageAniOnStart))
+    , pageAniOnStopListener(ZFCallbackForFunc(_ZFP_ZFUIPageManagerPrivate::pageAniOnStop))
     {
-        this->requestOnResolveListener = ZFCallbackForRawFunction(_ZFP_ZFUIPageManagerPrivate::requestOnResolve);
+        this->requestOnResolveListener = ZFCallbackForFunc(_ZFP_ZFUIPageManagerPrivate::requestOnResolve);
     }
 };
 

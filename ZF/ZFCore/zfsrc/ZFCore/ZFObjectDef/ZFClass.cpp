@@ -95,6 +95,7 @@ public:
      */
     ZFCoreArrayPOD<zfbool *> ZFCoreLibDestroyFlag;
     ZFClass *pimplOwner;
+    zfbool classIsDynamicRegister;
     _ZFP_ZFObjectConstructor constructor;
     _ZFP_ZFObjectDestructor destructor;
     zfstring className;
@@ -223,10 +224,29 @@ public:
     }
 
 public:
+    ZFObject *objectConstruct(void)
+    {
+        if(this->constructor)
+        {
+            ZFObject *obj = this->constructor();
+            if(this->pimplOwner->classIsDynamicRegister())
+            {
+                obj->_ZFP_ZFObject_classData = this->pimplOwner;
+            }
+            return obj;
+        }
+        else
+        {
+            return zfnull;
+        }
+    }
+
+public:
     _ZFP_ZFClassPrivate(void)
     : refCount(1)
     , ZFCoreLibDestroyFlag()
     , pimplOwner(zfnull)
+    , classIsDynamicRegister(zffalse)
     , constructor(zfnull)
     , destructor(zfnull)
     , className()
@@ -446,6 +466,10 @@ void ZFClass::objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const
     {
         if(cls != this)
         {
+            if(cls == ZFInterface::ClassData())
+            {
+                break;
+            }
             ret += zfText(" : ");
         }
 
@@ -453,16 +477,28 @@ void ZFClass::objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const
 
         if(cls->implementedInterfaceCount() > 0)
         {
-            ret += '<';
+            zfbool first = zftrue;
             for(zfindex i = 0; i < cls->implementedInterfaceCount(); ++i)
             {
-                if(i != 0)
+                if(cls->implementedInterfaceAtIndex(i) == ZFInterface::ClassData())
+                {
+                    continue;
+                }
+                if(first)
+                {
+                    first = zffalse;
+                    ret += '<';
+                }
+                else
                 {
                     ret += zfText(", ");
                 }
                 cls->implementedInterfaceAtIndex(i)->objectInfoOfInheritTreeT(ret);
             }
-            ret += '>';
+            if(!first)
+            {
+                ret += '>';
+            }
         }
 
         cls = cls->parentClass();
@@ -481,6 +517,11 @@ zfbool ZFClass::classIsTypeOf(ZF_IN const ZFClass *cls) const
         ++p;
     } while(*p);
     return zffalse;
+}
+
+zfbool ZFClass::classIsDynamicRegister(void) const
+{
+    return d->classIsDynamicRegister;
 }
 
 zfbool ZFClass::classIsAbstract(void) const
@@ -506,10 +547,7 @@ zfautoObject ZFClass::newInstance(void) const
 {
     zfCoreMutexLocker();
     ZFObject *obj = zfnull;
-    if(d->constructor != zfnull)
-    {
-        obj = d->constructor();
-    }
+    obj = d->objectConstruct();
     if(obj != zfnull)
     {
         obj->objectOnInit();
@@ -555,7 +593,7 @@ zfautoObject ZFClass::newInstanceGeneric(
     {
         return zfnull;
     }
-    ZFObject *obj = d->constructor();
+    ZFObject *obj = d->objectConstruct();
     zfautoObject dummy;
     for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
     {
@@ -597,7 +635,7 @@ zfautoObject ZFClass::newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectO
             zfTextA("[ZFClass] method %s is not objectOnInitMethod"),
             zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
         );
-    ZFObject *obj = d->constructor();
+    ZFObject *obj = d->objectConstruct();
     zfautoObject dummy;
     if(objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, dummy
             , param0, param1, param2, param3, param4, param5, param6, param7
@@ -933,17 +971,14 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
                                        ZF_IN const ZFClass *parent,
                                        ZF_IN _ZFP_ZFObjectConstructor constructor,
                                        ZF_IN _ZFP_ZFObjectDestructor destructor,
-                                       ZF_IN zfbool isInterface)
+                                       ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
+                                       ZF_IN zfbool isInterface,
+                                       ZF_IN zfbool classIsDynamicRegister)
 {
     zfCoreMutexLocker();
     ZFCorePointerBase *d = _ZFP_ZFClassMap.get(name);
     ZFClass *cls = zfnull;
-    if(d == zfnull)
-    {
-        cls = zfnew(ZFClass);
-        _ZFP_ZFClassMap.set(name, ZFCorePointerForPointerRef<ZFClass *>(cls));
-    }
-    else
+    if(d != zfnull)
     {
         cls = d->pointerValueT<ZFClass *>();
         if(cls->d->isInterface != isInterface || cls->d->classParent != parent)
@@ -952,38 +987,55 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
             return zfnull;
         }
         ++(cls->d->refCount);
-        return cls;
     }
-
-    cls->d->ZFCoreLibDestroyFlag.add(ZFCoreLibDestroyFlag);
-
-    cls->d->constructor = constructor;
-    cls->d->destructor = destructor;
-
-    cls->d->className = name;
-    cls->classNameCache = cls->d->className.cString();
-
-    cls->d->classParent = parent;
-    cls->classParentCache = parent;
-
-    cls->d->isInterface = isInterface;
-
+    else
     {
-        const zfchar *filter = zfText("_ZFP_");
-        const zfindex filterLen = zfslen(filter);
-        cls->d->isPrivateClass = (zfsncmp(name, filter, filterLen) == 0);
-    }
-    {
-        const zfchar *filter = zfText("_ZFP_I_");
-        const zfindex filterLen = zfslen(filter);
-        cls->d->isInternalClass = (zfsncmp(name, filter, filterLen) == 0);
+        cls = zfnew(ZFClass);
+        _ZFP_ZFClassMap.set(name, ZFCorePointerForPointerRef<ZFClass *>(cls));
+
+        if(ZFCoreLibDestroyFlag)
+        {
+            cls->d->ZFCoreLibDestroyFlag.add(ZFCoreLibDestroyFlag);
+        }
+
+        cls->d->classIsDynamicRegister = classIsDynamicRegister;
+        cls->d->constructor = constructor;
+        cls->d->destructor = destructor;
+
+        cls->d->className = name;
+        cls->classNameCache = cls->d->className.cString();
+
+        cls->d->classParent = parent;
+        cls->classParentCache = parent;
+
+        cls->d->isInterface = isInterface;
+
+        {
+            const zfchar *filter = zfText("_ZFP_");
+            const zfindex filterLen = zfslen(filter);
+            cls->d->isPrivateClass = (zfsncmp(name, filter, filterLen) == 0);
+        }
+        {
+            const zfchar *filter = zfText("_ZFP_I_");
+            const zfindex filterLen = zfslen(filter);
+            cls->d->isInternalClass = (zfsncmp(name, filter, filterLen) == 0);
+        }
     }
 
+    if(checkInitImplListCallback)
+    {
+        checkInitImplListCallback(cls);
+    }
+    ZFClass::_ZFP_ZFClassInitFinish(cls);
+
+    // method data holder is required during _ZFP_ZFClassUnregister,
+    // access here to ensure init order
+    _ZFP_ZFMethodDataHolderInit();
     return cls;
 }
 void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const ZFClass *cls)
 {
-    if(*ZFCoreLibDestroyFlag)
+    if(ZFCoreLibDestroyFlag && *ZFCoreLibDestroyFlag)
     {
         return ;
     }
@@ -1297,7 +1349,7 @@ void ZFClass::_ZFP_ZFClass_methodAndPropertyAutoRegister(void) const
                 _ZFP_ZFClass_ClassDataIvk,
                 this,
                 public,
-                ZFMethodIsStatic,
+                ZFMethodTypeStatic,
                 const ZFClass *,
                 zfText("ClassData"));
 
@@ -1440,30 +1492,35 @@ zfbool ZFClass::_ZFP_ZFClass_propertyInitStepIsTheSame(ZF_IN const ZFProperty *p
     return zftrue;
 }
 
+_ZFP_ZFObjectConstructor ZFClass::_ZFP_objectConstructor(void) const
+{
+    return d->constructor;
+}
+_ZFP_ZFObjectDestructor ZFClass::_ZFP_objectDestructor(void) const
+{
+    return d->destructor;
+}
+
 // ============================================================
 _ZFP_ZFClassRegisterHolder::_ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *name,
                                                        ZF_IN const ZFClass *parent,
                                                        ZF_IN _ZFP_ZFObjectConstructor constructor,
                                                        ZF_IN _ZFP_ZFObjectDestructor destructor,
                                                        ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
-                                                       ZF_IN_OPT zfbool isInterface /* = zffalse */)
+                                                       ZF_IN_OPT zfbool isInterface /* = zffalse */,
+                                                       ZF_IN_OPT zfbool classIsDynamicRegister /* = zffalse */)
 : ZFCoreLibDestroyFlag(zffalse)
 , cls(zfnull)
 {
-    zfCoreMutexLocker();
     cls = ZFClass::_ZFP_ZFClassRegister(
         &ZFCoreLibDestroyFlag,
         name,
         parent,
         constructor,
         destructor,
-        isInterface);
-    checkInitImplListCallback(cls);
-    ZFClass::_ZFP_ZFClassInitFinish(cls);
-
-    // method data holder is required during _ZFP_ZFClassUnregister,
-    // access here to ensure init order
-    _ZFP_ZFMethodDataHolderInit();
+        checkInitImplListCallback,
+        isInterface,
+        classIsDynamicRegister);
 }
 _ZFP_ZFClassRegisterHolder::~_ZFP_ZFClassRegisterHolder(void)
 {

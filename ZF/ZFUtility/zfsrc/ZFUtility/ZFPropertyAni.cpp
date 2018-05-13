@@ -66,9 +66,9 @@ static zfbool _ZFP_ZFPropertyAniProcessFlag = zffalse;
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFPropertyAniDataHolder, ZFLevelZFFrameworkNormal)
 {
-    this->timerTaskListener = ZFCallbackForRawFunction(zfself::timerTask);
-    this->objectPropertyOnUpdateListener = ZFCallbackForRawFunction(zfself::objectPropertyOnUpdate);
-    this->objectOnDeallocListener = ZFCallbackForRawFunction(zfself::objectOnDealloc);
+    this->timerTaskListener = ZFCallbackForFunc(zfself::timerTask);
+    this->objectPropertyOnUpdateListener = ZFCallbackForFunc(zfself::objectPropertyOnUpdate);
+    this->objectOnDeallocListener = ZFCallbackForFunc(zfself::objectOnDealloc);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFPropertyAniDataHolder)
 {

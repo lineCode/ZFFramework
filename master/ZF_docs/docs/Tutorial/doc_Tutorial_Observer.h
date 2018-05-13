@@ -41,7 +41,7 @@
  *   // which takes two param as ZFListenerData and ZFObject,
  *   // to create it,
  *   // use ZFCallbackForXXX series same as ZFCallback
- *   ZFListener listener1 = ZFCallbackForRawFunction(testListener);
+ *   ZFListener listener1 = ZFCallbackForFunc(testListener);
  *
  *   // add an observer
  *   obj->observerAdd(MyObject::EventMyEvent(), listener1, myUserData);

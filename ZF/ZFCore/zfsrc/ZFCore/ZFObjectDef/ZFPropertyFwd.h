@@ -161,17 +161,19 @@ extern ZF_ENV_EXPORT void ZFPropertyCallbackProgressUpdateChange(ZF_IN const ZFP
 /**
  * @brief for user registered property only, used to setup a property's init value
  */
-typedef void (*ZFPropertyCallbackUserRegisterInitValueSetup)(ZF_IN_OUT void *v);
+typedef void (*ZFPropertyCallbackUserRegisterInitValueSetup)(ZF_IN const ZFProperty *property,
+                                                             ZF_IN_OUT void *v);
 
 // ============================================================
 /**
- * @brief shows that the property has no type and can not be used in advanced property copy operation
+ * @brief shows that the property has no type and can not be used in advanced property copy operation,
+ *   ensured empty string
  */
-#define ZFPropertyTypeId_none zfText("-")
+#define ZFPropertyTypeId_none zfText("")
 /**
  * @brief type id for retain property, see #ZFProperty::propertyTypeId
  */
-#define ZFPropertyTypeId_ZFObject zfText("ZFObject")
+#define ZFPropertyTypeId_ZFObject() zfText("ZFObject")
 
 // ============================================================
 typedef void (*_ZFP_PropLifeCycleWrapper)(ZF_IN ZFObject *propertyOwnerObject,

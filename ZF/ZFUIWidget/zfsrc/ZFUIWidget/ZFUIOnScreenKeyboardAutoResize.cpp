@@ -98,10 +98,10 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFUIOnScreenKeyboardAutoResizeStop,
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIOnScreenKeyboardAutoResizeDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->onScreenKeyboardStateChangeListener = ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoResize_onScreenKeyboardStateChange);
-    this->windowOnUpdateLayoutListener = ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowOnUpdateLayout);
-    this->windowOnSysWindowChangeListener = ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowOnSysWindowChange);
-    this->windowLayoutMarginChangeListener = ZFCallbackForRawFunction(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowLayoutMarginChange);
+    this->onScreenKeyboardStateChangeListener = ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoResize_onScreenKeyboardStateChange);
+    this->windowOnUpdateLayoutListener = ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowOnUpdateLayout);
+    this->windowOnSysWindowChangeListener = ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowOnSysWindowChange);
+    this->windowLayoutMarginChangeListener = ZFCallbackForFunc(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowLayoutMarginChange);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIOnScreenKeyboardAutoResizeDataHolder)
 {

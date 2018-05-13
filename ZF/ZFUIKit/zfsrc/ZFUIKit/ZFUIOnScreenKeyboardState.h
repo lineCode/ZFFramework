@@ -30,13 +30,13 @@ public:
     /**
      * @brief access keyboard state for sys window
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               ZFUIOnScreenKeyboardState *, instanceForSysWindow,
                               ZFMP_IN_OPT(ZFUISysWindow *, sysWindow, zfnull))
     /**
      * @brief access keyboard state for view
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               ZFUIOnScreenKeyboardState *, instanceForView,
                               ZFMP_IN_OPT(ZFUIView *, view, zfnull))
 

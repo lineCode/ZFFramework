@@ -63,10 +63,6 @@ ZFOUTPUT_TYPE(ZFListenerData, {output << v.objectInfo();})
 
 ZFOUTPUT_TYPE(ZFAny, {output << v.toObject();})
 
-ZFOUTPUT_TYPE_TEMPLATE(typename T_ZFObject,
-                       ZFAnyT<T_ZFObject *>,
-                       {output << v.toObject();})
-
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFCoreType_IODef_h_
 

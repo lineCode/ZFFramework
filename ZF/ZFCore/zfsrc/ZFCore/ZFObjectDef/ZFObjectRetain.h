@@ -20,6 +20,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // zfAlloc
+/* ZFMETHOD_MAX_PARAM */
 template<typename T_ZFObject, int valid>
 zfclassNotPOD ZF_ENV_EXPORT _ZFP_Obj_AllocCk;
 template<typename T_ZFObject>
@@ -110,47 +111,16 @@ zfclassNotPOD ZF_ENV_EXPORT _ZFP_Obj_AllocCk<T_ZFObject, 0>
 // zfRetain
 inline void _ZFP_zfRetainAction(ZF_IN ZFObject *obj)
 {
-    obj->objectOnRetain();
-}
-template<typename T_ZFObject, int isZFObjectType>
-zfclassNotPOD ZF_ENV_EXPORT _ZFP_zfRetainH {};
-template<typename T_ZFObject>
-zfclassNotPOD ZF_ENV_EXPORT _ZFP_zfRetainH<T_ZFObject, 1>
-{
-public:
-    static inline void a(ZF_IN T_ZFObject *obj)
-    {
-        _ZFP_zfRetainAction(obj);
-    }
-};
-template<typename T_ZFObject>
-zfclassNotPOD ZF_ENV_EXPORT _ZFP_zfRetainH<T_ZFObject, 0>
-{
-public:
-    static inline void a(ZF_IN T_ZFObject *obj)
-    {
-        _ZFP_zfRetainAction(obj->toObject());
-    }
-};
-template<typename T_ZFObject>
-inline T_ZFObject *_ZFP_zfRetain(ZF_IN T_ZFObject *obj)
-{
     if(obj)
     {
-        _ZFP_zfRetainH<T_ZFObject, zftTypeIsTypeOf<T_ZFObject, ZFObject>::TypeIsTypeOf>::a(obj);
+        obj->objectOnRetain();
     }
-    return obj;
-}
-inline const ZFAny &_ZFP_zfRetain(ZF_IN const ZFAny &any)
-{
-    _ZFP_zfRetain(any.toObject());
-    return any;
 }
 template<typename T_ZFObject>
-inline const ZFAnyT<T_ZFObject *> &_ZFP_zfRetain(ZF_IN const ZFAnyT<T_ZFObject *> &any)
+inline T_ZFObject _ZFP_zfRetain(ZF_IN T_ZFObject obj)
 {
-    _ZFP_zfRetain(any.toObjectT());
-    return any;
+    _ZFP_zfRetainAction(ZFCastZFObjectUnchecked(ZFObject *, obj));
+    return obj;
 }
 /**
  * @brief retain an object, see #ZFObject
@@ -165,48 +135,19 @@ inline const ZFAnyT<T_ZFObject *> &_ZFP_zfRetain(ZF_IN const ZFAnyT<T_ZFObject *
 // zfRelease
 inline void _ZFP_zfReleaseAction(ZF_IN ZFObject *obj)
 {
-    obj->objectOnRelease();
-    if(obj->objectRetainCount() == 0)
-    {
-        ZFObject::_ZFP_ZFObjectDealloc(obj);
-    }
-}
-template<typename T_ZFObject, int isZFObjectType>
-zfclassNotPOD ZF_ENV_EXPORT _ZFP_zfReleaseH {};
-template<typename T_ZFObject>
-zfclassNotPOD ZF_ENV_EXPORT _ZFP_zfReleaseH<T_ZFObject, 1>
-{
-public:
-    static inline void a(ZF_IN T_ZFObject *obj)
-    {
-        _ZFP_zfReleaseAction(obj);
-    }
-};
-template<typename T_ZFObject>
-zfclassNotPOD ZF_ENV_EXPORT _ZFP_zfReleaseH<T_ZFObject, 0>
-{
-public:
-    static inline void a(ZF_IN T_ZFObject *obj)
-    {
-        _ZFP_zfReleaseAction(obj->toObject());
-    }
-};
-template<typename T_ZFObject>
-inline void _ZFP_zfRelease(ZF_IN T_ZFObject *obj)
-{
     if(obj)
     {
-        _ZFP_zfReleaseH<T_ZFObject, zftTypeIsTypeOf<T_ZFObject, ZFObject>::TypeIsTypeOf>::a(obj);
+        obj->objectOnRelease();
+        if(obj->objectRetainCount() == 0)
+        {
+            ZFObject::_ZFP_ZFObjectDealloc(obj);
+        }
     }
 }
-inline void _ZFP_zfRelease(ZF_IN const ZFAny &any)
-{
-    _ZFP_zfRelease(any.toObject());
-}
 template<typename T_ZFObject>
-inline void _ZFP_zfRelease(ZF_IN const ZFAnyT<T_ZFObject *> &any)
+inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
 {
-    _ZFP_zfRelease(any.toObject());
+    _ZFP_zfReleaseAction(ZFCastZFObjectUnchecked(ZFObject *, obj));
 }
 /**
  * @brief release an object, see #ZFObject

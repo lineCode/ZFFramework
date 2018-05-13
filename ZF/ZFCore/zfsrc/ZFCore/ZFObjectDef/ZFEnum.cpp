@@ -176,6 +176,10 @@ void ZFEnum::wrappedValueSet(ZF_IN const void *v)
 {
     this->_ZFP_ZFEnum_value = *(const zfuint *)v; /* EnumReinterpretCast */
 }
+void ZFEnum::wrappedValueGet(ZF_IN void *v)
+{
+    *(zfuint *)v = this->_ZFP_ZFEnum_value; /* EnumReinterpretCast */
+}
 void ZFEnum::wrappedValueReset(void)
 {
     this->_ZFP_ZFEnum_value = ZFEnumInvalid();
@@ -184,9 +188,22 @@ zfbool ZFEnum::wrappedValueIsInit(void)
 {
     return (this->_ZFP_ZFEnum_value == ZFEnumInvalid());
 }
-ZFCompareResult ZFEnum::wrappedValueCompare(ZF_IN const void *v)
+ZFCompareResult ZFEnum::wrappedValueCompare(ZF_IN const void *v0,
+                                            ZF_IN const void *v1)
 {
-    return ZFComparerDefault(this->_ZFP_ZFEnum_value, *(const zfuint *)v); /* EnumReinterpretCast */
+    return ZFComparerDefault(*(const zfuint *)v0, *(const zfuint *)v1); /* EnumReinterpretCast */
+}
+void ZFEnum::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
+                                 ZF_IN const void *v)
+{
+    /* EnumReinterpretCast */
+    zfflagsToString(ret, this->classData(), (zfflags)*(const zfuint *)v);
+}
+zfbool ZFEnum::wrappedValueProgressUpdate(ZF_IN const void *from,
+                                          ZF_IN const void *to,
+                                          ZF_IN zffloat progress)
+{
+    return zffalse;
 }
 zfbool ZFEnum::wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData,
                                     ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
@@ -484,17 +501,17 @@ ZF_NAMESPACE_GLOBAL_END
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfflags, ZFEnum::_ZFP_ZFEnum_objectOnInit_zfflags, ZFEnum::ClassData(),
-    protected, ZFMethodIsVirtual,
+    protected, ZFMethodTypeVirtual,
     void, zfText("objectOnInit")
     , ZFMP_IN(zfflags, value)
     )
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfuint, ZFEnum::_ZFP_ZFEnum_objectOnInit_zfuint, ZFEnum::ClassData(),
-    protected, ZFMethodIsVirtual,
+    protected, ZFMethodTypeVirtual,
     void, zfText("objectOnInit")
     , ZFMP_IN(zfuint, value)
     )
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_ZFEnum, ZFEnum::_ZFP_ZFEnum_objectOnInit_ZFEnum, ZFEnum::ClassData(),
-    protected, ZFMethodIsVirtual,
+    protected, ZFMethodTypeVirtual,
     void, zfText("objectOnInit")
     , ZFMP_IN(ZFEnum *, another)
     )
@@ -513,7 +530,7 @@ static void _ZFP_ZFEnum_enumValueSet_methodInvoker(ZF_IN const ZFMethod *invoker
 {
     invokerObject->to<ZFEnum *>()->_ZFP_ZFEnum_value = value;
 }
-ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_enumValueSet, _ZFP_ZFEnum_enumValueSet_methodInvoker, ZFEnum::ClassData(), protected, ZFMethodIsVirtual, void, zfText("enumValueSet"), ZFMP_IN(zfuint, value))
+ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_enumValueSet, _ZFP_ZFEnum_enumValueSet_methodInvoker, ZFEnum::ClassData(), protected, ZFMethodTypeVirtual, void, zfText("enumValueSet"), ZFMP_IN(zfuint, value))
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_7(zfbool, zfflagsToString, ZFMP_IN_OUT(zfstring &, ret), ZFMP_IN(const ZFClass *, enumClass), ZFMP_IN(zfflags const &, value), ZFMP_IN_OPT(zfbool, includeNotConverted, zftrue), ZFMP_IN_OPT(zfbool, exclusiveMode, zffalse), ZFMP_OUT_OPT(zfflags *, notConverted, zfnull), ZFMP_IN_OPT(zfchar, separatorToken, '|'))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_6(zfstring, zfflagsToString, ZFMP_IN(const ZFClass *, enumClass), ZFMP_IN(zfflags const &, value), ZFMP_IN_OPT(zfbool, includeNotConverted, zftrue), ZFMP_IN_OPT(zfbool, exclusiveMode, zffalse), ZFMP_OUT_OPT(zfflags *, notConverted, zfnull), ZFMP_IN_OPT(zfchar, separatorToken, '|'))

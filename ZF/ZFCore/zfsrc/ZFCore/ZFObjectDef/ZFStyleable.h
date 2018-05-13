@@ -39,7 +39,7 @@ zfclassFwd _ZFP_ZFStyleKeyHolder;
  */
 zfinterface ZF_ENV_EXPORT ZFStyleable : zfextends ZFInterface
 {
-    ZFINTERFACE_DECLARE_WITH_CUSTOM_CTOR(ZFStyleable, ZFSerializable, ZFCopyable)
+    ZFINTERFACE_DECLARE_WITH_CUSTOM_CTOR(ZFStyleable, ZFInterface)
 
 public:
     /**

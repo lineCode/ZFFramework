@@ -138,6 +138,11 @@ public:
     {
         this->wrappedValueSet((const void *)&v);
     }
+    zfoverride
+    virtual void wrappedValueGet(ZF_IN void *v)
+    {
+        *(ZFCoreArrayBase *)v = this->zfv;
+    }
 public:
     zfoverride
     virtual void wrappedValueReset(void)
@@ -150,11 +155,12 @@ public:
         return this->zfv.isEmpty();
     }
     zfoverride
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v)
+    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
+                                                ZF_IN const void *v1)
     {
-        if(v == zfnull)
+        if(v0 == zfnull)
         {
-            if(this->zfv.isEmpty())
+            if(v1 == zfnull || ((const ZFCoreArray<zfautoObject> *)v1)->isEmpty())
             {
                 return ZFCompareTheSame;
             }
@@ -165,8 +171,36 @@ public:
         }
         else
         {
-            return this->zfv.objectCompare(*(ZFCoreArray<zfautoObject> *)v);
+            if(v1 == zfnull)
+            {
+                if(((const ZFCoreArray<zfautoObject> *)v0)->isEmpty())
+                {
+                    return ZFCompareTheSame;
+                }
+                else
+                {
+                    return ZFCompareUncomparable;
+                }
+            }
+            else
+            {
+                return ((const ZFCoreArray<zfautoObject> *)v0)->objectCompare(
+                    *(const ZFCoreArray<zfautoObject> *)v1);
+            }
         }
+    }
+    zfoverride
+    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
+                                     ZF_IN const void *v)
+    {
+        ((const ZFCoreArray<zfautoObject> *)v)->objectInfoOfContentT(ret, ZFCoreElementInfoGetter<zfautoObject>::elementInfoGetter);
+    }
+    zfoverride
+    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
+                                              ZF_IN const void *to,
+                                              ZF_IN zffloat progress)
+    {
+        return zffalse;
     }
 public:
     zfoverride
@@ -220,7 +254,7 @@ public:
         return _ZFP_ZFCoreArrayConvert<ZFCoreArray<T_Type> >::template from<T_Type>(holder->zfv, v);
     }
     template<typename T_Access = ZFCoreArray<T_Type>
-        , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
             && zftTypeIsSame<
                     typename zftTraits<T_Access>::TrNoRef,
                     ZFCoreArray<T_Type>
@@ -285,7 +319,7 @@ public:
         return ZFPropertyTypeIdData<ZFCoreArray<T_Type> >::ValueStore(obj, v);
     }
     template<typename T_Access = ZFCoreArrayPOD<T_Type>
-        , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
             && zftTypeIsSame<
                     typename zftTraits<T_Access>::TrNoRef,
                     ZFCoreArray<T_Type>

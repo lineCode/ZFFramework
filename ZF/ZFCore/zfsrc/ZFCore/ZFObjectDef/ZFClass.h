@@ -215,6 +215,10 @@ public:
     }
 
     /**
+     * @brief true if class is registered by #ZFClassDynamicRegister
+     */
+    zfbool classIsDynamicRegister(void) const;
+    /**
      * @brief true if the class is abstract class
      *
      * #newInstance would return zfnull if the class is abstract
@@ -494,7 +498,9 @@ public:
                                          ZF_IN const ZFClass *parent,
                                          ZF_IN _ZFP_ZFObjectConstructor constructor,
                                          ZF_IN _ZFP_ZFObjectDestructor destructor,
-                                         ZF_IN zfbool isInterface);
+                                         ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
+                                         ZF_IN zfbool isInterface,
+                                         ZF_IN zfbool classIsDynamicRegister);
     static void _ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const ZFClass *cls);
     /** @cond ZFPrivateDoc */
     ZFClass(void);
@@ -533,6 +539,8 @@ public:
     void _ZFP_ZFClass_propertyInitStepRegister(ZF_IN const ZFProperty *property) const;
     zfbool _ZFP_ZFClass_propertyInitStepIsTheSame(ZF_IN const ZFProperty *property,
                                                   ZF_IN const ZFClass *refClass) const;
+    _ZFP_ZFObjectConstructor _ZFP_objectConstructor(void) const;
+    _ZFP_ZFObjectDestructor _ZFP_objectDestructor(void) const;
 
 public:
     zfbool _ZFP_ZFClassNeedInitImplementationList;
@@ -552,7 +560,8 @@ public:
                                ZF_IN _ZFP_ZFObjectConstructor constructor,
                                ZF_IN _ZFP_ZFObjectDestructor destructor,
                                ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
-                               ZF_IN_OPT zfbool isInterface = zffalse);
+                               ZF_IN_OPT zfbool isInterface = zffalse,
+                               ZF_IN_OPT zfbool classIsDynamicRegister = zffalse);
     ~_ZFP_ZFClassRegisterHolder(void);
 public:
     zfbool ZFCoreLibDestroyFlag;

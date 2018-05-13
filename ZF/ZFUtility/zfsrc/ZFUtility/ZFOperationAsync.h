@@ -46,7 +46,7 @@ public:
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
                               void, taskNotifyFinishAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
@@ -55,7 +55,7 @@ public:
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
                               void, taskNotifyFinishAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
@@ -64,7 +64,7 @@ public:
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
                               void, taskNotifyProgressAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),
@@ -73,7 +73,7 @@ public:
     /**
      * @brief notify after delay, usually for debug use only
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodIsStatic,
+    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
                               void, taskNotifyProgressAfterDelay,
                               ZFMP_IN(zftimet, delay),
                               ZFMP_IN(ZFOperation *, operation),

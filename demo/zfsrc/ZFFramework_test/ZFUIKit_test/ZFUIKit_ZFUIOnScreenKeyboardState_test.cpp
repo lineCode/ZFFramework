@@ -13,7 +13,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
 {
-    this->listener = ZFCallbackForRawFunction(zfself::keyboardStateOnChange);
+    this->listener = ZFCallbackForFunc(zfself::keyboardStateOnChange);
     ZFUIOnScreenKeyboardState::instanceForSysWindow()->observerAdd(ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange(), this->listener);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIOnScreenKeyboardState_test)

@@ -52,8 +52,8 @@ public:
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFAnimationTaskHolder, ZFLevelZFFrameworkEssential)
 {
-    this->delayOnFinishListener = ZFCallbackForRawFunction(zfself::delayOnFinish);
-    this->dummyOnFinishListener = ZFCallbackForRawFunction(zfself::dummyOnFinish);
+    this->delayOnFinishListener = ZFCallbackForFunc(zfself::delayOnFinish);
+    this->dummyOnFinishListener = ZFCallbackForFunc(zfself::dummyOnFinish);
 }
 public:
     ZFListener delayOnFinishListener;

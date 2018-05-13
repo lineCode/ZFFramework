@@ -24,7 +24,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIButtonGroup, ButtonTabOnClickChecked)
 // common
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIButtonGroupListenerHolder, ZFLevelZFFrameworkEssential)
 {
-    this->buttonEventListener = ZFCallbackForRawFunction(zfself::buttonEvent);
+    this->buttonEventListener = ZFCallbackForFunc(zfself::buttonEvent);
 }
 public:
     ZFListener buttonEventListener;
@@ -86,7 +86,7 @@ static void _ZFP_ZFUIButtonGroup_cleanup_Normal(ZF_IN ZFUIButtonGroup *buttonGro
 // ZFUIButtonGroupType::e_Tab
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIButtonGroupListenerHolder_Tab, ZFLevelZFFrameworkEssential)
 {
-    this->buttonOnClickListener = ZFCallbackForRawFunction(zfself::buttonOnClick);
+    this->buttonOnClickListener = ZFCallbackForFunc(zfself::buttonOnClick);
 }
 public:
     ZFListener buttonOnClickListener;

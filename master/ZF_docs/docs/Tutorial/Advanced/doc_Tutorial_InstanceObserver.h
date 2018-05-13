@@ -13,3 +13,4 @@
  *   zfblockedAlloc(NotTypeOfMyClass); // would not cause objCreated being called
  * @endcode
  */
+

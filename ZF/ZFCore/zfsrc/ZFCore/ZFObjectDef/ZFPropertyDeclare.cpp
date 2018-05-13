@@ -346,7 +346,7 @@ public:
 };
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFPropertyWeakDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->propertyOnDeallocListener = ZFCallbackForRawFunction(zfself::propertyOnDealloc);
+    this->propertyOnDeallocListener = ZFCallbackForFunc(zfself::propertyOnDealloc);
 }
 public:
     ZFListener propertyOnDeallocListener;

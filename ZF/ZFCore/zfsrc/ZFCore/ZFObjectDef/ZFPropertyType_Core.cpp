@@ -168,6 +168,12 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFPropertyTypeWrapper, zfbool, wrappe
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFPropertyTypeWrapper, zfbool, wrappedValueFromString, ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFPropertyTypeWrapper, zfbool, wrappedValueToString, ZFMP_IN_OUT(zfstring &, s))
 
+ZFMETHOD_USER_REGISTER_1({
+        invokerObject->objectOnInit();
+        invokerObject->to<ZFPropertyTypeWrapper *>()->wrappedValueFromString(src);
+    }, ZFPropertyTypeWrapper, void, objectOnInit,
+    ZFMP_IN(const zfchar *, src))
+
 ZF_NAMESPACE_GLOBAL_END
 #endif
 

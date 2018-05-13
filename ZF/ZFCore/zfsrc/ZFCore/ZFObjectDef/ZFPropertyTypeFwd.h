@@ -167,32 +167,42 @@ public:
      * must first check whether it's available to access
      * by #ZFPropertyTypeIdData::Value::accessAvailable\n
      */
-    template<typename T_Access = T_Type, int T_IsPointer = 0, typename T_Fix = void>
+    template<typename T_Access = T_Type>
     zfclassNotPOD Value
     {
     public:
         /** @brief try access as raw value, see #ZFPropertyTypeIdData::Value */
         static zfbool accessAvailable(ZF_IN ZFObject *obj);
         /** @brief try access as raw value, see #ZFPropertyTypeIdData::Value */
-        static typename zftTraits<T_Access>::TrNoRef access(ZF_IN ZFObject *obj);
+        static T_Access access(ZF_IN ZFObject *obj);
     };
     /*
      * if available, the templates above should handle these types,
      * and access as proper type:
      * -  Type
+     * -  Type &
      * -  Type const &
      * -  Type *
-     * -  const Type *
-     * -  Type &
      * -  Type * &
-     * -  Type * const &
+     * -  const Type *
      * -  const Type * &
+     * -  Type * const &
      * -  const Type * const &
      */
 };
 
 // ============================================================
-#define _ZFP_ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type) \
+/**
+ * @brief register a custom type
+ *
+ * by default, all of your type must be registered by #ZFPROPERTY_TYPE_DECLARE series,
+ * for some special case,
+ * you may need to register your type manually,
+ * to achieve this, you must:
+ * -  specialize template #ZFPropertyTypeIdData
+ * -  use this macro to register your type
+ */
+#define ZFPROPERTY_TYPE_ID_DATA_REGISTER(TypeName, Type) \
     ZF_STATIC_REGISTER_INIT(PropTIReg_##TypeName) \
     { \
         typedef Type _ZFP_PropTypeW2_##TypeName; \
@@ -242,6 +252,8 @@ public:
         virtual void *wrappedValue(void) {return &(this->zfv);} \
         zfoverride \
         virtual void wrappedValueSet(ZF_IN const void *v) {this->zfv = *(const _ZFP_PropTypeW_##TypeName *)v;} \
+        zfoverride \
+        virtual void wrappedValueGet(ZF_IN void *v) {*(_ZFP_PropTypeW_##TypeName *)v = this->zfv;} \
     public: \
         zfoverride \
         virtual void wrappedValueReset(void) \
@@ -249,7 +261,15 @@ public:
         zfoverride \
         virtual zfbool wrappedValueIsInit(void); \
         zfoverride \
-        virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v); \
+        virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0, \
+                                                    ZF_IN const void *v1); \
+        zfoverride \
+        virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
+                                         ZF_IN const void *v); \
+        zfoverride \
+        virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from, \
+                                                  ZF_IN const void *to, \
+                                                  ZF_IN zffloat progress); \
     public: \
         zfoverride \
         virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
@@ -298,7 +318,7 @@ public:
             return zftrue; \
         } \
         template<typename T_Access = _ZFP_PropTypeW_##TypeName \
-            , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr \
+            , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
                 && zftTypeIsSame< \
                         typename zftTraits<T_Access>::TrNoRef, \
                         _ZFP_PropTypeW_##TypeName \
@@ -360,9 +380,21 @@ public:
     { \
         return (ZFComparerDefault(this->zfv, zftValue<_ZFP_PropTypeW_##TypeName>().zfv) == ZFCompareTheSame); \
     } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v) \
+    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
+                                                      ZF_IN const void *v1) \
     { \
-        return ZFComparerDefault(this->zfv, *(const _ZFP_PropTypeW_##TypeName *)v); \
+        return ZFComparerDefault(*(const _ZFP_PropTypeW_##TypeName *)v0, *(const _ZFP_PropTypeW_##TypeName *)v1); \
+    } \
+    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
+                                           ZF_IN const void *v) \
+    { \
+        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
+    } \
+    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
+                                                    ZF_IN const void *to, \
+                                                    ZF_IN zffloat progress) \
+    { \
+        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
     }
 
 // ============================================================
@@ -402,6 +434,8 @@ public:
         virtual void *wrappedValue(void) {return &(this->zfv);} \
         zfoverride \
         virtual void wrappedValueSet(ZF_IN const void *v) {this->zfv = *(const _ZFP_PropTypeW_##TypeName *)v;} \
+        zfoverride \
+        virtual void wrappedValueGet(ZF_IN void *v) {*(_ZFP_PropTypeW_##TypeName *)v = this->zfv;} \
     public: \
         zfoverride \
         virtual void wrappedValueReset(void) \
@@ -409,7 +443,15 @@ public:
         zfoverride \
         virtual zfbool wrappedValueIsInit(void); \
         zfoverride \
-        virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v); \
+        virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0, \
+                                                    ZF_IN const void *v1); \
+        zfoverride \
+        virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
+                                         ZF_IN const void *v); \
+        zfoverride \
+        virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from, \
+                                                  ZF_IN const void *to, \
+                                                  ZF_IN zffloat progress); \
     public: \
         zfoverride \
         virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
@@ -448,7 +490,7 @@ public:
         }; \
         static inline const zfchar *PropertyTypeId(void) \
         { \
-            return ZFPropertyTypeId_none; \
+            return ZFPropertyTypeId_##TypeName(); \
         } \
         zfoverride \
         virtual zfbool propertyWrapper(ZF_OUT zfautoObject &v) const \
@@ -466,7 +508,7 @@ public:
             return zftrue; \
         } \
         template<typename T_Access = _ZFP_PropTypeW_##TypeName \
-            , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr \
+            , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
                 && zftTypeIsSame< \
                         typename zftTraits<T_Access>::TrNoRef, \
                         _ZFP_PropTypeW_##TypeName \
@@ -528,9 +570,21 @@ public:
     { \
         return (ZFComparerDefault(this->zfv, zftValue<_ZFP_PropTypeW_##TypeName>().zfv) == ZFCompareTheSame); \
     } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v) \
+    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
+                                                      ZF_IN const void *v1) \
     { \
-        return ZFComparerDefault(this->zfv, *(const _ZFP_PropTypeW_##TypeName *)v); \
+        return ZFComparerDefault(*(const _ZFP_PropTypeW_##TypeName *)v0, *(const _ZFP_PropTypeW_##TypeName *)v1); \
+    } \
+    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
+                                           ZF_IN const void *v) \
+    { \
+        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
+    } \
+    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
+                                                    ZF_IN const void *to, \
+                                                    ZF_IN zffloat progress) \
+    { \
+        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
     }
 
 #define _ZFP_ZFPROPERTY_TYPE_ID_DATA_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
@@ -551,9 +605,21 @@ public:
     { \
         return zffalse; \
     } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v) \
+    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
+                                                      ZF_IN const void *v1) \
     { \
         return ZFCompareUncomparable; \
+    } \
+    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
+                                           ZF_IN const void *v) \
+    { \
+        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
+    } \
+    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
+                                                    ZF_IN const void *to, \
+                                                    ZF_IN zffloat progress) \
+    { \
+        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
     }
 
 // ============================================================
@@ -622,7 +688,7 @@ public:
             return ZFPropertyTypeIdData<AliasToType>::ValueStore(obj, (AliasToType)v); \
         } \
         template<typename T_Access = _ZFP_PropTypeW_##TypeName \
-            , int T_IsPointer = ((zftTraits<T_Access>::TrIsPtr \
+            , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
                 && zftTypeIsSame< \
                         typename zftTraits<T_Access>::TrNoRef, \
                         _ZFP_PropTypeW_##TypeName \
@@ -645,36 +711,54 @@ public:
                 _ZFP_PropAliasAttach(obj, v, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
                 return *v; \
             } \
+        private: \
+            static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
+                                               ZF_IN void *v) \
+            { \
+                _ZFP_PropTypeW_##TypeName *vTmp = (_ZFP_PropTypeW_##TypeName *)v; \
+                if(ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::accessAvailable(obj)) \
+                { \
+                    AliasToType &aliasValue = ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::access(obj); \
+                    aliasValue = (AliasToType)*vTmp; \
+                } \
+                zfdelete(vTmp); \
+            } \
         }; \
         template<typename T_Access> \
         zfclassNotPOD Value<T_Access, 1> \
         { \
+        private: \
+             typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
                 return (obj != zfnull && ZFPropertyTypeIdData<AliasToType>::Value<AliasToType const &>::accessAvailable(obj)); \
             } \
-            static typename zftTraits<T_Access>::TrNoRef access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN ZFObject *obj) \
             { \
                 AliasToType const &aliasValue = ZFPropertyTypeIdData<AliasToType>::Value<AliasToType const &>::access(obj); \
                 _ZFP_PropTypeW_##TypeName *v = zfnew(_ZFP_PropTypeW_##TypeName); \
                 *v = (_ZFP_PropTypeW_##TypeName)aliasValue; \
-                _ZFP_PropAliasAttach(obj, v, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
-                return v; \
+                _TrNoRef *p = zfnew(_TrNoRef); \
+                *p = v; \
+                _ZFP_PropAliasAttach(obj, p, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
+                return *p; \
+            } \
+        private: \
+            static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
+                                               ZF_IN void *v) \
+            { \
+                _TrNoRef *p = (_TrNoRef *)v; \
+                _ZFP_PropTypeW_##TypeName *vTmp = (_ZFP_PropTypeW_##TypeName *)*p; \
+                if(ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::accessAvailable(obj)) \
+                { \
+                    AliasToType &aliasValue = ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::access(obj); \
+                    aliasValue = (AliasToType)*vTmp; \
+                } \
+                zfdelete(vTmp); \
+                zfdelete(p); \
             } \
         }; \
-    private: \
-        static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
-                                           ZF_IN void *v) \
-        { \
-            _ZFP_PropTypeW_##TypeName *vTmp = (_ZFP_PropTypeW_##TypeName *)v; \
-            if(ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::accessAvailable(obj)) \
-            { \
-                AliasToType &aliasValue = ZFPropertyTypeIdData<AliasToType>::Value<AliasToType &>::access(obj); \
-                aliasValue = (AliasToType)*vTmp; \
-            } \
-            zfdelete(vTmp); \
-        } \
     }; \
     /** @endcond */ \
     /** @brief type wrapper for #ZFPropertyTypeIdData::Value */ \

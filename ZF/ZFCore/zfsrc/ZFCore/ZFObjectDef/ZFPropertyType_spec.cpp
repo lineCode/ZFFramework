@@ -52,21 +52,33 @@ zfbool v_zfautoObject::wrappedValueIsInit(void)
 {
     return (ZFComparerDefault(this->zfv, zftValue<zfautoObject>().zfv) == ZFCompareTheSame);
 }
-ZFCompareResult v_zfautoObject::wrappedValueCompare(ZF_IN const void *v)
+ZFCompareResult v_zfautoObject::wrappedValueCompare(ZF_IN const void *v0,
+                                                    ZF_IN const void *v1)
 {
-    return ZFComparerDefault(this->zfv, *(const zfautoObject *)v);
+    return ZFComparerDefault(*(const zfautoObject *)v0, *(const zfautoObject *)v1);
+}
+void v_zfautoObject::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
+                                         ZF_IN const void *v)
+{
+    return ZFObjectInfoT(ret, ((const zfautoObject *)v)->toObject());
+}
+zfbool v_zfautoObject::wrappedValueProgressUpdate(ZF_IN const void *from,
+                                                  ZF_IN const void *to,
+                                                  ZF_IN zffloat progress)
+{
+    return zffalse;
 }
 
 // ============================================================
 // ZFObject
 ZF_STATIC_REGISTER_INIT(PropTIReg_ZFObject)
 {
-    _ZFP_ZFPropertyTypeIdDataRegister(ZFPropertyTypeId_ZFObject,
+    _ZFP_ZFPropertyTypeIdDataRegister(ZFPropertyTypeId_ZFObject(),
         zfnew(ZFPropertyTypeIdData<ZFObject *>));
 }
 ZF_STATIC_REGISTER_DESTROY(PropTIReg_ZFObject)
 {
-    _ZFP_ZFPropertyTypeIdDataUnregister(ZFPropertyTypeId_ZFObject);
+    _ZFP_ZFPropertyTypeIdDataUnregister(ZFPropertyTypeId_ZFObject());
 }
 ZF_STATIC_REGISTER_END(PropTIReg_ZFObject)
 

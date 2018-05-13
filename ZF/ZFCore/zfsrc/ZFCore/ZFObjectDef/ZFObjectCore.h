@@ -244,7 +244,8 @@ public:
 protected:
     /** @cond ZFPrivateDoc */
     ZFObject(void)
-    : d(zfnull)
+    : _ZFP_ZFObject_classData(zfnull)
+    , d(zfnull)
     , _observerHolder()
     {
     }
@@ -278,6 +279,7 @@ public:
      * -  for assign property, it points to (const YourPropertyType *)
      *
      * called when first time accessed, and each time setter is called
+     * @note for #ZFPropertyDynamicRegister, old property value would always null
      */
     ZFOBSERVER_EVENT(ObjectPropertyValueOnUpdate)
 
@@ -290,6 +292,12 @@ public:
 
     /**
      * @brief return an object holder that hold this object without affecting retain count
+     *
+     * the holder would be cached,
+     * you have no need to care about performance\n
+     * when owner object destroyed,
+     * the holder object's content is ensured reset to null,
+     * it's safe to retain the holder for future use or check
      */
     zffinal ZFObjectHolder *objectHolder(void);
     /**
@@ -613,7 +621,7 @@ public:
     ZFObject *_ZFP_ZFObjectCheckOnInit(void);
     static void _ZFP_ZFObjectDealloc(ZFObject *obj);
 
-protected:
+public:
     /**
      * @brief override this to init your object
      *
@@ -676,8 +684,13 @@ protected:
      *         zfautoObject obj = MyObject::instanceForXxx(xxx); // OK
      *     }
      *   @endcode
+     * @note due to some limitations,
+     *   objectOnInit is declared public in ZFObject,
+     *   but you must not call it directly
+     *   except implementing your own objectOnInit
      */
     virtual void objectOnInit(void);
+protected:
     /**
      * @brief called after #objectOnInit, safe to call virtual functions here
      *
@@ -754,6 +767,8 @@ protected:
      */
     virtual void objectPropertyValueOnUpdate(ZF_IN const ZFProperty *property, ZF_IN const void *oldValue);
 
+public:
+    const ZFClass *_ZFP_ZFObject_classData;
 private:
     _ZFP_ZFObjectPrivate *d;
     ZFObserverHolder _observerHolder;

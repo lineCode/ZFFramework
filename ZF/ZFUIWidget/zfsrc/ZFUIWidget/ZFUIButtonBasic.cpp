@@ -141,21 +141,21 @@ public:
 };
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIButtonBasicListenerHolder, ZFLevelZFFrameworkEssential)
 {
-    this->buttonLabelStyleNormalChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleNormalChanged);
-    this->buttonLabelStyleHighlightedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleHighlightedChanged);
-    this->buttonLabelStyleCheckedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleCheckedChanged);
-    this->buttonLabelStyleCheckedHighlightedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleCheckedHighlightedChanged);
-    this->buttonLabelStyleDisabledChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleDisabledChanged);
-    this->buttonIconStyleNormalChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleNormalChanged);
-    this->buttonIconStyleHighlightedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleHighlightedChanged);
-    this->buttonIconStyleCheckedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleCheckedChanged);
-    this->buttonIconStyleCheckedHighlightedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleCheckedHighlightedChanged);
-    this->buttonIconStyleDisabledChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleDisabledChanged);
-    this->buttonBackgroundStyleNormalChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleNormalChanged);
-    this->buttonBackgroundStyleHighlightedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleHighlightedChanged);
-    this->buttonBackgroundStyleCheckedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleCheckedChanged);
-    this->buttonBackgroundStyleCheckedHighlightedChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleCheckedHighlightedChanged);
-    this->buttonBackgroundStyleDisabledChangedListener = ZFCallbackForRawFunction(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleDisabledChanged);
+    this->buttonLabelStyleNormalChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleNormalChanged);
+    this->buttonLabelStyleHighlightedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleHighlightedChanged);
+    this->buttonLabelStyleCheckedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleCheckedChanged);
+    this->buttonLabelStyleCheckedHighlightedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleCheckedHighlightedChanged);
+    this->buttonLabelStyleDisabledChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonLabelStyleDisabledChanged);
+    this->buttonIconStyleNormalChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleNormalChanged);
+    this->buttonIconStyleHighlightedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleHighlightedChanged);
+    this->buttonIconStyleCheckedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleCheckedChanged);
+    this->buttonIconStyleCheckedHighlightedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleCheckedHighlightedChanged);
+    this->buttonIconStyleDisabledChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonIconStyleDisabledChanged);
+    this->buttonBackgroundStyleNormalChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleNormalChanged);
+    this->buttonBackgroundStyleHighlightedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleHighlightedChanged);
+    this->buttonBackgroundStyleCheckedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleCheckedChanged);
+    this->buttonBackgroundStyleCheckedHighlightedChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleCheckedHighlightedChanged);
+    this->buttonBackgroundStyleDisabledChangedListener = ZFCallbackForFunc(_ZFP_ZFUIButtonBasicPrivate::buttonBackgroundStyleDisabledChanged);
 }
 public:
     ZFListener buttonLabelStyleNormalChangedListener;

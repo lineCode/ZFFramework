@@ -44,7 +44,7 @@ protected:
 #if 0
         timer->timerActivateInMainThreadSet(zftrue);
 #endif
-        timer->observerAdd(ZFTimer::EventTimerOnActivate(), ZFCallbackForRawFunction(_ZFP_ZFCore_ZFTimer_test_timerEvent), this);
+        timer->observerAdd(ZFTimer::EventTimerOnActivate(), ZFCallbackForFunc(_ZFP_ZFCore_ZFTimer_test_timerEvent), this);
         timer->timerIntervalSet((zftimet)300);
         timer->timerStart();
     }

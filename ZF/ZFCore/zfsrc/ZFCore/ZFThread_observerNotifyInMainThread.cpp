@@ -75,7 +75,7 @@ ZFCACHEABLE_DEFINE(_ZFP_I_ZFObserverNotifyInMainThreadTaskData, _ZFP_I_ZFObserve
 static ZFListener *_ZFP_ZFObserverNotifyInMainThreadCallback = zfnull;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObserverNotifyInMainThreadDataHolder, ZFLevelZFFrameworkEssential)
 {
-    this->callback = ZFCallbackForRawFunction(zfself::callbackAction);
+    this->callback = ZFCallbackForFunc(zfself::callbackAction);
     _ZFP_ZFObserverNotifyInMainThreadCallback = &this->callback;
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFObserverNotifyInMainThreadDataHolder)
