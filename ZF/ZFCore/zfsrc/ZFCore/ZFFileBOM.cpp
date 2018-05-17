@@ -12,7 +12,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFFileBOM, ZFFileBOM, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFFileBOM, ZFFileBOM, {
         zfmemset(v.BOM, 0, sizeof(v.BOM));
         if(src == zfnull || srcLen == 0)
         {

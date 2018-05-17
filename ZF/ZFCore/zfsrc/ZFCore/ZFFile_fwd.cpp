@@ -130,7 +130,7 @@ void *ZFFileFindData::implCheck(ZF_IN const zfchar *implName) const
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFFileFindData, ZFFileFindData)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFFileFindData, ZFFileFindData)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFileFindData, const zfchar *, fileName)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFileFindData, zfbool, fileIsDir)
 

@@ -118,7 +118,7 @@ protected:
                 fromDataTimes,
                 ZFTimeValueToStringFriendly(fromDataUsedTime).cString());
             result += zfText("\ndata:\n");
-            ZFSerializableDataToXml(ZFOutputCallbackForString(result), data);
+            ZFSerializableDataToXml(ZFOutputForString(result), data);
             outputView->textSet(result);
 
             ZFCoreStatistic::invokeTimeAccurateRemove(zfText("ZFUISerializePerformance_test_toData"));

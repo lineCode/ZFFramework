@@ -61,7 +61,7 @@ ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFUIImageLoadFromNativeImage,
  * @note this method has no cache logic
  */
 ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFUIImageLoadFromInput,
-                        ZFMP_IN(const ZFInputCallback &, input))
+                        ZFMP_IN(const ZFInput &, input))
 
 // ============================================================
 // color

@@ -8,7 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFCoreType_methodRegister.h"
-#include "ZFPropertyType_CoreType.h"
+#include "ZFTypeId_CoreType.h"
 #include "ZFObjectImpl.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

@@ -336,7 +336,7 @@ public:
      * @brief get the method by name within this class only, or zfnull if not exists
      *
      * the following optional params are, type id of each param type
-     * described by #ZFPropertyTypeIdData::PropertyTypeId,
+     * described by #ZFTypeId::TypeId,
      * if more than one method with same name (and or param type id) were found,
      * the first one would be returned
      *

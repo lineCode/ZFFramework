@@ -60,7 +60,7 @@ zfflags zfCrc32Calc(ZF_IN const void *src,
     return zfflags(ret);
 }
 ZFMETHOD_FUNC_DEFINE_2(zfflags, zfCrc32Calc,
-                       ZFMP_IN(const ZFInputCallback &, callback),
+                       ZFMP_IN(const ZFInput &, callback),
                        ZFMP_IN_OPT(zfflags, prevResult, ZFCrc32ValueZero()))
 {
     if(!callback.callbackIsValid()) {return ZFCrc32ValueInvalid();}

@@ -11,7 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFTextTemplateRunParam, ZFTextTemplateRunParam)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFTextTemplateRunParam, ZFTextTemplateRunParam)
 
 ZFTextTemplateRunParam &_ZFP_ZFTextTemplateRunParamDefault(void)
 {
@@ -82,7 +82,7 @@ static zfbool _ZFP_ZFTextTemplateRun_applyName(ZF_IN_OUT zfstring &path,
     zfstring fileName;
     ZFFileNameOf(fileName, path);
     zfstring fileNameNew;
-    ZFTextTemplateApply(textTemplateParam, ZFOutputCallbackForString(fileNameNew), fileName);
+    ZFTextTemplateApply(textTemplateParam, ZFOutputForString(fileNameNew), fileName);
     if(fileName.compare(fileNameNew) == 0)
     {
         return zftrue;
@@ -213,7 +213,7 @@ static zfbool _ZFP_ZFTextTemplateRun_applyFile(ZF_IN_OUT zfstring &path,
     }
     zfblockedFree(buf);
 
-    if(ZFTextTemplateApply(textTemplateParam, ZFOutputCallbackForFile(path), buf, bufEnd - buf) == zfindexMax())
+    if(ZFTextTemplateApply(textTemplateParam, ZFOutputForFile(path), buf, bufEnd - buf) == zfindexMax())
     {
         zfstringAppend(outErrorHint, zfText("failed to update template for %s"), path.cString());
         return zffalse;

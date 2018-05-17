@@ -14,7 +14,7 @@
  *   public:
  *       zfint myValue;
  *   };
- *   ZFPROPERTY_TYPE_DECLARE(MyCppType, MyCppType)
+ *   ZFTYPEID_DECLARE(MyCppType, MyCppType)
  *   zfclass MyClass : zfextends ZFStyleableObject
  *   {
  *       ZFOBJECT_DECLARE(MyClass, ZFStyleableObject)
@@ -22,7 +22,7 @@
  *       ZFPROPERTY_ASSIGN(MyCppType, myProp1)
  *   };
  *
- *   ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(MyCppType, MyCppType, {
+ *   ZFTYPEID_DEFINE_BY_STRING_CONVERTER(MyCppType, MyCppType, {
  *           // supply MyCppType's string conversion
  *           return zfintFromString(v.myValue, src, srcLen);
  *       }, {

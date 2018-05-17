@@ -17,23 +17,23 @@
 
 #include "ZFClass.h"
 #include "ZFSerializable.h"
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  */
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFClassInstanceObserverAddParam, ZFClassInstanceObserverAddParam)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFClassInstanceObserverAddParam, ZFClassInstanceObserverAddParam)
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
  *   <ZFClass value="ClassName" />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFClass, const ZFClass *)
+ZFTYPEID_DECLARE(ZFClass, const ZFClass *)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFClassSerializable_h_

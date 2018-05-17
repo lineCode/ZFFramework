@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFEXPORT_VAR_READONLY_DEFINE(ZFKeyValuePair, ZFKeyValuePairZero, ZFKeyValuePairMake(zfnull, zfnull))
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFKeyValuePairHolder, ZFKeyValuePairHolder, {
+ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFKeyValuePairHolder, ZFKeyValuePairHolder, {
         const ZFSerializableData *data = zfnull;
         data = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFKeyValuePair_key);
         if(data != zfnull)
@@ -65,7 +65,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFKeyValuePairHolder, ZFKeyValu
         return zftrue;
     })
 
-ZFPROPERTY_TYPE_ALIAS_DEFINE(ZFKeyValuePairHolder, ZFKeyValuePairHolder, ZFKeyValuePair, ZFKeyValuePair)
+ZFTYPEID_ALIAS_DEFINE(ZFKeyValuePairHolder, ZFKeyValuePairHolder, ZFKeyValuePair, ZFKeyValuePair)
 
 ZF_NAMESPACE_GLOBAL_END
 

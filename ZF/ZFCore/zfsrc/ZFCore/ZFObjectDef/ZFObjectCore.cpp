@@ -132,6 +132,64 @@ ZFCompareResult ZFObject::objectCompare(ZF_IN ZFObject *anotherObj)
     return ((this == anotherObj) ? ZFCompareTheSame : ZFCompareUncomparable);
 }
 
+/* ZFMETHOD_MAX_PARAM */
+zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
+                              , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                              , ZF_OUT_OPT zfbool *success /* = zfnull */
+                              , ZF_OUT_OPT zfstring *errorHint /* = zfnull */
+                              )
+{
+    ZFCoreArrayPOD<const ZFMethod *> methodList = this->classData()->methodForNameGetAll(methodName);
+    zfstring errorHintTmp;
+    zfautoObject ret;
+    for(zfindex i = 0; i < methodList.count(); ++i)
+    {
+        const ZFMethod *m = methodList[i];
+        if(m->methodGenericInvoker()(m, this, &errorHintTmp, ret
+                , param0
+                , param1
+                , param2
+                , param3
+                , param4
+                , param5
+                , param6
+                , param7
+            ))
+        {
+            if(success != zfnull)
+            {
+                *success = zftrue;
+            }
+            return ret;
+        }
+    }
+    if(success != zfnull)
+    {
+        *success = zffalse;
+    }
+    if(methodList.isEmpty())
+    {
+        zfstringAppend(errorHint,
+            zfText("no such method: %s"),
+            methodName);
+    }
+    else
+    {
+        zfstringAppend(errorHint,
+            zfText("no matching method to call, methodName: %s, last error reason: %s"),
+            methodName,
+            errorHintTmp.cString());
+    }
+    return zfautoObjectNull();
+}
+
 zfbool ZFObject::tagHasSet(void)
 {
     zfCoreMutexLocker();
@@ -513,6 +571,19 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, void, objectInfoT, ZFMP_IN_
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, zfstring, objectInfo)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, zfidentity, objectHash)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, ZFCompareResult, objectCompare, ZFMP_IN(ZFObject *, anotherObj))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_8(ZFObject, zfautoObject, invoke
+        , ZFMP_IN(const zfchar *, methodName)
+        , ZFMP_IN_OPT(ZFObject *, param0, ZFMethodGenericInvokerDefaultParam())
+        , ZFMP_IN_OPT(ZFObject *, param1, ZFMethodGenericInvokerDefaultParam())
+        , ZFMP_IN_OPT(ZFObject *, param2, ZFMethodGenericInvokerDefaultParam())
+        , ZFMP_IN_OPT(ZFObject *, param3, ZFMethodGenericInvokerDefaultParam())
+        , ZFMP_IN_OPT(ZFObject *, param4, ZFMethodGenericInvokerDefaultParam())
+        , ZFMP_IN_OPT(ZFObject *, param5, ZFMethodGenericInvokerDefaultParam())
+        , ZFMP_IN_OPT(ZFObject *, param6, ZFMethodGenericInvokerDefaultParam())
+        /* ZFMETHOD_MAX_PARAM , ZFMP_IN_OPT(ZFObject *, param7, ZFMethodGenericInvokerDefaultParam()) */
+        /* ZFMETHOD_MAX_PARAM , ZFMP_OUT_OPT(zfbool *, success, zfnull) */
+        /* ZFMETHOD_MAX_PARAM , ZFMP_OUT_OPT(zfstring *, errorHint, zfnull) */
+    )
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, zfbool, tagHasSet)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFObject, void, tagSet, ZFMP_IN(const zfchar *, key), ZFMP_IN(ZFObject *, tag))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, ZFObject *, tagGet, ZFMP_IN(const zfchar *, key))

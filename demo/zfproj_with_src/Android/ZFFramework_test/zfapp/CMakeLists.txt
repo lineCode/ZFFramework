@@ -31,7 +31,6 @@ ZFAddSrc(ZF_SRC_FILES ${ZF_ROOT_PATH}/ZF/ZFUIKit_impl)
 ZFAddSrc(ZF_SRC_FILES ${ZF_ROOT_PATH}/ZF/ZFLua_impl)
 ZFAddSrc(ZF_SRC_FILES ${ZF_ROOT_PATH}/ZF/ZFUIWebKit_impl)
 
-
 add_library(ZFFramework_test SHARED ${ZF_SRC_FILES})
 set_target_properties(ZFFramework_test PROPERTIES LINKER_LANGUAGE CXX)
 find_library(log-lib log)

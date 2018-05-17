@@ -150,7 +150,7 @@ ZFMETHOD_FUNC_DEFINE_3(ZFXmlItem, ZFSerializableDataToXml,
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFSerializableDataFromXml,
                        ZFMP_OUT(ZFSerializableData &, ret),
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     if(!input.callbackIsValid())
@@ -173,7 +173,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFSerializableDataFromXml,
     return zftrue;
 }
 ZFMETHOD_FUNC_DEFINE_2(ZFSerializableData, ZFSerializableDataFromXml,
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     ZFSerializableData ret;
@@ -187,7 +187,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFSerializableData, ZFSerializableDataFromXml,
     }
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataToXml,
-                       ZFMP_IN(const ZFOutputCallback &, outputCallback),
+                       ZFMP_IN(const ZFOutput &, outputCallback),
                        ZFMP_IN(const ZFSerializableData &, serializableData),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull),
                        ZFMP_IN_OPT(const ZFXmlOutputFlags &, flags, ZFXmlOutputFlagsDefault()))
@@ -213,7 +213,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataToXml,
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFObjectFromXml,
                        ZFMP_OUT(zfautoObject &, ret),
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     ZFSerializableData data;
@@ -227,7 +227,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFObjectFromXml,
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFObjectFromXml,
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     zfautoObject ret;
@@ -235,7 +235,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFObjectFromXml,
     return ret;
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFObjectToXml,
-                       ZFMP_IN(const ZFOutputCallback &, outputCallback),
+                       ZFMP_IN(const ZFOutput &, outputCallback),
                        ZFMP_IN(ZFObject *, obj),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull),
                        ZFMP_IN_OPT(const ZFXmlOutputFlags &, flags, ZFXmlOutputFlagsDefault()))

@@ -158,7 +158,7 @@ static zfbool _ZFP_ZFObjectIOCheck(ZF_OUT _ZFP_ZFObjectIOData *&ret,
     return zffalse;
 }
 zfbool ZFObjectIOLoad(ZF_OUT zfautoObject &ret,
-                      ZF_IN const ZFInputCallback &input,
+                      ZF_IN const ZFInput &input,
                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
     _ZFP_ZFObjectIOData *data = zfnull;
@@ -171,14 +171,14 @@ zfbool ZFObjectIOLoad(ZF_OUT zfautoObject &ret,
         return data->fromInput(ret, input, outErrorHint);
     }
 }
-zfautoObject ZFObjectIOLoad(ZF_IN const ZFInputCallback &input,
+zfautoObject ZFObjectIOLoad(ZF_IN const ZFInput &input,
                             ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
     zfautoObject ret;
     ZFObjectIOLoad(ret, input, outErrorHint);
     return ret;
 }
-zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutputCallback &output,
+zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
                       ZF_IN ZFObject *obj,
                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
@@ -199,9 +199,9 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOLoad, ZFMP_OUT(zfautoObject &, ret), ZFMP_IN(const ZFInputCallback &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfautoObject, ZFObjectIOLoad, ZFMP_IN(const ZFInputCallback &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOSave, ZFMP_IN_OUT(const ZFOutputCallback &, output), ZFMP_IN(ZFObject *, obj), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOLoad, ZFMP_OUT(zfautoObject &, ret), ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfautoObject, ZFObjectIOLoad, ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOSave, ZFMP_IN_OUT(const ZFOutput &, output), ZFMP_IN(ZFObject *, obj), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

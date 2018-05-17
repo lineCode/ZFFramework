@@ -36,7 +36,7 @@ ZFEXPORT_VAR_DECLARE(ZFFilterForZFObject, ZFUIViewStateAniFilter)
  * you may also use #ZFPropertyAniBegin/#ZFPropertyAniEnd to perform property change animation,
  * which are implemented by update property value accorrding to timeline,
  * best compatibility but may has worse performance,
- * and only the properties that supply #ZFPROPERTY_PROGRESS_DECLARE are supported\n
+ * and only the properties that supply #ZFTYPEID_PROGRESS_DECLARE are supported\n
  * \n
  * \n
  * \n

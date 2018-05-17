@@ -152,7 +152,7 @@ public:
 private:
     _ZFP_ZFFileFindDataPrivate *d;
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFFileFindData, ZFFileFindData)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFFileFindData, ZFFileFindData)
 ZFOUTPUT_TYPE(ZFFileFindData, {output << v.objectInfo();})
 
 // ============================================================

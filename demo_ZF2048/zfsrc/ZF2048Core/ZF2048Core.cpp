@@ -123,7 +123,7 @@ public:
         }
     }
 
-    void debugStatus(ZF_IN const ZFOutputCallback &outputCallback,
+    void debugStatus(ZF_IN const ZFOutput &outputCallback,
                      ZF_IN const ZF2048Value *data_)
     {
         if(!outputCallback.callbackIsValid())
@@ -766,7 +766,7 @@ void ZF2048Core::undo(void)
     this->gameDataOnChange();
 }
 
-void ZF2048Core::debugStatus(ZF_IN_OPT const ZFOutputCallback &outputCallback /* = ZFOutputCallbackDefault() */)
+void ZF2048Core::debugStatus(ZF_IN_OPT const ZFOutput &outputCallback /* = ZFOutputDefault() */)
 {
     d->debugStatus(outputCallback, d->data.pointerValueGet());
 }

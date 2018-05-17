@@ -65,8 +65,8 @@ extern ZF_ENV_EXPORT zfbool ZFBase64Encode(ZF_OUT zfchar *buf,
  * @brief encode base64, return byte size written even if error occurred
  */
 ZFMETHOD_FUNC_DECLARE_6(zfbool, ZFBase64Encode,
-                        ZFMP_IN_OUT(const ZFOutputCallback &, outputCallback),
-                        ZFMP_IN(const ZFInputCallback &, inputCallback),
+                        ZFMP_IN_OUT(const ZFOutput &, outputCallback),
+                        ZFMP_IN(const ZFInput &, inputCallback),
                         ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull),
                         ZFMP_IN_OPT(const zfchar *, table, ZFBase64TableDefault()),
                         ZFMP_IN_OPT(zfchar, pad, ZFBase64PadDefault()),
@@ -99,8 +99,8 @@ extern ZF_ENV_EXPORT zfbool ZFBase64Decode(ZF_OUT void *buf,
  * @brief encode base64, return byte size written even if error occurred
  */
 ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFBase64Decode,
-                        ZFMP_IN_OUT(const ZFOutputCallback &, outputCallback),
-                        ZFMP_IN(const ZFInputCallback &, inputCallback),
+                        ZFMP_IN_OUT(const ZFOutput &, outputCallback),
+                        ZFMP_IN(const ZFInput &, inputCallback),
                         ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull),
                         ZFMP_IN_OPT(const zfchar *, table, ZFBase64TableDefault()),
                         ZFMP_IN_OPT(zfchar, pad, ZFBase64PadDefault()))
@@ -138,8 +138,8 @@ public:
     }
     /** @brief see #ZFBase64Encode */
     ZFMETHOD_INLINE_3(zfbool, base64Encode,
-                      ZFMP_IN_OUT(const ZFOutputCallback &, output),
-                      ZFMP_IN(const ZFInputCallback &, input),
+                      ZFMP_IN_OUT(const ZFOutput &, output),
+                      ZFMP_IN(const ZFInput &, input),
                       ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull))
     {
         return ZFBase64Encode(output, input, outResultSize, this->base64Table(), this->base64Pad(), this->base64LineBreakPos());
@@ -160,8 +160,8 @@ public:
     }
     /** @brief see #ZFBase64Decode */
     ZFMETHOD_INLINE_3(zfbool, base64Decode,
-                      ZFMP_IN_OUT(const ZFOutputCallback &, output),
-                      ZFMP_IN(const ZFInputCallback &, input),
+                      ZFMP_IN_OUT(const ZFOutput &, output),
+                      ZFMP_IN(const ZFInput &, input),
                       ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull))
     {
         return ZFBase64Decode(output, input, outResultSize, this->base64Table(), this->base64Pad());

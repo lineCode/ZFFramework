@@ -27,7 +27,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define ZFPathType_file zfText("file")
 
 // ============================================================
-// ZFInputCallbackForFile
+// ZFInputForFile
 /**
  * @brief util to create a file input callback
  *
@@ -40,18 +40,18 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * auto open and auto close files, may return a null callback if open file error\n
  * auto setup callback cache id with res file path
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_3(ZFInputCallback, ZFInputCallbackForFile,
+ZFMETHOD_FUNC_DECLARE_INLINE_3(ZFInput, ZFInputForFile,
                                ZFMP_IN(const zfchar *, filePath),
                                ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                                ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 {
-    ZFInputCallback ret;
-    ZFInputCallbackForPathInfoT(ret, ZFPathType_file, filePath, flags, autoSkipBOMTable);
+    ZFInput ret;
+    ZFInputForPathInfoT(ret, ZFPathType_file, filePath, flags, autoSkipBOMTable);
     return ret;
 }
 
 // ============================================================
-// ZFOutputCallbackForFile
+// ZFOutputForFile
 /**
  * @brief util to create a file output callback
  *
@@ -61,12 +61,12 @@ ZFMETHOD_FUNC_DECLARE_INLINE_3(ZFInputCallback, ZFInputCallbackForFile,
  *
  * auto open and auto close files, may return a null callback if open file error
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFOutputCallback, ZFOutputCallbackForFile,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFOutput, ZFOutputForFile,
                                ZFMP_IN(const zfchar *, filePath),
                                ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
-    ZFOutputCallback ret;
-    ZFOutputCallbackForPathInfoT(ret, ZFPathType_file, filePath, flags);
+    ZFOutput ret;
+    ZFOutputForPathInfoT(ret, ZFPathType_file, filePath, flags);
     return ret;
 }
 

@@ -225,20 +225,20 @@ public:
 
 public:
     /** @brief error callback which would be called if error occurred */
-    ZFDynamic &errorCallbackAdd(ZF_IN const ZFOutputCallback &errorCallback = ZFOutputCallbackDefault());
+    ZFDynamic &errorCallbackAdd(ZF_IN const ZFOutput &errorCallback = ZFOutputDefault());
     /** @brief see #errorCallbackAdd */
-    ZFDynamic &errorCallbackRemove(ZF_IN const ZFOutputCallback &errorCallback);
+    ZFDynamic &errorCallbackRemove(ZF_IN const ZFOutput &errorCallback);
     /** @brief see #errorCallbackAdd */
     zfindex errorCallbackCount(void) const;
     /** @brief see #errorCallbackAdd */
-    const ZFOutputCallback &errorCallbackAtIndex(ZF_IN zfindex index) const;
+    const ZFOutput &errorCallbackAtIndex(ZF_IN zfindex index) const;
     /** @brief see #errorCallbackAdd */
     void errorCallbackNotify(ZF_IN const zfchar *errorHint) const;
 
 private:
     _ZFP_ZFDynamicPrivate *d;
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFDynamic, ZFDynamic)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFDynamic, ZFDynamic)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFDynamicRegisterUtil_h_

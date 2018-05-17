@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFJsonEscapeCharImpl_default, ZFJsonEscapeChar, ZFProtocolLevel::e_Default)
 public:
-    virtual void jsonEscapeCharEncode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void jsonEscapeCharEncode(ZF_OUT const ZFOutput &dst,
                                       ZF_IN const zfchar *src,
                                       ZF_IN_OPT zfindex count = zfindexMax())
     {
@@ -54,7 +54,7 @@ public:
             }
         }
     }
-    virtual void jsonEscapeCharDecode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void jsonEscapeCharDecode(ZF_OUT const ZFOutput &dst,
                                       ZF_IN const zfchar *src,
                                       ZF_IN_OPT zfindex count = zfindexMax())
     {

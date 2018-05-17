@@ -23,7 +23,7 @@ ZFStyleable *ZFStyleable::defaultStyle(void)
     const ZFMethod *method = this->classData()->methodForName(zfText("DefaultStyleReflect"));
     if(method != zfnull)
     {
-        return method->executeStatic<zfautoObject>().to<ZFStyleable *>();
+        return method->execute<zfautoObject>(zfnull).to<ZFStyleable *>();
     }
     else
     {

@@ -23,24 +23,24 @@ protected:
 
         zfLogTrimT() << zfText("============================================================");
         zfLogTrimT() << zfText("res tree:");
-        ZFFilePathInfoTreePrint(ZFPathInfo(ZFPathType_res, zfText("test_ZFFileIO")), ZFOutputCallbackDefault(), zfText("  "));
+        ZFFilePathInfoTreePrint(ZFPathInfo(ZFPathType_res, zfText("test_ZFFileIO")), ZFOutputDefault(), zfText("  "));
 
         zfLogTrimT() << zfText("try read content:");
-        ZFInputCallbackReadToOutput(ZFOutputCallbackDefault(),
-            ZFInputCallbackForResFile(zfText("test_ZFFileIO/fileExist")));
-        ZFInputCallbackReadToOutput(ZFOutputCallbackDefault(),
-            ZFInputCallbackForResFile(zfText("test_ZFFileIO/dirExist/fileExist2")));
+        ZFInputReadToOutput(ZFOutputDefault(),
+            ZFInputForResFile(zfText("test_ZFFileIO/fileExist")));
+        ZFInputReadToOutput(ZFOutputDefault(),
+            ZFInputForResFile(zfText("test_ZFFileIO/dirExist/fileExist2")));
 
         zfLogTrimT() << zfText("============================================================");
         zfLogTrimT() << zfText("copy to cache dir, tree:");
         ZFFileResCopy(zfText("test_ZFFileIO"), zfstringWithFormat(zfText("%s/test_ZFFileIO"), ZFFilePathForCache()));
-        ZFFilePathInfoTreePrint(ZFPathInfo(ZFPathType_cachePath, zfText("test_ZFFileIO")), ZFOutputCallbackDefault(), zfText("  "));
+        ZFFilePathInfoTreePrint(ZFPathInfo(ZFPathType_cachePath, zfText("test_ZFFileIO")), ZFOutputDefault(), zfText("  "));
 
         zfLogTrimT() << zfText("try read content:");
-        ZFInputCallbackReadToOutput(ZFOutputCallbackDefault(),
-            ZFInputCallbackForPathInfo(ZFPathInfo(ZFPathType_cachePath, zfText("test_ZFFileIO/fileExist"))));
-        ZFInputCallbackReadToOutput(ZFOutputCallbackDefault(),
-            ZFInputCallbackForPathInfo(ZFPathInfo(ZFPathType_cachePath, zfText("test_ZFFileIO/dirExist/fileExist2"))));
+        ZFInputReadToOutput(ZFOutputDefault(),
+            ZFInputForPathInfo(ZFPathInfo(ZFPathType_cachePath, zfText("test_ZFFileIO/fileExist"))));
+        ZFInputReadToOutput(ZFOutputDefault(),
+            ZFInputForPathInfo(ZFPathInfo(ZFPathType_cachePath, zfText("test_ZFFileIO/dirExist/fileExist2"))));
 
         zfLogTrimT() << zfText("============================================================");
         zfLogTrimT() << zfText("file type check:");

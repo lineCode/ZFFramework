@@ -119,7 +119,7 @@ public:
 #define ZFSerializableKeyword_ZFRegExpResult_namedGroups zfText("namedGroups")
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -132,7 +132,7 @@ public:
  *   </ZFRegExpResult>
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFRegExpResult, ZFRegExpResult)
+ZFTYPEID_DECLARE(ZFRegExpResult, ZFRegExpResult)
 ZFOUTPUT_TYPE(ZFRegExpResult, {output << v.objectInfo();})
 
 // ============================================================

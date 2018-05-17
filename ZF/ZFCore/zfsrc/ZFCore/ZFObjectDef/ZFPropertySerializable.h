@@ -17,11 +17,11 @@
 
 #include "ZFProperty.h"
 #include "ZFSerializable.h"
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -33,7 +33,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   ClassName::propertyName
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFProperty, const ZFProperty *)
+ZFTYPEID_DECLARE(ZFProperty, const ZFProperty *)
 
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFProperty_owner zfText("owner")

@@ -58,7 +58,7 @@ protected:
         ZFTextTemplateParam param;
         param.replaceDataAdd(zfText("replace_exist"), zfText("_replace_exist_"));
         param.enableDataAdd(zfText("enableif_true"), zftrue);
-        ZFTextTemplateApply(param, ZFOutputCallbackForString(buf), src);
+        ZFTextTemplateApply(param, ZFOutputForString(buf), src);
 
         this->testCaseOutputSeparator();
         this->testCaseOutput(zfText("src:\n%s"), src);

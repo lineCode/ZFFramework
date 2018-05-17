@@ -41,7 +41,7 @@ public:
 
     /** @brief see ZFRegExp::regExpNamedGroupIndexForName */
     virtual zfindex regExpNamedGroupIndexForName(ZF_IN ZFRegExp *regExp,
-                                                ZF_IN const zfchar *name) zfpurevirtual;
+                                                 ZF_IN const zfchar *name) zfpurevirtual;
 
     /** @brief see ZFRegExp::regExpMatch */
     virtual void regExpMatch(ZF_IN ZFRegExp *regExp,

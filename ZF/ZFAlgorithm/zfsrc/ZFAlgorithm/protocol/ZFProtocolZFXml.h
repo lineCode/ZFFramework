@@ -38,7 +38,7 @@ public:
     /**
      * @brief parse xml document
      */
-    virtual ZFXmlItem xmlParse(ZF_IN const ZFInputCallback &inputCallback) zfpurevirtual;
+    virtual ZFXmlItem xmlParse(ZF_IN const ZFInput &inputCallback) zfpurevirtual;
 
     /**
      * @brief for impl to achieve memory pool logic

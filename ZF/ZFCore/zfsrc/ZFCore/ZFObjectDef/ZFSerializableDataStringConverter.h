@@ -51,18 +51,18 @@ extern ZF_ENV_EXPORT zfstring ZFSerializableDataToString(ZF_IN const ZFSerializa
  * @brief convert serializable data from string
  */
 extern ZF_ENV_EXPORT zfbool ZFSerializableDataFromInput(ZF_OUT ZFSerializableData &serializableData,
-                                                        ZF_IN const ZFInputCallback &input,
+                                                        ZF_IN const ZFInput &input,
                                                         ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 /**
  * @brief convert serializable data from string
  */
-extern ZF_ENV_EXPORT ZFSerializableData ZFSerializableDataFromInput(ZF_IN const ZFInputCallback &input,
+extern ZF_ENV_EXPORT ZFSerializableData ZFSerializableDataFromInput(ZF_IN const ZFInput &input,
                                                                     ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 
 /**
  * @brief convert serializable data to string
  */
-extern ZF_ENV_EXPORT zfbool ZFSerializableDataToOutput(ZF_IN_OUT const ZFOutputCallback &output,
+extern ZF_ENV_EXPORT zfbool ZFSerializableDataToOutput(ZF_IN_OUT const ZFOutput &output,
                                                        ZF_IN const ZFSerializableData &serializableData,
                                                        ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 

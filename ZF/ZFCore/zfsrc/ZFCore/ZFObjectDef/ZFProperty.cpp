@@ -35,18 +35,18 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += this->propertyName();
 }
 
-zfbool ZFProperty::propertySerializable(void) const
+zfbool ZFProperty::typeIdSerializable(void) const
 {
-    if(zfscmpTheSame(this->propertyTypeId(), ZFPropertyTypeId_none))
+    if(zfscmpTheSame(this->propertyTypeId(), ZFTypeId_none))
     {
         return zffalse;
     }
-    else if(!this->propertyIsRetainProperty() && zfscmpTheSame(this->propertyTypeId(), ZFPropertyTypeId_ZFObject()))
+    else if(!this->propertyIsRetainProperty() && zfscmpTheSame(this->propertyTypeId(), ZFTypeId_ZFObject()))
     {
         return zffalse;
     }
-    const ZFPropertyTypeIdDataBase *t = ZFPropertyTypeIdDataGet(this->propertyTypeId());
-    if(t == zfnull || !t->propertySerializable())
+    const ZFTypeIdBase *t = ZFTypeIdGet(this->propertyTypeId());
+    if(t == zfnull || !t->typeIdSerializable())
     {
         return zffalse;
     }
@@ -107,9 +107,9 @@ void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
     this->_ZFP_ZFProperty_propertyOwnerClass = propertyOwnerClass;
     this->_ZFP_ZFProperty_name = name;
     this->_ZFP_ZFProperty_typeName = typeName;
-    if(propertyClassOfRetainProperty == zfnull && zfscmpTheSame(typeIdName, ZFPropertyTypeId_ZFObject()))
+    if(propertyClassOfRetainProperty == zfnull && zfscmpTheSame(typeIdName, ZFTypeId_ZFObject()))
     { // assign property with ZFObject type, is not serializable
-        this->_ZFP_ZFProperty_typeId = ZFPropertyTypeId_none;
+        this->_ZFP_ZFProperty_typeId = ZFTypeId_none;
     }
     else
     {

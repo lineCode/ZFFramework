@@ -35,18 +35,23 @@ protected:
             })
         ZFDynamic d = ZFDynamic().errorCallbackAdd()
             .classBegin(zfText("ZFDynamicTest"), zfText("ZFObject"))
-                .property(ZFPropertyTypeId_zfstring(), zfText("testProp"))
+                .property(ZFTypeId_zfstring(), zfText("testProp"))
+                .method(methodCallback, zfnull, ZFTypeId_zfstring(), zfText("testMethod"), ZFTypeId_zfstring())
             .classEnd()
             .NSBegin(zfText("ZFDynamicTestNS"))
-                .method(methodCallback, zfnull, ZFPropertyTypeId_zfstring(), zfText("testMethod"), ZFPropertyTypeId_zfstring())
+                .method(methodCallback, zfnull, ZFTypeId_zfstring(), zfText("testMethod"), ZFTypeId_zfstring())
             .NSEnd()
             ;
         const ZFClass *cls = ZFClass::classForName(zfText("ZFDynamicTest"));
-        zfLogT() << cls;
-        zfLogT() << cls->propertyForName(zfText("testProp"));
+        zfautoObject obj = cls->newInstance();
+
+        obj->invoke(zfText("testPropSet"), zflineAlloc(v_zfstring, zfText("testValue")));
+        zfLogT() << obj->invoke(zfText("testProp"));
+        zfLogT() << obj->invoke(zfText("testMethod"), zflineAlloc(v_zfstring, zfText("testParam")));
+
         const ZFMethod *method = ZFMethodFuncGet(zfText("ZFDynamicTestNS"), zfText("testMethod"));
         zfLogT() << method;
-        zfLogT() << method->methodGenericInvoke(zfnull, zflineAlloc(v_zfstring, zfText("param")));
+        zfLogT() << method->methodGenericInvoke(zfnull, zflineAlloc(v_zfstring, zfText("testParam")));
 
         d.removeAll();
         this->testCaseStop();

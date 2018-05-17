@@ -96,8 +96,7 @@ defineReplace(ZFAddLib) {
     return (true)
 }
 
-# ZF dependency
-{ZFTT_C_lib_require_0}
+# ZF dependency{ZFTT_C_lib_require_0}
 $$ZFAddLib(0, {ZFTT_R_lib_name_0}){ZFTT_CE}{ZFTT_C_lib_require_1}
 $$ZFAddLib(0, {ZFTT_R_lib_name_1}){ZFTT_CE}{ZFTT_C_lib_require_2}
 $$ZFAddLib(0, {ZFTT_R_lib_name_2}){ZFTT_CE}{ZFTT_C_lib_require_3}
@@ -161,7 +160,71 @@ $$ZFAddLib(1, {ZFTT_R_impl_name_27}){ZFTT_CE}{ZFTT_C_impl_require_28}
 $$ZFAddLib(1, {ZFTT_R_impl_name_28}){ZFTT_CE}{ZFTT_C_impl_require_29}
 $$ZFAddLib(1, {ZFTT_R_impl_name_29}){ZFTT_CE}{ZFTT_C_impl_require_30}
 $$ZFAddLib(1, {ZFTT_R_impl_name_30}){ZFTT_CE}{ZFTT_C_impl_require_31}
-$$ZFAddLib(1, {ZFTT_R_impl_name_31}){ZFTT_CE}
+$$ZFAddLib(1, {ZFTT_R_impl_name_31}){ZFTT_CE}{ZFTT_C_lib_ext_require_0}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_0}){ZFTT_CE}{ZFTT_C_lib_ext_require_1}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_1}){ZFTT_CE}{ZFTT_C_lib_ext_require_2}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_2}){ZFTT_CE}{ZFTT_C_lib_ext_require_3}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_3}){ZFTT_CE}{ZFTT_C_lib_ext_require_4}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_4}){ZFTT_CE}{ZFTT_C_lib_ext_require_5}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_5}){ZFTT_CE}{ZFTT_C_lib_ext_require_6}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_6}){ZFTT_CE}{ZFTT_C_lib_ext_require_7}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_7}){ZFTT_CE}{ZFTT_C_lib_ext_require_8}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_8}){ZFTT_CE}{ZFTT_C_lib_ext_require_9}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_9}){ZFTT_CE}{ZFTT_C_lib_ext_require_10}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_10}){ZFTT_CE}{ZFTT_C_lib_ext_require_11}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_11}){ZFTT_CE}{ZFTT_C_lib_ext_require_12}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_12}){ZFTT_CE}{ZFTT_C_lib_ext_require_13}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_13}){ZFTT_CE}{ZFTT_C_lib_ext_require_14}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_14}){ZFTT_CE}{ZFTT_C_lib_ext_require_15}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_15}){ZFTT_CE}{ZFTT_C_lib_ext_require_16}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_16}){ZFTT_CE}{ZFTT_C_lib_ext_require_17}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_17}){ZFTT_CE}{ZFTT_C_lib_ext_require_18}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_18}){ZFTT_CE}{ZFTT_C_lib_ext_require_19}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_19}){ZFTT_CE}{ZFTT_C_lib_ext_require_20}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_20}){ZFTT_CE}{ZFTT_C_lib_ext_require_21}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_21}){ZFTT_CE}{ZFTT_C_lib_ext_require_22}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_22}){ZFTT_CE}{ZFTT_C_lib_ext_require_23}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_23}){ZFTT_CE}{ZFTT_C_lib_ext_require_24}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_24}){ZFTT_CE}{ZFTT_C_lib_ext_require_25}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_25}){ZFTT_CE}{ZFTT_C_lib_ext_require_26}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_26}){ZFTT_CE}{ZFTT_C_lib_ext_require_27}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_27}){ZFTT_CE}{ZFTT_C_lib_ext_require_28}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_28}){ZFTT_CE}{ZFTT_C_lib_ext_require_29}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_29}){ZFTT_CE}{ZFTT_C_lib_ext_require_30}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_30}){ZFTT_CE}{ZFTT_C_lib_ext_require_31}
+$$ZFAddLib(0, {ZFTT_R_lib_ext_name_31}){ZFTT_CE}{ZFTT_C_impl_ext_require_0}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_0}){ZFTT_CE}{ZFTT_C_impl_ext_require_1}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_1}){ZFTT_CE}{ZFTT_C_impl_ext_require_2}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_2}){ZFTT_CE}{ZFTT_C_impl_ext_require_3}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_3}){ZFTT_CE}{ZFTT_C_impl_ext_require_4}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_4}){ZFTT_CE}{ZFTT_C_impl_ext_require_5}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_5}){ZFTT_CE}{ZFTT_C_impl_ext_require_6}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_6}){ZFTT_CE}{ZFTT_C_impl_ext_require_7}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_7}){ZFTT_CE}{ZFTT_C_impl_ext_require_8}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_8}){ZFTT_CE}{ZFTT_C_impl_ext_require_9}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_9}){ZFTT_CE}{ZFTT_C_impl_ext_require_10}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_10}){ZFTT_CE}{ZFTT_C_impl_ext_require_11}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_11}){ZFTT_CE}{ZFTT_C_impl_ext_require_12}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_12}){ZFTT_CE}{ZFTT_C_impl_ext_require_13}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_13}){ZFTT_CE}{ZFTT_C_impl_ext_require_14}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_14}){ZFTT_CE}{ZFTT_C_impl_ext_require_15}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_15}){ZFTT_CE}{ZFTT_C_impl_ext_require_16}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_16}){ZFTT_CE}{ZFTT_C_impl_ext_require_17}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_17}){ZFTT_CE}{ZFTT_C_impl_ext_require_18}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_18}){ZFTT_CE}{ZFTT_C_impl_ext_require_19}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_19}){ZFTT_CE}{ZFTT_C_impl_ext_require_20}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_20}){ZFTT_CE}{ZFTT_C_impl_ext_require_21}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_21}){ZFTT_CE}{ZFTT_C_impl_ext_require_22}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_22}){ZFTT_CE}{ZFTT_C_impl_ext_require_23}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_23}){ZFTT_CE}{ZFTT_C_impl_ext_require_24}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_24}){ZFTT_CE}{ZFTT_C_impl_ext_require_25}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_25}){ZFTT_CE}{ZFTT_C_impl_ext_require_26}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_26}){ZFTT_CE}{ZFTT_C_impl_ext_require_27}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_27}){ZFTT_CE}{ZFTT_C_impl_ext_require_28}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_28}){ZFTT_CE}{ZFTT_C_impl_ext_require_29}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_29}){ZFTT_CE}{ZFTT_C_impl_ext_require_30}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_30}){ZFTT_CE}{ZFTT_C_impl_ext_require_31}
+$$ZFAddLib(1, {ZFTT_R_impl_ext_name_31}){ZFTT_CE}
 
 
 # ======================================================================

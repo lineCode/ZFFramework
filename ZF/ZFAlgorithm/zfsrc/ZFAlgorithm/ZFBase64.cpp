@@ -42,11 +42,11 @@ zfbool ZFBase64Encode(ZF_OUT zfchar *buf,
                       ZF_IN_OPT zfchar pad /* = ZFBase64PadDefault() */,
                       ZF_IN_OPT zfindex lineBreakPos /* = ZFBase64LineBreakPosNone() */)
 {
-    return ZFBase64Encode(ZFOutputCallbackForBuffer(buf), ZFInputCallbackForBuffer(src, srcLen), outResultSize, table, pad, lineBreakPos);
+    return ZFBase64Encode(ZFOutputForBuffer(buf), ZFInputForBuffer(src, srcLen), outResultSize, table, pad, lineBreakPos);
 }
 ZFMETHOD_FUNC_DEFINE_6(zfbool, ZFBase64Encode,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputCallback),
-                       ZFMP_IN(const ZFInputCallback &, inputCallback),
+                       ZFMP_IN_OUT(const ZFOutput &, outputCallback),
+                       ZFMP_IN(const ZFInput &, inputCallback),
                        ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull),
                        ZFMP_IN_OPT(const zfchar *, table, ZFBase64TableDefault()),
                        ZFMP_IN_OPT(zfchar, pad, ZFBase64PadDefault()),
@@ -140,11 +140,11 @@ zfbool ZFBase64Decode(ZF_OUT void *buf,
                       ZF_IN_OPT const zfchar *table /* = ZFBase64TableDefault() */,
                       ZF_IN_OPT zfchar pad /* = ZFBase64PadDefault() */)
 {
-    return ZFBase64Decode(ZFOutputCallbackForBuffer(buf), ZFInputCallbackForBuffer(src, srcLen), outResultSize, table, pad);
+    return ZFBase64Decode(ZFOutputForBuffer(buf), ZFInputForBuffer(src, srcLen), outResultSize, table, pad);
 }
 ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFBase64Decode,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputCallback),
-                       ZFMP_IN(const ZFInputCallback &, inputCallback),
+                       ZFMP_IN_OUT(const ZFOutput &, outputCallback),
+                       ZFMP_IN(const ZFInput &, inputCallback),
                        ZFMP_OUT_OPT(zfindex *, outResultSize, zfnull),
                        ZFMP_IN_OPT(const zfchar *, table, ZFBase64TableDefault()),
                        ZFMP_IN_OPT(zfchar, pad, ZFBase64PadDefault()))

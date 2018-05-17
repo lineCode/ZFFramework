@@ -90,14 +90,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 ZFMETHOD_FUNC_DECLARE_4(zfindex, ZFTextTemplateApply,
                         ZFMP_IN(const ZFTextTemplateParam &, param),
-                        ZFMP_IN(const ZFOutputCallback &, output),
+                        ZFMP_IN(const ZFOutput &, output),
                         ZFMP_IN(const zfchar *, data),
                         ZFMP_IN_OPT(zfindex, dataSize, zfindexMax()))
 /** @brief see #ZFTextTemplateApply */
 ZFMETHOD_FUNC_DECLARE_3(zfindex, ZFTextTemplateApply,
                         ZFMP_IN(const ZFTextTemplateParam &, param),
-                        ZFMP_IN(const ZFOutputCallback &, output),
-                        ZFMP_IN(const ZFInputCallback &, input))
+                        ZFMP_IN(const ZFOutput &, output),
+                        ZFMP_IN(const ZFInput &, input))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFTextTemplate_h_

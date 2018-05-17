@@ -92,7 +92,7 @@ private:
         { // load from xml
             ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("ZF2048_serializePerformanceTest"));
 
-            ZFInputCallback input = ZFInputCallbackForResFile(zfText("ZF2048/app/settingdialog.xml"));
+            ZFInput input = ZFInputForResFile(zfText("ZF2048/app/settingdialog.xml"));
             ZFSerializableData data = ZFSerializableDataFromXml(input);
             zfautoObject obj = ZFObjectFromData(data);
             this->contentViewSet(obj);

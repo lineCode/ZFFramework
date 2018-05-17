@@ -166,7 +166,7 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFBezier, ZFBezierBounceInOut)
 
 // ============================================================
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -183,7 +183,7 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFBezier, ZFBezierBounceInOut)
  *   (p0x, p0y, p1x, p1y)
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFBezier, ZFBezier)
+ZFTYPEID_DECLARE(ZFBezier, ZFBezier)
 
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFBezier_p0x zfText("p0x")

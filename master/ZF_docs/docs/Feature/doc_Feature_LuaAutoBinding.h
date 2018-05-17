@@ -34,6 +34,6 @@
  *   local value = obj:myProp();
  * @endcode
  *
- * param and return supports any type that are registered by #ZFPROPERTY_TYPE_DECLARE
+ * param and return supports any type that are registered by #ZFTYPEID_DECLARE
  */
 

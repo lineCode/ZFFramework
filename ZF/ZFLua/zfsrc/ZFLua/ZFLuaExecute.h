@@ -27,7 +27,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * \n
  * all types of ZFFramework are wrapped as #zfautoObject in lua world,
  * including: #ZFObject types (wrapped directly)
- * and non-ZFObject normal C++ types (wrapped by #ZFPropertyTypeWrapper)\n
+ * and non-ZFObject normal C++ types (wrapped by #ZFTypeIdWrapper)\n
  * then, all reflectable #ZFMethod supply #ZFMethodGenericInvoker
  * to invoke the method without knowing all actual types\n
  * \n
@@ -41,7 +41,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   -  `ret = zfl_call(obj, "functionName", param0, param1, ...)`
  *     or `obj:functionName(param0, param1, ...)`\n
  *     call object's instance method, params are optional\n
- *     for "functionName", see #ZFPropertyTypeId_ZFMethod\n
+ *     for "functionName", see #ZFTypeId_ZFMethod\n
  *     "functionName" can be #v_ZFMethod, or converted by #ZFImpl_ZFLua_toString,
  *     while other types must exactly match the original types
  *   -  `ret = zfl_callStatic("::methodName", param0, param1, ...)`
@@ -49,7 +49,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     or `ret = zfl_callStatic2("ClassOrNamespace", "methodName", param0, param1, ...)`
  *     or `ret = ClassOrNamespace.methodName(param0, param1, ...)`\n
  *     call global function or static class member method, params are optional\n
- *     for "functionName", see #ZFPropertyTypeId_ZFMethod\n
+ *     for "functionName", see #ZFTypeId_ZFMethod\n
  *     "functionName" can be #v_ZFMethod, or converted by #ZFImpl_ZFLua_toString,
  *     while other types must exactly match the original types\n
  *     these namespace are considered as the same:
@@ -72,9 +72,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     or `value = zfAlloc("YourTypeName")`
  *     or `value = YourTypeName()`
  *     or `value = YourTypeName.zfAlloc()`\n
- *     create a non-ZFObject type registered by #ZFPROPERTY_TYPE_DECLARE,
+ *     create a non-ZFObject type registered by #ZFTYPEID_DECLARE,
  *     return the associated `YourTypeName` that holds the value\n
- *     "YourTypeName" represents the type name in #ZFPROPERTY_TYPE_DECLARE\n
+ *     "YourTypeName" represents the type name in #ZFTYPEID_DECLARE\n
  *     "yourTypeData" store string datas that would be decoded by YourTypeNameFromString\n
  *     "yourTypeData" are converted by #ZFImpl_ZFLua_toString\n
  *     if your value holder supplys reflectable #ZFObject::objectOnInit
@@ -83,7 +83,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     `YourTypeName(param0, param1)`
  *   -  `value:yourFunc()`
  *     or `YourTypeName.YourFunc()`\n
- *     for non-ZFObject types that wrapped by #ZFPROPERTY_TYPE_DECLARE,
+ *     for non-ZFObject types that wrapped by #ZFTYPEID_DECLARE,
  *     you may use #ZFMETHOD_USER_REGISTER_0 series to register methods
  *     to its wrapper type `YourTypeName`,
  *     then the methods can be invoked directly to your value type
@@ -143,7 +143,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   -  `zfl_pathInfo()`\n
  *     return path info of current context, null if not available
  *   -  `ZFLuaImport(localFilePath [, luaParams, L])`\n
- *     util method for #ZFLuaExecute + #ZFInputCallbackForLocalFile with local file
+ *     util method for #ZFLuaExecute + #ZFInputForLocalFile with local file
  * -  debug helper
  *   -  `zfLog(fmt, ...)`
  *     or zfLogTrim(fmt, ...)\n
@@ -162,7 +162,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   however, won't be automatically unregistered when unloaded
  */
 ZFMETHOD_FUNC_DECLARE_3(zfautoObject, ZFLuaExecute,
-                        ZFMP_IN(const ZFInputCallback &, input),
+                        ZFMP_IN(const ZFInput &, input),
                         ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                         ZFMP_IN_OPT(void *, L, zfnull))
 /** @brief see #ZFLuaExecute */

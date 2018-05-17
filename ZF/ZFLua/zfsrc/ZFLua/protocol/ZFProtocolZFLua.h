@@ -44,7 +44,7 @@ public:
     /** @brief see #ZFLuaExecute */
     virtual zfbool luaExecute(ZF_IN void *L,
                               ZF_IN const ZFPathInfo *pathInfoOrNull,
-                              ZF_IN const ZFInputCallback &input,
+                              ZF_IN const ZFInput &input,
                               ZF_OUT_OPT zfautoObject *luaResult = zfnull,
                               ZF_IN_OPT const ZFCoreArray<zfautoObject> *luaParams = zfnull,
                               ZF_OUT_OPT zfstring *errorHint = zfnull) zfpurevirtual;

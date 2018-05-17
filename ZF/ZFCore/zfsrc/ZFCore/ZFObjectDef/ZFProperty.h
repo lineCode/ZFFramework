@@ -16,7 +16,7 @@
 #define _ZFI_ZFProperty_h_
 
 #include "ZFPropertyFwd.h"
-#include "ZFPropertyTypeFwd.h"
+#include "ZFTypeIdFwd.h"
 #include "ZFMethod.h"
 #include "ZFAny.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -77,14 +77,14 @@ public:
      * @brief true if the property is serializable
      *
      * property are serializable except:
-     * -  #propertyTypeId is #ZFPropertyTypeId_none
-     * -  assign property with #ZFPropertyTypeId_ZFObject
-     * -  #ZFPropertyTypeIdDataBase::propertySerializable returned false
+     * -  #propertyTypeId is #ZFTypeId_none
+     * -  assign property with #ZFTypeId_ZFObject
+     * -  #ZFTypeIdBase::typeIdSerializable returned false
      *
      * @note this property would be calculated at runtime,
      *   take care of performance
      */
-    zfbool propertySerializable(void) const;
+    zfbool typeIdSerializable(void) const;
     /**
      * @brief get the property's owner class
      */
@@ -116,12 +116,12 @@ public:
         return this->_ZFP_ZFProperty_typeName.cString();
     }
     /**
-     * @brief typeid string declared in ZFPROPERTY_XXX
+     * @brief type id string declared in ZFPROPERTY_XXX
      *
-     * this value should be ensured the type id for the type or #ZFPropertyTypeId_none if no known type,
+     * this value should be ensured the type id for the type or #ZFTypeId_none if no known type,
      * this value is used for property's advanced copy function,
      * see #ZFPropertySerializeFrom
-     * @note for retain property, this value is always #ZFPropertyTypeId_ZFObject
+     * @note for retain property, this value is always #ZFTypeId_ZFObject
      */
     inline const zfchar *propertyTypeId(void) const
     {
@@ -339,13 +339,13 @@ inline void _ZFP_propCbDValueSet(ZF_IN const ZFProperty *property,
                                  ZF_IN ZFObject *dstObj,
                                  ZF_IN const void *value)
 {
-    property->setterMethod()->execute<void, T_PropVT const &>(dstObj, *(const T_PropHT *)value);
+    property->setterMethod()->_ZFP_execute<void, T_PropVT const &>(dstObj, *(const T_PropHT *)value);
 }
 template<typename T_PropHT, typename T_PropVT>
 inline const void *_ZFP_propCbDValueGet(ZF_IN const ZFProperty *property,
                                         ZF_IN ZFObject *ownerObj)
 {
-    return &(property->getterMethod()->execute<T_PropVT const &>(ownerObj));
+    return &(property->getterMethod()->_ZFP_execute<T_PropVT const &>(ownerObj));
 }
 template<typename T_PropHT>
 inline ZFCompareResult _ZFP_propCbDCompare(ZF_IN const ZFProperty *property,
@@ -415,7 +415,7 @@ inline zfbool _ZFP_propCbDProgressUpdate(ZF_IN const ZFProperty *property,
         T_PropHT v = T_PropHT();
         if(_ZFP_ZFPropertyProgressHolder<T_PropHT>::update(&v, from, to, progress))
         {
-            property->setterMethod()->execute<void, T_PropVT const &>(ownerObj, v);
+            property->setterMethod()->_ZFP_execute<void, T_PropVT const &>(ownerObj, v);
             return zftrue;
         }
         else

@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFXmlEscapeCharImpl_default, ZFXmlEscapeChar, ZFProtocolLevel::e_Default)
 public:
-    virtual void xmlEscapeCharEncode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void xmlEscapeCharEncode(ZF_OUT const ZFOutput &dst,
                                      ZF_IN const zfchar *src,
                                      ZF_IN_OPT zfindex count = zfindexMax())
     {
@@ -43,7 +43,7 @@ public:
             dst.execute(pLeft, pEnd - pLeft);
         }
     }
-    virtual void xmlEscapeCharDecode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void xmlEscapeCharDecode(ZF_OUT const ZFOutput &dst,
                                      ZF_IN const zfchar *src,
                                      ZF_IN_OPT zfindex count = zfindexMax())
     {
@@ -125,7 +125,7 @@ private:
         }
         return 0;
     }
-    void decimalCharEscape(ZF_IN_OUT const ZFOutputCallback &dst,
+    void decimalCharEscape(ZF_IN_OUT const ZFOutput &dst,
                            ZF_IN_OUT const zfchar *&p,
                            ZF_IN zfindex encodedCharLen)
     {
@@ -171,7 +171,7 @@ private:
         }
         return 0;
     }
-    void heximalCharEscape(ZF_IN_OUT const ZFOutputCallback &dst,
+    void heximalCharEscape(ZF_IN_OUT const ZFOutput &dst,
                            ZF_IN_OUT const zfchar *&p,
                            ZF_IN zfindex encodedCharLen)
     {

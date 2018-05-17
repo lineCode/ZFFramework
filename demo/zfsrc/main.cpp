@@ -51,7 +51,7 @@ static zfbool _ZFP_ZFFramework_test_protocolCheck(void)
             zfLogTrimT() << zfText("note, these protocol has not been implemented:");
             for(zfindex i = 0; i < implDatas.count(); ++i)
             {
-                ZFOutputCallback output = (zfLogTrimT() << ZFLogAutoSpaceOff << ZFLogAutoEndlOff);
+                ZFOutput output = (zfLogTrimT() << ZFLogAutoSpaceOff << ZFLogAutoEndlOff);
                 output << zfText("    ");
                 ZFProtocolImplInfoDataPrint(implDatas[i], output);
                 output << zfText("\n");

@@ -17,7 +17,7 @@ ZFENUM_DEFINE(ZFCompressLevel)
 // ============================================================
 // base api
 ZFMETHOD_FUNC_DEFINE_2(ZFToken, ZFCompressBegin,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputZip),
+                       ZFMP_IN_OUT(const ZFOutput &, outputZip),
                        ZFMP_IN_OPT(ZFCompressLevelEnum, compressLevel, ZFCompressLevel::EnumDefault()))
 {
     if(!outputZip.callbackIsValid())
@@ -45,7 +45,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfbool, ZFCompressEnd,
 }
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFCompressContent,
                        ZFMP_IN_OUT(ZFToken, compressToken),
-                       ZFMP_IN_OUT(const ZFInputCallback &, inputRaw),
+                       ZFMP_IN_OUT(const ZFInput &, inputRaw),
                        ZFMP_IN(const zfchar *, filePathInZip))
 {
     if(compressToken == ZFTokenInvalid() || !inputRaw.callbackIsValid() || zfsIsEmpty(filePathInZip))
@@ -72,7 +72,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFCompressContentDir,
 }
 
 ZFMETHOD_FUNC_DEFINE_1(ZFToken, ZFDecompressBegin,
-                       ZFMP_IN_OUT(const ZFInputCallback &, inputZip))
+                       ZFMP_IN_OUT(const ZFInput &, inputZip))
 {
     if(!inputZip.callbackIsValid())
     {
@@ -99,7 +99,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfbool, ZFDecompressEnd,
 }
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFDecompressContentAtIndex,
                        ZFMP_IN_OUT(ZFToken, decompressToken),
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputRaw),
+                       ZFMP_IN_OUT(const ZFOutput &, outputRaw),
                        ZFMP_IN(zfindex, fileIndexInZip))
 {
     if(decompressToken == ZFTokenInvalid() || !outputRaw.callbackIsValid() || fileIndexInZip == zfindexMax())
@@ -113,7 +113,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFDecompressContentAtIndex,
 }
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFDecompressContent,
                        ZFMP_IN_OUT(ZFToken, decompressToken),
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputRaw),
+                       ZFMP_IN_OUT(const ZFOutput &, outputRaw),
                        ZFMP_IN(const zfchar *, filePathInZip))
 {
     if(decompressToken == ZFTokenInvalid() || !outputRaw.callbackIsValid() || zfsIsEmpty(filePathInZip))
@@ -177,8 +177,8 @@ ZFMETHOD_FUNC_DEFINE_2(zfstring, ZFDecompressContentPath,
 // ============================================================
 // util
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFCompress,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputZip),
-                       ZFMP_IN_OUT(const ZFInputCallback &, inputRaw),
+                       ZFMP_IN_OUT(const ZFOutput &, outputZip),
+                       ZFMP_IN_OUT(const ZFInput &, inputRaw),
                        ZFMP_IN_OPT(ZFCompressLevelEnum, compressLevel, ZFCompressLevel::EnumDefault()),
                        ZFMP_IN_OPT(const zfchar *, filePathInZip, _ZFP_ZFCompressFilePathDefault))
 {
@@ -190,8 +190,8 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFCompress,
     return success;
 }
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFDecompress,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputRaw),
-                       ZFMP_IN_OUT(const ZFInputCallback &, inputZip),
+                       ZFMP_IN_OUT(const ZFOutput &, outputRaw),
+                       ZFMP_IN_OUT(const ZFInput &, inputZip),
                        ZFMP_IN_OPT(const zfchar *, filePathInZip, _ZFP_ZFCompressFilePathDefault))
 {
     ZFToken decompressToken = ZFDecompressBegin(inputZip);
@@ -228,8 +228,8 @@ static zfbool _ZFP_ZFCompressDir(ZF_IN_OUT ZFToken compressToken,
         if(fileImpl.callbackIsExist(pathData)
             && !fileImpl.callbackIsDir(pathData))
         {
-            ZFInputCallback inputRaw;
-            if(!ZFInputCallbackForPathInfoT(inputRaw,
+            ZFInput inputRaw;
+            if(!ZFInputForPathInfoT(inputRaw,
                 pathType, pathData,
                 ZFFileOpenOption::e_Read, ZFFileBOMListEmpty()))
             {
@@ -270,7 +270,7 @@ static zfbool _ZFP_ZFCompressDir(ZF_IN_OUT ZFToken compressToken,
     return success;
 }
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFCompressDir,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, outputZip),
+                       ZFMP_IN_OUT(const ZFOutput &, outputZip),
                        ZFMP_IN(const ZFPathInfo &, inputPathInfo),
                        ZFMP_IN_OPT(ZFCompressLevelEnum, compressLevel, ZFCompressLevel::EnumDefault()))
 {
@@ -293,7 +293,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFCompressDir,
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFDecompressDir,
                        ZFMP_IN(const ZFPathInfo &, outputPathInfo),
-                       ZFMP_IN_OUT(const ZFInputCallback &, inputZip))
+                       ZFMP_IN_OUT(const ZFInput &, inputZip))
 {
     const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataGet(outputPathInfo.pathType);
     if(fileImpl == zfnull)
@@ -337,8 +337,8 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFDecompressDir,
                 continue;
             }
 
-            ZFOutputCallback outputRaw;
-            if(!ZFOutputCallbackForPathInfoT(outputRaw, outputPathInfo.pathType, outputPath))
+            ZFOutput outputRaw;
+            if(!ZFOutputForPathInfoT(outputRaw, outputPathInfo.pathType, outputPath))
             {
                 success = zffalse;
                 break;

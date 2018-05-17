@@ -12,7 +12,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFUIPageRequestPageCreateParam, ZFUIPageRequestPageCreateParam)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFUIPageRequestPageCreateParam, ZFUIPageRequestPageCreateParam)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIPageRequestPageCreateParam, ZFUIPage * const &, page)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIPageRequestPageCreateParam, void, pageSet, ZFMP_IN(ZFUIPage * const &, page))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIPageRequestPageCreateParam, ZFObject * const &, pageCreateParam)

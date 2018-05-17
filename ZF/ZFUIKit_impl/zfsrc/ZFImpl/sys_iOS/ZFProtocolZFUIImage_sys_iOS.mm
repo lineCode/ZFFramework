@@ -18,9 +18,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIImageImpl_sys_iOS, ZFUIImage, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:UIImage"))
 public:
-    virtual void *nativeImageFromInput(ZF_IN const ZFInputCallback &inputCallback)
+    virtual void *nativeImageFromInput(ZF_IN const ZFInput &inputCallback)
     {
-        ZFBuffer dataBuf = ZFInputCallbackReadToBuffer(inputCallback);
+        ZFBuffer dataBuf = ZFInputReadToBuffer(inputCallback);
         if(dataBuf.buffer() == zfnull)
         {
             return zfnull;
@@ -40,7 +40,7 @@ public:
         return (__bridge_retained void *)uiImage;
     }
     virtual zfbool nativeImageToOutput(ZF_IN void *nativeImage,
-                                       ZF_OUT const ZFOutputCallback &outputCallback)
+                                       ZF_OUT const ZFOutput &outputCallback)
     {
         UIImage *uiImage = (__bridge UIImage *)nativeImage;
         NSData *nsData = UIImagePNGRepresentation(uiImage);

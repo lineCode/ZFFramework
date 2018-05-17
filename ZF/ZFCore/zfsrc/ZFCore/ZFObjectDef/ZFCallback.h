@@ -59,9 +59,10 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
                 _ZFP_ZFCallback_executeNullCallback(); \
                 break; \
             case _ZFP_ZFCallbackCachedTypeClassMember: \
-                return ((T_ReturnType (*)(const ZFMethod *, ZFObject * ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)))( \
-                    this->_ZFP_ZFCallbackCached_callbackInvoker_method())) \
-                        (this->callbackMethod(), _ZFP_ZFCallbackCached_callbackOwnerObj ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA)); \
+                return this->callbackMethod()->execute<T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)>( \
+                        _ZFP_ZFCallbackCached_callbackOwnerObj \
+                        ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA) \
+                    ); \
             case _ZFP_ZFCallbackCachedTypeRawFunction: \
                 return ((T_ReturnType (*)(ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_EMPTY, ZFM_COMMA)))(this->_ZFP_ZFCallbackCached_callbackInvoker_rawFunction())) \
                     (ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_EMPTY, ZFM_COMMA)); \
@@ -103,7 +104,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
  */
 #define ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
     _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
-    ZFPROPERTY_TYPE_ALIAS_DECLARE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
+    ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
 #define _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(CallbackTypeName, ParentType) \
     _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
 /**
@@ -138,7 +139,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
  * @brief see #ZFCALLBACK_DECLARE_BEGIN
  */
 #define ZFCALLBACK_DEFINE(CallbackTypeName, ParentType) \
-    ZFPROPERTY_TYPE_ALIAS_DEFINE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
+    ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
 
 // ============================================================
 // ZFCallback
@@ -352,36 +353,36 @@ public:
     // callback serialize logic
 public:
     /**
-     * @brief see #ZFPropertyTypeId_ZFCallback
+     * @brief see #ZFTypeId_ZFCallback
      *
      * you may set to #ZFCallbackSerializeCustomTypeDisable to explicitly
      * disable callback serialization
      */
     zffinal void callbackSerializeCustomTypeSet(ZF_IN const zfchar *customType);
     /**
-     * @brief see #ZFPropertyTypeId_ZFCallback
+     * @brief see #ZFTypeId_ZFCallback
      */
     zffinal void callbackSerializeCustomDisable(void)
     {
         this->callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomTypeDisable);
     }
     /**
-     * @brief see #ZFPropertyTypeId_ZFCallback
+     * @brief see #ZFTypeId_ZFCallback
      */
     zffinal const zfchar *callbackSerializeCustomType(void) const;
     /**
-     * @brief see #ZFPropertyTypeId_ZFCallback
+     * @brief see #ZFTypeId_ZFCallback
      */
     zffinal void callbackSerializeCustomDataSet(ZF_IN const ZFSerializableData *customData);
     /**
-     * @brief see #ZFPropertyTypeId_ZFCallback
+     * @brief see #ZFTypeId_ZFCallback
      */
     zffinal void callbackSerializeCustomDataSet(ZF_IN const ZFSerializableData &customData)
     {
         this->callbackSerializeCustomDataSet(&customData);
     }
     /**
-     * @brief see #ZFPropertyTypeId_ZFCallback
+     * @brief see #ZFTypeId_ZFCallback
      */
     zffinal const ZFSerializableData *callbackSerializeCustomData(void) const;
 
@@ -406,7 +407,6 @@ private:
         _ZFP_ZFCallbackCachedTypeRawFunction,
     } _ZFP_ZFCallbackCachedType;
     _ZFP_ZFCallbackCachedType _ZFP_ZFCallbackCached_callbackType;
-    ZFFuncAddrType _ZFP_ZFCallbackCached_callbackInvoker_method(void) const;
     ZFFuncAddrType _ZFP_ZFCallbackCached_callbackInvoker_rawFunction(void) const;
     ZFObject *_ZFP_ZFCallbackCached_callbackOwnerObj;
 };

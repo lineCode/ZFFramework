@@ -34,7 +34,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * all file IO are abstracted as these operation:
  * -  #ZFPATHTYPE_FILEIO_REGISTER : supply low level file IO
- * -  #ZFInputCallbackForPathInfo / #ZFOutputCallbackForPathInfo :
+ * -  #ZFInputForPathInfo / #ZFOutputForPathInfo :
  *   supply high level data IO
  *
  * with all the things above, app can achieve IO operations without knowing

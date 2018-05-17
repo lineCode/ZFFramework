@@ -105,7 +105,7 @@ const zfchar *checkSerializableClass(ZF_IN const zfchar *desiredClass,
                                      ZF_IN const ZFSerializableData &serializableData)
 {
     const zfchar *serializableClass = serializableData.itemClass();
-    if(zfscmpTheSame(desiredClass, ZFPropertyTypeId_none))
+    if(zfscmpTheSame(desiredClass, ZFTypeId_none))
     {
         return serializableClass;
     }
@@ -221,7 +221,7 @@ const ZFSerializableData *requireElementByCategory(ZF_IN const ZFSerializableDat
 }
 
 static zfbool _ZFP_ZFSerializableUtilPrintResolveStatus(ZF_IN const ZFSerializableData &serializableData,
-                                                        ZF_IN const ZFOutputCallback &outputCallback,
+                                                        ZF_IN const ZFOutput &outputCallback,
                                                         ZF_IN zfindex level)
 {
     if(!serializableData.resolvedAll())
@@ -274,14 +274,14 @@ static zfbool _ZFP_ZFSerializableUtilPrintResolveStatus(ZF_IN const ZFSerializab
     return zffalse;
 }
 zfbool printResolveStatus(ZF_IN const ZFSerializableData &serializableData,
-                          ZF_IN_OPT const ZFOutputCallback &outputCallback /* = ZFOutputCallbackDefault() */)
+                          ZF_IN_OPT const ZFOutput &outputCallback /* = ZFOutputDefault() */)
 {
     if(!ZFSerializableDataResolveCheckEnable)
     {
         return zffalse;
     }
     zfstring tmp = zfText("[ZFSerializable] not all resolved:\n");
-    zfbool ret = _ZFP_ZFSerializableUtilPrintResolveStatus(serializableData, ZFOutputCallbackForString(tmp), 1);
+    zfbool ret = _ZFP_ZFSerializableUtilPrintResolveStatus(serializableData, ZFOutputForString(tmp), 1);
     if(ret)
     {
         outputCallback.execute(tmp.cString());

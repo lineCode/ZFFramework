@@ -19,7 +19,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// ZFOutputCallback
+// ZFOutput
 /**
  * @brief general output callback
  *
@@ -38,21 +38,21 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * ADVANCED:\n
  * for implementations, see #ZFCallbackTagKeyword_ioOwner if need support seek
  */
-ZFCALLBACK_DECLARE_BEGIN(ZFOutputCallback, ZFIOCallback)
+ZFCALLBACK_DECLARE_BEGIN(ZFOutput, ZFIOCallback)
 public:
-    /** @brief see #ZFOutputCallback */
+    /** @brief see #ZFOutput */
     inline zfindex execute(ZF_IN const void *src,
                            ZF_IN_OPT zfindex count = zfindexMax()) const
     {
         return ZFCallback::executeExact<zfindex, const void *, zfindex>(src, count);
     }
-    /** @brief see #ZFOutputCallback */
+    /** @brief see #ZFOutput */
     inline zfindex operator () (ZF_IN const void *src,
                                 ZF_IN_OPT zfindex count = zfindexMax()) const
     {
         return ZFCallback::executeExact<zfindex, const void *, zfindex>(src, count);
     }
-_ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
+_ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutput, ZFIOCallback)
 
 // ============================================================
 // custom type output
@@ -65,31 +65,31 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
         { \
             ZFCoreElementTokenGetter<T_Type>::elementTokenGetterLeft(ret, v); \
             { \
-                ZFOutputCallbackForString(ret) << v; \
+                ZFOutputForString(ret) << v; \
             } \
             ZFCoreElementTokenGetter<T_Type>::elementTokenGetterRight(ret, v); \
         } \
     };
 /**
- * @brief declare your custom type to output to #ZFOutputCallback
+ * @brief declare your custom type to output to #ZFOutput
  *
  * proto type:
  * @code
- *   const ZFOutputCallback &operator << (ZF_IN_OUT const ZFOutputCallback &output, ZF_IN YourType const &v);
+ *   const ZFOutput &operator << (ZF_IN_OUT const ZFOutput &output, ZF_IN YourType const &v);
  * @endcode
  * usage:
  * @code
  *   ZFOUTPUT_TYPE(YourType, {output.execute(v.toString());})
  * @endcode
  *
- * once declared, you may output your type to #ZFOutputCallback by:
+ * once declared, you may output your type to #ZFOutput by:
  * @code
  *   output << yourObject;
  * @endcode
  */
 #define ZFOUTPUT_TYPE(T_Type, outputAction) \
     /** @cond ZFPrivateDoc */ \
-    inline const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v) \
+    inline const ZFOutput &operator << (const ZFOutput &output, T_Type const &v) \
     { \
         if(output.callbackIsValid()) \
         outputAction \
@@ -110,7 +110,7 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
 #define ZFOUTPUT_TYPE_TEMPLATE(templateList, T_Type, outputAction) \
     /** @cond ZFPrivateDoc */ \
     template<templateList> \
-    inline const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v) \
+    inline const ZFOutput &operator << (const ZFOutput &output, T_Type const &v) \
     { \
         outputAction \
         return output; \
@@ -123,7 +123,7 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
         { \
             ZFCoreElementTokenGetter<T_Type>::elementTokenGetterLeft(ret, v); \
             { \
-                ZFOutputCallbackForString(ret) << v; \
+                ZFOutputForString(ret) << v; \
             } \
             ZFCoreElementTokenGetter<T_Type>::elementTokenGetterRight(ret, v); \
         } \
@@ -146,13 +146,13 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
  */
 #define ZFOUTPUT_TYPE_DECLARE(T_Type) \
     /** @cond ZFPrivateDoc */ \
-    extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v); \
+    extern ZF_ENV_EXPORT const ZFOutput &operator << (const ZFOutput &output, T_Type const &v); \
     _ZFP_ZFOUTPUT_EXPAND(T_Type) \
     /** @endcond */
 /** @brief see #ZFOUTPUT_TYPE_DECLARE */
 #define ZFOUTPUT_TYPE_DEFINE(T_Type, outputAction) \
     /** @cond ZFPrivateDoc */ \
-    const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type const &v) \
+    const ZFOutput &operator << (const ZFOutput &output, T_Type const &v) \
     { \
         outputAction \
         return output; \
@@ -169,7 +169,7 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutputCallback, ZFIOCallback)
  *
  * @note you must ensure the string to output is alive while the callback is still under use
  */
-extern ZF_ENV_EXPORT ZFOutputCallback ZFOutputCallbackForString(ZF_IN_OUT zfstring &s);
+extern ZF_ENV_EXPORT ZFOutput ZFOutputForString(ZF_IN_OUT zfstring &s);
 /**
  * @brief create a output callback to output to a buffer
  *
@@ -179,7 +179,7 @@ extern ZF_ENV_EXPORT ZFOutputCallback ZFOutputCallbackForString(ZF_IN_OUT zfstri
  *   if autoAppendNullToken, maxCount should contain the extra '\0' size
  * -  (zfbool) whether auto append '\0' to tail each time write
  */
-extern ZF_ENV_EXPORT ZFOutputCallback ZFOutputCallbackForBuffer(ZF_IN void *buf,
+extern ZF_ENV_EXPORT ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
                                                                 ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                                                 ZF_IN_OPT zfbool autoAppendNullToken = zftrue);
 
@@ -193,26 +193,26 @@ ZFOUTPUT_TYPE(void *, {output << (const void *)v;})
 
 /** @cond ZFPrivateDoc */
 template<typename T_Type, int T_ZFObject = 0>
-zfclassNotPOD _ZFP_ZFOutputCallbackOutputWrapper
+zfclassNotPOD _ZFP_ZFOutputOutputWrapper
 {
 public:
-    static void outputAction(ZF_IN_OUT const ZFOutputCallback &output, T_Type const &v)
+    static void outputAction(ZF_IN_OUT const ZFOutput &output, T_Type const &v)
     {
         output << (*v);
     }
 };
 template<typename T_Type>
-zfclassNotPOD _ZFP_ZFOutputCallbackOutputWrapper<T_Type, 1>
+zfclassNotPOD _ZFP_ZFOutputOutputWrapper<T_Type, 1>
 {
 public:
-    static void outputAction(ZF_IN_OUT const ZFOutputCallback &output, T_Type const &v)
+    static void outputAction(ZF_IN_OUT const ZFOutput &output, T_Type const &v)
     {
         output.execute(v->toObject()->objectInfo());
     }
 };
 
 template<typename T_Type>
-const ZFOutputCallback &operator << (const ZFOutputCallback &output, const T_Type * const &v)
+const ZFOutput &operator << (const ZFOutput &output, const T_Type * const &v)
 {
     if(v == zfnull)
     {
@@ -225,7 +225,7 @@ const ZFOutputCallback &operator << (const ZFOutputCallback &output, const T_Typ
     return output;
 }
 template<typename T_Type>
-const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type * const &v)
+const ZFOutput &operator << (const ZFOutput &output, T_Type * const &v)
 {
     if(v == zfnull)
     {
@@ -233,7 +233,7 @@ const ZFOutputCallback &operator << (const ZFOutputCallback &output, T_Type * co
     }
     else
     {
-        _ZFP_ZFOutputCallbackOutputWrapper<T_Type *,
+        _ZFP_ZFOutputOutputWrapper<T_Type *,
                 zftIsZFObject(typename zftTraits<T_Type>::TrType)
             >::outputAction(output, v);
     }

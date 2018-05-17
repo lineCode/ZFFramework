@@ -45,7 +45,7 @@ public:
     ZFCoreArrayPOD<const ZFClass *> allClass;
     ZFCoreArrayPOD<const ZFMethod *> allMethod;
     ZFCoreArrayPOD<const ZFProperty *> allProperty;
-    ZFCoreArray<ZFOutputCallback> errorCallbackList;
+    ZFCoreArray<ZFOutput> errorCallbackList;
 public:
     _ZFP_ZFDynamicPrivate(void)
     : refCount(1)
@@ -427,7 +427,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
     }
     ZFPropertyDynamicRegisterParam param;
     param.propertyOwnerClassSet(d->cls);
-    param.propertyTypeIdSet(ZFPropertyTypeId_ZFObject());
+    param.propertyTypeIdSet(ZFTypeId_ZFObject());
     param.propertyNameSet(propertyName);
     param.propertyClassOfRetainPropertySet(propertyClassOfRetainProperty);
     _ZFP_ZFDynamicPropertyInitSetup(param, initValueCallback, initValueCallbackUserData);
@@ -454,7 +454,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFPropertyDynamicRegisterParam &param
     return *this;
 }
 
-ZFDynamic &ZFDynamic::errorCallbackAdd(ZF_IN const ZFOutputCallback &errorCallback /* = ZFOutputCallbackDefault() */)
+ZFDynamic &ZFDynamic::errorCallbackAdd(ZF_IN const ZFOutput &errorCallback /* = ZFOutputDefault() */)
 {
     if(errorCallback.callbackIsValid())
     {
@@ -462,7 +462,7 @@ ZFDynamic &ZFDynamic::errorCallbackAdd(ZF_IN const ZFOutputCallback &errorCallba
     }
     return *this;
 }
-ZFDynamic &ZFDynamic::errorCallbackRemove(ZF_IN const ZFOutputCallback &errorCallback)
+ZFDynamic &ZFDynamic::errorCallbackRemove(ZF_IN const ZFOutput &errorCallback)
 {
     d->errorCallbackList.removeElement(errorCallback);
     return *this;
@@ -471,7 +471,7 @@ zfindex ZFDynamic::errorCallbackCount(void) const
 {
     return d->errorCallbackList.count();
 }
-const ZFOutputCallback &ZFDynamic::errorCallbackAtIndex(ZF_IN zfindex index) const
+const ZFOutput &ZFDynamic::errorCallbackAtIndex(ZF_IN zfindex index) const
 {
     return d->errorCallbackList[index];
 }
@@ -481,7 +481,7 @@ void ZFDynamic::errorCallbackNotify(ZF_IN const zfchar *errorHint) const
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFDynamic, ZFDynamic)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFDynamic, ZFDynamic)
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, void, removeAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFClass *> &, allClass)
@@ -525,10 +525,10 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, method, ZFMP
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_4(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const zfchar *, propertyTypeId), ZFMP_IN(const zfchar *, propertyName), ZFMP_IN_OPT(const ZFListener &, initValueCallback, ZFCallbackNull()), ZFMP_IN_OPT(ZFObject *, initValueCallbackUserData, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_4(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const ZFClass *, propertyClassOfRetainProperty), ZFMP_IN(const zfchar *, propertyName), ZFMP_IN_OPT(const ZFListener &, initValueCallback, ZFCallbackNull()), ZFMP_IN_OPT(ZFObject *, initValueCallbackUserData, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const ZFPropertyDynamicRegisterParam &, param))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, errorCallbackAdd, ZFMP_IN_OPT(const ZFOutputCallback &, errorCallback, ZFOutputCallbackDefault()))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, errorCallbackRemove, ZFMP_IN(const ZFOutputCallback &, errorCallback))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, errorCallbackAdd, ZFMP_IN_OPT(const ZFOutput &, errorCallback, ZFOutputDefault()))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, errorCallbackRemove, ZFMP_IN(const ZFOutput &, errorCallback))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, zfindex, errorCallbackCount)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, const ZFOutputCallback &, errorCallbackAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, const ZFOutput &, errorCallbackAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, void, errorCallbackNotify, ZFMP_IN(const zfchar *, errorHint))
 
 ZF_NAMESPACE_GLOBAL_END

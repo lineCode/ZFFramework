@@ -145,7 +145,7 @@ extern ZF_ENV_EXPORT void ZFPropertyCallbackValueReleaseChange(ZF_IN const ZFPro
 
 /**
  * @brief used to update property value accorrding to progress,
- *   see #ZFPROPERTY_PROGRESS_DECLARE
+ *   see #ZFTYPEID_PROGRESS_DECLARE
  *
  * @note for the type of the value, see #ZFPropertyCallbackValueGet
  */
@@ -169,11 +169,11 @@ typedef void (*ZFPropertyCallbackUserRegisterInitValueSetup)(ZF_IN const ZFPrope
  * @brief shows that the property has no type and can not be used in advanced property copy operation,
  *   ensured empty string
  */
-#define ZFPropertyTypeId_none zfText("")
+#define ZFTypeId_none zfText("")
 /**
  * @brief type id for retain property, see #ZFProperty::propertyTypeId
  */
-#define ZFPropertyTypeId_ZFObject() zfText("ZFObject")
+#define ZFTypeId_ZFObject() zfText("ZFObject")
 
 // ============================================================
 typedef void (*_ZFP_PropLifeCycleWrapper)(ZF_IN ZFObject *propertyOwnerObject,

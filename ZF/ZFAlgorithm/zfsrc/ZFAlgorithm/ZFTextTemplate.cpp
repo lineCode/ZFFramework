@@ -32,14 +32,14 @@ public:
 
 static void _ZFP_ZFTextTemplateApply_replaceData(ZF_IN const ZFTextTemplateParam &param,
                                                  ZF_IN_OUT ZFCoreMap &stateMap,
-                                                 ZF_IN const ZFOutputCallback &output,
+                                                 ZF_IN const ZFOutput &output,
                                                  ZF_IN const zfchar *pEnd,
                                                  ZF_IN_OUT const zfchar *&data,
                                                  ZF_IN_OUT const zfchar *&p,
                                                  ZF_IN_OUT zfindex &size);
 static void _ZFP_ZFTextTemplateApply_enableData(ZF_IN const ZFTextTemplateParam &param,
                                                 ZF_IN_OUT ZFCoreMap &stateMap,
-                                                ZF_IN const ZFOutputCallback &output,
+                                                ZF_IN const ZFOutput &output,
                                                 ZF_IN const zfchar *pEnd,
                                                 ZF_IN_OUT const zfchar *&data,
                                                 ZF_IN_OUT const zfchar *&p,
@@ -47,7 +47,7 @@ static void _ZFP_ZFTextTemplateApply_enableData(ZF_IN const ZFTextTemplateParam 
                                                 ZF_IN_OUT zfindex &condCount);
 static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &param,
                                                ZF_IN_OUT ZFCoreMap &stateMap,
-                                               ZF_IN const ZFOutputCallback &output,
+                                               ZF_IN const ZFOutput &output,
                                                ZF_IN const zfchar *pEnd,
                                                ZF_IN_OUT const zfchar *&data,
                                                ZF_IN_OUT const zfchar *&p,
@@ -56,7 +56,7 @@ static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_4(zfindex, ZFTextTemplateApply,
                        ZFMP_IN(const ZFTextTemplateParam &, param),
-                       ZFMP_IN(const ZFOutputCallback &, output),
+                       ZFMP_IN(const ZFOutput &, output),
                        ZFMP_IN(const zfchar *, data),
                        ZFMP_IN_OPT(zfindex, dataSize, zfindexMax()))
 {
@@ -125,10 +125,10 @@ ZFMETHOD_FUNC_DEFINE_4(zfindex, ZFTextTemplateApply,
 }
 ZFMETHOD_FUNC_DEFINE_3(zfindex, ZFTextTemplateApply,
                        ZFMP_IN(const ZFTextTemplateParam &, param),
-                       ZFMP_IN(const ZFOutputCallback &, output),
-                       ZFMP_IN(const ZFInputCallback &, input))
+                       ZFMP_IN(const ZFOutput &, output),
+                       ZFMP_IN(const ZFInput &, input))
 {
-    ZFBuffer buffer = ZFInputCallbackReadToBuffer(input);
+    ZFBuffer buffer = ZFInputReadToBuffer(input);
     if(buffer.buffer() == zfnull)
     {
         return zfindexMax();
@@ -155,7 +155,7 @@ static zfindex _ZFP_ZFTextTemplateApply_keyLength(ZF_IN const zfchar *pEnd,
 // ============================================================
 static void _ZFP_ZFTextTemplateApply_replaceData(ZF_IN const ZFTextTemplateParam &param,
                                                  ZF_IN_OUT ZFCoreMap &stateMap,
-                                                 ZF_IN const ZFOutputCallback &output,
+                                                 ZF_IN const ZFOutput &output,
                                                  ZF_IN const zfchar *pEnd,
                                                  ZF_IN_OUT const zfchar *&data,
                                                  ZF_IN_OUT const zfchar *&p,
@@ -189,7 +189,7 @@ static void _ZFP_ZFTextTemplateApply_replaceData(ZF_IN const ZFTextTemplateParam
 }
 static void _ZFP_ZFTextTemplateApply_enableData(ZF_IN const ZFTextTemplateParam &param,
                                                 ZF_IN_OUT ZFCoreMap &stateMap,
-                                                ZF_IN const ZFOutputCallback &output,
+                                                ZF_IN const ZFOutput &output,
                                                 ZF_IN const zfchar *pEnd,
                                                 ZF_IN_OUT const zfchar *&data,
                                                 ZF_IN_OUT const zfchar *&p,
@@ -282,14 +282,14 @@ static void _ZFP_ZFTextTemplateApply_enableData(ZF_IN const ZFTextTemplateParam 
 // ============================================================
 static void _ZFP_ZFTextTemplateApply_indexData_reset(ZF_IN const ZFTextTemplateParam &param,
                                                      ZF_IN_OUT ZFCoreMap &stateMap,
-                                                     ZF_IN const ZFOutputCallback &output,
+                                                     ZF_IN const ZFOutput &output,
                                                      ZF_IN const zfchar *pEnd,
                                                      ZF_IN_OUT const zfchar *&data,
                                                      ZF_IN_OUT const zfchar *&p,
                                                      ZF_IN_OUT zfindex &size);
 static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &param,
                                                ZF_IN_OUT ZFCoreMap &stateMap,
-                                               ZF_IN const ZFOutputCallback &output,
+                                               ZF_IN const ZFOutput &output,
                                                ZF_IN const zfchar *pEnd,
                                                ZF_IN_OUT const zfchar *&data,
                                                ZF_IN_OUT const zfchar *&p,
@@ -375,7 +375,7 @@ static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &
 }
 static void _ZFP_ZFTextTemplateApply_indexData_reset(ZF_IN const ZFTextTemplateParam &param,
                                                      ZF_IN_OUT ZFCoreMap &stateMap,
-                                                     ZF_IN const ZFOutputCallback &output,
+                                                     ZF_IN const ZFOutput &output,
                                                      ZF_IN const zfchar *pEnd,
                                                      ZF_IN_OUT const zfchar *&data,
                                                      ZF_IN_OUT const zfchar *&p,

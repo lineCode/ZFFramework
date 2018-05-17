@@ -57,8 +57,8 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
             ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramList[i].toObject());
             if(t != zfnull)
             {
-                const ZFPropertyTypeIdDataBase *typeIdData = ZFPropertyTypeIdDataGet(method->methodParamTypeIdAtIndex(i));
-                if(typeIdData == zfnull || !typeIdData->propertyWrapper(paramList[i]))
+                const ZFTypeIdBase *typeIdData = ZFTypeIdGet(method->methodParamTypeIdAtIndex(i));
+                if(typeIdData == zfnull || !typeIdData->typeIdWrapper(paramList[i]))
                 {
                     zfstringAppend(errorHint, zfText("param %zi (%s) can not be converted from string automatically"),
                             i,
@@ -75,7 +75,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
                         parseParamSuccess = zffalse;
                     }
                 }
-                else if(!paramList[i].to<ZFPropertyTypeWrapper *>()->wrappedValueFromString(t->zfv, t->zfv.length()))
+                else if(!paramList[i].to<ZFTypeIdWrapper *>()->wrappedValueFromString(t->zfv, t->zfv.length()))
                 {
                     parseParamSuccess = zffalse;
                 }

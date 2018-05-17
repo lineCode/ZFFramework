@@ -72,20 +72,20 @@ private:
         for(zfindex i = 0; i < toDataTimes; ++i)
         {
             zfstring tmp;
-            ZFJsonItemToOutput(ZFOutputCallbackForString(tmp), jsonItem);
+            ZFJsonItemToOutput(ZFOutputForString(tmp), jsonItem);
         }
         ZFCoreStatistic::invokeTimeAccurateLogEnd(zfText("ZFJsonPerformance_test_toData"));
 
         zfindex fromDataTimes = toDataTimes;
         zfstring jsonString;
-        ZFJsonItemToOutput(ZFOutputCallbackForString(jsonString), jsonItem);
+        ZFJsonItemToOutput(ZFOutputForString(jsonString), jsonItem);
         ZFCoreStatistic::invokeTimeAccurateLogBegin(zfText("ZFJsonPerformance_test_fromData"));
         for(zfindex i = 0; i < fromDataTimes; ++i)
         {
-            ZFJsonItemFromInput(ZFInputCallbackForBuffer(jsonString.cString()));
+            ZFJsonItemFromInput(ZFInputForBuffer(jsonString.cString()));
         }
         ZFCoreStatistic::invokeTimeAccurateLogEnd(zfText("ZFJsonPerformance_test_fromData"));
-        ZFJsonItem jsonItemNew = ZFJsonItemFromInput(ZFInputCallbackForBuffer(jsonString.cString()));
+        ZFJsonItem jsonItemNew = ZFJsonItemFromInput(ZFInputForBuffer(jsonString.cString()));
 
         this->testCaseOutputSeparator();
 

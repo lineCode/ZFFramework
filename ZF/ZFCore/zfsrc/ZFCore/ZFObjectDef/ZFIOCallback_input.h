@@ -19,7 +19,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// ZFInputCallback
+// ZFInput
 /**
  * @brief general input callback
  *
@@ -38,21 +38,21 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * ADVANCED:\n
  * for implementations, see #ZFCallbackTagKeyword_ioOwner if need support seek
  */
-ZFCALLBACK_DECLARE_BEGIN(ZFInputCallback, ZFIOCallback)
+ZFCALLBACK_DECLARE_BEGIN(ZFInput, ZFIOCallback)
 public:
-    /** @brief see #ZFInputCallback */
+    /** @brief see #ZFInput */
     inline zfindex execute(ZF_OUT void *buf,
                            ZF_IN zfindex count) const
     {
         return ZFCallback::executeExact<zfindex, void *, zfindex>(buf, count);
     }
-    /** @brief see #ZFInputCallback */
+    /** @brief see #ZFInput */
     inline zfindex operator () (ZF_OUT void *buf,
                                 ZF_IN zfindex count) const
     {
         return ZFCallback::executeExact<zfindex, void *, zfindex>(buf, count);
     }
-_ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFInputCallback, ZFIOCallback)
+_ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFInput, ZFIOCallback)
 
 // ============================================================
 /**
@@ -62,15 +62,15 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFInputCallback, ZFIOCallback)
  * note: result may have more than one char for invalid encoding,
  * and buf size must at least 9 byte size
  */
-extern ZF_ENV_EXPORT zfindex ZFInputCallbackReadChar(ZF_OUT zfchar *buf, ZF_IN_OUT const ZFInputCallback &input);
+extern ZF_ENV_EXPORT zfindex ZFInputReadChar(ZF_OUT zfchar *buf, ZF_IN_OUT const ZFInput &input);
 /**
- * @brief see #ZFInputCallbackReadChar
+ * @brief see #ZFInputReadChar
  */
-extern ZF_ENV_EXPORT zfindex ZFInputCallbackReadChar(ZF_IN_OUT zfstring &buf, ZF_IN_OUT const ZFInputCallback &input);
+extern ZF_ENV_EXPORT zfindex ZFInputReadChar(ZF_IN_OUT zfstring &buf, ZF_IN_OUT const ZFInput &input);
 /**
  * @brief util method to read all contents from input to string
  */
-extern ZF_ENV_EXPORT void ZFInputCallbackReadToString(ZF_IN_OUT zfstring &ret, ZF_IN_OUT const ZFInputCallback &input);
+extern ZF_ENV_EXPORT void ZFInputReadToString(ZF_IN_OUT zfstring &ret, ZF_IN_OUT const ZFInput &input);
 /**
  * @brief util method to read all contents from input to a buffer
  *
@@ -78,16 +78,16 @@ extern ZF_ENV_EXPORT void ZFInputCallbackReadToString(ZF_IN_OUT zfstring &ret, Z
  * and buffer's size shows the content's size excluding tail '\0'\n
  * return null buffer if input invalid or input error
  */
-extern ZF_ENV_EXPORT ZFBuffer ZFInputCallbackReadToBuffer(ZF_IN_OUT const ZFInputCallback &input);
+extern ZF_ENV_EXPORT ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input);
 
 /**
  * @brief util method to skip chars in set
  *
  * return false if all chars are skipped before end,
- * other wise, buf stores the first logic char (see #ZFInputCallbackReadChar)
+ * other wise, buf stores the first logic char (see #ZFInputReadChar)
  */
-extern ZF_ENV_EXPORT zfbool ZFInputCallbackSkipChars(ZF_OUT zfchar *buf,
-                                                     ZF_IN_OUT const ZFInputCallback &input,
+extern ZF_ENV_EXPORT zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
+                                                     ZF_IN_OUT const ZFInput &input,
                                                      ZF_IN_OPT const zfchar *charSet = zfText(" \t\r\n"));
 
 /**
@@ -99,8 +99,8 @@ extern ZF_ENV_EXPORT zfbool ZFInputCallbackSkipChars(ZF_OUT zfchar *buf,
  * if reached end or maxCount before matched charSet,
  * 0 would be returned to firstCharMatchedCharSet
  */
-extern ZF_ENV_EXPORT zfindex ZFInputCallbackReadUntil(ZF_IN_OUT zfstring &ret,
-                                                      ZF_IN_OUT const ZFInputCallback &input,
+extern ZF_ENV_EXPORT zfindex ZFInputReadUntil(ZF_IN_OUT zfstring &ret,
+                                                      ZF_IN_OUT const ZFInput &input,
                                                       ZF_IN_OPT const zfchar *charSet = zfText(" \t\r\n"),
                                                       ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                                       ZF_OUT_OPT zfchar *firstCharMatchedCharSet = zfnull);
@@ -112,9 +112,9 @@ extern ZF_ENV_EXPORT zfindex ZFInputCallbackReadUntil(ZF_IN_OUT zfstring &ret,
  * header white spaces would be skipped automatically\n
  * if no match, this method would try to restore the callback state by ioSeek to original position
  */
-extern ZF_ENV_EXPORT zfindex ZFInputCallbackCheckMatch(ZF_IN const zfchar **tokens,
+extern ZF_ENV_EXPORT zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
                                                        ZF_IN zfindex tokenCount,
-                                                       ZF_IN_OUT const ZFInputCallback &input);
+                                                       ZF_IN_OUT const ZFInput &input);
 
 // ============================================================
 // common input callbacks
@@ -131,21 +131,21 @@ extern ZF_ENV_EXPORT zfindex ZFInputCallbackCheckMatch(ZF_IN const zfchar **toke
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFInputCallbackForInputInRange zfText("ZFInputCallbackForInputInRange")
+#define ZFCallbackSerializeCustomType_ZFInputForInputInRange zfText("ZFInputForInputInRange")
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputCallbackForInputInRange_input zfText("input")
+#define ZFSerializableKeyword_ZFInputForInputInRange_input zfText("input")
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputCallbackForInputInRange_start zfText("start")
+#define ZFSerializableKeyword_ZFInputForInputInRange_start zfText("start")
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputCallbackForInputInRange_count zfText("count")
+#define ZFSerializableKeyword_ZFInputForInputInRange_count zfText("count")
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputCallbackForInputInRange_autoRestorePos zfText("autoRestorePos")
+#define ZFSerializableKeyword_ZFInputForInputInRange_autoRestorePos zfText("autoRestorePos")
 /**
  * @brief create a intput callback from another input callback, specified in range
  *
  * params:
- * -  (const ZFInputCallback &) input callback to use
+ * -  (const ZFInput &) input callback to use
  * -  (zfindex) src's start index
  * -  (zfindex) src's count or zfindexMax() to use whole
  * -  (zfbool) whether to restore src input callback's position after result callback deleted
@@ -153,7 +153,7 @@ extern ZF_ENV_EXPORT zfindex ZFInputCallbackCheckMatch(ZF_IN const zfchar **toke
  * seeking the result input callback would ensure in range [start, start + count]\n
  * src must support seek, otherwise a null callback would be returned
  */
-extern ZF_ENV_EXPORT ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inputCallback,
+extern ZF_ENV_EXPORT ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
                                                                     ZF_IN_OPT zfindex start = 0,
                                                                     ZF_IN_OPT zfindex count = zfindexMax(),
                                                                     ZF_IN_OPT zfbool autoRestorePos = zftrue);
@@ -167,13 +167,13 @@ extern ZF_ENV_EXPORT ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const 
  * -  (zfindex) src's count or zfindexMax() to calculate automatically (treated as const zfchar *),
  *   zfindexMax() by default
  */
-extern ZF_ENV_EXPORT ZFInputCallback ZFInputCallbackForBuffer(ZF_IN const void *src,
+extern ZF_ENV_EXPORT ZFInput ZFInputForBuffer(ZF_IN const void *src,
                                                               ZF_IN_OPT zfindex count = zfindexMax());
 /**
- * @brief see #ZFInputCallbackForBuffer,
+ * @brief see #ZFInputForBuffer,
  *   copy the contents and auto free it
  */
-extern ZF_ENV_EXPORT ZFInputCallback ZFInputCallbackForBufferCopy(ZF_IN const void *src,
+extern ZF_ENV_EXPORT ZFInput ZFInputForBufferCopy(ZF_IN const void *src,
                                                                   ZF_IN_OPT zfindex count = zfindexMax());
 
 ZF_NAMESPACE_GLOBAL_END

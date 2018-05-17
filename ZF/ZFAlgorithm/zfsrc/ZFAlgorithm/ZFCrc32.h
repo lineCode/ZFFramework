@@ -46,7 +46,7 @@ extern ZF_ENV_EXPORT zfflags zfCrc32Calc(ZF_IN const void *src,
  * and calculate separately
  */
 ZFMETHOD_FUNC_DECLARE_2(zfflags, zfCrc32Calc,
-                        ZFMP_IN(const ZFInputCallback &, callback),
+                        ZFMP_IN(const ZFInput &, callback),
                         ZFMP_IN_OPT(zfflags, prevResult, ZFCrc32ValueZero()))
 /**
  * @brief see #zfCrc32Calc

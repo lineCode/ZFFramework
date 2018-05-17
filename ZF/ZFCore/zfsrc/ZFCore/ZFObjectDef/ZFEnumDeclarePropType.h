@@ -19,7 +19,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// ZFPropertyTypeWrapper
+// ZFTypeIdWrapper
 #define _ZFP_ZFENUM_PROP_TYPE_WRAPPER_DECLARE(EnumName) \
     public: \
         zfoverride \
@@ -28,23 +28,23 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 // normal enum
 #define _ZFP_ZFENUM_PROP_TYPE_DECLARE(EnumName) \
-    ZFPROPERTY_TYPE_DECLARE_WITH_CUSTOM_WRAPPER(EnumName##Enum, EnumName##Enum) \
+    ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(EnumName##Enum, EnumName##Enum) \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFPropertyTypeIdData<EnumName##Enum> : zfextendsNotPOD ZFPropertyTypeIdDataBase \
+    zfclassNotPOD ZFTypeId<EnumName##Enum> : zfextendsNotPOD ZFTypeIdBase \
     { \
-        _ZFP_ZFPROPERTY_TYPE_ID_DATA_BASE_EXPAND(EnumName##Enum) \
+        _ZFP_ZFTYPEID_ID_DATA_BASE_EXPAND(EnumName##Enum) \
     public: \
         enum { \
-            PropertyRegistered = 1, \
-            PropertySerializable = 1, \
+            TypeIdRegistered = 1, \
+            TypeIdSerializable = 1, \
         }; \
-        static inline const zfchar *PropertyTypeId(void) \
+        static inline const zfchar *TypeId(void) \
         { \
-            return ZFPropertyTypeId_##EnumName##Enum(); \
+            return ZFTypeId_##EnumName##Enum(); \
         } \
         zfoverride \
-        virtual zfbool propertyWrapper(ZF_OUT zfautoObject &v) const \
+        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
             EnumName *t = zfAlloc(EnumName); \
             v = t; \
@@ -120,7 +120,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     /** @endcond */
 
 #define _ZFP_ZFENUM_PROP_TYPE_DEFINE(EnumName) \
-    ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(EnumName##Enum, EnumName##Enum, { \
+    ZFTYPEID_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(EnumName##Enum, EnumName##Enum, { \
             if(zfsncmp(src, ZFEnumNameInvalid(), srcLen) == 0) \
             { \
                 v = (EnumName##Enum)ZFEnumInvalid(); \
@@ -136,30 +136,30 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         }) \
     const zfchar *EnumName::wrappedValueTypeId(void) \
     { \
-        return ZFPropertyTypeId_##EnumName##Enum(); \
+        return ZFTypeId_##EnumName##Enum(); \
     }
 
 
 // ============================================================
 // enum flags
 #define _ZFP_ZFENUM_FLAGS_PROP_TYPE_DECLARE(EnumName, EnumFlagsName) \
-    ZFPROPERTY_TYPE_DECLARE_WITH_CUSTOM_WRAPPER(EnumFlagsName, EnumFlagsName) \
+    ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(EnumFlagsName, EnumFlagsName) \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFPropertyTypeIdData<EnumFlagsName> : zfextendsNotPOD ZFPropertyTypeIdDataBase \
+    zfclassNotPOD ZFTypeId<EnumFlagsName> : zfextendsNotPOD ZFTypeIdBase \
     { \
-        _ZFP_ZFPROPERTY_TYPE_ID_DATA_BASE_EXPAND(EnumFlagsName) \
+        _ZFP_ZFTYPEID_ID_DATA_BASE_EXPAND(EnumFlagsName) \
     public: \
         enum { \
-            PropertyRegistered = 1, \
-            PropertySerializable = 1, \
+            TypeIdRegistered = 1, \
+            TypeIdSerializable = 1, \
         }; \
-        static inline const zfchar *PropertyTypeId(void) \
+        static inline const zfchar *TypeId(void) \
         { \
-            return ZFPropertyTypeId_##EnumFlagsName(); \
+            return ZFTypeId_##EnumFlagsName(); \
         } \
         zfoverride \
-        virtual zfbool propertyWrapper(ZF_OUT zfautoObject &v) const \
+        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
             EnumName *t = zfAlloc(EnumName); \
             v = t; \
@@ -242,7 +242,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     /** @endcond */
 
 #define _ZFP_ZFENUM_FLAGS_PROP_TYPE_DEFINE(EnumName, EnumFlagsName) \
-    ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(EnumFlagsName, EnumFlagsName, { \
+    ZFTYPEID_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(EnumFlagsName, EnumFlagsName, { \
             zfflags flags = zfflagsZero(); \
             if(!zfflagsFromString(flags, \
                 EnumName::ClassData(), \

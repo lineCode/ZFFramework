@@ -14,7 +14,7 @@
 #ifndef _ZFI_ZFObjectGlobalInstance_h_
 #define _ZFI_ZFObjectGlobalInstance_h_
 
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 #include "ZFMethodDeclare.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 

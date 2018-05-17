@@ -44,7 +44,7 @@ public:
 
     virtual zfbool luaExecute(ZF_IN void *L,
                               ZF_IN const ZFPathInfo *pathInfoOrNull,
-                              ZF_IN const ZFInputCallback &input,
+                              ZF_IN const ZFInput &input,
                               ZF_OUT_OPT zfautoObject *luaResult = zfnull,
                               ZF_IN_OPT const ZFCoreArray<zfautoObject> *luaParams = zfnull,
                               ZF_OUT_OPT zfstring *errorHint = zfnull)
@@ -59,7 +59,7 @@ public:
 
         zfstring buf;
         ZFImpl_ZFLua_implSetupPathInfo(buf, pathInfoOrNull);
-        ZFInputCallbackReadToString(buf, input);
+        ZFInputReadToString(buf, input);
         return ZFImpl_ZFLua_execute((lua_State *)L, buf.cString(), buf.length(), luaResult, luaParams, errorHint);
     }
 

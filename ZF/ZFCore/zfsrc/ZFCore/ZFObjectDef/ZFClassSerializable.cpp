@@ -12,9 +12,9 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFClassInstanceObserverAddParam, ZFClassInstanceObserverAddParam)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFClassInstanceObserverAddParam, ZFClassInstanceObserverAddParam)
 
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFClass, const ZFClass *, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFClass, const ZFClass *, {
         v = ZFClass::classForName((srcLen == zfindexMax()) ? src : zfstring(src, srcLen).cString());
         return (v != zfnull);
     }, {

@@ -29,7 +29,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, zfRes,
                        ZFMP_IN_OPT(zfbool, enableCache, zftrue))
 {
     zfautoObject ret;
-    ZFInputCallback input = ZFInputCallbackForResFile(resFilePath);
+    ZFInput input = ZFInputForResFile(resFilePath);
     zfbool cacheAvailable = !zfsIsEmpty(input.callbackId());
 
     if(cacheAvailable)

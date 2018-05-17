@@ -63,7 +63,7 @@ void zfMd5Calc(ZF_IN_OUT zfstring &ret,
 }
 ZFMETHOD_FUNC_DEFINE_3(void, zfMd5Calc,
                        ZFMP_IN_OUT(zfstring &, ret),
-                       ZFMP_IN(const ZFInputCallback &, callback),
+                       ZFMP_IN(const ZFInput &, callback),
                        ZFMP_IN_OPT(zfbool, upperCase, zftrue))
 {
     if(!callback.callbackIsValid())
@@ -110,7 +110,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, zfMd5Calc,
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfstring, zfMd5Calc,
-                       ZFMP_IN(const ZFInputCallback &, callback),
+                       ZFMP_IN(const ZFInput &, callback),
                        ZFMP_IN_OPT(zfbool, upperCase, zftrue))
 {
     zfstring ret;

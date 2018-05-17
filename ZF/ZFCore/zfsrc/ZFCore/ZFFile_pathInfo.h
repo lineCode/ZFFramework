@@ -368,7 +368,7 @@ extern ZF_ENV_EXPORT zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInf
                                                    ZF_IN zfindex BOMSize);
 
 // ============================================================
-// ZFInputCallbackForPathInfo
+// ZFInputForPathInfo
 /**
  * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
  *
@@ -381,7 +381,7 @@ extern ZF_ENV_EXPORT zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInf
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFInputCallbackForPathInfo zfText("ZFInputCallbackForPathInfo")
+#define ZFCallbackSerializeCustomType_ZFInputForPathInfo zfText("ZFInputForPathInfo")
 
 /**
  * @brief util to create a file input callback
@@ -396,25 +396,25 @@ extern ZF_ENV_EXPORT zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInf
  * \n
  * note, additional impl can be attached by #ZFPATHTYPE_FILEIO_REGISTER
  */
-ZFMETHOD_FUNC_DECLARE_3(ZFInputCallback, ZFInputCallbackForPathInfo,
+ZFMETHOD_FUNC_DECLARE_3(ZFInput, ZFInputForPathInfo,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                         ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 /**
- * @brief see #ZFInputCallbackForPathInfo
+ * @brief see #ZFInputForPathInfo
  */
-ZFMETHOD_FUNC_DECLARE_3(ZFInputCallback, ZFInputCallbackForPathInfoString,
+ZFMETHOD_FUNC_DECLARE_3(ZFInput, ZFInputForPathInfoString,
                         ZFMP_IN(const zfchar *, pathInfoString),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                         ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 /**
- * @brief see #ZFInputCallbackForPathInfo
+ * @brief see #ZFInputForPathInfo
  *
  * this method is designed for performance for further impl, by:
  * -  allow set #ZFCallbackSerializeCustomTypeDisable
  * -  less extra copy on pathInfo
  */
-ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForPathInfoT,
+ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputForPathInfoT,
                         ZFMP_IN_OUT(ZFCallback &, ret),
                         ZFMP_IN(const zfchar *, pathType),
                         ZFMP_IN(const zfchar *, pathData),
@@ -422,7 +422,7 @@ ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForPathInfoT,
                         ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 
 // ============================================================
-// ZFOutputCallbackForPathInfo
+// ZFOutputForPathInfo
 /**
  * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
  *
@@ -434,7 +434,7 @@ ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForPathInfoT,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFOutputCallbackForPathInfo zfText("ZFOutputCallbackForPathInfo")
+#define ZFCallbackSerializeCustomType_ZFOutputForPathInfo zfText("ZFOutputForPathInfo")
 
 /**
  * @brief util to create a file output callback
@@ -447,30 +447,30 @@ ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForPathInfoT,
  * \n
  * note, additional impl can be attached by #ZFPATHTYPE_FILEIO_REGISTER
  */
-ZFMETHOD_FUNC_DECLARE_2(ZFOutputCallback, ZFOutputCallbackForPathInfo,
+ZFMETHOD_FUNC_DECLARE_2(ZFOutput, ZFOutputForPathInfo,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 /**
- * @brief see #ZFOutputCallbackForPathInfo
+ * @brief see #ZFOutputForPathInfo
  */
-ZFMETHOD_FUNC_DECLARE_2(ZFOutputCallback, ZFOutputCallbackForPathInfoString,
+ZFMETHOD_FUNC_DECLARE_2(ZFOutput, ZFOutputForPathInfoString,
                         ZFMP_IN(const zfchar *, pathInfoString),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 /**
- * @brief see #ZFOutputCallbackForPathInfo
+ * @brief see #ZFOutputForPathInfo
  *
  * this method is designed for performance for further impl, by:
  * -  allow set #ZFCallbackSerializeCustomTypeDisable
  * -  less extra copy on pathInfo
  */
-ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFOutputCallbackForPathInfoT,
+ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFOutputForPathInfoT,
                         ZFMP_IN_OUT(ZFCallback &, ret),
                         ZFMP_IN(const zfchar *, pathType),
                         ZFMP_IN(const zfchar *, pathData),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 
 // ============================================================
-// ZFInputCallbackForLocalFile
+// ZFInputForLocalFile
 /**
  * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
  *
@@ -483,7 +483,7 @@ ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFOutputCallbackForPathInfoT,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFInputCallbackForLocalFile zfText("ZFInputCallbackForLocalFile")
+#define ZFCallbackSerializeCustomType_ZFInputForLocalFile zfText("ZFInputForLocalFile")
 
 /**
  * @brief util to create a file input callback
@@ -499,15 +499,15 @@ ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFOutputCallbackForPathInfoT,
  * \n
  * note, additional impl can be attached by #ZFPATHTYPE_FILEIO_REGISTER
  */
-ZFMETHOD_FUNC_DECLARE_4(ZFInputCallback, ZFInputCallbackForLocalFile,
+ZFMETHOD_FUNC_DECLARE_4(ZFInput, ZFInputForLocalFile,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN(const zfchar *, localPath),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                         ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 /**
- * @brief see #ZFInputCallbackForLocalFile
+ * @brief see #ZFInputForLocalFile
  */
-ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForLocalFileT,
+ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputForLocalFileT,
                         ZFMP_OUT(ZFCallback &, ret),
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN(const zfchar *, localPath),
@@ -515,7 +515,7 @@ ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForLocalFileT,
                         ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 
 // ============================================================
-// ZFOutputCallbackForLocalFile
+// ZFOutputForLocalFile
 /**
  * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
  *
@@ -527,7 +527,7 @@ ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForLocalFileT,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFOutputCallbackForLocalFile zfText("ZFOutputCallbackForLocalFile")
+#define ZFCallbackSerializeCustomType_ZFOutputForLocalFile zfText("ZFOutputForLocalFile")
 
 /**
  * @brief util to create a file output callback
@@ -541,7 +541,7 @@ ZFMETHOD_FUNC_DECLARE_5(zfbool, ZFInputCallbackForLocalFileT,
  * \n
  * note, additional impl can be attached by #ZFPATHTYPE_FILEIO_REGISTER
  */
-ZFMETHOD_FUNC_DECLARE_3(ZFOutputCallback, ZFOutputCallbackForLocalFile,
+ZFMETHOD_FUNC_DECLARE_3(ZFOutput, ZFOutputForLocalFile,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN(const zfchar *, localPath),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))

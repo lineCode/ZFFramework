@@ -57,7 +57,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFUIViewBlinkParam, ZFUIViewBlinkParam)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFUIViewBlinkParam, ZFUIViewBlinkParam)
 /**
  * @brief blink view so that it's easy to be noticed
  */

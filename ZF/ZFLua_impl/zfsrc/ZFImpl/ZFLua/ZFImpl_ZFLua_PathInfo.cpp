@@ -56,7 +56,7 @@ static int _ZFP_ZFLuaImportOpen(ZF_IN lua_State *L)
 
     zfblockedAlloc(v_ZFCallback, ret);
     ret->zfv.callbackSerializeCustomDisable();
-    ZFInputCallbackForLocalFileT(ret->zfv, pathInfo->zfv, localFilePath);
+    ZFInputForLocalFileT(ret->zfv, pathInfo->zfv, localFilePath);
     if(!ret->zfv.callbackIsValid())
     {
         ZFLuaErrorOccurredTrim(

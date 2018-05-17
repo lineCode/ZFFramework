@@ -13,8 +13,8 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// ZFInputCallback
-zfindex ZFInputCallbackReadChar(ZF_OUT zfchar *p, ZF_IN_OUT const ZFInputCallback &input)
+// ZFInput
+zfindex ZFInputReadChar(ZF_OUT zfchar *p, ZF_IN_OUT const ZFInput &input)
 {
     #if 0 // prevent include ZFString for low level module
         ZFSTRINGENCODING_ASSERT(ZFStringEncoding::e_UTF8)
@@ -106,15 +106,15 @@ zfindex ZFInputCallbackReadChar(ZF_OUT zfchar *p, ZF_IN_OUT const ZFInputCallbac
     p[8] = '\0';
     return 8;
 }
-zfindex ZFInputCallbackReadChar(ZF_IN_OUT zfstring &buf, ZF_IN_OUT const ZFInputCallback &input)
+zfindex ZFInputReadChar(ZF_IN_OUT zfstring &buf, ZF_IN_OUT const ZFInput &input)
 {
     zfchar tmp[9] = {0};
-    zfindex ret = ZFInputCallbackReadChar(tmp, input);
+    zfindex ret = ZFInputReadChar(tmp, input);
     buf += tmp;
     return ret;
 }
 
-void ZFInputCallbackReadToString(ZF_IN_OUT zfstring &ret, ZF_IN_OUT const ZFInputCallback &input)
+void ZFInputReadToString(ZF_IN_OUT zfstring &ret, ZF_IN_OUT const ZFInput &input)
 {
     if(!input.callbackIsValid())
     {
@@ -127,25 +127,25 @@ void ZFInputCallbackReadToString(ZF_IN_OUT zfstring &ret, ZF_IN_OUT const ZFInpu
         ret.capacitySet(totalSize);
     }
 
-    #define _ZFP_ZFInputCallbackReadToString_blockSize 256
+    #define _ZFP_ZFInputReadToString_blockSize 256
     zfindex readCount = 0;
-    zfchar bufTmp[_ZFP_ZFInputCallbackReadToString_blockSize];
+    zfchar bufTmp[_ZFP_ZFInputReadToString_blockSize];
     do
     {
-        readCount = input.execute(bufTmp, _ZFP_ZFInputCallbackReadToString_blockSize);
+        readCount = input.execute(bufTmp, _ZFP_ZFInputReadToString_blockSize);
         if(readCount > 0)
         {
             ret.append(bufTmp, readCount);
         }
-        if(readCount < _ZFP_ZFInputCallbackReadToString_blockSize)
+        if(readCount < _ZFP_ZFInputReadToString_blockSize)
         {
             break;
         }
     } while(zftrue);
-    #undef _ZFP_ZFInputCallbackReadToString_blockSize
+    #undef _ZFP_ZFInputReadToString_blockSize
 }
 
-ZFBuffer ZFInputCallbackReadToBuffer(ZF_IN_OUT const ZFInputCallback &input)
+ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input)
 {
     if(!input.callbackIsValid())
     {
@@ -168,35 +168,35 @@ ZFBuffer ZFInputCallbackReadToBuffer(ZF_IN_OUT const ZFInputCallback &input)
     }
     else
     {
-        #define _ZFP_ZFInputCallbackReadToBuffer_blockSize 256
+        #define _ZFP_ZFInputReadToBuffer_blockSize 256
         zfindex readCount = 0;
         zfindex size = 0;
         do
         {
-            ret.bufferRealloc(ret.bufferSize() + _ZFP_ZFInputCallbackReadToBuffer_blockSize);
-            readCount = input.execute(ret.bufferT<zfbyte *>() + size, _ZFP_ZFInputCallbackReadToBuffer_blockSize - sizeof(zfcharW));
+            ret.bufferRealloc(ret.bufferSize() + _ZFP_ZFInputReadToBuffer_blockSize);
+            readCount = input.execute(ret.bufferT<zfbyte *>() + size, _ZFP_ZFInputReadToBuffer_blockSize - sizeof(zfcharW));
             size += readCount;
-            if(readCount < _ZFP_ZFInputCallbackReadToBuffer_blockSize - sizeof(zfcharW))
+            if(readCount < _ZFP_ZFInputReadToBuffer_blockSize - sizeof(zfcharW))
             {
                 ret.bufferRealloc(size + sizeof(zfcharW));
                 ret.bufferSizeSet(size);
                 break;
             }
         } while(zftrue);
-        #undef _ZFP_ZFInputCallbackReadToBuffer_blockSize
+        #undef _ZFP_ZFInputReadToBuffer_blockSize
     }
     return ret;
 }
 
-zfbool ZFInputCallbackSkipChars(ZF_OUT zfchar *buf,
-                                ZF_IN_OUT const ZFInputCallback &input,
+zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
+                                ZF_IN_OUT const ZFInput &input,
                                 ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */)
 {
     zfindex charSetCount = zfslen(charSet);
     zfbool matched = zffalse;
     do
     {
-        switch(ZFInputCallbackReadChar(buf, input))
+        switch(ZFInputReadChar(buf, input))
         {
             case 0:
                 return zffalse;
@@ -221,8 +221,8 @@ zfbool ZFInputCallbackSkipChars(ZF_OUT zfchar *buf,
     } while(zftrue);
     return zffalse;
 }
-zfindex ZFInputCallbackReadUntil(ZF_IN_OUT zfstring &ret,
-                                 ZF_IN_OUT const ZFInputCallback &input,
+zfindex ZFInputReadUntil(ZF_IN_OUT zfstring &ret,
+                                 ZF_IN_OUT const ZFInput &input,
                                  ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */,
                                  ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
                                  ZF_OUT_OPT zfchar *firstCharMatchedCharSet /* = zfnull */)
@@ -239,7 +239,7 @@ zfindex ZFInputCallbackReadUntil(ZF_IN_OUT zfstring &ret,
         zfbool matched = zffalse;
         while(readCount < maxCount)
         {
-            zfindex t = ZFInputCallbackReadChar(buf, input);
+            zfindex t = ZFInputReadChar(buf, input);
             if(t == 0)
             {
                 break;
@@ -271,9 +271,9 @@ zfindex ZFInputCallbackReadUntil(ZF_IN_OUT zfstring &ret,
     }
     return readCount;
 }
-zfindex ZFInputCallbackCheckMatch(ZF_IN const zfchar **tokens,
+zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
                                   ZF_IN zfindex tokenCount,
-                                  ZF_IN_OUT const ZFInputCallback &input)
+                                  ZF_IN_OUT const ZFInput &input)
 {
     zfindex ret = zfindexMax();
     if(input.callbackIsValid())
@@ -288,7 +288,7 @@ zfindex ZFInputCallbackCheckMatch(ZF_IN const zfchar **tokens,
         zfblockedFree(buf);
 
         zfbool matched = zffalse;
-        zfindex firstCharLen = ZFInputCallbackSkipChars(buf, input);
+        zfindex firstCharLen = ZFInputSkipChars(buf, input);
         zfindex matchedLen = 0;
         if(firstCharLen < maxLen)
         {
@@ -318,12 +318,12 @@ zfindex ZFInputCallbackCheckMatch(ZF_IN const zfchar **tokens,
 }
 
 // ============================================================
-// ZFInputCallbackForInputInRange
-zfclass _ZFP_ZFInputCallbackForInputInRangeOwner : zfextends ZFObject
+// ZFInputForInputInRange
+zfclass _ZFP_ZFInputForInputInRangeOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFInputCallbackForInputInRangeOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_ZFInputForInputInRangeOwner, ZFObject)
 public:
-    ZFInputCallback src;
+    ZFInput src;
     zfindex srcStart;
     zfindex srcCount;
     zfbool autoRestorePos;
@@ -374,7 +374,7 @@ public:
         return srcStart + srcCount - curPos;
     }
 };
-ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inputCallback,
+ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
                                                ZF_IN_OPT zfindex start /* = 0 */,
                                                ZF_IN_OPT zfindex count /* = zfindexMax() */,
                                                ZF_IN_OPT zfbool autoRestorePos /* = zftrue */)
@@ -409,21 +409,21 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
         return ZFCallbackNull();
     }
 
-    _ZFP_ZFInputCallbackForInputInRangeOwner *owner = zfAlloc(_ZFP_ZFInputCallbackForInputInRangeOwner);
+    _ZFP_ZFInputForInputInRangeOwner *owner = zfAlloc(_ZFP_ZFInputForInputInRangeOwner);
     owner->src = inputCallback;
     owner->srcStart = start;
     owner->srcCount = countFixed;
     owner->autoRestorePos = autoRestorePos;
     owner->savedPos = savedPos;
     owner->curPos = start;
-    ZFInputCallback ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFInputCallbackForInputInRangeOwner, onInput));
+    ZFInput ret = ZFCallbackForMemberMethod(
+        owner, ZFMethodAccess(_ZFP_ZFInputForInputInRangeOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
 
     if(inputCallback.callbackId() != zfnull)
     {
-        ret.callbackIdSet(zfstringWithFormat(zfText("ZFInputCallbackForInputInRange[%zi, %zi]:%@"), start, count, inputCallback.callbackId()));
+        ret.callbackIdSet(zfstringWithFormat(zfText("ZFInputForInputInRange[%zi, %zi]:%@"), start, count, inputCallback.callbackId()));
     }
 
     if(inputCallback.callbackSerializeCustomType() != zfnull)
@@ -436,7 +436,7 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
 
             zfbool success = zffalse;
             do {
-                inputData.categorySet(ZFSerializableKeyword_ZFInputCallbackForInputInRange_input);
+                inputData.categorySet(ZFSerializableKeyword_ZFInputForInputInRange_input);
                 customData.elementAdd(inputData);
 
                 if(start != 0)
@@ -446,7 +446,7 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
                     {
                         break;
                     }
-                    startData.categorySet(ZFSerializableKeyword_ZFInputCallbackForInputInRange_start);
+                    startData.categorySet(ZFSerializableKeyword_ZFInputForInputInRange_start);
                     customData.elementAdd(startData);
                 }
 
@@ -457,7 +457,7 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
                     {
                         break;
                     }
-                    countData.categorySet(ZFSerializableKeyword_ZFInputCallbackForInputInRange_count);
+                    countData.categorySet(ZFSerializableKeyword_ZFInputForInputInRange_count);
                     customData.elementAdd(countData);
                 }
 
@@ -468,7 +468,7 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
                     {
                         break;
                     }
-                    autoRestorePosData.categorySet(ZFSerializableKeyword_ZFInputCallbackForInputInRange_autoRestorePos);
+                    autoRestorePosData.categorySet(ZFSerializableKeyword_ZFInputForInputInRange_autoRestorePos);
                     customData.elementAdd(autoRestorePosData);
                 }
 
@@ -477,7 +477,7 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
 
             if(success)
             {
-                ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputCallbackForInputInRange);
+                ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputForInputInRange);
                 ret.callbackSerializeCustomDataSet(customData);
             }
         }
@@ -485,10 +485,10 @@ ZFInputCallback ZFInputCallbackForInputInRange(ZF_IN const ZFInputCallback &inpu
 
     return ret;
 }
-ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForInputInRange, ZFCallbackSerializeCustomType_ZFInputCallbackForInputInRange)
+ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForInputInRange, ZFCallbackSerializeCustomType_ZFInputForInputInRange)
 {
     const ZFSerializableData *inputData = ZFSerializableUtil::requireElementByCategory(
-        serializableData, ZFSerializableKeyword_ZFInputCallbackForInputInRange_input, outErrorHint, outErrorPos);
+        serializableData, ZFSerializableKeyword_ZFInputForInputInRange_input, outErrorHint, outErrorPos);
     if(inputData == zfnull)
     {
         return zffalse;
@@ -501,7 +501,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForInputInRange, ZFCallba
 
     zfindex start = 0;
     {
-        const ZFSerializableData *startData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFInputCallbackForInputInRange_start);
+        const ZFSerializableData *startData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFInputForInputInRange_start);
         if(startData != zfnull && !zfindexFromData(start, *startData, outErrorHint, outErrorPos))
         {
             return zffalse;
@@ -509,7 +509,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForInputInRange, ZFCallba
     }
     zfindex count = zfindexMax();
     {
-        const ZFSerializableData *countData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFInputCallbackForInputInRange_count);
+        const ZFSerializableData *countData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFInputForInputInRange_count);
         if(countData != zfnull && !zfindexFromData(count, *countData, outErrorHint, outErrorPos))
         {
             return zffalse;
@@ -517,7 +517,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForInputInRange, ZFCallba
     }
     zfbool autoRestorePos = zftrue;
     {
-        const ZFSerializableData *autoRestorePosData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFInputCallbackForInputInRange_autoRestorePos);
+        const ZFSerializableData *autoRestorePosData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFInputForInputInRange_autoRestorePos);
         if(autoRestorePosData != zfnull && !zfboolFromData(autoRestorePos, *autoRestorePosData, outErrorHint, outErrorPos))
         {
             return zffalse;
@@ -525,15 +525,15 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForInputInRange, ZFCallba
     }
     serializableData.resolveMark();
 
-    ret = ZFInputCallbackForInputInRange(input, start, count, autoRestorePos);
+    ret = ZFInputForInputInRange(input, start, count, autoRestorePos);
     return zftrue;
 }
 
 // ============================================================
-// ZFInputCallbackForBuffer
-zfclass _ZFP_ZFInputCallbackForBufferOwner : zfextends ZFObject
+// ZFInputForBuffer
+zfclass _ZFP_ZFInputForBufferOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFInputCallbackForBufferOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_ZFInputForBufferOwner, ZFObject)
 
 public:
     const zfbyte *pStart;
@@ -572,7 +572,7 @@ public:
         return pEnd - p;
     }
 };
-static ZFInputCallback _ZFP_ZFInputCallbackForBuffer(ZF_IN zfbool copy,
+static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
                                                      ZF_IN const void *src,
                                                      ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
@@ -597,32 +597,32 @@ static ZFInputCallback _ZFP_ZFInputCallbackForBuffer(ZF_IN zfbool copy,
         return ZFCallbackNull();
     }
 
-    _ZFP_ZFInputCallbackForBufferOwner *owner = zfAlloc(_ZFP_ZFInputCallbackForBufferOwner);
+    _ZFP_ZFInputForBufferOwner *owner = zfAlloc(_ZFP_ZFInputForBufferOwner);
     owner->pStart = (const zfbyte *)src;
     owner->pEnd = owner->pStart + len;
     owner->p = owner->pStart;
-    ZFInputCallback ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFInputCallbackForBufferOwner, onInput));
+    ZFInput ret = ZFCallbackForMemberMethod(
+        owner, ZFMethodAccess(_ZFP_ZFInputForBufferOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     if(copy)
     {
         ret.callbackTagSet(
-            zfText("ZFInputCallbackForBufferCopiedBuffer"),
+            zfText("ZFInputForBufferCopiedBuffer"),
             zflineAlloc(ZFTypeHolder, srcTmp, ZFTypeHolderTypePOD));
 
     }
     zfRelease(owner);
     return ret;
 }
-ZFInputCallback ZFInputCallbackForBuffer(ZF_IN const void *src,
+ZFInput ZFInputForBuffer(ZF_IN const void *src,
                                          ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
-    return _ZFP_ZFInputCallbackForBuffer(zffalse, src, count);
+    return _ZFP_ZFInputForBuffer(zffalse, src, count);
 }
-ZFInputCallback ZFInputCallbackForBufferCopy(ZF_IN const void *src,
+ZFInput ZFInputForBufferCopy(ZF_IN const void *src,
                                              ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
-    return _ZFP_ZFInputCallbackForBuffer(zftrue, src, count);
+    return _ZFP_ZFInputForBuffer(zftrue, src, count);
 }
 
 ZF_NAMESPACE_GLOBAL_END
@@ -636,7 +636,7 @@ ZFMETHOD_USER_REGISTER_2({
         {
             return 0;
         }
-        ZFInputCallback input = invokerObject->to<v_ZFCallback *>()->zfv;
+        ZFInput input = invokerObject->to<v_ZFCallback *>()->zfv;
         void *bufTmp = zfmalloc(size);
         zfindex read = input.execute(bufTmp, size);
         buf.append((const zfchar *)bufTmp, read / sizeof(zfchar));
@@ -644,10 +644,10 @@ ZFMETHOD_USER_REGISTER_2({
         return read;
     }, v_ZFCallback, zfindex, input, ZFMP_OUT(zfstring &, buf), ZFMP_IN(zfindex, size))
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFBuffer, ZFInputCallbackReadToBuffer, ZFMP_IN_OUT(const ZFInputCallback &, input))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(ZFInputCallback, ZFInputCallbackForInputInRange, ZFMP_IN(const ZFInputCallback &, inputCallback), ZFMP_IN_OPT(zfindex, start, 0), ZFMP_IN_OPT(zfindex, count, zfindexMax()), ZFMP_IN_OPT(zfbool, autoRestorePos, zftrue))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInputCallback, ZFInputCallbackForBuffer, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInputCallback, ZFInputCallbackForBufferCopy, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFBuffer, ZFInputReadToBuffer, ZFMP_IN_OUT(const ZFInput &, input))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(ZFInput, ZFInputForInputInRange, ZFMP_IN(const ZFInput &, inputCallback), ZFMP_IN_OPT(zfindex, start, 0), ZFMP_IN_OPT(zfindex, count, zfindexMax()), ZFMP_IN_OPT(zfbool, autoRestorePos, zftrue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBuffer, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBufferCopy, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

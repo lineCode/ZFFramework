@@ -22,9 +22,8 @@
  * with all other features in C++ world:
  * @code
  *   zfautoObject obj = ZFClass::newInstanceForName(zfText("MyClass"));
- *   obj->classData()->methodForName(zfText("myPropSet"))->methodGenericInvoke(obj,
- *       zflineAlloc(v_zfstring, zfText("myValue")));
- *   ZFObjectToXml(ZFOutputCallbackForConsole(), obj);
+ *   obj->invoke(zfText("myPropSet"), zflineAlloc(v_zfstring, zfText("myValue")));
+ *   ZFObjectToXml(ZFOutputForConsole(), obj);
  * @endcode
  */
 

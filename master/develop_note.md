@@ -105,7 +105,7 @@ which is actually a wrapper to ZFMethod
 since ZFFramework support reflection,
 we are trying hard to achive script binding by reflection dynamically and automatically
 
-1. all non-ZFObject type should be registered by `ZFPROPERTY_TYPE_DECLARE`
+1. all non-ZFObject type should be registered by `ZFTYPEID_DECLARE`
 1. all ZFMethod supply a generic invoker (`ZFMethod::methodGenericInvoker`)
     that takes base ZFObject as param and invoke the original method
 1. use reflection, to bind the generic invoker to scrypt languages dynamically
@@ -119,9 +119,9 @@ we are trying hard to achive script binding by reflection dynamically and automa
     ```
 
     1. `zfAlloc` should be binded automatically by reflecting all `ZFClass` types
-    1. `YourType` would be binded by ZFPROPERTY_TYPE_DECLARE series
+    1. `YourType` would be binded by ZFTYPEID_DECLARE series
     1. `YourType` can be serialized from encoded string data if it's serializable
-      (declared by ZFPROPERTY_TYPE_DECLARE)
+      (declared by ZFTYPEID_DECLARE)
     1. `myFunc` should be binded automatically by reflecting all `ZFMethod` from `ZFClass` types
     1. finally, `myFunc` would be invoked with all ZFObject type as params and result
 

@@ -389,7 +389,7 @@ ZFMETHOD_FUNC_DEFINE_1(ZFCoreArray<zfstring>, ZFFilePathComponentsOf,
 
 // ============================================================
 static void _ZFP_ZFFileTreePrint(ZF_IN const zfchar *pathData,
-                                 ZF_IN const ZFOutputCallback &outputCallback,
+                                 ZF_IN const ZFOutput &outputCallback,
                                  ZF_IN const zfchar *headToken,
                                  ZF_IN const zfchar *indentToken,
                                  ZF_IN zfindex indentLevel,
@@ -433,7 +433,7 @@ static void _ZFP_ZFFileTreePrint(ZF_IN const zfchar *pathData,
 
 ZFMETHOD_FUNC_DEFINE_4(void, ZFFilePathInfoTreePrint,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
-                       ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()),
+                       ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                        ZFMP_IN_OPT(const zfchar *, headToken, zfnull),
                        ZFMP_IN_OPT(const zfchar *, indentToken, zfText("  ")))
 {
@@ -606,7 +606,7 @@ ZFIOBufferedCallbackUsingTmpFile::~ZFIOBufferedCallbackUsingTmpFile(void)
     d = zfnull;
 }
 
-ZFInputCallback ZFIOBufferedCallbackUsingTmpFile::inputCallback(void)
+ZFInput ZFIOBufferedCallbackUsingTmpFile::inputCallback(void)
 {
     if(d->token == ZFTokenInvalid())
     {
@@ -614,12 +614,12 @@ ZFInputCallback ZFIOBufferedCallbackUsingTmpFile::inputCallback(void)
     }
     else
     {
-        ZFInputCallback ret = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFIOBufferedCallbackUsingTmpFilePrivate, onInput));
+        ZFInput ret = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFIOBufferedCallbackUsingTmpFilePrivate, onInput));
         ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, d);
         return ret;
     }
 }
-ZFOutputCallback ZFIOBufferedCallbackUsingTmpFile::outputCallback(void)
+ZFOutput ZFIOBufferedCallbackUsingTmpFile::outputCallback(void)
 {
     if(d->token == ZFTokenInvalid())
     {
@@ -627,7 +627,7 @@ ZFOutputCallback ZFIOBufferedCallbackUsingTmpFile::outputCallback(void)
     }
     else
     {
-        ZFOutputCallback ret = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFIOBufferedCallbackUsingTmpFilePrivate, onOutput));
+        ZFOutput ret = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFIOBufferedCallbackUsingTmpFilePrivate, onOutput));
         ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, d->outputIOOwner);
         return ret;
     }

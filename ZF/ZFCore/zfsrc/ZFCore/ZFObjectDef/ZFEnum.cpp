@@ -419,13 +419,13 @@ public:
             enumClass->classTagSet(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->className(), ret);
             zfRelease(ret);
 
-            ret->enumCount = enumCountMethod->executeStatic<zfindex>();
+            ret->enumCount = enumCountMethod->execute<zfindex>(zfnull);
             ret->flagList = (zfflags *)zfmalloc(sizeof(zfflags) * ret->enumCount);
             ret->nameList = (const zfchar **)zfmalloc(sizeof(const zfchar *) * ret->enumCount);
             for(zfindex i = 0; i < ret->enumCount; ++i)
             {
-                ret->flagList[i] = enumValueAtIndexMethod->executeStatic<zfuint, zfindex>(i);
-                ret->nameList[i] = enumNameAtIndexMethod->executeStatic<const zfchar *, zfindex>(i);
+                ret->flagList[i] = enumValueAtIndexMethod->execute<zfuint, zfindex>(zfnull, i);
+                ret->nameList[i] = enumNameAtIndexMethod->execute<const zfchar *, zfindex>(zfnull, i);
             }
         }
         return ret;

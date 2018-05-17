@@ -396,45 +396,45 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                     , zfnull \
                     , zfnull \
                     , ZFM_TOSTRING(MethodName) \
-                    , ZFPropertyTypeIdData<zftTraits<ReturnType>::TrNoRef>::PropertyTypeId() \
+                    , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
                     , ZFM_TOSTRING_DIRECT(ReturnType) \
                     ParamExpandOrEmpty0(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType0>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType0>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType0) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty0, 0) \
                         ) \
                     ParamExpandOrEmpty1(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType1>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType1>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType1) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty1, 1) \
                         ) \
                     ParamExpandOrEmpty2(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType2>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType2>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType2) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty2, 2) \
                         ) \
                     ParamExpandOrEmpty3(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType3>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType3>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType3) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty3, 3) \
                         ) \
                     ParamExpandOrEmpty4(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType4>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType4>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType4) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty4, 4) \
                         ) \
                     ParamExpandOrEmpty5(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType5>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType5>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType5) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty5, 5) \
                         ) \
                     ParamExpandOrEmpty6(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType6>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType6>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType6) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty6, 6) \
                         ) \
                     ParamExpandOrEmpty7(ZFM_EMPTY() \
-                            , ZFPropertyTypeIdData<zftTraits<ParamType7>::TrNoRef>::PropertyTypeId() \
+                            , ZFTypeId<zftTraits<ParamType7>::TrNoRef>::TypeId() \
                             , ZFM_TOSTRING(ParamType7) \
                             , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty7, 7) \
                         ) \
@@ -601,45 +601,45 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                 , zfnull \
                 , zfnull \
                 , ZFM_TOSTRING(MethodName) \
-                , ZFPropertyTypeIdData<zftTraits<ReturnType>::TrNoRef>::PropertyTypeId() \
+                , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
                 , ZFM_TOSTRING_DIRECT(ReturnType) \
                 ParamExpandOrEmpty0(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType0>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType0>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType0) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty0, 0) \
                     ) \
                 ParamExpandOrEmpty1(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType1>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType1>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType1) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty1, 1) \
                     ) \
                 ParamExpandOrEmpty2(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType2>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType2>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType2) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty2, 2) \
                     ) \
                 ParamExpandOrEmpty3(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType3>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType3>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType3) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty3, 3) \
                     ) \
                 ParamExpandOrEmpty4(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType4>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType4>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType4) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty4, 4) \
                     ) \
                 ParamExpandOrEmpty5(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType5>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType5>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType5) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty5, 5) \
                     ) \
                 ParamExpandOrEmpty6(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType6>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType6>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType6) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty6, 6) \
                     ) \
                 ParamExpandOrEmpty7(ZFM_EMPTY() \
-                        , ZFPropertyTypeIdData<zftTraits<ParamType7>::TrNoRef>::PropertyTypeId() \
+                        , ZFTypeId<zftTraits<ParamType7>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType7) \
                         , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdH_##OwnerClass##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty7, 7) \
                     ) \

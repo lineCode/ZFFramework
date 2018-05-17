@@ -16,11 +16,11 @@
 #define _ZFI_ZFMethodSerializable_h_
 
 #include "ZFSerializable.h"
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -41,7 +41,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  "MethodNamespace::methodName:methodParamTypeId0" :
  *   for function type method with custom name space
  */
-ZFPROPERTY_TYPE_DECLARE(ZFMethod, const ZFMethod *)
+ZFTYPEID_DECLARE(ZFMethod, const ZFMethod *)
 
 /* ZFMETHOD_MAX_PARAM */
 /**

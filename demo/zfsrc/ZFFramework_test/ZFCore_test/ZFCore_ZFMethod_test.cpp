@@ -286,15 +286,6 @@ protected:
 
         // ============================================================
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFMethod special method type"));
-
-        this->testCaseOutput(zfText("reflect static method"));
-        clsBase->methodForNameIgnoreParent(zfText("methodStatic"))->executeStatic<void>();
-        this->testCaseOutput(zfText("executeStatic(param...) is equal to execute(zfnull, param...)"));
-        clsBase->methodForNameIgnoreParent(zfText("methodStatic"))->execute<void>((ZFObject *)zfnull);
-
-        this->testCaseOutputSeparator();
-
         this->testCaseOutput(zfText("return reference:"));
         this->pBase->s = zfText("oldString");
         this->testCaseOutput(zfText("before: %s"), this->pBase->s.cString());

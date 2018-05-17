@@ -31,12 +31,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define ZFLuaFuncNamespaceGlobal ZFM_TOSTRING(ZFLuaFuncNamespaceGlobalId)
 
 // ============================================================
-extern ZF_ENV_EXPORT ZFCoreArray<ZFOutputCallback> &_ZFP_ZFLuaErrorCallbacks(void);
+extern ZF_ENV_EXPORT ZFCoreArray<ZFOutput> &_ZFP_ZFLuaErrorCallbacks(void);
 /**
  * @brief callbacks that would be called when lua related error occurred,
  *   for debug use only
  *
- * by default, #ZFOutputCallbackDefault would be added during #ZFLevelZFFrameworkNormal
+ * by default, #ZFOutputDefault would be added during #ZFLevelZFFrameworkNormal
  */
 #define ZFLuaErrorCallbacks _ZFP_ZFLuaErrorCallbacks()
 extern ZF_ENV_EXPORT void _ZFP_ZFLuaErrorOccurred(ZF_IN const ZFCallerInfo &callerInfo,

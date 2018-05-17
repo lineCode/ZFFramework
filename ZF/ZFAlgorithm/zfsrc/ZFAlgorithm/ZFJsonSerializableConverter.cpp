@@ -196,7 +196,7 @@ ZFMETHOD_FUNC_DEFINE_3(ZFJsonItem, ZFSerializableDataToJson,
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFSerializableDataFromJson,
                        ZFMP_OUT(ZFSerializableData &, ret),
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     if(!input.callbackIsValid())
@@ -219,7 +219,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFSerializableDataFromJson,
     return zftrue;
 }
 ZFMETHOD_FUNC_DEFINE_2(ZFSerializableData, ZFSerializableDataFromJson,
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     ZFSerializableData ret;
@@ -233,7 +233,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFSerializableData, ZFSerializableDataFromJson,
     }
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataToJson,
-                       ZFMP_IN(const ZFOutputCallback &, outputCallback),
+                       ZFMP_IN(const ZFOutput &, outputCallback),
                        ZFMP_IN(const ZFSerializableData &, serializableData),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull),
                        ZFMP_IN_OPT(const ZFJsonOutputFlags &, flags, ZFJsonOutputFlagsDefault()))
@@ -258,7 +258,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataToJson,
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFObjectFromJson,
                        ZFMP_OUT(zfautoObject &, ret),
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     ZFSerializableData data;
@@ -272,7 +272,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFObjectFromJson,
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFObjectFromJson,
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 {
     zfautoObject ret;
@@ -280,7 +280,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFObjectFromJson,
     return ret;
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFObjectToJson,
-                       ZFMP_IN(const ZFOutputCallback &, outputCallback),
+                       ZFMP_IN(const ZFOutput &, outputCallback),
                        ZFMP_IN(ZFObject *, obj),
                        ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull),
                        ZFMP_IN_OPT(const ZFJsonOutputFlags &, flags, ZFJsonOutputFlagsDefault()))

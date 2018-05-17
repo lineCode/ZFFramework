@@ -115,7 +115,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -129,7 +129,7 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFTextTemplateIndexData, ZFTextTemplateIndexData)
+ZFTYPEID_DECLARE(ZFTextTemplateIndexData, ZFTextTemplateIndexData)
 
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFTextTemplateIndexData_indexStart zfText("indexStart")
@@ -254,7 +254,7 @@ private:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -283,7 +283,7 @@ private:
  *   </ZFTextTemplateParam>
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFTextTemplateParam, ZFTextTemplateParam)
+ZFTYPEID_DECLARE(ZFTextTemplateParam, ZFTextTemplateParam)
 
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFTextTemplateParam_replace zfText("replace")

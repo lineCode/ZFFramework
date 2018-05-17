@@ -39,7 +39,7 @@ protected:
         }
         this->testCaseOutput(zfText("write it to file %s, file's CRC32: %x"),
                 tmpFilePath.cString(),
-                (zfuint)zfCrc32Calc(ZFInputCallbackForFile(tmpFilePath)));
+                (zfuint)zfCrc32Calc(ZFInputForFile(tmpFilePath)));
 
         this->testCaseOutputSeparator();
         tmpFilePath = this->testCaseUseTmpFile(zfText("ZFCrc32_Crc32_big.txt"));
@@ -59,7 +59,7 @@ protected:
             fp = zfnull;
         }
         ZFTimeValue tv1 = ZFTime::currentTimeValue();
-        zfflags CRC32BigFile = zfCrc32Calc(ZFInputCallbackForFile(tmpFilePath.cString()));
+        zfflags CRC32BigFile = zfCrc32Calc(ZFInputForFile(tmpFilePath.cString()));
         ZFTimeValue tv2 = ZFTimeValueDec(ZFTime::currentTimeValue(), tv1);
         this->testCaseOutput(zfText("write it 1000*1000 times to file %s, file's size: %zi, CRC32: %X, time: %s.%03s %03s"),
             tmpFilePath.cString(),

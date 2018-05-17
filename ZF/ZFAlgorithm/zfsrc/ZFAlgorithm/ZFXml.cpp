@@ -17,8 +17,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFENUM_DEFINE(ZFXmlType)
 ZFENUM_DEFINE(ZFXmlVisitType)
 
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFXmlVisitData, ZFXmlVisitData)
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFXmlVisitCallback, ZFXmlVisitCallback)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFXmlVisitData, ZFXmlVisitData)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFXmlVisitCallback, ZFXmlVisitCallback)
 ZFEXPORT_VAR_READONLY_DEFINE(ZFXmlVisitCallback, ZFXmlVisitCallbackDefault, ZFXmlVisitCallbackForOutput())
 
 // ============================================================
@@ -64,7 +64,7 @@ zfbool ZFXmlOutputFlags::operator == (ZF_IN ZFXmlOutputFlags const &ref) const
         );
 }
 /** @endcond */
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFXmlOutputFlags, ZFXmlOutputFlags)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFXmlOutputFlags, ZFXmlOutputFlags)
 
 // ============================================================
 ZFEXPORT_VAR_READONLY_DEFINE(ZFXmlOutputFlags, ZFXmlOutputFlagsDefault, ZFXmlOutputFlags())
@@ -174,7 +174,7 @@ zfclass _ZFP_ZFXmlOutputOwner : zfextends ZFObject
     ZFOBJECT_DECLARE(_ZFP_ZFXmlOutputOwner, ZFObject)
 
 public:
-    ZFOutputCallback outputCallback;
+    ZFOutput outputCallback;
     ZFXmlOutputFlags flags;
 
 public:
@@ -482,7 +482,7 @@ private:
 };
 
 ZFMETHOD_FUNC_DEFINE_2(ZFXmlVisitCallback, ZFXmlVisitCallbackForOutput,
-                       ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()),
+                       ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                        ZFMP_IN_OPT(const ZFXmlOutputFlags &, flags, ZFXmlOutputFlagsDefault()))
 {
     if(!outputCallback.callbackIsValid())
@@ -1491,7 +1491,7 @@ zfbool ZFXmlItem::xmlTextCDATA(void) const
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFXmlItem, ZFXmlItem, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFXmlItem, ZFXmlItem, {
         v = ZFPROTOCOL_ACCESS(ZFXml)->xmlParse(src, srcLen);
         return !v.xmlIsNull();
     }, {
@@ -1540,7 +1540,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFXmlItem, zfbool, xmlTextCDATA)
 
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_1(ZFXmlItem, ZFXmlItemFromInput,
-                       ZFMP_IN(const ZFInputCallback &, callback))
+                       ZFMP_IN(const ZFInput &, callback))
 {
     return ZFPROTOCOL_ACCESS(ZFXml)->xmlParse(callback);
 }
@@ -1552,7 +1552,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFXmlItem, ZFXmlItemFromString,
 }
 
 ZFMETHOD_FUNC_DEFINE_1(ZFXmlItem, ZFXmlParseFirstElement,
-                       ZFMP_IN(const ZFInputCallback &, callback))
+                       ZFMP_IN(const ZFInput &, callback))
 {
     return ZFXmlItem(ZFXmlItemFromInput(callback).xmlChildElementFirst());
 }
@@ -1564,7 +1564,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFXmlItem, ZFXmlParseFirstElement,
 }
 
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFXmlItemToOutput,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, output),
+                       ZFMP_IN_OUT(const ZFOutput &, output),
                        ZFMP_IN(const ZFXmlItem &, xmlItem),
                        ZFMP_IN_OPT(const ZFXmlOutputFlags &, outputFlags, ZFXmlOutputFlagsDefault()))
 {
@@ -1581,7 +1581,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFXmlItemToString,
                        ZFMP_IN(const ZFXmlItem &, xmlItem),
                        ZFMP_IN(const ZFXmlOutputFlags &, outputFlags))
 {
-    return ZFXmlItemToOutput(ZFOutputCallbackForString(ret), xmlItem, outputFlags);
+    return ZFXmlItemToOutput(ZFOutputForString(ret), xmlItem, outputFlags);
 }
 ZFMETHOD_FUNC_DEFINE_2(zfstring, ZFXmlItemToString,
                        ZFMP_IN(const ZFXmlItem &, xmlItem),
@@ -1599,10 +1599,10 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFXmlEscapeCharEncode,
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {
-    ZFXmlEscapeCharEncode(ZFOutputCallbackForString(dst), src, count);
+    ZFXmlEscapeCharEncode(ZFOutputForString(dst), src, count);
 }
 ZFMETHOD_FUNC_DEFINE_3(void, ZFXmlEscapeCharEncode,
-                       ZFMP_OUT(const ZFOutputCallback &, dst),
+                       ZFMP_OUT(const ZFOutput &, dst),
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {
@@ -1614,10 +1614,10 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFXmlEscapeCharDecode,
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {
-    ZFXmlEscapeCharDecode(ZFOutputCallbackForString(dst), src, count);
+    ZFXmlEscapeCharDecode(ZFOutputForString(dst), src, count);
 }
 ZFMETHOD_FUNC_DEFINE_3(void, ZFXmlEscapeCharDecode,
-                       ZFMP_OUT(const ZFOutputCallback &, dst),
+                       ZFMP_OUT(const ZFOutput &, dst),
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {

@@ -81,7 +81,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFUIViewFocusNextParam, ZFUIViewFocusNextParam)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFUIViewFocusNextParam, ZFUIViewFocusNextParam)
 
 // ============================================================
 /**

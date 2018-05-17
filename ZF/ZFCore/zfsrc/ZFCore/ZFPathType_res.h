@@ -27,7 +27,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define ZFPathType_res zfText("res")
 
 // ============================================================
-// ZFInputCallbackForResFile
+// ZFInputForResFile
 /**
  * @brief util to create a resource file input callback,
  *   see #ZFFileResOpen for what resource file is
@@ -39,12 +39,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * auto open and auto close files, may return a null callback if open file error
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInputCallback, ZFInputCallbackForResFile,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInput, ZFInputForResFile,
                                ZFMP_IN(const zfchar *, resFilePath),
                                ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 {
-    ZFInputCallback ret;
-    ZFInputCallbackForPathInfoT(ret, ZFPathType_res, resFilePath, ZFFileOpenOption::e_Read, autoSkipBOMTable);
+    ZFInput ret;
+    ZFInputForPathInfoT(ret, ZFPathType_res, resFilePath, ZFFileOpenOption::e_Read, autoSkipBOMTable);
     return ret;
 }
 

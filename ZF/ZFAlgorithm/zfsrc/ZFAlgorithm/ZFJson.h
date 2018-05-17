@@ -174,7 +174,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFJsonOutputFlags, ZFJsonOutputFlags)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFJsonOutputFlags, ZFJsonOutputFlags)
 /**
  * @brief default output flags for #ZFJsonItemToOutput
  */
@@ -392,14 +392,14 @@ private:
 private:
     ZFJsonItem(ZF_IN _ZFP_ZFJsonItemPrivate *ref);
 };
-ZFPROPERTY_TYPE_DECLARE(ZFJsonItem, ZFJsonItem)
+ZFTYPEID_DECLARE(ZFJsonItem, ZFJsonItem)
 ZFOUTPUT_TYPE(ZFJsonItem, {output << v.objectInfo();})
 
 // ============================================================
 /**
  * @brief parse json, or return an item with null type if fail
  */
-ZFMETHOD_FUNC_DECLARE_1(ZFJsonItem, ZFJsonItemFromInput, ZFMP_IN(const ZFInputCallback &, input))
+ZFMETHOD_FUNC_DECLARE_1(ZFJsonItem, ZFJsonItemFromInput, ZFMP_IN(const ZFInput &, input))
 /**
  * @brief parse json, or return an item with null type if fail
  */
@@ -414,7 +414,7 @@ ZFMETHOD_FUNC_DECLARE_2(ZFJsonItem, ZFJsonItemFromString,
  *   if source is not valid
  */
 ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFJsonItemToOutput,
-                        ZFMP_IN_OUT(const ZFOutputCallback &, output),
+                        ZFMP_IN_OUT(const ZFOutput &, output),
                         ZFMP_IN(const ZFJsonItem &, jsonItem),
                         ZFMP_IN_OPT(const ZFJsonOutputFlags &, outputFlags, ZFJsonOutputFlagsDefault()))
 /**
@@ -457,7 +457,7 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFJsonEscapeCharEncode,
  * @brief see #ZFJsonEscapeCharEncode
  */
 ZFMETHOD_FUNC_DECLARE_3(void, ZFJsonEscapeCharEncode,
-                        ZFMP_OUT(const ZFOutputCallback &, dst),
+                        ZFMP_OUT(const ZFOutput &, dst),
                         ZFMP_IN(const zfchar *, src),
                         ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 
@@ -472,7 +472,7 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFJsonEscapeCharDecode,
  * @brief see #ZFJsonEscapeCharEncode
  */
 ZFMETHOD_FUNC_DECLARE_3(void, ZFJsonEscapeCharDecode,
-                        ZFMP_OUT(const ZFOutputCallback &, dst),
+                        ZFMP_OUT(const ZFOutput &, dst),
                         ZFMP_IN(const zfchar *, src),
                         ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 

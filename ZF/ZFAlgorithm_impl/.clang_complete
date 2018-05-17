@@ -2,10 +2,6 @@
 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
 
 -I../../../ZFFramework/ZF/ZFCore/zfsrc
--I../../../ZFModule/ZF/ZFCore/zfsrc
 -I../../../ZFFramework/ZF/ZFAlgorithm/zfsrc
--I../../../ZFModule/ZF/ZFAlgorithm/zfsrc
-
 -I../../../ZFFramework/ZF/ZF_impl/zfsrc
--I../../../ZFModule/ZF/ZF_impl/zfsrc
 

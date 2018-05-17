@@ -78,7 +78,7 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(input, ZFUIImageSerializeType_input)
 }
 
 ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromInput,
-                       ZFMP_IN(const ZFInputCallback &, input))
+                       ZFMP_IN(const ZFInput &, input))
 {
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     ZFUIImage *image = ret;

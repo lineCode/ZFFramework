@@ -337,7 +337,7 @@ ZFUIView *_ZFP_ZFUIViewFocusDataFindFirst(ZF_IN const ZFCoreArrayPOD<_ZFP_ZFUIVi
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFUIViewFocusNextParam, ZFUIViewFocusNextParam)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFUIViewFocusNextParam, ZFUIViewFocusNextParam)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIViewFocusNextParam, ZFUIOrientationFlags const &, focusDirection)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIViewFocusNextParam, void, focusDirectionSet, ZFMP_IN(ZFUIOrientationFlags const &, focusDirection))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIViewFocusNextParam, zfbool const &, focusLoopMode)

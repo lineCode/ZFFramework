@@ -31,7 +31,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -40,7 +40,7 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFTimeValue, ZFTimeValue)
+ZFTYPEID_DECLARE(ZFTimeValue, ZFTimeValue)
 
 ZFOUTPUT_TYPE(ZFTimeValue, {output << ZFTimeValueToString(v);})
 
@@ -230,7 +230,7 @@ extern ZF_ENV_EXPORT void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zf
 /** @brief overrided operator for ZFTimeValue calculate */
 extern ZF_ENV_EXPORT void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
 
-ZFPROPERTY_PROGRESS_DECLARE(ZFTimeValue, {
+ZFTYPEID_PROGRESS_DECLARE(ZFTimeValue, {
         ret.sec = from.sec + (zftimet)((to.sec - from.sec) * progress);
         zfdouble usec = (to.sec - from.sec) * (zfdouble)progress;
         ret.usec = from.usec + (usec - (zfint)usec) * 1000000LL;
@@ -255,7 +255,7 @@ public:
     zfuint microSecond;  /**< [0, 999] */
 };
 
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFTimeInfo, ZFTimeInfo)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFTimeInfo, ZFTimeInfo)
 
 /**
  * @brief a zero time info (0000-00-00 00:00:00.000 000)

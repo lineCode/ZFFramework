@@ -45,9 +45,9 @@ public:
         buf.bufferCopy(src, size * sizeof(zfchar));
         return this->jsonParse(buf);
     }
-    virtual ZFJsonItem jsonParse(ZF_IN const ZFInputCallback &inputCallback)
+    virtual ZFJsonItem jsonParse(ZF_IN const ZFInput &inputCallback)
     {
-        ZFBuffer buf = ZFInputCallbackReadToBuffer(inputCallback);
+        ZFBuffer buf = ZFInputReadToBuffer(inputCallback);
         return this->jsonParse(buf);
     }
     virtual void jsonMemoryPoolRelease(ZF_IN void *token, ZF_IN const zfchar *value)

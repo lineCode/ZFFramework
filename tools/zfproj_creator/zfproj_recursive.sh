@@ -17,11 +17,6 @@ ZF_EXCLUDE_FILE_TMP="$ZF_EXCLUDE_FILE_TMP private zfres _release _tmp"
 # ============================================================
 ZF_ROOT_PATH=$WORK_DIR/../../../ZFFramework
 
-if test -e "$ZF_ROOT_PATH/private/zfproj_with_src" ; then
-    mkdir -p "$WORK_DIR/private/app/{ZFTT_R_proj_name}/zfproj_with_src/" >/dev/null 2>&1
-    cp -r "$ZF_ROOT_PATH/private/zfproj_with_src/." "$WORK_DIR/private/app/{ZFTT_R_proj_name}/zfproj_with_src/" >/dev/null 2>&1
-fi
-
 _FULL_CMD="find '$SRC_DIR' -name 'zfautoscript_zfproj.txt' | grep -v '\(_zf_dummy_\)"
 for e in $ZF_EXCLUDE_FILE_TMP ; do
     _FULL_CMD="${_FULL_CMD}\|\(/$e/\)"
@@ -31,6 +26,4 @@ _FULL_CMD="${_FULL_CMD}'"
 for f in `eval $_FULL_CMD` ; do
     sh "$WORK_DIR/zfproj_creator.sh" "$f" "$DST_DIR"
 done
-
-rm -rf "$WORK_DIR/private/app/{ZFTT_R_proj_name}/zfproj_with_src" >/dev/null 2>&1
 

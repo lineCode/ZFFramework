@@ -32,7 +32,7 @@ public:
     /**
      * @brief parse json
      */
-    virtual ZFJsonItem jsonParse(ZF_IN const ZFInputCallback &inputCallback) zfpurevirtual;
+    virtual ZFJsonItem jsonParse(ZF_IN const ZFInput &inputCallback) zfpurevirtual;
 
     /**
      * @brief for impl to achieve memory pool logic

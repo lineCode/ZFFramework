@@ -51,7 +51,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -60,7 +60,7 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFUISizeParam, ZFUISizeParam)
+ZFTYPEID_DECLARE(ZFUISizeParam, ZFUISizeParam)
 
 ZFOUTPUT_TYPE(ZFUISizeParam, {output << ZFUISizeParamToString(v);})
 

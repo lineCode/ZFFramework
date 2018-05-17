@@ -35,7 +35,7 @@ zfclassFwd ZFMethodDynamicRegisterParam;
  *   you must take care the life cycle of the return value\n
  *   when the method called by plain #ZFMethod::execute
  *   instead of #ZFMethod::methodGenericInvoker,
- *   the #ZFPropertyTypeWrapper created by generic invoker
+ *   the #ZFTypeIdWrapper created by generic invoker
  *   would be released immediately after method call,
  *   which would cause the raw return value
  *   points to invalid address\n

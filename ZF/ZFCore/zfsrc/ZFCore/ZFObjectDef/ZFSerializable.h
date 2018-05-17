@@ -285,7 +285,7 @@ protected:
      *   -  by default, a property is treated as normal serializable property if:
      *     -  the property's setter and getter is not private
      *     -  the property is retain property and its type is ZFSerializable
-     *     -  the property is assign property and its type is registered by #ZFPROPERTY_TYPE_DECLARE
+     *     -  the property is assign property and its type is registered by #ZFTYPEID_DECLARE
      * -  embeded serializable property:\n
      *   -  the property would be serialized automatically
      *     during #serializableOnSerializeEmbededPropertyFromData and #serializableOnSerializeEmbededPropertyToData
@@ -469,13 +469,13 @@ extern ZF_ENV_EXPORT zfstring ZFObjectToString(ZF_IN ZFObject *obj,
 // ============================================================
 /** @brief see #ZFObjectFromString */
 extern ZF_ENV_EXPORT zfbool ZFObjectFromInput(ZF_OUT zfautoObject &result,
-                                              ZF_IN_OUT const ZFInputCallback &input,
+                                              ZF_IN_OUT const ZFInput &input,
                                               ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 /** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfautoObject ZFObjectFromInput(ZF_IN_OUT const ZFInputCallback &input,
+extern ZF_ENV_EXPORT zfautoObject ZFObjectFromInput(ZF_IN_OUT const ZFInput &input,
                                                     ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 /** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfbool ZFObjectToOutput(ZF_IN_OUT const ZFOutputCallback &output,
+extern ZF_ENV_EXPORT zfbool ZFObjectToOutput(ZF_IN_OUT const ZFOutput &output,
                                              ZF_IN ZFObject *obj,
                                              ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 

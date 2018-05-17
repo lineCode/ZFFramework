@@ -179,7 +179,7 @@ private:
  */
 ZFMETHOD_FUNC_DECLARE_4(void, ZFFilePathInfoTreePrint,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
-                        ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()),
+                        ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                         ZFMP_IN_OPT(const zfchar *, headToken, zfnull),
                         ZFMP_IN_OPT(const zfchar *, indentToken, zfText("  ")))
 
@@ -204,9 +204,9 @@ public:
 
 public:
     zfoverride
-    virtual ZFInputCallback inputCallback(void);
+    virtual ZFInput inputCallback(void);
     zfoverride
-    virtual ZFOutputCallback outputCallback(void);
+    virtual ZFOutput outputCallback(void);
 
 public:
     zfoverride

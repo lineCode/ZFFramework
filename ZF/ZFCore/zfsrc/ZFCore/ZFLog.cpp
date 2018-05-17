@@ -9,8 +9,8 @@
  * ====================================================================== */
 #include "ZFLog.h"
 #include "ZFTime.h"
-#include "ZFOutputCallbackForFormat.h"
-#include "ZFOutputCallbackForConsole.h"
+#include "ZFOutputForFormat.h"
+#include "ZFOutputForConsole.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -85,8 +85,8 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFLogDataHolder, ZFLevelZFFrameworkEssenti
     _ZFP_ZFLogMutex = zfAlloc(ZFMutex);
     _ZFP_ZFLogFormatHolder = zfAlloc(_ZFP_I_ZFLogFormat);
 
-    ZFExportVarEnsureInit_ZFOutputCallbackForConsole();
-    ZFLogOutputList.add(ZFOutputCallbackForConsole());
+    ZFExportVarEnsureInit_ZFOutputForConsole();
+    ZFLogOutputList.add(ZFOutputForConsole());
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFLogDataHolder)
 {
@@ -117,7 +117,7 @@ zfstring _ZFP_ZFLogHeaderString(ZF_IN const ZFCallerInfo &callerInfo)
     return ret;
 }
 
-ZFCoreArray<ZFOutputCallback> ZFLogOutputList;
+ZFCoreArray<ZFOutput> ZFLogOutputList;
 
 // ============================================================
 static zfindex _ZFP_zfLogOnOutput(ZF_IN const void *src, ZF_IN zfindex size)
@@ -132,49 +132,49 @@ static zfindex _ZFP_zfLogOnOutput(ZF_IN const void *src, ZF_IN zfindex size)
     }
     return size;
 }
-ZFOutputCallback zfLogTrimT(void)
+ZFOutput zfLogTrimT(void)
 {
-    ZFOutputCallback ret;
+    ZFOutput ret;
     ret.callbackSerializeCustomDisable();
-    ZFOutputCallbackForFormatT(ret, ZFCallbackForFunc(_ZFP_zfLogOnOutput), _ZFP_ZFLogFormatHolder);
+    ZFOutputForFormatT(ret, ZFCallbackForFunc(_ZFP_zfLogOnOutput), _ZFP_ZFLogFormatHolder);
     return ret;
 }
 
 // ============================================================
-const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOn const &v)
+const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoSpaceOn const &v)
 {
     _ZFP_I_ZFLogFormat *format = ZFCastZFObject(_ZFP_I_ZFLogFormat *,
-        ZFOutputCallbackForFormatGetFormat(output));
+        ZFOutputForFormatGetFormat(output));
     if(format != zfnull)
     {
         format->autoSpace = zftrue;
     }
     return output;
 }
-const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOff const &v)
+const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoSpaceOff const &v)
 {
     _ZFP_I_ZFLogFormat *format = ZFCastZFObject(_ZFP_I_ZFLogFormat *,
-        ZFOutputCallbackForFormatGetFormat(output));
+        ZFOutputForFormatGetFormat(output));
     if(format != zfnull)
     {
         format->autoSpace = zffalse;
     }
     return output;
 }
-const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOn const &v)
+const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoEndlOn const &v)
 {
     _ZFP_I_ZFLogFormat *format = ZFCastZFObject(_ZFP_I_ZFLogFormat *,
-        ZFOutputCallbackForFormatGetFormat(output));
+        ZFOutputForFormatGetFormat(output));
     if(format != zfnull)
     {
         format->autoEndl = zftrue;
     }
     return output;
 }
-const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOff const &v)
+const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoEndlOff const &v)
 {
     _ZFP_I_ZFLogFormat *format = ZFCastZFObject(_ZFP_I_ZFLogFormat *,
-        ZFOutputCallbackForFormatGetFormat(output));
+        ZFOutputForFormatGetFormat(output));
     if(format != zfnull)
     {
         format->autoEndl = zffalse;

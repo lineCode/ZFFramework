@@ -232,7 +232,7 @@ static ZFCompareResult _ZFP_ZFProtocolImplInfoDataPrint_sortComparer(ZF_IN const
     }
 }
 void ZFProtocolImplInfoDataPrint(ZF_IN const ZFProtocolImplInfoData &data,
-                                 ZF_IN_OPT const ZFOutputCallback &callback /* = ZFOutputCallbackDefault() */)
+                                 ZF_IN_OPT const ZFOutput &callback /* = ZFOutputDefault() */)
 {
     callback.execute(data.protocolName.cString());
     if(data.protocolOptional)
@@ -254,7 +254,7 @@ void ZFProtocolImplInfoDataPrint(ZF_IN const ZFProtocolImplInfoData &data,
     }
 }
 ZFMETHOD_FUNC_DEFINE_1(void, ZFProtocolImplInfoDataPrint,
-                       ZFMP_IN_OPT(const ZFOutputCallback &, callback, ZFOutputCallbackDefault()))
+                       ZFMP_IN_OPT(const ZFOutput &, callback, ZFOutputDefault()))
 {
     if(!callback.callbackIsValid())
     {

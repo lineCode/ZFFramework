@@ -424,7 +424,7 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  * example:
  * @code
  *   // register
- *   ZFSTYLE_PROPERTY_COPY_DEFINE(ZFPropertyTypeId_YourPropertyTypeId, {
+ *   ZFSTYLE_PROPERTY_COPY_DEFINE(ZFTypeId_YourPropertyTypeId, {
  *           // proto type:
  *           //   zfbool copyFrom(ZF_IN ZFObject *propertyOwner,
  *           //                   ZF_IN const ZFProperty *property,
@@ -497,11 +497,11 @@ extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
 #define ZFSTYLE_PROPERTY_COPY_DEFINE(propertyTypeIdSig, stylePropertyCopyAction) \
     ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(StylePropCp_##propertyTypeIdSig, ZFLevelZFFrameworkNormal) \
     { \
-        _ZFP_ZFStylePropertyCopyRegister(ZFPropertyTypeId_##propertyTypeIdSig(), zfself::action); \
+        _ZFP_ZFStylePropertyCopyRegister(ZFTypeId_##propertyTypeIdSig(), zfself::action); \
     } \
     ZF_GLOBAL_INITIALIZER_DESTROY(StylePropCp_##propertyTypeIdSig) \
     { \
-        _ZFP_ZFStylePropertyCopyUnregister(ZFPropertyTypeId_##propertyTypeIdSig()); \
+        _ZFP_ZFStylePropertyCopyUnregister(ZFTypeId_##propertyTypeIdSig()); \
     } \
     static zfbool action(ZF_IN ZFObject *propertyOwner, \
                          ZF_IN const ZFProperty *property, \

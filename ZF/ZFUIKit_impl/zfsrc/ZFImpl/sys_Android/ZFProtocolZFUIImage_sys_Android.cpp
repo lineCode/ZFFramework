@@ -38,14 +38,14 @@ public:
     }
 
 public:
-    virtual void *nativeImageFromInput(ZF_IN const ZFInputCallback &inputCallback)
+    virtual void *nativeImageFromInput(ZF_IN const ZFInput &inputCallback)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_nativeImageFromInput"),
             JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
             ).c_str());
-        ZFBuffer buf = ZFInputCallbackReadToBuffer(inputCallback);
+        ZFBuffer buf = ZFInputReadToBuffer(inputCallback);
         if(buf.buffer() == zfnull)
         {
             return zfnull;
@@ -63,7 +63,7 @@ public:
         return ret;
     }
     virtual zfbool nativeImageToOutput(ZF_IN void *nativeImage,
-                                       ZF_OUT const ZFOutputCallback &outputCallback)
+                                       ZF_OUT const ZFOutput &outputCallback)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_nativeImageToOutput"),

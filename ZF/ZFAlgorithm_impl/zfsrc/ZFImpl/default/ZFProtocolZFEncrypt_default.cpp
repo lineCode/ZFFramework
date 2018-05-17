@@ -17,8 +17,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFEncryptImpl_default, ZFEncrypt, ZFProtocolLevel::e_Default)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("ZFEncrypt"))
 public:
-    virtual zfbool encrypt(ZF_IN_OUT const ZFOutputCallback &output,
-                           ZF_IN const ZFInputCallback &input,
+    virtual zfbool encrypt(ZF_IN_OUT const ZFOutput &output,
+                           ZF_IN const ZFInput &input,
                            ZF_IN const zfchar *key)
     {
         zfindex inputSize = input.ioSize();
@@ -30,18 +30,18 @@ public:
         }
         else
         {
-            ZFBuffer inputBuf = ZFInputCallbackReadToBuffer(input);
+            ZFBuffer inputBuf = ZFInputReadToBuffer(input);
             if(inputBuf.buffer() == zfnull)
             {
                 return zffalse;
             }
             zfstring sizeCheck = zfstringWithFormat(zfText("%s+"), zfsFromInt(inputBuf.bufferSize(), 16).cString());
             output.execute(sizeCheck.cString(), sizeCheck.length() * sizeof(zfchar));
-            return ZFBase64Encode(output, ZFInputCallbackForBuffer(inputBuf.buffer(), inputBuf.bufferSize()), zfnull, this->tableForKey(key));
+            return ZFBase64Encode(output, ZFInputForBuffer(inputBuf.buffer(), inputBuf.bufferSize()), zfnull, this->tableForKey(key));
         }
     }
-    virtual zfbool decrypt(ZF_IN_OUT const ZFOutputCallback &output,
-                           ZF_IN const ZFInputCallback &input,
+    virtual zfbool decrypt(ZF_IN_OUT const ZFOutput &output,
+                           ZF_IN const ZFInput &input,
                            ZF_IN const zfchar *key)
     {
         zfchar sizeCheckBuf[16] = {0};

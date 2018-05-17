@@ -43,11 +43,11 @@ protected:
                 public, public);
             obj->classData()->propertyForName(zfText("valueDynamic"))->setterMethod()
                 ->execute<void, zfstring const &>(obj, zfText("value"));
-            ZFObjectToXml(ZFOutputCallbackDefault(), obj);
+            ZFObjectToXml(ZFOutputDefault(), obj);
             ZFPropertyUserUnregister(obj->classData()->propertyForName(zfText("valueDynamic")));
 
             this->testCaseOutput(zfText("after unregister:"));
-            ZFObjectToXml(ZFOutputCallbackDefault(), obj);
+            ZFObjectToXml(ZFOutputDefault(), obj);
         }
 
         {
@@ -59,7 +59,7 @@ protected:
 
             obj->classData()->propertyForName(zfText("valueStatic"))->setterMethod()
                 ->execute<void, ZFString * const &>(obj, zflineAlloc(ZFString, zfText("value")));
-            ZFObjectToXml(ZFOutputCallbackDefault(), obj);
+            ZFObjectToXml(ZFOutputDefault(), obj);
         }
 
         this->testCaseStop();

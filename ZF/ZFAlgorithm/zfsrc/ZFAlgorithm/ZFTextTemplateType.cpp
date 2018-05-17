@@ -39,8 +39,8 @@ void ZFTextTemplateIndexData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateIndexData, ZFTextTemplateIndexData, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_ZFTextTemplateIndexData(), serializableData, outErrorHint, outErrorPos) == zfnull)
+ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateIndexData, ZFTextTemplateIndexData, {
+        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFTextTemplateIndexData(), serializableData, outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -99,7 +99,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateIndexData, ZFText
         serializableData.resolveMark();
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFPropertyTypeId_ZFTextTemplateIndexData());
+        serializableData.itemClassSet(ZFTypeId_ZFTextTemplateIndexData());
 
         if(v.indexStart != 0)
         {
@@ -667,8 +667,8 @@ void ZFTextTemplateParam::objectInfoT(ZF_IN_OUT zfstring &ret) const
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemplateParam, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_ZFTextTemplateParam(), serializableData, outErrorHint, outErrorPos) == zfnull)
+ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemplateParam, {
+        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFTextTemplateParam(), serializableData, outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -775,7 +775,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemp
         serializableData.resolveMark();
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFPropertyTypeId_ZFTextTemplateParam());
+        serializableData.itemClassSet(ZFTypeId_ZFTextTemplateParam());
 
         if(v.replaceDataCount() > 0)
         {

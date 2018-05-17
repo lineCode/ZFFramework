@@ -545,10 +545,10 @@ zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInfoData &impl,
 }
 
 // ============================================================
-// ZFInputCallbackForPathInfo
-zfclass _ZFP_I_ZFInputCallbackForPathInfoOwner : zfextends ZFObject
+// ZFInputForPathInfo
+zfclass _ZFP_I_ZFInputForPathInfoOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFInputCallbackForPathInfoOwner, ZFObject)
+    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFInputForPathInfoOwner, ZFObject)
 
 protected:
     zfoverride
@@ -608,23 +608,23 @@ private:
     ZFToken token;
     zfindex BOMSize;
 protected:
-    _ZFP_I_ZFInputCallbackForPathInfoOwner(void)
+    _ZFP_I_ZFInputForPathInfoOwner(void)
     : impl(zfnull)
     , token(ZFTokenInvalid())
     , BOMSize(0)
     {
     }
 };
-ZFMETHOD_FUNC_DEFINE_3(ZFInputCallback, ZFInputCallbackForPathInfo,
+ZFMETHOD_FUNC_DEFINE_3(ZFInput, ZFInputForPathInfo,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                        ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 {
-    ZFInputCallback ret;
-    ZFInputCallbackForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags, autoSkipBOMTable);
+    ZFInput ret;
+    ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags, autoSkipBOMTable);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_3(ZFInputCallback, ZFInputCallbackForPathInfoString,
+ZFMETHOD_FUNC_DEFINE_3(ZFInput, ZFInputForPathInfoString,
                        ZFMP_IN(const zfchar *, pathInfoString),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                        ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
@@ -635,25 +635,25 @@ ZFMETHOD_FUNC_DEFINE_3(ZFInputCallback, ZFInputCallbackForPathInfoString,
     {
         return ZFCallbackNull();
     }
-    ZFInputCallback ret;
-    ZFInputCallbackForPathInfoT(ret, pathType, pathData, flags, autoSkipBOMTable);
+    ZFInput ret;
+    ZFInputForPathInfoT(ret, pathType, pathData, flags, autoSkipBOMTable);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForPathInfoT,
+ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForPathInfoT,
                        ZFMP_IN_OUT(ZFCallback &, ret),
                        ZFMP_IN(const zfchar *, pathType),
                        ZFMP_IN(const zfchar *, pathData),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                        ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 {
-    zfblockedAlloc(_ZFP_I_ZFInputCallbackForPathInfoOwner, inputOwner);
+    zfblockedAlloc(_ZFP_I_ZFInputForPathInfoOwner, inputOwner);
     if(!inputOwner->openFile(pathType, pathData, flags, autoSkipBOMTable))
     {
         return zffalse;
     }
     zfbool needSerialize = (ret.callbackSerializeCustomType() == zfnull);
     ret = ZFCallbackForMemberMethod(
-        inputOwner, ZFMethodAccess(_ZFP_I_ZFInputCallbackForPathInfoOwner, onInput));
+        inputOwner, ZFMethodAccess(_ZFP_I_ZFInputForPathInfoOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, inputOwner);
 
     ret.pathInfoSet(pathType, pathData);
@@ -707,7 +707,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForPathInfoT,
         } while(zffalse);
         if(success)
         {
-            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputCallbackForPathInfo);
+            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputForPathInfo);
             ret.callbackSerializeCustomDataSet(customData);
         }
         else
@@ -718,7 +718,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForPathInfoT,
 
     return ret.callbackIsValid();
 }
-ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForPathInfo, ZFCallbackSerializeCustomType_ZFInputCallbackForPathInfo)
+ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForPathInfo, ZFCallbackSerializeCustomType_ZFInputForPathInfo)
 {
     const ZFSerializableData *pathInfoData = ZFSerializableUtil::requireElementByCategory(
         serializableData, ZFSerializableKeyword_ZFFileCallback_pathInfo, outErrorHint, outErrorPos);
@@ -753,7 +753,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForPathInfo, ZFCallbackSe
     }
 
     ret.callbackSerializeCustomDisable();
-    ZFInputCallbackForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags, autoSkipBOMTable);
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
@@ -765,10 +765,10 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForPathInfo, ZFCallbackSe
 }
 
 // ============================================================
-// ZFOutputCallbackForPathInfo
-zfclass _ZFP_I_ZFOutputCallbackForPathInfoOwner : zfextends ZFObject
+// ZFOutputForPathInfo
+zfclass _ZFP_I_ZFOutputForPathInfoOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFOutputCallbackForPathInfoOwner, ZFObject)
+    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFOutputForPathInfoOwner, ZFObject)
 
 protected:
     zfoverride
@@ -822,21 +822,21 @@ private:
     const ZFFilePathInfoData *impl;
     ZFToken token;
 protected:
-    _ZFP_I_ZFOutputCallbackForPathInfoOwner(void)
+    _ZFP_I_ZFOutputForPathInfoOwner(void)
     : impl(zfnull)
     , token(ZFTokenInvalid())
     {
     }
 };
-ZFMETHOD_FUNC_DEFINE_2(ZFOutputCallback, ZFOutputCallbackForPathInfo,
+ZFMETHOD_FUNC_DEFINE_2(ZFOutput, ZFOutputForPathInfo,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
-    ZFOutputCallback ret;
-    ZFOutputCallbackForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
+    ZFOutput ret;
+    ZFOutputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_2(ZFOutputCallback, ZFOutputCallbackForPathInfoString,
+ZFMETHOD_FUNC_DEFINE_2(ZFOutput, ZFOutputForPathInfoString,
                        ZFMP_IN(const zfchar *, pathInfoString),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
@@ -846,24 +846,24 @@ ZFMETHOD_FUNC_DEFINE_2(ZFOutputCallback, ZFOutputCallbackForPathInfoString,
     {
         return ZFCallbackNull();
     }
-    ZFOutputCallback ret;
-    ZFOutputCallbackForPathInfoT(ret, pathType, pathData, flags);
+    ZFOutput ret;
+    ZFOutputForPathInfoT(ret, pathType, pathData, flags);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputCallbackForPathInfoT,
+ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputForPathInfoT,
                        ZFMP_IN_OUT(ZFCallback &, ret),
                        ZFMP_IN(const zfchar *, pathType),
                        ZFMP_IN(const zfchar *, pathData),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
-    zfblockedAlloc(_ZFP_I_ZFOutputCallbackForPathInfoOwner, outputOwner);
+    zfblockedAlloc(_ZFP_I_ZFOutputForPathInfoOwner, outputOwner);
     if(!outputOwner->openFile(pathType, pathData, flags))
     {
         return zffalse;
     }
     zfbool needSerialize = (ret.callbackSerializeCustomType() == zfnull);
     ret = ZFCallbackForMemberMethod(
-        outputOwner, ZFMethodAccess(_ZFP_I_ZFOutputCallbackForPathInfoOwner, onOutput));
+        outputOwner, ZFMethodAccess(_ZFP_I_ZFOutputForPathInfoOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, outputOwner);
 
     ret.pathInfoSet(pathType, pathData);
@@ -902,7 +902,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputCallbackForPathInfoT,
         } while(zffalse);
         if(success)
         {
-            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputCallbackForPathInfo);
+            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputForPathInfo);
             ret.callbackSerializeCustomDataSet(customData);
         }
         else
@@ -913,7 +913,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputCallbackForPathInfoT,
 
     return ret.callbackIsValid();
 }
-ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputCallbackForPathInfo, ZFCallbackSerializeCustomType_ZFOutputCallbackForPathInfo)
+ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForPathInfo, ZFCallbackSerializeCustomType_ZFOutputForPathInfo)
 {
     const ZFSerializableData *pathInfoData = ZFSerializableUtil::requireElementByCategory(
         serializableData, ZFSerializableKeyword_ZFFileCallback_pathInfo, outErrorHint, outErrorPos);
@@ -936,7 +936,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputCallbackForPathInfo, ZFCallbackS
     }
 
     ret.callbackSerializeCustomDisable();
-    ZFOutputCallbackForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
+    ZFOutputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
@@ -973,17 +973,17 @@ static zfbool _ZFP_ZFFileCallbackForLocalFileGetAbsPath(ZF_OUT zfstring &pathDat
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_4(ZFInputCallback, ZFInputCallbackForLocalFile,
+ZFMETHOD_FUNC_DEFINE_4(ZFInput, ZFInputForLocalFile,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, localPath),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
                        ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
 {
-    ZFInputCallback ret;
-    ZFInputCallbackForLocalFileT(ret, pathInfo, localPath, flags, autoSkipBOMTable);
+    ZFInput ret;
+    ZFInputForLocalFileT(ret, pathInfo, localPath, flags, autoSkipBOMTable);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForLocalFileT,
+ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForLocalFileT,
                        ZFMP_OUT(ZFCallback &, ret),
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, localPath),
@@ -1001,7 +1001,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForLocalFileT,
         return zffalse;
     }
     ret.callbackSerializeCustomDisable();
-    if(!ZFInputCallbackForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags, autoSkipBOMTable))
+    if(!ZFInputForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags, autoSkipBOMTable))
     {
         return zffalse;
     }
@@ -1046,7 +1046,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForLocalFileT,
         } while(zffalse);
         if(success)
         {
-            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputCallbackForLocalFile);
+            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputForLocalFile);
             ret.callbackSerializeCustomDataSet(customData);
         }
         else
@@ -1057,7 +1057,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputCallbackForLocalFileT,
 
     return zftrue;
 }
-ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForLocalFile, ZFCallbackSerializeCustomType_ZFInputCallbackForLocalFile)
+ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerializeCustomType_ZFInputForLocalFile)
 {
     const ZFPathInfo *pathInfo = serializableData.pathInfoCheck();
     if(pathInfo == zfnull)
@@ -1109,7 +1109,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForLocalFile, ZFCallbackS
             localPath);
         return zffalse;
     }
-    ZFInputCallbackForPathInfoT(ret, pathInfo->pathType, pathDataAbs, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, pathInfo->pathType, pathDataAbs, flags, autoSkipBOMTable);
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
@@ -1122,7 +1122,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputCallbackForLocalFile, ZFCallbackS
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_3(ZFOutputCallback, ZFOutputCallbackForLocalFile,
+ZFMETHOD_FUNC_DEFINE_3(ZFOutput, ZFOutputForLocalFile,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, localPath),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
@@ -1137,9 +1137,9 @@ ZFMETHOD_FUNC_DEFINE_3(ZFOutputCallback, ZFOutputCallbackForLocalFile,
     {
         return ZFCallbackNull();
     }
-    ZFOutputCallback ret;
+    ZFOutput ret;
     ret.callbackSerializeCustomDisable();
-    if(!ZFOutputCallbackForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags))
+    if(!ZFOutputForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags))
     {
         return ZFCallbackNull();
     }
@@ -1173,14 +1173,14 @@ ZFMETHOD_FUNC_DEFINE_3(ZFOutputCallback, ZFOutputCallbackForLocalFile,
         } while(zffalse);
         if(success)
         {
-            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputCallbackForLocalFile);
+            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputForLocalFile);
             ret.callbackSerializeCustomDataSet(customData);
         }
     }
 
     return ret;
 }
-ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputCallbackForLocalFile, ZFCallbackSerializeCustomType_ZFOutputCallbackForLocalFile)
+ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForLocalFile, ZFCallbackSerializeCustomType_ZFOutputForLocalFile)
 {
     const ZFPathInfo *pathInfo = serializableData.pathInfoCheck();
     if(pathInfo == zfnull)
@@ -1220,7 +1220,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputCallbackForLocalFile, ZFCallback
             localPath);
         return zffalse;
     }
-    ZFOutputCallbackForPathInfoT(ret, pathInfo->pathType, pathDataAbs, flags);
+    ZFOutputForPathInfoT(ret, pathInfo->pathType, pathDataAbs, flags);
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,

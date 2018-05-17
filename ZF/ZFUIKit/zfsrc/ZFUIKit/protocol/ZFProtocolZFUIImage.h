@@ -28,12 +28,12 @@ public:
      * @brief load image from input as binary data,
      *   created image would be released by #nativeImageRelease
      */
-    virtual void *nativeImageFromInput(ZF_IN const ZFInputCallback &inputCallback) zfpurevirtual;
+    virtual void *nativeImageFromInput(ZF_IN const ZFInput &inputCallback) zfpurevirtual;
     /**
      * @brief save image to output as binary data
      */
     virtual zfbool nativeImageToOutput(ZF_IN void *nativeImage,
-                                       ZF_OUT const ZFOutputCallback &outputCallback) zfpurevirtual;
+                                       ZF_OUT const ZFOutput &outputCallback) zfpurevirtual;
 
     /**
      * @brief copy the nativeImage and return the copied one,

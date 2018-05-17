@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFEnumDeclare_h_
 #define _ZFI_ZFEnumDeclare_h_
 
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

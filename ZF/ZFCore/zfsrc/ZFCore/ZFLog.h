@@ -40,10 +40,10 @@ extern ZF_ENV_EXPORT zfstring _ZFP_ZFLogHeaderString(ZF_IN const ZFCallerInfo &c
 /**
  * @brief output callback list for #zfLogTrimT
  *
- * by default, #ZFOutputCallbackForConsole would be added
+ * by default, #ZFOutputForConsole would be added
  * during #ZFFrameworkInit as level #ZFLevelZFFrameworkEssential
  */
-extern ZF_ENV_EXPORT ZFCoreArray<ZFOutputCallback> ZFLogOutputList;
+extern ZF_ENV_EXPORT ZFCoreArray<ZFOutput> ZFLogOutputList;
 
 // ============================================================
 /**
@@ -61,7 +61,7 @@ extern ZF_ENV_EXPORT ZFCoreArray<ZFOutputCallback> ZFLogOutputList;
  * @endcode
  *
  * ZFLog is actually an output callback,
- * you can output anything that #ZFOutputCallback supported\n
+ * you can output anything that #ZFOutput supported\n
  * final log content would be written to #ZFLogOutputList,
  * which can be easily redirected to other output destinations\n
  * ZFLog is thread-safe, implemented by #ZFLogMutex\n
@@ -81,7 +81,7 @@ extern ZF_ENV_EXPORT ZFCoreArray<ZFOutputCallback> ZFLogOutputList;
  * @endcode
  * and they would be reset to default state after each zfLogT call
  */
-extern ZF_ENV_EXPORT ZFOutputCallback zfLogTrimT(void);
+extern ZF_ENV_EXPORT ZFOutput zfLogTrimT(void);
 
 /** @brief see #zfLogTrimT */
 #define zfLogT() (zfLogTrimT() << ZFLOG_HEADER_STRING)
@@ -98,10 +98,10 @@ zfclassNotPOD _ZFP_ZFLogAutoSpaceOn {};
 zfclassNotPOD _ZFP_ZFLogAutoSpaceOff {};
 zfclassNotPOD _ZFP_ZFLogAutoEndlOn {};
 zfclassNotPOD _ZFP_ZFLogAutoEndlOff {};
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOn const &v);
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoSpaceOff const &v);
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOn const &v);
-extern ZF_ENV_EXPORT const ZFOutputCallback &operator << (const ZFOutputCallback &output, _ZFP_ZFLogAutoEndlOff const &v);
+extern ZF_ENV_EXPORT const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoSpaceOn const &v);
+extern ZF_ENV_EXPORT const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoSpaceOff const &v);
+extern ZF_ENV_EXPORT const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoEndlOn const &v);
+extern ZF_ENV_EXPORT const ZFOutput &operator << (const ZFOutput &output, _ZFP_ZFLogAutoEndlOff const &v);
 /** @endcond */
 
 /** @brief see #zfLogTrimT */

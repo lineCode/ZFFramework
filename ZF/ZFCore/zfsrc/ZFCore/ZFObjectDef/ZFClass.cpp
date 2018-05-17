@@ -1353,7 +1353,7 @@ void ZFClass::_ZFP_ZFClass_methodAndPropertyAutoRegister(void) const
                 const ZFClass *,
                 zfText("ClassData"));
 
-            if(!this->classIsTypeOf(ZFPropertyTypeWrapper::ClassData()))
+            if(!this->classIsTypeOf(ZFTypeIdWrapper::ClassData()))
             {
                 // create dummy instance to ensure static init of the object would take effect
                 // including method and property register

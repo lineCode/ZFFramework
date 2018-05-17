@@ -489,10 +489,6 @@ void ZFCallback::_ZFP_ZFCallbackCachedDataSetup(ZF_IN_OUT ZFCallback &c, _ZFP_ZF
         c._ZFP_ZFCallbackCached_callbackOwnerObj = zfnull;
     }
 }
-ZFFuncAddrType ZFCallback::_ZFP_ZFCallbackCached_callbackInvoker_method(void) const
-{
-    return (d ? d->callbackMethod->methodInvoker() : zfnull);
-}
 ZFFuncAddrType ZFCallback::_ZFP_ZFCallbackCached_callbackInvoker_rawFunction(void) const
 {
     return (d ? d->callbackRawFunc : zfnull);

@@ -22,10 +22,10 @@ ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIImageImpl_sys_Qt, ZFUIImage, ZFProtocolLevel
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QImage"))
 
 public:
-    virtual void *nativeImageFromInput(ZF_IN const ZFInputCallback &inputCallback)
+    virtual void *nativeImageFromInput(ZF_IN const ZFInput &inputCallback)
     {
         QImage *nativeImage = new QImage();
-        ZFBuffer buf = ZFInputCallbackReadToBuffer(inputCallback);
+        ZFBuffer buf = ZFInputReadToBuffer(inputCallback);
         if(!nativeImage->loadFromData((const uchar *)buf.buffer(), buf.bufferSize()))
         {
             delete nativeImage;
@@ -34,7 +34,7 @@ public:
         return nativeImage;
     }
     virtual zfbool nativeImageToOutput(ZF_IN void *nativeImage,
-                                       ZF_OUT const ZFOutputCallback &outputCallback)
+                                       ZF_OUT const ZFOutput &outputCallback)
     {
         QImage *nativeImageTmp = ZFCastStatic(QImage *, nativeImage);
         QByteArray buf;

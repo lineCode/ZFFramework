@@ -15,7 +15,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 static zfbool _ZFP_ZFLuaExecute(ZF_IN const ZFPathInfo *pathInfoOrNull,
-                                ZF_IN const ZFInputCallback &input,
+                                ZF_IN const ZFInput &input,
                                 ZF_IN zfautoObject *luaResult,
                                 ZF_IN const ZFCoreArray<zfautoObject> *luaParams,
                                 ZF_IN void *L)
@@ -40,7 +40,7 @@ static zfbool _ZFP_ZFLuaExecute(ZF_IN const ZFPathInfo *pathInfoOrNull,
 }
 
 ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
-                       ZFMP_IN(const ZFInputCallback &, input),
+                       ZFMP_IN(const ZFInput &, input),
                        ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                        ZFMP_IN_OPT(void *, L, zfnull))
 {
@@ -62,7 +62,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfautoObject, ZFLuaExecute,
                        ZFMP_IN_OPT(void *, L, zfnull))
 {
     zfautoObject ret;
-    if(_ZFP_ZFLuaExecute(zfnull, ZFInputCallbackForBuffer(buf, bufLen), &ret, luaParams, L))
+    if(_ZFP_ZFLuaExecute(zfnull, ZFInputForBuffer(buf, bufLen), &ret, luaParams, L))
     {
         return ret;
     }

@@ -92,7 +92,7 @@ zfclassFwd ZFXmlVisitData;
  *   if not visitEnter, shows that whether we should continue to visit next siblings
  */
 typedef ZFCallbackT<zfbool, const ZFXmlVisitData &> ZFXmlVisitCallback;
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFXmlVisitCallback, ZFXmlVisitCallback)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFXmlVisitCallback, ZFXmlVisitCallback)
 
 /**
  * @brief default visit callback for visiting a xml item,
@@ -373,7 +373,7 @@ private:
 private:
     ZFXmlItem(ZF_IN _ZFP_ZFXmlItemPrivate *ref);
 };
-ZFPROPERTY_TYPE_DECLARE(ZFXmlItem, ZFXmlItem)
+ZFTYPEID_DECLARE(ZFXmlItem, ZFXmlItem)
 ZFOUTPUT_TYPE(ZFXmlItem, {output << v.objectInfo();})
 
 // ============================================================
@@ -459,7 +459,7 @@ public:
     inline zfbool operator != (ZF_IN ZFXmlVisitData const &ref) const {return !this->operator == (ref);}
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFXmlVisitData, ZFXmlVisitData)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFXmlVisitData, ZFXmlVisitData)
 
 // ============================================================
 /**
@@ -591,7 +591,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFXmlOutputFlags, ZFXmlOutputFlags)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFXmlOutputFlags, ZFXmlOutputFlags)
 
 /**
  * @brief default xml output flags
@@ -610,7 +610,7 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFXmlOutputFlags, ZFXmlOutputFlagsDetailed)
  * @brief create a ZFXmlVisitCallback to output xml DOM tree
  */
 ZFMETHOD_FUNC_DECLARE_2(ZFXmlVisitCallback, ZFXmlVisitCallbackForOutput,
-                        ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()),
+                        ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                         ZFMP_IN_OPT(const ZFXmlOutputFlags &, flags, ZFXmlOutputFlagsDefault()))
 
 // ============================================================
@@ -618,7 +618,7 @@ ZFMETHOD_FUNC_DECLARE_2(ZFXmlVisitCallback, ZFXmlVisitCallbackForOutput,
  * @brief parse xml document, or return an item with null type if fail
  */
 ZFMETHOD_FUNC_DECLARE_1(ZFXmlItem, ZFXmlItemFromInput,
-                        ZFMP_IN(const ZFInputCallback &, callback))
+                        ZFMP_IN(const ZFInput &, callback))
 /**
  * @brief parse xml document, or return an item with null type if fail
  */
@@ -629,7 +629,7 @@ ZFMETHOD_FUNC_DECLARE_2(ZFXmlItem, ZFXmlItemFromString,
  * @brief util method to parse and get first element, or return an item with null type if fail
  */
 ZFMETHOD_FUNC_DECLARE_1(ZFXmlItem, ZFXmlParseFirstElement,
-                        ZFMP_IN(const ZFInputCallback &, callback))
+                        ZFMP_IN(const ZFInput &, callback))
 /**
  * @brief util method to parse and get first element, or return an item with null type if fail
  */
@@ -645,7 +645,7 @@ ZFMETHOD_FUNC_DECLARE_2(ZFXmlItem, ZFXmlParseFirstElement,
  *   if source is not valid
  */
 ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFXmlItemToOutput,
-                        ZFMP_IN_OUT(const ZFOutputCallback &, output),
+                        ZFMP_IN_OUT(const ZFOutput &, output),
                         ZFMP_IN(const ZFXmlItem &, xmlItem),
                         ZFMP_IN_OPT(const ZFXmlOutputFlags &, outputFlags, ZFXmlOutputFlagsDefault()))
 /**
@@ -687,7 +687,7 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFXmlEscapeCharEncode,
  * @brief see #ZFXmlEscapeCharEncode
  */
 ZFMETHOD_FUNC_DECLARE_3(void, ZFXmlEscapeCharEncode,
-                        ZFMP_OUT(const ZFOutputCallback &, dst),
+                        ZFMP_OUT(const ZFOutput &, dst),
                         ZFMP_IN(const zfchar *, src),
                         ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 
@@ -702,7 +702,7 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFXmlEscapeCharDecode,
  * @brief see #ZFXmlEscapeCharEncode
  */
 ZFMETHOD_FUNC_DECLARE_3(void, ZFXmlEscapeCharDecode,
-                        ZFMP_OUT(const ZFOutputCallback &, dst),
+                        ZFMP_OUT(const ZFOutput &, dst),
                         ZFMP_IN(const zfchar *, src),
                         ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 

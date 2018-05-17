@@ -27,13 +27,13 @@ ZFPROTOCOL_INTERFACE_BEGIN(ZFJsonEscapeChar)
     /**
      * @brief see #ZFJsonEscapeCharEncode
      */
-    virtual void jsonEscapeCharEncode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void jsonEscapeCharEncode(ZF_OUT const ZFOutput &dst,
                                       ZF_IN const zfchar *src,
                                       ZF_IN_OPT zfindex count = zfindexMax()) zfpurevirtual;
     /**
      * @brief see #ZFJsonEscapeCharEncode
      */
-    virtual void jsonEscapeCharDecode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void jsonEscapeCharDecode(ZF_OUT const ZFOutput &dst,
                                       ZF_IN const zfchar *src,
                                       ZF_IN_OPT zfindex count = zfindexMax()) zfpurevirtual;
 ZFPROTOCOL_INTERFACE_END(ZFJsonEscapeChar)

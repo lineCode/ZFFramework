@@ -64,7 +64,7 @@ inline zfindex ZF2048PointToIndex(ZF_IN zfindex posX, ZF_IN zfindex posY,
 }
 
 ZFT_INT_STRONG(zft_zfint, ZF2048Value)
-ZFPROPERTY_TYPE_DECLARE(ZF2048Value, ZF2048Value)
+ZFTYPEID_DECLARE(ZF2048Value, ZF2048Value)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZF2048Types_h_

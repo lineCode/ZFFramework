@@ -27,13 +27,13 @@ public:
     /**
      * @brief see #ZFXmlEscapeCharEncode
      */
-    virtual void xmlEscapeCharEncode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void xmlEscapeCharEncode(ZF_OUT const ZFOutput &dst,
                                      ZF_IN const zfchar *src,
                                      ZF_IN_OPT zfindex count = zfindexMax()) zfpurevirtual;
     /**
      * @brief see #ZFXmlEscapeCharEncode
      */
-    virtual void xmlEscapeCharDecode(ZF_OUT const ZFOutputCallback &dst,
+    virtual void xmlEscapeCharDecode(ZF_OUT const ZFOutput &dst,
                                      ZF_IN const zfchar *src,
                                      ZF_IN_OPT zfindex count = zfindexMax()) zfpurevirtual;
 ZFPROTOCOL_INTERFACE_END(ZFXmlEscapeChar)

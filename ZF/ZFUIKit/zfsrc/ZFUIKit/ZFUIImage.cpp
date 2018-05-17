@@ -151,7 +151,7 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
         check, ZFSerializableKeyword_ZFUIImage_imageBin, zfstring, imageBin);
     if(imageBin != zfnull)
     {
-        if(!ZFUIImageEncodeFromBase64(this, ZFInputCallbackForBuffer(imageBin)))
+        if(!ZFUIImageEncodeFromBase64(this, ZFInputForBuffer(imageBin)))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
                 zfText("fail to load image from base64 data: \"%s\""), imageBin);
@@ -251,7 +251,7 @@ zfbool ZFUIImage::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &se
     else
     { // imageBin
         zfstring imageBin;
-        if(!ZFUIImageEncodeToBase64(ZFOutputCallbackForString(imageBin), this))
+        if(!ZFUIImageEncodeToBase64(ZFOutputForString(imageBin), this))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, zfText("save image to base64 failed"));
             return zffalse;
@@ -259,7 +259,7 @@ zfbool ZFUIImage::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &se
         zfstring imageBinRef;
         if(ref != zfnull)
         {
-            ZFUIImageEncodeToBase64(ZFOutputCallbackForString(imageBinRef), ref);
+            ZFUIImageEncodeToBase64(ZFOutputForString(imageBinRef), ref);
         }
         ZFSerializableUtilSerializeCategoryToData(serializableData, outErrorHint, ref,
             ZFSerializableKeyword_ZFUIImage_imageBin, zfstring, imageBin, imageBinRef, zfstring());
@@ -425,7 +425,7 @@ const ZFSerializableData *ZFUIImage::imageSerializableData(void)
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeFromBase64,
                        ZFMP_IN_OUT(ZFUIImage *, image),
-                       ZFMP_IN(const ZFInputCallback &, inputCallback))
+                       ZFMP_IN(const ZFInput &, inputCallback))
 {
     ZFIOBufferedCallbackUsingTmpFile io;
     if(image != zfnull && ZFBase64Decode(io.outputCallback(), inputCallback))
@@ -443,7 +443,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeFromBase64,
     return zffalse;
 }
 ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageEncodeFromBase64,
-                       ZFMP_IN(const ZFInputCallback &, inputCallback))
+                       ZFMP_IN(const ZFInput &, inputCallback))
 {
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     if(ZFUIImageEncodeFromBase64(ret, inputCallback))
@@ -456,7 +456,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageEncodeFromBase64,
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeToBase64,
-                       ZFMP_OUT(const ZFOutputCallback &, outputCallback),
+                       ZFMP_OUT(const ZFOutput &, outputCallback),
                        ZFMP_IN(ZFUIImage *, image))
 {
     if(image != zfnull && image->nativeImage() != zfnull && outputCallback.callbackIsValid())
@@ -472,7 +472,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeToBase64,
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeFromFile,
                        ZFMP_IN_OUT(ZFUIImage *, image),
-                       ZFMP_IN(const ZFInputCallback &, inputCallback))
+                       ZFMP_IN(const ZFInput &, inputCallback))
 {
     if(image != zfnull && inputCallback.callbackIsValid())
     {
@@ -489,7 +489,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeFromFile,
     return zffalse;
 }
 ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageEncodeFromFile,
-                       ZFMP_IN(const ZFInputCallback &, inputCallback))
+                       ZFMP_IN(const ZFInput &, inputCallback))
 {
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     if(ZFUIImageEncodeFromFile(ret, inputCallback))
@@ -502,7 +502,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageEncodeFromFile,
     }
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeToFile,
-                       ZFMP_OUT(const ZFOutputCallback &, outputCallback),
+                       ZFMP_OUT(const ZFOutput &, outputCallback),
                        ZFMP_IN(ZFUIImage *, image))
 {
     if(image != zfnull && image->nativeImage() != zfnull && outputCallback.callbackIsValid())

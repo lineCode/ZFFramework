@@ -25,8 +25,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * return size already written to output even if error occurred
  */
-extern ZF_ENV_EXPORT zfindex ZFInputCallbackReadToOutput(ZF_IN_OUT const ZFOutputCallback &output,
-                                                         ZF_IN_OUT const ZFInputCallback &input);
+extern ZF_ENV_EXPORT zfindex ZFInputReadToOutput(ZF_IN_OUT const ZFOutput &output,
+                                                         ZF_IN_OUT const ZFInput &input);
 
 // ============================================================
 // ZFIOBufferedCallback
@@ -35,8 +35,8 @@ extern ZF_ENV_EXPORT zfindex ZFInputCallbackReadToOutput(ZF_IN_OUT const ZFOutpu
  *
  * usage:
  * @code
- *   void outputFunc(ZF_IN const ZFOutputCallback &callback) {...}
- *   void inputFunc(ZF_IN const ZFInputCallback &callback) {...}
+ *   void outputFunc(ZF_IN const ZFOutput &callback) {...}
+ *   void inputFunc(ZF_IN const ZFInput &callback) {...}
  *
  *   ZFIOBufferedCallbackXXX bridge;
  *   outputFunc(bridge); // output data to bridge's internal buffer
@@ -56,14 +56,14 @@ public:
     /**
      * @brief implicit convert to input callback
      */
-    virtual operator ZFInputCallback (void)
+    virtual operator ZFInput (void)
     {
         return this->inputCallback();
     }
     /**
      * @brief implicit convert to output callback
      */
-    virtual operator ZFOutputCallback (void)
+    virtual operator ZFOutput (void)
     {
         return this->outputCallback();
     }
@@ -72,11 +72,11 @@ public:
     /**
      * @brief get input callback
      */
-    virtual ZFInputCallback inputCallback(void) zfpurevirtual;
+    virtual ZFInput inputCallback(void) zfpurevirtual;
     /**
      * @brief get input callback
      */
-    virtual ZFOutputCallback outputCallback(void) zfpurevirtual;
+    virtual ZFOutput outputCallback(void) zfpurevirtual;
 
 public:
     /**
@@ -108,9 +108,9 @@ public:
 
 public:
     zfoverride
-    virtual ZFInputCallback inputCallback(void);
+    virtual ZFInput inputCallback(void);
     zfoverride
-    virtual ZFOutputCallback outputCallback(void);
+    virtual ZFOutput outputCallback(void);
 
 public:
     zfoverride

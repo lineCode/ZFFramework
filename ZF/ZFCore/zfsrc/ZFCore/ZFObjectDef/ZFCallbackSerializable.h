@@ -17,11 +17,11 @@
 
 #include "ZFIOCallback.h"
 #include "ZFSerializable.h"
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -52,7 +52,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   </ZFCallback>
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFCallback, ZFCallback)
+ZFTYPEID_DECLARE(ZFCallback, ZFCallback)
 
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFCallback_method zfText("method")
@@ -63,10 +63,10 @@ ZFPROPERTY_TYPE_DECLARE(ZFCallback, ZFCallback)
 #define ZFSerializableKeyword_ZFCallback_callbackData zfText("callbackData")
 
 // ============================================================
-ZFPROPERTY_TYPE_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFListener, ZFListener)
-ZFPROPERTY_TYPE_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFIOCallback, ZFIOCallback)
-ZFPROPERTY_TYPE_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFOutputCallback, ZFOutputCallback)
-ZFPROPERTY_TYPE_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFInputCallback, ZFInputCallback)
+ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFListener, ZFListener)
+ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFIOCallback, ZFIOCallback)
+ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFOutput, ZFOutput)
+ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFInput, ZFInput)
 
 // ============================================================
 // custom serialize logic
@@ -80,7 +80,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallbackSerializeCustomTypeUnregister(ZF_IN con
 extern ZF_ENV_EXPORT _ZFP_ZFCallbackSerializeCustomCallback _ZFP_ZFCallbackSerializeCustomTypeGet(ZF_IN const zfchar *customType);
 
 /**
- * @brief see #ZFPropertyTypeId_ZFCallback
+ * @brief see #ZFTypeId_ZFCallback
  *
  * usage:
  * @code

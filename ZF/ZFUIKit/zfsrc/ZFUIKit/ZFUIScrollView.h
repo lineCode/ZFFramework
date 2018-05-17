@@ -263,8 +263,9 @@ public:
      *
      * it's your responsibility to ensure th child is indeed this view's child
      */
-    ZFMETHOD_DECLARE_2(void, scrollChildToVisible,
+    ZFMETHOD_DECLARE_3(void, scrollChildToVisible,
                        ZFMP_IN(ZFUIView *, child),
+                       ZFMP_IN_OPT(const ZFUIMargin &, margin, ZFUIMarginZero()),
                        ZFMP_IN_OPT(zfbool, scrollWithAni, zftrue))
 
     // ============================================================

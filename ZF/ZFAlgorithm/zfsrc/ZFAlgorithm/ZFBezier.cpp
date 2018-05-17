@@ -175,8 +175,8 @@ ZFEXPORT_VAR_READONLY_DEFINE(ZFBezier, ZFBezierBounceOut, ZFBezier(0, 0, 0.8f, 1
 ZFEXPORT_VAR_READONLY_DEFINE(ZFBezier, ZFBezierBounceInOut, ZFBezier(0.2f, -0.5f, 0.8f, 1.5f))
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE(ZFBezier, ZFBezier, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_ZFBezier(), serializableData, outErrorHint, outErrorPos) == zfnull)
+ZFTYPEID_DEFINE(ZFBezier, ZFBezier, {
+        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFBezier(), serializableData, outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -219,7 +219,7 @@ ZFPROPERTY_TYPE_DEFINE(ZFBezier, ZFBezier, {
         serializableData.resolveMark();
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFPropertyTypeId_ZFBezier());
+        serializableData.itemClassSet(ZFTypeId_ZFBezier());
 
         if(v.p0x != 0 || v.p0y != 0)
         {

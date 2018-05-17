@@ -17,7 +17,7 @@
 
 #include "ZFObjectCore.h"
 #include "ZFObjectDeclare.h"
-#include "ZFPropertyType.h"
+#include "ZFTypeId.h"
 #include "ZFMethodUserRegister.h"
 #include "ZFMethodFuncUserRegister.h"
 #include "ZFClassSerializable.h"

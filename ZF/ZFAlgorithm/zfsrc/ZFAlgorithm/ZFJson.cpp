@@ -51,7 +51,7 @@ zfbool ZFJsonOutputFlags::operator == (ZF_IN ZFJsonOutputFlags const &ref) const
         );
 }
 /** @endcond */
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFJsonOutputFlags, ZFJsonOutputFlags)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFJsonOutputFlags, ZFJsonOutputFlags)
 
 // ============================================================
 ZFEXPORT_VAR_READONLY_DEFINE(ZFJsonOutputFlags, ZFJsonOutputFlagsDefault, ZFJsonOutputFlags())
@@ -70,7 +70,7 @@ static const ZFJsonOutputFlags &_ZFP_ZFJsonOutputFlagsTrimInit(void)
 ZFEXPORT_VAR_READONLY_DEFINE(ZFJsonOutputFlags, ZFJsonOutputFlagsTrim, _ZFP_ZFJsonOutputFlagsTrimInit())
 
 // ============================================================
-static void _ZFP_ZFJsonItemToOutput_outputIndent(ZF_IN_OUT const ZFOutputCallback &output,
+static void _ZFP_ZFJsonItemToOutput_outputIndent(ZF_IN_OUT const ZFOutput &output,
                                                  ZF_IN const ZFJsonOutputFlags &outputFlags,
                                                  ZF_IN zfindex indentLevel)
 {
@@ -79,11 +79,11 @@ static void _ZFP_ZFJsonItemToOutput_outputIndent(ZF_IN_OUT const ZFOutputCallbac
         output << outputFlags.jsonToken.jsonIndentToken;
     }
 }
-static void _ZFP_ZFJsonItemToOutput_output(ZF_IN_OUT const ZFOutputCallback &output,
+static void _ZFP_ZFJsonItemToOutput_output(ZF_IN_OUT const ZFOutput &output,
                                            ZF_IN const ZFJsonItem &jsonItem,
                                            ZF_IN const ZFJsonOutputFlags &outputFlags,
                                            ZF_IN zfindex indentLevel);
-static void _ZFP_ZFJsonItemToOutput_output_JsonValue(ZF_IN_OUT const ZFOutputCallback &output,
+static void _ZFP_ZFJsonItemToOutput_output_JsonValue(ZF_IN_OUT const ZFOutput &output,
                                                      ZF_IN const ZFJsonItem &jsonValue,
                                                      ZF_IN const ZFJsonOutputFlags &outputFlags,
                                                      ZF_IN zfindex indentLevel)
@@ -92,7 +92,7 @@ static void _ZFP_ZFJsonItemToOutput_output_JsonValue(ZF_IN_OUT const ZFOutputCal
     ZFJsonEscapeCharEncode(output, jsonValue.jsonValue());
     output << outputFlags.jsonToken.jsonValueTagRight;
 }
-static void _ZFP_ZFJsonItemToOutput_output_JsonObject(ZF_IN_OUT const ZFOutputCallback &output,
+static void _ZFP_ZFJsonItemToOutput_output_JsonObject(ZF_IN_OUT const ZFOutput &output,
                                                       ZF_IN const ZFJsonItem &jsonObject,
                                                       ZF_IN const ZFJsonOutputFlags &outputFlags,
                                                       ZF_IN zfindex indentLevel)
@@ -140,7 +140,7 @@ static void _ZFP_ZFJsonItemToOutput_output_JsonObject(ZF_IN_OUT const ZFOutputCa
     }
     output << outputFlags.jsonToken.jsonObjectTagRight;
 }
-static void _ZFP_ZFJsonItemToOutput_output_JsonArray(ZF_IN_OUT const ZFOutputCallback &output,
+static void _ZFP_ZFJsonItemToOutput_output_JsonArray(ZF_IN_OUT const ZFOutput &output,
                                                      ZF_IN const ZFJsonItem &jsonArray,
                                                      ZF_IN const ZFJsonOutputFlags &outputFlags,
                                                      ZF_IN zfindex indentLevel)
@@ -186,7 +186,7 @@ static void _ZFP_ZFJsonItemToOutput_output_JsonArray(ZF_IN_OUT const ZFOutputCal
     }
     output << outputFlags.jsonToken.jsonArrayTagRight;
 }
-static void _ZFP_ZFJsonItemToOutput_output(ZF_IN_OUT const ZFOutputCallback &output,
+static void _ZFP_ZFJsonItemToOutput_output(ZF_IN_OUT const ZFOutput &output,
                                            ZF_IN const ZFJsonItem &jsonItem,
                                            ZF_IN const ZFJsonOutputFlags &outputFlags,
                                            ZF_IN zfindex indentLevel)
@@ -896,11 +896,11 @@ zfindex ZFJsonItem::jsonObjectFind(ZF_IN const ZFJsonItem &jsonObject) const
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFJsonItem, ZFJsonItem, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFJsonItem, ZFJsonItem, {
         v = ZFPROTOCOL_ACCESS(ZFJson)->jsonParse(src, srcLen);
         return !v.jsonIsNull();
     }, {
-        return ZFJsonItemToOutput(ZFOutputCallbackForString(s), v);
+        return ZFJsonItemToOutput(ZFOutputForString(s), v);
     })
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, void, objectInfoT, ZFMP_IN_OUT(zfstring &, ret))
@@ -940,7 +940,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, void, jsonObjectRemoveAl
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, zfindex, jsonObjectFind, ZFMP_IN(const ZFJsonItem &, jsonObject))
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_1(ZFJsonItem, ZFJsonItemFromInput, ZFMP_IN(const ZFInputCallback &, input))
+ZFMETHOD_FUNC_DEFINE_1(ZFJsonItem, ZFJsonItemFromInput, ZFMP_IN(const ZFInput &, input))
 {
     return ZFPROTOCOL_ACCESS(ZFJson)->jsonParse(input);
 }
@@ -952,7 +952,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFJsonItem, ZFJsonItemFromString,
 }
 
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFJsonItemToOutput,
-                       ZFMP_IN_OUT(const ZFOutputCallback &, output),
+                       ZFMP_IN_OUT(const ZFOutput &, output),
                        ZFMP_IN(const ZFJsonItem &, jsonItem),
                        ZFMP_IN_OPT(const ZFJsonOutputFlags &, outputFlags, ZFJsonOutputFlagsDefault()))
 {
@@ -969,7 +969,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFJsonItemToString,
                        ZFMP_IN(const ZFJsonItem &, jsonItem),
                        ZFMP_IN(const ZFJsonOutputFlags &, outputFlags))
 {
-    return ZFJsonItemToOutput(ZFOutputCallbackForString(ret), jsonItem, outputFlags);
+    return ZFJsonItemToOutput(ZFOutputForString(ret), jsonItem, outputFlags);
 }
 ZFMETHOD_FUNC_DEFINE_2(zfstring, ZFJsonItemToString,
                        ZFMP_IN(const ZFJsonItem &, jsonItem),
@@ -987,10 +987,10 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFJsonEscapeCharEncode,
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {
-    ZFJsonEscapeCharEncode(ZFOutputCallbackForString(dst), src, count);
+    ZFJsonEscapeCharEncode(ZFOutputForString(dst), src, count);
 }
 ZFMETHOD_FUNC_DEFINE_3(void, ZFJsonEscapeCharEncode,
-                       ZFMP_OUT(const ZFOutputCallback &, dst),
+                       ZFMP_OUT(const ZFOutput &, dst),
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {
@@ -1002,10 +1002,10 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFJsonEscapeCharDecode,
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {
-    ZFJsonEscapeCharDecode(ZFOutputCallbackForString(dst), src, count);
+    ZFJsonEscapeCharDecode(ZFOutputForString(dst), src, count);
 }
 ZFMETHOD_FUNC_DEFINE_3(void, ZFJsonEscapeCharDecode,
-                       ZFMP_OUT(const ZFOutputCallback &, dst),
+                       ZFMP_OUT(const ZFOutput &, dst),
                        ZFMP_IN(const zfchar *, src),
                        ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 {

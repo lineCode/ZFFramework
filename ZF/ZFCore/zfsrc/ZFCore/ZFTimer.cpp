@@ -129,7 +129,7 @@ void ZFTimer::_ZFP_ZFTimer_timerOnStop(void)
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFTimerExecuteParam, ZFTimerExecuteParam)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFTimerExecuteParam, ZFTimerExecuteParam)
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, zftimet const &, timerInterval)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerIntervalSet, ZFMP_IN(zftimet const &, timerInterval))

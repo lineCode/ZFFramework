@@ -322,7 +322,7 @@ zfstring ZFSerializableDataToString(ZF_IN const ZFSerializableData &serializable
 
 // ============================================================
 zfbool ZFSerializableDataFromInput(ZF_OUT ZFSerializableData &serializableData,
-                                   ZF_IN const ZFInputCallback &input,
+                                   ZF_IN const ZFInput &input,
                                    ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
     if(!input.callbackIsValid())
@@ -330,7 +330,7 @@ zfbool ZFSerializableDataFromInput(ZF_OUT ZFSerializableData &serializableData,
         ZFSerializableUtil::errorOccurred(outErrorHint, zfText("invalid input callback"));
         return zffalse;
     }
-    ZFBuffer buf = ZFInputCallbackReadToBuffer(input);
+    ZFBuffer buf = ZFInputReadToBuffer(input);
     if(buf.buffer() == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, zfText("unable to load data from input"));
@@ -343,7 +343,7 @@ zfbool ZFSerializableDataFromInput(ZF_OUT ZFSerializableData &serializableData,
     }
     return ret;
 }
-ZFSerializableData ZFSerializableDataFromInput(ZF_IN const ZFInputCallback &input,
+ZFSerializableData ZFSerializableDataFromInput(ZF_IN const ZFInput &input,
                                                ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
     ZFSerializableData ret;
@@ -356,7 +356,7 @@ ZFSerializableData ZFSerializableDataFromInput(ZF_IN const ZFInputCallback &inpu
         return ZFSerializableData();
     }
 }
-zfbool ZFSerializableDataToOutput(ZF_IN_OUT const ZFOutputCallback &output,
+zfbool ZFSerializableDataToOutput(ZF_IN_OUT const ZFOutput &output,
                                   ZF_IN const ZFSerializableData &serializableData,
                                   ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
@@ -385,9 +385,9 @@ ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(ZFSerializableData, ZFSerializableDataFro
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFSerializableDataToString, ZFMP_OUT(zfstring &, result), ZFMP_IN(const ZFSerializableData &, serializableData), ZFMP_OUT(zfstring *, outErrorHint))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfstring, ZFSerializableDataToString, ZFMP_IN(const ZFSerializableData &, serializableData), ZFMP_OUT(zfstring *, outErrorHint))
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFSerializableDataFromInput, ZFMP_OUT(ZFSerializableData &, serializableData), ZFMP_IN(const ZFInputCallback &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFSerializableData, ZFSerializableDataFromInput, ZFMP_IN(const ZFInputCallback &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFSerializableDataToOutput, ZFMP_IN_OUT(const ZFOutputCallback &, output), ZFMP_IN(const ZFSerializableData &, serializableData), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFSerializableDataFromInput, ZFMP_OUT(ZFSerializableData &, serializableData), ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFSerializableData, ZFSerializableDataFromInput, ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFSerializableDataToOutput, ZFMP_IN_OUT(const ZFOutput &, output), ZFMP_IN(const ZFSerializableData &, serializableData), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

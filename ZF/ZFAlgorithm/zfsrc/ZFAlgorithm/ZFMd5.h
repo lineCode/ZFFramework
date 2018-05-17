@@ -38,11 +38,11 @@ inline zfstring zfMd5Calc(ZF_IN const void *src,
 /** @brief see #zfMd5Calc */
 ZFMETHOD_FUNC_DECLARE_3(void, zfMd5Calc,
                         ZFMP_IN_OUT(zfstring &, ret),
-                        ZFMP_IN(const ZFInputCallback &, callback),
+                        ZFMP_IN(const ZFInput &, callback),
                         ZFMP_IN_OPT(zfbool, upperCase, zftrue))
 /** @brief see #zfMd5Calc */
 ZFMETHOD_FUNC_DECLARE_2(zfstring, zfMd5Calc,
-                        ZFMP_IN(const ZFInputCallback &, callback),
+                        ZFMP_IN(const ZFInput &, callback),
                         ZFMP_IN_OPT(zfbool, upperCase, zftrue))
 
 ZF_NAMESPACE_GLOBAL_END

@@ -83,7 +83,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFTextTemplateRunParam, ZFTextTemplateRunParam)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFTextTemplateRunParam, ZFTextTemplateRunParam)
 
 extern ZF_ENV_EXPORT ZFTextTemplateRunParam &_ZFP_ZFTextTemplateRunParamDefault(void);
 /**

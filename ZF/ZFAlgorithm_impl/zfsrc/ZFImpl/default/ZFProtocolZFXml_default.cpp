@@ -44,9 +44,9 @@ public:
         buf.bufferCopy(src, size * sizeof(zfchar));
         return this->xmlParse(buf);
     }
-    virtual ZFXmlItem xmlParse(ZF_IN const ZFInputCallback &inputCallback)
+    virtual ZFXmlItem xmlParse(ZF_IN const ZFInput &inputCallback)
     {
-        ZFBuffer buf = ZFInputCallbackReadToBuffer(inputCallback);
+        ZFBuffer buf = ZFInputReadToBuffer(inputCallback);
         return this->xmlParse(buf);
     }
     virtual void xmlMemoryPoolRelease(ZF_IN void *token, ZF_IN const zfchar *value)

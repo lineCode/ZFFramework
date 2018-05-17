@@ -12,9 +12,9 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZFCoreArray<ZFOutputCallback> &_ZFP_ZFLuaErrorCallbacks(void)
+ZFCoreArray<ZFOutput> &_ZFP_ZFLuaErrorCallbacks(void)
 {
-    static ZFCoreArray<ZFOutputCallback> d;
+    static ZFCoreArray<ZFOutput> d;
     return d;
 }
 void _ZFP_ZFLuaErrorOccurred(ZF_IN const ZFCallerInfo &callerInfo,
@@ -33,7 +33,7 @@ void _ZFP_ZFLuaErrorOccurred(ZF_IN const ZFCallerInfo &callerInfo,
         zfstringAppendV(s, fmt, vaList);
         va_end(vaList);
         s += zfText("\n");
-        const ZFCoreArray<ZFOutputCallback> &t = ZFLuaErrorCallbacks;
+        const ZFCoreArray<ZFOutput> &t = ZFLuaErrorCallbacks;
         for(zfindex i = 0; i < t.count(); ++i)
         {
             t[i].execute(s.cString(), s.length());
@@ -43,14 +43,14 @@ void _ZFP_ZFLuaErrorOccurred(ZF_IN const ZFCallerInfo &callerInfo,
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFImpl_ZFLua_debug_autoOutputError, ZFLevelZFFrameworkNormal)
 {
-    this->debugCallback = ZFOutputCallbackDefault();
+    this->debugCallback = ZFOutputDefault();
     ZFLuaErrorCallbacks.add(this->debugCallback);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFImpl_ZFLua_debug_autoOutputError)
 {
     ZFLuaErrorCallbacks.removeElement(this->debugCallback);
 }
-ZFOutputCallback debugCallback;
+ZFOutput debugCallback;
 ZF_GLOBAL_INITIALIZER_END(ZFImpl_ZFLua_debug_autoOutputError)
 
 ZF_NAMESPACE_GLOBAL_END

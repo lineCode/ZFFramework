@@ -256,7 +256,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFTimerExecuteParam, ZFTimerExecuteParam)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFTimerExecuteParam, ZFTimerExecuteParam)
 /**
  * @brief util method to start a timer
  *

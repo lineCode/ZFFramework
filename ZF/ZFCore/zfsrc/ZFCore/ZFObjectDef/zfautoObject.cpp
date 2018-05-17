@@ -12,6 +12,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+// ============================================================
 /** @cond ZFPrivateDoc */
 zfautoObject::zfautoObject(ZF_IN zfautoObject const &ref)
 {
@@ -94,6 +95,12 @@ void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
 /** @endcond */
 
 const zfautoObject _ZFP_zfautoObjectNull;
+
+// ============================================================
+void _ZFP_zfautoObjectTError(void)
+{
+    zfCoreCriticalMessageTrim(zfTextA("[zfautoObjectT] cast from incompatible type"));
+}
 
 ZF_NAMESPACE_GLOBAL_END
 

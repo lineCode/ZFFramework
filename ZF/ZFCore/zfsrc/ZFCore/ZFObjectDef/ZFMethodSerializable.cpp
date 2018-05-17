@@ -18,7 +18,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFMethod, const ZFMethod *, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFMethod, const ZFMethod *, {
         ZFCoreArrayPOD<zfindexRange> pos;
         if(!ZFMethodSigSplit(pos, src, srcLen))
         {

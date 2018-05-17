@@ -98,7 +98,7 @@ public:
  *       myObj->myPropertySet(123);
  *   } // animation would be commit after code block
  * @endcode
- * (note: the property's type must be registered by #ZFPROPERTY_PROGRESS_DECLARE)\n
+ * (note: the property's type must be registered by #ZFTYPEID_PROGRESS_DECLARE)\n
  * \n
  * the animation block can be safely embeded:
  * @code

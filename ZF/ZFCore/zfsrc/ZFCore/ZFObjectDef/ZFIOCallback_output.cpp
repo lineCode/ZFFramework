@@ -13,10 +13,10 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// ZFOutputCallbackForString
-zfclass _ZFP_ZFOutputCallbackForStringOwner : zfextends ZFObject
+// ZFOutputForString
+zfclass _ZFP_ZFOutputForStringOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFOutputCallbackForStringOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_ZFOutputForStringOwner, ZFObject)
 
 public:
     zfstring *pString;
@@ -54,24 +54,24 @@ public:
         return this->pString->length() - this->curPos;
     }
 };
-ZFOutputCallback ZFOutputCallbackForString(ZF_IN zfstring &s)
+ZFOutput ZFOutputForString(ZF_IN zfstring &s)
 {
-    _ZFP_ZFOutputCallbackForStringOwner *owner = zfAlloc(_ZFP_ZFOutputCallbackForStringOwner);
+    _ZFP_ZFOutputForStringOwner *owner = zfAlloc(_ZFP_ZFOutputForStringOwner);
     owner->pString = &s;
     owner->savedLength = s.length();
     owner->curPos = s.length();
-    ZFOutputCallback ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFOutputCallbackForStringOwner, onOutput));
+    ZFOutput ret = ZFCallbackForMemberMethod(
+        owner, ZFMethodAccess(_ZFP_ZFOutputForStringOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;
 }
 
 // ============================================================
-// ZFOutputCallbackForBuffer
-zfclass _ZFP_ZFOutputCallbackForBufferOwner : zfextends ZFObject
+// ZFOutputForBuffer
+zfclass _ZFP_ZFOutputForBufferOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFOutputCallbackForBufferOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_ZFOutputForBufferOwner, ZFObject)
 
 public:
     zfbool autoAppendNullToken;
@@ -131,7 +131,7 @@ public:
         return pEnd - pStart;
     }
 };
-ZFOutputCallback ZFOutputCallbackForBuffer(ZF_IN void *buf,
+ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
                                            ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
                                            ZF_IN_OPT zfbool autoAppendNullToken /* = zftrue */)
 {
@@ -139,7 +139,7 @@ ZFOutputCallback ZFOutputCallbackForBuffer(ZF_IN void *buf,
     {
         return ZFCallbackNull();
     }
-    _ZFP_ZFOutputCallbackForBufferOwner *owner = zfAlloc(_ZFP_ZFOutputCallbackForBufferOwner);
+    _ZFP_ZFOutputForBufferOwner *owner = zfAlloc(_ZFP_ZFOutputForBufferOwner);
     owner->autoAppendNullToken = autoAppendNullToken;
     owner->pStart = (zfbyte *)buf;
     if(maxCount == zfindexMax())
@@ -156,8 +156,8 @@ ZFOutputCallback ZFOutputCallbackForBuffer(ZF_IN void *buf,
         }
     }
     owner->p = owner->pStart;
-    ZFOutputCallback ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFOutputCallbackForBufferOwner, onOutput));
+    ZFOutput ret = ZFCallbackForMemberMethod(
+        owner, ZFMethodAccess(_ZFP_ZFOutputForBufferOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;
@@ -178,11 +178,11 @@ ZFMETHOD_USER_REGISTER_2({
         {
             size /= sizeof(zfchar);
         }
-        ZFOutputCallback output = invokerObject->to<v_ZFCallback *>()->zfv;
+        ZFOutput output = invokerObject->to<v_ZFCallback *>()->zfv;
         return output.execute(src, size) * sizeof(zfchar);
     }, v_ZFCallback, zfindex, output, ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, size, zfindexMax()))
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFOutputCallback, ZFOutputCallbackForString, ZFMP_IN_OUT(zfstring &, s))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFOutput, ZFOutputForString, ZFMP_IN_OUT(zfstring &, s))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

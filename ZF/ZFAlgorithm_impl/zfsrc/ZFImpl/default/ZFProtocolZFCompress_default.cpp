@@ -38,7 +38,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFCompressImpl_default, ZFCompress, ZFProtocolLevel::e_Default)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("miniz"))
 public:
-    virtual ZFToken compressBegin(ZF_IN_OUT const ZFOutputCallback &outputZip,
+    virtual ZFToken compressBegin(ZF_IN_OUT const ZFOutput &outputZip,
                                   ZF_IN ZFCompressLevelEnum compressLevel)
     {
         if(!outputZip.ioSeek(0))
@@ -51,11 +51,11 @@ public:
         zfmemset(zip, 0, sizeof(mz_zip_archive));
         *(ZFCompressLevelEnum *)(zip + 1) = compressLevel;
 
-        zip->m_pIO_opaque = zfnew(ZFOutputCallback, outputZip);
+        zip->m_pIO_opaque = zfnew(ZFOutput, outputZip);
         zip->m_pWrite = _writeFuncForOutput;
         if(!mz_zip_writer_init(zip, 0))
         {
-            zfdelete((ZFOutputCallback *)zip->m_pIO_opaque);
+            zfdelete((ZFOutput *)zip->m_pIO_opaque);
             zffree(zip);
             return ZFTokenInvalid();
         }
@@ -70,12 +70,12 @@ public:
         zfbool success = zftrue;
         success &= mz_zip_writer_finalize_archive(zip);
         success &= mz_zip_writer_end(zip);
-        zfdelete((ZFOutputCallback *)zip->m_pIO_opaque);
+        zfdelete((ZFOutput *)zip->m_pIO_opaque);
         zffree(zip);
         return success;
     }
     virtual zfbool compressContent(ZF_IN_OUT ZFToken compressToken,
-                                   ZF_IN_OUT const ZFInputCallback &inputRaw,
+                                   ZF_IN_OUT const ZFInput &inputRaw,
                                    ZF_IN const zfchar *filePathInZip)
     {
         mz_zip_archive *zip = (mz_zip_archive *)compressToken;
@@ -123,7 +123,7 @@ public:
         }
     }
 
-    virtual ZFToken decompressBegin(ZF_IN_OUT const ZFInputCallback &inputZip)
+    virtual ZFToken decompressBegin(ZF_IN_OUT const ZFInput &inputZip)
     {
         mz_zip_archive *zip = (mz_zip_archive *)zfmalloc(sizeof(mz_zip_archive));
         zfmemset(zip, 0, sizeof(mz_zip_archive));
@@ -131,7 +131,7 @@ public:
         zfindex inputSize = inputZip.ioSize();
         if(inputSize == zfindexMax())
         {
-            pOpaque->zipBuffer = ZFInputCallbackReadToBuffer(inputZip);
+            pOpaque->zipBuffer = ZFInputReadToBuffer(inputZip);
             if(pOpaque->zipBuffer.buffer() == zfnull)
             {
                 zfdelete(pOpaque);
@@ -165,11 +165,11 @@ public:
         return success;
     }
     virtual zfbool decompressContent(ZF_IN_OUT ZFToken decompressToken,
-                                     ZF_IN_OUT const ZFOutputCallback &outputRaw,
+                                     ZF_IN_OUT const ZFOutput &outputRaw,
                                      ZF_IN zfindex fileIndexInZip)
     {
         mz_zip_archive *zip = (mz_zip_archive *)decompressToken;
-        ZFOutputCallback _outputRawTmp = outputRaw;
+        ZFOutput _outputRawTmp = outputRaw;
         return mz_zip_reader_extract_to_callback(
             zip,
             (mz_uint)fileIndexInZip,
@@ -215,14 +215,14 @@ public:
 
 private:
     zfbool compressAdd(ZF_IN_OUT mz_zip_archive &zip,
-                       ZF_IN const ZFInputCallback &input,
+                       ZF_IN const ZFInput &input,
                        ZF_IN const zfchar *filePath,
                        ZF_IN mz_uint flags)
     {
         zfindex inputSize = input.ioSize();
         if(inputSize == zfindexMax())
         {
-            ZFBuffer buffer = ZFInputCallbackReadToBuffer(input);
+            ZFBuffer buffer = ZFInputReadToBuffer(input);
             return mz_zip_writer_add_mem(&zip, ZFStringZ2A(filePath), buffer.buffer(), buffer.bufferSize(), flags);
         }
 
@@ -407,13 +407,13 @@ private:
     {
     public:
         ZFBuffer zipBuffer;
-        ZFInputCallback zipInput;
+        ZFInput zipInput;
     };
 
 private:
     static size_t _writeFuncForOutput(void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)
     {
-        const ZFOutputCallback &output = *(ZFOutputCallback *)pOpaque;
+        const ZFOutput &output = *(ZFOutput *)pOpaque;
         if(!output.ioSeek((zfindex)file_ofs))
         {
             return 0;
@@ -422,7 +422,7 @@ private:
     }
     static size_t _readFuncForInput(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)
     {
-        const ZFInputCallback &input = ((_DecompressToken *)pOpaque)->zipInput;
+        const ZFInput &input = ((_DecompressToken *)pOpaque)->zipInput;
         if(!input.ioSeek((zfindex)file_ofs))
         {
             return 0;

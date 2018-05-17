@@ -16,14 +16,14 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROPERTY_TYPE_DEFINE(ZFProperty, const ZFProperty *, {
+ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
         if(zfscmpTheSame(serializableData.itemClass(), ZFSerializableKeyword_null))
         {
             v = zfnull;
             serializableData.resolveMark();
             return zftrue;
         }
-        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_ZFProperty(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFProperty(), serializableData, outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -63,7 +63,7 @@ ZFPROPERTY_TYPE_DEFINE(ZFProperty, const ZFProperty *, {
             return zftrue;
         }
 
-        serializableData.itemClassSet(ZFPropertyTypeId_ZFProperty());
+        serializableData.itemClassSet(ZFTypeId_ZFProperty());
 
         serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_owner, v->propertyOwnerClass()->className());
         serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_property, v->propertyName());

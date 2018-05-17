@@ -1,3 +1,9 @@
+# master
+
+* reduce binary size
+* optimize API names
+* optimize project files and module management
+
 # 0.2.0 (20180513)
 
 * support fully dynamic register of class/method/property

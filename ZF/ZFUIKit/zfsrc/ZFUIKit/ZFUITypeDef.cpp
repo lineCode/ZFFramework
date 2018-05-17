@@ -98,7 +98,7 @@ ZFMETHOD_FUNC_DEFINE_INLINE_3(void, ZFUIPointApplyScaleReversely,
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIPoint, ZFUIPointApplyScaleReversely,
                               ZFMP_IN(const ZFUIPoint &, point),
                               ZFMP_IN(zffloat, scale))
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIPoint, ZFUIPoint, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIPoint, ZFUIPoint, {
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 2, src, srcLen))
         {
@@ -157,7 +157,7 @@ ZFMETHOD_FUNC_DEFINE_INLINE_3(void, ZFUIMarginDec,
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIMargin, ZFUIMarginDec,
                               ZFMP_IN(const ZFUIMargin &, v0),
                               ZFMP_IN(const ZFUIMargin &, v1))
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIMargin, ZFUIMargin, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIMargin, ZFUIMargin, {
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 4, src, srcLen))
         {
@@ -252,7 +252,7 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUISize, ZFUISizeApplyMarginReversely,
                               ZFMP_IN(const ZFUISize &, size),
                               ZFMP_IN(const ZFUIMargin &, margin))
 
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUISize, ZFUISize, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUISize, ZFUISize, {
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 2, src, srcLen))
         {
@@ -342,7 +342,7 @@ ZFMETHOD_FUNC_DEFINE_INLINE_3(void, ZFUIRectApplyMarginReversely,
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIRect, ZFUIRectApplyMarginReversely,
                               ZFMP_IN(const ZFUIRect &, rect),
                               ZFMP_IN(const ZFUIMargin &, margin))
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIRect, ZFUIRect, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIRect, ZFUIRect, {
         ZFCoreArrayPOD<zfint> buf;
         if(!zfCoreDataPairSplitInt(buf, 4, src, srcLen))
         {
@@ -512,7 +512,7 @@ ZFMETHOD_FUNC_DEFINE_1(ZFUIAlignEnum, ZFUIAlignGetY,
 // ============================================================
 // ZFUIColor
 ZFEXPORT_VAR_READONLY_DEFINE(ZFUIColor, ZFUIColorZero, ((ZFUIColor)0x00000000))
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
         zft_zfuint32 c = 0;
         do
         {

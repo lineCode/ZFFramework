@@ -210,7 +210,7 @@ void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1)
 }
 
 // ============================================================
-ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFTimeValue, ZFTimeValue, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFTimeValue, ZFTimeValue, {
         ZFCoreArrayPOD<zftimet> tmp;
         if(!zfCoreDataPairSplitInt(tmp, 2, src, srcLen))
         {
@@ -230,7 +230,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_STRING_CONVERTER(ZFTimeValue, ZFTimeValue, {
 
 // ============================================================
 // ZFTimeInfo
-ZFPROPERTY_TYPE_ACCESS_ONLY_DEFINE(ZFTimeInfo, ZFTimeInfo)
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFTimeInfo, ZFTimeInfo)
 ZFEXPORT_VAR_READONLY_DEFINE(ZFTimeInfo, ZFTimeInfoZero, ZFTimeInfoMake(0, 0, 0, 0, 0, 0, 0, 0))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_8(ZFTimeInfo, ZFTimeInfoMake,

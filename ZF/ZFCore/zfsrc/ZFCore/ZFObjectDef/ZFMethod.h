@@ -82,23 +82,14 @@ zfclassFwd ZFClass;
                 ); \
         } \
     } \
-    /** @brief see #ZFMethod */ \
+    /* this would save much binary size by removing support of dynamic method forwarding, for internal impl use only, use with caution */ \
     template<typename T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TEMPLATE, ZFM_COMMA, ZFM_COMMA)> \
-    inline T_ReturnType executeStatic(ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_EMPTY, ZFM_COMMA)) const \
+    inline T_ReturnType _ZFP_execute(ZFObject *obj ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_COMMA, ZFM_COMMA)) const \
     { \
-        if(this->_ZFP_ZFMethod_invoker) \
-        { \
-            return ZFCastReinterpret( \
-                    T_ReturnType (*)(const ZFMethod *, ZFObject * ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_COMMA, ZFM_COMMA)), \
-                    this->_ZFP_ZFMethod_invoker) \
-                (this, zfnull ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA)); \
-        } \
-        else \
-        { \
-            return _ZFP_MtdGII<T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)>(\
-                    this, zfnull ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA) \
-                ); \
-        } \
+        return ZFCastReinterpret( \
+                T_ReturnType (*)(const ZFMethod *, ZFObject * ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_COMMA, ZFM_COMMA)), \
+                this->_ZFP_ZFMethod_invoker) \
+            (this, obj ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA)); \
     }
 
 /**
@@ -246,14 +237,8 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  *   zfautoObject objTmp = cls->newInstance();
  *   ZFObject *obj = objTmp.toObject();
  *
- *   if(method->methodType() != ZFMethodTypeStatic)
- *   { // execute
- *       YourReturnType result = method->execute<YourReturnType, ParamType...>(obj, someParam...);
- *   }
- *   else
- *   { // or executeStatic if the method is static
- *       YourReturnType result = method->executeStatic<YourReturnType, ParamType...>(someParam...);
- *   }
+ *   // execute
+ *   YourReturnType result = method->execute<YourReturnType, ParamType...>(obj, someParam...);
  *
  *   // or, you may use generic version:
  *   method->execute<YourReturnType, ParamType...>(obj, someParam...);
@@ -266,7 +251,7 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  * \n
  * if you want to reflect overloaded method, use both methodName and param's type id
  * @code
- *   cls->methodForName(zfText("methodName"), ZFPropertyTypeIdData<Param0>::PropertyTypeId());
+ *   cls->methodForName(zfText("methodName"), ZFTypeId<Param0>::TypeId());
  * @endcode
  *
  * @warning in subclass, you may declare a method with the same name of parent's one,
@@ -491,7 +476,7 @@ public:
      * which is a pain when binding with script languages\n
      * since ZFFramework supply reflection (though limited),
      * we are trying to solve the dynamic script binding, how it works:
-     * -  #ZFPropertyTypeIdData::Value\n
+     * -  #ZFTypeId::Value\n
      *   to supply type conversion to ZFObject types without knowing actual type
      * -  #ZFMethodGenericInvoker\n
      *   to invoke the reflectable method without static type binding
@@ -502,12 +487,12 @@ public:
      * -# have all methods you need to bind been declared by #ZFMETHOD_INLINE_0 series
      * -# supply wrapper class to hold the type
      * -# ensure all params can be converted to ZFObject types,
-     *   by declaring them by #ZFPROPERTY_TYPE_DECLARE
+     *   by declaring them by #ZFTYPEID_DECLARE
      * -# all done, all binding works should be done by impl
      *
      * \n
      * typical steps for impl:
-     * -# supply type convert methods to bind #ZFPropertyTypeIdData::Value types to script languages
+     * -# supply type convert methods to bind #ZFTypeId::Value types to script languages
      * -# using reflection of #ZFClass and #ZFMethod,
      *   to bind all class and methods to script languages
      *
@@ -535,11 +520,12 @@ public:
                                             , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
                                             , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
                                             , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
+                                            , ZF_OUT_OPT zfbool *success = zfnull
                                             , ZF_OUT_OPT zfstring *errorHint = zfnull
                                             ) const
     {
         zfautoObject ret;
-        this->methodGenericInvoker()(this, ownerObjOrNull, errorHint, ret
+        zfbool t = this->methodGenericInvoker()(this, ownerObjOrNull, errorHint, ret
                 , param0
                 , param1
                 , param2
@@ -549,6 +535,10 @@ public:
                 , param6
                 , param7
             );
+        if(success != zfnull)
+        {
+            *success = t;
+        }
         return ret;
     }
     /* ZFMETHOD_MAX_PARAM */

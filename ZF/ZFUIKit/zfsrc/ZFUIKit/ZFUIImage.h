@@ -258,19 +258,19 @@ private:
  */
 ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFUIImageEncodeFromBase64,
                         ZFMP_IN_OUT(ZFUIImage *, image),
-                        ZFMP_IN(const ZFInputCallback &, inputCallback))
+                        ZFMP_IN(const ZFInput &, inputCallback))
 /**
  * @brief see #ZFUIImageEncodeFromBase64
  */
 ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFUIImageEncodeFromBase64,
-                        ZFMP_IN(const ZFInputCallback &, inputCallback))
+                        ZFMP_IN(const ZFInput &, inputCallback))
 /**
  * @brief save image as binary data (base64 encoded)
  * @note this method have no serialize logic,
  *   result image would be serialized by base64 value while serializing to data
  */
 ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFUIImageEncodeToBase64,
-                        ZFMP_OUT(const ZFOutputCallback &, outputCallback),
+                        ZFMP_OUT(const ZFOutput &, outputCallback),
                         ZFMP_IN(ZFUIImage *, image))
 
 /**
@@ -280,19 +280,19 @@ ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFUIImageEncodeToBase64,
  */
 ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFUIImageEncodeFromFile,
                         ZFMP_IN_OUT(ZFUIImage *, image),
-                        ZFMP_IN(const ZFInputCallback &, inputCallback))
+                        ZFMP_IN(const ZFInput &, inputCallback))
 /**
  * @brief see #ZFUIImageEncodeFromFile
  */
 ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFUIImageEncodeFromFile,
-                        ZFMP_IN(const ZFInputCallback &, inputCallback))
+                        ZFMP_IN(const ZFInput &, inputCallback))
 /**
  * @brief save image as binary data
  * @note this method have no serialize logic,
  *   result image would be serialized by base64 value while serializing to data
  */
 ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFUIImageEncodeToFile,
-                        ZFMP_OUT(const ZFOutputCallback &, outputCallback),
+                        ZFMP_OUT(const ZFOutput &, outputCallback),
                         ZFMP_IN(ZFUIImage *, image))
 
 ZF_NAMESPACE_GLOBAL_END

@@ -43,8 +43,8 @@ void ZFRegExpResult::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += ZFTOKEN_ZFObjectInfoRight;
 }
 
-ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_ZFRegExpResult(), serializableData, outErrorHint, outErrorPos) == zfnull)
+ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
+        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFRegExpResult(), serializableData, outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -78,7 +78,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult,
         }
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFPropertyTypeId_ZFRegExpResult());
+        serializableData.itemClassSet(ZFTypeId_ZFRegExpResult());
 
         if(v.matched)
         {

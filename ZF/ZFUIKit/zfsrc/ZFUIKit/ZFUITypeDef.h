@@ -78,7 +78,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -87,13 +87,13 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFUIPoint, ZFUIPoint)
+ZFTYPEID_DECLARE(ZFUIPoint, ZFUIPoint)
 
 ZFOUTPUT_TYPE(ZFUIPoint, {output << ZFUIPointToString(v);})
 
 ZFCORE_POD_COMPARER_DECLARE(ZFUIPoint)
 
-ZFPROPERTY_PROGRESS_DECLARE(ZFUIPoint, {
+ZFTYPEID_PROGRESS_DECLARE(ZFUIPoint, {
         ret.x = from.x + (zfint)((to.x - from.x) * progress);
         ret.y = from.y + (zfint)((to.y - from.y) * progress);
     })
@@ -172,7 +172,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -181,13 +181,13 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFUIMargin, ZFUIMargin)
+ZFTYPEID_DECLARE(ZFUIMargin, ZFUIMargin)
 
 ZFOUTPUT_TYPE(ZFUIMargin, {output << ZFUIMarginToString(v);})
 
 ZFCORE_POD_COMPARER_DECLARE(ZFUIMargin)
 
-ZFPROPERTY_PROGRESS_DECLARE(ZFUIMargin, {
+ZFTYPEID_PROGRESS_DECLARE(ZFUIMargin, {
         ret.left = from.left + (zfint)((to.left - from.left) * progress);
         ret.top = from.top + (zfint)((to.top - from.top) * progress);
         ret.right = from.right + (zfint)((to.right - from.right) * progress);
@@ -425,7 +425,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -434,13 +434,13 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFUISize, ZFUISize)
+ZFTYPEID_DECLARE(ZFUISize, ZFUISize)
 
 ZFOUTPUT_TYPE(ZFUISize, {output << ZFUISizeToString(v);})
 
 ZFCORE_POD_COMPARER_DECLARE(ZFUISize)
 
-ZFPROPERTY_PROGRESS_DECLARE(ZFUISize, {
+ZFTYPEID_PROGRESS_DECLARE(ZFUISize, {
         ret.width = from.width + (zfint)((to.width - from.width) * progress);
         ret.height = from.height + (zfint)((to.height - from.height) * progress);
     })
@@ -643,7 +643,7 @@ public:
 };
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -652,13 +652,13 @@ public:
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFUIRect, ZFUIRect)
+ZFTYPEID_DECLARE(ZFUIRect, ZFUIRect)
 
 ZFOUTPUT_TYPE(ZFUIRect, {output << ZFUIRectToString(v);})
 
 ZFCORE_POD_COMPARER_DECLARE(ZFUIRect)
 
-ZFPROPERTY_PROGRESS_DECLARE(ZFUIRect, {
+ZFTYPEID_PROGRESS_DECLARE(ZFUIRect, {
         ret.point.x = from.point.x + (zfint)((to.point.x - from.point.x) * progress);
         ret.point.y = from.point.y + (zfint)((to.point.y - from.point.y) * progress);
         ret.size.width = from.size.width + (zfint)((to.size.width - from.size.width) * progress);
@@ -1116,7 +1116,7 @@ ZFT_INT_STRONG(zft_zfuint32, ZFUIColor)
 ZFEXPORT_VAR_READONLY_DECLARE(ZFUIColor, ZFUIColorZero)
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -1125,7 +1125,7 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFUIColor, ZFUIColorZero)
  *   />
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFUIColor, ZFUIColor)
+ZFTYPEID_DECLARE(ZFUIColor, ZFUIColor)
 
 ZFOUTPUT_TYPE(ZFUIColor, {output << ZFUIColorToString(v);})
 
@@ -1262,7 +1262,7 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorChangeB,
     return ZFUIColor((c & 0xFFFFFF00) | (b & 0xFF));
 }
 
-ZFPROPERTY_PROGRESS_DECLARE(ZFUIColor, {
+ZFTYPEID_PROGRESS_DECLARE(ZFUIColor, {
         ret = ZFUIColorMake(
             ZFUIColorGetA(from) + (zfint)((ZFUIColorGetA(to) - ZFUIColorGetA(from)) * progress),
             ZFUIColorGetR(from) + (zfint)((ZFUIColorGetR(to) - ZFUIColorGetR(from)) * progress),

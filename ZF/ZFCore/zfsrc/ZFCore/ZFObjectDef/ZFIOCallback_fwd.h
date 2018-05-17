@@ -22,7 +22,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief for advance user only
  *
- * for #ZFOutputCallback and #ZFInputCallback to achieve some additional operation\n
+ * for #ZFOutput and #ZFInput to achieve some additional operation\n
  * \n
  * usage:\n
  * set an auto released data by #ZFCallback::callbackTagSet,
@@ -60,7 +60,7 @@ extern ZF_ENV_EXPORT zfindex ZFIOCallbackCalcFSeek(ZF_IN zfindex offset,
 
 // ============================================================
 /**
- * @brief abstract base class, use #ZFOutputCallback or #ZFInputCallback
+ * @brief abstract base class, use #ZFOutput or #ZFInput
  */
 ZFCALLBACK_DECLARE_BEGIN(ZFIOCallback, ZFCallback)
 public:

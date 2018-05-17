@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // serialize routine
-ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
+ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
         { // custom serialize logic
             const zfchar *customType = ZFSerializableUtil::checkAttribute(serializableData, ZFSerializableKeyword_ZFCallback_callbackType);
             if(customType != zfnull)
@@ -52,7 +52,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
             serializableData.resolveMark();
             return zftrue;
         }
-        if(ZFSerializableUtil::requireSerializableClass(ZFPropertyTypeId_ZFCallback(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFCallback(), serializableData, outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -99,7 +99,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                 ZFSerializableUtil::errorOccurred(outErrorHint, zfText("missing callback serialize custom data"));
                 return zffalse;
             }
-            serializableData.itemClassSet(ZFPropertyTypeId_ZFCallback());
+            serializableData.itemClassSet(ZFTypeId_ZFCallback());
 
             serializableData.attributeSet(ZFSerializableKeyword_ZFCallback_callbackType, v.callbackSerializeCustomType());
 
@@ -117,7 +117,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                 break;
             case ZFCallbackTypeMethod:
             {
-                serializableData.itemClassSet(ZFPropertyTypeId_ZFCallback());
+                serializableData.itemClassSet(ZFTypeId_ZFCallback());
                 ZFSerializableData methodData;
                 if(!ZFMethodToData(methodData, v.callbackMethod(), outErrorHint))
                 {
@@ -135,7 +135,7 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
             }
                 break;
             case ZFCallbackTypeRawFunction:
-                serializableData.itemClassSet(ZFPropertyTypeId_ZFCallback());
+                serializableData.itemClassSet(ZFTypeId_ZFCallback());
                 ZFSerializableUtil::errorOccurred(outErrorHint,
                     zfText("raw function is not supported"));
                 return zffalse;
@@ -148,10 +148,10 @@ ZFPROPERTY_TYPE_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
     })
 
 // ============================================================
-ZFPROPERTY_TYPE_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFListener, ZFListener)
-ZFPROPERTY_TYPE_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFIOCallback, ZFIOCallback)
-ZFPROPERTY_TYPE_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFOutputCallback, ZFOutputCallback)
-ZFPROPERTY_TYPE_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFInputCallback, ZFInputCallback)
+ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFListener, ZFListener)
+ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFIOCallback, ZFIOCallback)
+ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFOutput, ZFOutput)
+ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFInput, ZFInput)
 
 // ============================================================
 // custom serialize logic

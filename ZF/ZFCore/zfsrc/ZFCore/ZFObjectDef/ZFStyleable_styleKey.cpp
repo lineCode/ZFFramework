@@ -179,7 +179,7 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const ZFProperty *property, ZF_IN const zf
 {
     if(property == zfnull
         || property->propertyIsRetainProperty()
-        || zfscmpTheSame(property->propertyTypeId(), ZFPropertyTypeId_none))
+        || zfscmpTheSame(property->propertyTypeId(), ZFTypeId_none))
     {
         zfCoreMutexLocker();
         ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(

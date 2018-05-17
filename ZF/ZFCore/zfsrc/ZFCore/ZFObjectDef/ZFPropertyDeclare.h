@@ -67,7 +67,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *     (similar to weak in Object-C)
  * -  ZFProperty support those type only:
  *   -  ZFObject *
- *   -  all types that registered by #ZFPROPERTY_TYPE_DECLARE
+ *   -  all types that registered by #ZFTYPEID_DECLARE
  * -  ZFProperty is also reflectable,
  *   you may reflect the ZFProperty itself by #ZFClass::propertyForName,
  *   or reflect the setter and getter as ZFMethod,
@@ -150,7 +150,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
         /** @brief see @ref Name */ \
         _ZFP_ZFPROPERTY_SETTER_RETAIN(SetterAccessType, Type, Name) \
-        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFPropertyTypeId_ZFObject(), Name, \
+        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFTypeId_ZFObject(), Name, \
                                        InitValueOrEmpty) \
     public:
 
@@ -180,7 +180,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
         /** @brief see @ref Name */ \
         _ZFP_ZFPROPERTY_SETTER_ASSIGN(SetterAccessType, Type, Name) \
-        _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeIdData<zftTraits<Type>::TrNoRef>::PropertyTypeId(), Name, \
+        _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFTypeId<zftTraits<Type>::TrNoRef>::TypeId(), Name, \
                                        InitValueOrEmpty) \
     public:
 
@@ -368,7 +368,7 @@ public:
     }
 };
 
-#define _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
+#define _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFTypeId_noneOrType, Name, \
                                                 propertyClassOfRetainProperty) \
     public: \
         static ZFProperty *_ZFP_Prop_##Name(void) \
@@ -379,7 +379,7 @@ public:
                     , zfself::ClassData() \
                     , ZFM_TOSTRING(Name) \
                     , ZFM_TOSTRING(Type) \
-                    , ZFPropertyTypeId_noneOrType \
+                    , ZFTypeId_noneOrType \
                     , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name)) \
                     , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)) \
                     , propertyClassOfRetainProperty \
@@ -398,7 +398,7 @@ public:
                 ); \
             return _propertyInfoHolder.propertyInfo; \
         }
-#define _ZFP_ZFPROPERTY_DECLARE_REGISTER_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
+#define _ZFP_ZFPROPERTY_DECLARE_REGISTER_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
                                                 propertyClassOfRetainProperty) \
     public: \
         static ZFProperty *_ZFP_Prop_##Name(void) \
@@ -409,7 +409,7 @@ public:
                     , zfself::ClassData() \
                     , ZFM_TOSTRING(Name) \
                     , ZFM_TOSTRING(Type) \
-                    , ZFPropertyTypeId_noneOrType \
+                    , ZFTypeId_noneOrType \
                     , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name)) \
                     , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)) \
                     , propertyClassOfRetainProperty \
@@ -429,7 +429,7 @@ public:
             return _propertyInfoHolder.propertyInfo; \
         }
 
-#define _ZFP_ZFPROPERTY_VALUE_DECLARE_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
+#define _ZFP_ZFPROPERTY_VALUE_DECLARE_RETAIN(Type, ZFTypeId_noneOrType, Name, \
                                              InitValueOrEmpty) \
     public: \
         /** @brief original type for the property */ \
@@ -522,7 +522,7 @@ public:
             return &(t->Name##_PropV._ZFP_v->valueHolder); \
         } \
     public:
-#define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
+#define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
                                              InitValueOrEmpty) \
     public: \
         /** @brief original type for the property */ \
@@ -622,18 +622,18 @@ public:
     public:
 
 // ============================================================
-#define _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
+#define _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFTypeId_noneOrType, Name, \
                                        InitValueOrEmpty) \
-    _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
+    _ZFP_ZFPROPERTY_DECLARE_REGISTER_RETAIN(Type, ZFTypeId_noneOrType, Name, \
                                             zftTraits<Type>::TrType::ClassData()) \
-    _ZFP_ZFPROPERTY_VALUE_DECLARE_RETAIN(Type, ZFPropertyTypeId_noneOrType, Name, \
+    _ZFP_ZFPROPERTY_VALUE_DECLARE_RETAIN(Type, ZFTypeId_noneOrType, Name, \
                                          InitValueOrEmpty) \
     _ZFP_ZFPROPERTY_DECLARE_CALLBACK(Type, Name)
-#define _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
+#define _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
                                        InitValueOrEmpty) \
-    _ZFP_ZFPROPERTY_DECLARE_REGISTER_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
+    _ZFP_ZFPROPERTY_DECLARE_REGISTER_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
                                             zfnull) \
-    _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFPropertyTypeId_noneOrType, Name, \
+    _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
                                          InitValueOrEmpty) \
     _ZFP_ZFPROPERTY_DECLARE_CALLBACK(Type, Name)
 

@@ -80,7 +80,7 @@ public:
     }
     /** @endcond */
 };
-ZFPROPERTY_TYPE_ACCESS_ONLY_DECLARE(ZFUIPageRequestPageCreateParam, ZFUIPageRequestPageCreateParam)
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFUIPageRequestPageCreateParam, ZFUIPageRequestPageCreateParam)
 
 /**
  * @brief request for #ZFUIPageManager::requestPageCreate

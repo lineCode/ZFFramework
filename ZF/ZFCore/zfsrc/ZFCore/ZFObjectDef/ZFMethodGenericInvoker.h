@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFMethodGenericInvoker_h_
 #define _ZFI_ZFMethodGenericInvoker_h_
 
-#include "ZFPropertyTypeFwd.h"
+#include "ZFTypeIdFwd.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -107,18 +107,18 @@ extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
     typedef zftTraits<ParamType>::TrNoRef _TR##N; \
     typedef _ZFP_MtdGICk< \
             _TR##N, \
-            ZFPropertyTypeIdData<_TR##N>::PropertyRegistered \
+            ZFTypeId<_TR##N>::TypeIdRegistered \
         >::TypeMustRegisterByZFPROPERTY _Ck##N;
 #define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
     _ZFP_MtdGIParamCheck( \
         errorHint, \
-        ZFPropertyTypeIdData<_TR##N>::Value<_T##N>::accessAvailable(param), \
+        ZFTypeId<_TR##N>::Value<_T##N>::accessAvailable(param), \
         invokerMethod, \
         N, \
         ZFM_TOSTRING(ParamType), \
         param)
 #define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
-    ZFPropertyTypeIdData<_TR##N>::Value<_T##N>::access( \
+    ZFTypeId<_TR##N>::Value<_T##N>::access( \
             DefaultExpandOrEmpty(param != ZFMethodGenericInvokerDefaultParam() ?) \
             param \
             DefaultExpandOrEmpty(: pDef##N().toObject()) \
@@ -129,7 +129,7 @@ extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
         { \
             zftValue<zftTraits<ParamType>::TrNoRef> paramDefault; \
             zfautoObject ret; \
-            ZFPropertyTypeIdData<zftTraits<ParamType>::TrNoRef>::ValueStore( \
+            ZFTypeId<zftTraits<ParamType>::TrNoRef>::ValueStore( \
                 ret, \
                 (paramDefault.zfv DefaultValueFix())); \
             return ret; \
@@ -183,7 +183,7 @@ public:
                 , param7
             );
         typedef typename zftTraits<T_ReturnType>::TrNoRef T_ReturnTypeTmp;
-        if(ZFPropertyTypeIdData<T_ReturnTypeTmp>::ValueStore(ret, retTmp))
+        if(ZFTypeId<T_ReturnTypeTmp>::ValueStore(ret, retTmp))
         {
             return zftrue;
         }
@@ -192,7 +192,7 @@ public:
             zfstring info;
             ZFCoreElementInfoGetter<T_ReturnTypeTmp>::elementInfoGetter(info, retTmp);
             _ZFP_MtdGIRetError(errorHint,
-                ZFPropertyTypeIdData<T_ReturnTypeTmp>::PropertyTypeId(),
+                ZFTypeId<T_ReturnTypeTmp>::TypeId(),
                 info);
             return zffalse;
         }
@@ -328,7 +328,7 @@ public:
                             , ZF_IN ZFObject *param7 \
                             ) \
         { \
-            return invokerMethod->execute<ReturnType \
+            return invokerMethod->_ZFP_execute<ReturnType \
                     ParamExpandOrEmpty0(ZFM_COMMA() ParamType0) \
                     ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
                     ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
@@ -363,7 +363,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *
 #define _ZFP_ZFMethodGenericInvoke_REPEAT1(N) \
         zfautoObject _p##N; \
         typedef typename zftTraits<Type##N>::TrNoRef _Type##N; \
-        if(!ZFPropertyTypeIdData<_Type##N>::ValueStore(_p##N, param##N)) \
+        if(!ZFTypeId<_Type##N>::ValueStore(_p##N, param##N)) \
         { \
             _ZFP_ZFMethodGenericInvokeError(method, obj, N); \
         }
@@ -417,7 +417,7 @@ public:
     static void p(ZF_IN_OUT T_ParamType &p, ZF_IN const zfautoObject &h)
     {
         typedef typename zftTraits<T_ParamType &>::TrNoRef _Type;
-        p = ZFPropertyTypeIdData<_Type>::template Value<T_ParamType &>::access(h);
+        p = ZFTypeId<_Type>::template Value<T_ParamType &>::access(h);
     }
 };
 template<typename T_ParamType>
@@ -429,7 +429,7 @@ public:
         typedef typename zftTraits<T_ParamType *>::TrNoRef _Type;
         if(p)
         {
-            *p = ZFPropertyTypeIdData<_Type>::template Value<T_ParamType const &>::access(h);
+            *p = ZFTypeId<_Type>::template Value<T_ParamType const &>::access(h);
         }
     }
 };
@@ -441,11 +441,11 @@ public:
     static T_ReturnType r(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj, ZF_IN const zfautoObject &ret)
     {
         typedef typename zftTraits<T_ReturnType>::TrNoRef _T_ReturnType;
-        if(!ZFPropertyTypeIdData<_T_ReturnType>::template Value<T_ReturnType>::accessAvailable(ret))
+        if(!ZFTypeId<_T_ReturnType>::template Value<T_ReturnType>::accessAvailable(ret))
         {
             _ZFP_ZFMethodGenericInvokeError(method, obj, -2);
         }
-        return ZFPropertyTypeIdData<_T_ReturnType>::template Value<T_ReturnType>::access(ret);
+        return ZFTypeId<_T_ReturnType>::template Value<T_ReturnType>::access(ret);
     }
 };
 template<>

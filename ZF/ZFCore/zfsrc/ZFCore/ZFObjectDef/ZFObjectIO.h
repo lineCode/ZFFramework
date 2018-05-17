@@ -31,10 +31,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * typical usage:
  * @code
  *   // serialize object from xml file
- *   zfautoObject obj = ZFObjectIOLoad(ZFInputCallbackForResFile(zfText("data.xml")));
+ *   zfautoObject obj = ZFObjectIOLoad(ZFInputForResFile(zfText("data.xml")));
  *
  *   // load image
- *   zfautoObject img = ZFObjectIOLoad(ZFInputCallbackForResFile(zfText("image.png")));
+ *   zfautoObject img = ZFObjectIOLoad(ZFInputForResFile(zfText("image.png")));
  * @endcode
  * \n
  * how it works:
@@ -49,13 +49,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * please refer to #ZFOBJECTIO_DEFINE
  */
 extern ZF_ENV_EXPORT zfbool ZFObjectIOLoad(ZF_OUT zfautoObject &ret,
-                                           ZF_IN const ZFInputCallback &input,
+                                           ZF_IN const ZFInput &input,
                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 /** @brief see #ZFObjectIOLoad */
-extern ZF_ENV_EXPORT zfautoObject ZFObjectIOLoad(ZF_IN const ZFInputCallback &input,
+extern ZF_ENV_EXPORT zfautoObject ZFObjectIOLoad(ZF_IN const ZFInput &input,
                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 /** @brief see #ZFObjectIOLoad */
-extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutputCallback &output,
+extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
                                            ZF_IN ZFObject *obj,
                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 
@@ -69,12 +69,12 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutputCallback &out
  *           // callback to load object from input
  *           // proto type:
  *           //   zfbool fromInput(ZF_OUT zfautoObject &ret,
- *           //                    ZF_IN_OUT const ZFInputCallback &input,
+ *           //                    ZF_IN_OUT const ZFInput &input,
  *           //                    ZF_OUT_OPT zfstring *outErrorHint = zfnull);
  *       }, {
  *           // callback to save object to output
  *           // proto type:
- *           //   zfbool toOutput(ZF_IN_OUT const ZFOutputCallback &output,
+ *           //   zfbool toOutput(ZF_IN_OUT const ZFOutput &output,
  *           //                   ZF_IN ZFObject *obj,
  *           //                   ZF_OUT_OPT zfstring *outErrorHint = zfnull);
  *       }, {
@@ -108,12 +108,12 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutputCallback &out
         checkerAction \
     } \
     static zfbool _ZFP_fromInput(ZF_OUT zfautoObject &ret, \
-                                 ZF_IN_OUT const ZFInputCallback &input, \
+                                 ZF_IN_OUT const ZFInput &input, \
                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull) \
     { \
         fromInputAction \
     } \
-    static zfbool _ZFP_toOutput(ZF_IN_OUT const ZFOutputCallback &output, \
+    static zfbool _ZFP_toOutput(ZF_IN_OUT const ZFOutput &output, \
                                 ZF_IN ZFObject *obj, \
                                 ZF_OUT_OPT zfstring *outErrorHint = zfnull) \
     { \
@@ -124,9 +124,9 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutputCallback &out
 typedef zfbool (*_ZFP_ZFObjectIOCallback_checker)(ZF_IN const ZFPathInfo &pathInfo,
                                                   ZF_IN_OPT const zfchar *fileExt /* = zfnull */);
 typedef zfbool (*_ZFP_ZFObjectIOCallback_fromInput)(ZF_OUT zfautoObject &ret,
-                                                    ZF_IN_OUT const ZFInputCallback &input,
+                                                    ZF_IN_OUT const ZFInput &input,
                                                     ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */);
-typedef zfbool (*_ZFP_ZFObjectIOCallback_toOutput)(ZF_IN_OUT const ZFOutputCallback &output,
+typedef zfbool (*_ZFP_ZFObjectIOCallback_toOutput)(ZF_IN_OUT const ZFOutput &output,
                                                    ZF_IN ZFObject *obj,
                                                    ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */);
 extern ZF_ENV_EXPORT void _ZFP_ZFObjectIORegister(ZF_IN const zfchar *registerSig,

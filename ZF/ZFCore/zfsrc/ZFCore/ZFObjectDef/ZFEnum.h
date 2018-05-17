@@ -41,9 +41,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   />
  * @endcode
  */
-zfabstract ZF_ENV_EXPORT ZFEnum : zfextends ZFPropertyTypeWrapper
+zfabstract ZF_ENV_EXPORT ZFEnum : zfextends ZFTypeIdWrapper
 {
-    ZFOBJECT_DECLARE_ABSTRACT_WITH_CUSTOM_CTOR(ZFEnum, ZFPropertyTypeWrapper)
+    ZFOBJECT_DECLARE_ABSTRACT_WITH_CUSTOM_CTOR(ZFEnum, ZFTypeIdWrapper)
 
 protected:
     /** @cond ZFPrivateDoc */
@@ -114,7 +114,7 @@ public:
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
 
 public:
-    /* use ZFObject version instead of ZFPropertyTypeWrapper version */
+    /* use ZFObject version instead of ZFTypeIdWrapper version */
     zfoverride
     virtual zfbool objectIsPrivate(void)
     {

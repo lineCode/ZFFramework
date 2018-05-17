@@ -76,7 +76,7 @@ public:
 #define ZFSerializableKeyword_ZFKeyValuePair_value zfText("value")
 
 /**
- * @brief see #ZFPROPERTY_TYPE_DECLARE
+ * @brief see #ZFTYPEID_DECLARE
  *
  * serializable data:
  * @code
@@ -86,8 +86,8 @@ public:
  *   </ZFKeyValuePair>
  * @endcode
  */
-ZFPROPERTY_TYPE_DECLARE(ZFKeyValuePairHolder, ZFKeyValuePairHolder)
-ZFPROPERTY_TYPE_ALIAS_DECLARE(ZFKeyValuePairHolder, ZFKeyValuePairHolder, ZFKeyValuePair, ZFKeyValuePair)
+ZFTYPEID_DECLARE(ZFKeyValuePairHolder, ZFKeyValuePairHolder)
+ZFTYPEID_ALIAS_DECLARE(ZFKeyValuePairHolder, ZFKeyValuePairHolder, ZFKeyValuePair, ZFKeyValuePair)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFKeyValuePair_h_

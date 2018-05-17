@@ -20,7 +20,7 @@ static void _ZFP_ZFUIViewTreePrintDelayedAction(ZF_IN const ZFListenerData &list
 }
 ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrintDelayed,
                        ZFMP_IN(ZFUIView *, view),
-                       ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()))
+                       ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()))
 {
     ZFThreadTaskRequest(
         ZFCallbackForFunc(_ZFP_ZFUIViewTreePrintDelayedAction),
@@ -30,7 +30,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrintDelayed,
 ZFMETHOD_FUNC_DEFINE_3(void, ZFUIViewTreePrintDelayed,
                        ZFMP_IN(zftimet, delay),
                        ZFMP_IN(ZFUIView *, view),
-                       ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()))
+                       ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()))
 {
     ZFThreadExecuteInMainThreadAfterDelay(
         delay,
@@ -77,7 +77,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFUIViewTreePrintSyncObjectHolder);
 
 ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
                        ZFMP_IN(ZFUIView *, view),
-                       ZFMP_IN_OPT(const ZFOutputCallback &, outputCallback, ZFOutputCallbackDefault()))
+                       ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()))
 {
     if(view == zfnull || !outputCallback.callbackIsValid())
     {

@@ -27,7 +27,6 @@ ZFAddSrc(ZF_SRC_FILES ${ZF_ROOT_PATH}/ZF/ZFCore_impl)
 ZFAddSrc(ZF_SRC_FILES ${ZF_ROOT_PATH}/ZF/ZFAlgorithm_impl)
 ZFAddSrc(ZF_SRC_FILES ${ZF_ROOT_PATH}/ZF/ZFUIKit_impl)
 
-
 add_library(ZF2048 SHARED ${ZF_SRC_FILES})
 set_target_properties(ZF2048 PROPERTIES LINKER_LANGUAGE CXX)
 find_library(log-lib log)

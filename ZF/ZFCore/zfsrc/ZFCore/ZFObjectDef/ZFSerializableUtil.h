@@ -16,7 +16,7 @@
 #define _ZFI_ZFSerializableUtil_h_
 
 #include "ZFSerializable.h"
-#include "ZFOutputCallbackDefault.h"
+#include "ZFOutputDefault.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFSerializableUtil)
 
@@ -178,7 +178,7 @@ inline const zfchar *requireCategory(ZF_IN const ZFSerializableData &serializabl
  * return true if anything not resolved, or false if all resolved
  */
 extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &serializableData,
-                                               ZF_IN_OPT const ZFOutputCallback &outputCallback = ZFOutputCallbackDefault());
+                                               ZF_IN_OPT const ZFOutput &outputCallback = ZFOutputDefault());
 
 // ============================================================
 // util macro for impl
