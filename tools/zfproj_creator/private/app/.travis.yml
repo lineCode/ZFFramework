@@ -5,6 +5,30 @@ matrix:
     env:
       - ZF_BUILD=Android;
         ANDROID_HOME=/usr/local/android-sdk;
+        ZF_PROJ_PATH={ZFTT_R_proj_name}/zfproj_with_src;
+        ZF_PROJ_NAME={ZFTT_R_proj_name};
+    android:
+      components:
+        - tools
+        - build-tools-25.0.2
+        - platform-tools
+        - tools
+        - android-25
+    script:
+      # Android licenses
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-25" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "ndk-bundle" > /dev/null 2>&1
+      # build
+      - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}
+
+  - language: android
+    env:
+      - ZF_BUILD=Android;
+        ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH={ZFTT_R_proj_name}/zfproj;
         ZF_PROJ_NAME={ZFTT_R_proj_name};
     android:
@@ -28,11 +52,31 @@ matrix:
   - language: objective-c
     env:
       - ZF_BUILD=iOS;
+        ZF_PROJ_PATH={ZFTT_R_proj_name}/zfproj_with_src;
+        ZF_PROJ_NAME={ZFTT_R_proj_name};
+    script:
+      - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/iOS/${ZF_PROJ_NAME}
+
+  - language: objective-c
+    env:
+      - ZF_BUILD=iOS;
         ZF_PROJ_PATH={ZFTT_R_proj_name}/zfproj;
         ZF_PROJ_NAME={ZFTT_R_proj_name};
     script:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh
       - ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/iOS/${ZF_PROJ_NAME}
+
+  - language: cpp
+    env:
+      - ZF_BUILD=Qt;
+        ZF_PROJ_PATH={ZFTT_R_proj_name}/zfproj_with_src;
+        ZF_PROJ_NAME={ZFTT_R_proj_name};
+    os: linux
+    compiler: gcc
+    script:
+      - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME}
 
   - language: cpp
     env:
@@ -44,6 +88,17 @@ matrix:
     script:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh
       - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_Posix.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME}
+
+  - language: cpp
+    env:
+      - ZF_BUILD=Qt;
+        ZF_PROJ_PATH={ZFTT_R_proj_name}/zfproj_with_src;
+        ZF_PROJ_NAME={ZFTT_R_proj_name};
+    os: osx
+    compiler: clang
+    script:
+      - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME}
 
   - language: cpp
     env:
