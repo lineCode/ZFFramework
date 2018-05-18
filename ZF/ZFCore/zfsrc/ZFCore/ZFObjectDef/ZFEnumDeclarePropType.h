@@ -144,6 +144,17 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // enum flags
 #define _ZFP_ZFENUM_FLAGS_PROP_TYPE_DECLARE(EnumName, EnumFlagsName) \
     ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(EnumFlagsName, EnumFlagsName) \
+    /** @brief type wrapper for #ZFTypeId::Value */ \
+    zfclass ZF_ENV_EXPORT v_##EnumFlagsName : zfextends EnumName##Editable \
+    { \
+        ZFOBJECT_DECLARE(v_##EnumFlagsName, EnumName##Editable) \
+    public: \
+        zfoverride \
+        virtual const zfchar *wrappedValueTypeId(void) \
+        { \
+            return ZFTypeId_##EnumFlagsName(); \
+        } \
+    }; \
     /** @cond ZFPrivateDoc */ \
     template<> \
     zfclassNotPOD ZFTypeId<EnumFlagsName> : zfextendsNotPOD ZFTypeIdBase \
@@ -161,14 +172,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
-            EnumName *t = zfAlloc(EnumName); \
+            v_##EnumFlagsName *t = zfAlloc(v_##EnumFlagsName); \
             v = t; \
             zfRelease(t); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfuint const &v) \
         { \
-            EnumName *t = zfAlloc(EnumName, v); \
+            v_##EnumFlagsName *t = zfAlloc(v_##EnumFlagsName, v); \
             obj = t; \
             zfRelease(t); \
             return zftrue; \
@@ -254,7 +265,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
             return zftrue; \
         }, { \
             return zfflagsToString(s, EnumName::ClassData(), (zfflags)v.enumValue()); \
-        })
+        }) \
+    ZFOBJECT_REGISTER(v_##EnumFlagsName)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFEnumDeclarePropType_h_

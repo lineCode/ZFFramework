@@ -421,7 +421,7 @@ public:
     }
 };
 template<typename T_ParamType>
-zfclassNotPOD _ZFP_MtdGII_P<T_ParamType *, zftEnableIf<!zftIsZFObject(T_ParamType)>>
+zfclassNotPOD _ZFP_MtdGII_P<T_ParamType *, zftEnableIf<!zftIsZFObject(T_ParamType)> >
 {
 public:
     static void p(ZF_IN_OUT T_ParamType *p, ZF_IN const zfautoObject &h)

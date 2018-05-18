@@ -32,8 +32,11 @@ zfbool ZFFilePathInfoCallbackToChildDefault(ZF_IN const zfchar *pathData,
                                             ZF_IN_OUT zfstring &pathDataChild,
                                             ZF_IN const zfchar *childName)
 {
-    pathDataChild += pathData;
-    pathDataChild += ZFFileSeparator();
+    if(!zfsIsEmpty(pathData))
+    {
+        pathDataChild += pathData;
+        pathDataChild += ZFFileSeparator();
+    }
     pathDataChild += childName;
     return zftrue;
 }

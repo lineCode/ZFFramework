@@ -35,16 +35,17 @@ public class ZFAnimationNativeView {
         }
 
         public long zfjniPointerOwnerZFAnimationNativeView = 0;
-        public View ownerView = null;
-        public int aniId = 0;
 
         private NativeAnimationListener _animationListener = null;
         public void nativeAnimationListenerSet(NativeAnimationListener listener) {
             if(this._animationListener != null) {
-                this._animationListener.owner = null;
+                this._animationListener.nativeAniDetach();
             }
             this._animationListener = listener;
             super.setAnimationListener(listener);
+        }
+        public NativeAnimationListener nativeAnimationListener() {
+            return _animationListener;
         }
         @Deprecated
         @Override
@@ -212,13 +213,23 @@ public class ZFAnimationNativeView {
     }
 
     protected static class NativeAnimationListener implements AnimationListener, View.OnAttachStateChangeListener {
-        public NativeAnimation owner = null;
-        public int aniIdSaved = 0;
+        private NativeAnimation _owner = null;
+        private View _ownerView = null;
 
-        public NativeAnimationListener(NativeAnimation owner) {
-            this.owner = owner;
-            this.aniIdSaved = this.owner.aniId;
-            this.owner.ownerView.addOnAttachStateChangeListener(this);
+        public NativeAnimationListener(NativeAnimation owner, View ownerView) {
+            this._owner = owner;
+            this._ownerView = ownerView;
+            this._ownerView.addOnAttachStateChangeListener(this);
+        }
+
+        public void nativeAniDetach() {
+            if(this._owner != null) {
+                View ownerViewTmp = this._ownerView;
+                this._owner = null;
+                this._ownerView = null;
+                ownerViewTmp.clearAnimation();
+                ownerViewTmp.removeOnAttachStateChangeListener(this);
+            }
         }
 
         @Override
@@ -241,12 +252,10 @@ public class ZFAnimationNativeView {
         }
 
         private void doStop() {
-            if(this.owner != null && this.aniIdSaved == this.owner.aniId) {
-                ++(this.owner.aniId);
-                this.owner.ownerView.clearAnimation();
-                this.owner.ownerView.removeOnAttachStateChangeListener(this);
-                this.owner.ownerView = null;
-                ZFAnimationNativeView.native_notifyAniStop(this.owner.zfjniPointerOwnerZFAnimationNativeView);
+            if(this._owner != null) {
+                long ownerTmp = this._owner.zfjniPointerOwnerZFAnimationNativeView;
+                this.nativeAniDetach();
+                ZFAnimationNativeView.native_notifyAniStop(ownerTmp);
             }
         }
     }
@@ -261,10 +270,8 @@ public class ZFAnimationNativeView {
     public static void native_nativeAniStart(Object nativeAnimation,
                                              Object nativeView) {
         NativeAnimation nativeAnimationTmp = (NativeAnimation)nativeAnimation;
-        ++(nativeAnimationTmp.aniId);
         View nativeViewTmp = (View)nativeView;
-        nativeAnimationTmp.ownerView = nativeViewTmp;
-        nativeAnimationTmp.nativeAnimationListenerSet(new NativeAnimationListener(nativeAnimationTmp));
+        nativeAnimationTmp.nativeAnimationListenerSet(new NativeAnimationListener(nativeAnimationTmp, nativeViewTmp));
 
         AnimationSet as = null;
         boolean asNeedStart = false;
@@ -307,10 +314,8 @@ public class ZFAnimationNativeView {
     public static void native_nativeAniStop(Object nativeAnimation,
                                             Object nativeView) {
         NativeAnimation nativeAnimationTmp = (NativeAnimation)nativeAnimation;
-        ++(nativeAnimationTmp.aniId);
-        View nativeViewTmp = (View)nativeView;
         nativeAnimationTmp.nativeAnimationListenerSet(null);
-        nativeAnimationTmp.ownerView = null;
+        View nativeViewTmp = (View)nativeView;
 
         List<NativeAnimation> attached = _anis.get(nativeViewTmp);
         if(attached == null) {

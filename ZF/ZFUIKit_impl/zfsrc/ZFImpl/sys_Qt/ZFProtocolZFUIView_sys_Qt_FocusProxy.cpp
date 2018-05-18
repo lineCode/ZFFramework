@@ -152,69 +152,6 @@ zfbool _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocused(ZF_IN void *token)
     return t->nativeOwner->hasFocus();
 }
 
-// ============================================================
-class _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyGlobalToken : public QObject
-{
-    Q_OBJECT
-
-public:
-    QWidget *focused;
-
-public:
-    _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyGlobalToken(void)
-    : QObject()
-    , focused(NULL)
-    {
-        QCoreApplication::instance()->installEventFilter(this);
-    }
-    ~_ZFP_ZFUIViewImpl_sys_Qt_FocusProxyGlobalToken(void)
-    {
-        QCoreApplication::instance()->removeEventFilter(this);
-    }
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event)
-    {
-        switch(event->type())
-        {
-            case QEvent::FocusIn:
-                this->focused = qobject_cast<QWidget *>(obj);
-                break;
-            case QEvent::FocusOut:
-                this->focused = NULL;
-                break;
-            default:
-                break;
-        }
-        return false;
-    }
-};
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewImpl_sys_Qt_FocusProxyGlobalDataHolder, ZFLevelZFFrameworkEssential)
-{
-    this->token = new _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyGlobalToken();
-}
-ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewImpl_sys_Qt_FocusProxyGlobalDataHolder)
-{
-    delete this->token;
-}
-_ZFP_ZFUIViewImpl_sys_Qt_FocusProxyGlobalToken *token;
-ZF_GLOBAL_INITIALIZER_END(ZFUIViewImpl_sys_Qt_FocusProxyGlobalDataHolder)
-
-zfbool _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusedRecursive(ZF_IN void *token)
-{
-    _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *t = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *, token);
-    QWidget *focused = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewImpl_sys_Qt_FocusProxyGlobalDataHolder)->token->focused;
-    while(focused != NULL)
-    {
-        if(focused == t->nativeOwner)
-        {
-            return zftrue;
-        }
-        focused = focused->parentWidget();
-    }
-    return zffalse;
-}
-
 #include "ZFProtocolZFUIView_sys_Qt_FocusProxy.moc"
 
 #endif // #if ZF_ENV_sys_Qt

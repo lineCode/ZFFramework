@@ -83,9 +83,24 @@ public class ZFUIViewFocus {
         return (nativeViewTmp.isFocused()
             || (nativeViewTmp.nativeImplView != null && nativeViewTmp.nativeImplView.isFocused()));
     }
-    public static boolean native_viewFocusedRecursive(Object nativeView) {
+    public static long native_viewFocusFind(Object nativeView) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;
-        return (nativeViewTmp.findFocus() != null);
+        View child = nativeViewTmp.findFocus();
+        if(child == null) {
+            return 0;
+        }
+        while(child != null) {
+            if(child instanceof ZFUIView) {
+                return ((ZFUIView)child).zfjniPointerOwnerZFUIView;
+            }
+            if(child.getParent() instanceof View) {
+                child = (View)child.getParent();
+            }
+            else {
+                break;
+            }
+        }
+        return 0;
     }
     public static void native_viewFocusRequest(Object nativeView, boolean viewFocus) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;

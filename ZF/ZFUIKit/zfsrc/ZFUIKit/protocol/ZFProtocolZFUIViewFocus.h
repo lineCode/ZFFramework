@@ -35,9 +35,53 @@ public:
      */
     virtual zfbool viewFocused(ZF_IN ZFUIView *view) zfpurevirtual;
     /**
-     * @brief see #ZFUIView::viewFocusedRecursive
+     * @brief see #ZFUIView::viewFocusFind
      */
-    virtual zfbool viewFocusedRecursive(ZF_IN ZFUIView *view) zfpurevirtual;
+    virtual ZFUIView *viewFocusFind(ZF_IN ZFUIView *view)
+    {
+        if(view->viewFocused())
+        {
+            return view;
+        }
+        ZFUIView *ret = zfnull;
+        ZFCoreArrayPOD<ZFUIView *> children = view->childArray();
+        for(zfindex i = 0; i < children.count(); ++i)
+        {
+            ret = this->viewFocusFind(children[i]);
+            if(ret != zfnull)
+            {
+                return ret;
+            }
+        }
+        children = view->internalFgViewArray();
+        for(zfindex i = 0; i < children.count(); ++i)
+        {
+            ret = this->viewFocusFind(children[i]);
+            if(ret != zfnull)
+            {
+                return ret;
+            }
+        }
+        children = view->internalBgViewArray();
+        for(zfindex i = 0; i < children.count(); ++i)
+        {
+            ret = this->viewFocusFind(children[i]);
+            if(ret != zfnull)
+            {
+                return ret;
+            }
+        }
+        children = view->internalImplViewArray();
+        for(zfindex i = 0; i < children.count(); ++i)
+        {
+            ret = this->viewFocusFind(children[i]);
+            if(ret != zfnull)
+            {
+                return ret;
+            }
+        }
+        return zfnull;
+    }
     /**
      * @brief see #ZFUIView::viewFocusRequest
      */

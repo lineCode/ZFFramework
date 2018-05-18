@@ -606,9 +606,9 @@ public:
         this->viewFocusOnChange();
     }
     /**
-     * @brief whether any child (including attached native view) of this view has focus
+     * @brief recursively to find focused child, take care of performance
      */
-    ZFMETHOD_DECLARE_0(zfbool, viewFocusedRecursive)
+    ZFMETHOD_DECLARE_0(ZFUIView *, viewFocusFind)
 protected:
     /** @brief see #EventViewFocusOnChange */
     virtual inline void viewFocusOnChange(void)
@@ -1222,8 +1222,9 @@ protected:
 public:
     /**
      * @brief schedule a update task that #viewPropertyOnUpdate would be called after a proper time,
-     *   used to update view's property,
-     *   ensured called after a view created
+     *   used to update view's property
+     *
+     * #viewPropertyOnUpdate ensured called once after a view created
      */
     ZFMETHOD_DECLARE_0(void, viewPropertyUpdateRequest)
     zffinal inline void _ZFP_ZFUIView_viewPropertyNotifyUpdate(void)

@@ -1074,19 +1074,7 @@ void ZFUIView::objectOnDealloc(void)
 void ZFUIView::objectOnInitFinish(void)
 {
     zfsuper::objectOnInitFinish();
-
-    // auto update view property when object init finished
-    #if 0
-        this->observerAdd(ZFObserverAddParam()
-                .eventIdSet(ZFObject::EventObjectAfterAlloc())
-                .observerSet(ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewListenerHolder)->viewPropertyOnUpdateListener)
-                .userDataSet(this->objectHolder())
-                .observerLevelSet(ZFLevelZFFrameworkPostNormal)
-                .autoRemoveAfterActivateSet(zftrue)
-            );
-    #else
-        this->viewPropertyOnUpdate();
-    #endif
+    this->viewPropertyOnUpdate();
 }
 void ZFUIView::objectOnDeallocPrepare(void)
 {
@@ -1503,16 +1491,16 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, viewFocusRequest,
         }
     }
 }
-ZFMETHOD_DEFINE_0(ZFUIView, zfbool, viewFocusedRecursive)
+ZFMETHOD_DEFINE_0(ZFUIView, ZFUIView *, viewFocusFind)
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFUIViewFocus) *impl = ZFPROTOCOL_TRY_ACCESS(ZFUIViewFocus);
     if(impl == zfnull)
     {
-        return zffalse;
+        return zfnull;
     }
     else
     {
-        return impl->viewFocusedRecursive(this);
+        return impl->viewFocusFind(this);
     }
 }
 

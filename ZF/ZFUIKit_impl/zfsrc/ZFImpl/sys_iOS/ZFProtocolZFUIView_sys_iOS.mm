@@ -536,24 +536,29 @@ public:
         return (nativeView.isFirstResponder
             || (nativeView._ZFP_nativeImplView != nil && nativeView._ZFP_nativeImplView.isFirstResponder));
     }
-    virtual zfbool viewFocusedRecursive(ZF_IN ZFUIView *view)
+    virtual ZFUIView *viewFocusFind(ZF_IN ZFUIView *view)
     {
         _ZFP_ZFUIViewImpl_sys_iOS_View *nativeView = (__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView();
         id focused = [UIResponder _ZFP_ZFUIViewImpl_sys_iOS_firstResponder];
         if(focused == nil || ![focused isKindOfClass:[UIView class]])
         {
-            return zffalse;
+            return zfnull;
         }
+        ZFUIView *ret = zfnull;
         UIView *t = (UIView *)focused;
         while(t != nil)
         {
+            if(ret == zfnull && [t isKindOfClass:[_ZFP_ZFUIViewImpl_sys_iOS_View class]])
+            {
+                ret = ((_ZFP_ZFUIViewImpl_sys_iOS_View *)t)._ZFP_ownerZFUIView;
+            }
             if(t == nativeView)
             {
-                return zftrue;
+                return ret;
             }
             t = t.superview;
         }
-        return zffalse;
+        return zfnull;
     }
     virtual void viewFocusRequest(ZF_IN ZFUIView *view,
                                   ZF_IN zfbool viewFocus)

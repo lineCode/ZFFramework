@@ -444,7 +444,10 @@ private:
 
         this->aniTargetSnapshot = QPixmap();
         this->aniTargetCached->setGeometry(this->aniTargetGeometrySaved);
-        this->aniTargetCached->setVisible(true);
+        if(this->aniTargetCached->parentWidget() != NULL)
+        {
+            this->aniTargetCached->setVisible(true);
+        }
         this->aniTargetCached = zfnull;
 
         this->aniCurveFunc = zfnull;

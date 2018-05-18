@@ -265,7 +265,7 @@ public:
      */
     ZFMETHOD_DECLARE_3(void, scrollChildToVisible,
                        ZFMP_IN(ZFUIView *, child),
-                       ZFMP_IN_OPT(const ZFUIMargin &, margin, ZFUIMarginZero()),
+                       ZFMP_IN_OPT(const ZFUIMargin &, margin, ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin())),
                        ZFMP_IN_OPT(zfbool, scrollWithAni, zftrue))
 
     // ============================================================

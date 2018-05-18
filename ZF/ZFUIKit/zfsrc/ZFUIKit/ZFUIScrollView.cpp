@@ -46,16 +46,6 @@ public:
     zfbool scrollAniTimerStarted;
     zftimet scrollAniLastTime;
 
-    /*
-     * when size changed, try to move focused child to visible before reload,
-     * typical use case:
-     * 1. click a text edit view inside of a scroll view
-     * 2. on screen keyboard popup and cause client frame shrinked
-     * 3. the text edit view exceeds scroll content visible range and would be removed
-     * 4. the focus lost, cause keyboard hide, which is not expected
-     */
-    zfbool scrollSizeChangedFlag;
-
     ZFUIScroller *xScroll;
     zfbool xScrollEnable;
     zfint xScrollDragPrevPos;
@@ -94,7 +84,6 @@ protected:
     , scrollContentFrameOverrideFlag(zffalse)
     , scrollAniTimerStarted(zffalse)
     , scrollAniLastTime(0)
-    , scrollSizeChangedFlag(zffalse)
     , xScroll(zfnull)
     , xScrollEnable(zftrue)
     , xScrollDragPrevPos(0)
@@ -143,23 +132,6 @@ public:
 public:
     void scrollerUpdate(void)
     {
-        if(this->scrollSizeChangedFlag)
-        {
-            this->scrollSizeChangedFlag = zffalse;
-            for(zfindex i = 0; i < this->pimplOwner->childCount(); ++i)
-            {
-                ZFUIView *child = this->pimplOwner->childAtIndex(i);
-                if(child->viewFocusedRecursive())
-                {
-                    this->pimplOwner->scrollChildToVisible(
-                        child,
-                        ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin()),
-                        zffalse);
-                    break;
-                }
-            }
-        }
-
         this->scrollContentFrameUpdate();
         this->scrollerActionRun();
     }
@@ -829,10 +801,26 @@ void ZFUIScrollView::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
     if(xScrollOwnerSize != d->xScroll->scrollOwnerSize()
         || yScrollOwnerSize != d->yScroll->scrollOwnerSize())
     {
-        d->scrollSizeChangedFlag = zftrue;
         d->xScroll->scrollOwnerSizeChanged(xScrollOwnerSize);
         d->yScroll->scrollOwnerSizeChanged(yScrollOwnerSize);
         d->scrollerUpdate();
+
+        ZFLISTENER_LOCAL(action, {
+            ZFUIScrollView *scrollView = userData->objectHolded();
+            if(scrollView == zfnull)
+            {
+                return ;
+            }
+            ZFUIView *focusedChild = scrollView->viewFocusFind();
+            if(focusedChild != zfnull)
+            {
+                scrollView->scrollChildToVisible(
+                    focusedChild,
+                    ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin()),
+                    zffalse);
+            }
+        })
+        ZFThreadTaskRequest(action, this->objectHolder());
     }
 
     d->scrollThumbUpdate();
@@ -1021,7 +1009,7 @@ ZFMETHOD_DEFINE_0(ZFUIScrollView, void, scrollToFitRange)
 }
 ZFMETHOD_DEFINE_3(ZFUIScrollView, void, scrollChildToVisible,
                   ZFMP_IN(ZFUIView *, child),
-                  ZFMP_IN_OPT(const ZFUIMargin &, margin, ZFUIMarginZero()),
+                  ZFMP_IN_OPT(const ZFUIMargin &, margin, ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin())),
                   ZFMP_IN_OPT(zfbool, scrollWithAni, zftrue))
 {
     if(child == zfnull)
