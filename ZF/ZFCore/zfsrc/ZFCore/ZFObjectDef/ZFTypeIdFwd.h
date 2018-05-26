@@ -19,6 +19,18 @@
 #include "ZFAny.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+// ============================================================
+/**
+ * @brief shows that the property has no type and can not be used in advanced property copy operation,
+ *   ensured empty string
+ */
+#define ZFTypeId_none() zfText("")
+/**
+ * @brief type id for retain property, see #ZFProperty::propertyTypeId
+ */
+#define ZFTypeId_ZFObject() zfText("ZFObject")
+
+// ============================================================
 zfclassFwd ZFSerializableData;
 /**
  * @brief base protocol for #ZFTypeId
@@ -640,7 +652,7 @@ public:
         }; \
         static inline const zfchar *TypeId(void) \
         { \
-            return ZFTypeId_none; \
+            return ZFTypeId_none(); \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN _ZFP_PropTypeW_##TypeName const &v) \
         { \

@@ -219,6 +219,10 @@ public:
      */
     zfbool classIsDynamicRegister(void) const;
     /**
+     * @brief see #ZFClassDynamicRegister
+     */
+    ZFObject *classDynamicRegisterUserData(void) const;
+    /**
      * @brief true if the class is abstract class
      *
      * #newInstance would return zfnull if the class is abstract
@@ -500,7 +504,8 @@ public:
                                          ZF_IN _ZFP_ZFObjectDestructor destructor,
                                          ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
                                          ZF_IN zfbool isInterface,
-                                         ZF_IN zfbool classIsDynamicRegister);
+                                         ZF_IN zfbool classIsDynamicRegister,
+                                         ZF_IN ZFObject *classDynamicRegisterUserData);
     static void _ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const ZFClass *cls);
     /** @cond ZFPrivateDoc */
     ZFClass(void);
@@ -561,7 +566,8 @@ public:
                                ZF_IN _ZFP_ZFObjectDestructor destructor,
                                ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
                                ZF_IN_OPT zfbool isInterface = zffalse,
-                               ZF_IN_OPT zfbool classIsDynamicRegister = zffalse);
+                               ZF_IN_OPT zfbool classIsDynamicRegister = zffalse,
+                               ZF_IN_OPT ZFObject *classDynamicRegisterUserData = zfnull);
     ~_ZFP_ZFClassRegisterHolder(void);
 public:
     zfbool ZFCoreLibDestroyFlag;

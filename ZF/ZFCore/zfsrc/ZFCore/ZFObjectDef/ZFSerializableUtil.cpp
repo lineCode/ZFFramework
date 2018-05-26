@@ -105,7 +105,7 @@ const zfchar *checkSerializableClass(ZF_IN const zfchar *desiredClass,
                                      ZF_IN const ZFSerializableData &serializableData)
 {
     const zfchar *serializableClass = serializableData.itemClass();
-    if(zfscmpTheSame(desiredClass, ZFTypeId_none))
+    if(zfscmpTheSame(desiredClass, ZFTypeId_none()))
     {
         return serializableClass;
     }

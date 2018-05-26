@@ -14,6 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *className,
                                       ZF_IN const ZFClass *parent,
+                                      ZF_IN_OPT ZFObject *classDynamicRegisterUserData /* = zfnull */,
                                       ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
 {
     if(parent == zfnull || parent->classIsAbstract() || zfsIsEmpty(className))
@@ -41,7 +42,8 @@ const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *className,
         parent->_ZFP_objectDestructor(),
         zfnull,
         zffalse,
-        zftrue);
+        zftrue,
+        classDynamicRegisterUserData);
     return cls;
 }
 void ZFClassDynamicUnregister(ZF_IN const ZFClass *cls)
@@ -65,7 +67,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(const ZFClass *, ZFClassDynamicRegister, ZFMP_IN(const zfchar *, className), ZFMP_IN(const ZFClass *, parent), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(const ZFClass *, ZFClassDynamicRegister, ZFMP_IN(const zfchar *, className), ZFMP_IN(const ZFClass *, parent), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFClassDynamicUnregister, ZFMP_IN(const ZFClass *, cls))
 
 ZF_NAMESPACE_GLOBAL_END

@@ -344,6 +344,8 @@ private:
         , _ZFP_propCbDGetInfo<zfautoObject> \
         , _ZFP_propCbDValueStore<zfautoObject> \
         , _ZFP_propCbDValueRelease<zfautoObject> \
+        , _ZFP_propCbDSerializeFrom_get<Type>() \
+        , _ZFP_propCbDSerializeTo_get<Type>() \
         , _ZFP_propCbDProgressUpdate<zfautoObject, Type> \
         , _ZFP_PropURInit_##registerSig::propertyInit \
         , zfnull \
@@ -381,6 +383,8 @@ private:
         , _ZFP_propCbDGetInfo<Type> \
         , _ZFP_propCbDValueStore<Type> \
         , _ZFP_propCbDValueRelease<Type> \
+        , _ZFP_propCbDSerializeFrom_get<Type>() \
+        , _ZFP_propCbDSerializeTo_get<Type>() \
         , _ZFP_propCbDProgressUpdate<Type, Type> \
         , _ZFP_PropURInit_##registerSig::propertyInit \
         , zfnull \

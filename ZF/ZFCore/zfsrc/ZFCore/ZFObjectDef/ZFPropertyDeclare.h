@@ -420,6 +420,8 @@ public:
                     , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
                     , _ZFP_propCbDValueStore<PropHT_##Name> \
                     , _ZFP_propCbDValueRelease<PropHT_##Name> \
+                    , _ZFP_propCbDSerializeFrom_get<zfself::PropVT_##Name>() \
+                    , _ZFP_propCbDSerializeTo_get<zfself::PropVT_##Name>() \
                     , _ZFP_propCbDProgressUpdate<PropHT_##Name, zfself::PropVT_##Name> \
                     , zfnull \
                     , zfself::_ZFP_propCbDel_##Name \
@@ -450,6 +452,8 @@ public:
                     , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
                     , _ZFP_propCbDValueStore<PropHT_##Name> \
                     , _ZFP_propCbDValueRelease<PropHT_##Name> \
+                    , _ZFP_propCbDSerializeFrom_get<zfself::PropVT_##Name>() \
+                    , _ZFP_propCbDSerializeTo_get<zfself::PropVT_##Name>() \
                     , _ZFP_propCbDProgressUpdate<PropHT_##Name, zfself::PropVT_##Name> \
                     , zfnull \
                     , zfself::_ZFP_propCbDel_##Name \

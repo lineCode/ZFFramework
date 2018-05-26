@@ -12,6 +12,7 @@
 
 #include "ZFPropertyDeclare.h"
 #include "ZFPropertyUserRegister.h"
+#include "ZFSerializableUtil.h"
 
 #include "../ZFSTLWrapper/zfstl_map.h"
 
@@ -37,7 +38,7 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
 
 zfbool ZFProperty::typeIdSerializable(void) const
 {
-    if(zfscmpTheSame(this->propertyTypeId(), ZFTypeId_none))
+    if(zfscmpTheSame(this->propertyTypeId(), ZFTypeId_none()))
     {
         return zffalse;
     }
@@ -64,6 +65,8 @@ ZFProperty::ZFProperty(void)
 , callbackGetInfo(zfnull)
 , callbackValueStore(zfnull)
 , callbackValueRelease(zfnull)
+, callbackSerializeFrom(zfnull)
+, callbackSerializeTo(zfnull)
 , callbackProgressUpdate(zfnull)
 , callbackUserRegisterInitValueSetup(zfnull)
 , _ZFP_ZFPropertyNeedInit(zftrue)
@@ -109,7 +112,7 @@ void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
     this->_ZFP_ZFProperty_typeName = typeName;
     if(propertyClassOfRetainProperty == zfnull && zfscmpTheSame(typeIdName, ZFTypeId_ZFObject()))
     { // assign property with ZFObject type, is not serializable
-        this->_ZFP_ZFProperty_typeId = ZFTypeId_none;
+        this->_ZFP_ZFProperty_typeId = ZFTypeId_none();
     }
     else
     {
@@ -248,6 +251,8 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
                                     , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
                                     , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
                                     , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
+                                    , ZF_IN ZFPropertyCallbackSerializeFrom callbackSerializeFrom
+                                    , ZF_IN ZFPropertyCallbackSerializeTo callbackSerializeTo
                                     , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                     , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
                                     , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
@@ -271,6 +276,8 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
     zfCoreAssert(callbackGetInfo != zfnull);
     zfCoreAssert(callbackValueStore != zfnull);
     zfCoreAssert(callbackValueRelease != zfnull);
+    zfCoreAssert(callbackSerializeFrom != zfnull);
+    zfCoreAssert(callbackSerializeTo != zfnull);
     zfCoreAssert(callbackProgressUpdate != zfnull);
 
     zfstring propertyInternalId;
@@ -317,6 +324,8 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
         propertyInfo->callbackGetInfo = callbackGetInfo;
         propertyInfo->callbackValueStore = callbackValueStore;
         propertyInfo->callbackValueRelease = callbackValueRelease;
+        propertyInfo->callbackSerializeFrom = callbackSerializeFrom;
+        propertyInfo->callbackSerializeTo = callbackSerializeTo;
         propertyInfo->callbackProgressUpdate = callbackProgressUpdate;
         propertyInfo->callbackUserRegisterInitValueSetup = callbackUserRegisterInitValueSetup;
         propertyInfo->_ZFP_ZFProperty_callbackDealloc = callbackDealloc;
@@ -397,6 +406,108 @@ void _ZFP_ZFPropertyValueReleaseImpl(ZF_IN const ZFProperty *property,
     {
         d->d.erase(it);
     }
+}
+
+// ============================================================
+zfbool _ZFP_propCbDSerializeFrom_generic(ZF_IN const ZFProperty *propertyInfo,
+                                         ZF_IN ZFObject *ownerObject,
+                                         ZF_IN const ZFSerializableData &serializableData,
+                                         ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
+                                         ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
+{
+    zfautoObject zfv;
+    if(!_ZFP_propCbDSerializeFrom_impl(zfv, propertyInfo, serializableData, outErrorHint, outErrorPos))
+    {
+        return zffalse;
+    }
+    propertyInfo->callbackValueSet(propertyInfo, ownerObject, zfv.to<ZFTypeIdWrapper *>()->wrappedValue());
+    return zftrue;
+}
+zfbool _ZFP_propCbDSerializeFrom_impl(ZF_OUT zfautoObject &zfv,
+                                      ZF_IN const ZFProperty *propertyInfo,
+                                      ZF_IN const ZFSerializableData &serializableData,
+                                      ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
+                                      ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
+{
+    const ZFTypeIdBase *t = ZFTypeIdGet(propertyInfo->propertyTypeId());
+    if(t == zfnull)
+    {
+        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
+            zfText("no such type id: %s"),
+            propertyInfo->propertyTypeId());
+        return zffalse;
+    }
+    ZFTypeIdWrapper *w = zfnull;
+    if(!t->typeIdWrapper(zfv) || (w = zfv) == zfnull)
+    {
+        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
+            zfText("unable to access type id wrapper: %s"),
+            propertyInfo->propertyTypeId());
+        return zffalse;
+    }
+    return w->wrappedValueFromData(serializableData, outErrorHint, outErrorPos);
+}
+void _ZFP_propCbDSerializeFrom_errorOccurred(ZF_IN const ZFSerializableData &serializableData,
+                                             ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
+                                             ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
+{
+    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
+        zfText("unable to access type id wrapper value"));
+}
+zfbool _ZFP_propCbDSerializeTo_generic(ZF_IN const ZFProperty *propertyInfo,
+                                       ZF_IN ZFObject *ownerObject,
+                                       ZF_OUT ZFSerializableData &serializableData,
+                                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
+{
+    const ZFTypeIdBase *t = ZFTypeIdGet(propertyInfo->propertyTypeId());
+    if(t == zfnull)
+    {
+        ZFSerializableUtil::errorOccurred(outErrorHint,
+            zfText("no such type id: %s"),
+            propertyInfo->propertyTypeId());
+        return zffalse;
+    }
+    zfautoObject zfv;
+    ZFTypeIdWrapper *w = zfnull;
+    if(!t->typeIdWrapper(zfv) || (w = zfv) == zfnull)
+    {
+        ZFSerializableUtil::errorOccurred(outErrorHint,
+            zfText("unable to access type id wrapper: %s"),
+            propertyInfo->propertyTypeId());
+        return zffalse;
+    }
+    const void *v = propertyInfo->callbackValueGet(propertyInfo, ownerObject);
+    w->wrappedValueSet(v);
+    return w->wrappedValueToData(serializableData, outErrorHint);
+}
+zfbool _ZFP_propCbDSerializeTo_impl(ZF_IN const ZFProperty *propertyInfo,
+                                    ZF_IN ZFObject *zfv,
+                                    ZF_OUT ZFSerializableData &serializableData,
+                                    ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
+{
+    const ZFTypeIdBase *t = ZFTypeIdGet(propertyInfo->propertyTypeId());
+    if(t == zfnull)
+    {
+        ZFSerializableUtil::errorOccurred(outErrorHint,
+            zfText("no such type id: %s"),
+            propertyInfo->propertyTypeId());
+        return zffalse;
+    }
+    ZFTypeIdWrapper *w = ZFCastZFObject(ZFTypeIdWrapper *, zfv);
+    if(w == zfnull)
+    {
+        ZFSerializableUtil::errorOccurred(outErrorHint,
+            zfText("unable to access type id wrapper: %s"),
+            propertyInfo->propertyTypeId());
+        return zffalse;
+    }
+    return w->wrappedValueToData(serializableData, outErrorHint);
+}
+void _ZFP_propCbDSerializeTo_errorOccurred(ZF_IN const ZFSerializableData &serializableData,
+                                           ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
+{
+    ZFSerializableUtil::errorOccurred(outErrorHint,
+        zfText("unable to access type id wrapper value"));
 }
 
 ZF_NAMESPACE_GLOBAL_END

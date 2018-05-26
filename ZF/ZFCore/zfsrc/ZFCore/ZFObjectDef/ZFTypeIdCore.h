@@ -155,8 +155,18 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_WITH_CUSTOM_WRAPPER(TypeName, Type, serializeFromAction, serializeToAction, convertFromStringAction, convertToStringAction) \
-    zfclassNotPOD _ZFP_PropTypeRegH_##TypeName \
+    template<> \
+    zfclassNotPOD _ZFP_ZFTypeId_propCbSerialize<Type> \
     { \
+    public: \
+        static ZFPropertyCallbackSerializeFrom f(void) \
+        { \
+            return serializeFrom; \
+        } \
+        static ZFPropertyCallbackSerializeTo t(void) \
+        { \
+            return serializeTo; \
+        } \
     public: \
         static zfbool serializeFrom(ZF_IN const ZFProperty *propertyInfo, \
                                     ZF_IN ZFObject *ownerObject, \
@@ -187,18 +197,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
             return TypeName##ToData(serializableData, v, outErrorHint); \
         } \
     }; \
-    ZF_STATIC_REGISTER_INIT(PropId_##TypeName) \
-    { \
-        _ZFP_ZFPropertyTypeRegister( \
-            ZFTypeId_##TypeName(), \
-            _ZFP_PropTypeRegH_##TypeName::serializeFrom, \
-            _ZFP_PropTypeRegH_##TypeName::serializeTo); \
-    } \
-    ZF_STATIC_REGISTER_DESTROY(PropId_##TypeName) \
-    { \
-        _ZFP_ZFPropertyTypeUnregister(ZFTypeId_##TypeName()); \
-    } \
-    ZF_STATIC_REGISTER_END(PropId_##TypeName) \
     zfbool TypeName##FromData(ZF_OUT Type &v, \
                               ZF_IN const ZFSerializableData &serializableData, \
                               ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */, \
@@ -407,55 +405,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 #define ZFTYPEID_DISABLE(Type) \
     _ZFP_ZFTYPEID_ID_DATA_DISABLE(Type)
-
-// ============================================================
-/**
- * @brief see #ZFPropertyTypeGetSerializeFromCallback
- */
-typedef zfbool (*ZFPropertyTypeSerializeFromCallback)(ZF_IN const ZFProperty *propertyInfo,
-                                                      ZF_IN ZFObject *ownerObject,
-                                                      ZF_IN const ZFSerializableData &serializableData,
-                                                      ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
-                                                      ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */);
-/**
- * @brief see #ZFPropertyTypeGetSerializeToCallback
- */
-typedef zfbool (*ZFPropertyTypeSerializeToCallback)(ZF_IN const ZFProperty *propertyInfo,
-                                                    ZF_IN ZFObject *ownerObject,
-                                                    ZF_OUT ZFSerializableData &serializableData,
-                                                    ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */);
-extern ZF_ENV_EXPORT void _ZFP_ZFPropertyTypeRegister(ZF_IN const zfchar *typeIdName,
-                                                      ZF_IN ZFPropertyTypeSerializeFromCallback serializeFromCallback,
-                                                      ZF_IN ZFPropertyTypeSerializeToCallback serializeToCallback);
-extern ZF_ENV_EXPORT void _ZFP_ZFPropertyTypeUnregister(ZF_IN const zfchar *typeIdName);
-
-/**
- * @brief see #ZFTYPEID_DECLARE
- *
- * directly access the serialize callback, for performance use only
- */
-extern ZF_ENV_EXPORT ZFPropertyTypeSerializeFromCallback ZFPropertyTypeGetSerializeFromCallback(ZF_IN const zfchar *typeIdName);
-/**
- * @brief see #ZFTYPEID_DECLARE
- *
- * directly access the serialize callback, for performance use only
- */
-extern ZF_ENV_EXPORT ZFPropertyTypeSerializeToCallback ZFPropertyTypeGetSerializeToCallback(ZF_IN const zfchar *typeIdName);
-
-/**
- * @brief serialize property from serializable data, see #ZFTYPEID_DECLARE
- */
-extern ZF_ENV_EXPORT zfbool ZFPropertySerializeFrom(ZF_IN ZFObject *ownerObject,
-                                                    ZF_IN const ZFSerializableData &serializableData,
-                                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                                    ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
-/**
- * @brief serialize property to serializable data, see #ZFTYPEID_DECLARE
- */
-extern ZF_ENV_EXPORT zfbool ZFPropertySerializeTo(ZF_IN const ZFProperty *propertyInfo,
-                                                  ZF_IN ZFObject *ownerObject,
-                                                  ZF_OUT ZFSerializableData &serializableData,
-                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 
 // ============================================================
 /**

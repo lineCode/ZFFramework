@@ -119,8 +119,8 @@ public:
      * @brief type id string declared in ZFPROPERTY_XXX
      *
      * this value should be ensured the type id for the type or #ZFTypeId_none if no known type,
-     * this value is used for property's advanced copy function,
-     * see #ZFPropertySerializeFrom
+     * this value is used for property's advanced serialize and copy logic,
+     * see #ZFTypeIdBase
      * @note for retain property, this value is always #ZFTypeId_ZFObject
      */
     inline const zfchar *propertyTypeId(void) const
@@ -181,6 +181,10 @@ public:
     ZFPropertyCallbackValueStore callbackValueStore;
     /** @brief see #ZFPropertyCallbackValueRelease */
     ZFPropertyCallbackValueRelease callbackValueRelease;
+    /** @brief see #ZFPropertyCallbackSerializeFrom */
+    ZFPropertyCallbackSerializeFrom callbackSerializeFrom;
+    /** @brief see #ZFPropertyCallbackSerializeTo */
+    ZFPropertyCallbackSerializeTo callbackSerializeTo;
     /** @brief see #ZFPropertyCallbackProgressUpdate */
     ZFPropertyCallbackProgressUpdate callbackProgressUpdate;
 
@@ -268,6 +272,8 @@ extern ZF_ENV_EXPORT ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIs
                                                          , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
                                                          , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
                                                          , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
+                                                         , ZF_IN ZFPropertyCallbackSerializeFrom callbackSerializeFrom
+                                                         , ZF_IN ZFPropertyCallbackSerializeTo callbackSerializeTo
                                                          , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                                          , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
                                                          , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
@@ -296,6 +302,8 @@ public:
                                   , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
                                   , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
                                   , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
+                                  , ZF_IN ZFPropertyCallbackSerializeFrom callbackSerializeFrom
+                                  , ZF_IN ZFPropertyCallbackSerializeTo callbackSerializeTo
                                   , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                   , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
                                   , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
@@ -319,6 +327,8 @@ public:
                                            , callbackGetInfo
                                            , callbackValueStore
                                            , callbackValueRelease
+                                           , callbackSerializeFrom
+                                           , callbackSerializeTo
                                            , callbackProgressUpdate
                                            , callbackUserRegisterInitValueSetup
                                            , callbackDealloc
@@ -387,6 +397,115 @@ inline void _ZFP_propCbDValueRelease(ZF_IN const ZFProperty *property,
 {
     _ZFP_ZFPropertyValueReleaseImpl(property, ownerObj, value);
 }
+
+template<typename T_PropVT>
+zfclassNotPOD _ZFP_ZFTypeId_propCbSerialize
+{
+public:
+    static ZFPropertyCallbackSerializeFrom f(void)
+    {
+        return zfnull;
+    }
+    static ZFPropertyCallbackSerializeTo t(void)
+    {
+        return zfnull;
+    }
+};
+
+extern ZF_ENV_EXPORT zfbool _ZFP_propCbDSerializeFrom_generic(ZF_IN const ZFProperty *propertyInfo,
+                                                              ZF_IN ZFObject *ownerObject,
+                                                              ZF_IN const ZFSerializableData &serializableData,
+                                                              ZF_OUT_OPT zfstring *outErrorHint = zfnull,
+                                                              ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
+extern ZF_ENV_EXPORT zfbool _ZFP_propCbDSerializeFrom_impl(ZF_OUT zfautoObject &zfv,
+                                                           ZF_IN const ZFProperty *propertyInfo,
+                                                           ZF_IN const ZFSerializableData &serializableData,
+                                                           ZF_OUT_OPT zfstring *outErrorHint = zfnull,
+                                                           ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
+extern ZF_ENV_EXPORT void _ZFP_propCbDSerializeFrom_errorOccurred(ZF_IN const ZFSerializableData &serializableData,
+                                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull,
+                                                                  ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
+template<typename T_PropVT>
+zfbool _ZFP_propCbDSerializeFrom(ZF_IN const ZFProperty *propertyInfo,
+                                 ZF_IN ZFObject *ownerObject,
+                                 ZF_IN const ZFSerializableData &serializableData,
+                                 ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
+                                 ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
+{
+    zfautoObject zfv;
+    if(_ZFP_propCbDSerializeFrom_impl(zfv, propertyInfo, serializableData, outErrorHint, outErrorPos))
+    {
+        if(ZFTypeId<T_PropVT>::template Value<T_PropVT>::accessAvailable(zfv))
+        {
+            propertyInfo->setterMethod()->execute<void, T_PropVT const &>(ownerObject,
+                    ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::access(zfv)
+                );
+            return zftrue;
+        }
+        else
+        {
+            _ZFP_propCbDSerializeFrom_errorOccurred(serializableData, outErrorHint, outErrorPos);
+            return zffalse;
+        }
+    }
+    else
+    {
+        return zffalse;
+    }
+}
+template<typename T_PropVT>
+ZFPropertyCallbackSerializeFrom _ZFP_propCbDSerializeFrom_get(void)
+{
+    if(_ZFP_ZFTypeId_propCbSerialize<T_PropVT>::f())
+    {
+        return _ZFP_ZFTypeId_propCbSerialize<T_PropVT>::f();
+    }
+    else
+    {
+        return _ZFP_propCbDSerializeFrom<T_PropVT>;
+    }
+}
+
+extern ZF_ENV_EXPORT zfbool _ZFP_propCbDSerializeTo_generic(ZF_IN const ZFProperty *propertyInfo,
+                                                            ZF_IN ZFObject *ownerObject,
+                                                            ZF_OUT ZFSerializableData &serializableData,
+                                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull);
+extern ZF_ENV_EXPORT zfbool _ZFP_propCbDSerializeTo_impl(ZF_IN const ZFProperty *propertyInfo,
+                                                         ZF_IN ZFObject *zfv,
+                                                         ZF_OUT ZFSerializableData &serializableData,
+                                                         ZF_OUT_OPT zfstring *outErrorHint = zfnull);
+extern ZF_ENV_EXPORT void _ZFP_propCbDSerializeTo_errorOccurred(ZF_IN const ZFSerializableData &serializableData,
+                                                                ZF_OUT_OPT zfstring *outErrorHint = zfnull);
+template<typename T_PropVT>
+zfbool _ZFP_propCbDSerializeTo(ZF_IN const ZFProperty *propertyInfo,
+                               ZF_IN ZFObject *ownerObject,
+                               ZF_OUT ZFSerializableData &serializableData,
+                               ZF_OUT_OPT zfstring *outErrorHint = zfnull)
+{
+    zfautoObject zfv;
+    if(ZFTypeId<T_PropVT>::ValueStore(zfv, propertyInfo->getterMethod()->execute<T_PropVT const &>(ownerObject)))
+    {
+        return _ZFP_propCbDSerializeTo_impl(propertyInfo, zfv, serializableData, outErrorHint);
+    }
+    else
+    {
+        _ZFP_propCbDSerializeTo_errorOccurred(serializableData, outErrorHint);
+        return zffalse;
+    }
+}
+template<typename T_PropVT>
+ZFPropertyCallbackSerializeTo _ZFP_propCbDSerializeTo_get(void)
+{
+    if(_ZFP_ZFTypeId_propCbSerialize<T_PropVT>::t())
+    {
+        return _ZFP_ZFTypeId_propCbSerialize<T_PropVT>::t();
+    }
+    else
+    {
+        return _ZFP_propCbDSerializeTo<T_PropVT>;
+    }
+}
+
 template<typename T_Type, typename T_TypeFix = void, typename T_ReservedFix = void>
 zfclassNotPOD _ZFP_ZFPropertyProgressHolder
 {

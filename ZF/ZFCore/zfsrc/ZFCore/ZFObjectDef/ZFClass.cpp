@@ -96,6 +96,7 @@ public:
     ZFCoreArrayPOD<zfbool *> ZFCoreLibDestroyFlag;
     ZFClass *pimplOwner;
     zfbool classIsDynamicRegister;
+    zfautoObject classDynamicRegisterUserData;
     _ZFP_ZFObjectConstructor constructor;
     _ZFP_ZFObjectDestructor destructor;
     zfstring className;
@@ -247,6 +248,7 @@ public:
     , ZFCoreLibDestroyFlag()
     , pimplOwner(zfnull)
     , classIsDynamicRegister(zffalse)
+    , classDynamicRegisterUserData()
     , constructor(zfnull)
     , destructor(zfnull)
     , className()
@@ -522,6 +524,10 @@ zfbool ZFClass::classIsTypeOf(ZF_IN const ZFClass *cls) const
 zfbool ZFClass::classIsDynamicRegister(void) const
 {
     return d->classIsDynamicRegister;
+}
+ZFObject *ZFClass::classDynamicRegisterUserData(void) const
+{
+    return d->classDynamicRegisterUserData;
 }
 
 zfbool ZFClass::classIsAbstract(void) const
@@ -972,7 +978,8 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
                                        ZF_IN _ZFP_ZFObjectDestructor destructor,
                                        ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
                                        ZF_IN zfbool isInterface,
-                                       ZF_IN zfbool classIsDynamicRegister)
+                                       ZF_IN zfbool classIsDynamicRegister,
+                                       ZF_IN ZFObject *classDynamicRegisterUserData)
 {
     zfCoreMutexLocker();
     ZFCorePointerBase *d = _ZFP_ZFClassMap.get(name);
@@ -998,6 +1005,7 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
         }
 
         cls->d->classIsDynamicRegister = classIsDynamicRegister;
+        cls->d->classDynamicRegisterUserData = classDynamicRegisterUserData;
         cls->d->constructor = constructor;
         cls->d->destructor = destructor;
 
@@ -1510,7 +1518,8 @@ _ZFP_ZFClassRegisterHolder::_ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *name,
                                                        ZF_IN _ZFP_ZFObjectDestructor destructor,
                                                        ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
                                                        ZF_IN_OPT zfbool isInterface /* = zffalse */,
-                                                       ZF_IN_OPT zfbool classIsDynamicRegister /* = zffalse */)
+                                                       ZF_IN_OPT zfbool classIsDynamicRegister /* = zffalse */,
+                                                       ZF_IN_OPT ZFObject *classDynamicRegisterUserData /* = zfnull */)
 : ZFCoreLibDestroyFlag(zffalse)
 , cls(zfnull)
 {
@@ -1522,7 +1531,8 @@ _ZFP_ZFClassRegisterHolder::_ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *name,
         destructor,
         checkInitImplListCallback,
         isInterface,
-        classIsDynamicRegister);
+        classIsDynamicRegister,
+        classDynamicRegisterUserData);
 }
 _ZFP_ZFClassRegisterHolder::~_ZFP_ZFClassRegisterHolder(void)
 {

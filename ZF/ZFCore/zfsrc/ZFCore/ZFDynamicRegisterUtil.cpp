@@ -188,7 +188,8 @@ const ZFCoreArrayPOD<zfidentity> &ZFDynamic::allEvent(void) const
 }
 
 ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *className,
-                                 ZF_IN_OPT const ZFClass *parentClass /* = ZFObject::ClassData() */)
+                                 ZF_IN_OPT const ZFClass *parentClass /* = ZFObject::ClassData() */,
+                                 ZF_IN_OPT ZFObject *classDynamicRegisterUserData /* = zfnull */)
 {
     if(d->errorOccurred) {return *this;}
     if(!d->scopeBeginCheck()) {return *this;}
@@ -202,7 +203,8 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *className,
         else
         {
             zfstring errorHint;
-            const ZFClass *dynClass = ZFClassDynamicRegister(className, parentClass, &errorHint);
+            const ZFClass *dynClass = ZFClassDynamicRegister(
+                className, parentClass, classDynamicRegisterUserData, &errorHint);
             if(dynClass == zfnull)
             {
                 d->error(zfText("[ZFDynamic] unable to register class: %s, reason: %s"),
@@ -219,13 +221,14 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *className,
     return *this;
 }
 ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *className,
-                                 ZF_IN const zfchar *parentClassName)
+                                 ZF_IN const zfchar *parentClassName,
+                                 ZF_IN_OPT ZFObject *classDynamicRegisterUserData /* = zfnull */)
 {
     if(d->errorOccurred) {return *this;}
     if(!d->scopeBeginCheck()) {return *this;}
     if(zfsIsEmpty(parentClassName))
     {
-        return this->classBegin(className, ZFObject::ClassData());
+        return this->classBegin(className, ZFObject::ClassData(), classDynamicRegisterUserData);
     }
     else
     {
@@ -237,7 +240,7 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *className,
         }
         else
         {
-            return this->classBegin(className, parentClass);
+            return this->classBegin(className, parentClass, classDynamicRegisterUserData);
         }
     }
 }
@@ -726,8 +729,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<cons
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFMethod *> &, allMethod)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFProperty *> &, allProperty)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<zfidentity> &, allEvent)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, className), ZFMP_IN_OPT(const ZFClass *, parentClass, ZFObject::ClassData()))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, className), ZFMP_IN(const zfchar *, parentClassName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, className), ZFMP_IN_OPT(const ZFClass *, parentClass, ZFObject::ClassData()), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, className), ZFMP_IN(const zfchar *, parentClassName), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const ZFClass *, cls))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, ZFDynamic &, classEnd)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFDynamic, ZFDynamic &, onInit, ZFMP_IN(const ZFListener &, onInitCallback), ZFMP_IN_OPT(ZFObject *, userData, zfnull))

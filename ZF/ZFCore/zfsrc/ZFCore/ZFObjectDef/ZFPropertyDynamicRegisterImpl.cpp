@@ -607,6 +607,8 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
         , _ZFP_PropDynReg_callbackGetInfo
         , _ZFP_PropDynReg_callbackValueStore
         , _ZFP_PropDynReg_callbackValueRelease
+        , _ZFP_propCbDSerializeFrom_generic
+        , _ZFP_propCbDSerializeTo_generic
         , _ZFP_PropDynReg_callbackProgressUpdate
         , zfnull
         , zfnull

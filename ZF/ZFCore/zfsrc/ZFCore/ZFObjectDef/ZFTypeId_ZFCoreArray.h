@@ -244,7 +244,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none);
+        return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none());
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFCoreArray<T_Type> const &v)
     {
@@ -312,7 +312,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none);
+        return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none());
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFCoreArray<T_Type> const &v)
     {

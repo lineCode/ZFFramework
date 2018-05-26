@@ -66,6 +66,18 @@ void ZFPropertyCallbackValueReleaseChange(ZF_IN const ZFProperty *property,
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackValueRelease = callback;
 }
+void ZFPropertyCallbackSerializeFromChange(ZF_IN const ZFProperty *property,
+                                           ZF_IN ZFPropertyCallbackSerializeFrom callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackSerializeFrom = callback;
+}
+void ZFPropertyCallbackSerializeToChange(ZF_IN const ZFProperty *property,
+                                         ZF_IN ZFPropertyCallbackSerializeTo callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackSerializeTo = callback;
+}
 void ZFPropertyCallbackProgressUpdateChange(ZF_IN const ZFProperty *property,
                                             ZF_IN ZFPropertyCallbackProgressUpdate callback)
 {

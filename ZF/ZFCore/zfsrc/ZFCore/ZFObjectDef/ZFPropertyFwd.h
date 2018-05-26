@@ -16,10 +16,13 @@
 #define _ZFI_ZFPropertyFwd_h_
 
 #include "ZFObjectClassTypeFwd.h"
+#include "ZFTypeIdFwd.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 zfclassFwd ZFProperty;
 zfclassFwd ZFObject;
+zfclassFwd ZFSerializableData;
+
 // ============================================================
 /**
  * @brief used to check whether the property has been accessed
@@ -36,6 +39,7 @@ typedef zfbool (*ZFPropertyCallbackIsValueAccessed)(ZF_IN const ZFProperty *prop
 extern ZF_ENV_EXPORT void ZFPropertyCallbackIsValueAccessedChange(ZF_IN const ZFProperty *property,
                                                                   ZF_IN ZFPropertyCallbackIsValueAccessed callback);
 
+// ============================================================
 /**
  * @brief used to check whether the property is in init value state
  *
@@ -54,6 +58,7 @@ typedef zfbool (*ZFPropertyCallbackIsInitValue)(ZF_IN const ZFProperty *property
 extern ZF_ENV_EXPORT void ZFPropertyCallbackIsInitValueChange(ZF_IN const ZFProperty *property,
                                                               ZF_IN ZFPropertyCallbackIsInitValue callback);
 
+// ============================================================
 /**
  * @brief used to set property value without knowing the type
  *
@@ -66,6 +71,7 @@ typedef void (*ZFPropertyCallbackValueSet)(ZF_IN const ZFProperty *property,
 extern ZF_ENV_EXPORT void ZFPropertyCallbackValueSetChange(ZF_IN const ZFProperty *property,
                                                            ZF_IN ZFPropertyCallbackValueSet callback);
 
+// ============================================================
 /**
  * @brief used to get property value without knowing the type
  *
@@ -78,6 +84,7 @@ typedef const void *(*ZFPropertyCallbackValueGet)(ZF_IN const ZFProperty *proper
 extern ZF_ENV_EXPORT void ZFPropertyCallbackValueGetChange(ZF_IN const ZFProperty *property,
                                                            ZF_IN ZFPropertyCallbackValueGet callback);
 
+// ============================================================
 /**
  * @brief used to reset the property to its init state
  */
@@ -87,6 +94,7 @@ typedef void (*ZFPropertyCallbackValueReset)(ZF_IN const ZFProperty *property,
 extern ZF_ENV_EXPORT void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
                                                              ZF_IN ZFPropertyCallbackValueReset callback);
 
+// ============================================================
 /**
  * @brief used to compare property's value
  *
@@ -105,6 +113,7 @@ typedef ZFCompareResult (*ZFPropertyCallbackCompare)(ZF_IN const ZFProperty *pro
 extern ZF_ENV_EXPORT void ZFPropertyCallbackCompareChange(ZF_IN const ZFProperty *property,
                                                           ZF_IN ZFPropertyCallbackCompare callback);
 
+// ============================================================
 /**
  * @brief used to get info of the property without knowing the type,
  *   usually for debug use
@@ -119,6 +128,7 @@ typedef void (*ZFPropertyCallbackGetInfo)(ZF_IN const ZFProperty *property,
 extern ZF_ENV_EXPORT void ZFPropertyCallbackGetInfoChange(ZF_IN const ZFProperty *property,
                                                           ZF_IN ZFPropertyCallbackGetInfo callback);
 
+// ============================================================
 /**
  * @brief used to store the property value
  *
@@ -131,6 +141,7 @@ typedef void *(*ZFPropertyCallbackValueStore)(ZF_IN const ZFProperty *property,
 extern ZF_ENV_EXPORT void ZFPropertyCallbackValueStoreChange(ZF_IN const ZFProperty *property,
                                                              ZF_IN ZFPropertyCallbackValueStore callback);
 
+// ============================================================
 /**
  * @brief used to release the property value that was stored by #ZFPropertyCallbackValueStore
  *
@@ -143,6 +154,32 @@ typedef void (*ZFPropertyCallbackValueRelease)(ZF_IN const ZFProperty *property,
 extern ZF_ENV_EXPORT void ZFPropertyCallbackValueReleaseChange(ZF_IN const ZFProperty *property,
                                                                ZF_IN ZFPropertyCallbackValueRelease callback);
 
+// ============================================================
+/**
+ * @brief used to serialize assign property, see also #ZFTypeIdWrapper::wrappedValueFromData
+ */
+typedef zfbool (*ZFPropertyCallbackSerializeFrom)(ZF_IN const ZFProperty *propertyInfo,
+                                                  ZF_IN ZFObject *ownerObject,
+                                                  ZF_IN const ZFSerializableData &serializableData,
+                                                  ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
+                                                  ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */);
+/** @brief change default impl for #ZFPropertyCallbackSerializeFrom, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackSerializeFromChange(ZF_IN const ZFProperty *property,
+                                                                ZF_IN ZFPropertyCallbackSerializeFrom callback);
+
+// ============================================================
+/**
+ * @brief used to serialize assign property, see also #ZFTypeIdWrapper::wrappedValueToData
+ */
+typedef zfbool (*ZFPropertyCallbackSerializeTo)(ZF_IN const ZFProperty *propertyInfo,
+                                                ZF_IN ZFObject *ownerObject,
+                                                ZF_OUT ZFSerializableData &serializableData,
+                                                ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */);
+/** @brief change default impl for #ZFPropertyCallbackSerializeTo, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackSerializeToChange(ZF_IN const ZFProperty *property,
+                                                              ZF_IN ZFPropertyCallbackSerializeTo callback);
+
+// ============================================================
 /**
  * @brief used to update property value accorrding to progress,
  *   see #ZFTYPEID_PROGRESS_DECLARE
@@ -158,22 +195,12 @@ typedef zfbool (*ZFPropertyCallbackProgressUpdate)(ZF_IN const ZFProperty *prope
 extern ZF_ENV_EXPORT void ZFPropertyCallbackProgressUpdateChange(ZF_IN const ZFProperty *property,
                                                                  ZF_IN ZFPropertyCallbackProgressUpdate callback);
 
+// ============================================================
 /**
  * @brief for user registered property only, used to setup a property's init value
  */
 typedef void (*ZFPropertyCallbackUserRegisterInitValueSetup)(ZF_IN const ZFProperty *property,
                                                              ZF_IN_OUT void *v);
-
-// ============================================================
-/**
- * @brief shows that the property has no type and can not be used in advanced property copy operation,
- *   ensured empty string
- */
-#define ZFTypeId_none zfText("")
-/**
- * @brief type id for retain property, see #ZFProperty::propertyTypeId
- */
-#define ZFTypeId_ZFObject() zfText("ZFObject")
 
 // ============================================================
 typedef void (*_ZFP_PropLifeCycleWrapper)(ZF_IN ZFObject *propertyOwnerObject,

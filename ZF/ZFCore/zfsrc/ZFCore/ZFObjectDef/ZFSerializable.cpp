@@ -529,22 +529,10 @@ zfbool ZFSerializable::serializableOnSerializePropertyFromData(ZF_IN const ZFSer
         property->callbackValueSet(property, this->toObject(), &obj);
         return zftrue;
     }
-
-    ZFPropertyTypeSerializeFromCallback serializeFromCallback = ZFPropertyTypeGetSerializeFromCallback(propertyData.itemClass());
-    if(serializeFromCallback == zfnull)
+    else
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
-            zfText("type \"%s\" not registered while serializing \"%s\""),
-            propertyData.itemClass(),
-            this->classData()->className());
-        return zffalse;
+        return property->callbackSerializeFrom(property, this->toObject(), propertyData, outErrorHint, outErrorPos);
     }
-    if(!serializeFromCallback(property, this->toObject(), propertyData, outErrorHint, outErrorPos))
-    {
-        return zffalse;
-    }
-
-    return zftrue;
 }
 zfbool ZFSerializable::serializableOnSerializePropertyToData(ZF_OUT ZFSerializableData &propertyData,
                                                              ZF_IN const ZFProperty *property,
@@ -570,22 +558,10 @@ zfbool ZFSerializable::serializableOnSerializePropertyToData(ZF_OUT ZFSerializab
         }
         return zftrue;
     }
-
-    ZFPropertyTypeSerializeToCallback serializeToCallback = ZFPropertyTypeGetSerializeToCallback(property->propertyTypeId());
-    if(serializeToCallback == zfnull)
+    else
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("type \"%s\" not registered while serializing \"%s\""),
-            property->propertyTypeId(),
-            this->classData()->className());
-        return zffalse;
+        return property->callbackSerializeTo(property, this->toObject(), propertyData, outErrorHint);
     }
-    if(!serializeToCallback(property, this->toObject(), propertyData, outErrorHint))
-    {
-        return zffalse;
-    }
-
-    return zftrue;
 }
 zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN const ZFSerializableData &propertyData,
                                                                       ZF_IN const ZFProperty *property,
@@ -840,7 +816,7 @@ zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
 {
     result = zfnull;
 
-    const zfchar *serializableClass = ZFSerializableUtil::requireSerializableClass(ZFTypeId_none, serializableData, outErrorHint, outErrorPos);
+    const zfchar *serializableClass = ZFSerializableUtil::requireSerializableClass(ZFTypeId_none(), serializableData, outErrorHint, outErrorPos);
     if(serializableClass == zfnull)
     {
         return zffalse;
