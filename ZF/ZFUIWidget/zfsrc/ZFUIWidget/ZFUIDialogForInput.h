@@ -35,7 +35,7 @@ public:
      * @brief the input text edit view
      */
     ZFPROPERTY_RETAIN_READONLY(ZFUITextEditWidget *, inputView, ZFPropertyNoInitValue)
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUITextEditWidget *, inputView)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextEditWidget *, inputView)
     {
         zfblockedAlloc(ZFUITextEditWidget, inputView);
         propertyValue = inputView;

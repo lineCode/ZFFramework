@@ -403,32 +403,45 @@ ZFObject *ZFObject::_ZFP_ZFObjectCheckOnInit(void)
 
     return this;
 }
-void ZFObject::_ZFP_ZFObjectDealloc(ZFObject *obj)
+void ZFObject::_ZFP_ZFObjectCheckRelease(void)
 {
-    if(!obj->objectIsInternal())
+    if(!this->objectIsInternal())
     {
-        if(ZFBitTest(obj->d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc)
+        if(ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc)
             || ZFBitTest(_ZFP_ZFObject_stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc))
         {
-            obj->observerNotify(ZFObject::EventObjectBeforeDealloc());
+            if(d->objectRetainCount == 1)
+            {
+                this->observerNotify(ZFObject::EventObjectBeforeDealloc());
+                if(d->objectRetainCount > 1)
+                {
+                    this->objectOnRelease();
+                    this->observerRemoveAll(ZFObject::EventObjectBeforeDealloc());
+                    return ;
+                }
+            }
         }
     }
-    obj->d->objectInstanceState = ZFObjectInstanceStateOnDeallocPrepare;
-    obj->objectOnDeallocPrepare();
-    obj->_ZFP_ObjI_onDeallocIvk();
-    for(zfstlsize i = obj->d->propertyAccessed.size() - 1; i != (zfstlsize)-1; --i)
+
+    this->objectOnRelease();
+    if(d->objectRetainCount > 0) {return ;}
+
+    d->objectInstanceState = ZFObjectInstanceStateOnDeallocPrepare;
+    this->objectOnDeallocPrepare();
+    this->_ZFP_ObjI_onDeallocIvk();
+    for(zfstlsize i = d->propertyAccessed.size() - 1; i != (zfstlsize)-1; --i)
     {
-        const ZFProperty *property = obj->d->propertyAccessed[i];
-        property->_ZFP_ZFProperty_callbackDealloc(property, obj);
+        const ZFProperty *property = d->propertyAccessed[i];
+        property->_ZFP_ZFProperty_callbackDealloc(property, this);
     }
-    obj->d->objectInstanceState = ZFObjectInstanceStateOnDealloc;
-    obj->objectOnDealloc();
-    if(obj->d != zfnull)
+    d->objectInstanceState = ZFObjectInstanceStateOnDealloc;
+    this->objectOnDealloc();
+    if(d != zfnull)
     {
         zfCoreCriticalMessageTrim(zfTextA("[ZFObject] ZFObject::objectOnDealloc() not called"));
         return ;
     }
-    obj->classData()->_ZFP_ZFClass_objectDesctuct(obj);
+    this->classData()->_ZFP_ZFClass_objectDesctuct(this);
 }
 
 void ZFObject::objectOnInit(void)

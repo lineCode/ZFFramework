@@ -208,6 +208,33 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
     }
 }
 
+zfbool ZFMethod::methodParamTypeIdIsMatch(
+                                            ZF_IN_OPT const zfchar *methodParamTypeId0 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId1 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId2 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId3 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId4 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId5 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId6 /* = zfnull */
+                                          , ZF_IN_OPT const zfchar *methodParamTypeId7 /* = zfnull */
+                                          ) const
+{
+    #define _ZFP_ZFMethodParamCheck_paramLoop(N) \
+        if(zfsIsEmpty(methodParamTypeId##N)) {return zftrue;} \
+        if(zfscmpTheSame(methodParamTypeId##N, ZFTypeId_void())) {return (this->methodParamCount() == N);} \
+        if(this->methodParamCount() <= N || !zfscmpTheSame(this->methodParamTypeIdAtIndex(N), methodParamTypeId##N)) {return zffalse;}
+    _ZFP_ZFMethodParamCheck_paramLoop(0)
+    _ZFP_ZFMethodParamCheck_paramLoop(1)
+    _ZFP_ZFMethodParamCheck_paramLoop(2)
+    _ZFP_ZFMethodParamCheck_paramLoop(3)
+    _ZFP_ZFMethodParamCheck_paramLoop(4)
+    _ZFP_ZFMethodParamCheck_paramLoop(5)
+    _ZFP_ZFMethodParamCheck_paramLoop(6)
+    _ZFP_ZFMethodParamCheck_paramLoop(7)
+    #undef _ZFP_ZFMethodParamCheck_paramLoop
+    return zftrue;
+}
+
 void ZFMethod::methodGenericInvokerSet(ZF_IN ZFMethodGenericInvoker methodGenericInvoker) const
 {
     zfCoreMutexLocker();
@@ -641,6 +668,16 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodName
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodReturnTypeId)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodReturnTypeName)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, zfindex, methodParamCount)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFMethod, zfbool, methodParamTypeIdIsMatch
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId0, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId1, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId2, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId3, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId4, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId5, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId6, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId7, zfnull)
+    )
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, const zfchar *, methodParamTypeIdAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, ZFMethodParamDefaultValueCallback, methodParamDefaultValueCallbackAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, zfautoObject, methodParamDefaultValueAtIndex, ZFMP_IN(zfindex, index))

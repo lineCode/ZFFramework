@@ -28,7 +28,7 @@ zfclass ZF2048UIBlock : zfextends ZFUIImageView, zfimplements ZFCacheable
 
 public:
     ZFPROPERTY_ASSIGN_WITH_INIT(ZF2048Value, blockValue, 0)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZF2048Value, blockValue);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZF2048Value, blockValue)
 
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, blockTitle, zflineAlloc(ZFUITextView))
 

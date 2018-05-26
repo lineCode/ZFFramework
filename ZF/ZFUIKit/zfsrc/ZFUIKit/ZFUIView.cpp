@@ -934,6 +934,10 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfbool, viewVisible)
         this->layoutRequest();
     }
 }
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIView, zffloat, viewAlpha)
+{
+    propertyValue = zfmApplyRange<zffloat>(propertyValue, 0, 1);
+}
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zffloat, viewAlpha)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->viewAlphaSet(this, this->viewAlpha());
@@ -1867,6 +1871,12 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, layoutedFrameFixedT,
         viewParent->layoutedFrameFixedOnUpdateForChild(ret, this->layoutedFrame());
     }
 }
+ZFMETHOD_DEFINE_0(ZFUIView, ZFUIRect, layoutedFrameFixed)
+{
+    ZFUIRect ret = ZFUIRectZero();
+    this->layoutedFrameFixedT(ret);
+    return ret;
+}
 
 void ZFUIView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
 {
@@ -1931,6 +1941,16 @@ ZFMETHOD_DEFINE_3(ZFUIView, void, childAdd,
     {
         d->childAdd(this, ZFUIViewChildLayer::e_Normal, d->layerNormal, view, layoutParam, atIndex);
     }
+}
+ZFMETHOD_DEFINE_3(ZFUIView, void, childAdd,
+                  ZFMP_IN(ZFUIView *, view),
+                  ZFMP_IN(ZFUISizeParam, sizeParam),
+                  ZFMP_IN_OPT(ZFUIAlignFlags const &, layoutAlign, ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner))
+{
+    this->childAdd(view);
+    ZFUIViewLayoutParam *lp = view->layoutParam();
+    lp->sizeParamSet(sizeParam);
+    lp->layoutAlignSet(layoutAlign);
 }
 ZFMETHOD_DEFINE_1(ZFUIView, void, childRemove,
                   ZFMP_IN(ZFUIView *, view))
@@ -2256,6 +2276,12 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, internalViewAutoSerializeTagGetAllT,
     {
         ret.add(it->first.c_str());
     }
+}
+ZFMETHOD_DEFINE_0(ZFUIView, ZFCoreArray<zfstring>, internalViewAutoSerializeTagGetAll)
+{
+    ZFCoreArray<zfstring> ret;
+    this->internalViewAutoSerializeTagGetAllT(ret);
+    return ret;
 }
 
 // ============================================================

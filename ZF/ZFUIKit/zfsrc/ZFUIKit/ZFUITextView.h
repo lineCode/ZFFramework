@@ -35,11 +35,11 @@ zfclass ZF_ENV_EXPORT ZFUITextView : zfextends ZFUIView
 public:
     // ============================================================
     // properties
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfbool, viewUIEnable)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(zfbool, viewUIEnable)
     {
         propertyValue = zffalse;
     }
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfbool, viewUIEnableTree)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(zfbool, viewUIEnableTree)
     {
         propertyValue = zffalse;
     }
@@ -49,7 +49,7 @@ public:
      * @brief text, may be null if not set
      */
     ZFPROPERTY_ASSIGN(zfstring, text)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, text);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, text)
 
     /**
      * @brief text appearance, #ZFUIGlobalStyle::textAppearance by default
@@ -58,7 +58,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextAppearanceEnum, textAppearance,
                                 ZFUIGlobalStyle::DefaultStyle()->textAppearance())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextAppearanceEnum, textAppearance);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextAppearanceEnum, textAppearance)
 
     /**
      * @brief text alignment, #ZFUIGlobalStyle::textAlign by default
@@ -67,14 +67,14 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIAlignFlags, textAlign,
                                 ZFUIGlobalStyle::DefaultStyle()->textAlign())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIAlignFlags, textAlign);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIAlignFlags, textAlign)
 
     /**
      * @brief text color, #ZFUIGlobalStyle::textColorDefault by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textColor,
                                 ZFUIGlobalStyle::DefaultStyle()->textColorDefault())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textColor)
 
     /**
      * @brief text shadow color, #ZFUIColorTransparent by default, use transparent to disable text shadow
@@ -83,7 +83,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textShadowColor,
                                 ZFUIColorTransparent())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textShadowColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textShadowColor)
 
     /**
      * @brief text shadow offset, (1, 1) by default
@@ -92,14 +92,14 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, textShadowOffset,
                                 (ZFUISizeMake(1, 1)))
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, textShadowOffset);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, textShadowOffset)
 
     /**
      * @brief text size in pixel, #ZFUIGlobalStyle::textSizeNormal by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSize,
                                 ZFUIGlobalStyle::DefaultStyle()->textSizeNormal())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSize);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSize)
 
     /**
      * @brief if not 0, auto decrease text size
@@ -108,7 +108,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSizeAutoChangeMinSize,
                                 ZFUIGlobalStyle::DefaultStyle()->textSizeTiny())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSizeAutoChangeMinSize);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSizeAutoChangeMinSize)
     /**
      * @brief if not 0 and larger than #textSizeAutoChangeMinSize,
      *   auto increase text size when the view is bigger than current text need,
@@ -116,21 +116,21 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, textSizeAutoChangeMaxSize,
                                 0)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSizeAutoChangeMaxSize);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, textSizeAutoChangeMaxSize)
 
     /**
      * @brief single line or not, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, textSingleLine,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, textSingleLine);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, textSingleLine)
 
     /**
      * @brief text truncate mode, #ZFUITextTruncateMode::e_Disable by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUITextTruncateModeEnum, textTruncateMode,
                                 ZFUIGlobalStyle::DefaultStyle()->textTruncateMode())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextTruncateModeEnum, textTruncateMode);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUITextTruncateModeEnum, textTruncateMode)
 
 protected:
     zfoverride

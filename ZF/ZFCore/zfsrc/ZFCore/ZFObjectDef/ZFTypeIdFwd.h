@@ -67,7 +67,7 @@ public:
 
 // ============================================================
 extern ZF_ENV_EXPORT void _ZFP_ZFTypeIdRegister(ZF_IN const zfchar *typeId,
-                                                            ZF_IN ZFTypeIdBase *typeIdData);
+                                                ZF_IN ZFTypeIdBase *typeIdData);
 extern ZF_ENV_EXPORT void _ZFP_ZFTypeIdUnregister(ZF_IN const zfchar *typeId);
 /**
  * @brief access type id data
@@ -207,9 +207,13 @@ public:
         typedef Type _ZFP_PropTypeW2_##TypeName; \
         _ZFP_ZFTypeIdRegister(ZFTypeId_##TypeName(), \
             zfnew(ZFTypeId<_ZFP_PropTypeW2_##TypeName>)); \
+        ZFMethodFuncUserRegister_0(dummy, { \
+                return ZFTypeId_##TypeName(); \
+            }, const zfchar *, ZFTypeId_##TypeName); \
     } \
     ZF_STATIC_REGISTER_DESTROY(PropTIReg_##TypeName) \
     { \
+        ZFMethodFuncUserUnregister(ZFMethodFuncGet(zfnull, ZFM_TOSTRING(ZFTypeId_##TypeName))); \
         _ZFP_ZFTypeIdUnregister(ZFTypeId_##TypeName()); \
     } \
     ZF_STATIC_REGISTER_END(PropTIReg_##TypeName)

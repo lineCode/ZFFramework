@@ -43,7 +43,7 @@ public:
      *   and this view's size would be measured to the max size of all image frame
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, animatedImageWrapToImage, zffalse)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, animatedImageWrapToImage);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, animatedImageWrapToImage)
 
 public:
     /** @brief see #ZFUIAnimatedImage::aniStart */

@@ -79,8 +79,8 @@ public:
      * @brief list adapter, no auto retain
      */
     ZFPROPERTY_ASSIGN(ZFUIListAdapter *, listAdapter)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIListAdapter *, listAdapter);
-    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIListAdapter *, listAdapter);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIListAdapter *, listAdapter)
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIListAdapter *, listAdapter)
     /**
      * @brief set and retain the list adapter
      *
@@ -103,7 +103,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIOrientationEnum, listOrientation,
                                 ZFUIOrientation::e_Top)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIOrientationEnum, listOrientation);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIOrientationEnum, listOrientation)
 
     /**
      * @brief list cell's hint size which would be passed to #ZFUIListAdapter,
@@ -112,14 +112,14 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHint,
                                 ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, cellSizeHint);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, cellSizeHint)
 
     /**
      * @brief whether auto update #ZFUIScrollView::scrollBounceVertical series accorrding to #listOrientation,
      *   true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, listBounce, zftrue)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, listBounce);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, listBounce)
 
     // ============================================================
     // override

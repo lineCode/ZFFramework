@@ -55,7 +55,21 @@ extern ZF_ENV_EXPORT void ZFMethodDynamicUnregister(ZF_IN const ZFMethod *method
 // ============================================================
 /* ZFMETHOD_MAX_PARAM */
 zfclassFwd _ZFP_ZFMethodDynamicRegisterParamPrivate;
-/** @brief param for #ZFMethodDynamicRegister */
+/**
+ * @brief param for #ZFMethodDynamicRegister
+ *
+ * required:
+ * -  methodOwnerClass or methodNamespace
+ * -  methodGenericInvoker
+ * -  methodName
+ *
+ * optional:
+ * -  methodDynamicRegisterUserData, null by default
+ * -  methodType, #ZFMethodTypeStatic by default
+ * -  methodPrivilegeType, #ZFMethodPrivilegeTypePublic by default
+ * -  methodReturnTypeId, #ZFTypeId_void by default
+ * -  methodReturnTypeName, empty by default
+ */
 zffinal zfclassLikePOD ZF_ENV_EXPORT ZFMethodDynamicRegisterParam
 {
 public:

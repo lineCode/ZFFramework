@@ -20,7 +20,7 @@ zfclass ZFUIKit_test_Window : zfextends ZFUIWindow
 {
     ZFOBJECT_DECLARE(ZFUIKit_test_Window, ZFUIWindow)
 
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIColor, viewBackgroundColor)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIColor, viewBackgroundColor)
     {
         propertyValue = ZFUIColorWhite();
     }
@@ -30,11 +30,11 @@ zfclass ZFUIKit_test_Button : zfextends ZFUIButtonBasic
 {
     ZFOBJECT_DECLARE(ZFUIKit_test_Button, ZFUIButtonBasic)
 
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleNormal)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
         propertyValue.to<ZFUIImageView *>()->viewBackgroundColorSet(ZFUIColorGreen());
     }
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
     {
         propertyValue.to<ZFUIImageView *>()->viewBackgroundColorSet(ZFUIColorBlue());
     }

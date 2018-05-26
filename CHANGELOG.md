@@ -3,6 +3,7 @@
 * reduce binary size
 * optimize API names
 * optimize project files and module management
+* more convenient for lua to dynamic register contents
 
 # 0.2.0 (20180513)
 

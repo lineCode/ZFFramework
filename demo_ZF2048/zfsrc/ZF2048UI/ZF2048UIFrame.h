@@ -32,16 +32,16 @@ public:
     ZFOBSERVER_EVENT(FrameOnMove)
 
 public:
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfbool, viewFocusable)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(zfbool, viewFocusable)
     {
         propertyValue = zftrue;
     }
 
     ZFPROPERTY_RETAIN(ZFUIImage *, frameBackgroundImage)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, frameBackgroundImage);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, frameBackgroundImage)
 
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIMargin, frameMargin, ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemSpace()))
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIMargin, frameMargin);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIMargin, frameMargin)
 
 public:
     virtual void update(ZF_IN const ZF2048Value *data,

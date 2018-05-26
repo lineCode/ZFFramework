@@ -398,7 +398,7 @@ void ZFClass::_ZFP_ZFClass_instanceObserverNotify(ZF_IN ZFObject *obj) const
 {
     if(!d->instanceObserverCached.empty())
     {
-        ZFListenerData listenerData(zfidentityInvalid(), obj);
+        ZFListenerData listenerData(ZFObject::EventObjectAfterAlloc(), obj);
         for(zfstlsize i = 0; i < d->instanceObserverCached.size(); ++i)
         {
             _ZFP_ZFClassPrivate::InstanceObserverData &data = *(d->instanceObserverCached[i]);
@@ -697,20 +697,19 @@ const ZFMethod *ZFClass::methodForNameIgnoreParent(ZF_IN const zfchar *methodNam
             for(zfstlsize i = 0; i < l.size(); ++i)
             {
                 const ZFMethod *m = l[i];
-
-                #define _ZFP_ZFClass_paramLoop(N) \
-                    if(zfsIsEmpty(methodParamTypeId##N)) {return m;} \
-                    if(m->methodParamCount() <= N || !zfscmpTheSame(m->methodParamTypeIdAtIndex(N), methodParamTypeId##N)) {continue;}
-                _ZFP_ZFClass_paramLoop(0)
-                _ZFP_ZFClass_paramLoop(1)
-                _ZFP_ZFClass_paramLoop(2)
-                _ZFP_ZFClass_paramLoop(3)
-                _ZFP_ZFClass_paramLoop(4)
-                _ZFP_ZFClass_paramLoop(5)
-                _ZFP_ZFClass_paramLoop(6)
-                _ZFP_ZFClass_paramLoop(7)
-                #undef _ZFP_ZFClass_paramLoop
-                return m;
+                if(m->methodParamTypeIdIsMatch(
+                          methodParamTypeId0
+                        , methodParamTypeId1
+                        , methodParamTypeId2
+                        , methodParamTypeId3
+                        , methodParamTypeId4
+                        , methodParamTypeId5
+                        , methodParamTypeId6
+                        , methodParamTypeId7
+                    ))
+                {
+                    return m;
+                }
             }
         }
     }
@@ -1258,8 +1257,11 @@ void ZFClass::_ZFP_ZFClassInitFinish_allParentAndChildrenCache(ZF_IN ZFClass *cl
         clsToCheck.removeFirst();
         if(cls->d->allParent.find(clsTmp) == cls->d->allParent.end())
         {
-            cls->d->allParent[clsTmp] = zftrue;
-            clsTmp->d->allChildren[cls] = zftrue;
+            if(clsTmp != cls)
+            {
+                cls->d->allParent[clsTmp] = zftrue;
+                clsTmp->d->allChildren[cls] = zftrue;
+            }
 
             if(clsTmp->parentClass() != zfnull)
             {

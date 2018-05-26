@@ -137,11 +137,7 @@ inline void _ZFP_zfReleaseAction(ZF_IN ZFObject *obj)
 {
     if(obj)
     {
-        obj->objectOnRelease();
-        if(obj->objectRetainCount() == 0)
-        {
-            ZFObject::_ZFP_ZFObjectDealloc(obj);
-        }
+        obj->_ZFP_ZFObjectCheckRelease();
     }
 }
 template<typename T_ZFObject>

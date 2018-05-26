@@ -66,7 +66,7 @@ zfclass _ZFP_ZFUIHintWindow : zfextends ZFUIWindow
 {
     ZFOBJECT_DECLARE(_ZFP_ZFUIHintWindow, ZFUIWindow)
 
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfbool, viewFocusable)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(zfbool, viewFocusable)
     {
         propertyValue = zffalse;
     }

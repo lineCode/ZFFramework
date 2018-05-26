@@ -16,13 +16,13 @@ zfclass ZFUtility_ZFPropertyAni_test : zfextends ZFFramework_test_TestCase
     ZFOBJECT_DECLARE(ZFUtility_ZFPropertyAni_test, ZFFramework_test_TestCase)
 
     ZFPROPERTY_ASSIGN(zfint, v0)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, v0)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(zfint, v0)
     {
         zfLogTrimT() << zfLogCurTimeString() << zfText("v0:") << propertyValue;
     }
 
     ZFPROPERTY_ASSIGN(zffloat, v1)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zffloat, v1)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(zffloat, v1)
     {
         zfLogTrimT() << zfLogCurTimeString() << zfText("v1:") << propertyValue;
     }

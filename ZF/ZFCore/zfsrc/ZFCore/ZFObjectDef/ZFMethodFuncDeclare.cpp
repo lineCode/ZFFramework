@@ -120,20 +120,19 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
     for(zfstlsize i = 0; i < l.size(); ++i)
     {
         const ZFMethod *m = l[i];
-
-        #define _ZFP_ZFMethodFuncDeclare_paramLoop(N) \
-            if(zfsIsEmpty(methodParamTypeId##N)) {return m;} \
-            if(m->methodParamCount() <= N || !zfscmpTheSame(m->methodParamTypeIdAtIndex(N), methodParamTypeId##N)) {continue;}
-        _ZFP_ZFMethodFuncDeclare_paramLoop(0)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(1)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(2)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(3)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(4)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(5)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(6)
-        _ZFP_ZFMethodFuncDeclare_paramLoop(7)
-        #undef _ZFP_ZFMethodFuncDeclare_paramLoop
-        return m;
+        if(m->methodParamTypeIdIsMatch(
+                  methodParamTypeId0
+                , methodParamTypeId1
+                , methodParamTypeId2
+                , methodParamTypeId3
+                , methodParamTypeId4
+                , methodParamTypeId5
+                , methodParamTypeId6
+                , methodParamTypeId7
+            ))
+        {
+            return m;
+        }
     }
     return zfnull;
 }

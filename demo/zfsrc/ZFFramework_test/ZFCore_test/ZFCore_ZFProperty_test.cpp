@@ -28,32 +28,32 @@ public:
     ZFPROPERTY_ASSIGN(ZFObject *, propertyWeak)
 
     // custom callback
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_OVERRIDE_ON_DEALLOC_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_DEALLOC_INLINE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_INLINE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
-    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFObject *, propertyRetain)
+    ZFPROPERTY_OVERRIDE_ON_DETACH_INLINE(ZFObject *, propertyRetain)
     {
         zfLogT();
     }
 
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_OVERRIDE_ON_DEALLOC_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, propertyAssign);
-    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(zfstring, propertyAssign);
+    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfstring, propertyAssign)
+    ZFPROPERTY_OVERRIDE_ON_DEALLOC_DECLARE(zfstring, propertyAssign)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfstring, propertyAssign)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, propertyAssign)
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(zfstring, propertyAssign)
 };
 ZFPROPERTY_OVERRIDE_ON_INIT_DEFINE(_ZFP_ZFCore_ZFProperty_test_TestBase, zfstring, propertyAssign)
 {

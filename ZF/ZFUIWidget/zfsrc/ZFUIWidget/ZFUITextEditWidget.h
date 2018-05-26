@@ -38,7 +38,7 @@ public:
      * note, image's nine patch would be added to #ZFUIView::nativeImplViewMargin
      */
     ZFPROPERTY_RETAIN_READONLY(ZFUIImageView *, textEditBackgroundView, ZFPropertyNoInitValue)
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIImageView *, textEditBackgroundView)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, textEditBackgroundView)
     {
         zfblockedAlloc(ZFUIImageView, textEditBackgroundView);
         propertyValue = textEditBackgroundView;
@@ -51,7 +51,7 @@ public:
      * note, the clear button's size would be added to #ZFUIView::nativeImplViewMargin
      */
     ZFPROPERTY_RETAIN_READONLY(ZFUIButtonBasic *, textEditClearButton, ZFPropertyNoInitValue)
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(ZFUIButtonBasic *, textEditClearButton)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIButtonBasic *, textEditClearButton)
     {
         zfblockedAlloc(ZFUIButtonBasic, textEditClearButton);
         propertyValue = textEditClearButton;
@@ -64,7 +64,7 @@ public:
      * @brief whether automatically show or hide clear button, false by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, textEditClearButtonAutoEnable, zffalse)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, textEditClearButtonAutoEnable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, textEditClearButtonAutoEnable)
 
 protected:
     zfoverride

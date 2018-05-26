@@ -18,21 +18,21 @@ zfclass ZF2048AppDialog : zfextends ZFUIDialog
 {
     ZFOBJECT_DECLARE(ZF2048AppDialog, ZFUIDialog)
 
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfbool, dialogHideWhenTouchOutside)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(zfbool, dialogHideWhenTouchOutside)
     {
         propertyValue = zftrue;
     }
-    ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE(zfbool, dialogHideWhenClickBack)
+    ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(zfbool, dialogHideWhenClickBack)
     {
         propertyValue = zftrue;
     }
 
     ZFPROPERTY_ASSIGN(zfstring, dialogTitle)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, dialogTitle);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, dialogTitle)
 
     ZFPROPERTY_RETAIN(ZFUIView *, dialogContent)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIView *, dialogContent);
-    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIView *, dialogContent);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIView *, dialogContent)
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIView *, dialogContent)
 
 protected:
     zfoverride

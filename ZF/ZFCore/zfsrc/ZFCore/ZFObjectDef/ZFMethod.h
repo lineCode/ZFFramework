@@ -376,6 +376,22 @@ public:
         return this->_ZFP_ZFMethod_paramCount;
     }
     /**
+     * @brief check whether method param type id matches
+     *
+     * null type id means not specified (any type matches),
+     * use #ZFTypeId_void to explicitly limit param count
+     */
+    zfbool methodParamTypeIdIsMatch(
+                                      ZF_IN_OPT const zfchar *methodParamTypeId0 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId1 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId2 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId3 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId4 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId5 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId6 = zfnull
+                                    , ZF_IN_OPT const zfchar *methodParamTypeId7 = zfnull
+                                    ) const;
+    /**
      * @brief get the method's param type id at index
      */
     inline const zfchar *methodParamTypeIdAtIndex(ZF_IN zfindex index) const

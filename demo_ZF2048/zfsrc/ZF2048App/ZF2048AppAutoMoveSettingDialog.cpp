@@ -17,7 +17,7 @@ zfclass _ZFP_ZF2048AppAutoMoveActionItem : zfextends ZF2048AppButton
     ZFOBJECT_DECLARE(_ZFP_ZF2048AppAutoMoveActionItem, ZF2048AppButton)
 
     ZFPROPERTY_ASSIGN(ZF2048AppAutoMoveActionEnum, actionValue)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZF2048AppAutoMoveActionEnum, actionValue)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZF2048AppAutoMoveActionEnum, actionValue)
     {
         this->buttonLabelStyleNormal()->styleKeySet(zfText("text"),
             zfstringWithFormat(zfText("ZF2048AutoMove_%s"), ZF2048AppAutoMoveAction::EnumNameForValue(propertyValue)));

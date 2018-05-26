@@ -20,8 +20,12 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-extern ZF_ENV_EXPORT const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const zfchar *idName);
-extern ZF_ENV_EXPORT void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN zfidentity idValue);
+extern ZF_ENV_EXPORT const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
+                                                            ZF_IN const zfchar *idName,
+                                                            ZF_IN_OPT zfbool isDynamicRegister = zffalse);
+extern ZF_ENV_EXPORT void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
+                                                 ZF_IN zfidentity idValue,
+                                                 ZF_IN_OPT zfbool isDynamicRegister = zffalse);
 /**
  * @brief see #ZFIDMAP
  *
@@ -45,6 +49,20 @@ extern ZF_ENV_EXPORT zfidentity ZFIdMapGetId(ZF_IN const zfchar *idName);
  */
 extern ZF_ENV_EXPORT void ZFIdMapGetAll(ZF_OUT ZFCoreArrayPOD<zfidentity> &idValues, ZF_OUT ZFCoreArrayPOD<const zfchar *> &idNames);
 
+/**
+ * @brief dynamically register your own id
+ *
+ * assert fail if already registered
+ */
+extern ZF_ENV_EXPORT zfidentity ZFIdMapRegister(ZF_IN const zfchar *idName);
+/**
+ * @brief unregister id that was registered by #ZFIdMapRegister
+ *
+ * do nothing if no such id,
+ * assert fail if the id is not dynamically registered
+ */
+extern ZF_ENV_EXPORT void ZFIdMapUnregister(ZF_IN const zfidentity &idValue);
+
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFIdMapHolder
 {
 public:
@@ -66,7 +84,6 @@ public:
  *       ZFIDMAP(YourSth)
  *   };
  *
- *   // optional, in cpp files only, required only if you need ZFIdMapGetId/ZFIdMapGetName
  *   ZFIDMAP_REGISTER(YourClass, YourSth)
  * @endcode
  * declared id can be accessed by:
@@ -122,7 +139,6 @@ public:
  *   ZFIDMAP_GLOBAL(YourNamespace, YourSth)
  *   ZF_NAMESPACE_END(YourNamespace)
  *
- *   // optional, in cpp files only, required only if you need ZFIdMapGetId/ZFIdMapGetName
  *   ZFIDMAP_GLOBAL_REGISTER(YourNamespace, YourSth)
  *
  *   // use the id

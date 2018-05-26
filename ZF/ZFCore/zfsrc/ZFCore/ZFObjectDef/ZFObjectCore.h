@@ -261,11 +261,19 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * notified when object allocated (after #objectOnInitFinish\n
-     * this event is only designed for convenient and for debug use only
+     * this event is only designed for convenient and for debug use only,
+     * usually you should use #ZFClass::instanceObserverAdd
      */
     ZFOBSERVER_EVENT(ObjectAfterAlloc)
     /**
      * @brief see #ZFObject::observerNotify
+     *
+     * notified before object dealloc\n
+     * note: the object's retain count should be 1 when this event is notified,
+     * it's safe to retain the object during this event,
+     * but it's your responsibility to ensure logic valid,
+     * after notified this event, all observer of this event would be removed,
+     * so that it's safe to release the object again to finally destroy the object
      */
     ZFOBSERVER_EVENT(ObjectBeforeDealloc)
     /**
@@ -638,7 +646,7 @@ public:
     zfbool _ZFP_ZFObjectTryLock(void);
 
     ZFObject *_ZFP_ZFObjectCheckOnInit(void);
-    static void _ZFP_ZFObjectDealloc(ZFObject *obj);
+    void _ZFP_ZFObjectCheckRelease(void);
 
 public:
     /**

@@ -28,7 +28,7 @@ zfstlmap<zfstlstringZ, ZFTypeIdBase *> m;
 ZF_STATIC_INITIALIZER_END(ZFTypeIdHolder)
 
 void _ZFP_ZFTypeIdRegister(ZF_IN const zfchar *typeId,
-                                       ZF_IN ZFTypeIdBase *typeIdData)
+                           ZF_IN ZFTypeIdBase *typeIdData)
 {
     zfCoreMutexLocker();
     zfstlmap<zfstlstringZ, ZFTypeIdBase *> &m = ZF_STATIC_INITIALIZER_INSTANCE(ZFTypeIdHolder)->m;

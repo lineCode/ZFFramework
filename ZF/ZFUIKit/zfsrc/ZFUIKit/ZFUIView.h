@@ -277,7 +277,7 @@ public:
      * -  #ZFUIView::layoutOnLayoutFinish
      */
     ZFPROPERTY_ASSIGN(zfstring, viewDelegateClass)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, viewDelegateClass);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, viewDelegateClass)
     /**
      * @brief used to identify a view, empty by default
      *
@@ -293,18 +293,14 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewVisible,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewVisible);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewVisible)
 
     /**
      * @brief view's alpha, 1 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, viewAlpha,
-                                1)
+    ZFPROPERTY_ASSIGN_WITH_INIT(zffloat, viewAlpha, 1)
     ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zffloat, viewAlpha)
-    {
-        propertyValue = zfmApplyRange<zffloat>(propertyValue, 0, 1);
-    }
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zffloat, viewAlpha);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zffloat, viewAlpha)
 
     /**
      * @brief whether the view should receive user interaction
@@ -312,7 +308,7 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewUIEnable,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewUIEnable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewUIEnable)
 
     /**
      * @brief whether the view as well as all its children should receive user interaction,
@@ -320,19 +316,19 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewUIEnableTree,
                                 zftrue)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewUIEnableTree);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewUIEnableTree)
 
     /**
      * @brief whether enable mouse hover event, see #ZFUIView::viewEventOnMouseEvent, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, viewMouseHoverEventEnable)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewMouseHoverEventEnable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewMouseHoverEventEnable)
 
     /**
      * @brief whether the view can be focused, false by default
      */
     ZFPROPERTY_ASSIGN(zfbool, viewFocusable)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewFocusable);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, viewFocusable)
     /**
      * @brief whether try to obtain focus when clicked down, true by default
      */
@@ -347,25 +343,25 @@ public:
      * if prefered size not set, size hint would be used
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizePrefered, ZFUISizeInvalid())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizePrefered);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizePrefered)
     /**
      * @brief min size, #ZFUISizeZero by default
      */
     ZFPROPERTY_ASSIGN(ZFUISize, viewSizeMin)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMin);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMin)
     /**
      * @brief max size, negative value means not set, #ZFUISizeInvalid by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizeMax,
                                 ZFUISizeInvalid())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMax);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMax)
 
     /**
      * @brief background color, #ZFUIColorTransparent by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, viewBackgroundColor,
                                 ZFUIColorTransparent())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, viewBackgroundColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, viewBackgroundColor)
 
     // ============================================================
     // init and dealloc
@@ -841,12 +837,8 @@ public:
     /**
      * @brief see #layoutedFrameFixedT
      */
-    ZFMETHOD_INLINE_0(ZFUIRect, layoutedFrameFixed)
-    {
-        ZFUIRect ret = ZFUIRectZero();
-        this->layoutedFrameFixedT(ret);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_0(ZFUIRect, layoutedFrameFixed)
+
 protected:
     /**
      * @brief called by #layoutMeasure to decide the view's size
@@ -934,16 +926,10 @@ public:
     /**
      * @brief util method for #childAdd
      */
-    ZFMETHOD_INLINE_3(void, childAdd,
-                      ZFMP_IN(ZFUIView *, view),
-                      ZFMP_IN(ZFUISizeParam, sizeParam),
-                      ZFMP_IN_OPT(ZFUIAlignFlags const &, layoutAlign, ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner))
-    {
-        this->childAdd(view);
-        ZFUIViewLayoutParam *lp = view->layoutParam();
-        lp->sizeParamSet(sizeParam);
-        lp->layoutAlignSet(layoutAlign);
-    }
+    ZFMETHOD_DECLARE_3(void, childAdd,
+                       ZFMP_IN(ZFUIView *, view),
+                       ZFMP_IN(ZFUISizeParam, sizeParam),
+                       ZFMP_IN_OPT(ZFUIAlignFlags const &, layoutAlign, ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner))
     /**
      * @brief remove view or do nothing if view isn't added to this view
      */
@@ -1127,12 +1113,8 @@ public:
     ZFMETHOD_DECLARE_1(void, internalViewAutoSerializeTagGetAllT,
                        ZFMP_OUT(ZFCoreArray<zfstring> &, ret))
     /** @brief see #internalViewAutoSerializeTagAdd */
-    ZFMETHOD_INLINE_0(ZFCoreArray<zfstring>, internalViewAutoSerializeTagGetAll)
-    {
-        ZFCoreArray<zfstring> ret;
-        this->internalViewAutoSerializeTagGetAllT(ret);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_0(ZFCoreArray<zfstring>, internalViewAutoSerializeTagGetAll)
+
 protected:
     /**
      * @brief called to check whether the internal view should be layouted using default layout logic,

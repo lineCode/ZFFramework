@@ -38,6 +38,7 @@
 #include "ZFObjectDef/ZFIOCallback.h"
 #include "ZFObjectDef/ZFIdMap.h"
 #include "ZFObjectDef/ZFListenerDeclare.h"
+#include "ZFObjectDef/ZFListenerHolder.h"
 #include "ZFObjectDef/ZFMethod.h"
 #include "ZFObjectDef/ZFMethodDeclare.h"
 #include "ZFObjectDef/ZFMethodDynamicRegister.h"

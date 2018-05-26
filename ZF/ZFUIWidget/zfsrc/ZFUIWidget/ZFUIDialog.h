@@ -152,7 +152,7 @@ public:
      * @brief dialog's background color, #ZFUIGlobalStyle::colorMask by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, dialogWindowColor, ZFUIGlobalStyle::DefaultStyle()->colorMask())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, dialogWindowColor);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, dialogWindowColor)
     /**
      * @brief whether auto dim window background by an alpha change animation, true by default
      *
@@ -185,7 +185,7 @@ public:
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, dialogBackgroundImage,
                                 zfRes(zfText("ZFUIWidget/ZFUIDialog_background.xml")))
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, dialogBackgroundImage);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, dialogBackgroundImage)
 
     /**
      * @brief whether automatically focus to dialog content, true by default
@@ -212,8 +212,8 @@ public:
      * which is internal view and won't be serialized
      */
     ZFPROPERTY_RETAIN(ZFUIView *, dialogView)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIView *, dialogView);
-    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIView *, dialogView);
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIView *, dialogView)
+    ZFPROPERTY_OVERRIDE_ON_DETACH_DECLARE(ZFUIView *, dialogView)
 
     /**
      * @brief whether automatically fix frame accorrding to #ZFUIOnScreenKeyboardAutoResizeStart,

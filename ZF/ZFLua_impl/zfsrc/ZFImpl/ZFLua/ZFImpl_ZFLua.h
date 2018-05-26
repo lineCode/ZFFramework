@@ -594,16 +594,8 @@ inline void ZFImpl_ZFLua_luaCFunctionRegister(ZF_IN lua_State *L, ZF_IN const zf
 /** @brief util for impl */
 inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN zfautoObject &v)
 {
-    v_zfbool *t = v;
-    if(t != zfnull)
-    {
-        lua_pushboolean(L, (bool)t->zfv);
-    }
-    else
-    {
-        ELuna::convert2LuaType<zfautoObject>::convertType(L, v);
-        ZFImpl_ZFLua_implSetupObject(L);
-    }
+    ELuna::convert2LuaType<zfautoObject>::convertType(L, v);
+    ZFImpl_ZFLua_implSetupObject(L);
 }
 /** @brief util for impl */
 inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN const zfautoObject &v)

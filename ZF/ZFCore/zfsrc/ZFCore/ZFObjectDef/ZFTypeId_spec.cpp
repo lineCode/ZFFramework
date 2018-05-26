@@ -13,6 +13,10 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
+// void
+ZFTYPEID_ID_DATA_REGISTER(void, void)
+
+// ============================================================
 // zfautoObject
 ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER_WITH_CUSTOM_WRAPPER(zfautoObject, zfautoObject, {
         return ZFObjectFromData(v, serializableData, outErrorHint, outErrorPos);
@@ -71,16 +75,7 @@ zfbool v_zfautoObject::wrappedValueProgressUpdate(ZF_IN const void *from,
 
 // ============================================================
 // ZFObject
-ZF_STATIC_REGISTER_INIT(PropTIReg_ZFObject)
-{
-    _ZFP_ZFTypeIdRegister(ZFTypeId_ZFObject(),
-        zfnew(ZFTypeId<ZFObject *>));
-}
-ZF_STATIC_REGISTER_DESTROY(PropTIReg_ZFObject)
-{
-    _ZFP_ZFTypeIdUnregister(ZFTypeId_ZFObject());
-}
-ZF_STATIC_REGISTER_END(PropTIReg_ZFObject)
+ZFTYPEID_ID_DATA_REGISTER(ZFObject, ZFObject *)
 
 // ============================================================
 // ZFCallerInfo

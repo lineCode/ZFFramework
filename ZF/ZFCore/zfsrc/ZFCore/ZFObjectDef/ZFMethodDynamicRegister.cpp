@@ -41,7 +41,7 @@ public:
     , methodType(ZFMethodTypeStatic)
     , methodPrivilegeType(ZFMethodPrivilegeTypePublic)
     , methodName()
-    , methodReturnTypeId()
+    , methodReturnTypeId(ZFTypeId_void())
     , methodReturnTypeName()
     , methodParamCount(0)
     , methodParamTypeId()

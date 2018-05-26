@@ -143,7 +143,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   -  `zfl_pathInfo()`\n
  *     return path info of current context, null if not available
  *   -  `ZFLuaImport(localFilePath [, luaParams, L])`\n
- *     util method for #ZFLuaExecute + #ZFInputForLocalFile with local file
+ *     util method for #ZFLuaExecute + #ZFInputForLocalFile
+ *   -  `ZFLuaRes(localFilePath)`\n
+ *     util method for #ZFObjectIOLoad + #ZFInputForLocalFile
  * -  debug helper
  *   -  `zfLog(fmt, ...)`
  *     or zfLogTrim(fmt, ...)\n

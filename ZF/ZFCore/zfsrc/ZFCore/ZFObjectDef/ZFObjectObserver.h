@@ -361,7 +361,6 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
  *       ZFOBSERVER_EVENT(YourEvent)
  *   };
  *
- *   // optional, in cpp files only, required only if you need ZFIdMapGetId/ZFIdMapGetName
  *   ZFOBSERVER_EVENT_REGISTER(YourClass, YourEvent)
  * @endcode
  * declare a event for ZFObject's observer logic,
@@ -398,7 +397,6 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
  *   ZFOBSERVER_EVENT_GLOBAL_WITH_NS(YourNamespace, YourEvent)
  *   ZF_NAMESPACE_END(YourNamespace)
  *
- *   // optional, in cpp files only, required only if you need ZFIdMapGetId/ZFIdMapGetName
  *   ZFOBSERVER_EVENT_GLOBAL_REGISTER(YourNamespace, YourEvent)
  *
  *   // use the event
