@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFEnumDeclarePropType_h_
 #define _ZFI_ZFEnumDeclarePropType_h_
 
-#include "ZFEnumDeclare.h"
+#include "ZFObjectClassTypeFwd.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================

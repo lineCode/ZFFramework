@@ -15,8 +15,137 @@
 #ifndef _ZFI_ZFEnumDeclare_h_
 #define _ZFI_ZFEnumDeclare_h_
 
-#include "ZFTypeId.h"
+#include "ZFEnumDeclarePropType.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
+
+// ============================================================
+/**
+ * @brief macros to define a key-value map for enum type
+ *
+ * usage:
+ * @code
+ *   // ============================================================
+ *   // in h file
+ *  / **
+ *    * you can add Doxygen docs for EnumName (as a ZFObject) here
+ *    * /
+ *   ZFENUM_BEGIN(EnumName)
+ *      / **
+ *        * you can add Doxygen docs for Value1 here
+ *        * /
+ *       ZFENUM_VALUE(Value1)
+ *       ZFENUM_VALUE(Value2) // /< you can add Doxygen docs for Value2 here
+ *       ZFENUM_VALUE_WITH_INIT(Value3, 33) // you can assign the value for enum item
+ *       ZFENUM_VALUE_WITH_INIT(Value4, e_Value2) // you can assign a same value with old value
+ *   ZFENUM_SEPARATOR(EnumName)
+ *       // you must use ZFENUM_VALUE_REGISTER to map the value and name
+ *       ZFENUM_VALUE_REGISTER(Value1)
+ *       ZFENUM_VALUE_REGISTER(Value2)
+ *       // you can set a custom name by ZFENUM_VALUE_REGISTER_WITH_NAME
+ *       ZFENUM_VALUE_REGISTER_WITH_NAME(Value3, zfText("CustomNameValue3"))
+ *       // (here Value4 is equal to Value2)
+ *       // when register a new name for a existing value,
+ *       // old name would be overrided,
+ *       // as well as the value-name map
+ *       ZFENUM_VALUE_REGISTER_WITH_NAME(Value4, zfText("Value4 override Value2"))
+ *   ZFENUM_END(EnumName)
+ *
+ *   // ============================================================
+ *   // in cpp file
+ *   // add this macro for necessary code expansion
+ *   ZFENUM_DEFINE(EnumName)
+ * @endcode
+ * @note if there are more than one enum with same value,
+ *   only the last registered one would be mapped
+ * once defined, you can:
+ * -  use EnumName to access the enum value and name
+ *   @code
+ *     zfuint value;
+ *     const zfchar *name;
+ *     value = EnumName::e_Value1;
+ *     value = EnumName::EnumValueForName(zfText("Value1"));
+ *     name = EnumName::EnumNameForValue(value);
+ *   @endcode
+ * -  use EnumName to store the enum value as a ZFObject
+ *   @code
+ *     EnumName *e = zfAlloc(EnumName());
+ *     e->enumValueSet(EnumName::e_Value1);
+ *     zfuint value = e->enumValue();
+ *     const zfchar *name = e->enumName();
+ *     zfRelease(e);
+ *   @endcode
+ * -  use base class ZFEnum to achieve dynamic binding
+ *   @code
+ *     zfuint value;
+ *     const zfchar *name;
+ *
+ *     ZFEnum *e = zfAlloc(EnumName, EnumName::e_Value1);
+ *     value = e->enumValue(); // return the value stored as EnumName
+ *     zfRelease(e);
+ *
+ *     zfautoObject tmp = ZFClass::newInstanceForName(zfText("EnumName")); // see #ZFOBJECT_REGISTER for more info
+ *     e = tmp.to<ZFEnum *>();
+ *     for(zfindex i = 0; i < e->enumCount(); ++i)
+ *     { // OK, list all the value and name for e, which is EnumName type
+ *         value = e->enumValueAtIndex(i);
+ *         name = e->enumNameAtIndex(i);
+ *     }
+ *     value = e->enumValueForName(zfText("Value1")); // OK, value from EnumName
+ *     name = e->enumNameForValue(value); // OK, name from EnumName
+ *     zfRelease(e);
+ *   @endcode
+ * -  you can access the internal enum type by EnumNameEnum
+ * -  usually, it's highly recommended to use the internal enum type for performance:
+ *   @code
+ *     // pass by EnumNameEnum value, which is actually a int value
+ *     void func1(MyEnumEnum e) {...}
+ *   @endcode
+ */
+#define ZFENUM_BEGIN(EnumName) \
+    _ZFP_ZFENUM_BEGIN(EnumName)
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_VALUE(Value) \
+    _ZFP_ZFENUM_VALUE(Value)
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_VALUE_WITH_INIT(Value, initValue) \
+    _ZFP_ZFENUM_VALUE_WITH_INIT(Value, initValue)
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_SEPARATOR(EnumName) \
+    _ZFP_ZFENUM_SEPARATOR(EnumName, zffalse)
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_SEPARATOR_ALLOW_DUPLICATE_VALUE(EnumName) \
+    _ZFP_ZFENUM_SEPARATOR(EnumName, zftrue)
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_VALUE_REGISTER_WITH_NAME(Value, Name) \
+    _ZFP_ZFENUM_VALUE_REGISTER_WITH_NAME(Value, Name)
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_VALUE_REGISTER(Value) \
+    _ZFP_ZFENUM_VALUE_REGISTER_WITH_NAME(Value, ZFM_TOSTRING_DIRECT(Value))
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_END(EnumName) \
+    _ZFP_ZFENUM_END(EnumName)
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_END_WITH_DEFAULT(EnumName, defaultEnum) \
+    _ZFP_ZFENUM_END_WITH_DEFAULT(EnumName, defaultEnum)
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_END_FLAGS(EnumName, EnumFlagsName) \
+    _ZFP_ZFENUM_END_FLAGS(EnumName, EnumFlagsName)
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_END_FLAGS_WITH_DEFAULT(EnumName, EnumFlagsName, defaultEnum, defaultEnumFlags) \
+    _ZFP_ZFENUM_END_FLAGS_WITH_DEFAULT(EnumName, EnumFlagsName, defaultEnum, defaultEnumFlags)
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_DEFINE(EnumName) \
+    _ZFP_ZFENUM_DEFINE(EnumName)
+
+/** @brief see #ZFENUM_BEGIN */
+#define ZFENUM_DEFINE_FLAGS(EnumName, EnumFlagsName) \
+    _ZFP_ZFENUM_DEFINE_FLAGS(EnumName, EnumFlagsName)
 
 // ============================================================
 zfclassFwd _ZFP_ZFEnumDataPrivate;
@@ -385,6 +514,4 @@ extern ZF_ENV_EXPORT void _ZFP_ZFEnumMethodReg(ZF_IN_OUT ZFCoreArrayPOD<const ZF
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFEnumDeclare_h_
-
-#include "ZFEnumDeclarePropType.h"
 
