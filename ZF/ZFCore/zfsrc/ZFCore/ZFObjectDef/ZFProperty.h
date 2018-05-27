@@ -84,7 +84,7 @@ public:
      * @note this property would be calculated at runtime,
      *   take care of performance
      */
-    zfbool typeIdSerializable(void) const;
+    zfbool propertySerializable(void) const;
     /**
      * @brief get the property's owner class
      */

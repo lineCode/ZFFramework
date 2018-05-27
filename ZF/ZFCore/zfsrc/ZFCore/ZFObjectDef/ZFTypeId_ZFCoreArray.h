@@ -236,7 +236,6 @@ public:
 template<typename T_Type>
 zfclassNotPOD ZFTypeId<ZFCoreArray<T_Type> > : zfextendsNotPOD ZFTypeIdBase
 {
-    _ZFP_ZFTYPEID_ID_DATA_BASE_EXPAND(ZFCoreArray<T_Type>)
 public:
     enum {
         TypeIdRegistered = ZFTypeId<T_Type>::TypeIdRegistered,
@@ -245,6 +244,24 @@ public:
     static inline const zfchar *TypeId(void)
     {
         return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none());
+    }
+    zfoverride
+    virtual zfbool typeIdSerializable(void) const
+    {
+        return TypeIdSerializable;
+    }
+    zfoverride
+    virtual const zfchar *typeId(void) const
+    {
+        return TypeId();
+    }
+    zfoverride
+    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    {
+        ZFObject *t = zfAlloc(v_ZFCoreArray);
+        v = t;
+        zfRelease(t);
+        return zftrue;
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFCoreArray<T_Type> const &v)
     {
@@ -304,7 +321,6 @@ private:
 template<typename T_Type>
 zfclassNotPOD ZFTypeId<ZFCoreArrayPOD<T_Type> > : zfextendsNotPOD ZFTypeIdBase
 {
-    _ZFP_ZFTYPEID_ID_DATA_BASE_EXPAND(ZFCoreArrayPOD<T_Type>)
 public:
     enum {
         TypeIdRegistered = ZFTypeId<T_Type>::TypeIdRegistered,
@@ -313,6 +329,24 @@ public:
     static inline const zfchar *TypeId(void)
     {
         return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none());
+    }
+    zfoverride
+    virtual zfbool typeIdSerializable(void) const
+    {
+        return TypeIdSerializable;
+    }
+    zfoverride
+    virtual const zfchar *typeId(void) const
+    {
+        return TypeId();
+    }
+    zfoverride
+    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    {
+        ZFObject *t = zfAlloc(v_ZFCoreArray);
+        v = t;
+        zfRelease(t);
+        return zftrue;
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFCoreArray<T_Type> const &v)
     {

@@ -131,7 +131,7 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
 
 // ============================================================
 ZFImpl_ZFLua_implSetupCallback_DEFINE(PathInfo, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFLuaImport"), _ZFP_ZFLuaRes);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFLuaImport"), _ZFP_ZFLuaImport);
         ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFLuaRes"), _ZFP_ZFLuaRes);
 
         /*

@@ -36,7 +36,7 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += this->propertyName();
 }
 
-zfbool ZFProperty::typeIdSerializable(void) const
+zfbool ZFProperty::propertySerializable(void) const
 {
     if(zfscmpTheSame(this->propertyTypeId(), ZFTypeId_none()))
     {

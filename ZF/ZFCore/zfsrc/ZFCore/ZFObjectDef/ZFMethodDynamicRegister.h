@@ -29,8 +29,8 @@ zfclassFwd ZFMethodDynamicRegisterParam;
  * -  use #ZFMethodGenericInvoker to implement,
  *   have lower performance (trade for flexibility)
  *
- * @note dynamic registered method would be removed automatically
- *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkNormal
+ * @note dynamic registered contents would be removed automatically
+ *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
  * @warning if your method has return value,
  *   you must take care the life cycle of the return value\n
  *   when the method called by plain #ZFMethod::execute

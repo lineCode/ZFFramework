@@ -248,6 +248,11 @@ protected:
     }
 
 public:
+    void _ZFP_enumValueSet(ZF_IN zfuint value)
+    {
+        this->enumValueSet(value);
+    }
+public:
     zfuint _ZFP_ZFEnum_value;
 };
 

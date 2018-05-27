@@ -47,7 +47,14 @@ public:
     zfbool errorOccurred;
     const ZFClass *cls;
     zfstring methodNamespace;
+    zfstring enumClassName;
+    zfuint enumDefault;
+    zfbool enumIsFlags;
+    zfuint enumValueNext;
+    ZFCoreArrayPOD<zfidentity> enumValues;
+    ZFCoreArray<zfstring> enumNames;
     ZFCoreArrayPOD<const ZFClass *> allClass;
+    ZFCoreArrayPOD<const ZFClass *> allEnum;
     ZFCoreArrayPOD<const ZFMethod *> allMethod;
     ZFCoreArrayPOD<const ZFProperty *> allProperty;
     ZFCoreArrayPOD<zfidentity> allEvent;
@@ -58,10 +65,18 @@ public:
     , errorOccurred(zffalse)
     , cls(zfnull)
     , methodNamespace()
+    , enumClassName()
+    , enumDefault(ZFEnumInvalid())
+    , enumIsFlags(zffalse)
+    , enumValueNext(0)
+    , enumValues()
+    , enumNames()
     , allClass()
+    , allEnum()
     , allMethod()
     , allProperty()
     , allEvent()
+    , errorCallbackList()
     {
     }
 public:
@@ -94,6 +109,11 @@ public:
         else if(!this->methodNamespace.isEmpty())
         {
             this->error(zfText("[ZFDynamic] have you forgot NSEnd?"));
+            return zffalse;
+        }
+        else if(!this->enumClassName.isEmpty())
+        {
+            this->error(zfText("[ZFDynamic] have you forgot enumEnd?"));
             return zffalse;
         }
         else
@@ -133,30 +153,54 @@ zfbool ZFDynamic::operator == (ZF_IN const ZFDynamic &ref) const
 
 void ZFDynamic::removeAll(void)
 {
-    ZFCoreArrayPOD<const ZFClass *> allClass = d->allClass;
-    d->allClass = ZFCoreArrayPOD<const ZFClass *>();
-    ZFCoreArrayPOD<const ZFMethod *> allMethod = d->allMethod;
-    d->allMethod = ZFCoreArrayPOD<const ZFMethod *>();
-    ZFCoreArrayPOD<const ZFProperty *> allProperty = d->allProperty;
-    d->allProperty = ZFCoreArrayPOD<const ZFProperty *>();
-    ZFCoreArrayPOD<zfidentity> allEvent = d->allEvent;
-    d->allEvent = ZFCoreArrayPOD<zfidentity>();
+    if(!d->allEvent.isEmpty())
+    {
+        ZFCoreArrayPOD<zfidentity> allEvent = d->allEvent;
+        d->allEvent = ZFCoreArrayPOD<zfidentity>();
+        for(zfindex i = 0; i < allEvent.count(); ++i)
+        {
+            ZFIdMapUnregister(allEvent[i]);
+        }
+    }
 
-    for(zfindex i = 0; i < allEvent.count(); ++i)
+    if(!d->allMethod.isEmpty())
     {
-        ZFIdMapUnregister(allEvent[i]);
+        ZFCoreArrayPOD<const ZFMethod *> allMethod = d->allMethod;
+        d->allMethod = ZFCoreArrayPOD<const ZFMethod *>();
+        for(zfindex i = 0; i < allMethod.count(); ++i)
+        {
+            ZFMethodDynamicUnregister(allMethod[i]);
+        }
     }
-    for(zfindex i = 0; i < allMethod.count(); ++i)
+
+    if(!d->allProperty.isEmpty())
     {
-        ZFMethodDynamicUnregister(allMethod[i]);
+        ZFCoreArrayPOD<const ZFProperty *> allProperty = d->allProperty;
+        d->allProperty = ZFCoreArrayPOD<const ZFProperty *>();
+        for(zfindex i = 0; i < allProperty.count(); ++i)
+        {
+            ZFPropertyDynamicUnregister(allProperty[i]);
+        }
     }
-    for(zfindex i = 0; i < allProperty.count(); ++i)
+
+    if(!d->allEnum.isEmpty())
     {
-        ZFPropertyDynamicUnregister(allProperty[i]);
+        ZFCoreArrayPOD<const ZFClass *> allEnum = d->allEnum;
+        d->allEnum = ZFCoreArrayPOD<const ZFClass *>();
+        for(zfindex i = 0; i < allEnum.count(); ++i)
+        {
+            ZFEnumDynamicUnregister(allEnum[i]);
+        }
     }
-    for(zfindex i = 0; i < allClass.count(); ++i)
+
+    if(!d->allClass.isEmpty())
     {
-        ZFClassDynamicUnregister(allClass[i]);
+        ZFCoreArrayPOD<const ZFClass *> allClass = d->allClass;
+        d->allClass = ZFCoreArrayPOD<const ZFClass *>();
+        for(zfindex i = 0; i < allClass.count(); ++i)
+        {
+            ZFClassDynamicUnregister(allClass[i]);
+        }
     }
 }
 
@@ -173,6 +217,10 @@ ZFDynamic &ZFDynamic::removeAllOnEvent(ZF_IN zfidentity eventId /* = ZFGlobalEve
 const ZFCoreArrayPOD<const ZFClass *> &ZFDynamic::allClass(void) const
 {
     return d->allClass;
+}
+const ZFCoreArrayPOD<const ZFClass *> &ZFDynamic::allEnum(void) const
+{
+    return d->allEnum;
 }
 const ZFCoreArrayPOD<const ZFMethod *> &ZFDynamic::allMethod(void) const
 {
@@ -437,6 +485,80 @@ ZFDynamic &ZFDynamic::NSEnd(void)
     return *this;
 }
 
+ZFDynamic &ZFDynamic::enumBegin(ZF_IN const zfchar *enumClassName)
+{
+    if(d->errorOccurred) {return *this;}
+    if(!d->scopeBeginCheck()) {return *this;}
+    d->enumClassName = enumClassName;
+    return *this;
+}
+ZFDynamic &ZFDynamic::enumIsFlagsSet(ZF_IN zfbool enumIsFlags)
+{
+    if(d->errorOccurred) {return *this;}
+    if(d->enumClassName.isEmpty())
+    {
+        d->error(zfText("[ZFDynamic] have you forgot enumBegin?"));
+        return *this;
+    }
+    d->enumIsFlags = enumIsFlags;
+    return *this;
+}
+ZFDynamic &ZFDynamic::enumValue(ZF_IN const zfchar *enumName,
+                                ZF_IN_OPT zfuint enumValue /* = ZFEnumInvalid() */)
+{
+    if(d->errorOccurred) {return *this;}
+    if(d->enumClassName.isEmpty())
+    {
+        d->error(zfText("[ZFDynamic] have you forgot enumBegin?"));
+        return *this;
+    }
+    if(enumValue == ZFEnumInvalid())
+    {
+        enumValue = d->enumValueNext;
+        ++(d->enumValueNext);
+    }
+    else
+    {
+        if(d->enumValueNext <= enumValue)
+        {
+            d->enumValueNext = enumValue + 1;
+        }
+    }
+    d->enumValues.add(enumValue);
+    d->enumNames.add(enumName);
+    return *this;
+}
+ZFDynamic &ZFDynamic::enumEnd(ZF_IN_OPT zfuint enumDefault /* = ZFEnumInvalid() */)
+{
+    if(d->errorOccurred) {return *this;}
+    if(d->enumClassName.isEmpty())
+    {
+        d->error(zfText("[ZFDynamic] have you forgot enumBegin?"));
+        return *this;
+    }
+    zfstring errorHint;
+    const ZFClass *enumClass = ZFEnumDynamicRegister(
+        d->enumClassName,
+        d->enumValues,
+        d->enumNames,
+        d->enumDefault,
+        d->enumIsFlags,
+        &errorHint);
+    if(enumClass == zfnull)
+    {
+        d->error(zfText("unable to register enum, reason: %s"), errorHint.cString());
+        return *this;
+    }
+    d->allEnum.add(enumClass);
+    d->enumClassName.removeAll();
+    d->enumDefault = ZFEnumInvalid();
+    d->enumIsFlags = zffalse;
+    d->enumValueNext = 0;
+    d->enumValues.removeAll();
+    d->enumNames.removeAll();
+    return *this;
+}
+
 static zfbool _ZFP_ZFDynamicEventGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
 {
     ret = invokerMethod->methodDynamicRegisterUserData();
@@ -445,6 +567,11 @@ static zfbool _ZFP_ZFDynamicEventGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
 ZFDynamic &ZFDynamic::event(ZF_IN const zfchar *eventName)
 {
     if(d->errorOccurred) {return *this;}
+    if(!d->enumClassName.isEmpty())
+    {
+        d->error(zfText("can not be called within enumBegin"));
+        return *this;
+    }
     if(zfsIsEmpty(eventName))
     {
         d->error(zfText("empty event name"));
@@ -593,6 +720,11 @@ ZFDynamic &ZFDynamic::method(ZF_IN ZFMethodGenericInvoker methodGenericInvoker
 ZFDynamic &ZFDynamic::method(ZF_IN const ZFMethodDynamicRegisterParam &param)
 {
     if(d->errorOccurred) {return *this;}
+    if(!d->enumClassName.isEmpty())
+    {
+        d->error(zfText("can not be called within enumBegin"));
+        return *this;
+    }
     zfstring errorHint;
     const ZFMethod *dynMethod = ZFMethodDynamicRegister(param, &errorHint);
     if(dynMethod == zfnull)
@@ -669,6 +801,11 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
 ZFDynamic &ZFDynamic::property(ZF_IN const ZFPropertyDynamicRegisterParam &param)
 {
     if(d->errorOccurred) {return *this;}
+    if(!d->enumClassName.isEmpty())
+    {
+        d->error(zfText("can not be called within enumBegin"));
+        return *this;
+    }
     if(d->cls == zfnull)
     {
         d->error(zfText("[ZFDynamic] have you forgot classBegin?"));
@@ -721,11 +858,20 @@ ZFMETHOD_FUNC_DEFINE_0(void, ZFDynamicRemoveAll)
 {
     ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFDynamicRemoveAll());
 }
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFDynamicRemoveAllAutoNotify, ZFLevelZFFrameworkNormal)
+{
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFDynamicRemoveAllAutoNotify)
+{
+    ZFDynamicRemoveAll();
+}
+ZF_GLOBAL_INITIALIZER_END(ZFDynamicRemoveAllAutoNotify)
 
 // ============================================================
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, void, removeAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, removeAllOnEvent, ZFMP_IN_OPT(zfidentity, eventId, ZFGlobalEvent::EventZFDynamicRemoveAll()))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFClass *> &, allClass)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFClass *> &, allEnum)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFMethod *> &, allMethod)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFProperty *> &, allProperty)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<zfidentity> &, allEvent)
@@ -737,6 +883,10 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFDynamic, ZFDynamic &, onInit, ZFMP
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFDynamic, ZFDynamic &, onDealloc, ZFMP_IN(const ZFListener &, onDeallocCallback), ZFMP_IN_OPT(ZFObject *, userData, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, NSBegin, ZFMP_IN_OPT(const zfchar *, methodNamespace, ZFMethodFuncNamespaceGlobal))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, ZFDynamic &, NSEnd)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, enumBegin, ZFMP_IN(const zfchar *, enumClassName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, enumIsFlagsSet, ZFMP_IN(zfbool, enumIsFlags))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFDynamic, ZFDynamic &, enumValue, ZFMP_IN(const zfchar *, enumName), ZFMP_IN_OPT(zfuint, enumValue, ZFEnumInvalid()))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, enumEnd, ZFMP_IN_OPT(zfuint, enumDefault, ZFEnumInvalid()))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, event, ZFMP_IN(const zfchar *, eventName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFDynamic, ZFDynamic &, method
     , ZFMP_IN(ZFMethodGenericInvoker, methodGenericInvoker)

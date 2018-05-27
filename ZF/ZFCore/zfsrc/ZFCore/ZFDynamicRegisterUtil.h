@@ -122,12 +122,19 @@ zfclassFwd _ZFP_ZFDynamicPrivate;
  * @code
  *   ZFDynamic()
  *       .classBegin(xxx)
+ *           .event(xxx)
  *           .method(xxx)
  *           .property(xxx)
  *       .classEnd()
  *       .NSBegin(xxx)
+ *           .event(xxx)
  *           .method(xxx)
- *       .NSEnd();
+ *       .NSEnd()
+ *       .enumBegin(xxx)
+ *           .enumValue(xxx)
+ *           .enumValue(xxx)
+ *       .enumEnd()
+ *   ;
  * @endcode
  *
  * when any steps failed, #errorCallbackNotify would be called,
@@ -156,6 +163,8 @@ public:
     ZFDynamic &removeAllOnEvent(ZF_IN zfidentity eventId = ZFGlobalEvent::EventZFDynamicRemoveAll());
     /** @brief see #ZFDynamic */
     const ZFCoreArrayPOD<const ZFClass *> &allClass(void) const;
+    /** @brief see #ZFDynamic */
+    const ZFCoreArrayPOD<const ZFClass *> &allEnum(void) const;
     /** @brief see #ZFDynamic */
     const ZFCoreArrayPOD<const ZFMethod *> &allMethod(void) const;
     /** @brief see #ZFDynamic */
@@ -189,6 +198,17 @@ public:
     ZFDynamic &NSBegin(ZF_IN_OPT const zfchar *methodNamespace = ZFMethodFuncNamespaceGlobal);
     /** @brief see #ZFDynamic */
     ZFDynamic &NSEnd(void);
+
+public:
+    /** @brief see #ZFDynamic */
+    ZFDynamic &enumBegin(ZF_IN const zfchar *enumClassName);
+    /** @brief see #ZFDynamic */
+    ZFDynamic &enumIsFlagsSet(ZF_IN zfbool enumIsFlags);
+    /** @brief see #ZFDynamic */
+    ZFDynamic &enumValue(ZF_IN const zfchar *enumName,
+                         ZF_IN_OPT zfuint enumValue = ZFEnumInvalid());
+    /** @brief see #ZFDynamic */
+    ZFDynamic &enumEnd(ZF_IN_OPT zfuint enumDefault = ZFEnumInvalid());
 
 public:
     /**
@@ -281,6 +301,8 @@ ZFTYPEID_ACCESS_ONLY_DECLARE(ZFDynamic, ZFDynamic)
 // ============================================================
 /**
  * @brief util method to notify #ZFGlobalEvent::EventZFDynamicRemoveAll
+ *
+ * ensured called during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkNormal
  */
 ZFMETHOD_FUNC_DECLARE_0(void, ZFDynamicRemoveAll)
 

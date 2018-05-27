@@ -46,15 +46,24 @@ public:
 
 // ============================================================
 // zftTraits
-#define _ZFP_zftTraits_N zfText("N")
-#define _ZFP_zftTraits_R zfText("R")
-#define _ZFP_zftTraits_CR zfText("CR")
-#define _ZFP_zftTraits_P zfText("P")
-#define _ZFP_zftTraits_PR zfText("PR")
-#define _ZFP_zftTraits_PCR zfText("PCR")
-#define _ZFP_zftTraits_CP zfText("CP")
-#define _ZFP_zftTraits_CPR zfText("CPR")
-#define _ZFP_zftTraits_CPCR zfText("CPCR")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_N zfText("N")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_R zfText("R")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_CR zfText("CR")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_P zfText("P")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_PR zfText("PR")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_PCR zfText("PCR")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_CP zfText("CP")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_CPR zfText("CPR")
+/** @brief see #zftTraits::ModifierId */
+#define zftTraits_CPCR zfText("CPCR")
 /**
  * @brief type traits similar to STL's traits
  *
@@ -88,7 +97,7 @@ public:
      *   -  'CPR' : const Type *&
      *   -  'CPCR' : const Type * const &
      */
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_N;}
+    static const zfchar *ModifierId(void) {return zftTraits_N;}
 };
 /** @cond ZFPrivateDoc */
 /*
@@ -125,7 +134,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef T_Type                  TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_R;}
+    static const zfchar *ModifierId(void) {return zftTraits_R;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<T_Type const &>
@@ -141,7 +150,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef T_Type                  TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CR;}
+    static const zfchar *ModifierId(void) {return zftTraits_CR;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<T_Type *>
@@ -157,7 +166,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef T_Type *                TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_P;}
+    static const zfchar *ModifierId(void) {return zftTraits_P;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<T_Type *&>
@@ -173,7 +182,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef T_Type *                TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_PR;}
+    static const zfchar *ModifierId(void) {return zftTraits_PR;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<T_Type * const &>
@@ -189,7 +198,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef T_Type *                TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_PCR;}
+    static const zfchar *ModifierId(void) {return zftTraits_PCR;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<const T_Type *>
@@ -205,7 +214,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef const T_Type *          TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CP;}
+    static const zfchar *ModifierId(void) {return zftTraits_CP;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<const T_Type *&>
@@ -221,7 +230,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef const T_Type *          TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CPR;}
+    static const zfchar *ModifierId(void) {return zftTraits_CPR;}
 };
 template<typename T_Type>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<const T_Type * const &>
@@ -237,7 +246,7 @@ public:
     typedef T_Type *                TrPtr;
     typedef const T_Type *          TrConstPtr;
     typedef const T_Type *          TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CPCR;}
+    static const zfchar *ModifierId(void) {return zftTraits_CPCR;}
 };
 
 template<>
@@ -254,7 +263,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef void                    TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_N;}
+    static const zfchar *ModifierId(void) {return zftTraits_N;}
 };
 template<>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<void *>
@@ -270,7 +279,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef void *                  TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_P;}
+    static const zfchar *ModifierId(void) {return zftTraits_P;}
 };
 template<>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<const void *>
@@ -286,7 +295,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef const void *            TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CP;}
+    static const zfchar *ModifierId(void) {return zftTraits_CP;}
 };
 template<>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<void *&>
@@ -302,7 +311,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef void *                  TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_PR;}
+    static const zfchar *ModifierId(void) {return zftTraits_PR;}
 };
 template<>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<void * const &>
@@ -318,7 +327,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef void *                  TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_PCR;}
+    static const zfchar *ModifierId(void) {return zftTraits_PCR;}
 };
 template<>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<const void *&>
@@ -334,7 +343,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef const void *            TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CPR;}
+    static const zfchar *ModifierId(void) {return zftTraits_CPR;}
 };
 template<>
 zfclassNotPOD ZF_ENV_EXPORT zftTraits<const void * const &>
@@ -350,7 +359,7 @@ public:
     typedef void *                  TrPtr;
     typedef const void *            TrConstPtr;
     typedef const void *            TrNoRef;
-    static const zfchar *ModifierId(void) {return _ZFP_zftTraits_CPCR;}
+    static const zfchar *ModifierId(void) {return zftTraits_CPCR;}
 };
 /** @endcond */
 

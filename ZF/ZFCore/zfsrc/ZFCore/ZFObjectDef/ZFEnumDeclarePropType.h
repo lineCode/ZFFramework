@@ -19,11 +19,16 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// ZFTypeIdWrapper
-#define _ZFP_ZFENUM_PROP_TYPE_WRAPPER_DECLARE(EnumName) \
-    public: \
-        zfoverride \
-        virtual const zfchar *wrappedValueTypeId(void);
+template<typename T_Type>
+zfbool _ZFP_ZFEnumCanModify(void)
+{
+    return (zffalse
+            || zftTraits<T_Type>::ModifierId() == zftTraits_R
+            || zftTraits<T_Type>::ModifierId() == zftTraits_P
+            || zftTraits<T_Type>::ModifierId() == zftTraits_PR
+            || zftTraits<T_Type>::ModifierId() == zftTraits_PCR
+        );
+}
 
 // ============================================================
 // normal enum
@@ -33,7 +38,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     template<> \
     zfclassNotPOD ZFTypeId<EnumName##Enum> : zfextendsNotPOD ZFTypeIdBase \
     { \
-        _ZFP_ZFTYPEID_ID_DATA_BASE_EXPAND(EnumName##Enum) \
     public: \
         enum { \
             TypeIdRegistered = 1, \
@@ -42,6 +46,16 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         static inline const zfchar *TypeId(void) \
         { \
             return ZFTypeId_##EnumName##Enum(); \
+        } \
+        zfoverride \
+        virtual zfbool typeIdSerializable(void) const \
+        { \
+            return TypeIdSerializable; \
+        } \
+        zfoverride \
+        virtual const zfchar *typeId(void) const \
+        { \
+            return TypeId(); \
         } \
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
@@ -79,10 +93,27 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
+                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                { \
+                    return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
+                } \
+                else \
+                { \
+                    return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                } \
             } \
             static T_Access access(ZF_IN ZFObject *obj) \
             { \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
@@ -95,10 +126,27 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
+                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                { \
+                    return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
+                } \
+                else \
+                { \
+                    return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                } \
             } \
             static T_Access access(ZF_IN ZFObject *obj) \
             { \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
                 /* EnumReinterpretCast */ \
@@ -159,7 +207,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     template<> \
     zfclassNotPOD ZFTypeId<EnumFlagsName> : zfextendsNotPOD ZFTypeIdBase \
     { \
-        _ZFP_ZFTYPEID_ID_DATA_BASE_EXPAND(EnumFlagsName) \
     public: \
         enum { \
             TypeIdRegistered = 1, \
@@ -168,6 +215,16 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         static inline const zfchar *TypeId(void) \
         { \
             return ZFTypeId_##EnumFlagsName(); \
+        } \
+        zfoverride \
+        virtual zfbool typeIdSerializable(void) const \
+        { \
+            return TypeIdSerializable; \
+        } \
+        zfoverride \
+        virtual const zfchar *typeId(void) const \
+        { \
+            return TypeId(); \
         } \
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
@@ -212,10 +269,27 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
+                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                { \
+                    return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
+                } \
+                else \
+                { \
+                    return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                } \
             } \
             static T_Access access(ZF_IN ZFObject *obj) \
             { \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
@@ -228,10 +302,27 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         public: \
             static zfbool accessAvailable(ZF_IN ZFObject *obj) \
             { \
-                return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
+                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                { \
+                    return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
+                } \
+                else \
+                { \
+                    return (ZFCastZFObject(EnumName *, obj) != zfnull); \
+                } \
             } \
             static T_Access access(ZF_IN ZFObject *obj) \
             { \
+                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
+                if(objTmp != zfnull) \
+                { \
+                    obj = objTmp->zfv; \
+                } \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
                 /* EnumReinterpretCast */ \
