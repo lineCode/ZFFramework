@@ -26,6 +26,8 @@
 #include "ZFCallbackSerializable.h"
 #include "ZFObjectSmartPointer.h"
 #include "ZFCoreType_IODef.h"
+#include "ZFEnum.h"
+#include "ZFEnumDeclare.h"
 #include "ZFPointerHolder.h"
 #include "ZFTypeHolder.h"
 #include "ZFObjectHolder.h"

@@ -10,6 +10,10 @@
 #include "ZFEnumDynamicRegister.h"
 #include "ZFObjectImpl.h"
 
+#include "ZFClassDynamicRegister.h"
+#include "ZFMethodUserRegister.h"
+#include "ZFTypeIdDynamicRegister.h"
+
 #include "../ZFSTLWrapper/zfstl_map.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
