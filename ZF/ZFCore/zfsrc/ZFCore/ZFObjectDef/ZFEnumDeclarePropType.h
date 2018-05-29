@@ -20,15 +20,18 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 template<typename T_Type>
-zfbool _ZFP_ZFEnumCanModify(void)
+zfclassNotPOD _ZFP_ZFEnumCanModify
 {
-    return (zffalse
-            || zftTraits<T_Type>::ModifierId() == zftTraits_R
-            || zftTraits<T_Type>::ModifierId() == zftTraits_P
-            || zftTraits<T_Type>::ModifierId() == zftTraits_PR
-            || zftTraits<T_Type>::ModifierId() == zftTraits_PCR
-        );
-}
+public:
+    enum {
+        v = (zffalse
+            || zftTraits<T_Type>::TrModifier == zftTraitsModifier_R
+            || zftTraits<T_Type>::TrModifier == zftTraitsModifier_P
+            || zftTraits<T_Type>::TrModifier == zftTraitsModifier_PR
+            || zftTraits<T_Type>::TrModifier == zftTraitsModifier_PCR
+        ) ? 1 : 0,
+    };
+};
 
 // ============================================================
 // normal enum
@@ -98,7 +101,7 @@ zfbool _ZFP_ZFEnumCanModify(void)
                 { \
                     obj = objTmp->zfv; \
                 } \
-                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
                 } \
@@ -131,7 +134,7 @@ zfbool _ZFP_ZFEnumCanModify(void)
                 { \
                     obj = objTmp->zfv; \
                 } \
-                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
                 } \
@@ -152,7 +155,7 @@ zfbool _ZFP_ZFEnumCanModify(void)
                 /* EnumReinterpretCast */ \
                 *holder = (_TrNoRef)(&(t->_ZFP_ZFEnum_value)); \
                 _ZFP_PropAliasAttach(obj, holder, \
-                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierId()), \
+                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierName()), \
                     _ZFP_PropAliasOnDetach); \
                 return *holder; \
             } \
@@ -274,7 +277,7 @@ zfbool _ZFP_ZFEnumCanModify(void)
                 { \
                     obj = objTmp->zfv; \
                 } \
-                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
                 } \
@@ -307,7 +310,7 @@ zfbool _ZFP_ZFEnumCanModify(void)
                 { \
                     obj = objTmp->zfv; \
                 } \
-                if(_ZFP_ZFEnumCanModify<T_Access>()) \
+                if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
                 } \
@@ -328,7 +331,7 @@ zfbool _ZFP_ZFEnumCanModify(void)
                 /* EnumReinterpretCast */ \
                 *holder = (_TrNoRef)(&(t->_ZFP_ZFEnum_value)); \
                 _ZFP_PropAliasAttach(obj, holder, \
-                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierId()), \
+                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierName()), \
                     _ZFP_PropAliasOnDetach); \
                 return *holder; \
             } \

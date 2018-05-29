@@ -116,6 +116,15 @@ public:
     }
 public:
     zfoverride
+    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref)
+    {
+        zfself *refTmp = ZFCastZFObject(zfself *, ref);
+        if(refTmp != zfnull)
+        {
+            this->zfv = refTmp->zfv;
+        }
+    }
+    zfoverride
     virtual const zfchar *wrappedValueTypeId(void)
     {
         return ZFTypeId_ZFCoreArray();

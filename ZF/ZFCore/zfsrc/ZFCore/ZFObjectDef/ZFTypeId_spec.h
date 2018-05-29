@@ -118,6 +118,8 @@ public:
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
 public:
     zfoverride
+    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref);
+    zfoverride
     virtual const zfchar *wrappedValueTypeId(void);
     zfoverride
     virtual void *wrappedValue(void) {return &(this->zfv);}
@@ -445,7 +447,7 @@ public:
             }
             T_Type *holder = zfnew(T_Type, ZFCastZFObject(T_Type, obj));
             _ZFP_PropAliasAttach(obj, holder,
-                zfsConnectLineFree(zfText("ZFObject_"), zftTraits<T_Access>::ModifierId()),
+                zfsConnectLineFree(zfText("ZFObject_"), zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
             return *holder;
         }
@@ -504,7 +506,7 @@ public:
             _TrNoRef *holder = zfnew(_TrNoRef);
             *holder = ZFCastZFObject(T_Type, obj);
             _ZFP_PropAliasAttach(obj, holder,
-                zfsConnectLineFree(zfText("ZFObject_"), zftTraits<T_Access>::ModifierId()),
+                zfsConnectLineFree(zfText("ZFObject_"), zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
             return *holder;
         }
@@ -582,7 +584,7 @@ public:
             }
             ZFAny *holder = zfnew(ZFAny, obj);
             _ZFP_PropAliasAttach(obj, holder,
-                zfsConnectLineFree(zfText("ZFAny_"), zftTraits<T_Access>::ModifierId()),
+                zfsConnectLineFree(zfText("ZFAny_"), zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
             return *holder;
         }

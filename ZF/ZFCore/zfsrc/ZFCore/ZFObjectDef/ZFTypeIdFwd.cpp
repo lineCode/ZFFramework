@@ -114,5 +114,10 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
     }
 }
 
+void _ZFP_ZFTypeIdWrapperMarkConst(ZF_IN_OUT_OPT ZFObject *zfv)
+{
+    ZFTypeIdWrapper::markConst(zfv);
+}
+
 ZF_NAMESPACE_GLOBAL_END
 

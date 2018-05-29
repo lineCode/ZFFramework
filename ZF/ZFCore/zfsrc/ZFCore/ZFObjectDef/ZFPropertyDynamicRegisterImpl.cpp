@@ -108,7 +108,7 @@ public:
                 ret = tTmp;
                 t = tTmp;
             }
-            if(t->zfv != zfnull && t->zfv.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+            if(t->zfv != zfnull && !t->zfv.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
             {
                 zfstringAppend(errorHint,
                     zfText("invalid init value %s, desired: %s"),

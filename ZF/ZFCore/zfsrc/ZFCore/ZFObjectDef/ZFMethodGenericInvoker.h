@@ -132,6 +132,7 @@ extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
             ZFTypeId<zftTraits<ParamType>::TrNoRef>::ValueStore( \
                 ret, \
                 (paramDefault.zfv DefaultValueFix())); \
+            ZFTypeIdWrapper::markConst(ret); \
             return ret; \
         } \
     )
@@ -185,6 +186,7 @@ public:
         typedef typename zftTraits<T_ReturnType>::TrNoRef T_ReturnTypeTmp;
         if(ZFTypeId<T_ReturnTypeTmp>::ValueStore(ret, retTmp))
         {
+            _ZFP_ZFTypeIdWrapperMarkConstCheck<T_ReturnType>::a(ret);
             return zftrue;
         }
         else
@@ -366,7 +368,8 @@ extern ZF_ENV_EXPORT void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *
         if(!ZFTypeId<_Type##N>::ValueStore(_p##N, param##N)) \
         { \
             _ZFP_ZFMethodGenericInvokeError(method, obj, N); \
-        }
+        } \
+        _ZFP_ZFTypeIdWrapperMarkConstCheck<Type##N>::a(_p##N);
 #define _ZFP_ZFMethodGenericInvoke_REPEAT2(N) _p##N
 #define _ZFP_ZFMethodGenericInvoke_REPEAT3(N) \
         _ZFP_MtdGII_P<Type##N>::p(param##N, _p##N);

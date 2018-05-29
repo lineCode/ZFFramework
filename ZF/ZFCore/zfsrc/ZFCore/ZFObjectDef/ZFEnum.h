@@ -254,6 +254,16 @@ public:
     }
 public:
     zfuint _ZFP_ZFEnum_value;
+public:
+    zfoverride
+    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref)
+    {
+        zfself *refTmp = ZFCastZFObject(zfself *, ref);
+        if(refTmp != zfnull)
+        {
+            this->_ZFP_ZFEnum_value = refTmp->_ZFP_ZFEnum_value;
+        }
+    }
 };
 
 // ============================================================

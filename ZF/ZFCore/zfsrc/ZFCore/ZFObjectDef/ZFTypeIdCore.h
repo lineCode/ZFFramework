@@ -420,7 +420,45 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 zfabstract ZF_ENV_EXPORT ZFTypeIdWrapper : zfextends ZFStyleableObject
 {
-    ZFOBJECT_DECLARE_ABSTRACT(ZFTypeIdWrapper, ZFStyleableObject)
+    ZFOBJECT_DECLARE_ABSTRACT_WITH_CUSTOM_CTOR(ZFTypeIdWrapper, ZFStyleableObject)
+
+public:
+    /**
+     * @brief whether the holded value should not be changed
+     */
+    zfbool wrappedValueIsConst;
+    /**
+     * @brief util to mark #wrappedValueIsConst
+     */
+    static void markConst(ZF_IN_OUT_OPT ZFObject *obj)
+    {
+        zfself *t = ZFCastZFObject(zfself *, obj);
+        if(t != zfnull)
+        {
+            t->wrappedValueIsConst = zftrue;
+        }
+    }
+
+/** @cond ZFPrivateDoc */
+protected:
+    ZFTypeIdWrapper(void) : wrappedValueIsConst(zffalse) {}
+/** @endcond */
+
+public:
+    /**
+     * @brief copy internal value, assert fail if #wrappedValueIsConst
+     */
+    zffinal ZFTypeIdWrapper *assign(ZF_IN ZFTypeIdWrapper *ref)
+    {
+        zfCoreAssert(!this->wrappedValueIsConst);
+        this->assignAction(ref);
+        return this;
+    }
+protected:
+    /**
+     * @brief see #assign
+     */
+    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref) zfpurevirtual;
 
 public:
     /**

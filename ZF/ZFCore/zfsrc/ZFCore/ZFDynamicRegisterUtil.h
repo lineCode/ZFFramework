@@ -121,19 +121,20 @@ zfclassFwd _ZFP_ZFDynamicPrivate;
  * usage:
  * @code
  *   ZFDynamic()
- *       .classBegin(xxx)
- *           .event(xxx)
- *           .method(xxx)
- *           .property(xxx)
+ *       .classBegin(className [, parent, userData])
+ *           .event(eventName)
+ *           .method(callback, userData, returnTypeId, methodName [, paramTypeId0, ...])
+ *           .property(typeIdOrRetainClass, propertyName [, propertyInitValue])
  *       .classEnd()
- *       .NSBegin(xxx)
- *           .event(xxx)
- *           .method(xxx)
+ *       .NSBegin([methodNamespace])
+ *           .event(eventName)
+ *           .method(callback, userData, returnTypeId, methodName [, paramTypeId0, ...])
  *       .NSEnd()
- *       .enumBegin(xxx)
- *           .enumValue(xxx)
- *           .enumValue(xxx)
- *       .enumEnd()
+ *       .enumBegin(enumClassName)
+ *           .enumIsFlagsSet(isFlag)
+ *           .enumValue(enumName [, enumValue])
+ *           .enumValue(enumName [, enumValue])
+ *       .enumEnd([enumDefault])
  *   ;
  * @endcode
  *
@@ -271,13 +272,11 @@ public:
      */
     ZFDynamic &property(ZF_IN const zfchar *propertyTypeId,
                         ZF_IN const zfchar *propertyName,
-                        ZF_IN_OPT const ZFListener &initValueCallback = ZFCallbackNull(),
-                        ZF_IN_OPT ZFObject *initValueCallbackUserData = zfnull);
+                        ZF_IN_OPT ZFObject *propertyInitValue = zfnull);
     /** @brief see #ZFDynamic */
     ZFDynamic &property(ZF_IN const ZFClass *propertyClassOfRetainProperty,
                         ZF_IN const zfchar *propertyName,
-                        ZF_IN_OPT const ZFListener &initValueCallback = ZFCallbackNull(),
-                        ZF_IN_OPT ZFObject *initValueCallbackUserData = zfnull);
+                        ZF_IN_OPT ZFObject *propertyInitValue = zfnull);
     /** @brief see #ZFDynamic */
     ZFDynamic &property(ZF_IN const ZFPropertyDynamicRegisterParam &param);
 

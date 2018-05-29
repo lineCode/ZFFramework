@@ -246,6 +246,8 @@ public:
         virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj); \
     public: \
         zfoverride \
+        virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref); \
+        zfoverride \
         virtual const zfchar *wrappedValueTypeId(void); \
         zfoverride \
         virtual void *wrappedValue(void) {return &(this->zfv);} \
@@ -380,6 +382,14 @@ public:
             return ZFComparerDefault(this->zfv, *(_ZFP_PropTypeW_##TypeName *)t->wrappedValue()); \
         } \
     } \
+    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
+    { \
+        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
+        if(refTmp != zfnull) \
+        { \
+            this->zfv = refTmp->zfv; \
+        } \
+    } \
     const zfchar *v_##TypeName::wrappedValueTypeId(void) \
     { \
         return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
@@ -436,6 +446,8 @@ public:
         zfoverride \
         virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj); \
     public: \
+        zfoverride \
+        virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref); \
         zfoverride \
         virtual const zfchar *wrappedValueTypeId(void); \
         zfoverride \
@@ -579,6 +591,14 @@ public:
             return ZFComparerDefault(this->zfv, *(_ZFP_PropTypeW_##TypeName *)t->wrappedValue()); \
         } \
     } \
+    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
+    { \
+        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
+        if(refTmp != zfnull) \
+        { \
+            this->zfv = refTmp->zfv; \
+        } \
+    } \
     const zfchar *v_##TypeName::wrappedValueTypeId(void) \
     { \
         return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
@@ -613,6 +633,14 @@ public:
     ZFCompareResult v_##TypeName::objectCompare(ZF_IN ZFObject *anotherObj) \
     { \
         return ZFCompareUncomparable; \
+    } \
+    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
+    { \
+        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
+        if(refTmp != zfnull) \
+        { \
+            this->zfv = refTmp->zfv; \
+        } \
     } \
     const zfchar *v_##TypeName::wrappedValueTypeId(void) \
     { \
@@ -802,6 +830,32 @@ extern ZF_ENV_EXPORT void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
                                                ZF_IN void *v,
                                                ZF_IN const zfchar *typeName,
                                                ZF_IN _ZFP_PropAliasDetachCallback detachCallback);
+
+extern ZF_ENV_EXPORT void _ZFP_ZFTypeIdWrapperMarkConst(ZF_IN_OUT_OPT ZFObject *zfv);
+template<typename T_Type, int isConst = (zffalse
+        || zftTraits<T_Type>::TrModifier == zftTraitsModifier_R
+        || zftTraits<T_Type>::TrModifier == zftTraitsModifier_P
+        || zftTraits<T_Type>::TrModifier == zftTraitsModifier_PR
+        || zftTraits<T_Type>::TrModifier == zftTraitsModifier_PCR
+        || zftTraits<T_Type>::TrModifier == zftTraitsModifier_CPR
+        || zftTraits<T_Type>::TrModifier == zftTraitsModifier_CPR
+    ) ? 1 : 0>
+zfclassNotPOD _ZFP_ZFTypeIdWrapperMarkConstCheck
+{
+public:
+    static inline void a(ZF_IN_OUT_OPT ZFObject *zfv)
+    {
+    }
+};
+template<typename T_Type>
+zfclassNotPOD _ZFP_ZFTypeIdWrapperMarkConstCheck<T_Type, 1>
+{
+public:
+    static inline void a(ZF_IN_OUT_OPT ZFObject *zfv)
+    {
+        _ZFP_ZFTypeIdWrapperMarkConst(zfv);
+    }
+};
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFTypeIdFwd_h_

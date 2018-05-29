@@ -48,6 +48,14 @@ ZFCompareResult v_zfautoObject::objectCompare(ZF_IN ZFObject *anotherObj)
         return ZFComparerDefault(this->zfv, *(zfautoObject *)t->wrappedValue());
     }
 }
+void v_zfautoObject::assignAction(ZF_IN ZFTypeIdWrapper *ref)
+{
+    zfself *refTmp = ZFCastZFObject(zfself *, ref);
+    if(refTmp != zfnull)
+    {
+        this->zfv = refTmp->zfv;
+    }
+}
 const zfchar *v_zfautoObject::wrappedValueTypeId(void)
 {
     return ZFTypeId<zfautoObject>::TypeId();
