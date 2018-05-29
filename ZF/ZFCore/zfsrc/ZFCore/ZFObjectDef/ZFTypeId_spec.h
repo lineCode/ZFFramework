@@ -20,12 +20,12 @@
 #include "zfautoObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-/** @cond ZFPrivateDoc */
-
 // ============================================================
 // void
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTypeId_void() zfText("void")
+
+/** @cond ZFPrivateDoc */
 template<>
 zfclassNotPOD ZFTypeId<void> : zfextendsNotPOD ZFTypeIdBase
 {
@@ -67,17 +67,15 @@ public:
         }
     };
 };
+/** @endcond */
 
 // ============================================================
-/** @endcond */
 ZFTYPEID_DECLARE(ZFCallerInfo, ZFCallerInfoHolder)
 ZFTYPEID_ALIAS_DECLARE(ZFCallerInfo, ZFCallerInfoHolder, ZFCallerInfoWrap, ZFCallerInfo)
 ZFOUTPUT_TYPE(ZFCallerInfoHolder, {output << v.callerInfo();})
 ZFOUTPUT_TYPE(ZFCallerInfo, {output << v.callerInfo();})
-/** @cond ZFPrivateDoc */
 
 // ============================================================
-/** @endcond */
 /**
  * @brief see #ZFTYPEID_DECLARE
  *
@@ -258,6 +256,7 @@ public:
         }
     };
 };
+/** @endcond */
 
 // ============================================================
 // zfautoObjectT
@@ -358,9 +357,11 @@ public:
         }
     };
 };
+/** @endcond */
 
 // ============================================================
 // ZFObject
+/** @cond ZFPrivateDoc */
 template<typename T_Type>
 zfclassNotPOD ZFTypeId<T_Type,
         typename zftEnableIf<zftIsZFObject(typename zftTraits<T_Type>::TrType)>::EnableIf
@@ -519,9 +520,11 @@ public:
         }
     };
 };
+/** @endcond */
 
 // ============================================================
 // ZFAny
+/** @cond ZFPrivateDoc */
 template<>
 zfclassNotPOD ZFTypeId<ZFAny> : zfextendsNotPOD ZFTypeIdBase
 {
@@ -610,9 +613,11 @@ public:
         }
     };
 };
+/** @endcond */
 
 // ============================================================
 // pointer type
+/** @cond ZFPrivateDoc */
 template<typename T_Type>
 zfclassNotPOD ZFTypeId<T_Type,
         typename zftEnableIf<!zftIsZFObject(typename zftTraits<T_Type>::TrType)>::EnableIf,
@@ -698,7 +703,6 @@ public:
         }
     };
 };
-
 /** @endcond */
 
 ZF_NAMESPACE_GLOBAL_END
