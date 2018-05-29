@@ -20,8 +20,8 @@ minimal steps to use in iOS with cocoapods to embed to existing projects:
           return 0;
       }
 
-recommended to use https://github.com/ZFFramework/ZFFramework/blob/master/tools/zfproj_creator/zfproj_creator.sh to create project files
-if you want to deploy to multiple platforms
+recommended to use https://github.com/ZFFramework/ZFFramework/blob/master/tools/zfproj_creator/zfproj_creator.sh
+to create project files if you want to deploy to multiple platforms
 
 pod list:
   pod 'ZFFramework'              // include all modules
