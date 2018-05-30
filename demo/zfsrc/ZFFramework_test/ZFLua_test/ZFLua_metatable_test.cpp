@@ -138,13 +138,13 @@ protected:
                     "print(3 ~= zfint(3))\n" // not compared by __eq
                 ));
             ZFLuaExecute(zfText(
-                    "print('\\nbool: (true false)')\n"
+                    "print('\\nbool: (true true)')\n"
                     "if(zfbool('true')) then\n"
                     "    print('bool true')\n"
                     "else\n"
                     "    print('bool false')\n"
                     "end\n"
-                    "if(zfbool('false')) then\n"
+                    "if(zfbool('false')) then\n" // lua has no implicit bool compare, only nil check
                     "    print('bool true')\n"
                     "else\n"
                     "    print('bool false')\n"

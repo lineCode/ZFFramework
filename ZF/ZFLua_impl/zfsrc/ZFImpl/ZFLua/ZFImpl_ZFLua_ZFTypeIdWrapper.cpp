@@ -10,6 +10,7 @@
 #include "ZFImpl_ZFLua.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
+#if 0 // zfzfzf
 
 // ============================================================
 static int _ZFP_ZFImpl_ZFLua_ZFTypeIdWrapper(ZF_IN lua_State *L)
@@ -59,18 +60,13 @@ static int _ZFP_ZFImpl_ZFLua_ZFTypeIdWrapper(ZF_IN lua_State *L)
             };
         for(zfindex i = 0; i < paramCount; ++i)
         {
-            if(!ZFImpl_ZFLua_toObject(paramList_[i], L, luaParamOffset + i + 1))
+            if(!ZFImpl_ZFLua_toGeneric(paramList_[i], L, luaParamOffset + i + 1))
             {
-                zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
-                if(!ZFImpl_ZFLua_toString(t->zfv, L, luaParamOffset + i + 1))
-                {
-                    ZFLuaErrorOccurredTrim(zfText("[v_%s] failed to get param%d, expect zfautoObject, got %s"),
-                        cls->className(),
-                        i,
-                        ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString());
-                    return ZFImpl_ZFLua_luaError(L);
-                }
-                paramList_[i] = t;
+                ZFLuaErrorOccurredTrim(zfText("[v_%s] failed to get param%d, expect zfautoObject, got %s"),
+                    cls->className(),
+                    i,
+                    ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString());
+                return ZFImpl_ZFLua_luaError(L);
             }
         }
         for(zfindex iMethod = 0; iMethod < methodList.count(); ++iMethod)
@@ -219,5 +215,6 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFTypeIdWrapper, {
             ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFTypeIdWrapper_classOnChange));
     })
 
+#endif // zfzfzf
 ZF_NAMESPACE_GLOBAL_END
 

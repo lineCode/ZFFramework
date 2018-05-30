@@ -254,18 +254,13 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
         };
     for(zfint i = 0; i < paramCount; ++i)
     {
-        if(!ZFImpl_ZFLua_toObject(paramList[i], L, luaParamOffset + i + 1))
+        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i + 1))
         {
-            zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
-            if(!ZFImpl_ZFLua_toString(t->zfv, L, luaParamOffset + i + 1))
-            {
-                ZFLuaErrorOccurredTrim(zfText("[zfl_call] failed to get param%d, expect zfautoObject, got %s, while executing: %s"),
-                    i,
-                    ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString(),
-                    ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
-                return ZFImpl_ZFLua_luaError(L);
-            }
-            paramList[i] = t;
+            ZFLuaErrorOccurredTrim(zfText("[zfl_call] failed to get param%d, got %s, while executing: %s"),
+                i,
+                ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString(),
+                ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
+            return ZFImpl_ZFLua_luaError(L);
         }
     }
 
@@ -351,18 +346,13 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
         };
     for(zfint i = 0; i < paramCount; ++i)
     {
-        if(!ZFImpl_ZFLua_toObject(paramList[i], L, luaParamOffset + i + 1))
+        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i + 1))
         {
-            zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
-            if(!ZFImpl_ZFLua_toString(t->zfv, L, luaParamOffset + i + 1))
-            {
-                ZFLuaErrorOccurredTrim(zfText("[zfl_callStatic] failed to get param%d, expect zfautoObject, got %s, while executing: %s"),
-                    i,
-                    ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString(),
-                    ZFImpl_ZFLua_luaObjectInfo(L, 1).cString());
-                return ZFImpl_ZFLua_luaError(L);
-            }
-            paramList[i] = t;
+            ZFLuaErrorOccurredTrim(zfText("[zfl_callStatic] failed to get param%d, got %s, while executing: %s"),
+                i,
+                ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString(),
+                ZFImpl_ZFLua_luaObjectInfo(L, 1).cString());
+            return ZFImpl_ZFLua_luaError(L);
         }
     }
 
@@ -466,19 +456,14 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
         };
     for(zfint i = 0; i < paramCount; ++i)
     {
-        if(!ZFImpl_ZFLua_toObject(paramList[i], L, luaParamOffset + i + 1))
+        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i + 1))
         {
-            zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
-            if(!ZFImpl_ZFLua_toString(t->zfv, L, luaParamOffset + i + 1))
-            {
-                ZFLuaErrorOccurredTrim(zfText("[zfl_callStatic2] failed to get param%d, expect zfautoObject, got %s, while executing: %s::%s"),
-                    i,
-                    ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString(),
-                    ZFImpl_ZFLua_luaObjectInfo(L, 1).cString(),
-                    ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
-                return ZFImpl_ZFLua_luaError(L);
-            }
-            paramList[i] = t;
+            ZFLuaErrorOccurredTrim(zfText("[zfl_callStatic2] failed to get param%d, got %s, while executing: %s::%s"),
+                i,
+                ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i + 1, zftrue).cString(),
+                ZFImpl_ZFLua_luaObjectInfo(L, 1).cString(),
+                ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
+            return ZFImpl_ZFLua_luaError(L);
         }
     }
 

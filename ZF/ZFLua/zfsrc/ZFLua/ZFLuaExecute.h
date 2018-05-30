@@ -32,11 +32,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * to invoke the method without knowing all actual types\n
  * \n
  * here is a list of functions available in lua to communicate with ZFFramework:
- * -  `zfAlloc("ClassName")`
- *   or `ClassName()`
- *   or `ClassName.zfAlloc()`\n
- *   alloc a ZFObject type (no extra init param supported)\n
- *   "ClassName" can be #v_ZFClass, or converted by #ZFImpl_ZFLua_toString
+ * -  `zfAlloc("ClassName" [params...])`
+ *   or `ClassName([params...])`
+ *   or `ClassName.zfAlloc([params...])`\n
+ *   alloc a ZFObject type\n
+ *   "ClassName" can be #v_ZFClass, or converted by #ZFImpl_ZFLua_toString\n
+ *   if extra init param passed,
+ *   your class must supplys reflectable #ZFObject::objectOnInit
  * -  invoker
  *   -  `ret = zfl_call(obj, "functionName", param0, param1, ...)`
  *     or `obj:functionName(param0, param1, ...)`\n
@@ -102,6 +104,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     @code
  *       function myLuaCallback(listenerData, userData)
  *       endfunction
+ *     @endcode
+ *     \n
+ *     further more, lua function can be converted to #ZFListener implicitly
+ *     @code
+ *       button:observerAdd(ZFUIButton.EventButtonOnClick(), function (listenerData, userData)
+ *           end)
  *     @endcode
  *   -  `output:output(string [, byteSize])`\n
  *     write to output callback

@@ -39,8 +39,6 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFClass, {
             ZFImpl_ZFLua_implSetupScope(L, classNameList);
         }
 
-        ZFImpl_ZFLua_implSetupScope(L, zfText("ZFClass"));
-
         ZFClassDataChangeObserver.observerAdd(
             ZFGlobalEvent::EventClassDataChange(),
             ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange));

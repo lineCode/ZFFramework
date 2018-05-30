@@ -66,12 +66,10 @@ protected:
             ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("run lua code"));
             ZFLuaExecute(zfText(
                     "local obj = zfAlloc('_ZFP_ZFLua_ZFCallbackForLua_test_Object')\n"
-                    "local callback = ZFCallbackForLua("
-                    "        function(listenerData, userData)"
-                    "            print(listenerData)\n"
-                    "            print(userData)\n"
-                    "        end\n"
-                    "    )\n"
+                    "local callback = function(listenerData, userData)"
+                    "        print(listenerData)\n"
+                    "        print(userData)\n"
+                    "    end\n"
                     "obj:observerAdd(_ZFP_ZFLua_ZFCallbackForLua_test_Object.EventTest(), callback)\n"
                     "obj:notifyTest()\n"
                 ));

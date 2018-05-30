@@ -32,7 +32,7 @@ public:
     _ZFP_ZFCallbackTagMap callbackTagMap;
     ZFCallbackType callbackType;
     ZFObject *callbackOwnerObj; // assign only
-    zfbool callbackOwnerObjectRetainFlag;
+    zfuint callbackOwnerObjectRetainFlag;
     const ZFMethod *callbackMethod;
     ZFFuncAddrType callbackRawFunc;
     zfchar *serializableCustomType;
@@ -46,7 +46,7 @@ public:
     , callbackTagMap()
     , callbackType(ZFCallbackTypeDummy)
     , callbackOwnerObj(zfnull)
-    , callbackOwnerObjectRetainFlag(zffalse)
+    , callbackOwnerObjectRetainFlag(0)
     , callbackMethod(zfnull)
     , callbackRawFunc(zfnull)
     , serializableCustomType(zfnull)
@@ -57,7 +57,7 @@ public:
     ~_ZFP_ZFCallbackPrivate(void)
     {
         zffree(this->callbackId);
-        if(this->callbackOwnerObjectRetainFlag)
+        if(this->callbackOwnerObjectRetainFlag != 0)
         {
             zfRelease(this->callbackOwnerObj);
         }
@@ -343,15 +343,18 @@ void ZFCallback::callbackOwnerObjectRetain(void) const
     if(d != zfnull && d->callbackOwnerObj != zfnull && !d->callbackOwnerObjectRetainFlag)
     {
         zfRetain(d->callbackOwnerObj);
-        d->callbackOwnerObjectRetainFlag = zftrue;
+        ++(d->callbackOwnerObjectRetainFlag);
     }
 }
 void ZFCallback::callbackOwnerObjectRelease(void) const
 {
-    if(d != zfnull && d->callbackOwnerObjectRetainFlag)
+    if(d != zfnull && d->callbackOwnerObjectRetainFlag > 0)
     {
-        d->callbackOwnerObjectRetainFlag = zffalse;
-        zfRelease(d->callbackOwnerObj);
+        --(d->callbackOwnerObjectRetainFlag);
+        if(d->callbackOwnerObjectRetainFlag == 0)
+        {
+            zfRetainChange(d->callbackOwnerObj, zfnull);
+        }
     }
 }
 

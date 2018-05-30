@@ -304,6 +304,19 @@ public:
                                               , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
                                               , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
                                               ) const; /* ZFMETHOD_MAX_PARAM */
+    /**
+     * @brief see #newInstanceGeneric
+     */
+    zfautoObject newInstanceGenericWithMethodList(ZF_IN const ZFCoreArray<const ZFMethod *> &objectOnInitMethodList
+                                                  , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
+                                                  , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
+                                                  ) const; /* ZFMETHOD_MAX_PARAM */
 
     /**
      * @brief get implemented interface count

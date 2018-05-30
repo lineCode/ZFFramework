@@ -11,68 +11,107 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
+                                               ZF_IN const ZFClass *cls,
+                                               ZF_IN const zfautoObject *paramList,
+                                               ZF_IN zfindex paramCount)
+{
+    ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
+    cls->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
+    ret = cls->newInstanceGenericWithMethodList(objectOnInitMethodList
+            , paramList[0]
+            , paramList[1]
+            , paramList[2]
+            , paramList[3]
+            , paramList[4]
+            , paramList[5]
+            , paramList[6]
+            , paramList[7]
+        );
+    return (ret != zfnull);
+}
 static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
 {
     zfint count = (zfint)lua_gettop(L);
-    if(count != 1)
+    if(count < 1)
     {
-        ZFLuaErrorOccurredTrim(
-            zfText("[zfAlloc] takes only one param, got %zi"),
-            (zfindex)count);
+        ZFLuaErrorOccurredTrim(zfText("[zfAlloc] takes at least one param"));
         return ZFImpl_ZFLua_luaError(L);
     }
+    zfint paramCount = (count - 1);
+    zfint luaParamOffset = 2;
 
+    const ZFClass *cls = zfnull;
+
+    zfautoObject clsHolder;
+    if(ZFImpl_ZFLua_toObject(clsHolder, L, 1))
     {
-        zfautoObject clsHolder;
-        if(ZFImpl_ZFLua_toObject(clsHolder, L, 1))
+        v_ZFClass *clsWrapper = clsHolder;
+        if(clsWrapper != zfnull)
         {
-            v_ZFClass *clsWrapper = clsHolder;
-            if(clsWrapper != zfnull)
+            cls = clsWrapper->zfv;
+            if(cls == zfnull)
             {
-                if(clsWrapper->zfv == zfnull)
-                {
-                    ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
-                    return 1;
-                }
-                ZFImpl_ZFLua_luaPush(L, clsWrapper->zfv->newInstance());
+                ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
                 return 1;
             }
         }
     }
-
-    zfstring className;
-    if(!ZFImpl_ZFLua_toString(className, L, 1))
+    else
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfAlloc] unknown param type: %s"),
-            ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
-        return ZFImpl_ZFLua_luaError(L);
+        zfstring className;
+        if(!ZFImpl_ZFLua_toString(className, L, 1))
+        {
+            ZFLuaErrorOccurredTrim(zfText("[zfAlloc] unknown param type: %s"),
+                ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
+            return ZFImpl_ZFLua_luaError(L);
+        }
+        cls = ZFClass::classForName(className);
+        if(cls == zfnull)
+        {
+            zfstring classNameTmp = ZFImpl_ZFLua_PropTypePrefix;
+            classNameTmp += className;
+            cls = ZFClass::classForName(classNameTmp);
+        }
     }
-
-    const ZFClass *cls = ZFClass::classForName(className);
     if(cls == zfnull)
     {
-        zfstring classNameTmp = ZFImpl_ZFLua_PropTypePrefix;
-        classNameTmp += className;
-        cls = ZFClass::classForName(classNameTmp);
-    }
-    if(cls == zfnull)
-    {
         ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
         return 1;
     }
-    if(cls->classIsAbstract())
+    if(paramCount == 0)
     {
-        ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
+        ZFImpl_ZFLua_luaPush(L, cls->newInstance());
         return 1;
     }
-    zfautoObject ret = cls->newInstance();
-    if(ret == zfnull)
+
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+              ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+        };
+    for(zfint i = 0; i < paramCount; ++i)
     {
-        ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
-        return 1;
+        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
+        {
+            ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
+            return 1;
+        }
     }
+
+    zfautoObject ret;
+    _ZFP_ZFImpl_ZFLua_zfAllocGeneric(
+            ret,
+            cls,
+            paramList,
+            paramCount
+        );
     ZFImpl_ZFLua_luaPush(L, ret);
-
     return 1;
 }
 
@@ -85,11 +124,46 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfAlloc, {
 // ============================================================
 ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, zfText("zfAlloc"), {
         ZFImpl_ZFLua_implDispatch_AssertClassExist();
-        ZFImpl_ZFLua_implDispatch_AssertParamCount(0);
+        ZFImpl_ZFLua_implDispatch_AssertParamCountRange(0, ZFMETHOD_MAX_PARAM);
         ZFImpl_ZFLua_implDispatch_AssertIsStaticMethod();
 
-        dispatchInfo.returnValue = dispatchInfo.classOrNull->newInstance();
-        return dispatchInfo.dispatchSuccess();
+        if(dispatchInfo.paramCount == 0)
+        {
+            dispatchInfo.returnValue = dispatchInfo.classOrNull->newInstance();
+            if(dispatchInfo.returnValue == zfnull)
+            {
+                return dispatchInfo.dispatchError(zfText("unable to create %s"),
+                    dispatchInfo.classOrNull->className());
+            }
+            return dispatchInfo.dispatchSuccess();
+        }
+        else
+        {
+            if(_ZFP_ZFImpl_ZFLua_zfAllocGeneric(
+                dispatchInfo.returnValue,
+                dispatchInfo.classOrNull,
+                dispatchInfo.paramList,
+                dispatchInfo.paramCount))
+            {
+                return dispatchInfo.dispatchSuccess();
+            }
+            else
+            {
+                zfstring paramHint;
+                for(zfindex i = 0; i < dispatchInfo.paramCount; ++i)
+                {
+                    if(i != 0)
+                    {
+                        paramHint += zfText(", ");
+                    }
+                    ZFObjectInfoT(paramHint, dispatchInfo.paramList[i].toObject());
+                }
+                return dispatchInfo.dispatchError(
+                    zfText("unable to create class %s, no matching objectOnInit with params: %s"),
+                    dispatchInfo.classOrNull->className(),
+                    paramHint.cString());
+            }
+        }
     })
 
 ZF_NAMESPACE_GLOBAL_END

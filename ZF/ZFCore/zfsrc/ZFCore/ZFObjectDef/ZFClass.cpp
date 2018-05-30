@@ -592,28 +592,18 @@ zfautoObject ZFClass::newInstanceGeneric(
         return this->newInstance();
     }
 
-    zfCoreMutexLocker();
     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
     this->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
-    if(objectOnInitMethodList.isEmpty())
-    {
-        return zfnull;
-    }
-    ZFObject *obj = d->objectConstruct();
-    zfautoObject dummy;
-    for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
-    {
-        const ZFMethod *m = objectOnInitMethodList[i];
-        if(m->methodGenericInvoker()(m, obj, zfnull, dummy
-                , param0, param1, param2, param3, param4, param5, param6, param7
-            ))
-        {
-            zflockfree_zfblockedRelease(obj);
-            return obj;
-        }
-    }
-    d->destructor(obj);
-    return zfnull;
+    return this->newInstanceGenericWithMethodList(objectOnInitMethodList
+            , param0
+            , param1
+            , param2
+            , param3
+            , param4
+            , param5
+            , param6
+            , param7
+        );
 }
 zfautoObject ZFClass::newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectOnInitMethod
                                                    , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
@@ -628,27 +618,80 @@ zfautoObject ZFClass::newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectO
 {
     if(objectOnInitMethod == zfnull)
     {
+        return this->newInstanceGeneric(
+                  param0
+                , param1
+                , param2
+                , param3
+                , param4
+                , param5
+                , param6
+                , param7
+            );
+    }
+    else
+    {
+        ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
+        objectOnInitMethodList.add(objectOnInitMethod);
+        return this->newInstanceGenericWithMethodList(objectOnInitMethodList
+                , param0
+                , param1
+                , param2
+                , param3
+                , param4
+                , param5
+                , param6
+                , param7
+            );
+    }
+}
+zfautoObject ZFClass::newInstanceGenericWithMethodList(ZF_IN const ZFCoreArray<const ZFMethod *> &objectOnInitMethodList
+                                                       , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                                                       ) const /* ZFMETHOD_MAX_PARAM */
+{
+    if(objectOnInitMethodList.isEmpty())
+    {
         return this->newInstanceGeneric(param0, param1, param2, param3, param4, param5, param6, param7);
     }
-    zfCoreAssertWithMessageTrim(
-            this->classIsTypeOf(objectOnInitMethod->methodOwnerClass()),
-            zfTextA("[ZFClass] class %s has no such objectOnInitMethod %s"),
-            zfsCoreZ2A(this->objectInfo().cString()),
-            zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
-        );
-    zfCoreAssertWithMessageTrim(
-            zfscmpTheSame(objectOnInitMethod->methodName(), zfText("objectOnInit")),
-            zfTextA("[ZFClass] method %s is not objectOnInitMethod"),
-            zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
-        );
+    zfCoreMutexLocker();
     ZFObject *obj = d->objectConstruct();
-    zfautoObject dummy;
-    if(objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, dummy
-            , param0, param1, param2, param3, param4, param5, param6, param7
-        ))
+    zfautoObject methodRetDummy;
+    for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
     {
-        zflockfree_zfblockedRelease(obj);
-        return obj;
+        const ZFMethod *objectOnInitMethod = objectOnInitMethodList[i];
+        zfCoreAssertWithMessageTrim(
+                this->classIsTypeOf(objectOnInitMethod->methodOwnerClass()),
+                zfTextA("[ZFClass] class %s has no such objectOnInit method %s"),
+                zfsCoreZ2A(this->objectInfo().cString()),
+                zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
+            );
+        zfCoreAssertWithMessageTrim(
+                zfscmpTheSame(objectOnInitMethod->methodName(), zfText("objectOnInit")),
+                zfTextA("[ZFClass] method %s is not objectOnInit"),
+                zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
+            );
+        if(objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, methodRetDummy
+                , param0
+                , param1
+                , param2
+                , param3
+                , param4
+                , param5
+                , param6
+                , param7
+            ))
+        {
+            obj->_ZFP_ZFObjectCheckOnInit();
+            zflockfree_zfblockedRelease(obj);
+            return obj;
+        }
     }
     d->destructor(obj);
     return zfnull;

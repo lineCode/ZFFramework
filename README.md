@@ -98,9 +98,9 @@ Homepage:
     button:buttonLabelTextSet('click me')
     button:observerAdd(
         ZFUIButton.EventButtonOnClick(),
-        ZFCallbackForLua(function (listenerData, userData)
+        function (listenerData, userData)
             zfLog('button clicked: %s', userData:objectHolded())
-        end),
+        end,
         button:objectHolder())
 ```
 

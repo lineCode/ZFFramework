@@ -11,29 +11,6 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-zfclass _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder : zfextends ZFObject
-{
-    ZFOBJECT_DECLARE(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, ZFObject)
-
-public:
-    lua_State *L;
-    int luaFunc;
-
-    ZFLISTENER_INLINE(callback)
-    {
-        lua_rawgeti(L, LUA_REGISTRYINDEX, luaFunc);
-        if(lua_isfunction(L, -1))
-        {
-            zfblockedAlloc(v_ZFListenerData, listenerDataTmp, listenerData);
-            ZFImpl_ZFLua_luaPush(L, listenerDataTmp);
-
-            ZFImpl_ZFLua_luaPush(L, userData);
-
-            lua_pcall(L, 2, 0, 0);
-        }
-    }
-};
-
 static int _ZFP_ZFImpl_ZFLua_ZFCallbackForLua(ZF_IN lua_State *L)
 {
     zfint count = (zfint)lua_gettop(L);
@@ -45,23 +22,19 @@ static int _ZFP_ZFImpl_ZFLua_ZFCallbackForLua(ZF_IN lua_State *L)
         return ZFImpl_ZFLua_luaError(L);
     }
 
-    if(!lua_isfunction(L, 1))
+    zfautoObject ret;
+    if(!ZFImpl_ZFLua_toCallback(ret, L, 1))
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[ZFCallbackForLua] expect lua function as param, got %s"),
+            zfText("[ZFCallbackForLua] unable to access the callback, got %s"),
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
-
-    zfblockedAlloc(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, holder);
-    holder->L = L;
-    lua_pushvalue(L, -1);
-    holder->luaFunc = luaL_ref(L, LUA_REGISTRYINDEX);
-    zfblockedAlloc(v_ZFCallback, ret);
-    ret->zfv = ZFCallbackForMemberMethod(holder, ZFMethodAccess(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, callback));
-    ret->zfv.callbackOwnerObjectRetain();
-    ZFImpl_ZFLua_luaPush(L, ret);
-    return 1;
+    else
+    {
+        ZFImpl_ZFLua_luaPush(L, ret);
+        return 1;
+    }
 }
 
 // ============================================================

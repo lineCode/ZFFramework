@@ -158,6 +158,25 @@ public:
     /** @endcond */
 
 public:
+    /**
+     * @brief util method to export all symbols to a tag file
+     *
+     * the tag file contains all of these in plain text format, one line for each:
+     * -  class name
+     * -  method namespace
+     * -  method name (including property)
+     * -  type id name
+     *
+     * output ensured unique, while order are not ensured\n
+     * anything that starts with "_ZFP_" would be ignored\n
+     * \n
+     * this is useful to use ZFFramework in some script language
+     * which has no semantic completion,
+     * so that you can use keyword completion by using the tag file
+     */
+    static void exportTag(ZF_IN_OUT const ZFOutput &output);
+
+public:
     /** @brief see #ZFDynamic */
     void removeAll(void);
     /** @brief see #ZFDynamic */

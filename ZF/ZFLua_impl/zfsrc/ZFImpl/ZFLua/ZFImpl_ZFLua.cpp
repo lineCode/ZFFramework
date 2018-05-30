@@ -119,6 +119,18 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
             "zffalse = _ZFP_ZFImpl_ZFLua_zffalse()\n"
         ));
 
+    // zfl_call metatable
+    ZFImpl_ZFLua_execute(L, zfText(
+            "_ZFP_zfl_call = function(scope, k)\n"
+            "    return function(...)\n"
+            "        return zfl_callStatic2(scope, k, ...)\n"
+            "    end\n"
+            "end\n"
+            "_ZFP_zfl_zfAlloc = function(scope, ...)\n"
+            "    return zfAlloc(scope, ...)\n"
+            "end\n"
+        ));
+
     // each impl setup callback
     for(zfindex i = 0; i < d->setupAttach.count(); ++i)
     {
@@ -178,24 +190,29 @@ void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF_IN const zfchar *sco
     const zfchar *scopeNameList[2] = {scopeName, zfnull};
     ZFImpl_ZFLua_implSetupScope(L, scopeNameList);
 }
+static void _ZFP_ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT zfstring &code,
+                                             ZF_IN const zfchar *scopeName)
+{
+    zfstringAppend(code, zfText(
+            "%s = '%s'\n"
+            "local tbl = debug.getmetatable(%s)\n"
+            "tbl.__index = _ZFP_zfl_call\n"
+            "tbl.__call = _ZFP_zfl_zfAlloc\n"
+            "debug.setmetatable(%s, tbl)\n"
+        ), scopeName, scopeName, scopeName, scopeName);
+}
 void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF_IN const zfchar **scopeNameList)
 {
     zfstring code;
     for(zfindex i = 0; *scopeNameList != zfnull; ++scopeNameList, ++i)
     {
-        zfstringAppend(code, zfText(
-                "%s = '%s'\n"
-                "local tbl = debug.getmetatable(%s)\n"
-                "tbl.__index = function(scope, k)\n"
-                "    return function(...)\n"
-                "        return zfl_callStatic2(scope, k, ...)\n"
-                "    end\n"
-                "end\n"
-                "tbl.__call = function(scope)\n"
-                "    return zfAlloc(scope)\n"
-                "end\n"
-                "debug.setmetatable(%s, tbl)\n"
-            ), *scopeNameList, *scopeNameList, *scopeNameList, *scopeNameList);
+        _ZFP_ZFImpl_ZFLua_implSetupScope(code, *scopeNameList);
+        if(zfsncmp(*scopeNameList, ZFImpl_ZFLua_PropTypePrefix, ZFImpl_ZFLua_PropTypePrefixLen) == 0
+            && !zfsIsEmpty(*scopeNameList + ZFImpl_ZFLua_PropTypePrefixLen))
+        {
+            _ZFP_ZFImpl_ZFLua_implSetupScope(code, *scopeNameList + ZFImpl_ZFLua_PropTypePrefixLen);
+            ++i;
+        }
         if(i >= 100)
         {
             ZFImpl_ZFLua_execute(L, code);
@@ -592,6 +609,90 @@ zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
     }
 }
 
+zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
+                              ZF_IN lua_State *L,
+                              ZF_IN zfint luaStackOffset)
+{
+    if(ZFImpl_ZFLua_toObject(param, L, luaStackOffset))
+    {
+        return zftrue;
+    }
+    else if(ZFImpl_ZFLua_toCallback(param, L, luaStackOffset))
+    {
+        return zftrue;
+    }
+    zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
+    if(ZFImpl_ZFLua_toString(t->zfv, L, luaStackOffset, zftrue))
+    {
+        param = t;
+        return zftrue;
+    }
+    else
+    {
+        return zffalse;
+    }
+}
+
+zfclass _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder : zfextends ZFObject
+{
+    ZFOBJECT_DECLARE(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, ZFObject)
+public:
+    lua_State *L;
+    int luaFunc;
+    ZFLISTENER_INLINE(callback)
+    {
+        lua_rawgeti(L, LUA_REGISTRYINDEX, luaFunc);
+        if(lua_isfunction(L, -1))
+        {
+            zfblockedAlloc(v_ZFListenerData, listenerDataTmp, listenerData);
+            ZFImpl_ZFLua_luaPush(L, listenerDataTmp);
+
+            ZFImpl_ZFLua_luaPush(L, userData);
+
+            lua_pcall(L, 2, 0, 0);
+        }
+    }
+};
+zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
+                               ZF_IN lua_State *L,
+                               ZF_IN zfint luaStackOffset)
+{
+    zfautoObject callbackHolder;
+    if(ZFImpl_ZFLua_toObject(callbackHolder, L, luaStackOffset))
+    {
+        v_ZFCallback *callbackTmp = callbackHolder;
+        if(callbackTmp != zfnull)
+        {
+            param = callbackTmp;
+            return zftrue;
+        }
+        else
+        {
+            return zffalse;
+        }
+    }
+
+    zfblockedAlloc(v_ZFCallback, ret);
+    if(lua_isfunction(L, luaStackOffset))
+    {
+        zfblockedAlloc(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, holder);
+        holder->L = L;
+        lua_pushvalue(L, luaStackOffset);
+        holder->luaFunc = luaL_ref(L, LUA_REGISTRYINDEX);
+        ret->zfv = ZFCallbackForMemberMethod(holder, ZFMethodAccess(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, callback));
+        ret->zfv.callbackOwnerObjectRetain();
+        param = ret;
+        return zftrue;
+    }
+    zfstring s;
+    if(ZFImpl_ZFLua_toString(s, L, luaStackOffset, zftrue)
+        && ZFCallbackFromString(ret->zfv, s, s.length()))
+    {
+        param = ret;
+    }
+    return zffalse;
+}
+
 zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
                              ZF_IN lua_State *L,
                              ZF_IN zfint luaStackOffset,
@@ -896,6 +997,15 @@ zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
 
     return zftrue;
 }
+
+int ZFImpl_ZFLua_luaError(ZF_IN lua_State *L)
+{
+#if ZF_ENV_DEBUG
+    zfCoreCriticalMessage(zfText("native lua error"));
+#endif
+    return luaL_error(L, ZFImpl_ZFLua_dummyError);
+}
+
 
 ZF_NAMESPACE_GLOBAL_END
 

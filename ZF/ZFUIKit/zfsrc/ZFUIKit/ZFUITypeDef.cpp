@@ -516,31 +516,51 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
         zft_zfuint32 c = 0;
         do
         {
-            if(src == zfnull
-                || (srcLen != zfindexMax() && srcLen != 9))
+            if(src == zfnull)
             {
                 return zffalse;
             }
-            if(*src != '#') {return zffalse;} ++src;
+            if(srcLen == zfindexMax())
+            {
+                srcLen = zfslen(src);
+            }
+            if(src[0] == '#')
+            {
+                --srcLen;
+                ++src;
+            }
+            else if(src[0] == '0' && (src[1] == 'x' || src[1] == 'X'))
+            {
+                srcLen -= 2;
+                src += 2;
+            }
+            else
+            {
+                return zffalse;
+            }
+            if(srcLen != 6 && srcLen != 8)
+            {
+                return zffalse;
+            }
+
+            c = 0xFFFFFFFF;
             zfuint tmp = 0;
 
             tmp = 0;
             if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            ZFBitSet(c, (tmp << 24));
+            c = ((c << 8) & tmp);
 
             tmp = 0;
             if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            ZFBitSet(c, (tmp << 16));
+            c = ((c << 8) & tmp);
 
             tmp = 0;
             if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            ZFBitSet(c, (tmp << 8));
+            c = ((c << 8) & tmp);
 
             tmp = 0;
             if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            ZFBitSet(c, (tmp));
-
-            ZFUNUSED(src);
+            c = ((c << 8) & tmp);
         } while(zffalse);
 
         v = c;

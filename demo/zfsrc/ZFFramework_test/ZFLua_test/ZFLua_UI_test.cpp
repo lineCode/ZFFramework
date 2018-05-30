@@ -31,9 +31,9 @@ protected:
                 "button:layoutParam():layoutAlignSet(ZFUIAlign.e_TopInner() | ZFUIAlign.e_RightInner())\n"
                 "button:viewBackgroundColorSet(ZFUIColorRandom())\n"
                 "button:buttonLabelTextSet('close')\n"
-                "button:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function (listenerData, userData)\n"
+                "button:observerAdd(ZFUIButton.EventButtonOnClick(), function (listenerData, userData)\n"
                 "        userData:objectHolded():windowHide()\n"
-                "    end), window:objectHolder())\n"
+                "    end, window:objectHolder())\n"
                 "return window\n"
             ));
         zfCoreAssert(result != zfnull);

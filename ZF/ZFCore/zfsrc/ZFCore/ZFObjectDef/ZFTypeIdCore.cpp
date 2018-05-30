@@ -37,6 +37,11 @@ ZFMETHOD_USER_REGISTER_1({
         invokerObject->to<ZFTypeIdWrapper *>()->wrappedValueFromString(src);
     }, ZFTypeIdWrapper, void, objectOnInit,
     ZFMP_IN(const zfchar *, src))
+ZFMETHOD_USER_REGISTER_1({
+        invokerObject->objectOnInit();
+        invokerObject->to<ZFTypeIdWrapper *>()->assign(src);
+    }, ZFTypeIdWrapper, void, objectOnInit,
+    ZFMP_IN(ZFTypeIdWrapper *, src))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

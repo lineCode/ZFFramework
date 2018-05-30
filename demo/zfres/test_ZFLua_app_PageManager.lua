@@ -1,6 +1,6 @@
 local pm = ZFUIPageManagerBasic();
 
-pm:observerAdd(ZFUIPageManager.EventManagerOnCreate(), ZFCallbackForLua(function(listenerData, userData)
+pm:observerAdd(ZFUIPageManager.EventManagerOnCreate(), function(listenerData, userData)
         zfLog("manager onCreate");
         local pm = listenerData:sender();
 
@@ -19,10 +19,10 @@ pm:observerAdd(ZFUIPageManager.EventManagerOnCreate(), ZFCallbackForLua(function
         leftButton:viewBackgroundColorSet(ZFUIColorRandom());
         leftButton:layoutParam():layoutReserveSpaceWhenNotVisibleSet(zftrue);
         leftButton:viewVisibleSet(zffalse);
-        leftButton:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function(listenerData, userData)
+        leftButton:observerAdd(ZFUIButton.EventButtonOnClick(), function(listenerData, userData)
                 local pm = userData:objectHolded();
                 pm:pageAtIndex(pm:pageCount() - 1):pageDestroy();
-            end), pm:objectHolder());
+            end, pm:objectHolder());
 
         local centerButton = ZFUIButtonBasic();
         pm:tagSet("centerButton", centerButton);
@@ -36,17 +36,17 @@ pm:observerAdd(ZFUIPageManager.EventManagerOnCreate(), ZFCallbackForLua(function
         rightButton:layoutParam():layoutWeightSet(1);
         rightButton:buttonLabelTextSet("ExitTest");
         rightButton:viewBackgroundColorSet(ZFUIColorRandom());
-        rightButton:observerAdd(ZFUIButton.EventButtonOnClick(), ZFCallbackForLua(function(listenerData, userData)
+        rightButton:observerAdd(ZFUIButton.EventButtonOnClick(), function(listenerData, userData)
                 local pm = userData:objectHolded();
                 pm:embededPause();
                 pm:embededDestroy();
-            end), pm:objectHolder());
+            end, pm:objectHolder());
 
         local pageContainer = ZFUIView();
         pm:tagSet("pageContainer", pageContainer);
         managerContainer:childAdd(pageContainer, ZFUISizeParamFillFill());
         pm:pageContainerSet(pageContainer);
-    end));
+    end);
 
 return pm;
 

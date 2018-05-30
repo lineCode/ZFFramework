@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFDynamicRegisterUtil.h"
 
+#include "ZFSTLWrapper/zfstl_string.h"
 #include "ZFSTLWrapper/zfstl_map.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -150,6 +151,63 @@ zfbool ZFDynamic::operator == (ZF_IN const ZFDynamic &ref) const
     return (d == ref.d);
 }
 /** @endcond */
+
+void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
+{
+    if(!output.callbackIsValid())
+    {
+        return ;
+    }
+
+    ZFCoreArrayPOD<const ZFClass *> allClass;
+    ZFClassGetAll(allClass);
+
+    ZFCoreArrayPOD<const ZFMethod *> allMethod;
+    ZFMethodGetAll(allMethod);
+
+    ZFCoreArrayPOD<const ZFTypeIdBase *> allTypeId;
+    ZFTypeIdGetAllT(allTypeId);
+
+    zfstlmap<zfstlstringZ, zfbool> tags;
+    const zfchar *zfpFix = zfText("_ZFP_");
+    zfindex zfpFixLen = zfslen(zfpFix);
+
+    for(zfindex i = 0; i < allClass.count(); ++i)
+    {
+        const ZFClass *t = allClass[i];
+        if(zfsncmp(t->className(), zfpFix, zfpFixLen) != 0)
+        {
+            tags[t->className()] = zftrue;
+        }
+    }
+    for(zfindex i = 0; i < allMethod.count(); ++i)
+    {
+        const ZFMethod *t = allMethod[i];
+        if(!zfsIsEmpty(t->methodNamespace())
+            && zfsncmp(t->methodNamespace(), zfpFix, zfpFixLen) != 0)
+        {
+            tags[t->methodNamespace()] = zftrue;
+        }
+        if(zfsncmp(t->methodName(), zfpFix, zfpFixLen) != 0)
+        {
+            tags[t->methodName()] = zftrue;
+        }
+    }
+    for(zfindex i = 0; i < allTypeId.count(); ++i)
+    {
+        const ZFTypeIdBase *t = allTypeId[i];
+        if(!zfsIsEmpty(t->typeId())
+            && zfsncmp(t->typeId(), zfpFix, zfpFixLen) != 0)
+        {
+            tags[t->typeId()] = zftrue;
+        }
+    }
+
+    for(zfstlmap<zfstlstringZ, zfbool>::iterator it = tags.begin(); it != tags.end(); ++it)
+    {
+        output << it->first.c_str() << zfText("\n");
+    }
+}
 
 void ZFDynamic::removeAll(void)
 {
@@ -891,6 +949,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFDynamicRemoveAllAutoNotify)
 ZF_GLOBAL_INITIALIZER_END(ZFDynamicRemoveAllAutoNotify)
 
 // ============================================================
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_STATIC_1(ZFDynamic, v_ZFDynamic, void, exportTag, ZFMP_IN_OUT(const ZFOutput &, output))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, void, removeAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, removeAllOnEvent, ZFMP_IN_OPT(zfidentity, eventId, ZFGlobalEvent::EventZFDynamicRemoveAll()))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFClass *> &, allClass)

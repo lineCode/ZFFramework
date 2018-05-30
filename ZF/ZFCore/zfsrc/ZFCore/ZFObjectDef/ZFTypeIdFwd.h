@@ -31,6 +31,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define ZFTypeId_ZFObject() zfText("ZFObject")
 
 // ============================================================
+/** @brief class prefix for subclass of #ZFTypeIdWrapper */
+#define ZFTypeIdWrapperPrefix v_
+/** @brief see #ZFTypeIdWrapperPrefix */
+#define ZFTypeIdWrapperPrefixName zfText("v_")
+/** @brief see #ZFTypeIdWrapperPrefix */
+#define ZFTypeIdWrapperPrefixNameLen 2 // zfslen(zfText("v_"))
+
+// ============================================================
 zfclassFwd ZFSerializableData;
 /**
  * @brief base protocol for #ZFTypeId
