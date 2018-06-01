@@ -206,11 +206,9 @@ public:
      */
     zffinal zfindex objectRetainCount(void) const;
 
-    /**
-     * @brief get a short info about the callback
-     */
+    /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     zffinal inline zfstring objectInfo(void) const
     {
         zfstring ret;

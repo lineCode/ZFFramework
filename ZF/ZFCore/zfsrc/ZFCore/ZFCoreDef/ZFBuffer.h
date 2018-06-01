@@ -244,11 +244,9 @@ public:
     }
 
 public:
-    /**
-     * @brief get a short info
-     */
+    /** @brief see #objectInfo */
     zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     zffinal zfstring objectInfo(void) const
     {
         zfstring ret;

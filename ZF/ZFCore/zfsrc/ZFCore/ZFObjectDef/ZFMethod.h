@@ -299,14 +299,9 @@ public:
     /* ZFMETHOD_MAX_PARAM */
 
 public:
-    /**
-     * @brief get a short info about the method
-     *
-     * may look like this: \n
-     *   OwnerClass::MethodName
-     */
+    /** @brief see #objectInfo */
     void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -739,9 +734,7 @@ public:
 
 // ============================================================
 zfclassFwd ZFFilterForZFMethod;
-/**
- * @brief get all method currently registered, for debug use only
- */
+/** @brief see #ZFMethodGetAll */
 extern ZF_ENV_EXPORT void ZFMethodGetAllT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
                                           ZF_IN_OPT const ZFFilterForZFMethod *methodFilter = zfnull);
 /**

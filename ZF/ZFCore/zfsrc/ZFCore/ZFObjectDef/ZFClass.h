@@ -167,11 +167,9 @@ public:
     // ============================================================
     // class info
 public:
-    /**
-     * @brief return a short string describe the object
-     */
+    /** @brief see #objectInfo */
     void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -179,11 +177,11 @@ public:
         return ret;
     }
 
+    /** @brief see #objectInfoOfInheritTree */
+    void objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const;
     /**
      * @brief return a string describe the class inherit tree, debug use only
      */
-    void objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoOfInheritTreeT */
     zfstring objectInfoOfInheritTree(void) const
     {
         zfstring ret;
@@ -405,9 +403,7 @@ public:
                                   ) const;
     /** @brief see #methodForName */
     const ZFMethod *methodForName(ZF_IN const zfchar *methodName) const;
-    /**
-     * @brief get all method with name, ignoring method id
-     */
+    /** @brief see #methodForNameGetAll */
     void methodForNameGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
                               ZF_IN const zfchar *methodName) const;
     /**
@@ -602,9 +598,7 @@ public:
 
 // ============================================================
 zfclassFwd ZFFilterForZFClass;
-/**
- * @brief get all class currently registered, for debug use only
- */
+/** @brief see #ZFClassGetAll */
 extern ZF_ENV_EXPORT void ZFClassGetAllT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
                                          ZF_IN_OPT const ZFFilterForZFClass *classFilter = zfnull);
 /**

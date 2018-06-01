@@ -69,11 +69,7 @@ inline ZFCompareResult ZFObjectCompare(ZF_IN T_ZFObject0 * const &e0, ZF_IN T_ZF
 #define ZFComparerForZFObject ZFObjectCompare
 
 // ============================================================
-/**
- * @brief util method to get info of object
- *   or return ZFTOKEN_zfnull if obj is null
- * @see ZFObject::objectInfoOfInstance
- */
+/** @brief see #ZFObjectInfoOfInstance */
 inline void ZFObjectInfoOfInstanceT(ZF_IN_OUT zfstring &ret,
                                     ZF_IN ZFObject *obj)
 {
@@ -95,11 +91,7 @@ inline zfstring ZFObjectInfoOfInstance(ZF_IN ZFObject *obj)
 {
     return ((obj == zfnull) ? zfstring(ZFTOKEN_zfnull) : obj->objectInfoOfInstance());
 }
-/**
- * @brief util method to get info of object
- *   or return ZFTOKEN_zfnull if obj is null
- * @see ZFObject::objectInfo
- */
+/** @brief see #ZFObjectInfo */
 inline void ZFObjectInfoT(ZF_IN_OUT zfstring &ret,
                           ZF_IN ZFObject *obj)
 {

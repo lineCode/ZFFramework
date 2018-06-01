@@ -321,6 +321,8 @@ public:
         return this->objectHolded().to<T_ZFObject>();
     }
 
+    /** @brief see #objectInfoOfInstance */
+    virtual void objectInfoOfInstanceT(ZF_IN_OUT zfstring &ret);
     /**
      * @brief return a short string describe the object instance
      *
@@ -328,8 +330,6 @@ public:
      *   ClassName(0x123456)
      * @see objectInfo
      */
-    virtual void objectInfoOfInstanceT(ZF_IN_OUT zfstring &ret);
-    /** @brief see #objectInfoOfInstanceT */
     virtual inline zfstring objectInfoOfInstance(void)
     {
         zfstring ret;
@@ -337,11 +337,9 @@ public:
         return ret;
     }
 
-    /**
-     * @brief return a short string describe the object
-     */
+    /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret);
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     virtual inline zfstring objectInfo(void)
     {
         zfstring ret;

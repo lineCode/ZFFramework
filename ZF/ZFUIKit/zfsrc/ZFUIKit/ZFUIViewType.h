@@ -85,6 +85,11 @@ zfclass ZF_ENV_EXPORT ZFUIViewLayoutParam : zfextends ZFUILayoutParam
     ZFOBJECT_DECLARE(ZFUIViewLayoutParam, ZFUILayoutParam)
 
 public:
+    /** @brief see #layoutParamApply */
+    static void layoutParamApplyT(ZF_OUT ZFUIRect &ret,
+                                  ZF_IN const ZFUIRect &rect,
+                                  ZF_IN ZFUIView *child,
+                                  ZF_IN ZFUIViewLayoutParam *lp);
     /**
      * @brief calculate single child's frame using logic of #ZFUIViewLayoutParam
      *
@@ -92,11 +97,6 @@ public:
      * it's declared for convenient for subclass to layout child
      * using parent's layout logic
      */
-    static void layoutParamApplyT(ZF_OUT ZFUIRect &ret,
-                                  ZF_IN const ZFUIRect &rect,
-                                  ZF_IN ZFUIView *child,
-                                  ZF_IN ZFUIViewLayoutParam *lp);
-    /** @brief see #layoutParamApplyT */
     static ZFUIRect layoutParamApply(ZF_IN const ZFUIRect &rect,
                                      ZF_IN ZFUIView *child,
                                      ZF_IN ZFUIViewLayoutParam *lp)

@@ -54,14 +54,12 @@ private:
     ZFCoreQueuePOD<T_POD> &operator = (ZF_IN const ZFCoreQueuePOD<T_POD> &ref);
 
 public:
-    /**
-     * @brief get a short info about this object
-     */
+    /** @brief see #objectInfo */
     zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         this->objectInfoOfContentT(ret, zfnull, 10);
     }
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     zffinal inline zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -70,9 +68,7 @@ public:
     }
 
 public:
-    /**
-     * @brief return a string describe the content
-     */
+    /** @brief see #objectInfoOfContent */
     zffinal void objectInfoOfContentT(ZF_IN_OUT zfstring &ret,
                                       ZF_IN typename ZFCoreInfoGetter<T_POD>::InfoGetter elementInfoGetter,
                                       ZF_IN_OPT zfindex maxCount = zfindexMax(),
@@ -107,7 +103,9 @@ public:
         }
         ret += token.tokenRight;
     }
-    /** @brief see #objectInfoOfContentT */
+    /**
+     * @brief return contents info
+     */
     zffinal zfstring objectInfoOfContent(ZF_IN typename ZFCoreInfoGetter<T_POD>::InfoGetter elementInfoGetter,
                                          ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                          ZF_IN_OPT const ZFTokenForContainer &token = ZFTokenForContainerDefault()) const

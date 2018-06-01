@@ -1126,18 +1126,18 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFUIColor, ZFUIColorZero)
  * @endcode
  *
  * valid value format:
- * -  `AARRGGBB`
- * -  `RRGGBB`
+ * -  "AARRGGBB"
+ * -  "RRGGBB"
  *
  * valid prefix:
- * -  empty (`AARRGGBB`)
- * -  `#` (`#AARRGGBB`)
- * -  `0x` (`0xAARRGGBB`)
+ * -  empty ("AARRGGBB")
+ * -  "#" ("#AARRGGBB")
+ * -  "0x" ("0xAARRGGBB")
  *
  * no matter what src format are,
  * when serialize back to string,
  * the output format are ensured
- * `#AARRGGBB`
+ * "#AARRGGBB"
  */
 ZFTYPEID_DECLARE(ZFUIColor, ZFUIColor)
 

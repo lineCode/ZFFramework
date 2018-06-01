@@ -73,6 +73,24 @@ public:
 };
 
 // ============================================================
+/**
+ * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
+ *
+ * serializable data:
+ * @code
+ *   <node>
+ *       <ZFCallback category="output" ... /> // the output
+ *       <YourOutputFormat category="format" ... /> // the format object
+ *   </node>
+ * @endcode
+ */
+#define ZFCallbackSerializeCustomType_ZFOutputForFormat zfText("ZFOutputForFormat")
+/** @brief keyword for serialize */
+#define ZFSerializableKeyword_ZFOutputForFormat_output zfText("output")
+/** @brief keyword for serialize */
+#define ZFSerializableKeyword_ZFOutputForFormat_format zfText("format")
+
+// ============================================================
 /** @brief see #ZFOutputForFormat */
 ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFOutputForFormatT,
                         ZFMP_OUT(ZFCallback &, ret),
@@ -100,23 +118,6 @@ ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFOutputForFormatT,
 ZFMETHOD_FUNC_DECLARE_2(ZFOutput, ZFOutputForFormat,
                         ZFMP_IN(const ZFOutput &, output),
                         ZFMP_IN(ZFOutputFormat *, format))
-
-/**
- * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
- *
- * serializable data:
- * @code
- *   <node>
- *       <ZFCallback category="output" ... /> // the output
- *       <YourOutputFormat category="format" ... /> // the format object
- *   </node>
- * @endcode
- */
-#define ZFCallbackSerializeCustomType_ZFOutputForFormat zfText("ZFOutputForFormat")
-/** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFOutputForFormat_output zfText("output")
-/** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFOutputForFormat_format zfText("format")
 
 // ============================================================
 /**

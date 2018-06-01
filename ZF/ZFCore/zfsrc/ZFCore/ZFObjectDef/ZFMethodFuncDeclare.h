@@ -40,9 +40,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodN
                                                      , ZF_IN_OPT const zfchar *methodParamTypeId6 = zfnull
                                                      , ZF_IN_OPT const zfchar *methodParamTypeId7 = zfnull
                                                      );
-/**
- * @brief get all function type method currently registered, for debug use only
- */
+/** @brief see #ZFMethodFuncGetAll */
 extern ZF_ENV_EXPORT void ZFMethodFuncGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
                                               ZF_IN_OPT const ZFFilterForZFMethod *filter = zfnull);
 /**
@@ -54,9 +52,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN_OPT const ZFFil
     ZFMethodFuncGetAllT(ret, filter);
     return ret;
 }
-/**
- * @brief get all function type method with specified methodNamespace and methodName
- */
+/** @brief see #ZFMethodFuncGetAll */
 extern ZF_ENV_EXPORT void ZFMethodFuncGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
                                               ZF_IN const zfchar *methodNamespace,
                                               ZF_IN const zfchar *methodName,

@@ -131,9 +131,9 @@ private:
 
     // ============================================================
 public:
-    /** @brief see #ZFObject::objectInfoT */
+    /** @brief see #objectInfo */
     void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #ZFObject::objectInfo */
+    /** @brief return object info */
     inline zfstring objectInfo(void) const
     {
         zfstring ret;

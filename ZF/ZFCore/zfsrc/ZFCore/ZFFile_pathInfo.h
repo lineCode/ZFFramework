@@ -327,9 +327,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFFilePathInfoUnregister(ZF_IN const zfchar *path
  * @brief get data registered by #ZFPATHTYPE_FILEIO_REGISTER
  */
 extern ZF_ENV_EXPORT const ZFFilePathInfoData *ZFFilePathInfoDataGet(ZF_IN const zfchar *pathType);
-/**
- * @brief get all data registered by #ZFPATHTYPE_FILEIO_REGISTER
- */
+/** @brief see #ZFFilePathInfoDataGetAll */
 extern ZF_ENV_EXPORT void ZFFilePathInfoDataGetAllT(ZF_OUT ZFCoreArrayPOD<const zfchar *> &ret);
 /**
  * @brief get all data registered by #ZFPATHTYPE_FILEIO_REGISTER

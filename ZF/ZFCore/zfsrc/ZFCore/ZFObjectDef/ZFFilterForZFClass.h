@@ -148,11 +148,9 @@ public:
     virtual zfbool filterCheckActive(ZF_IN const ZFClass * const &e) const;
 
 public:
-    /**
-     * @brief get a short info about the filter
-     */
+    /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     virtual inline zfstring objectInfo(void) const
     {
         zfstring ret;

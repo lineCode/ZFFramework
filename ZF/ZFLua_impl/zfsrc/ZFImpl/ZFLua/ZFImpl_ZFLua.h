@@ -452,9 +452,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
 
 // ============================================================
 // utils
-/**
- * @brief get raw lua object info
- */
+/** @brief see #ZFImpl_ZFLua_luaObjectInfo */
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
                                                       ZF_IN lua_State *L,
                                                       ZF_IN zfint luaStackOffset,
@@ -504,7 +502,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
  *
  * supports these types:
  * -  #v_ZFCallback
- * -  lua function, converted by #ZFCallbackForLua
+ * -  lua function, converted by ZFCallbackForLua (available in lua code only)
  * -  any type that can be converted to string by #ZFImpl_ZFLua_toString,
  *   result would be further converted by #ZFCallbackFromString
  */
@@ -531,6 +529,12 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
                                                   ZF_IN_OPT zfbool allowEmpty = zffalse,
                                                   ZF_OUT_OPT const ZFClass **holderCls = zfnull);
 
+/** @brief see #ZFImpl_ZFLua_toNumber */
+extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
+                                                   ZF_IN lua_State *L,
+                                                   ZF_IN zfint luaStackOffset,
+                                                   ZF_IN_OPT zfbool allowEmpty = zffalse,
+                                                   ZF_OUT_OPT const ZFClass **holderCls = zfnull);
 /**
  * @brief get params from lua
  *
@@ -553,12 +557,6 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
  * return proper #ZFValue if success, or empty if fail\n
  * if allowEmpty, a #ZFValue::intValueCreate would be returned
  */
-extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
-                                                   ZF_IN lua_State *L,
-                                                   ZF_IN zfint luaStackOffset,
-                                                   ZF_IN_OPT zfbool allowEmpty = zffalse,
-                                                   ZF_OUT_OPT const ZFClass **holderCls = zfnull);
-/** @brief see #ZFImpl_ZFLua_toNumberT */
 inline zfautoObject ZFImpl_ZFLua_toNumber(ZF_IN lua_State *L,
                                           ZF_IN zfint luaStackOffset,
                                           ZF_IN_OPT zfbool allowEmpty = zffalse,
@@ -569,7 +567,7 @@ inline zfautoObject ZFImpl_ZFLua_toNumber(ZF_IN lua_State *L,
     return ret;
 }
 
-/** @brief see #ZFImpl_ZFLua_toNumberT */
+/** @brief see #ZFImpl_ZFLua_toNumber */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
                                                    ZF_IN ZFObject *obj,
                                                    ZF_IN_OPT zfbool allowEmpty = zffalse,

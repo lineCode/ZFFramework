@@ -78,9 +78,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFTypeIdUnregister(ZF_IN const zfchar *typeId);
  * @brief access type id data
  */
 extern ZF_ENV_EXPORT const ZFTypeIdBase *ZFTypeIdGet(ZF_IN const zfchar *typeId);
-/**
- * @brief access type id data
- */
+/** @brief see #ZFTypeIdGetAll */
 extern ZF_ENV_EXPORT void ZFTypeIdGetAllT(ZF_OUT ZFCoreArray<const ZFTypeIdBase *> &ret);
 /**
  * @brief access type id data

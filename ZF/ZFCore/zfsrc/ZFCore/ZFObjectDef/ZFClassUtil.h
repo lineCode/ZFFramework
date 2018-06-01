@@ -26,13 +26,13 @@ zfclassFwd ZFFilterForZFProperty;
 
 ZF_NAMESPACE_BEGIN(ZFClassUtil)
 
-/**
- * @brief util to get all parent class
- */
+/** @brief see #allClassParent */
 extern ZF_ENV_EXPORT void allClassParentT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
                                           ZF_IN const ZFClass *cls,
                                           ZF_IN_OPT const ZFFilterForZFClass *filter = zfnull);
-/** @brief see #allClassParentT */
+/**
+ * @brief util to get all parent class
+ */
 inline ZFCoreArrayPOD<const ZFClass *> allClassParent(ZF_IN const ZFClass *cls,
                                                       ZF_IN_OPT const ZFFilterForZFClass *filter = zfnull)
 {
@@ -41,13 +41,13 @@ inline ZFCoreArrayPOD<const ZFClass *> allClassParent(ZF_IN const ZFClass *cls,
     return ret;
 }
 
-/**
- * @brief util to get all method in inherit tree
- */
+/** @brief see #allMethod */
 extern ZF_ENV_EXPORT void allMethodT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
                                      ZF_IN const ZFClass *cls,
                                      ZF_IN_OPT const ZFFilterForZFMethod *filter = zfnull);
-/** @brief see #allMethod */
+/**
+ * @brief util to get all method in inherit tree
+ */
 inline ZFCoreArrayPOD<const ZFMethod *> allMethod(ZF_IN const ZFClass *cls,
                                                   ZF_IN_OPT const ZFFilterForZFMethod *filter = zfnull)
 {
@@ -56,13 +56,13 @@ inline ZFCoreArrayPOD<const ZFMethod *> allMethod(ZF_IN const ZFClass *cls,
     return ret;
 }
 
-/**
- * @brief util to get all property in inherit tree
- */
+/** @brief see #allProperty */
 extern ZF_ENV_EXPORT void allPropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
                                        ZF_IN const ZFClass *cls,
                                        ZF_IN_OPT const ZFFilterForZFProperty *filter = zfnull);
-/** @brief see #allProperty */
+/**
+ * @brief util to get all property in inherit tree
+ */
 inline ZFCoreArrayPOD<const ZFProperty *> allProperty(ZF_IN const ZFClass *cls,
                                                       ZF_IN_OPT const ZFFilterForZFProperty *filter = zfnull)
 {
@@ -100,12 +100,12 @@ inline zfstring objectPropertyInfo(ZF_IN ZFObject *obj,
     return ret;
 }
 
+/** @brief see #objectInfo */
+extern ZF_ENV_EXPORT void objectInfoT(ZF_IN_OUT zfstring &ret,
+                                      ZF_IN ZFObject *obj);
 /**
  * @brief get short info of object, see #objectPropertyInfo
  */
-extern ZF_ENV_EXPORT void objectInfoT(ZF_IN_OUT zfstring &ret,
-                                      ZF_IN ZFObject *obj);
-/** @brief see #objectInfo */
 inline zfstring objectInfo(ZF_IN ZFObject *obj)
 {
     zfstring ret;

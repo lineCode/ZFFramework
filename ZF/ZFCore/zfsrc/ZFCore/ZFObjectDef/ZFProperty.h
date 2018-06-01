@@ -32,11 +32,11 @@ zffinal zfclassNotPOD ZF_ENV_EXPORT ZFProperty
     ZFCLASS_DISALLOW_COPY_CONSTRUCTOR(ZFProperty)
 
 public:
+    /** @brief see #objectInfo */
+    void objectInfoT(ZF_IN_OUT zfstring &ret) const;
     /**
      * @brief get info about this property
      */
-    void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
     zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -237,9 +237,7 @@ public:
 
 // ============================================================
 zfclassFwd ZFFilterForZFProperty;
-/**
- * @brief get all property currently registered, for debug use only
- */
+/** @brief see #ZFPropertyGetAll */
 extern ZF_ENV_EXPORT void ZFPropertyGetAllT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
                                             ZF_IN_OPT const ZFFilterForZFProperty *propertyFilter = zfnull);
 /**

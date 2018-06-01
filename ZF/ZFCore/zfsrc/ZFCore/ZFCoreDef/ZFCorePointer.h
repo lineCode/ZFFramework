@@ -66,9 +66,7 @@ public:
     /** @endcond */
 
 public:
-    /**
-     * @brief get a short info about this object
-     */
+    /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         zfstringAppend(ret, zfText("<%p (%zi), content: %s>"),
@@ -76,7 +74,7 @@ public:
             this->objectRetainCount(),
             this->objectInfoOfContent().cString());
     }
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     virtual inline zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -85,11 +83,11 @@ public:
     }
 
 public:
+    /** @brief see #objectInfoOfContent */
+    virtual void objectInfoOfContentT(ZF_IN_OUT zfstring &ret) const zfpurevirtual;
     /**
      * @brief get content info or #ZFTOKEN_ZFCoreInfoGetterNotAvailable if not available
      */
-    virtual void objectInfoOfContentT(ZF_IN_OUT zfstring &ret) const zfpurevirtual;
-    /** @brief see #objectInfoOfContentT */
     virtual inline zfstring objectInfoOfContent(void) const
     {
         zfstring ret;
@@ -307,7 +305,7 @@ public:
     {
         this->objectInfoOfContentT(ret, zfnull);
     }
-    /** @brief see #objectInfoOfContentT */
+    /** @brief see #objectInfoOfContent */
     virtual void objectInfoOfContentT(ZF_IN_OUT zfstring &ret, ZF_IN typename ZFCoreInfoGetter<T_Pointer>::InfoGetter elementInfoGetter) const
     {
         if(elementInfoGetter != zfnull)

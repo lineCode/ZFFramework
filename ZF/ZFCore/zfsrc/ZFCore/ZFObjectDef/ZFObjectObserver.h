@@ -103,11 +103,11 @@ public:
     inline zfbool operator != (ZF_IN const ZFListenerData &ref) const {return !this->operator == (ref);}
     /** @endcond */
 public:
+    /** @brief see #objectInfo */
+    void objectInfoT(ZF_IN_OUT zfstring &ret) const;
     /**
      * @brief get a short info of this object
      */
-    void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
     zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -312,9 +312,7 @@ public:
                                            ZF_IN_OUT zfuint flagBit);
 
 public:
-    /**
-     * @brief return a short string describe the object
-     */
+    /** @brief see #objectInfo */
     void objectInfoT(ZF_OUT zfstring &ret) const;
     /**
      * @brief return a short string describe the object

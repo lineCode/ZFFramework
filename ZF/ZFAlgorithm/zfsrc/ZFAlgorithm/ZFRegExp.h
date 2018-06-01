@@ -87,11 +87,9 @@ public:
     ZFCoreArrayPOD<zfindexRange> namedGroups;
 
 public:
-    /**
-     * @brief get a short info
-     */
+    /** @brief see #objectInfo */
     void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     inline zfstring objectInfo(void) const
     {
         zfstring ret;

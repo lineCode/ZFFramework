@@ -170,7 +170,7 @@ public:
         return ret;
     }
 public:
-    /** @brief return object info */
+    /** @brief see #objectInfo */
     inline void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         this->callerInfoT(ret);

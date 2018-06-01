@@ -247,22 +247,22 @@ public:
 private:
     zffinal _ZFP_I_ZFSerializablePropertyTypeHolder *_ZFP_ZFSerializable_getPropertyTypeHolder(void);
 public:
+    /** @brief see #serializableGetAllSerializableProperty */
+    zffinal void serializableGetAllSerializablePropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret);
     /**
      * @brief get all serializable property, usually for debug only, see #serializableOnCheckPropertyType
      */
-    zffinal void serializableGetAllSerializablePropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret);
-    /** @brief see #serializableGetAllSerializableProperty */
     inline ZFCoreArrayPOD<const ZFProperty *> serializableGetAllSerializableProperty(void)
     {
         ZFCoreArrayPOD<const ZFProperty *> ret;
         this->serializableGetAllSerializablePropertyT(ret);
         return ret;
     }
+    /** @brief see #serializableGetAllSerializableEmbededProperty */
+    zffinal void serializableGetAllSerializableEmbededPropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret);
     /**
      * @brief get all serializable embeded property, usually for debug only, see #serializableOnCheckPropertyType
      */
-    zffinal void serializableGetAllSerializableEmbededPropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret);
-    /** @brief see #serializableGetAllSerializableEmbededProperty */
     inline ZFCoreArrayPOD<const ZFProperty *> serializableGetAllSerializableEmbededProperty(void)
     {
         ZFCoreArrayPOD<const ZFProperty *> ret;

@@ -371,9 +371,7 @@ private:
         ret += ')';
     }
 public:
-    /**
-     * @brief get a short info
-     */
+    /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         this->_filters.objectInfoOfContentT(ret,
@@ -381,7 +379,7 @@ public:
             5, // max count
             ZFTokenForContainerDefault());
     }
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     virtual inline zfstring objectInfo(void) const
     {
         zfstring ret;

@@ -72,11 +72,9 @@ public:
     ~ZFCoreMap(void);
 
 public:
-    /**
-     * @brief get a short info
-     */
+    /** @brief see #objectInfo */
     zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     zffinal zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -85,13 +83,11 @@ public:
     }
 
 public:
-    /**
-     * @brief return a string describe the content
-     */
+    /** @brief see #objectInfoOfContent */
     zffinal void objectInfoOfContentT(ZF_IN_OUT zfstring &ret,
                                       ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                       ZF_IN_OPT const ZFTokenForKeyValueContainer &token = ZFTokenForKeyValueContainerDefault()) const;
-    /** @brief see #objectInfoOfContentT */
+    /** @brief return contents info */
     zffinal zfstring objectInfoOfContent(ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                          ZF_IN_OPT const ZFTokenForKeyValueContainer &token = ZFTokenForKeyValueContainerDefault()) const
     {
@@ -159,11 +155,11 @@ public:
         return zfnull;
     }
 
+    /** @brief see #allKey */
+    zffinal void allKeyT(ZF_OUT ZFCoreArray<const zfchar *> &ret) const;
     /**
      * @brief return a copy of all keys
      */
-    zffinal void allKeyT(ZF_OUT ZFCoreArray<const zfchar *> &ret) const;
-    /** @brief see #allKey */
     inline ZFCoreArrayPOD<const zfchar *> allKey(void) const
     {
         ZFCoreArrayPOD<const zfchar *> ret;
@@ -171,11 +167,11 @@ public:
         return ret;
     }
 
+    /** @brief see #allValue */
+    zffinal void allValueT(ZF_OUT ZFCoreArray<ZFCorePointerBase *> &ret) const;
     /**
      * @brief return a copy of all values
      */
-    zffinal void allValueT(ZF_OUT ZFCoreArray<ZFCorePointerBase *> &ret) const;
-    /** @brief see #allValue */
     inline ZFCoreArrayPOD<ZFCorePointerBase *> allValue(void) const
     {
         ZFCoreArrayPOD<ZFCorePointerBase *> ret;
@@ -183,11 +179,11 @@ public:
         return ret;
     }
 
+    /** @brief see #allPair */
+    zffinal void allPairT(ZF_OUT ZFCoreArray<ZFCoreMapPair> &ret) const;
     /**
      * @brief return a copy of all keys and values
      */
-    zffinal void allPairT(ZF_OUT ZFCoreArray<ZFCoreMapPair> &ret) const;
-    /** @brief see #allPair */
     inline ZFCoreArrayPOD<ZFCoreMapPair> allPair(void) const
     {
         ZFCoreArrayPOD<ZFCoreMapPair> ret;
@@ -195,11 +191,7 @@ public:
         return ret;
     }
 
-    /**
-     * @brief return a copy of all values
-     *
-     * template T_Element must be pointer type
-     */
+    /** @brief see #allValue */
     template<typename T_Element>
     void allValueT(ZF_OUT ZFCoreArray<T_Element> &ret) const
     {

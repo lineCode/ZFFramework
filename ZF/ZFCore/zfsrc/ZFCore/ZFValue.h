@@ -196,11 +196,11 @@ public:
      */
     virtual const zfchar *valueTypeName(void);
 
+    /** @brief see #valueString */
+    virtual void valueStringT(ZF_IN_OUT zfstring &ret);
     /**
      * @brief return a string describe the value in short
      */
-    virtual void valueStringT(ZF_IN_OUT zfstring &ret);
-    /** @brief see #valueStringT */
     virtual zfstring valueString(void)
     {
         zfstring ret;

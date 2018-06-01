@@ -143,9 +143,7 @@ public:
     }
 
 public:
-    /**
-     * @brief get a short info about this object
-     */
+    /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         zfstringAppend(ret, zfText("<[%s] %s%s>"),
@@ -154,7 +152,9 @@ public:
             (!zfsIsEmpty(this->protocolImplementationPlatformHint()) ? zfstringWithFormat(zfText(" (%s)"), this->protocolImplementationPlatformHint()).cString() : zfText(""))
             );
     }
-    /** @brief see #objectInfoT */
+    /**
+     * @brief get a short info about this object
+     */
     virtual inline zfstring objectInfo(void) const
     {
         zfstring ret;

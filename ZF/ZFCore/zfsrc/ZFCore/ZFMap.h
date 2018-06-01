@@ -130,10 +130,7 @@ public:
         return ZFCastZFObjectUnchecked(T_ZFObject, this->get(pKey));
     }
 
-    /**
-     * @brief util method to get and cast to desired type,
-     *   no type safe check and type must be valid
-     */
+    /** @brief see #allKey */
     template<typename T_ZFObject>
     void allKeyT(ZF_OUT ZFCoreArray<T_ZFObject> &ret)
     {
@@ -143,10 +140,7 @@ public:
             ret.add(this->iteratorNextKey(it)->to<T_ZFObject *>());
         }
     }
-    /**
-     * @brief util method to get and cast to desired type,
-     *   no type safe check and type must be valid
-     */
+    /** @brief see #allKey */
     template<typename T_ZFObject>
     ZFCoreArrayPOD<T_ZFObject> allKey(void)
     {
@@ -155,10 +149,7 @@ public:
         return ret;
     }
 
-    /**
-     * @brief util method to get and cast to desired type,
-     *   no type safe check and type must be valid
-     */
+    /** @brief see #allValue */
     template<typename T_ZFObject>
     void allValueT(ZF_OUT ZFCoreArray<T_ZFObject> &ret)
     {
@@ -168,10 +159,7 @@ public:
             ret.add(this->iteratorNextValue(it)->to<T_ZFObject *>());
         }
     }
-    /**
-     * @brief util method to get and cast to desired type,
-     *   no type safe check and type must be valid
-     */
+    /** @brief see #allValue */
     template<typename T_ZFObject>
     ZFCoreArrayPOD<T_ZFObject> allValue(void)
     {

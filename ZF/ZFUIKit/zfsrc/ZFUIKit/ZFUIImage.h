@@ -71,11 +71,11 @@ extern ZF_ENV_EXPORT void _ZFP_ZFUIImageSerializeTypeUnregister(ZF_IN const zfch
                                                                     ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */, \
                                                                     ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
 
+/** @brief see #ZFUIImageSerializeTypeGetAll */
+extern ZF_ENV_EXPORT void ZFUIImageSerializeTypeGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret);
 /**
  * @brief usually for debug use only
  */
-extern ZF_ENV_EXPORT void ZFUIImageSerializeTypeGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret);
-/** @brief see #ZFUIImageSerializeTypeGetAll */
 inline ZFCoreArrayPOD<const zfchar *> ZFUIImageSerializeTypeGetAll(void)
 {
     ZFCoreArrayPOD<const zfchar *> ret;

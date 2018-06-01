@@ -275,14 +275,12 @@ public:
     }
 
 public:
-    /**
-     * @brief get a short info about this object
-     */
+    /** @brief see #objectInfo */
     void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         this->objectInfoOfContentT(ret, zfnull, 10);
     }
-    /** @brief see #objectInfoT */
+    /** @brief return object info */
     inline zfstring objectInfo(void) const
     {
         zfstring ret;
@@ -291,9 +289,7 @@ public:
     }
 
 public:
-    /**
-     * @brief return a string describe the content
-     */
+    /** @brief see #objectInfoOfContent */
     void objectInfoOfContentT(ZF_IN_OUT zfstring &ret,
                               ZF_IN typename ZFCoreInfoGetter<T_Element>::InfoGetter elementInfoGetter,
                               ZF_IN_OPT zfindex maxCount = zfindexMax(),
@@ -328,7 +324,7 @@ public:
         }
         ret += token.tokenRight;
     }
-    /** @brief see #objectInfoOfContentT */
+    /** @brief return content info */
     zfstring objectInfoOfContent(ZF_IN typename ZFCoreInfoGetter<T_Element>::InfoGetter elementInfoGetter,
                                  ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                  ZF_IN_OPT const ZFTokenForContainer &token = ZFTokenForContainerDefault()) const

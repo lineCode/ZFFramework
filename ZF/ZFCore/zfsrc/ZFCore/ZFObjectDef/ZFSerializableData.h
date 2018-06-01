@@ -456,11 +456,11 @@ public:
     // ============================================================
     // other functions
 public:
+    /** @brief see #objectInfo */
+    zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const;
     /**
      * @brief get a short info
      */
-    zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const;
-    /** @brief see #objectInfoT */
     zffinal zfstring objectInfo(void) const
     {
         zfstring ret;
