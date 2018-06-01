@@ -18,17 +18,59 @@ static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
 {
     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
     cls->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
-    ret = cls->newInstanceGenericWithMethodList(objectOnInitMethodList
-            , paramList[0]
-            , paramList[1]
-            , paramList[2]
-            , paramList[3]
-            , paramList[4]
-            , paramList[5]
-            , paramList[6]
-            , paramList[7]
-        );
-    return (ret != zfnull);
+    if(objectOnInitMethodList.isEmpty())
+    {
+        return zffalse;
+    }
+    ZFToken token = cls->newInstanceGenericBegin();
+    if(token == zfnull)
+    {
+        return zffalse;
+    }
+
+    for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
+    {
+        const ZFMethod *method = objectOnInitMethodList[i];
+        zfautoObject paramListTmp[ZFMETHOD_MAX_PARAM] = {
+            paramList[0],
+            paramList[1],
+            paramList[2],
+            paramList[3],
+            paramList[4],
+            paramList[5],
+            paramList[6],
+            paramList[7],
+        };
+        zfbool parseParamSuccess = zftrue;
+        for(zfindex i = 0; i < paramCount && parseParamSuccess; ++i)
+        {
+            ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramListTmp[i].toObject());
+            if(t != zfnull)
+            {
+                parseParamSuccess = ZFImpl_ZFLua_fromUnknown(paramListTmp[i], method->methodParamTypeIdAtIndex(i), t);
+            }
+        }
+        if(!parseParamSuccess)
+        {
+            continue;
+        }
+        if(cls->newInstanceGenericCheck(token, method
+                , paramListTmp[0]
+                , paramListTmp[1]
+                , paramListTmp[2]
+                , paramListTmp[3]
+                , paramListTmp[4]
+                , paramListTmp[5]
+                , paramListTmp[6]
+                , paramListTmp[7]
+            ))
+        {
+            ret = cls->newInstanceGenericEnd(token, zftrue);
+            return zftrue;
+        }
+    }
+    cls->newInstanceGenericEnd(token, zffalse);
+    return zffalse;
 }
 static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
 {

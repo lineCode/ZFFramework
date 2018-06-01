@@ -17,9 +17,9 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFClassUtil)
 
-void allClassParent(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
-                    ZF_IN const ZFClass *cls,
-                    ZF_IN_OPT const ZFFilterForZFClass *filter /* = zfnull */)
+void allClassParentT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
+                     ZF_IN const ZFClass *cls,
+                     ZF_IN_OPT const ZFFilterForZFClass *filter /* = zfnull */)
 {
     if(filter == zfnull)
     {
@@ -53,9 +53,9 @@ void allClassParent(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
     }
 }
 
-void allMethod(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
-               ZF_IN const ZFClass *cls,
-               ZF_IN_OPT const ZFFilterForZFMethod *filter /* = zfnull */)
+void allMethodT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
+                ZF_IN const ZFClass *cls,
+                ZF_IN_OPT const ZFFilterForZFMethod *filter /* = zfnull */)
 {
     ZFCoreArrayPOD<const ZFClass *> allClassParent = ZFClassUtil::allClassParent(cls, (filter == zfnull) ? zfnull : &(filter->classFilter));
     for(zfindex i = 0; i < allClassParent.count(); ++i)
@@ -71,9 +71,9 @@ void allMethod(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
     }
 }
 
-void allProperty(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
-                 ZF_IN const ZFClass *cls,
-                 ZF_IN_OPT const ZFFilterForZFProperty *filter /* = zfnull */)
+void allPropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
+                  ZF_IN const ZFClass *cls,
+                  ZF_IN_OPT const ZFFilterForZFProperty *filter /* = zfnull */)
 {
     ZFCoreArrayPOD<const ZFClass *> allClassParent = ZFClassUtil::allClassParent(cls, (filter == zfnull) ? zfnull : &(filter->classFilter));
     for(zfindex i = 0; i < allClassParent.count(); ++i)
@@ -205,11 +205,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFClassUtil)
 /** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: all uppercase macro not skipped within namespace
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, void, allClassParent, ZFMP_OUT(ZFCoreArray<const ZFClass *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFClass *, filter, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, void, allClassParentT, ZFMP_OUT(ZFCoreArray<const ZFClass *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFClass *, filter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_2(ZFClassUtil, ZFCoreArrayPOD<const ZFClass *>, allClassParent, ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFClass *, filter, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, void, allMethod, ZFMP_OUT(ZFCoreArray<const ZFMethod *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFMethod *, filter, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, void, allMethodT, ZFMP_OUT(ZFCoreArray<const ZFMethod *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFMethod *, filter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_2(ZFClassUtil, ZFCoreArrayPOD<const ZFMethod *>, allMethod, ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFMethod *, filter, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, void, allProperty, ZFMP_OUT(ZFCoreArray<const ZFProperty *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFProperty *, filter, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, void, allPropertyT, ZFMP_OUT(ZFCoreArray<const ZFProperty *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFProperty *, filter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_2(ZFClassUtil, ZFCoreArrayPOD<const ZFProperty *>, allProperty, ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFProperty *, filter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_3(ZFClassUtil, zfbool, allPropertyIsEqual, ZFMP_IN(ZFObject *, obj0), ZFMP_IN(ZFObject *, obj1), ZFMP_IN_OPT(const ZFFilterForZFProperty *, filter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_WITH_NS_4(ZFClassUtil, void, objectPropertyInfo, ZFMP_IN_OUT(zfstring &, ret), ZFMP_IN(ZFObject *, obj), ZFMP_IN_OPT(zfindex, maxCount, zfindexMax()), ZFMP_IN_OPT(const ZFTokenForKeyValueContainer &, token, ZFTokenForKeyValueContainerDefault()))

@@ -40,20 +40,20 @@ protected:
 protected:
     zfoverride
     virtual void format(ZF_IN_OUT zfstring &ret,
-                        ZF_IN zfself::OutputStep outputStep,
+                        ZF_IN ZFOutputFormatStepEnum outputStep,
                         ZF_IN const zfchar *src,
                         ZF_IN zfindex srcLen,
                         ZF_IN zfindex writtenLen)
     {
         switch(outputStep)
         {
-            case OutputStepBegin:
+            case ZFOutputFormatStep::e_OnInit:
                 if(_ZFP_ZFLogMutex != zfnull)
                 {
                     _ZFP_ZFLogMutex->mutexLock();
                 }
                 break;
-            case OutputStepEnd:
+            case ZFOutputFormatStep::e_OnDealloc:
                 if(this->autoEndl)
                 {
                     ret += zfText("\n");
@@ -65,7 +65,7 @@ protected:
                     _ZFP_ZFLogMutex->mutexUnlock();
                 }
                 break;
-            case OutputStepAction:
+            case ZFOutputFormatStep::e_OnOutput:
                 if(this->autoSpace && writtenLen > 0)
                 {
                     ret += zfText(" ");

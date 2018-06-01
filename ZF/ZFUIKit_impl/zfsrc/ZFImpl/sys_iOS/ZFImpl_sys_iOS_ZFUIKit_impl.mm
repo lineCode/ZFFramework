@@ -13,34 +13,34 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // convert utility
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointToCGPoint(ZF_OUT CGPoint &ret, ZF_IN const ZFUIPoint &point)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointToCGPointT(ZF_OUT CGPoint &ret, ZF_IN const ZFUIPoint &point)
 {
     ret.x = point.x;
     ret.y = point.y;
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint(ZF_OUT ZFUIPoint &ret, ZF_IN const CGPoint &cgPoint)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPointT(ZF_OUT ZFUIPoint &ret, ZF_IN const CGPoint &cgPoint)
 {
     ret.x = zfmRound(cgPoint.x);
     ret.y = zfmRound(cgPoint.y);
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeToCGSize(ZF_OUT CGSize &ret, ZF_IN const ZFUISize &size)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeToCGSizeT(ZF_OUT CGSize &ret, ZF_IN const ZFUISize &size)
 {
     ret.width = size.width;
     ret.height = size.height;
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeFromCGSize(ZF_OUT ZFUISize &ret, ZF_IN const CGSize &cgSize)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeFromCGSizeT(ZF_OUT ZFUISize &ret, ZF_IN const CGSize &cgSize)
 {
     ret.width = zfmRound(cgSize.width);
     ret.height = zfmRound(cgSize.height);
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(ZF_OUT CGRect &ret, ZF_IN const ZFUIRect &rect)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRectT(ZF_OUT CGRect &ret, ZF_IN const ZFUIRect &rect)
 {
     ret.origin.x = rect.point.x;
     ret.origin.y = rect.point.y;
     ret.size.width = rect.size.width;
     ret.size.height = rect.size.height;
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(ZF_OUT ZFUIRect &ret, ZF_IN const CGRect &cgRect)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRectT(ZF_OUT ZFUIRect &ret, ZF_IN const CGRect &cgRect)
 {
     ret.point.x = zfmRound(cgRect.origin.x);
     ret.point.y = zfmRound(cgRect.origin.y);
@@ -48,14 +48,14 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(ZF_OUT ZFUIRect &ret, ZF_IN 
     ret.size.height = zfmRound(cgRect.size.height);
 }
 
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIMarginToUIEdgeInsets(ZF_OUT UIEdgeInsets &ret, ZF_IN const ZFUIMargin &margin)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIMarginToUIEdgeInsetsT(ZF_OUT UIEdgeInsets &ret, ZF_IN const ZFUIMargin &margin)
 {
     ret.left = margin.left;
     ret.top = margin.top;
     ret.right = margin.right;
     ret.bottom = margin.bottom;
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIMarginFromUIEdgeInsets(ZF_OUT ZFUIMargin &ret, ZF_IN const UIEdgeInsets &edgeInsets)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIMarginFromUIEdgeInsetsT(ZF_OUT ZFUIMargin &ret, ZF_IN const UIEdgeInsets &edgeInsets)
 {
     ret.left = zfmRound(edgeInsets.left);
     ret.top = zfmRound(edgeInsets.top);
@@ -67,7 +67,7 @@ UIColor *ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorToUIColor(ZF_IN const ZFUIColor &c
 {
     return [UIColor colorWithRed:(ZFUIColorGetR(color) / 255.0f) green:(ZFUIColorGetG(color) / 255.0f) blue:(ZFUIColorGetB(color) / 255.0f) alpha:(ZFUIColorGetA(color) / 255.0f)];
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorFromUIColor(ZF_OUT ZFUIColor &ret, ZF_IN UIColor *uiColor)
+void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorFromUIColorT(ZF_OUT ZFUIColor &ret, ZF_IN UIColor *uiColor)
 {
     zfuint argb[4] = {0};
     ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(argb, uiColor);
@@ -120,7 +120,7 @@ zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zfuint *pARGB, ZF_IN 
 
     return zftrue;
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfo(ZF_OUT zfstring &ret, ZF_IN UIColor *color)
+void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ZF_OUT zfstring &ret, ZF_IN UIColor *color)
 {
     zfuint rgba[4] = {0};
     if(color != nil && ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(rgba, color))
@@ -224,7 +224,7 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
         _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(s, [subviews objectAtIndex:i], depth + 1, i);
     }
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree(ZF_OUT zfstring &ret, ZF_IN UIView *view)
+void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN UIView *view)
 {
     ret += zfText("==================== UIView tree begin ====================\n");
     if(view != nil)
@@ -246,7 +246,7 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree(ZF_OUT zfstring &ret, ZF_IN U
         ZFLISTENER_LOCAL(windowOnPause, {
             ZFUISysWindow *sysWindow = listenerData.sender->to<ZFUISysWindow *>();
             zfstring s;
-            ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree(s, (__bridge UIView *)sysWindow->rootView()->nativeView());
+            ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(s, (__bridge UIView *)sysWindow->rootView()->nativeView());
             zfLogTrimT() << s;
         })
         this->windowOnPauseListener = windowOnPause;

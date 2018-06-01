@@ -92,17 +92,17 @@ public:
      * it's declared for convenient for subclass to layout child
      * using parent's layout logic
      */
-    static void layoutParamApply(ZF_OUT ZFUIRect &ret,
-                                 ZF_IN const ZFUIRect &rect,
-                                 ZF_IN ZFUIView *child,
-                                 ZF_IN ZFUIViewLayoutParam *lp);
-    /** @brief see #layoutParamApply */
+    static void layoutParamApplyT(ZF_OUT ZFUIRect &ret,
+                                  ZF_IN const ZFUIRect &rect,
+                                  ZF_IN ZFUIView *child,
+                                  ZF_IN ZFUIViewLayoutParam *lp);
+    /** @brief see #layoutParamApplyT */
     static ZFUIRect layoutParamApply(ZF_IN const ZFUIRect &rect,
                                      ZF_IN ZFUIView *child,
                                      ZF_IN ZFUIViewLayoutParam *lp)
     {
         ZFUIRect ret = ZFUIRectZero();
-        ZFUIViewLayoutParam::layoutParamApply(ret, rect, child, lp);
+        ZFUIViewLayoutParam::layoutParamApplyT(ret, rect, child, lp);
         return ret;
     }
 

@@ -491,6 +491,13 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
                                                    ZF_IN lua_State *L,
                                                    ZF_IN zfint luaStackOffset);
+/**
+ * @brief try to convert to desired type id from unknown type
+ */
+extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
+                                                     ZF_IN const zfchar *typeId,
+                                                     ZF_IN ZFImpl_ZFLua_UnknownParam *unknownType,
+                                                     ZF_OUT_OPT zfstring *errorHint = zfnull);
 
 /**
  * @brief get params from lua
@@ -546,27 +553,27 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
  * return proper #ZFValue if success, or empty if fail\n
  * if allowEmpty, a #ZFValue::intValueCreate would be returned
  */
-extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumber(ZF_OUT zfautoObject &ret,
-                                                  ZF_IN lua_State *L,
-                                                  ZF_IN zfint luaStackOffset,
-                                                  ZF_IN_OPT zfbool allowEmpty = zffalse,
-                                                  ZF_OUT_OPT const ZFClass **holderCls = zfnull);
-/** @brief see #ZFImpl_ZFLua_toNumber */
+extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
+                                                   ZF_IN lua_State *L,
+                                                   ZF_IN zfint luaStackOffset,
+                                                   ZF_IN_OPT zfbool allowEmpty = zffalse,
+                                                   ZF_OUT_OPT const ZFClass **holderCls = zfnull);
+/** @brief see #ZFImpl_ZFLua_toNumberT */
 inline zfautoObject ZFImpl_ZFLua_toNumber(ZF_IN lua_State *L,
                                           ZF_IN zfint luaStackOffset,
                                           ZF_IN_OPT zfbool allowEmpty = zffalse,
                                           ZF_OUT_OPT const ZFClass **holderCls = zfnull)
 {
     zfautoObject ret;
-    ZFImpl_ZFLua_toNumber(ret, L, luaStackOffset, allowEmpty, holderCls);
+    ZFImpl_ZFLua_toNumberT(ret, L, luaStackOffset, allowEmpty, holderCls);
     return ret;
 }
 
-/** @brief see #ZFImpl_ZFLua_toNumber */
-extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumber(ZF_OUT zfautoObject &ret,
-                                                  ZF_IN ZFObject *obj,
-                                                  ZF_IN_OPT zfbool allowEmpty = zffalse,
-                                                  ZF_OUT_OPT const ZFClass **holderCls = zfnull);
+/** @brief see #ZFImpl_ZFLua_toNumberT */
+extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
+                                                   ZF_IN ZFObject *obj,
+                                                   ZF_IN_OPT zfbool allowEmpty = zffalse,
+                                                   ZF_OUT_OPT const ZFClass **holderCls = zfnull);
 
 /**
  * @brief convert native type to lua type

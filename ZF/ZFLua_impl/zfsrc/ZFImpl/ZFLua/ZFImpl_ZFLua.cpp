@@ -499,7 +499,7 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
             }
             lua_pop(L, 1);
         }
-        else if(ZFImpl_ZFLua_toNumber(*luaResult, L, -1, zftrue))
+        else if(ZFImpl_ZFLua_toNumberT(*luaResult, L, -1, zftrue))
         {
             lua_pop(L, 1);
         }
@@ -633,6 +633,48 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     }
 }
 
+zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
+                                ZF_IN const zfchar *typeId,
+                                ZF_IN ZFImpl_ZFLua_UnknownParam *unknownType,
+                                ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
+{
+    const ZFTypeIdBase *typeIdData = ZFTypeIdGet(typeId);
+    if(typeIdData == zfnull || !typeIdData->typeIdWrapper(param))
+    {
+        if(errorHint != zfnull)
+        {
+            zfstringAppend(errorHint, zfText("%s can not be converted from string automatically"), typeId);
+        }
+        return zffalse;
+    }
+
+    zfbool success = zffalse;
+    if(param == zfnull)
+    {
+        if(ZFObjectFromString(param, unknownType->zfv, unknownType->zfv.length()))
+        {
+            success = zftrue;
+        }
+    }
+    else if(param.to<ZFTypeIdWrapper *>()->wrappedValueFromString(unknownType->zfv, unknownType->zfv.length()))
+    {
+        success = zftrue;
+    }
+
+    if(!success)
+    {
+        if(errorHint != zfnull)
+        {
+            zfstringAppend(errorHint, zfText("%s can not be converted from string \"%s\""),
+                    typeId,
+                    unknownType->zfv.cString()
+                );
+        }
+        return zffalse;
+    }
+    return zftrue;
+}
+
 zfclass _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, ZFObject)
@@ -752,11 +794,11 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
     }
 }
 
-zfbool ZFImpl_ZFLua_toNumber(ZF_OUT zfautoObject &ret,
-                             ZF_IN lua_State *L,
-                             ZF_IN zfint luaStackOffset,
-                             ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
-                             ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
+zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
+                              ZF_IN lua_State *L,
+                              ZF_IN zfint luaStackOffset,
+                              ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
+                              ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
 {
     if(holderCls != zfnull) {*holderCls = zfnull;}
     int success = 0;
@@ -772,13 +814,13 @@ zfbool ZFImpl_ZFLua_toNumber(ZF_OUT zfautoObject &ret,
     }
 
     zfautoObject const &param = ZFImpl_ZFLua_luaGet(L, luaStackOffset);
-    return ZFImpl_ZFLua_toNumber(ret, param.toObject(), allowEmpty, holderCls);
+    return ZFImpl_ZFLua_toNumberT(ret, param.toObject(), allowEmpty, holderCls);
 }
 
-zfbool ZFImpl_ZFLua_toNumber(ZF_OUT zfautoObject &ret,
-                             ZF_IN ZFObject *obj,
-                             ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
-                             ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
+zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
+                              ZF_IN ZFObject *obj,
+                              ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
+                              ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
 {
     if(holderCls != zfnull) {*holderCls = zfnull;}
     if(obj == zfnull)
@@ -885,7 +927,7 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
     }
 
     zfautoObject v;
-    if(ZFImpl_ZFLua_toNumber(v, obj, allowEmpty))
+    if(ZFImpl_ZFLua_toNumberT(v, obj, allowEmpty))
     {
         ZFValue *t = v.to<ZFValue *>();
         switch(t->valueType())

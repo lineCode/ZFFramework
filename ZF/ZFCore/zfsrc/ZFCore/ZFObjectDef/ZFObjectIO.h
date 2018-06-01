@@ -48,12 +48,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * to add your own type,
  * please refer to #ZFOBJECTIO_DEFINE
  */
-extern ZF_ENV_EXPORT zfbool ZFObjectIOLoad(ZF_OUT zfautoObject &ret,
-                                           ZF_IN const ZFInput &input,
-                                           ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-/** @brief see #ZFObjectIOLoad */
 extern ZF_ENV_EXPORT zfautoObject ZFObjectIOLoad(ZF_IN const ZFInput &input,
                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull);
+/** @brief see #ZFObjectIOLoad */
+extern ZF_ENV_EXPORT zfbool ZFObjectIOLoadT(ZF_OUT zfautoObject &ret,
+                                            ZF_IN const ZFInput &input,
+                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 /** @brief see #ZFObjectIOLoad */
 extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
                                            ZF_IN ZFObject *obj,

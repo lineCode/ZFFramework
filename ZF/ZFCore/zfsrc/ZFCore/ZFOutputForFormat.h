@@ -18,30 +18,32 @@
 #include "ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+/** @brief see #ZFOutputForFormat */
+ZFENUM_BEGIN(ZFOutputFormatStep)
+    /**
+     * @brief before anything would be outputed,
+     *   ensured called only once for each output
+     */
+    ZFENUM_VALUE(OnInit)
+    /**
+     * @brief called each time before any output would be outputed
+     */
+    ZFENUM_VALUE(OnOutput)
+    /**
+     * @brief called only once just before finish/destroy the output
+     */
+    ZFENUM_VALUE(OnDealloc)
+ZFENUM_SEPARATOR(ZFOutputFormatStep)
+    ZFENUM_VALUE_REGISTER(OnInit)
+    ZFENUM_VALUE_REGISTER(OnOutput)
+    ZFENUM_VALUE_REGISTER(OnDealloc)
+ZFENUM_END(ZFOutputFormatStep)
+
 // ============================================================
 /** @brief see #ZFOutputForFormat */
 zfinterface ZFOutputFormat : zfextends ZFInterface
 {
     ZFINTERFACE_DECLARE(ZFOutputFormat, ZFInterface)
-
-public:
-    /** @brief see #ZFOutputForFormat */
-    typedef enum
-    {
-        /**
-         * @brief before anything would be outputed,
-         *   ensured called only once for each output
-         */
-        OutputStepBegin,
-        /**
-         * @brief called each time before any output would be outputed
-         */
-        OutputStepAction,
-        /**
-         * @brief called only once just before finish/destroy the output
-         */
-        OutputStepEnd,
-    } OutputStep;
 
 protected:
     /**
@@ -55,15 +57,13 @@ protected:
      * to the original output
      */
     virtual void format(ZF_IN_OUT zfstring &ret,
-                        ZF_IN zfself::OutputStep outputStep,
+                        ZF_IN ZFOutputFormatStepEnum outputStep,
                         ZF_IN const zfchar *src,
                         ZF_IN zfindex srcLen,
-                        ZF_IN zfindex writtenLen)
-    {
-    }
+                        ZF_IN zfindex writtenLen) zfpurevirtual;
 public:
     inline void _ZFP_format(ZF_IN_OUT zfstring &ret,
-                            ZF_IN zfself::OutputStep outputStep,
+                            ZF_IN ZFOutputFormatStepEnum outputStep,
                             ZF_IN const zfchar *src,
                             ZF_IN zfindex srcLen,
                             ZF_IN zfindex writtenLen)

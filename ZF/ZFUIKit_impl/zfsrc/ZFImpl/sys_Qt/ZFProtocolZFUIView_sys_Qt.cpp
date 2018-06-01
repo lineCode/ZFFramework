@@ -627,7 +627,7 @@ public:
         }
         QSize t = nativeViewTmp->sizeHint();
         nativeViewTmp->setMaximumSize(maxSizeSaved);
-        ret = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(t);
+        ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSizeT(ret, t);
     }
 private:
     _ZFP_ZFUIViewImpl_sys_Qt_ChildChangeObserverHolder childChangeObserverHolder;

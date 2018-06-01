@@ -26,11 +26,11 @@ extern ZF_ENV_EXPORT jclass ZFImpl_sys_Android_jclassZFAndroidPoint(void);
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUIPointToZFAndroidPoint(ZF_IN const ZFUIPoint &point, ZF_IN_OUT jobject jobjPoint);
 // note returned value must be released by DeleteLocalRef
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUIPointToZFAndroidPoint(ZF_IN const ZFUIPoint &point);
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIPointFromZFAndroidPoint(ZF_OUT ZFUIPoint &ret, ZF_IN jobject jobjPoint);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIPointFromZFAndroidPointT(ZF_OUT ZFUIPoint &ret, ZF_IN jobject jobjPoint);
 inline ZFUIPoint ZFImpl_sys_Android_ZFUIPointFromZFAndroidPoint(ZF_IN jobject jobjPoint)
 {
     ZFUIPoint ret = ZFUIPointZero();
-    ZFImpl_sys_Android_ZFUIPointFromZFAndroidPoint(ret, jobjPoint);
+    ZFImpl_sys_Android_ZFUIPointFromZFAndroidPointT(ret, jobjPoint);
     return ret;
 }
 
@@ -42,11 +42,11 @@ extern ZF_ENV_EXPORT jclass ZFImpl_sys_Android_jclassZFAndroidSize(void);
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(ZF_IN const ZFUISize &size, ZF_IN_OUT jobject jobjSize);
 // note returned value must be released by DeleteLocalRef
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(ZF_IN const ZFUISize &size);
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUISizeFromZFAndroidSize(ZF_OUT ZFUISize &ret, ZF_IN jobject jobjSize);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUISizeFromZFAndroidSizeT(ZF_OUT ZFUISize &ret, ZF_IN jobject jobjSize);
 inline ZFUISize ZFImpl_sys_Android_ZFUISizeFromZFAndroidSize(ZF_IN jobject jobjSize)
 {
     ZFUISize ret = ZFUISizeZero();
-    ZFImpl_sys_Android_ZFUISizeFromZFAndroidSize(ret, jobjSize);
+    ZFImpl_sys_Android_ZFUISizeFromZFAndroidSizeT(ret, jobjSize);
     return ret;
 }
 
@@ -58,11 +58,11 @@ extern ZF_ENV_EXPORT jclass ZFImpl_sys_Android_jclassZFAndroidMargin(void);
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUIMarginToZFAndroidMargin(ZF_IN const ZFUIMargin &margin, ZF_IN_OUT jobject jobjMargin);
 // note returned value must be released by DeleteLocalRef
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUIMarginToZFAndroidMargin(ZF_IN const ZFUIMargin &margin);
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMargin(ZF_OUT ZFUIMargin &ret, ZF_IN jobject jobjMargin);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMarginT(ZF_OUT ZFUIMargin &ret, ZF_IN jobject jobjMargin);
 inline ZFUIMargin ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMargin(ZF_IN jobject jobjMargin)
 {
     ZFUIMargin ret = ZFUIMarginZero();
-    ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMargin(ret, jobjMargin);
+    ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMarginT(ret, jobjMargin);
     return ret;
 }
 
@@ -74,11 +74,11 @@ extern ZF_ENV_EXPORT jclass ZFImpl_sys_Android_jclassZFAndroidRect(void);
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUIRectToZFAndroidRect(ZF_IN const ZFUIRect &rect, ZF_IN_OUT jobject jobjRect);
 // note returned value must be released by DeleteLocalRef
 extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_ZFUIRectToZFAndroidRect(ZF_IN const ZFUIRect &rect);
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ZF_OUT ZFUIRect &ret, ZF_IN jobject jobjRect);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(ZF_OUT ZFUIRect &ret, ZF_IN jobject jobjRect);
 inline ZFUIRect ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ZF_IN jobject jobjRect)
 {
     ZFUIRect ret = ZFUIRectZero();
-    ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ret, jobjRect);
+    ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(ret, jobjRect);
     return ret;
 }
 
@@ -87,11 +87,11 @@ inline ZFUIRect ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ZF_IN jobject jobjR
 #define ZFImpl_sys_Android_JNI_ID_ZFAndroidUI ZFImpl_sys_Android_JNI_ID(NativeUtil_ZFAndroidUI)
 #define ZFImpl_sys_Android_JNI_NAME_ZFAndroidUI ZFImpl_sys_Android_JNI_NAME(NativeUtil.ZFAndroidUI)
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ViewGetViewTree(ZF_OUT zfstring &ret, ZF_IN jobject nativeView);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView);
 inline zfstring ZFImpl_sys_Android_ViewGetViewTree(ZF_IN jobject nativeView)
 {
     zfstring ret;
-    ZFImpl_sys_Android_ViewGetViewTree(ret, nativeView);
+    ZFImpl_sys_Android_ViewGetViewTreeT(ret, nativeView);
     return ret;
 }
 

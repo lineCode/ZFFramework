@@ -22,10 +22,10 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFUIViewMeasureResult, ZFUISize, measure
 // ============================================================
 // ZFUIViewLayoutParam
 ZFOBJECT_REGISTER(ZFUIViewLayoutParam)
-void ZFUIViewLayoutParam::layoutParamApply(ZF_OUT ZFUIRect &ret,
-                                           ZF_IN const ZFUIRect &rect,
-                                           ZF_IN ZFUIView *child,
-                                           ZF_IN ZFUIViewLayoutParam *lp)
+void ZFUIViewLayoutParam::layoutParamApplyT(ZF_OUT ZFUIRect &ret,
+                                            ZF_IN const ZFUIRect &rect,
+                                            ZF_IN ZFUIView *child,
+                                            ZF_IN ZFUIViewLayoutParam *lp)
 {
     ZFUISize refSizeTmp = ZFUIRectApplyMargin(rect, lp->layoutMargin()).size;
     if(refSizeTmp.width < 0)
@@ -48,7 +48,7 @@ void ZFUIViewLayoutParam::layoutParamApply(ZF_OUT ZFUIRect &ret,
     child->layoutMeasure(refSizeTmp, lp->sizeParam());
     ZFUIAlignApply(ret, lp->layoutAlign(), rect, child->layoutMeasuredSize(), lp->layoutMargin());
 }
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_4(ZFUIViewLayoutParam, void, layoutParamApply,
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_4(ZFUIViewLayoutParam, void, layoutParamApplyT,
     ZFMP_OUT(ZFUIRect &, ret), ZFMP_IN(const ZFUIRect &, rect), ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIViewLayoutParam *, lp))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_3(ZFUIViewLayoutParam, ZFUIRect, layoutParamApply,
     ZFMP_IN(const ZFUIRect &, rect), ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIViewLayoutParam *, lp))

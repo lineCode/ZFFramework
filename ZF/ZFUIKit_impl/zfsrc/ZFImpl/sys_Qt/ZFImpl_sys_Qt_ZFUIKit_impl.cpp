@@ -17,7 +17,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(ZF_IN_OUT zfstring &s, ZF_IN QWidget *view)
+void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_IN_OUT zfstring &s, ZF_IN QWidget *view)
 {
     // class name
     s += ZFStringA2Z(view->metaObject()->className());
@@ -48,7 +48,7 @@ void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(ZF_IN_OUT zfstring &s, Z
     }
 }
 
-void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
+void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
 {
     if(view == zfnull)
     {
@@ -56,7 +56,7 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(ZF_OUT zfstring &ret, ZF_IN Q
     }
     else
     {
-        _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(ret, view);
+        _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ret, view);
     }
 }
 
@@ -68,7 +68,7 @@ static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_O
         s += zfText("| ");
     }
 
-    _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(s, view);
+    _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(s, view);
 
     s += zfText("\n");
 
@@ -80,7 +80,7 @@ static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_O
         }
     }
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
+void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
 {
     ret += zfText("==================== QWidget tree begin ====================\n");
     if(view != zfnull)
@@ -91,29 +91,29 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree(ZF_OUT zfstring &ret, ZF_IN Q
 }
 
 // convert utility
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointToQPoint(ZF_OUT QPoint &ret, ZF_IN const ZFUIPoint &point)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointToQPointT(ZF_OUT QPoint &ret, ZF_IN const ZFUIPoint &point)
 {
     ret = QPoint(point.x, point.y);
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointFromQPoint(ZF_OUT ZFUIPoint &ret, ZF_IN const QPoint &qPoint)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointFromQPointT(ZF_OUT ZFUIPoint &ret, ZF_IN const QPoint &qPoint)
 {
     ret.x = qPoint.x();
     ret.y = qPoint.y();
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeToQSize(ZF_OUT QSize &ret, ZF_IN const ZFUISize &size)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeToQSizeT(ZF_OUT QSize &ret, ZF_IN const ZFUISize &size)
 {
     ret = QSize(size.width, size.height);
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSize(ZF_OUT ZFUISize &ret, ZF_IN const QSize &qSize)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUISizeFromQSizeT(ZF_OUT ZFUISize &ret, ZF_IN const QSize &qSize)
 {
     ret.width = qSize.width();
     ret.height = qSize.height();
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(ZF_OUT QRect &ret, ZF_IN const ZFUIRect &rect)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRectT(ZF_OUT QRect &ret, ZF_IN const ZFUIRect &rect)
 {
     ret = QRect(rect.point.x, rect.point.y, rect.size.width, rect.size.height);
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(ZF_OUT ZFUIRect &ret, ZF_IN const QRect &qRect)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRectT(ZF_OUT ZFUIRect &ret, ZF_IN const QRect &qRect)
 {
     ret.point.x = qRect.x();
     ret.point.y = qRect.y();
@@ -125,12 +125,12 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(ZF_OUT QColor &ret, ZF_IN cons
 {
     ret = QColor(ZFUIColorGetR(color), ZFUIColorGetG(color), ZFUIColorGetB(color), ZFUIColorGetA(color));
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorFromQColor(ZF_OUT ZFUIColor &ret, ZF_IN const QColor &qColor)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorFromQColorT(ZF_OUT ZFUIColor &ret, ZF_IN const QColor &qColor)
 {
     ret = ZFUIColorMake(qColor.alpha(), qColor.red(), qColor.green(), qColor.blue());
 }
 
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignment(ZF_OUT Qt::Alignment &ret, ZF_IN const ZFUIAlignFlags &align)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignmentT(ZF_OUT Qt::Alignment &ret, ZF_IN const ZFUIAlignFlags &align)
 {
     ret = 0;
 
@@ -160,7 +160,7 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignment(ZF_OUT Qt::Alignment 
         ZFBitSet(ret, Qt::AlignVCenter);
     }
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsFromQAlignment(ZF_OUT ZFUIAlignFlags &ret, ZF_IN const Qt::Alignment qAlign)
+void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsFromQAlignmentT(ZF_OUT ZFUIAlignFlags &ret, ZF_IN const Qt::Alignment qAlign)
 {
     ret = ZFUIAlign::e_Center;
 

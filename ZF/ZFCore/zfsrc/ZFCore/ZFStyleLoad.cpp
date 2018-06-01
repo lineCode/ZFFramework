@@ -54,7 +54,7 @@ static void _ZFP_ZFStyleLoadImpl(ZF_IN const ZFFilePathInfoData &fileImpl,
                     continue;
                 }
                 zfautoObject styleValue;
-                if(ZFObjectIOLoad(styleValue, ZFInputForPathInfo(ZFPathInfo(pathType, pathDataChild))))
+                if(ZFObjectIOLoadT(styleValue, ZFInputForPathInfo(ZFPathInfo(pathType, pathDataChild))))
                 {
                     ZFFilePathOfWithoutExt(relativePathTmp, relativePathTmp);
                     ZFStyleSet(relativePathTmp, styleValue);

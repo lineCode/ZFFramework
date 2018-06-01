@@ -74,7 +74,7 @@ jobject ZFImpl_sys_Android_ZFUIPointToZFAndroidPoint(ZF_IN const ZFUIPoint &poin
     jobject jobjPoint = JNIUtilNewObject(jniEnv, jclsPoint, jmId);
     return ZFImpl_sys_Android_ZFUIPointToZFAndroidPoint(point, jobjPoint);
 }
-void ZFImpl_sys_Android_ZFUIPointFromZFAndroidPoint(ZF_OUT ZFUIPoint &ret, ZF_IN jobject jobjPoint)
+void ZFImpl_sys_Android_ZFUIPointFromZFAndroidPointT(ZF_OUT ZFUIPoint &ret, ZF_IN jobject jobjPoint)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsPoint = ZFImpl_sys_Android_jclassZFAndroidPoint();
@@ -110,7 +110,7 @@ jobject ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(ZF_IN const ZFUISize &size)
     jobject jobjSize = JNIUtilNewObject(jniEnv, jclsSize, jmId);
     return ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(size, jobjSize);
 }
-void ZFImpl_sys_Android_ZFUISizeFromZFAndroidSize(ZF_OUT ZFUISize &ret, ZF_IN jobject jobjSize)
+void ZFImpl_sys_Android_ZFUISizeFromZFAndroidSizeT(ZF_OUT ZFUISize &ret, ZF_IN jobject jobjSize)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsSize = ZFImpl_sys_Android_jclassZFAndroidSize();
@@ -150,7 +150,7 @@ jobject ZFImpl_sys_Android_ZFUIMarginToZFAndroidMargin(ZF_IN const ZFUIMargin &m
     jobject jobjMargin = JNIUtilNewObject(jniEnv, jclsMargin, jmId);
     return ZFImpl_sys_Android_ZFUIMarginToZFAndroidMargin(margin, jobjMargin);
 }
-void ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMargin(ZF_OUT ZFUIMargin &ret, ZF_IN jobject jobjMargin)
+void ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMarginT(ZF_OUT ZFUIMargin &ret, ZF_IN jobject jobjMargin)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsMargin = ZFImpl_sys_Android_jclassZFAndroidMargin();
@@ -194,7 +194,7 @@ jobject ZFImpl_sys_Android_ZFUIRectToZFAndroidRect(ZF_IN const ZFUIRect &rect)
     jobject jobjRect = JNIUtilNewObject(jniEnv, jclsRect, jmId);
     return ZFImpl_sys_Android_ZFUIRectToZFAndroidRect(rect, jobjRect);
 }
-void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ZF_OUT ZFUIRect &ret, ZF_IN jobject jobjRect)
+void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(ZF_OUT ZFUIRect &ret, ZF_IN jobject jobjRect)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsRect = ZFImpl_sys_Android_jclassZFAndroidRect();
@@ -209,7 +209,7 @@ void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ZF_OUT ZFUIRect &ret, ZF_IN jo
 }
 
 // ============================================================
-void ZFImpl_sys_Android_ViewGetViewTree(ZF_OUT zfstring &ret, ZF_IN jobject nativeView)
+void ZFImpl_sys_Android_ViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jcls = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFAndroidUI).c_str());

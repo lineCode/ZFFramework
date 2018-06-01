@@ -506,7 +506,7 @@ public:
                                    ZF_IN const ZFUISize &sizeHint)
     {
         ret = ZFUISizeMake(zfmMax(sizeHint.width, 0), zfmMax(sizeHint.height, 0));
-        ret = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeFromCGSize(
+        ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeFromCGSizeT(ret,
             [(__bridge UIView *)nativeView sizeThatFits:ZFImpl_sys_iOS_ZFUIKit_impl_ZFUISizeToCGSize(ret)]);
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFUIViewImpl_sys_iOS)

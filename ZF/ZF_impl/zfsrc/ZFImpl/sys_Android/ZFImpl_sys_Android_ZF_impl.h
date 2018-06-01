@@ -156,11 +156,11 @@ extern ZF_ENV_EXPORT jobject ZFImpl_sys_Android_zfstringToString(ZF_IN const zfc
 // ============================================================
 extern ZF_ENV_EXPORT zfstring ZFImpl_sys_Android_stackTrace(void);
 extern ZF_ENV_EXPORT void ZFImpl_sys_Android_stackTracePrint(void);
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_objectInfo(ZF_OUT zfstring &ret, ZF_IN jobject nativeObject);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_objectInfoT(ZF_OUT zfstring &ret, ZF_IN jobject nativeObject);
 inline zfstring ZFImpl_sys_Android_objectInfo(ZF_IN jobject nativeObject)
 {
     zfstring ret;
-    ZFImpl_sys_Android_objectInfo(ret, nativeObject);
+    ZFImpl_sys_Android_objectInfoT(ret, nativeObject);
     return ret;
 }
 

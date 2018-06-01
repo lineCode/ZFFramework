@@ -160,10 +160,10 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
     }
 
     ZFCoreArrayPOD<const ZFClass *> allClass;
-    ZFClassGetAll(allClass);
+    ZFClassGetAllT(allClass);
 
     ZFCoreArrayPOD<const ZFMethod *> allMethod;
-    ZFMethodGetAll(allMethod);
+    ZFMethodGetAllT(allMethod);
 
     ZFCoreArrayPOD<const ZFTypeIdBase *> allTypeId;
     ZFTypeIdGetAllT(allTypeId);

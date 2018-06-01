@@ -240,15 +240,15 @@ zfclassFwd ZFFilterForZFProperty;
 /**
  * @brief get all property currently registered, for debug use only
  */
-extern ZF_ENV_EXPORT void ZFPropertyGetAll(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
-                                           ZF_IN_OPT const ZFFilterForZFProperty *propertyFilter = zfnull);
+extern ZF_ENV_EXPORT void ZFPropertyGetAllT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
+                                            ZF_IN_OPT const ZFFilterForZFProperty *propertyFilter = zfnull);
 /**
  * @brief get all property currently registered, for debug use only
  */
 inline ZFCoreArrayPOD<const ZFProperty *> ZFPropertyGetAll(ZF_IN_OPT const ZFFilterForZFProperty *propertyFilter = zfnull)
 {
     ZFCoreArrayPOD<const ZFProperty *> ret;
-    ZFPropertyGetAll(ret, propertyFilter);
+    ZFPropertyGetAllT(ret, propertyFilter);
     return ret;
 }
 

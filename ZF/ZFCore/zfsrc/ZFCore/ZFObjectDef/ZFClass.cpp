@@ -594,7 +594,56 @@ zfautoObject ZFClass::newInstanceGeneric(
 
     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
     this->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
-    return this->newInstanceGenericWithMethodList(objectOnInitMethodList
+    ZFToken token = this->newInstanceGenericBegin();
+    if(token != zfnull)
+    {
+        for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
+        {
+            if(this->newInstanceGenericCheck(token, objectOnInitMethodList[i]
+                    , param0
+                    , param1
+                    , param2
+                    , param3
+                    , param4
+                    , param5
+                    , param6
+                    , param7
+                ))
+            {
+                return this->newInstanceGenericEnd(token, zftrue);
+            }
+        }
+        this->newInstanceGenericEnd(token, zffalse);
+    }
+    return zfautoObjectNull();
+}
+ZFToken ZFClass::newInstanceGenericBegin(void) const
+{
+    zfCoreMutexLocker();
+    return (ZFToken)d->objectConstruct();
+}
+zfbool ZFClass::newInstanceGenericCheck(ZF_IN ZFToken token
+                                        , ZF_IN const ZFMethod *objectOnInitMethod
+                                        , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        ) const
+{
+    if(objectOnInitMethod == zfnull
+        || !this->classIsTypeOf(objectOnInitMethod->methodOwnerClass())
+        || !zfscmpTheSame(objectOnInitMethod->methodName(), zfText("objectOnInit"))
+        )
+    {
+        return zffalse;
+    }
+    ZFObject *obj = (ZFObject *)token;
+    zfautoObject methodRetDummy;
+    return objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, methodRetDummy
             , param0
             , param1
             , param2
@@ -605,96 +654,21 @@ zfautoObject ZFClass::newInstanceGeneric(
             , param7
         );
 }
-zfautoObject ZFClass::newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectOnInitMethod
-                                                   , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                   ) const /* ZFMETHOD_MAX_PARAM */
+zfautoObject ZFClass::newInstanceGenericEnd(ZF_IN ZFToken token,
+                                            ZF_IN zfbool objectOnInitMethodInvokeSuccess) const
 {
-    if(objectOnInitMethod == zfnull)
+    ZFObject *obj = (ZFObject *)token;
+    if(objectOnInitMethodInvokeSuccess)
     {
-        return this->newInstanceGeneric(
-                  param0
-                , param1
-                , param2
-                , param3
-                , param4
-                , param5
-                , param6
-                , param7
-            );
+        obj->_ZFP_ZFObjectCheckOnInit();
+        zflockfree_zfblockedRelease(obj);
+        return obj;
     }
     else
     {
-        ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
-        objectOnInitMethodList.add(objectOnInitMethod);
-        return this->newInstanceGenericWithMethodList(objectOnInitMethodList
-                , param0
-                , param1
-                , param2
-                , param3
-                , param4
-                , param5
-                , param6
-                , param7
-            );
+        d->destructor(obj);
+        return zfnull;
     }
-}
-zfautoObject ZFClass::newInstanceGenericWithMethodList(ZF_IN const ZFCoreArray<const ZFMethod *> &objectOnInitMethodList
-                                                       , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
-                                                       ) const /* ZFMETHOD_MAX_PARAM */
-{
-    if(objectOnInitMethodList.isEmpty())
-    {
-        return this->newInstanceGeneric(param0, param1, param2, param3, param4, param5, param6, param7);
-    }
-    zfCoreMutexLocker();
-    ZFObject *obj = d->objectConstruct();
-    zfautoObject methodRetDummy;
-    for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
-    {
-        const ZFMethod *objectOnInitMethod = objectOnInitMethodList[i];
-        zfCoreAssertWithMessageTrim(
-                this->classIsTypeOf(objectOnInitMethod->methodOwnerClass()),
-                zfTextA("[ZFClass] class %s has no such objectOnInit method %s"),
-                zfsCoreZ2A(this->objectInfo().cString()),
-                zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
-            );
-        zfCoreAssertWithMessageTrim(
-                zfscmpTheSame(objectOnInitMethod->methodName(), zfText("objectOnInit")),
-                zfTextA("[ZFClass] method %s is not objectOnInit"),
-                zfsCoreZ2A(objectOnInitMethod->objectInfo().cString())
-            );
-        if(objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, methodRetDummy
-                , param0
-                , param1
-                , param2
-                , param3
-                , param4
-                , param5
-                , param6
-                , param7
-            ))
-        {
-            obj->_ZFP_ZFObjectCheckOnInit();
-            zflockfree_zfblockedRelease(obj);
-            return obj;
-        }
-    }
-    d->destructor(obj);
-    return zfnull;
 }
 
 zfindex ZFClass::implementedInterfaceCount(void) const
@@ -1583,8 +1557,8 @@ _ZFP_ZFClassRegisterHolder::~_ZFP_ZFClassRegisterHolder(void)
 }
 
 // ============================================================
-void ZFClassGetAll(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
-                   ZF_IN_OPT const ZFFilterForZFClass *classFilter /* = zfnull */)
+void ZFClassGetAllT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
+                    ZF_IN_OPT const ZFFilterForZFClass *classFilter /* = zfnull */)
 {
     zfCoreMutexLocker();
     if(classFilter == zfnull)
@@ -1693,7 +1667,9 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, zfautoObject, newInstanceGe
     , ZFMP_IN_OPT(ZFObject *, param6, ZFMethodGenericInvokerDefaultParam())
     , ZFMP_IN_OPT(ZFObject *, param7, ZFMethodGenericInvokerDefaultParam())
     ) /* ZFMETHOD_MAX_PARAM */
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, zfautoObject, newInstanceGenericWithMethod
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, ZFToken, newInstanceGenericBegin)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, zfbool, newInstanceGenericCheck
+    , ZFMP_IN(ZFToken, token)
     , ZFMP_IN(const ZFMethod *, objectOnInitMethod)
     , ZFMP_IN_OPT(ZFObject *, param0, ZFMethodGenericInvokerDefaultParam())
     , ZFMP_IN_OPT(ZFObject *, param1, ZFMethodGenericInvokerDefaultParam())
@@ -1701,9 +1677,10 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, zfautoObject, newInstanceGe
     , ZFMP_IN_OPT(ZFObject *, param3, ZFMethodGenericInvokerDefaultParam())
     , ZFMP_IN_OPT(ZFObject *, param4, ZFMethodGenericInvokerDefaultParam())
     , ZFMP_IN_OPT(ZFObject *, param5, ZFMethodGenericInvokerDefaultParam())
-    , ZFMP_IN_OPT(ZFObject *, param6, ZFMethodGenericInvokerDefaultParam())
+    /* , ZFMP_IN_OPT(ZFObject *, param6, ZFMethodGenericInvokerDefaultParam()) */
     /* , ZFMP_IN_OPT(ZFObject *, param7, ZFMethodGenericInvokerDefaultParam()) */
     ) /* ZFMETHOD_MAX_PARAM */
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFClass, zfautoObject, newInstanceGenericEnd, ZFMP_IN(ZFToken, token), ZFMP_IN(zfbool, objectOnInitMethodInvokeSuccess))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, implementedInterfaceCount)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFClass *, implementedInterfaceAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, methodCount)
@@ -1743,7 +1720,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, void, classTagRemove, ZFMP_
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, zfautoObject, classTagRemoveAndGet, ZFMP_IN(const zfchar *, key))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, void, classTagRemoveAll)
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFClassGetAll, ZFMP_OUT(ZFCoreArray<const ZFClass *> &, ret), ZFMP_IN_OPT(const ZFFilterForZFClass *, classFilter, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFClassGetAllT, ZFMP_OUT(ZFCoreArray<const ZFClass *> &, ret), ZFMP_IN_OPT(const ZFFilterForZFClass *, classFilter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFCoreArrayPOD<const ZFClass *>, ZFClassGetAll, ZFMP_IN_OPT(const ZFFilterForZFClass *, classFilter, zfnull))
 
 ZF_NAMESPACE_GLOBAL_END

@@ -54,7 +54,7 @@ public:
             ).c_str());
         jobject tmp = JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
             ZFCastStatic(jobject, view->nativeView()));
-        ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(rect, tmp);
+        ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(rect, tmp);
         JNIUtilDeleteLocalRef(jniEnv, tmp);
     }
 

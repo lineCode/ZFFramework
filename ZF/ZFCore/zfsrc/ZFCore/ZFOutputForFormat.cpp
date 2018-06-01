@@ -22,14 +22,14 @@ zfclass _ZFP_I_ZFOutputForFormatOwner : zfextends ZFObject
 public:
     ZFOutput output;
     ZFOutputFormat *format;
-    ZFOutputFormat::OutputStep outputStep;
+    ZFOutputFormatStepEnum outputStep;
     zfindex writtenLen;
 
 protected:
     _ZFP_I_ZFOutputForFormatOwner(void)
     : output()
     , format(zfnull)
-    , outputStep(ZFOutputFormat::OutputStepBegin)
+    , outputStep(ZFOutputFormatStep::e_OnInit)
     , writtenLen(0)
     {
     }
@@ -59,7 +59,7 @@ public:
     void outputBegin(void)
     {
         zfstring buf;
-        this->format->_ZFP_format(buf, ZFOutputFormat::OutputStepBegin, zfText(""), 0, this->writtenLen);
+        this->format->_ZFP_format(buf, ZFOutputFormatStep::e_OnInit, zfText(""), 0, this->writtenLen);
         if(!buf.isEmpty())
         {
             this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
@@ -68,7 +68,7 @@ public:
     void outputEnd(void)
     {
         zfstring buf;
-        this->format->_ZFP_format(buf, ZFOutputFormat::OutputStepEnd, zfText(""), 0, this->writtenLen);
+        this->format->_ZFP_format(buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->writtenLen);
         if(!buf.isEmpty())
         {
             this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
@@ -95,7 +95,7 @@ public:
         zfstring buf;
         this->format->_ZFP_format(
             buf,
-            ZFOutputFormat::OutputStepAction,
+            ZFOutputFormatStep::e_OnOutput,
             (const zfchar *)s,
             count,
             this->writtenLen);
@@ -145,7 +145,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
     {
         ZFSerializableData outputData;
         ZFSerializableData formatData;
-        if(ZFCallbackToData(outputData, output) && ZFObjectToData(formatData, format->toObject()))
+        if(ZFObjectToData(formatData, format->toObject()) && ZFCallbackToData(outputData, output))
         {
             ZFSerializableData serializableData;
             outputData.categorySet(ZFSerializableKeyword_ZFOutputForFormat_output);

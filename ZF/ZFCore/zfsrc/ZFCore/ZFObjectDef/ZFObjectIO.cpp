@@ -157,9 +157,9 @@ static zfbool _ZFP_ZFObjectIOCheck(ZF_OUT _ZFP_ZFObjectIOData *&ret,
         ZFPathInfoToString(*callback.pathInfo()).cString());
     return zffalse;
 }
-zfbool ZFObjectIOLoad(ZF_OUT zfautoObject &ret,
-                      ZF_IN const ZFInput &input,
-                      ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
+zfbool ZFObjectIOLoadT(ZF_OUT zfautoObject &ret,
+                       ZF_IN const ZFInput &input,
+                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
     _ZFP_ZFObjectIOData *data = zfnull;
     if(!_ZFP_ZFObjectIOCheck(data, input, outErrorHint))
@@ -175,7 +175,7 @@ zfautoObject ZFObjectIOLoad(ZF_IN const ZFInput &input,
                             ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
     zfautoObject ret;
-    ZFObjectIOLoad(ret, input, outErrorHint);
+    ZFObjectIOLoadT(ret, input, outErrorHint);
     return ret;
 }
 zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
@@ -199,7 +199,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOLoad, ZFMP_OUT(zfautoObject &, ret), ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOLoadT, ZFMP_OUT(zfautoObject &, ret), ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfautoObject, ZFObjectIOLoad, ZFMP_IN(const ZFInput &, input), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFObjectIOSave, ZFMP_IN_OUT(const ZFOutput &, output), ZFMP_IN(ZFObject *, obj), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull))
 

@@ -41,7 +41,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, zfRes,
         }
     }
 
-    if(!ZFObjectIOLoad(ret, input))
+    if(!ZFObjectIOLoadT(ret, input))
     {
         return zfnull;
     }

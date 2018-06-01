@@ -277,7 +277,29 @@ public:
      * @note this method do much reflection steps to find proper objectOnInit,
      *   which may cause performance issue,
      *   use with caution,
-     *   or use #newInstanceGenericWithMethod if available
+     *   or use #newInstanceGenericBegin if available:
+     *   @code
+     *     zfautoObject result;
+     *     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
+     *     cls->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
+     *     // you may do your extra method filters before actual alloc the object
+     *     ZFToken token = cls->newInstanceGenericBegin();
+     *     if(token != zfnull)
+     *     {
+     *         for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
+     *         {
+     *             if(cls->newInstanceGenericCheck(token, objectOnInitMethodList[i], params...))
+     *             {
+     *                 result = cls->newInstanceGenericEnd(token, zftrue);
+     *                 break;
+     *             }
+     *         }
+     *         if(result == zfnull)
+     *         {
+     *             cls->newInstanceGenericEnd(token, zffalse);
+     *         }
+     *     }
+     *   @endcode
      * @note if all params are #ZFMethodGenericInvokerDefaultParam, this method would call
      *   original #ZFObject::objectOnInit instead (same as #newInstance)
      */
@@ -291,32 +313,23 @@ public:
                                     , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
                                     , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
                                     ) const; /* ZFMETHOD_MAX_PARAM */
-    /**
-     * @brief see #newInstanceGeneric
-     */
-    zfautoObject newInstanceGenericWithMethod(ZF_IN const ZFMethod *objectOnInitMethod
-                                              , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
-                                              , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
-                                              ) const; /* ZFMETHOD_MAX_PARAM */
-    /**
-     * @brief see #newInstanceGeneric
-     */
-    zfautoObject newInstanceGenericWithMethodList(ZF_IN const ZFCoreArray<const ZFMethod *> &objectOnInitMethodList
-                                                  , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
-                                                  , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
-                                                  ) const; /* ZFMETHOD_MAX_PARAM */
+    /** @brief see #newInstanceGeneric */
+    ZFToken newInstanceGenericBegin(void) const;
+    /** @brief see #newInstanceGeneric */
+    zfbool newInstanceGenericCheck(ZF_IN ZFToken token
+                                   , ZF_IN const ZFMethod *objectOnInitMethod
+                                   , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
+                                   ) const; /* ZFMETHOD_MAX_PARAM */
+    /** @brief see #newInstanceGeneric */
+    zfautoObject newInstanceGenericEnd(ZF_IN ZFToken token,
+                                       ZF_IN zfbool objectOnInitMethodInvokeSuccess) const;
 
     /**
      * @brief get implemented interface count
@@ -592,15 +605,15 @@ zfclassFwd ZFFilterForZFClass;
 /**
  * @brief get all class currently registered, for debug use only
  */
-extern ZF_ENV_EXPORT void ZFClassGetAll(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
-                                        ZF_IN_OPT const ZFFilterForZFClass *classFilter = zfnull);
+extern ZF_ENV_EXPORT void ZFClassGetAllT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
+                                         ZF_IN_OPT const ZFFilterForZFClass *classFilter = zfnull);
 /**
  * @brief get all class currently registered, for debug use only
  */
 inline ZFCoreArrayPOD<const ZFClass *> ZFClassGetAll(ZF_IN_OPT const ZFFilterForZFClass *classFilter = zfnull)
 {
     ZFCoreArrayPOD<const ZFClass *> ret;
-    ZFClassGetAll(ret, classFilter);
+    ZFClassGetAllT(ret, classFilter);
     return ret;
 }
 

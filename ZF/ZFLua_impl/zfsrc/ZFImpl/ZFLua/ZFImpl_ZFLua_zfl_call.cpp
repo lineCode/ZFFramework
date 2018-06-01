@@ -21,7 +21,7 @@ static void _ZFP_ZFImpl_ZFLua_zfl_callStatic_methodScopeFix(ZF_IN_OUT zfstring &
     }
 }
 static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
-                                              ZF_IN_OUT zfautoObject *paramList_,
+                                              ZF_IN_OUT zfautoObject *paramList,
                                               ZF_IN zfindex paramCount,
                                               ZF_IN const ZFCoreArrayPOD<const ZFMethod *> &methodList,
                                               ZF_IN ZFObject *obj)
@@ -41,54 +41,23 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
 
         errorHint.removeAll();
 
-        zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
-            paramList_[0],
-            paramList_[1],
-            paramList_[2],
-            paramList_[3],
-            paramList_[4],
-            paramList_[5],
-            paramList_[6],
-            paramList_[7],
+        zfautoObject paramListTmp[ZFMETHOD_MAX_PARAM] = {
+            paramList[0],
+            paramList[1],
+            paramList[2],
+            paramList[3],
+            paramList[4],
+            paramList[5],
+            paramList[6],
+            paramList[7],
         };
         zfbool parseParamSuccess = zftrue;
-        for(zfindex i = 0; i < paramCount; ++i)
+        for(zfindex i = 0; i < paramCount && parseParamSuccess; ++i)
         {
-            ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramList[i].toObject());
+            ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramListTmp[i].toObject());
             if(t != zfnull)
             {
-                const ZFTypeIdBase *typeIdData = ZFTypeIdGet(method->methodParamTypeIdAtIndex(i));
-                if(typeIdData == zfnull || !typeIdData->typeIdWrapper(paramList[i]))
-                {
-                    zfstringAppend(errorHint, zfText("param %zi (%s) can not be converted from string automatically"),
-                            i,
-                            method->methodParamTypeNameAtIndex(i)
-                        );
-                    parseParamSuccess = zffalse;
-                    break;
-                }
-
-                if(paramList[i] == zfnull)
-                {
-                    if(!ZFObjectFromString(paramList[i], t->zfv, t->zfv.length()))
-                    {
-                        parseParamSuccess = zffalse;
-                    }
-                }
-                else if(!paramList[i].to<ZFTypeIdWrapper *>()->wrappedValueFromString(t->zfv, t->zfv.length()))
-                {
-                    parseParamSuccess = zffalse;
-                }
-
-                if(!parseParamSuccess)
-                {
-                    zfstringAppend(errorHint, zfText("param %zi (%s) can not be converted from string \"%s\""),
-                            i,
-                            method->methodParamTypeNameAtIndex(i),
-                            t->zfv.cString()
-                        );
-                    break;
-                }
+                parseParamSuccess = ZFImpl_ZFLua_fromUnknown(paramListTmp[i], method->methodParamTypeIdAtIndex(i), t, &errorHint);
             }
         }
         if(!parseParamSuccess)
@@ -98,14 +67,14 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
 
         ret = zfnull;
         if(method->methodGenericInvoker()(method, obj, &errorHint, ret
-                , paramList[0]
-                , paramList[1]
-                , paramList[2]
-                , paramList[3]
-                , paramList[4]
-                , paramList[5]
-                , paramList[6]
-                , paramList[7]
+                , paramListTmp[0]
+                , paramListTmp[1]
+                , paramListTmp[2]
+                , paramListTmp[3]
+                , paramListTmp[4]
+                , paramListTmp[5]
+                , paramListTmp[6]
+                , paramListTmp[7]
             ))
         {
             ZFImpl_ZFLua_luaPush(L, ret);
@@ -128,7 +97,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
             {
                 err += zfText(", ");
             }
-            err += ZFObjectInfo(paramList_[i].toObject());
+            err += ZFObjectInfo(paramList[i].toObject());
         }
         err += zfText("]");
         err += zfText(", reason: ");
@@ -149,7 +118,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
             {
                 err += zfText(", ");
             }
-            err += ZFObjectInfo(paramList_[i].toObject());
+            err += ZFObjectInfo(paramList[i].toObject());
         }
         err += zfText("]");
         err += zfText(", last error reason: ");

@@ -742,15 +742,15 @@ zfclassFwd ZFFilterForZFMethod;
 /**
  * @brief get all method currently registered, for debug use only
  */
-extern ZF_ENV_EXPORT void ZFMethodGetAll(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
-                                         ZF_IN_OPT const ZFFilterForZFMethod *methodFilter = zfnull);
+extern ZF_ENV_EXPORT void ZFMethodGetAllT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
+                                          ZF_IN_OPT const ZFFilterForZFMethod *methodFilter = zfnull);
 /**
  * @brief get all method currently registered, for debug use only
  */
 inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodGetAll(ZF_IN_OPT const ZFFilterForZFMethod *methodFilter = zfnull)
 {
     ZFCoreArrayPOD<const ZFMethod *> ret;
-    ZFMethodGetAll(ret, methodFilter);
+    ZFMethodGetAllT(ret, methodFilter);
     return ret;
 }
 
