@@ -14,6 +14,17 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 ZFOBJECT_REGISTER(ZFOutputFormat)
 
+void ZFOutputFormat::format(ZF_IN_OUT zfstring &ret,
+                            ZF_IN ZFOutputFormatStepEnum outputStep,
+                            ZF_IN const zfchar *src,
+                            ZF_IN zfindex srcLen,
+                            ZF_IN zfindex outputCount,
+                            ZF_IN zfindex writtenLen,
+                            ZF_IN_OUT_OPT void *&state)
+{
+    // nothing to do
+}
+
 // ============================================================
 zfclass _ZFP_I_ZFOutputForFormatOwner : zfextends ZFObject
 {
@@ -23,14 +34,18 @@ public:
     ZFOutput output;
     ZFOutputFormat *format;
     ZFOutputFormatStepEnum outputStep;
+    zfindex outputCount;
     zfindex writtenLen;
+    void *state;
 
 protected:
     _ZFP_I_ZFOutputForFormatOwner(void)
     : output()
     , format(zfnull)
     , outputStep(ZFOutputFormatStep::e_OnInit)
+    , outputCount(0)
     , writtenLen(0)
+    , state(zfnull)
     {
     }
 
@@ -38,7 +53,7 @@ protected:
     zfoverride
     virtual void objectOnDeallocPrepare(void)
     {
-        if(this->format != zfnull && this->output.callbackIsValid())
+        if(this->format != zfnull)
         {
             this->outputEnd();
         }
@@ -59,7 +74,8 @@ public:
     void outputBegin(void)
     {
         zfstring buf;
-        this->format->_ZFP_format(buf, ZFOutputFormatStep::e_OnInit, zfText(""), 0, this->writtenLen);
+        this->format->_ZFP_format(
+            buf, ZFOutputFormatStep::e_OnInit, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
         if(!buf.isEmpty())
         {
             this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
@@ -68,10 +84,14 @@ public:
     void outputEnd(void)
     {
         zfstring buf;
-        this->format->_ZFP_format(buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->writtenLen);
+        this->format->_ZFP_format(
+            buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
         if(!buf.isEmpty())
         {
-            this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
+            if(this->output.callbackIsValid())
+            {
+                this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
+            }
         }
     }
     ZFMETHOD_INLINE_2(zfindex, onOutput,
@@ -98,7 +118,10 @@ public:
             ZFOutputFormatStep::e_OnOutput,
             (const zfchar *)s,
             count,
-            this->writtenLen);
+            this->outputCount,
+            this->writtenLen,
+            this->state);
+        ++(this->outputCount);
         if(buf.isEmpty())
         {
             return count * sizeof(zfchar);
@@ -145,7 +168,9 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
     {
         ZFSerializableData outputData;
         ZFSerializableData formatData;
-        if(ZFObjectToData(formatData, format->toObject()) && ZFCallbackToData(outputData, output))
+        if(format->classData()->classIsTypeOf(ZFSerializable::ClassData())
+            && ZFCallbackToData(outputData, output)
+            && ZFObjectToData(formatData, format->toObject()))
         {
             ZFSerializableData serializableData;
             outputData.categorySet(ZFSerializableKeyword_ZFOutputForFormat_output);
@@ -248,6 +273,68 @@ ZFMETHOD_FUNC_DEFINE_1(ZFOutput, ZFOutputForFormatGetOutput,
     else
     {
         return owner->output;
+    }
+}
+
+// ============================================================
+ZFOBJECT_REGISTER(ZFOutputFormatBasic)
+void ZFOutputFormatBasic::format(ZF_IN_OUT zfstring &ret,
+                                 ZF_IN ZFOutputFormatStepEnum outputStep,
+                                 ZF_IN const zfchar *src,
+                                 ZF_IN zfindex srcLen,
+                                 ZF_IN zfindex outputCount,
+                                 ZF_IN zfindex writtenLen,
+                                 ZF_IN_OUT_OPT void *&state)
+{
+    switch(outputStep)
+    {
+        case ZFOutputFormatStep::e_OnInit:
+            state = (void *)zfnew(zfbool, zftrue);
+            return ;
+        case ZFOutputFormatStep::e_OnDealloc:
+            if(outputCount > 0)
+            {
+                ret += this->outputPostfix();
+            }
+            zfdelete((zfbool *)state);
+            return ;
+        case ZFOutputFormatStep::e_OnOutput:
+            break;
+        default:
+            zfCoreCriticalShouldNotGoHere();
+            return ;
+    }
+    if(outputCount == 0)
+    {
+        ret += this->outputPrefix();
+    }
+    zfbool &needLinePrefix = *(zfbool *)state;
+    if(needLinePrefix)
+    {
+        needLinePrefix = zffalse;
+        ret += this->linePrefix();
+    }
+
+    const zfchar *srcEnd = src + srcLen;
+    const zfchar *p = src;
+    while(src < srcEnd)
+    {
+        if(*src == '\n')
+        {
+            ret.append(p, src - p);
+            ret += this->linePostfix();
+            ret += '\n';
+            needLinePrefix = zftrue;
+            zfcharMoveNext(src);
+            p = src;
+            continue;
+        }
+        zfcharMoveNext(src);
+    }
+    if(p < src)
+    {
+        needLinePrefix = zffalse;
+        ret.append(p, src - p);
     }
 }
 

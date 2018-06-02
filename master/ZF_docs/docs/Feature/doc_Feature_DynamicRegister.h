@@ -11,9 +11,9 @@
  * @code
  *   ZFLuaExecute(zfText(" \
  *       ZFDynamic() \
- *       .classBegin('MyClass', 'ZFUIView') \
- *           .property('zfstring', 'myProp') \
- *       .classEnd() \
+ *       :classBegin('MyClass', 'ZFUIView') \
+ *           :property(ZFTypeId_zfstring(), 'myProp') \
+ *       :classEnd() \
  *       "));
  * @endcode
  *

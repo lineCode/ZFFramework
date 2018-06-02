@@ -507,8 +507,8 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
 
 #define _ZFP_ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR_GETTER(ownerClassSig, VarType, VarName) \
     _ZFP_ZFMETHOD_USER_REGISTER({ \
-            return (VarType)(_ZFP_MtdUR_zfv(invokerObject->to<ownerClassSig *>()->zfv).VarName); \
-        }, ownerClassSig, ZFMethodTypeVirtual, VarType, VarName, ZF_CALLER_LINE \
+            return (VarType const &)(_ZFP_MtdUR_zfv(invokerObject->to<ownerClassSig *>()->zfv).VarName); \
+        }, ownerClassSig, ZFMethodTypeVirtual, VarType const &, VarName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -522,7 +522,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
     _ZFP_ZFMETHOD_USER_REGISTER({ \
             _ZFP_MtdUR_zfv(invokerObject->to<ownerClassSig *>()->zfv).VarName = param0; \
         }, ownerClassSig, ZFMethodTypeVirtual, void, VarName##Set, ZF_CALLER_LINE \
-        , ZFM_EXPAND(ZFMP_IN(VarType, param0)) \
+        , ZFM_EXPAND(ZFMP_IN(VarType const &, param0)) \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \

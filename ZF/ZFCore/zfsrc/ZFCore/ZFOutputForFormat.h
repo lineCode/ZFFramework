@@ -52,23 +52,26 @@ protected:
      * during output, it's ensured:
      * -  src is valid
      * -  srcLen is the src's length
-     *
-     * writtenLen is the formated length already written
-     * to the original output
+     * -  outputCount is the number of times that the output callback was called
+     * -  writtenLen is the number of chars that actually written to original output
      */
     virtual void format(ZF_IN_OUT zfstring &ret,
                         ZF_IN ZFOutputFormatStepEnum outputStep,
                         ZF_IN const zfchar *src,
                         ZF_IN zfindex srcLen,
-                        ZF_IN zfindex writtenLen) zfpurevirtual;
+                        ZF_IN zfindex outputCount,
+                        ZF_IN zfindex writtenLen,
+                        ZF_IN_OUT_OPT void *&state) zfpurevirtual;
 public:
     inline void _ZFP_format(ZF_IN_OUT zfstring &ret,
                             ZF_IN ZFOutputFormatStepEnum outputStep,
                             ZF_IN const zfchar *src,
                             ZF_IN zfindex srcLen,
-                            ZF_IN zfindex writtenLen)
+                            ZF_IN zfindex outputCount,
+                            ZF_IN zfindex writtenLen,
+                            ZF_IN_OUT_OPT void *&state)
     {
-        this->format(ret, outputStep, src, srcLen, writtenLen);
+        this->format(ret, outputStep, src, srcLen, outputCount, writtenLen, state);
     }
 };
 
@@ -133,6 +136,36 @@ ZFMETHOD_FUNC_DECLARE_1(ZFOutputFormat *, ZFOutputForFormatGetFormat,
  */
 ZFMETHOD_FUNC_DECLARE_1(ZFOutput, ZFOutputForFormatGetOutput,
                         ZFMP_IN(const ZFCallback &, callback))
+
+// ============================================================
+/**
+ * @brief basic output format
+ */
+zfclass ZF_ENV_EXPORT ZFOutputFormatBasic : zfextends ZFStyleableObject, zfimplements ZFOutputFormat
+{
+    ZFOBJECT_DECLARE(ZFOutputFormatBasic, ZFStyleableObject)
+    ZFIMPLEMENTS_DECLARE(ZFOutputFormat)
+
+public:
+    /** @brief contents write before entire output */
+    ZFPROPERTY_ASSIGN(zfstring, outputPrefix)
+    /** @brief contents write before each line */
+    ZFPROPERTY_ASSIGN(zfstring, linePrefix)
+    /** @brief contents write after each line */
+    ZFPROPERTY_ASSIGN(zfstring, linePostfix)
+    /** @brief contents write after entire output */
+    ZFPROPERTY_ASSIGN(zfstring, outputPostfix)
+
+protected:
+    zfoverride
+    virtual void format(ZF_IN_OUT zfstring &ret,
+                        ZF_IN ZFOutputFormatStepEnum outputStep,
+                        ZF_IN const zfchar *src,
+                        ZF_IN zfindex srcLen,
+                        ZF_IN zfindex outputCount,
+                        ZF_IN zfindex writtenLen,
+                        ZF_IN_OUT_OPT void *&state);
+};
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFOutputForFormat_h_
