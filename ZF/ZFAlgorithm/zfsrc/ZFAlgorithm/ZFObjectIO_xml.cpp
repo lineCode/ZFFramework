@@ -13,6 +13,8 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECTIO_DEFINE(xml, zfText("xml"), {
+        return zftrue;
+    }, {
         return ZFObjectFromXml(ret, input, outErrorHint);
     }, {
         return ZFObjectToXml(output, obj, outErrorHint);

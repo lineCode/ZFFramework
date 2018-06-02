@@ -256,7 +256,9 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zflongdouble)
  */
 ZFTYPEID_DECLARE(zftimet, zftimet)
 ZFOUTPUT_TYPE(zftimet, {output.execute(zftimetToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zftimet)
+ZFTYPEID_PROGRESS_DECLARE(zftimet, {
+        ret = (zft_zftimet)(from + (zft_zftimet)((to - from) * progress));
+    })
 
 /**
  * @brief see #ZFTYPEID_DECLARE

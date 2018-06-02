@@ -66,6 +66,14 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
  * usage:
  * @code
  *   ZFOBJECTIO_DEFINE(registerSig, fileExt, {
+ *           // callback to check whether the pathInfo can be used as object IO
+ *           // proto type:
+ *           //   zfbool checker(ZF_IN const ZFPathInfo &pathInfo,
+ *           //                  ZF_IN_OPT const zfchar *fileExt = zfnull);
+ *           // pathInfo: ZFCallback::pathInfo
+ *           // fileExt: by default, we will try to detect file ext from pathInfo's pathData,
+ *           //          null if not available
+ *       }, {
  *           // callback to load object from input
  *           // proto type:
  *           //   zfbool fromInput(ZF_OUT zfautoObject &ret,
@@ -77,22 +85,10 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
  *           //   zfbool toOutput(ZF_IN_OUT const ZFOutput &output,
  *           //                   ZF_IN ZFObject *obj,
  *           //                   ZF_OUT_OPT zfstring *outErrorHint = zfnull);
- *       }, {
- *           // optional
- *           // callback to check whether the pathInfo can be used as object IO
- *           // proto type:
- *           //   zfbool checker(ZF_IN const ZFPathInfo &pathInfo,
- *           //                  ZF_IN_OPT const zfchar *fileExt = zfnull);
- *           // pathInfo: ZFCallback::pathInfo
- *           // fileExt: by default, we will try to detect file ext from pathInfo's pathData,
- *           //          null if not available
  *       })
  * @endcode
  */
-#define ZFOBJECTIO_DEFINE(registerSig, fileExt, fromInputAction, toOutputAction, ...) \
-    _ZFP_ZFOBJECTIO_DEFINE(registerSig, fileExt, fromInputAction, toOutputAction, ##__VA_ARGS__, {return zftrue;})
-
-#define _ZFP_ZFOBJECTIO_DEFINE(registerSig, fileExt_, fromInputAction, toOutputAction, checkerAction, ...) \
+#define ZFOBJECTIO_DEFINE(registerSig, fileExt_, checkerAction, fromInputAction, toOutputAction) \
     ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ObjIOReg_##registerSig, ZFLevelZFFrameworkStatic) \
     { \
         _ZFP_ZFObjectIORegister(ZFM_TOSTRING_DIRECT(registerSig), fileExt_, \

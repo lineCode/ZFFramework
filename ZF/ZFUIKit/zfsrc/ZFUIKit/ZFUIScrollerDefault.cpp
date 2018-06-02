@@ -271,7 +271,7 @@ public:
         {
             return _ZFP_ZFUIScrollerDefault_aniByPointDurationMax;
         }
-        zftimet ret = (zftimet)(ZFBezierLinear().y_by_x((zft_zffloat)offset / _ZFP_ZFUIScrollerDefault_scrollAniBounceDragMax)
+        zftimet ret = (zft_zftimet)(ZFBezierLinear().y_by_x((zft_zffloat)offset / _ZFP_ZFUIScrollerDefault_scrollAniBounceDragMax)
             * _ZFP_ZFUIScrollerDefault_aniByPointDurationMax);
         if(ret < _ZFP_ZFUIScrollerDefault_aniByPointDurationMin)
         {
@@ -508,7 +508,7 @@ private:
     }
     zftimet aniBySpeed_calcTime(ZF_IN zfint v, ZF_IN zfint offset, ZF_IN zfint a)
     {
-        zftimet t = (zftimet)((-v + sqrt((double)((long)v * v + (long)2 * a * offset))) * 1000 / a);
+        zftimet t = (zft_zftimet)((-v + sqrt((double)((long)v * v + (long)2 * a * offset))) * 1000 / a);
         return zfmMax((zftimet)0, t);
     }
 

@@ -13,6 +13,8 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECTIO_DEFINE(json, zfText("json"), {
+        return zftrue;
+    }, {
         return ZFObjectFromJson(ret, input, outErrorHint);
     }, {
         return ZFObjectToJson(output, obj, outErrorHint);

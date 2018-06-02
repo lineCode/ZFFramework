@@ -680,7 +680,7 @@ public:
             notAutoRegister, \
             AccessType, ZFMethodTypeVirtual, \
             void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
-            , ZFMP_IN(Type const &, propertyValue) \
+            , _ZFP_MtdP_EXPAND(ZFMP_IN(Type const &, propertyValue)) \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \
@@ -710,7 +710,7 @@ public:
             notAutoRegister, \
             AccessType, ZFMethodTypeVirtual, \
             void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
-            , ZFMP_IN(Type const &, propertyValue) \
+            , _ZFP_MtdP_EXPAND(ZFMP_IN(Type const &, propertyValue)) \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \

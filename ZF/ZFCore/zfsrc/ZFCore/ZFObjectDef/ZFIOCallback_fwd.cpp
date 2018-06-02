@@ -41,12 +41,12 @@ zfbool ZFIOCallback::ioSeek(ZF_IN zfindex byteSize,
     ZFObject *owner = this->callbackTagGet(ZFCallbackTagKeyword_ioOwner);
     if(owner == zfnull)
     {
-        return zfindexMax();
+        return zffalse;
     }
     const ZFMethod *method = owner->classData()->methodForName(zfText("ioSeek"));
     if(method == zfnull)
     {
-        return zfindexMax();
+        return zffalse;
     }
     return method->execute<zfbool, zfindex, ZFSeekPos>(owner, byteSize, pos);
 }

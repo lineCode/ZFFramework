@@ -48,7 +48,10 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObjectIO_image_imageExtDefault, ZFLevelZ
 ZF_GLOBAL_INITIALIZER_END(ZFObjectIO_image_imageExtDefault)
 
 // ============================================================
-ZFOBJECTIO_DEFINE(image, zfText(""), {
+ZFOBJECTIO_DEFINE(image, zfText(""), ZFM_EXPAND({
+        zfstlmap<zfstlstringZ, zfbool> &m = _ZFP_ZFObjectIO_image_imageExtMap();
+        return (m.find(fileExt) != m.end());
+    }), {
         ret = ZFUIImageLoadFromInput(input);
         if(ret == zfnull)
         {
@@ -79,10 +82,7 @@ ZFOBJECTIO_DEFINE(image, zfText(""), {
             return zffalse;
         }
         return zftrue;
-    }, ZFM_EXPAND({
-        zfstlmap<zfstlstringZ, zfbool> &m = _ZFP_ZFObjectIO_image_imageExtMap();
-        return (m.find(fileExt) != m.end());
-    }))
+    })
 
 ZF_NAMESPACE_GLOBAL_END
 

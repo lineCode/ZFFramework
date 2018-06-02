@@ -273,6 +273,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 #define ZFM_N_DEC(n) _ZFP_ZFM_N_DEC_T(n)
 
+#define _ZFP_ZFM_PARAM_EXPAND(...) __VA_ARGS__
 /**
  * @brief get the param num of a certain sequence
  *
@@ -287,9 +288,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * this macro could calculate 0 ~ 32 param num
  */
 #define ZFM_PARAM_NUM(...) \
-    ZFM_EXPAND(_ZFP_ZFM_PARAM_NUM_TMP0(__VA_ARGS__, _ZFP_ZFM_PARAM_NUM_TMP2()))
+    _ZFP_ZFM_PARAM_EXPAND(_ZFP_ZFM_PARAM_NUM_TMP0(__VA_ARGS__, _ZFP_ZFM_PARAM_NUM_TMP2()))
 #define _ZFP_ZFM_PARAM_NUM_TMP0(...) \
-    ZFM_EXPAND(_ZFP_ZFM_PARAM_NUM_TMP1(__VA_ARGS__))
+    _ZFP_ZFM_PARAM_EXPAND(_ZFP_ZFM_PARAM_NUM_TMP1(__VA_ARGS__))
 #define _ZFP_ZFM_PARAM_NUM_TMP1(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, N, ...) \
     N
 #define _ZFP_ZFM_PARAM_NUM_TMP2() \

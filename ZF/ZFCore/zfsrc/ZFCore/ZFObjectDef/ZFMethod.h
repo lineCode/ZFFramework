@@ -105,6 +105,8 @@ zfclassFwd ZFClass;
 // tricks to solve recursive macro
 #define _ZFP_MtdM_EMPTY(...)
 #define _ZFP_MtdM_EXPAND(...) __VA_ARGS__
+#define _ZFP_MtdP_EXPAND(...) __VA_ARGS__
+#define _ZFP_MtdD_EXPAND(...) __VA_ARGS__
 /**
  * @brief macro to wrap param types for #ZFMETHOD_INLINE_0 series
  *
