@@ -1,6 +1,7 @@
 # master
 
 * optimize lua implicit conversion
+* optimize dynamic register impl
 
 # 0.3.0
 

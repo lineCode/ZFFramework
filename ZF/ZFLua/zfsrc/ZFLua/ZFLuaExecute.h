@@ -36,7 +36,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   or `ClassName([params...])`
  *   or `ClassName.zfAlloc([params...])`\n
  *   alloc a ZFObject type\n
- *   "ClassName" can be #v_ZFClass, or converted by #ZFImpl_ZFLua_toString\n
+ *   "ClassName" can be #v_ZFClass, #v_zfstring, or native lua string\n
  *   if extra init param passed,
  *   your class must supplys reflectable #ZFObject::objectOnInit
  * -  invoker
@@ -44,7 +44,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     or `obj:functionName(param0, param1, ...)`\n
  *     call object's instance method, params are optional\n
  *     for "functionName", see #ZFTypeId_ZFMethod\n
- *     "functionName" can be #v_ZFMethod, or converted by #ZFImpl_ZFLua_toString,
+ *     "functionName" can be #v_ZFMethod, #v_zfstring, or native lua string,
  *     while other types must exactly match the original types
  *   -  `ret = zfl_callStatic("::methodName", param0, param1, ...)`
  *     or `ret = zfl_callStatic("ClassOrNamespace::methodName", param0, param1, ...)`
@@ -52,7 +52,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     or `ret = ClassOrNamespace.methodName(param0, param1, ...)`\n
  *     call global function or static class member method, params are optional\n
  *     for "functionName", see #ZFTypeId_ZFMethod\n
- *     "functionName" can be #v_ZFMethod, or converted by #ZFImpl_ZFLua_toString,
+ *     "functionName" can be #v_ZFMethod, #v_zfstring, or native lua string,
  *     while other types must exactly match the original types\n
  *     these namespace are considered as the same:
  *     -  #ZFMethodFuncNamespaceGlobal
@@ -78,7 +78,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     return the associated `YourTypeName` that holds the value\n
  *     "YourTypeName" represents the type name in #ZFTYPEID_DECLARE\n
  *     "yourTypeData" store string datas that would be decoded by YourTypeNameFromString\n
- *     "yourTypeData" are converted by #ZFImpl_ZFLua_toString\n
+ *     "yourTypeData" can be #v_zfstring, or native lua string\n
  *     if your value holder supplys reflectable #ZFObject::objectOnInit
  *     (#ZFOBJECT_ON_INIT_DECLARE_2 series),
  *     the value holder can also be constructed by function like call:
@@ -91,7 +91,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     then the methods can be invoked directly to your value type
  * -  value converter
  *   -  `zfl_luaValue(v)`\n
- *     convert a value to lua's raw value, by #ZFImpl_ZFLua_toString or #ZFImpl_ZFLua_toNumber,
+ *     convert a value to lua's raw value,
  *     the result lua value can be:
  *     -  lua string
  *     -  lua integer
@@ -119,10 +119,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   -  `ZFCoreArrayCreate([a, b, c, ...])`\n
  *     create a array, params support these types:
  *     -  zfautoObject
- *     -  any types that can be converted by #ZFImpl_ZFLua_toNumber
- *       (stored as #ZFValue)
- *     -  any types that can be converted by #ZFImpl_ZFLua_toString
- *       (stored as #v_zfstring)
+ *     -  native lua number (stored as #ZFValue)
+ *     -  native lua string (stored as #v_zfstring)
  * -  param and return value
  *   -  simply use lua standard logic to process params and return values,
  *     here's some example:
@@ -137,12 +135,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  util
  *   -  `zfstringAppend(s, fmt, ...)`
  *     or `zfstringWithFormat(fmt, ...)`\n
- *     fmt would be converted by #ZFImpl_ZFLua_toString,
+ *     fmt can be #v_zfstring, or native lua string,
  *     while only "%s" supported\n
  *     following va_args support:
  *     -  #ZFObject, would be converted by #ZFObject::objectInfo
- *     -  lua string type, converted by #ZFImpl_ZFLua_toString
- *     -  any lua type, converted by #ZFImpl_ZFLua_luaObjectInfo
+ *     -  lua string type
+ *     -  any lua type that supports convert to string
  *
  *     note: the va_args support params up to #ZFMETHOD_MAX_PARAM
  *   -  `zfText('lua string')`\n

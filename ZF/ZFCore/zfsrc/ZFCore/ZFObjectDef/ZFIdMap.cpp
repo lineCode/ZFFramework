@@ -77,7 +77,7 @@ const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
 {
     if(zfsIsEmpty(idName))
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFIdMapRegister] empty name"));
+        zfCoreCriticalMessageTrim(zfTextA("[ZFIdMapDynamicRegister] empty name"));
     }
 
     zfCoreMutexLocker();
@@ -95,7 +95,7 @@ const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     {
         if(isDynamicRegister)
         {
-            zfCoreCriticalMessageTrim(zfTextA("[ZFIdMapRegister] already registered: %s"), zfsCoreZ2A(idName));
+            zfCoreCriticalMessageTrim(zfTextA("[ZFIdMapDynamicRegister] already registered: %s"), zfsCoreZ2A(idName));
         }
         ++(data->refCount);
     }
@@ -142,7 +142,7 @@ void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     if(!data->isDynamicRegister && isDynamicRegister)
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("[ZFIdMapUnregister] unregister %s(%s) which is not dynamic registered"),
+            zfTextA("[ZFIdMapDynamicUnregister] unregister %s(%s) which is not dynamic registered"),
             zfsCoreZ2A(zfsFromInt(data->idValue).cString()),
             zfsCoreZ2A(data->idName.cString()));
     }
@@ -195,11 +195,11 @@ void ZFIdMapGetAll(ZF_OUT ZFCoreArrayPOD<zfidentity> &idValues, ZF_OUT ZFCoreArr
     }
 }
 
-zfidentity ZFIdMapRegister(ZF_IN const zfchar *idName)
+zfidentity ZFIdMapDynamicRegister(ZF_IN const zfchar *idName)
 {
     return *_ZFP_ZFIdMapRegister(zfnull, idName, zftrue);
 }
-void ZFIdMapUnregister(ZF_IN const zfidentity &idValue)
+void ZFIdMapDynamicUnregister(ZF_IN const zfidentity &idValue)
 {
     _ZFP_ZFIdMapUnregister(zfnull, idValue, zftrue);
 }
@@ -213,8 +213,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(const zfchar *, ZFIdMapGetName, ZFMP_IN(const zfidentity &, idValue))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, ZFIdMapGetId, ZFMP_IN(const zfchar *, idName))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFIdMapGetAll, ZFMP_OUT(ZFCoreArrayPOD<zfidentity> &, idValues), ZFMP_OUT(ZFCoreArrayPOD<const zfchar *> &, idNames))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, ZFIdMapRegister, ZFMP_IN(const zfchar *, idName))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFIdMapUnregister, ZFMP_IN(const zfidentity &, idValue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, ZFIdMapDynamicRegister, ZFMP_IN(const zfchar *, idName))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFIdMapDynamicUnregister, ZFMP_IN(const zfidentity &, idValue))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

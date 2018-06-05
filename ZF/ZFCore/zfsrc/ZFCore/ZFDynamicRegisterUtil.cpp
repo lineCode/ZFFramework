@@ -46,6 +46,10 @@ zfclassNotPOD _ZFP_ZFDynamicPrivate
 public:
     zfuint refCount;
     zfbool errorOccurred;
+    zfstlstringZ regTag;
+    zfidentity removeAllOnEventId;
+    ZFListener removeAllOnEventListener;
+    zfautoObject removeAllOnEventSelfHolder;
     const ZFClass *cls;
     zfstring methodNamespace;
     zfstring enumClassName;
@@ -64,6 +68,10 @@ public:
     _ZFP_ZFDynamicPrivate(void)
     : refCount(1)
     , errorOccurred(zffalse)
+    , regTag()
+    , removeAllOnEventId(zfidentityInvalid())
+    , removeAllOnEventListener()
+    , removeAllOnEventSelfHolder()
     , cls(zfnull)
     , methodNamespace()
     , enumClassName()
@@ -125,15 +133,35 @@ public:
 };
 
 // ============================================================
-/** @cond ZFPrivateDoc */
+static zfstlmap<zfstlstringZ, ZFDynamic> &_ZFP_ZFDynamicRegTagMap(void)
+{
+    static zfstlmap<zfstlstringZ, ZFDynamic> m;
+    return m;
+}
+
+// ============================================================
 ZFDynamic::ZFDynamic(void)
 : d(zfnew(_ZFP_ZFDynamicPrivate))
 {
 }
+ZFDynamic::ZFDynamic(ZF_IN const zfchar *regTag)
+: d(zfnew(_ZFP_ZFDynamicPrivate))
+{
+    this->regTag(regTag);
+}
+/** @cond ZFPrivateDoc */
 ZFDynamic::ZFDynamic(ZF_IN const ZFDynamic &ref)
 : d(ref.d)
 {
     ++(d->refCount);
+}
+ZFDynamic::~ZFDynamic(void)
+{
+    --(d->refCount);
+    if(d->refCount == 0)
+    {
+        zfdelete(d);
+    }
 }
 ZFDynamic &ZFDynamic::operator = (ZF_IN const ZFDynamic &ref)
 {
@@ -209,6 +237,36 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
     }
 }
 
+ZFDynamic &ZFDynamic::regTag(ZF_IN const zfchar *regTag)
+{
+    zfstlmap<zfstlstringZ, ZFDynamic> &m = _ZFP_ZFDynamicRegTagMap();
+    if(!d->regTag.empty())
+    {
+        m.erase(d->regTag);
+    }
+
+    if(regTag == zfnull)
+    {
+        d->regTag.clear();
+        return *this;
+    }
+
+    zfstlmap<zfstlstringZ, ZFDynamic>::iterator it = m.find(regTag);
+    if(it != m.end() && it->second != *this)
+    {
+        // remove may cause unexpect dealloc, retain once
+        ZFDynamic holder = it->second;
+        holder.removeAll();
+    }
+    d->regTag = regTag;
+    m[regTag] = *this;
+    return *this;
+}
+const zfchar *ZFDynamic::regTagGet(void) const
+{
+    return (d->regTag.empty() ? zfnull : d->regTag.c_str());
+}
+
 void ZFDynamic::removeAll(void)
 {
     if(!d->allEvent.isEmpty())
@@ -217,7 +275,7 @@ void ZFDynamic::removeAll(void)
         d->allEvent = ZFCoreArrayPOD<zfidentity>();
         for(zfindex i = 0; i < allEvent.count(); ++i)
         {
-            ZFIdMapUnregister(allEvent[i]);
+            ZFIdMapDynamicUnregister(allEvent[i]);
         }
     }
 
@@ -260,16 +318,66 @@ void ZFDynamic::removeAll(void)
             ZFClassDynamicUnregister(allClass[i]);
         }
     }
+
+    d->errorOccurred = zffalse;
+    if(!d->regTag.empty())
+    {
+        _ZFP_ZFDynamicRegTagMap().erase(d->regTag);
+        d->regTag.clear();
+    }
+    if(d->removeAllOnEventId != zfidentityInvalid())
+    {
+        ZFGlobalEventCenter::instance()->observerRemove(
+            d->removeAllOnEventId,
+            d->removeAllOnEventListener,
+            d->removeAllOnEventSelfHolder);
+        d->removeAllOnEventId = zfidentityInvalid();
+        d->removeAllOnEventSelfHolder = zfnull;
+    }
+    d->cls = zfnull;
+    d->enumClassName.removeAll();
+    d->enumDefault = ZFEnumInvalid();
+    d->enumIsFlags = zffalse;
+    d->enumValueNext = 0;
+    d->enumValues.removeAll();
+    d->enumNames.removeAll();
+    d->errorCallbackList.removeAll();
 }
 
 ZFDynamic &ZFDynamic::removeAllOnEvent(ZF_IN zfidentity eventId /* = ZFGlobalEvent::EventZFDynamicRemoveAll() */)
 {
+    if(d->removeAllOnEventId != zfidentityInvalid())
+    {
+        ZFGlobalEventCenter::instance()->observerRemove(
+            d->removeAllOnEventId,
+            d->removeAllOnEventListener,
+            d->removeAllOnEventSelfHolder);
+        if(eventId == zfidentityInvalid())
+        {
+            d->removeAllOnEventId = zfidentityInvalid();
+            d->removeAllOnEventListener = ZFCallbackNull();
+            d->removeAllOnEventSelfHolder = zfnull;
+            return *this;
+        }
+    }
+
     ZFLISTENER_LOCAL(action, {
-        userData->to<v_ZFDynamic *>()->zfv.removeAll();
+        // remove may cause unexpect dealloc, retain once
+        ZFDynamic holder = userData->to<v_ZFDynamic *>()->zfv;
+        holder.removeAll();
     })
+    d->removeAllOnEventId = eventId;
+    d->removeAllOnEventListener = action;
+    d->removeAllOnEventSelfHolder = zflineAlloc(v_ZFDynamic, *this);
     ZFGlobalEventCenter::instance()->observerAdd(
-        eventId, action, zflineAlloc(v_ZFDynamic, *this));
+        d->removeAllOnEventId,
+        d->removeAllOnEventListener,
+        d->removeAllOnEventSelfHolder);
     return *this;
+}
+zfidentity ZFDynamic::removeAllOnEventGet(void) const
+{
+    return d->removeAllOnEventId;
 }
 
 const ZFCoreArrayPOD<const ZFClass *> &ZFDynamic::allClass(void) const
@@ -594,6 +702,7 @@ ZFDynamic &ZFDynamic::enumEnd(ZF_IN_OPT zfuint enumDefault /* = ZFEnumInvalid() 
         d->error(zfText("have you forgot enumBegin?"));
         return *this;
     }
+
     zfstring errorHint;
     const ZFClass *enumClass = ZFEnumDynamicRegister(
         d->enumClassName,
@@ -659,7 +768,7 @@ ZFDynamic &ZFDynamic::event(ZF_IN const zfchar *eventName)
         d->error(zfText("%s already exists"), idName.cString());
         return *this;
     }
-    idValue = ZFIdMapRegister(idName);
+    idValue = ZFIdMapDynamicRegister(idName);
     d->allEvent.add(idValue);
 
     zfblockedAlloc(v_zfidentity, t);
@@ -950,6 +1059,13 @@ ZF_GLOBAL_INITIALIZER_END(ZFDynamicRemoveAllAutoNotify)
 
 // ============================================================
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_STATIC_1(ZFDynamic, v_ZFDynamic, void, exportTag, ZFMP_IN_OUT(const ZFOutput &, output))
+ZFMETHOD_USER_REGISTER_1({
+        invokerObject->objectOnInit();
+        invokerObject->to<v_ZFDynamic *>()->zfv.regTag(regTag);
+    }, v_ZFDynamic, void, objectOnInit,
+    ZFMP_IN(const zfchar *, regTag))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, regTag, ZFMP_IN(const zfchar *, regTag))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const zfchar *, regTagGet)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, void, removeAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, removeAllOnEvent, ZFMP_IN_OPT(zfidentity, eventId, ZFGlobalEvent::EventZFDynamicRemoveAll()))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFClass *> &, allClass)

@@ -109,6 +109,7 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
     {
         return ;
     }
+
     // no endl, to prevent native lua error from having wrong line number
     ret += zfText(
             "local function zfl_pathInfo()"
@@ -120,6 +121,9 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
     ret += zfText(
             "');"
             "end;"
+        );
+
+    ret += zfText(
             "local function ZFLuaImport(localFilePath, ...)"
             "    return ZFLuaExecute(_ZFP_ZFLuaImport(zfl_pathInfo(), localFilePath), ...);"
             "end;"

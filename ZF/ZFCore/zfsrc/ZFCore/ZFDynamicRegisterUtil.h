@@ -144,14 +144,21 @@ zfclassFwd _ZFP_ZFDynamicPrivate;
  * you may store the returned ZFDynamic object,
  * and use #removeAll to remove all registered items at once,
  * or, use the util method #removeAllOnEvent to automatically
- * remove when specified event notified to #ZFGlobalEventCenter
+ * remove when specified event notified to #ZFGlobalEventCenter\n
+ * to make it more convenient for script language,
+ * you may also use #regTag to make the registration looks like singleton registration
  */
 zfclassLikePOD ZF_ENV_EXPORT ZFDynamic
 {
 public:
-    /** @cond ZFPrivateDoc */
+    /** @brief main constructor */
     ZFDynamic(void);
+    /** @brief construct with #regTag */
+    ZFDynamic(ZF_IN const zfchar *regTag);
+
+    /** @cond ZFPrivateDoc */
     ZFDynamic(ZF_IN const ZFDynamic &ref);
+    ~ZFDynamic(void);
     ZFDynamic &operator = (ZF_IN const ZFDynamic &ref);
     zfbool operator == (ZF_IN const ZFDynamic &ref) const;
     zfbool operator != (ZF_IN const ZFDynamic &ref) const {return !this->operator == (ref);}
@@ -177,10 +184,26 @@ public:
     static void exportTag(ZF_IN_OUT const ZFOutput &output);
 
 public:
+    /**
+     * @brief util to make the registration able to be called more than once
+     *
+     * by default, dynamic register would fail if contents already exists,
+     * that's not very convenient for script languages\n
+     * to solve this, you may use this method to mark the registration,
+     * which would automatically unregister old ones if exists,
+     * identified by tha regTag
+     */
+    ZFDynamic &regTag(ZF_IN const zfchar *regTag);
+    /** @brief see #regTag */
+    const zfchar *regTagGet(void) const;
+
+public:
     /** @brief see #ZFDynamic */
     void removeAll(void);
     /** @brief see #ZFDynamic */
     ZFDynamic &removeAllOnEvent(ZF_IN zfidentity eventId = ZFGlobalEvent::EventZFDynamicRemoveAll());
+    /** @brief see #ZFDynamic */
+    zfidentity removeAllOnEventGet(void) const;
     /** @brief see #ZFDynamic */
     const ZFCoreArrayPOD<const ZFClass *> &allClass(void) const;
     /** @brief see #ZFDynamic */
@@ -238,7 +261,7 @@ public:
      * `YourClassName::EventYourEvent` would be registered,
      * otherwise, `YourNamespace::EventYourEvent` would be registered\n
      * registered event would include:
-     * -  an event registered by #ZFIdMapRegister
+     * -  an event registered by #ZFIdMapDynamicRegister
      * -  a #ZFMethod to access the event
      */
     ZFDynamic &event(ZF_IN const zfchar *eventName);

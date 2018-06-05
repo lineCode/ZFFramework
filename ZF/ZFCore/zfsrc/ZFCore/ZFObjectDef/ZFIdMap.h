@@ -54,14 +54,14 @@ extern ZF_ENV_EXPORT void ZFIdMapGetAll(ZF_OUT ZFCoreArrayPOD<zfidentity> &idVal
  *
  * assert fail if already registered
  */
-extern ZF_ENV_EXPORT zfidentity ZFIdMapRegister(ZF_IN const zfchar *idName);
+extern ZF_ENV_EXPORT zfidentity ZFIdMapDynamicRegister(ZF_IN const zfchar *idName);
 /**
- * @brief unregister id that was registered by #ZFIdMapRegister
+ * @brief unregister id that was registered by #ZFIdMapDynamicRegister
  *
  * do nothing if no such id,
  * assert fail if the id is not dynamically registered
  */
-extern ZF_ENV_EXPORT void ZFIdMapUnregister(ZF_IN const zfidentity &idValue);
+extern ZF_ENV_EXPORT void ZFIdMapDynamicUnregister(ZF_IN const zfidentity &idValue);
 
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFIdMapHolder
 {
