@@ -308,6 +308,7 @@
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFAlgorithm_impl/zfsrc",
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFUIKit_impl/zfsrc",
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Debug;
 		};
@@ -343,6 +344,7 @@
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFAlgorithm_impl/zfsrc",
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFUIKit_impl/zfsrc",
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Release;
 		};

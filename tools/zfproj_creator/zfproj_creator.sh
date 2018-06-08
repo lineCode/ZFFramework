@@ -171,50 +171,30 @@ if test "x-$ZF_TYPE" = "x-impl" ; then
     fi
 fi
 if test 1 = 1 ; then
+    printState() {
+        for i in $(seq 0 32) ; do
+            cmd="echo \$${1}_${i}"
+            require=`eval $cmd`
+            if test "x-$require" = "x-" ; then
+                break
+            fi
+            cmd="echo \$${2}_${i}"
+            name=`eval $cmd`
+            echo "    ${2}_${i} =\t${name}"
+        done
+    }
     echo "configs:"
-    echo "    ZFTT_C_app_proj=$ZFTT_C_app_proj"
-    echo "    ZFTT_C_lib_proj=$ZFTT_C_lib_proj"
-    echo "    ZFTT_C_impl_proj=$ZFTT_C_impl_proj"
-    echo "    ZFTT_R_proj_name=$ZFTT_R_proj_name"
-    echo "    ZFTT_R_proj_name=$ZFTT_R_proj_name"
-    echo "    ZFTT_C_lib_require_0=$ZFTT_C_lib_require_0 \t ZFTT_R_lib_name_0=$ZFTT_R_lib_name_0"
-    echo "    ZFTT_C_lib_require_1=$ZFTT_C_lib_require_1 \t ZFTT_R_lib_name_1=$ZFTT_R_lib_name_1"
-    echo "    ZFTT_C_lib_require_2=$ZFTT_C_lib_require_2 \t ZFTT_R_lib_name_2=$ZFTT_R_lib_name_2"
-    echo "    ZFTT_C_lib_require_3=$ZFTT_C_lib_require_3 \t ZFTT_R_lib_name_3=$ZFTT_R_lib_name_3"
-    echo "    ZFTT_C_lib_require_4=$ZFTT_C_lib_require_4 \t ZFTT_R_lib_name_4=$ZFTT_R_lib_name_4"
-    echo "    ZFTT_C_lib_require_5=$ZFTT_C_lib_require_5 \t ZFTT_R_lib_name_5=$ZFTT_R_lib_name_5"
-    echo "    ZFTT_C_lib_require_6=$ZFTT_C_lib_require_6 \t ZFTT_R_lib_name_6=$ZFTT_R_lib_name_6"
-    echo "    ZFTT_C_lib_require_7=$ZFTT_C_lib_require_7 \t ZFTT_R_lib_name_7=$ZFTT_R_lib_name_7"
-    echo "    ..."
-    echo "    ZFTT_C_impl_require_0=$ZFTT_C_impl_require_0 \t ZFTT_R_impl_name_0=$ZFTT_R_impl_name_0"
-    echo "    ZFTT_C_impl_require_1=$ZFTT_C_impl_require_1 \t ZFTT_R_impl_name_1=$ZFTT_R_impl_name_1"
-    echo "    ZFTT_C_impl_require_2=$ZFTT_C_impl_require_2 \t ZFTT_R_impl_name_2=$ZFTT_R_impl_name_2"
-    echo "    ZFTT_C_impl_require_3=$ZFTT_C_impl_require_3 \t ZFTT_R_impl_name_3=$ZFTT_R_impl_name_3"
-    echo "    ZFTT_C_impl_require_4=$ZFTT_C_impl_require_4 \t ZFTT_R_impl_name_4=$ZFTT_R_impl_name_4"
-    echo "    ZFTT_C_impl_require_5=$ZFTT_C_impl_require_5 \t ZFTT_R_impl_name_5=$ZFTT_R_impl_name_5"
-    echo "    ZFTT_C_impl_require_6=$ZFTT_C_impl_require_6 \t ZFTT_R_impl_name_6=$ZFTT_R_impl_name_6"
-    echo "    ZFTT_C_impl_require_7=$ZFTT_C_impl_require_7 \t ZFTT_R_impl_name_7=$ZFTT_R_impl_name_7"
-    echo "    ..."
-    echo "    ZFTT_C_lib_ext_require_0=$ZFTT_C_lib_ext_require_0 \t ZFTT_R_lib_ext_name_0=$ZFTT_R_lib_ext_name_0"
-    echo "    ZFTT_C_lib_ext_require_1=$ZFTT_C_lib_ext_require_1 \t ZFTT_R_lib_ext_name_1=$ZFTT_R_lib_ext_name_1"
-    echo "    ZFTT_C_lib_ext_require_2=$ZFTT_C_lib_ext_require_2 \t ZFTT_R_lib_ext_name_2=$ZFTT_R_lib_ext_name_2"
-    echo "    ZFTT_C_lib_ext_require_3=$ZFTT_C_lib_ext_require_3 \t ZFTT_R_lib_ext_name_3=$ZFTT_R_lib_ext_name_3"
-    echo "    ZFTT_C_lib_ext_require_4=$ZFTT_C_lib_ext_require_4 \t ZFTT_R_lib_ext_name_4=$ZFTT_R_lib_ext_name_4"
-    echo "    ZFTT_C_lib_ext_require_5=$ZFTT_C_lib_ext_require_5 \t ZFTT_R_lib_ext_name_5=$ZFTT_R_lib_ext_name_5"
-    echo "    ZFTT_C_lib_ext_require_6=$ZFTT_C_lib_ext_require_6 \t ZFTT_R_lib_ext_name_6=$ZFTT_R_lib_ext_name_6"
-    echo "    ZFTT_C_lib_ext_require_7=$ZFTT_C_lib_ext_require_7 \t ZFTT_R_lib_ext_name_7=$ZFTT_R_lib_ext_name_7"
-    echo "    ..."
-    echo "    ZFTT_C_impl_ext_require_0=$ZFTT_C_impl_ext_require_0 \t ZFTT_R_impl_ext_name_0=$ZFTT_R_impl_ext_name_0"
-    echo "    ZFTT_C_impl_ext_require_1=$ZFTT_C_impl_ext_require_1 \t ZFTT_R_impl_ext_name_1=$ZFTT_R_impl_ext_name_1"
-    echo "    ZFTT_C_impl_ext_require_2=$ZFTT_C_impl_ext_require_2 \t ZFTT_R_impl_ext_name_2=$ZFTT_R_impl_ext_name_2"
-    echo "    ZFTT_C_impl_ext_require_3=$ZFTT_C_impl_ext_require_3 \t ZFTT_R_impl_ext_name_3=$ZFTT_R_impl_ext_name_3"
-    echo "    ZFTT_C_impl_ext_require_4=$ZFTT_C_impl_ext_require_4 \t ZFTT_R_impl_ext_name_4=$ZFTT_R_impl_ext_name_4"
-    echo "    ZFTT_C_impl_ext_require_5=$ZFTT_C_impl_ext_require_5 \t ZFTT_R_impl_ext_name_5=$ZFTT_R_impl_ext_name_5"
-    echo "    ZFTT_C_impl_ext_require_6=$ZFTT_C_impl_ext_require_6 \t ZFTT_R_impl_ext_name_6=$ZFTT_R_impl_ext_name_6"
-    echo "    ZFTT_C_impl_ext_require_7=$ZFTT_C_impl_ext_require_7 \t ZFTT_R_impl_ext_name_7=$ZFTT_R_impl_ext_name_7"
-    echo "    ..."
-    echo "    ZFTT_C_needUIKit=$ZFTT_C_needUIKit"
-    echo "    ZFTT_C_needUIWebKit=$ZFTT_C_needUIWebKit"
+    echo "    ZFTT_C_app_proj =\t$ZFTT_C_app_proj"
+    echo "    ZFTT_C_lib_proj =\t$ZFTT_C_lib_proj"
+    echo "    ZFTT_C_impl_proj =\t$ZFTT_C_impl_proj"
+    echo "    ZFTT_R_proj_name =\t$ZFTT_R_proj_name"
+    echo "    ZFTT_R_proj_name =\t$ZFTT_R_proj_name"
+    echo "    ZFTT_C_needUIKit =\t$ZFTT_C_needUIKit"
+    echo "    ZFTT_C_needUIWebKit =\t$ZFTT_C_needUIWebKit"
+    printState "ZFTT_C_lib_require" "ZFTT_R_lib_name"
+    printState "ZFTT_C_impl_require" "ZFTT_R_impl_name"
+    printState "ZFTT_C_lib_ext_require" "ZFTT_R_lib_ext_name"
+    printState "ZFTT_C_impl_ext_require" "ZFTT_R_impl_ext_name"
 fi
 
 # tmp dir

@@ -168,6 +168,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  all types would be registered automatically,
  * -  for dynamically loaded library, all types would also be registered normally,
  *   however, won't be automatically unregistered when unloaded
+ *
+ * @note this method should not be called inside lua code,
+ *   unless you specified proper lua state (L),
+ *   for lua code, use `ZFLuaImport` is recommended
  */
 ZFMETHOD_FUNC_DECLARE_3(zfautoObject, ZFLuaExecute,
                         ZFMP_IN(const ZFInput &, input),

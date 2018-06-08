@@ -1023,6 +1023,7 @@
 					"${SRCROOT}/../../../../../ZFModule/ZF/{ZFTT_R_impl_ext_name_30}/zfsrc",{ZFTT_CE}{ZFTT_C_impl_ext_require_31}
 					"${SRCROOT}/../../../../../ZFModule/ZF/{ZFTT_R_impl_ext_name_31}/zfsrc",{ZFTT_CE}
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Debug;
 		};
@@ -1177,6 +1178,7 @@
 					"${SRCROOT}/../../../../../ZFModule/ZF/{ZFTT_R_impl_ext_name_30}/zfsrc",{ZFTT_CE}{ZFTT_C_impl_ext_require_31}
 					"${SRCROOT}/../../../../../ZFModule/ZF/{ZFTT_R_impl_ext_name_31}/zfsrc",{ZFTT_CE}
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Release;
 		};

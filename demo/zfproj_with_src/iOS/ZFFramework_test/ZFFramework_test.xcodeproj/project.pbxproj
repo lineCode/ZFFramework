@@ -379,6 +379,7 @@
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFLua_impl/zfsrc",
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFUIWebKit_impl/zfsrc",
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Debug;
 		};
@@ -471,6 +472,7 @@
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFLua_impl/zfsrc",
 					"${SRCROOT}/../../../../../ZFFramework/ZF/ZFUIWebKit_impl/zfsrc",
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Release;
 		};

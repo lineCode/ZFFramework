@@ -304,6 +304,7 @@
 					"${SRCROOT}/../../../zfsrc",
 					"${SRCROOT}/../../../../../ZFFramework/_release/iOS/all/include",
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Debug;
 		};
@@ -335,6 +336,7 @@
 					"${SRCROOT}/../../../zfsrc",
 					"${SRCROOT}/../../../../../ZFFramework/_release/iOS/all/include",
 				);
+				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Release;
 		};
