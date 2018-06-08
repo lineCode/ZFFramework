@@ -271,7 +271,7 @@ public:
      * create object by specified params,
      * the object must have proper #ZFObject::objectOnInit
      * declared as #ZFOBJECT_ON_INIT_DECLARE_1 series,
-     * and params are passed accorrding to #ZFMethod::methodGenericInvoke
+     * and params are passed accorrding to #ZFMethodGenericInvoker
      * @note this method do much reflection steps to find proper objectOnInit,
      *   which may cause performance issue,
      *   use with caution,
@@ -316,14 +316,14 @@ public:
     /** @brief see #newInstanceGeneric */
     zfbool newInstanceGenericCheck(ZF_IN ZFToken token
                                    , ZF_IN const ZFMethod *objectOnInitMethod
-                                   , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
-                                   , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
+                                   , ZF_IN_OUT zfautoObject &param0
+                                   , ZF_IN_OUT zfautoObject &param1
+                                   , ZF_IN_OUT zfautoObject &param2
+                                   , ZF_IN_OUT zfautoObject &param3
+                                   , ZF_IN_OUT zfautoObject &param4
+                                   , ZF_IN_OUT zfautoObject &param5
+                                   , ZF_IN_OUT zfautoObject &param6
+                                   , ZF_IN_OUT zfautoObject &param7
                                    ) const; /* ZFMETHOD_MAX_PARAM */
     /** @brief see #newInstanceGeneric */
     zfautoObject newInstanceGenericEnd(ZF_IN ZFToken token,

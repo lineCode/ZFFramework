@@ -22,7 +22,7 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        ZFObject *v = zfnull;
+        zfautoObject v;
 
         zfblockedAlloc(v_zfstring, test_zfstring, zfText("string type"));
         v = test_zfstring;
@@ -56,8 +56,7 @@ protected:
 
         // zfautoObject processed as normal raw type
         zfblockedAlloc(ZFString, test_String, zfText("zfautoObject"));
-        zfblockedAlloc(v_zfautoObject, test_zfautoObject, zfautoObject(test_String));
-        v = test_zfautoObject;
+        v = test_String;
         zfLogTrimT() << zfText("============================================================");
         zfLogTrimT() << zfText("zfautoObject");
         zfLogTrimT() << ZFTypeId<zfautoObject>::Value<zfautoObject>::access(v);

@@ -125,7 +125,7 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
 
     ret += zfText(
             "local function ZFLuaImport(localFilePath, ...)"
-            "    return ZFLuaExecute(_ZFP_ZFLuaImport(zfl_pathInfo(), localFilePath), ...);"
+            "    return ZFLuaExecute(_ZFP_ZFLuaImport(zfl_pathInfo(), localFilePath), ZFCoreArrayCreate(...));"
             "end;"
             "local function ZFLuaRes(localFilePath)"
             "    return ZFObjectIOLoad(_ZFP_ZFLuaRes(zfl_pathInfo(), localFilePath));"

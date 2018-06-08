@@ -21,6 +21,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 /**
  * @brief performa garbage collector in lua
+ *
+ * note: #ZFLuaGC would be called each time #ZFGlobalEvent::EventClassDataChange notified
+ * when class attach or detach,
+ * to all lua state attached #ZFLuaStateAttached
  */
 ZFMETHOD_FUNC_DECLARE_1(void, ZFLuaGC,
                         ZFMP_IN_OPT(void *, L, zfnull))

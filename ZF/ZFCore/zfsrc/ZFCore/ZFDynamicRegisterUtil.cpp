@@ -22,14 +22,14 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, const ZFMethod *, i
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, invokerObject)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfstring, errorHint)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, ret)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param0)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param1)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param2)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param3)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param4)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param5)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param6)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, ZFObject *, param7)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param0)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param1)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param2)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param3)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param4)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param5)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param6)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDynamicMethodData, zfautoObject, param7)
 
 // ============================================================
 ZFOBJECT_REGISTER(ZFDynamicPropertyData)
@@ -815,6 +815,17 @@ static zfbool _ZFP_ZFDynamicMethodGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
     {
         *errorHint += d->errorHint;
     }
+    if(d->invokeSuccess)
+    {
+        param0 = d->param0;
+        param1 = d->param1;
+        param2 = d->param2;
+        param3 = d->param3;
+        param4 = d->param4;
+        param5 = d->param5;
+        param6 = d->param6;
+        param7 = d->param7;
+    }
     return d->invokeSuccess;
 }
 ZFDynamic &ZFDynamic::method(ZF_IN const ZFListener &methodCallback
@@ -962,11 +973,6 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
     param.propertyClassOfRetainPropertySet(propertyClassOfRetainProperty);
     if(propertyInitValue != zfnull)
     {
-        v_zfautoObject *propertyInitValueHolder = ZFCastZFObject(v_zfautoObject *, propertyInitValue);
-        if(propertyInitValueHolder != zfnull)
-        {
-            propertyInitValue = propertyInitValueHolder->zfv;
-        }
         if(!propertyInitValue->classData()->classIsTypeOf(propertyClassOfRetainProperty))
         {
             d->error(zfText("init value %s is not type of %s"),

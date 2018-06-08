@@ -373,11 +373,6 @@ ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfuint, ZFEnum::_ZFP_ZFEnum_
     void, zfText("objectOnInit")
     , ZFMP_IN(zfuint, value)
     )
-ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_ZFEnum, ZFEnum::_ZFP_ZFEnum_objectOnInit_ZFEnum, ZFEnum::ClassData(),
-    protected, ZFMethodTypeVirtual,
-    void, zfText("objectOnInit")
-    , ZFMP_IN(ZFEnum *, another)
-    )
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFEnum, zfindex, enumCount)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFEnum, zfindex, enumIndexForValue, ZFMP_IN(zfuint, value))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFEnum, zfuint, enumValueAtIndex, ZFMP_IN(zfindex, index))

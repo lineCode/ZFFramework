@@ -394,7 +394,7 @@ public:
 public:
     /* ZFMETHOD_MAX_PARAM */
     /**
-     * @brief util method to perform #ZFMethod::methodGenericInvoke,
+     * @brief util method to perform #ZFMethodGenericInvoker,
      *   do nothing if fail
      */
     virtual zfautoObject invoke(ZF_IN const zfchar *methodName

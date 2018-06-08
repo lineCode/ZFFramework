@@ -235,6 +235,47 @@ zfbool ZFMethod::methodParamTypeIdIsMatch(
     return zftrue;
 }
 
+zfautoObject ZFMethod::methodGenericInvoke(ZF_IN_OPT ZFObject *ownerObjOrNull /* = zfnull */
+                                           , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                                           , ZF_OUT_OPT zfbool *success /* = zfnull */
+                                           , ZF_OUT_OPT zfstring *errorHint /* = zfnull */
+                                           ) const
+{
+    zfautoObject ret;
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+        param0,
+        param1,
+        param2,
+        param3,
+        param4,
+        param5,
+        param6,
+        param7,
+    };
+    zfbool t = this->methodGenericInvoker()(this, ownerObjOrNull, errorHint, ret
+            , paramList[0]
+            , paramList[1]
+            , paramList[2]
+            , paramList[3]
+            , paramList[4]
+            , paramList[5]
+            , paramList[6]
+            , paramList[7]
+        );
+    if(success != zfnull)
+    {
+        *success = t;
+    }
+    return ret;
+}
+
 void ZFMethod::methodGenericInvokerSet(ZF_IN ZFMethodGenericInvoker methodGenericInvoker) const
 {
     zfCoreMutexLocker();

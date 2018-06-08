@@ -437,15 +437,22 @@ zfbool _ZFP_propCbDSerializeFrom_impl(ZF_OUT zfautoObject &zfv,
             propertyInfo->propertyTypeId());
         return zffalse;
     }
-    ZFTypeIdWrapper *w = zfnull;
-    if(!t->typeIdWrapper(zfv) || (w = zfv) == zfnull)
+    if(t->typeIdWrapper(zfv))
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("unable to access type id wrapper: %s"),
-            propertyInfo->propertyTypeId());
-        return zffalse;
+        if(zfv == zfnull)
+        {
+            return ZFObjectFromData(zfv, serializableData, outErrorHint, outErrorPos);
+        }
+        ZFTypeIdWrapper *w = zfv;
+        if(w != zfnull)
+        {
+            return w->wrappedValueFromData(serializableData, outErrorHint, outErrorPos);
+        }
     }
-    return w->wrappedValueFromData(serializableData, outErrorHint, outErrorPos);
+    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
+        zfText("unable to access type id wrapper: %s"),
+        propertyInfo->propertyTypeId());
+    return zffalse;
 }
 void _ZFP_propCbDSerializeFrom_errorOccurred(ZF_IN const ZFSerializableData &serializableData,
                                              ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
@@ -468,17 +475,31 @@ zfbool _ZFP_propCbDSerializeTo_generic(ZF_IN const ZFProperty *propertyInfo,
         return zffalse;
     }
     zfautoObject zfv;
-    ZFTypeIdWrapper *w = zfnull;
-    if(!t->typeIdWrapper(zfv) || (w = zfv) == zfnull)
+    if(t->typeIdWrapper(zfv))
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("unable to access type id wrapper: %s"),
-            propertyInfo->propertyTypeId());
-        return zffalse;
+        const void *v = propertyInfo->callbackValueGet(propertyInfo, ownerObject);
+        if(zfv == zfnull)
+        {
+            if(propertyInfo->propertyIsRetainProperty()
+                || zfscmpTheSame(ZFTypeId_zfautoObject(), propertyInfo->propertyTypeId()))
+            {
+                return ZFObjectToData(serializableData, *(const zfautoObject *)v, outErrorHint);
+            }
+        }
+        else
+        {
+            ZFTypeIdWrapper *w = zfv;
+            if(w != zfnull)
+            {
+                w->wrappedValueSet(v);
+                return w->wrappedValueToData(serializableData, outErrorHint);
+            }
+        }
     }
-    const void *v = propertyInfo->callbackValueGet(propertyInfo, ownerObject);
-    w->wrappedValueSet(v);
-    return w->wrappedValueToData(serializableData, outErrorHint);
+    ZFSerializableUtil::errorOccurred(outErrorHint,
+        zfText("unable to access type id wrapper: %s"),
+        propertyInfo->propertyTypeId());
+    return zffalse;
 }
 zfbool _ZFP_propCbDSerializeTo_impl(ZF_IN const ZFProperty *propertyInfo,
                                     ZF_IN ZFObject *zfv,

@@ -28,9 +28,9 @@ static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
         return zffalse;
     }
 
-    for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
+    for(zfindex iMethod = 0; iMethod < objectOnInitMethodList.count(); ++iMethod)
     {
-        const ZFMethod *method = objectOnInitMethodList[i];
+        const ZFMethod *method = objectOnInitMethodList[iMethod];
         zfautoObject paramListTmp[ZFMETHOD_MAX_PARAM] = {
             paramList[0],
             paramList[1],

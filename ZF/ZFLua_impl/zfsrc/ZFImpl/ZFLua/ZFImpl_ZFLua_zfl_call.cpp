@@ -198,11 +198,6 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
-    v_zfautoObject *objTmp = obj;
-    if(objTmp != zfnull)
-    {
-        obj = objTmp->zfv;
-    }
 
     if(obj == zfnull)
     {

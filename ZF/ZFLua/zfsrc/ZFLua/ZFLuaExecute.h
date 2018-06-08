@@ -103,7 +103,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     the lua function's proto type must be:
  *     @code
  *       function myLuaCallback(listenerData, userData)
- *       endfunction
+ *       end
  *     @endcode
  *     \n
  *     further more, lua function can be converted to #ZFListener implicitly
@@ -148,7 +148,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  path info
  *   -  `zfl_pathInfo()`\n
  *     return path info of current context, null if not available
- *   -  `ZFLuaImport(localFilePath [, luaParams, L])`\n
+ *   -  `ZFLuaImport(localFilePath [, param0, param1, ...])`\n
  *     util method for #ZFLuaExecute + #ZFInputForLocalFile
  *   -  `ZFLuaRes(localFilePath)`\n
  *     util method for #ZFObjectIOLoad + #ZFInputForLocalFile

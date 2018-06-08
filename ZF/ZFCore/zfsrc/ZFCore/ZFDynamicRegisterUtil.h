@@ -31,14 +31,14 @@ public:
     ZFObject *invokerObject; /**< @brief data to hold params for #ZFMethodGenericInvoker */
     zfstring errorHint; /**< @brief data to hold params for #ZFMethodGenericInvoker */
     zfautoObject ret; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param0; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param1; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param2; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param3; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param4; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param5; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param6; /**< @brief data to hold params for #ZFMethodGenericInvoker */
-    ZFObject *param7; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param0; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param1; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param2; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param3; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param4; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param5; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param6; /**< @brief data to hold params for #ZFMethodGenericInvoker */
+    zfautoObject param7; /**< @brief data to hold params for #ZFMethodGenericInvoker */
 protected:
     /** @cond ZFPrivateDoc */
     ZFDynamicMethodData(void)
@@ -48,14 +48,14 @@ protected:
     , invokerObject(zfnull)
     , errorHint()
     , ret()
-    , param0(zfnull)
-    , param1(zfnull)
-    , param2(zfnull)
-    , param3(zfnull)
-    , param4(zfnull)
-    , param5(zfnull)
-    , param6(zfnull)
-    , param7(zfnull)
+    , param0()
+    , param1()
+    , param2()
+    , param3()
+    , param4()
+    , param5()
+    , param6()
+    , param7()
     {
     }
     /** @endcond */

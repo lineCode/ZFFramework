@@ -20,5 +20,35 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFLuaGC,
     ZFPROTOCOL_ACCESS(ZFLua)->luaGC(L ? L : ZFLuaState());
 }
 
+// ============================================================
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFLuaGCAutoApply, ZFLevelZFFrameworkNormal)
+{
+    this->classChangeListener = ZFCallbackForFunc(zfself::classChange);
+    ZFClassDataChangeObserver.observerAdd(
+        ZFGlobalEvent::EventClassDataChange(),
+        this->classChangeListener);
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFLuaGCAutoApply)
+{
+    ZFClassDataChangeObserver.observerRemove(
+        ZFGlobalEvent::EventClassDataChange(),
+        this->classChangeListener);
+}
+ZFListener classChangeListener;
+static ZFLISTENER_PROTOTYPE_EXPAND(classChange)
+{
+    const ZFClassDataChangeData *data = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
+    if(data->changedClass != zfnull && data->changeType != ZFClassDataChangeTypeUpdate)
+    {
+        ZFCoreArrayPOD<void *> L;
+        ZFLuaStateAttached(L);
+        for(zfindex i = 0; i < L.count(); ++i)
+        {
+            ZFLuaGC(L[i]);
+        }
+    }
+}
+ZF_GLOBAL_INITIALIZER_END(ZFLuaGCAutoApply)
+
 ZF_NAMESPACE_GLOBAL_END
 

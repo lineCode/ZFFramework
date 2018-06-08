@@ -20,6 +20,10 @@
 #include <memory.h>
 #include <string.h>
 
+// for internal debug use only
+#define _ZFP_ZFMEM_LOG 0
+#define _ZFP_ZFMEM_LOG_VERBOSE 0
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -110,95 +114,41 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     public:
 
 // ============================================================
-/**
- * @brief same as new defined for future use
- */
+/** @brief same as new defined for future use */
 #define zfnew(Type, ...) (new Type(__VA_ARGS__))
-/**
- * @brief same as new[] defined for future use
- */
-#define zfnewArray(Type, size) (new Type[size])
-/**
- * @brief placement new defined for future use
- */
-#define zfnewPlacement(buf, Type, ...) (new (buf) Type(__VA_ARGS__))
-/**
- * @brief same as delete defined for future use
- */
+/** @brief same as delete defined for future use */
 #define zfdelete(instance) delete(instance)
-/**
- * @brief same as delete[] defined for future use
- */
-#define zfdeleteArray(instance) delete[](instance)
-template<typename Type>
-inline void _ZFP_zfdeletePlacementAction(Type *obj)
-{
-    obj->~Type();
-}
-/**
- * @brief placement delete (instance->~Type()) defined for future use
- */
-#define zfdeletePlacement(instance) _ZFP_zfdeletePlacementAction(instance)
 
-/**
- * @brief same as malloc defined for future use
- */
-inline void *zfmalloc(zfindex size)
-{
-    return malloc((size_t)size);
-}
-/**
- * @brief util method to #zfmalloc and #zfmemset to zero
- */
-extern ZF_ENV_EXPORT void *zfmallocZero(zfindex size);
-/**
- * @brief same as realloc defined for future use
- */
-inline void *zfrealloc(void *oldPtr, zfindex newSize)
-{
-    return realloc(oldPtr, (size_t)newSize);
-}
-/**
- * @brief util method to #zfrealloc and #zfmemset the increased memory to zero
- */
-extern ZF_ENV_EXPORT void *zfreallocZero(void *oldPtr, zfindex newSize, zfindex oldSize);
-/**
- * @brief same as free defined for future use,
- *   do nothing if ptr is NULL
- */
-inline void zffree(void *ptr)
-{
-    free(ptr);
-}
+/** @brief placement new defined for future use */
+#define zfnewPlacement(buf, Type, ...) (new (buf) Type(__VA_ARGS__))
+template<typename Type> inline void _ZFP_zfdeletePlacement(Type *obj) {obj->~Type();}
+/** @brief placement delete (instance->~Type()) defined for future use */
+#define zfdeletePlacement(instance) _ZFP_zfdeletePlacement(instance)
 
-/**
- * @brief wrapper to memset
- */
-inline void *zfmemset(void *p, zfint ch, zfindex size)
-{
-    return memset(p, ch, (size_t)size);
-}
-/**
- * @brief wrapper to memcpy
- */
-inline void *zfmemcpy(void *dst, const void *src, zfindex size)
-{
-    return memcpy(dst, src, (size_t)size);
-}
-/**
- * @brief wrapper to memmove
- */
-inline void *zfmemmove(void *dst, const void *src, zfindex size)
-{
-    return memmove(dst, src, (size_t)size);
-}
-/**
- * @brief wrapper to memcmp
- */
-inline zfint zfmemcmp(const void *p1, const void *p2, zfindex size)
-{
-    return (zfint)memcmp(p1, p2, (size_t)size);
-}
+/** @brief same as malloc defined for future use */
+#define zfmalloc(size) malloc((size_t)(size))
+extern ZF_ENV_EXPORT void *_ZFP_zfmallocZero(zfindex size);
+/** @brief util method to #zfmalloc and #zfmemset to zero */
+#define zfmallocZero(size) _ZFP_zfmallocZero(size)
+
+/** @brief same as realloc defined for future use */
+#define zfrealloc(oldPtr, newSize) realloc((oldPtr), (size_t)(newSize))
+extern ZF_ENV_EXPORT void *_ZFP_zfreallocZero(void *oldPtr, zfindex newSize, zfindex oldSize);
+/** @brief util method to #zfrealloc and #zfmemset the increased memory to zero */
+#define zfreallocZero(oldPtr, newSize, oldSize) _ZFP_zfreallocZero((oldPtr), (newSize), (oldSize))
+
+/** @brief same as free defined for future use, do nothing if ptr is NULL */
+#define zffree(ptr) free((ptr))
+
+// ============================================================
+/** @brief wrapper to memset */
+inline void *zfmemset(void *p, zfint ch, zfindex size) {return memset(p, ch, (size_t)size);}
+/** @brief wrapper to memcpy */
+inline void *zfmemcpy(void *dst, const void *src, zfindex size) {return memcpy(dst, src, (size_t)size);}
+/** @brief wrapper to memmove */
+inline void *zfmemmove(void *dst, const void *src, zfindex size) {return memmove(dst, src, (size_t)size);}
+/** @brief wrapper to memcmp */
+inline zfint zfmemcmp(const void *p1, const void *p2, zfindex size) {return (zfint)memcmp(p1, p2, (size_t)size);}
 
 /**
  * @brief memmove for common object type, object must support operator =
@@ -261,6 +211,64 @@ T_Element *zfmemmoveObject(T_Element *dst, const T_Element *src, zfindex count)
  * @brief dummy macro that shows the param used as optional input and output
  */
 #define ZF_IN_OUT_OPT
+
+// ============================================================
+#if _ZFP_ZFMEM_LOG
+    extern void _ZFP_ZFMEM_logNew(void *p, const char *action, const char *file, const char *func, int line);
+    extern void _ZFP_ZFMEM_logDelete(void *p, const char *action, const char *file, const char *func, int line);
+    extern void _ZFP_ZFMEM_printStatus(int threshold = 10);
+    template<typename T>
+    T _ZFP_ZFMEM_new_action(T p, const char *action, const char *file, const char *func, int line)
+    {
+        _ZFP_ZFMEM_logNew((void *)p, action, file, func, line);
+        return p;
+    }
+    template<typename T>
+    T _ZFP_ZFMEM_delete_action(T p, const char *action, const char *file, const char *func, int line)
+    {
+        _ZFP_ZFMEM_logDelete((void *)p, action, file, func, line);
+        return p;
+    }
+    #define _ZFP_ZFMEM_new(p, action) _ZFP_ZFMEM_new_action((p), action, __FILE__, __FUNCTION__, __LINE__)
+    #define _ZFP_ZFMEM_delete(p, action) _ZFP_ZFMEM_delete_action((p), action, __FILE__, __FUNCTION__, __LINE__)
+
+    #undef zfnew
+    #define zfnew(Type, ...) _ZFP_ZFMEM_new((new Type(__VA_ARGS__)), "zfnew            ")
+    #undef zfdelete
+    #define zfdelete(instance) delete(_ZFP_ZFMEM_delete((instance), "zfdelete         "))
+
+    #undef zfnewPlacement
+    #define zfnewPlacement(buf, Type, ...) _ZFP_ZFMEM_new((new (buf) Type(__VA_ARGS__)), "zfnewPlacement   ")
+    #undef zfdeletePlacement
+    #define zfdeletePlacement(instance) _ZFP_zfdeletePlacement(_ZFP_ZFMEM_delete((instance), "zfdeletePlacement"))
+
+    #undef zfmalloc
+    #define zfmalloc(size) _ZFP_ZFMEM_new((malloc((size_t)(size))), "zfmalloc         ")
+    #undef zfmallocZero
+    #define zfmallocZero(size) _ZFP_ZFMEM_new(_ZFP_zfmallocZero((size_t)(size)), "zfmallocZero     ")
+
+    inline void *_ZFP_ZFMEM_zfrealloc(void *oldPtr, zfindex newSize, const char *file, const char *func, int line)
+    {
+        _ZFP_ZFMEM_logDelete(oldPtr, "zfrealloc        ", file, func, line);
+        void *ret = realloc(oldPtr, (size_t)newSize);
+        _ZFP_ZFMEM_logNew(ret, "zfrealloc        ", file, func, line);
+        return ret;
+    }
+    #undef zfrealloc
+    #define zfrealloc(oldPtr, newSize) _ZFP_ZFMEM_zfrealloc((oldPtr), (newSize), __FILE__, __FUNCTION__, __LINE__)
+    inline void *_ZFP_ZFMEM_zfreallocZero(void *oldPtr, zfindex newSize, zfindex oldSize, const char *file, const char *func, int line)
+    {
+        _ZFP_ZFMEM_logDelete(oldPtr, "zfreallocZero    ", file, func, line);
+        void *ret = _ZFP_zfreallocZero(oldPtr, newSize, oldSize);
+        _ZFP_ZFMEM_logNew(ret, "zfreallocZero    ", file, func, line);
+        return ret;
+    }
+    #undef zfreallocZero
+    #define zfreallocZero(oldPtr, newSize, oldSize) _ZFP_ZFMEM_zfreallocZero((oldPtr), (newSize), (oldSize), __FILE__, __FUNCTION__, __LINE__)
+
+    #undef zffree
+    #define zffree(ptr) free(_ZFP_ZFMEM_delete((ptr), "zffree           "))
+#endif
 
 ZF_NAMESPACE_GLOBAL_END
 

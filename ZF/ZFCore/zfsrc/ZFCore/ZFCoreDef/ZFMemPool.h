@@ -22,22 +22,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief whether enable memory pool, true by default
  */
 #ifndef ZF_ENV_ZFMEMPOOL_ENABLE
-    #define ZF_ENV_ZFMEMPOOL_ENABLE 1
-#endif
-
-// ============================================================
-/**
- * @brief util macro to log #zfpoolNew, do nothing by default
- */
-#ifndef zfpoolNewLogger
-    #define zfpoolNewLogger(Type, obj) (obj)
-#endif
-
-/**
- * @brief util macro to log #zfpoolDelete, do nothing by default
- */
-#ifndef zfpoolDeleteLogger
-    #define zfpoolDeleteLogger(obj) (obj)
+    #if _ZFP_ZFMEM_LOG
+        #define ZF_ENV_ZFMEMPOOL_ENABLE 0
+    #else
+        #define ZF_ENV_ZFMEMPOOL_ENABLE 1
+    #endif
 #endif
 
 // ============================================================
@@ -53,19 +42,19 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief use to declare friend if your type has non-public constructors
  */
 #if ZF_ENV_ZFMEMPOOL_ENABLE
-    #define zfpoolNew(T_Type, ...) zfpoolNewLogger(T_Type, new (_ZFP_zfpoolObjectHolder<T_Type>::poolMalloc()) T_Type(__VA_ARGS__))
-    #define zfpoolDelete(obj) _ZFP_zfpoolDelete(zfpoolDeleteLogger(obj))
+    #define zfpoolNew(T_Type, ...) zfnewPlacement((_ZFP_zfpoolObjectHolder<T_Type>::poolMalloc()), T_Type, ##__VA_ARGS__)
+    #define zfpoolDelete(obj) _ZFP_zfpoolDelete(obj)
     #define zfpoolDeclareFriend() \
         friend zfclassFwd _ZFP_zfpoolObjectHolder<zfself>;
 #else
-    #define zfpoolNew(T_Type, ...) zfpoolNewLogger(T_Type, zfnew(T_Type, ##__VA_ARGS__))
-    #define zfpoolDelete(obj) zfdelete(zfpoolDeleteLogger(obj))
+    #define zfpoolNew(T_Type, ...) zfnew(T_Type, ##__VA_ARGS__)
+    #define zfpoolDelete(obj) zfdelete(obj)
     #define zfpoolDeclareFriend()
 #endif
 
 // ============================================================
 // impl
-#define _ZFP_zfpoolSizeAlignMin (sizeof(void *))
+#define _ZFP_zfpoolSizeAlignMin (sizeof(void *) * 2)
 #define _ZFP_zfpoolSizeAlign(size) \
     ( \
         (((size) % _ZFP_zfpoolSizeAlignMin) == 0) \

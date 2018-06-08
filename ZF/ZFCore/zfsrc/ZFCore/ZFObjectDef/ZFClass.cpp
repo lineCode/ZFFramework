@@ -24,22 +24,13 @@ ZF_STATIC_INITIALIZER_INIT(ZFClassDataHolder)
 }
 ZF_STATIC_INITIALIZER_DESTROY(ZFClassDataHolder)
 {
-    ZFCoreArrayPOD<ZFClass *> allClassDelayed;
-    this->delayDeleteMap.allValueT(allClassDelayed);
-    this->delayDeleteMap.removeAll();
+    ZFCoreMap classMapTmp = this->classMap;
+    ZFCoreMap delayDeleteMapTmp = this->delayDeleteMap;
+    this->classMap = ZFCoreMap();
+    this->delayDeleteMap = ZFCoreMap();
 
-    ZFCoreArrayPOD<ZFClass *> allClass;
-    this->classMap.allValueT(allClass);
-    this->classMap.removeAll();
-
-    for(zfindex i = 0; i < allClassDelayed.count(); ++i)
-    {
-        zfdelete(allClassDelayed[i]);
-    }
-    for(zfindex i = 0; i < allClass.count(); ++i)
-    {
-        zfdelete(allClass[i]);
-    }
+    delayDeleteMapTmp.removeAll();
+    classMapTmp.removeAll();
 }
 ZFCoreMap classMap; // ZFClass *
 ZFCoreMap delayDeleteMap; // ZFClass *
@@ -170,6 +161,8 @@ public:
     };
     zfstldeque<ZFCorePointerForObject<_ZFP_ZFClassPrivate::InstanceObserverData *> > instanceObserver;
     zfstldeque<_ZFP_ZFClassPrivate::InstanceObserverData *> instanceObserverCached;
+
+public:
     void _instanceObserverDoAdd(ZF_IN_OUT zfstldeque<_ZFP_ZFClassPrivate::InstanceObserverData *> &buf,
                                 ZF_IN _ZFP_ZFClassPrivate::InstanceObserverData *data)
     {
@@ -597,17 +590,27 @@ zfautoObject ZFClass::newInstanceGeneric(
     ZFToken token = this->newInstanceGenericBegin();
     if(token != zfnull)
     {
+        zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+            param0,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+        };
         for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
         {
             if(this->newInstanceGenericCheck(token, objectOnInitMethodList[i]
-                    , param0
-                    , param1
-                    , param2
-                    , param3
-                    , param4
-                    , param5
-                    , param6
-                    , param7
+                    , paramList[0]
+                    , paramList[1]
+                    , paramList[2]
+                    , paramList[3]
+                    , paramList[4]
+                    , paramList[5]
+                    , paramList[6]
+                    , paramList[7]
                 ))
             {
                 return this->newInstanceGenericEnd(token, zftrue);
@@ -624,14 +627,14 @@ ZFToken ZFClass::newInstanceGenericBegin(void) const
 }
 zfbool ZFClass::newInstanceGenericCheck(ZF_IN ZFToken token
                                         , ZF_IN const ZFMethod *objectOnInitMethod
-                                        , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
-                                        , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                                        , ZF_IN_OUT zfautoObject &param0
+                                        , ZF_IN_OUT zfautoObject &param1
+                                        , ZF_IN_OUT zfautoObject &param2
+                                        , ZF_IN_OUT zfautoObject &param3
+                                        , ZF_IN_OUT zfautoObject &param4
+                                        , ZF_IN_OUT zfautoObject &param5
+                                        , ZF_IN_OUT zfautoObject &param6
+                                        , ZF_IN_OUT zfautoObject &param7
                                         ) const
 {
     if(objectOnInitMethod == zfnull
@@ -974,15 +977,6 @@ ZFClass::~ZFClass(void)
         abort();
     }
 
-    for(zfstlmap<const ZFClass *, zfbool>::iterator it = d->allChildren.begin(); it != d->allChildren.end(); ++it)
-    {
-        it->first->d->allParent.erase(this);
-    }
-    for(zfstlmap<const ZFClass *, zfbool>::iterator it = d->allParent.begin(); it != d->allParent.end(); ++it)
-    {
-        it->first->d->allChildren.erase(this);
-    }
-
     zfdelete(d);
     d = zfnull;
 }
@@ -1014,7 +1008,7 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     else
     {
         cls = zfnew(ZFClass);
-        _ZFP_ZFClassMap.set(name, ZFCorePointerForPointerRef<ZFClass *>(cls));
+        _ZFP_ZFClassMap.set(name, ZFCorePointerForObject<ZFClass *>(cls));
 
         if(ZFCoreLibDestroyFlag)
         {
@@ -1065,8 +1059,8 @@ void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN c
     }
     zfCoreMutexLocker();
 
-    zfiterator it = _ZFP_ZFClassMap.iteratorForKey(cls->className());
-    if(!_ZFP_ZFClassMap.iteratorIsValid(it))
+    zfiterator itClass = _ZFP_ZFClassMap.iteratorForKey(cls->className());
+    if(!_ZFP_ZFClassMap.iteratorIsValid(itClass))
     {
         zfCoreCriticalShouldNotGoHere();
         return ;
@@ -1074,18 +1068,38 @@ void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN c
 
     _ZFP_ZFClassDataChangeNotify(ZFClassDataChangeTypeDetach, cls, zfnull, zfnull);
 
-    cls->d->ZFCoreLibDestroyFlag.removeElement(ZFCoreLibDestroyFlag);
-    --(cls->d->refCount);
-    if(cls->d->refCount == 0)
+    _ZFP_ZFClassPrivate *d = cls->d;
+    d->ZFCoreLibDestroyFlag.removeElement(ZFCoreLibDestroyFlag);
+    --(d->refCount);
+    if(d->refCount != 0)
     {
-        _ZFP_ZFClassMap.iteratorRemove(it);
-        _ZFP_ZFClassDelayDeleteMap.set(cls->className(),
-            ZFCorePointerForPointerRef<ZFClass *>(cls->_ZFP_ZFClass_removeConst()));
+        return ;
+    }
 
-        if(!cls->d->internalTypesNeedAutoRegister)
+    _ZFP_ZFClassDelayDeleteMap.set(cls->className(),
+        *_ZFP_ZFClassMap.iteratorGet(itClass));
+    _ZFP_ZFClassMap.iteratorRemove(itClass);
+
+    if(!d->internalTypesNeedAutoRegister)
+    {
+        ZFMethodUserUnregister(cls->methodForName(zfText("ClassData")));
+    }
+
+    d->classDynamicRegisterUserData = zfnull;
+    cls->classTagRemoveAll();
+    cls->instanceObserverRemoveAll();
+
+    for(zfstlmap<const ZFClass *, zfbool>::iterator it = d->allChildren.begin(); it != d->allChildren.end(); ++it)
+    {
+        it->first->d->allParent.erase(cls);
+        if(it->first->d->classParent == cls)
         {
-            ZFMethodUserUnregister(cls->methodForName(zfText("ClassData")));
+            it->first->d->classParent = zfnull;
         }
+    }
+    for(zfstlmap<const ZFClass *, zfbool>::iterator it = d->allParent.begin(); it != d->allParent.end(); ++it)
+    {
+        it->first->d->allChildren.erase(cls);
     }
 }
 
@@ -1667,20 +1681,6 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, zfautoObject, newInstanceGe
     , ZFMP_IN_OPT(ZFObject *, param6, ZFMethodGenericInvokerDefaultParam())
     , ZFMP_IN_OPT(ZFObject *, param7, ZFMethodGenericInvokerDefaultParam())
     ) /* ZFMETHOD_MAX_PARAM */
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, ZFToken, newInstanceGenericBegin)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, zfbool, newInstanceGenericCheck
-    , ZFMP_IN(ZFToken, token)
-    , ZFMP_IN(const ZFMethod *, objectOnInitMethod)
-    , ZFMP_IN_OPT(ZFObject *, param0, ZFMethodGenericInvokerDefaultParam())
-    , ZFMP_IN_OPT(ZFObject *, param1, ZFMethodGenericInvokerDefaultParam())
-    , ZFMP_IN_OPT(ZFObject *, param2, ZFMethodGenericInvokerDefaultParam())
-    , ZFMP_IN_OPT(ZFObject *, param3, ZFMethodGenericInvokerDefaultParam())
-    , ZFMP_IN_OPT(ZFObject *, param4, ZFMethodGenericInvokerDefaultParam())
-    , ZFMP_IN_OPT(ZFObject *, param5, ZFMethodGenericInvokerDefaultParam())
-    /* , ZFMP_IN_OPT(ZFObject *, param6, ZFMethodGenericInvokerDefaultParam()) */
-    /* , ZFMP_IN_OPT(ZFObject *, param7, ZFMethodGenericInvokerDefaultParam()) */
-    ) /* ZFMETHOD_MAX_PARAM */
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFClass, zfautoObject, newInstanceGenericEnd, ZFMP_IN(ZFToken, token), ZFMP_IN(zfbool, objectOnInitMethodInvokeSuccess))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, implementedInterfaceCount)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFClass *, implementedInterfaceAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, methodCount)

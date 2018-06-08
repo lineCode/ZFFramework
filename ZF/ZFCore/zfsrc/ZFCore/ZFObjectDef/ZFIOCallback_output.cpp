@@ -132,8 +132,8 @@ public:
     }
 };
 ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
-                                           ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
-                                           ZF_IN_OPT zfbool autoAppendNullToken /* = zftrue */)
+                           ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
+                           ZF_IN_OPT zfbool autoAppendNullToken /* = zftrue */)
 {
     if(buf == zfnull || maxCount == 0 || (maxCount == 1 && autoAppendNullToken))
     {

@@ -31,56 +31,6 @@ ZFOUTPUT_TYPE_DEFINE(zfautoObject, {
         );
     })
 
-ZFOBJECT_REGISTER(v_zfautoObject)
-void v_zfautoObject::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
-{
-    ZFCoreElementInfoGetter<zfautoObject>::elementInfoGetter(ret, this->zfv);
-}
-ZFCompareResult v_zfautoObject::objectCompare(ZF_IN ZFObject *anotherObj)
-{
-    ZFTypeIdWrapper *t = ZFCastZFObject(ZFTypeIdWrapper *, anotherObj);
-    if(t == zfnull || !zfscmpTheSame(this->wrappedValueTypeId(), t->wrappedValueTypeId()))
-    {
-        return ZFCompareUncomparable;
-    }
-    else
-    {
-        return ZFComparerDefault(this->zfv, *(zfautoObject *)t->wrappedValue());
-    }
-}
-void v_zfautoObject::assignAction(ZF_IN ZFTypeIdWrapper *ref)
-{
-    zfself *refTmp = ZFCastZFObject(zfself *, ref);
-    if(refTmp != zfnull)
-    {
-        this->zfv = refTmp->zfv;
-    }
-}
-const zfchar *v_zfautoObject::wrappedValueTypeId(void)
-{
-    return ZFTypeId<zfautoObject>::TypeId();
-}
-zfbool v_zfautoObject::wrappedValueIsInit(void)
-{
-    return (ZFComparerDefault(this->zfv, zftValue<zfautoObject>().zfv) == ZFCompareTheSame);
-}
-ZFCompareResult v_zfautoObject::wrappedValueCompare(ZF_IN const void *v0,
-                                                    ZF_IN const void *v1)
-{
-    return ZFComparerDefault(*(const zfautoObject *)v0, *(const zfautoObject *)v1);
-}
-void v_zfautoObject::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
-                                         ZF_IN const void *v)
-{
-    return ZFObjectInfoT(ret, ((const zfautoObject *)v)->toObject());
-}
-zfbool v_zfautoObject::wrappedValueProgressUpdate(ZF_IN const void *from,
-                                                  ZF_IN const void *to,
-                                                  ZF_IN zffloat progress)
-{
-    return zffalse;
-}
-
 // ============================================================
 // ZFObject
 ZFTYPEID_ID_DATA_REGISTER(ZFObject, ZFObject *)

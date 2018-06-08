@@ -457,21 +457,21 @@ private:
 private:
     inline void add(const zfchar *s)
     {
-        if(s)
+        if(s && *s)
         {
             this->outputCallback.execute(s);
         }
     }
     inline void addEncoded(const zfchar *s)
     {
-        if(s)
+        if(s && *s)
         {
             ZFXmlEscapeCharEncode(this->outputCallback, s);
         }
     }
     void addIndent(const zfchar *xmlIndentToken, zfindex indentLevel = 1)
     {
-        if(xmlIndentToken && *xmlIndentToken != '\0')
+        if(xmlIndentToken && *xmlIndentToken)
         {
             for(zfindex i = 0; i < indentLevel; ++i)
             {

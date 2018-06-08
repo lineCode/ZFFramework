@@ -11,37 +11,7 @@
 #include "ZFObjectImpl.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
-
 /* ZFMETHOD_MAX_PARAM */
-zfbool ZFMethodGenericInvoke(ZF_IN const ZFMethod *invokerMethod
-                             , ZF_IN ZFObject *invokerObject
-                             , ZF_OUT_OPT zfstring *errorHint
-                             , ZF_OUT zfautoObject &ret
-                             , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
-                             , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
-                             )
-{
-    return invokerMethod->methodGenericInvoker()(
-            invokerMethod
-            , invokerObject
-            , errorHint
-            , ret
-            , param0
-            , param1
-            , param2
-            , param3
-            , param4
-            , param5
-            , param6
-            , param7
-        );
-}
 
 // ============================================================
 zfclass _ZFP_I_ZFMethodGenericInvokerDefaultParamType : zfextends ZFObject
@@ -99,6 +69,35 @@ void _ZFP_MtdGIRetError(ZF_OUT_OPT zfstring *errorHint,
 }
 
 // ============================================================
+zfbool _ZFP_ZFMethodGenericInvoke(ZF_IN const ZFMethod *invokerMethod
+                                  , ZF_IN ZFObject *invokerObject
+                                  , ZF_OUT_OPT zfstring *errorHint
+                                  , ZF_OUT zfautoObject &ret
+                                  , ZF_IN_OUT zfautoObject &param0
+                                  , ZF_IN_OUT zfautoObject &param1
+                                  , ZF_IN_OUT zfautoObject &param2
+                                  , ZF_IN_OUT zfautoObject &param3
+                                  , ZF_IN_OUT zfautoObject &param4
+                                  , ZF_IN_OUT zfautoObject &param5
+                                  , ZF_IN_OUT zfautoObject &param6
+                                  , ZF_IN_OUT zfautoObject &param7
+                                  )
+{
+    return invokerMethod->methodGenericInvoker()(
+            invokerMethod
+            , invokerObject
+            , errorHint
+            , ret
+            , param0
+            , param1
+            , param2
+            , param3
+            , param4
+            , param5
+            , param6
+            , param7
+        );
+}
 void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *method,
                                      ZF_IN ZFObject *obj,
                                      ZF_IN zfint pos,

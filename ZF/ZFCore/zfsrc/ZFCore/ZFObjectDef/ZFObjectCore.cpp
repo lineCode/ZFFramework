@@ -152,15 +152,25 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
     for(zfindex i = 0; i < methodList.count(); ++i)
     {
         const ZFMethod *m = methodList[i];
+        zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+            param0,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+        };
         if(m->methodGenericInvoker()(m, this, &errorHintTmp, ret
-                , param0
-                , param1
-                , param2
-                , param3
-                , param4
-                , param5
-                , param6
-                , param7
+                , paramList[0]
+                , paramList[1]
+                , paramList[2]
+                , paramList[3]
+                , paramList[4]
+                , paramList[5]
+                , paramList[6]
+                , paramList[7]
             ))
         {
             if(success != zfnull)
@@ -405,20 +415,17 @@ ZFObject *ZFObject::_ZFP_ZFObjectCheckOnInit(void)
 }
 void ZFObject::_ZFP_ZFObjectCheckRelease(void)
 {
-    if(!this->objectIsInternal())
+    if(ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc)
+        || ZFBitTest(_ZFP_ZFObject_stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc))
     {
-        if(ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc)
-            || ZFBitTest(_ZFP_ZFObject_stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc))
+        if(d->objectRetainCount == 1)
         {
-            if(d->objectRetainCount == 1)
+            this->observerNotify(ZFObject::EventObjectBeforeDealloc());
+            if(d->objectRetainCount > 1)
             {
-                this->observerNotify(ZFObject::EventObjectBeforeDealloc());
-                if(d->objectRetainCount > 1)
-                {
-                    this->objectOnRelease();
-                    this->observerRemoveAll(ZFObject::EventObjectBeforeDealloc());
-                    return ;
-                }
+                this->objectOnRelease();
+                this->observerRemoveAll(ZFObject::EventObjectBeforeDealloc());
+                return ;
             }
         }
     }

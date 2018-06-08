@@ -492,11 +492,6 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         if(lua_isuserdata(L, -1))
         {
             *luaResult = ZFImpl_ZFLua_luaGet(L, -1);
-            v_zfautoObject *tmp = *luaResult;
-            if(tmp != zfnull)
-            {
-                *luaResult = tmp->zfv;
-            }
             lua_pop(L, 1);
         }
         else if(ZFImpl_ZFLua_toNumberT(*luaResult, L, -1, zftrue))
@@ -656,9 +651,13 @@ zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
             success = zftrue;
         }
     }
-    else if(param.to<ZFTypeIdWrapper *>()->wrappedValueFromString(unknownType->zfv, unknownType->zfv.length()))
+    else
     {
-        success = zftrue;
+        ZFTypeIdWrapper *wrapper = param;
+        if(wrapper != zfnull && wrapper->wrappedValueFromString(unknownType->zfv, unknownType->zfv.length()))
+        {
+            success = zftrue;
+        }
     }
 
     if(!success)
@@ -699,13 +698,11 @@ zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
                                ZF_IN lua_State *L,
                                ZF_IN zfint luaStackOffset)
 {
-    zfautoObject callbackHolder;
-    if(ZFImpl_ZFLua_toObject(callbackHolder, L, luaStackOffset))
+    if(ZFImpl_ZFLua_toObject(param, L, luaStackOffset))
     {
-        v_ZFCallback *callbackTmp = callbackHolder;
+        v_ZFCallback *callbackTmp = param;
         if(callbackTmp != zfnull)
         {
-            param = callbackTmp;
             return zftrue;
         }
         else
@@ -714,9 +711,9 @@ zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
         }
     }
 
-    zfblockedAlloc(v_ZFCallback, ret);
     if(lua_isfunction(L, luaStackOffset))
     {
+        zfblockedAlloc(v_ZFCallback, ret);
         zfblockedAlloc(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, holder);
         holder->L = L;
         lua_pushvalue(L, luaStackOffset);
@@ -726,13 +723,10 @@ zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
         param = ret;
         return zftrue;
     }
-    zfstring s;
-    if(ZFImpl_ZFLua_toString(s, L, luaStackOffset, zftrue)
-        && ZFCallbackFromString(ret->zfv, s, s.length()))
+    else
     {
-        param = ret;
+        return zffalse;
     }
-    return zffalse;
 }
 
 zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,

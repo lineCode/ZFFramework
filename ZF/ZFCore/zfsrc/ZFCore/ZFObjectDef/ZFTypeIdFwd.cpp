@@ -78,13 +78,12 @@ public:
     ZFObject *obj;
     void *v;
     _ZFP_PropAliasDetachCallback detachCallback;
-
-protected:
-    zfoverride
-    virtual void objectOnDeallocPrepare(void)
+    ZFListener holderOnDeallocListener;
+public:
+    static void holderOnDealloc(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
     {
-        this->detachCallback(this->obj, this->v);
-        zfsuper::objectOnDeallocPrepare();
+        zfself *t = ZFCastZFObjectUnchecked(zfself *, userData);
+        t->detachCallback(t->obj, t->v);
     }
 };
 
@@ -102,15 +101,20 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
         d->obj = obj;
         d->v = v;
         d->detachCallback = detachCallback;
+        d->holderOnDeallocListener = ZFCallbackForFunc(_ZFP_I_PropAliasHolder::holderOnDealloc);
         obj->tagSet(key, d);
+        obj->observerAdd(ZFObject::EventObjectBeforeDealloc(), d->holderOnDeallocListener, d);
         zfRelease(d);
     }
     else
     {
-        d->detachCallback(d->obj, d->v);
+        _ZFP_PropAliasDetachCallback detachCallbackOld = d->detachCallback;
+        ZFObject *objOld = d->obj;
+        void *vOld = d->v;
         d->obj = obj;
         d->v = v;
         d->detachCallback = detachCallback;
+        detachCallbackOld(objOld, vOld);
     }
 }
 

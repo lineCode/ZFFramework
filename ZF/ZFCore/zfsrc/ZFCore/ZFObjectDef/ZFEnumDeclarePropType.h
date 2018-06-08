@@ -94,13 +94,8 @@ public:
         zfclassNotPOD Value \
         { \
         public: \
-            static zfbool accessAvailable(ZF_IN ZFObject *obj) \
+            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
@@ -110,13 +105,8 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
@@ -127,13 +117,8 @@ public:
         private: \
              typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
-            static zfbool accessAvailable(ZF_IN ZFObject *obj) \
+            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
@@ -143,13 +128,8 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
                 /* EnumReinterpretCast */ \
@@ -270,13 +250,8 @@ public:
         zfclassNotPOD Value \
         { \
         public: \
-            static zfbool accessAvailable(ZF_IN ZFObject *obj) \
+            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
@@ -286,13 +261,8 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
@@ -303,13 +273,8 @@ public:
         private: \
             typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
-            static zfbool accessAvailable(ZF_IN ZFObject *obj) \
+            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
                     return (ZFCastZFObject(EnumName##Editable *, obj) != zfnull); \
@@ -319,13 +284,8 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN ZFObject *obj) \
+            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
             { \
-                v_zfautoObject *objTmp = ZFCastZFObject(v_zfautoObject *, obj); \
-                if(objTmp != zfnull) \
-                { \
-                    obj = objTmp->zfv; \
-                } \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
                 /* EnumReinterpretCast */ \

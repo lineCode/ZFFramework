@@ -503,8 +503,6 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
  * supports these types:
  * -  #v_ZFCallback
  * -  lua function, converted by ZFCallbackForLua (available in lua code only)
- * -  any type that can be converted to string by #ZFImpl_ZFLua_toString,
- *   result would be further converted by #ZFCallbackFromString
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
                                                     ZF_IN lua_State *L,

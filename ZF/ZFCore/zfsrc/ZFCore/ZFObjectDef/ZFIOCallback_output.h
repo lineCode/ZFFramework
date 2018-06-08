@@ -180,8 +180,8 @@ extern ZF_ENV_EXPORT ZFOutput ZFOutputForString(ZF_IN_OUT zfstring &s);
  * -  (zfbool) whether auto append '\0' to tail each time write
  */
 extern ZF_ENV_EXPORT ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
-                                                                ZF_IN_OPT zfindex maxCount = zfindexMax(),
-                                                                ZF_IN_OPT zfbool autoAppendNullToken = zftrue);
+                                                ZF_IN_OPT zfindex maxCount = zfindexMax(),
+                                                ZF_IN_OPT zfbool autoAppendNullToken = zftrue);
 
 // ============================================================
 // basic output
