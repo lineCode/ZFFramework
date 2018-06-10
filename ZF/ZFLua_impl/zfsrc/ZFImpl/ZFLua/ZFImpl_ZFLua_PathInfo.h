@@ -25,6 +25,16 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
                                                          ZF_IN const ZFPathInfo *pathInfo);
 
+/**
+ * @brief called when #ZFImpl_ZFLua_implSetupPathInfo
+ */
+typedef void (*ZFImpl_ZFLuaPathInfoSetupCallback)(ZF_IN_OUT zfstring &ret,
+                                                  ZF_IN const ZFPathInfo &pathInfo);
+/** @brief see #ZFImpl_ZFLuaPathInfoSetupCallback */
+extern ZF_ENV_EXPORT void ZFImpl_ZFLuaPathInfoSetupCallbackAdd(ZF_IN ZFImpl_ZFLuaPathInfoSetupCallback callback);
+/** @brief see #ZFImpl_ZFLuaPathInfoSetupCallback */
+extern ZF_ENV_EXPORT void ZFImpl_ZFLuaPathInfoSetupCallbackRemove(ZF_IN ZFImpl_ZFLuaPathInfoSetupCallback callback);
+
 ZF_NAMESPACE_GLOBAL_END
 
 #endif // #ifndef _ZFI_ZFImpl_ZFLua_PathInfo_h_

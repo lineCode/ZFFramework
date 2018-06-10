@@ -400,7 +400,8 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
                             ZF_IN_OPT zfindex bufLen /* = zfindexMax() */,
                             ZF_OUT_OPT zfautoObject *luaResult /* = zfnull */,
                             ZF_IN_OPT const ZFCoreArray<zfautoObject> *luaParams /* = zfnull */,
-                            ZF_OUT_OPT zfstring *errHint /* = zfnull */)
+                            ZF_OUT_OPT zfstring *errHint /* = zfnull */,
+                            ZF_IN_OPT const zfchar *chunkInfo /* = zfnull */)
 {
     ZF_GLOBAL_INITIALIZER_CLASS(ZFImpl_ZFLua_luaStateGlobalHolder) *d
         = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_luaStateGlobalHolder);
@@ -472,7 +473,14 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         zfstringA _errorMsg;
         if(!errHintTmp.isEmpty())
         {
-            zfstringAppend(_errorMsg, zfTextA("[ZFLua] %s\n"), ZFStringZ2A(errHintTmp.cString()));
+            _errorMsg += zfTextA("[ZFLua] ");
+            if(!zfsIsEmpty(chunkInfo))
+            {
+                _errorMsg += zfText("[");
+                _errorMsg += ZFStringZ2A(chunkInfo);
+                _errorMsg += zfText("] ");
+            }
+            zfstringAppend(_errorMsg, zfTextA("%s\n"), ZFStringZ2A(errHintTmp.cString()));
         }
         _errorMsg += zfTextA(
                 "[ZFLua] NOTE: native lua error occurred with no exception support "
@@ -780,6 +788,12 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
     {
         if(holderCls != zfnull) {*holderCls = v_zfstring::ClassData();}
         s += obj->to<v_zfstring *>()->zfv;
+        return zftrue;
+    }
+    else if(cls->classIsTypeOf(ZFImpl_ZFLua_UnknownParam::ClassData()))
+    {
+        if(holderCls != zfnull) {*holderCls = ZFImpl_ZFLua_UnknownParam::ClassData();}
+        s += obj->to<ZFImpl_ZFLua_UnknownParam *>()->zfv;
         return zftrue;
     }
     else

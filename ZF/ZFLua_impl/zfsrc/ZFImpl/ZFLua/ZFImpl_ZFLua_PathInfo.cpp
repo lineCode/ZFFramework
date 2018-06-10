@@ -7,10 +7,26 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_ZFLua.h"
+#include "ZFImpl_ZFLua_PathInfo.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+// ============================================================
+static ZFCoreArrayPOD<ZFImpl_ZFLuaPathInfoSetupCallback> &_ZFP_ZFImpl_ZFLuaPathInfoSetupCallbackList(void)
+{
+    static ZFCoreArrayPOD<ZFImpl_ZFLuaPathInfoSetupCallback> d;
+    return d;
+}
+void ZFImpl_ZFLuaPathInfoSetupCallbackAdd(ZF_IN ZFImpl_ZFLuaPathInfoSetupCallback callback)
+{
+    _ZFP_ZFImpl_ZFLuaPathInfoSetupCallbackList().add(callback);
+}
+void ZFImpl_ZFLuaPathInfoSetupCallbackRemove(ZF_IN ZFImpl_ZFLuaPathInfoSetupCallback callback)
+{
+    _ZFP_ZFImpl_ZFLuaPathInfoSetupCallbackList().removeElement(callback);
+}
+
+// ============================================================
 static void _ZFP_ZFImpl_ZFLua_implSetupPathInfo_escape(ZF_OUT zfstring &ret,
                                                        ZF_IN const zfchar *p)
 {
@@ -138,6 +154,12 @@ void ZFImpl_ZFLua_implSetupPathInfo(ZF_OUT zfstring &ret,
             "    return ZFObjectIOLoad(_ZFP_ZFLuaRes(zfl_pathInfo(), localFilePath));"
             "end;"
         );
+
+    ZFCoreArrayPOD<ZFImpl_ZFLuaPathInfoSetupCallback> &l = _ZFP_ZFImpl_ZFLuaPathInfoSetupCallbackList();
+    for(zfindex i = 0; i < l.count(); ++i)
+    {
+        l[i](ret, *pathInfo);
+    }
 }
 
 // ============================================================
@@ -160,7 +182,7 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(PathInfo, {
                 "    error('ZFLuaImport can only be called within file context', 2);\n"
                 "    return zffalse;\n"
                 "end\n"
-                "local function ZFLuaRes(localFilePath)\n"
+                "function ZFLuaRes(localFilePath)\n"
                 "    error('ZFLuaRes can only be called within file context', 2);\n"
                 "    return zffalse;\n"
                 "end;\n"

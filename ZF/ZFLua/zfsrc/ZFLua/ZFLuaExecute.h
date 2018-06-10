@@ -111,10 +111,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *       button:observerAdd(ZFUIButton.EventButtonOnClick(), function (listenerData, userData)
  *           end)
  *     @endcode
- *   -  `output:output(string [, byteSize])`\n
- *     write to output callback
- *   -  `input:input(string, byteSize)`\n
- *     read from input callback
+ *   -  `output:log(fmt, ...)`\n
+ *     write to output callback, typically usage:\n
+ *     `zfLogT():log(fmt, xxx):log(fmt, xxx)`
  * -  array
  *   -  `ZFCoreArrayCreate([a, b, c, ...])`\n
  *     create a array, params support these types:

@@ -119,11 +119,11 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
 }
 
 #define _ZFP_ZFImpl_ZFLua_zfl_call_implDispatch( \
-        isStatic, classOrNamespace, classOrNull, objectOrNull, \
+        luaParamOffset, isStatic, classOrNamespace, classOrNull, objectOrNull, \
         methodName \
     ) \
     ZFImpl_ZFLua_ImplDispatchInfo dispatchInfo( \
-            L, \
+            L, luaParamOffset, \
             isStatic, classOrNamespace, classOrNull, objectOrNull, \
             methodName, \
             paramList, paramCount \
@@ -246,6 +246,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
         }
 
         _ZFP_ZFImpl_ZFLua_zfl_call_implDispatch(
+            luaParamOffset,
             zffalse, obj->classData()->className(), obj->classData(), obj,
             methodSig)
 
@@ -350,6 +351,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
         }
 
         _ZFP_ZFImpl_ZFLua_zfl_call_implDispatch(
+            luaParamOffset,
             zftrue, methodScope, cls, zfnull,
             methodName)
 
@@ -442,6 +444,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
         }
 
         _ZFP_ZFImpl_ZFLua_zfl_call_implDispatch(
+            luaParamOffset,
             zftrue, methodScope, cls, zfnull,
             methodName)
 

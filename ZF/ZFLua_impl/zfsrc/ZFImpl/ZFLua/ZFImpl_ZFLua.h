@@ -138,6 +138,12 @@ zfclass ZF_ENV_EXPORT ZFImpl_ZFLua_UnknownParam : zfextends ZFObject
 public:
     /** @brief the value */
     zfstring zfv;
+protected:
+    zfoverride
+    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
+    {
+        ret += this->zfv;
+    }
 };
 
 // ============================================================
@@ -159,6 +165,7 @@ zfclassLikePOD ZF_ENV_EXPORT ZFImpl_ZFLua_ImplDispatchInfo
 {
 public:
     lua_State *L; /**< @brief the lua state */
+    zfint luaParamOffset;  /**< @brief lua offset to first method param */
     zfbool isStatic; /**< @brief whether the method called as static method */
     const zfchar *classOrNamespace; /**< @brief class or namespace text */
     const ZFClass *classOrNull; /**< @brief class if able to find */
@@ -173,6 +180,7 @@ public:
 public:
     /** @brief main constructor */
     explicit ZFImpl_ZFLua_ImplDispatchInfo(ZF_IN_OUT lua_State *L,
+                                           ZF_IN zfint luaParamOffset,
                                            ZF_IN zfbool isStatic,
                                            ZF_IN const zfchar *classOrNamespace,
                                            ZF_IN const ZFClass *classOrNull,
@@ -181,6 +189,7 @@ public:
                                            ZF_IN const zfautoObject *paramList,
                                            ZF_IN zfindex paramCount)
     : L(L)
+    , luaParamOffset(luaParamOffset)
     , isStatic(isStatic)
     , classOrNamespace(classOrNamespace)
     , classOrNull(classOrNull)
@@ -448,7 +457,8 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
                                                  ZF_IN_OPT zfindex bufLen = zfindexMax(),
                                                  ZF_OUT_OPT zfautoObject *luaResult = zfnull,
                                                  ZF_IN_OPT const ZFCoreArray<zfautoObject> *luaParams = zfnull,
-                                                 ZF_OUT_OPT zfstring *errHint = zfnull);
+                                                 ZF_OUT_OPT zfstring *errHint = zfnull,
+                                                 ZF_IN_OPT const zfchar *chunkInfo = zfnull);
 
 // ============================================================
 // utils
