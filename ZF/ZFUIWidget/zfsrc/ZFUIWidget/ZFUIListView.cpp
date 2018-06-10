@@ -29,7 +29,7 @@ public:
     zfindex cellCount;
     ZFCoreArrayPOD<zfint> cellSizeList;
     ZFCoreArrayPOD<ZFUIListCell *> listVisibleCell; // retain manually
-    zfindexRange listVisibleCellIndexRange;
+    ZFIndexRange listVisibleCellIndexRange;
     /*
      * left: left most cell's x
      * top: top most cell's y
@@ -64,7 +64,7 @@ public:
     , cellCount(0)
     , cellSizeList()
     , listVisibleCell()
-    , listVisibleCellIndexRange(zfindexRangeZero())
+    , listVisibleCellIndexRange(ZFIndexRangeZero())
     , listVisibleCellOffset(0)
     , listVisibleCellOffsetNeedUpdate(zftrue)
     , listReloadByChangeListOrientation(zftrue)
@@ -240,7 +240,7 @@ public:
     {
         this->cellCount = 0;
         this->cellSizeList.removeAll();
-        this->listVisibleCellIndexRange = zfindexRangeZero();
+        this->listVisibleCellIndexRange = ZFIndexRangeZero();
         this->listVisibleCellOffset = 0;
         if(!this->listVisibleCell.isEmpty())
         {
@@ -1140,7 +1140,7 @@ public:
             cellIndex = this->listVisibleCellIndexRange.start;
         }
 
-        this->listVisibleCellIndexRange = zfindexRangeZero();
+        this->listVisibleCellIndexRange = ZFIndexRangeZero();
         for(zfindex i = this->listVisibleCell.count() - 1; i != zfindexMax(); --i)
         {
             ZFUIListCell *cell = this->listVisibleCell[i];
@@ -1603,7 +1603,7 @@ ZFMETHOD_DEFINE_0(ZFUIListView, zfbool, listReloadRequested)
 ZFMETHOD_DEFINE_1(ZFUIListView, void, listReloadCellAtIndex,
                   ZFMP_IN(zfindex, index))
 {
-    if(d->listReloadRequested || !zfindexRangeContain(d->listVisibleCellIndexRange, index))
+    if(d->listReloadRequested || !ZFIndexRangeContain(d->listVisibleCellIndexRange, index))
     {
         return ;
     }
@@ -1655,7 +1655,7 @@ ZFMETHOD_DEFINE_0(ZFUIListView, ZFCoreArrayPOD<ZFUIListCell *>, listVisibleCell)
 {
     return d->listVisibleCell;
 }
-ZFMETHOD_DEFINE_0(ZFUIListView, const zfindexRange &, listVisibleCellIndexRange)
+ZFMETHOD_DEFINE_0(ZFUIListView, const ZFIndexRange &, listVisibleCellIndexRange)
 {
     return d->listVisibleCellIndexRange;
 }

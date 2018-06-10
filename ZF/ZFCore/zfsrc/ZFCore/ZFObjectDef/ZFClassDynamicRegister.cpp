@@ -82,6 +82,7 @@ void ZFClassDynamicUnregister(ZF_IN const ZFClass *cls)
             zfsCoreZ2A(cls->objectInfo().cString()));
     }
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterAutoRemove)->m.erase(cls);
+    cls->classTagRemoveAll();
     ZFClass::_ZFP_ZFClassUnregister(zfnull, cls);
 }
 

@@ -39,7 +39,7 @@ public:
      * @brief for global event center, sender would always be null if not specified
      */
     zfoverride
-    virtual inline void observerNotify(ZF_IN const zfidentity &eventId,
+    virtual inline void observerNotify(ZF_IN zfidentity eventId,
                                        ZF_IN_OPT ZFObject *param0 = zfnull,
                                        ZF_IN_OPT ZFObject *param1 = zfnull)
     {

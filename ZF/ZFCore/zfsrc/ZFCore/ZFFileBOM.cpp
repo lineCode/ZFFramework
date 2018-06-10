@@ -45,7 +45,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFFileBOM, ZFFileBOM, {
     })
 
 ZFCORETYPE_STRING_CONVERTER_DEFINE(ZFFileBOMList, ZFFileBOMList, {
-        ZFCoreArrayPOD<zfindexRange> pos;
+        ZFCoreArrayPOD<ZFIndexRange> pos;
         if(!zfCoreDataPairSplitString(pos, zfindexMax(), src, srcLen))
         {
             return zffalse;

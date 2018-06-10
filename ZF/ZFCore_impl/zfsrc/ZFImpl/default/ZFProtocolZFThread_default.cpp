@@ -51,7 +51,7 @@ static _ZFP_ZFThreadImpl_default_NativeThreadIdType _ZFP_ZFThreadImpl_default_ge
 {
     return GetCurrentThreadId();
 }
-static void _ZFP_ZFThreadImpl_default_sleep(const zftimet &miliSecs)
+static void _ZFP_ZFThreadImpl_default_sleep(zftimet miliSecs)
 {
     Sleep((DWORD)miliSecs);
 }
@@ -71,7 +71,7 @@ static _ZFP_ZFThreadImpl_default_NativeThreadIdType _ZFP_ZFThreadImpl_default_ge
 {
     return pthread_self();
 }
-static void _ZFP_ZFThreadImpl_default_sleep(const zftimet &miliSecs)
+static void _ZFP_ZFThreadImpl_default_sleep(zftimet miliSecs)
 {
     usleep((unsigned int)(miliSecs * 1000));
 }
@@ -172,7 +172,7 @@ public:
         return it->second;
     }
 
-    virtual void sleep(ZF_IN const zftimet &miliSecs)
+    virtual void sleep(ZF_IN zftimet miliSecs)
     {
         _ZFP_ZFThreadImpl_default_sleep(miliSecs);
     }

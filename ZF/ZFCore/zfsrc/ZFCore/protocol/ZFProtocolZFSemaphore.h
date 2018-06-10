@@ -59,7 +59,7 @@ public:
      * @brief see #ZFSemaphore::semaphoreWait
      */
     virtual zfbool semaphoreWait(ZF_IN ZFSemaphore *semaphore,
-                                 ZF_IN const zftimet &miliSecsTimeout) zfpurevirtual;
+                                 ZF_IN zftimet miliSecsTimeout) zfpurevirtual;
 ZFPROTOCOL_INTERFACE_END(ZFSemaphore)
 
 ZF_NAMESPACE_GLOBAL_END

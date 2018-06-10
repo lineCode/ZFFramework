@@ -1221,9 +1221,9 @@ protected:
     // override
 protected:
     zfoverride
-    virtual void observerOnAdd(ZF_IN const zfidentity &eventId);
+    virtual void observerOnAdd(ZF_IN zfidentity eventId);
     zfoverride
-    virtual void observerOnRemove(ZF_IN const zfidentity &eventId);
+    virtual void observerOnRemove(ZF_IN zfidentity eventId);
 
 private:
     _ZFP_ZFUIViewPrivate *d;

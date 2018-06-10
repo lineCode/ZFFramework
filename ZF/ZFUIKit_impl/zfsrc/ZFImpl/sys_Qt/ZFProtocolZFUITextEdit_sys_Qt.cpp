@@ -245,7 +245,7 @@ public:
         // not supported
     }
 
-    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT zfindexRange &textSelectRange)
+    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT ZFIndexRange &textSelectRange)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         if(nativeImplView->hasSelectedText())
@@ -259,7 +259,7 @@ public:
             textSelectRange.count = 0;
         }
     }
-    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const zfindexRange &textSelectRange)
+    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const ZFIndexRange &textSelectRange)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         if(textSelectRange.count != 0)

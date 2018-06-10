@@ -122,12 +122,12 @@ private:
         result.matched = (regexpResult.IsMatched() != 0);
         if(regexpResult.GetEnd() > regexpResult.GetStart())
         {
-            result.matchedRange = zfindexRangeMake(regexpResult.GetStart(), regexpResult.GetEnd() - regexpResult.GetStart());
+            result.matchedRange = ZFIndexRangeMake(regexpResult.GetStart(), regexpResult.GetEnd() - regexpResult.GetStart());
         }
         zfindex n = regexpResult.MaxGroupNumber() + 1;
         for(zfindex i = 1; i < n; ++i)
         {
-            zfindexRange indexPair;
+            ZFIndexRange indexPair;
             indexPair.start = regexpResult.GetGroupStart((zfint)i);
             indexPair.count = regexpResult.GetGroupEnd((zfint)i) - indexPair.start;
             if(indexPair.start != zfindexMax() && indexPair.count > 0)
@@ -137,7 +137,7 @@ private:
         }
         if(result.namedGroups.isEmpty())
         {
-            result.matchedRange = zfindexRangeZero();
+            result.matchedRange = ZFIndexRangeZero();
         }
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFRegExpImpl_default)

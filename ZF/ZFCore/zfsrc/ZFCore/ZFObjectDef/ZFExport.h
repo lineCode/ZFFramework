@@ -201,6 +201,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define _ZFP_ZFEXPORT_ENUM_DEFINE_(DECLARE_LINE, EnumName, enumValues, ...) \
     ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE, ZFLevelZFFrameworkNormal) \
     { \
+        typedef EnumName _EnumName; \
         ZFM_FIX_PARAM(_ZFP_ZFEXPORT_ENUM_EXPAND, ZFM_EMPTY, enumValues, ##__VA_ARGS__) \
     } \
     ZF_GLOBAL_INITIALIZER_DESTROY(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE) \
@@ -214,7 +215,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     ZF_GLOBAL_INITIALIZER_END(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE)
 #define _ZFP_ZFEXPORT_ENUM_EXPAND(v) \
     { \
-        ZFMethodFuncUserRegister_0(resultMethod, {return v;}, zfint, v); \
+        ZFMethodFuncUserRegister_0(resultMethod, {return v;}, _EnumName, v); \
         m.add(resultMethod); \
     }
 

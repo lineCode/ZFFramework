@@ -16,7 +16,7 @@ ZFENUM_DEFINE(ZFUISizeType)
 // ============================================================
 // ZFUISizeParam
 ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUISizeParam, ZFUISizeParam, {
-        ZFCoreArrayPOD<zfindexRange> pos;
+        ZFCoreArrayPOD<ZFIndexRange> pos;
         if(!zfCoreDataPairSplitString(pos, 2, src, srcLen))
         {
             return zffalse;

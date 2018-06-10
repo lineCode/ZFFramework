@@ -30,13 +30,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFMETHOD_FUNC_DECLARE_5(zfidentity, ZFObserverNotifyInMainThreadWithCustomSender,
                         ZFMP_IN(ZFObject *, customSender),
                         ZFMP_IN(ZFObject *, obj),
-                        ZFMP_IN(const zfidentity &, eventId),
+                        ZFMP_IN(zfidentity, eventId),
                         ZFMP_IN_OPT(ZFObject *, param0, zfnull),
                         ZFMP_IN_OPT(ZFObject *, param1, zfnull))
 /** @brief see #ZFObserverNotifyInMainThreadWithCustomSender */
 ZFMETHOD_FUNC_DECLARE_INLINE_4(zfidentity, ZFObserverNotifyInMainThread,
                                ZFMP_IN(ZFObject *, obj),
-                               ZFMP_IN(const zfidentity &, eventId),
+                               ZFMP_IN(zfidentity, eventId),
                                ZFMP_IN_OPT(ZFObject *, param0, zfnull),
                                ZFMP_IN_OPT(ZFObject *, param1, zfnull))
 {

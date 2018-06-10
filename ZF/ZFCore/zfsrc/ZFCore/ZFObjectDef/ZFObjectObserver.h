@@ -235,19 +235,18 @@ public:
 
 public:
     /** @brief see #ZFObject::observerNotify */
-    zffinal zfidentity observerAdd(ZF_IN const zfidentity &eventId,
+    zffinal zfidentity observerAdd(ZF_IN zfidentity eventId,
                                    ZF_IN const ZFListener &observer,
                                    ZF_IN_OPT ZFObject *userData = zfnull,
                                    ZF_IN_OPT ZFObject *owner = zfnull,
                                    ZF_IN_OPT zfbool autoRemoveAfterActivate = zffalse,
                                    ZF_IN_OPT ZFLevel observerLevel = ZFLevelAppNormal) const;
     /** @brief see #ZFObject::observerNotify */
-    zffinal inline zfidentity observerAdd(ZF_IN const ZFObserverAddParam &param) const
-    {
-        return this->observerAdd(param.eventId(), param.observer(), param.userData(), param.owner(), param.autoRemoveAfterActivate(), param.observerLevel());
-    }
+    zffinal zfidentity observerAdd(ZF_IN const ZFObserverAddParam &param) const;
+    /** @brief see #ZFObject::observerMoveToFirst */
+    zffinal void observerMoveToFirst(ZF_IN zfidentity taskId) const;
     /** @brief see #ZFObject::observerNotify */
-    zffinal void observerRemove(ZF_IN const zfidentity &eventId,
+    zffinal void observerRemove(ZF_IN zfidentity eventId,
                                 ZF_IN const ZFListener &callback,
                                 ZF_IN_OPT ZFObject *userData = zfnull,
                                 ZF_IN_OPT ZFComparer<ZFObject *>::Comparer userDataComparer = ZFComparerCheckEqual) const;
@@ -256,15 +255,15 @@ public:
     /** @brief see #ZFObject::observerNotify */
     zffinal void observerRemoveByOwner(ZF_IN ZFObject *owner) const;
     /** @brief see #ZFObject::observerNotify */
-    zffinal void observerRemoveAll(ZF_IN const zfidentity &eventId) const;
+    zffinal void observerRemoveAll(ZF_IN zfidentity eventId) const;
     /** @brief see #ZFObject::observerNotify */
     zffinal void observerRemoveAll(void) const;
     /** @brief see #ZFObject::observerNotify */
     zffinal zfbool observerHasAdd(void) const;
     /** @brief see #ZFObject::observerNotify */
-    zffinal zfbool observerHasAdd(ZF_IN const zfidentity &eventId) const;
+    zffinal zfbool observerHasAdd(ZF_IN zfidentity eventId) const;
     /** @brief see #ZFObject::observerNotify */
-    zffinal inline void observerNotify(ZF_IN const zfidentity &eventId,
+    zffinal inline void observerNotify(ZF_IN zfidentity eventId,
                                        ZF_IN_OPT ZFObject *param0 = zfnull,
                                        ZF_IN_OPT ZFObject *param1 = zfnull) const
     {
@@ -272,7 +271,7 @@ public:
     }
     /** @brief see #ZFObject::observerNotify */
     zffinal void observerNotifyWithCustomSender(ZF_IN ZFObject *customSender,
-                                                ZF_IN const zfidentity &eventId,
+                                                ZF_IN zfidentity eventId,
                                                 ZF_IN_OPT ZFObject *param0 = zfnull,
                                                 ZF_IN_OPT ZFObject *param1 = zfnull) const;
 
@@ -301,13 +300,13 @@ public:
      *   }
      * @endcode
      */
-    zffinal void observerHasAddStateAttach(ZF_IN const zfidentity &eventId,
+    zffinal void observerHasAddStateAttach(ZF_IN zfidentity eventId,
                                            ZF_IN_OUT zfuint *flag,
                                            ZF_IN_OUT zfuint flagBit);
     /**
      * @brief see #observerHasAddStateAttach
      */
-    zffinal void observerHasAddStateDetach(ZF_IN const zfidentity &eventId,
+    zffinal void observerHasAddStateDetach(ZF_IN zfidentity eventId,
                                            ZF_IN_OUT zfuint *flag,
                                            ZF_IN_OUT zfuint flagBit);
 

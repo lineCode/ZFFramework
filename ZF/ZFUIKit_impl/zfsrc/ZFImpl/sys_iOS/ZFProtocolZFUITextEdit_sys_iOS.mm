@@ -205,13 +205,13 @@ public:
         }
     }
 
-    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT zfindexRange &textSelectRange)
+    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT ZFIndexRange &textSelectRange)
     {
         _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *nativeImplView = (__bridge _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *)textEdit->nativeImplView();
         UITextRange *rangeImpl = nativeImplView.selectedTextRange;
         if(rangeImpl == nil)
         {
-            textSelectRange = zfindexRangeZero();
+            textSelectRange = ZFIndexRangeZero();
             return ;
         }
         NSInteger start = [nativeImplView offsetFromPosition:nativeImplView.beginningOfDocument toPosition:rangeImpl.start];
@@ -219,7 +219,7 @@ public:
         textSelectRange.start = start;
         textSelectRange.count = end - start;
     }
-    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const zfindexRange &textSelectRange)
+    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const ZFIndexRange &textSelectRange)
     {
         _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *nativeImplView = (__bridge _ZFP_ZFUITextEditImpl_sys_iOS_TextEdit *)textEdit->nativeImplView();
         UITextPosition *start = [nativeImplView positionFromPosition:nativeImplView.beginningOfDocument offset:textSelectRange.start];

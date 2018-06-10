@@ -18,10 +18,10 @@ void ZFRegExpResult::objectInfoT(ZF_IN_OUT zfstring &ret) const
     if(this->matched)
     {
         ret += zfText("matched");
-        if(this->matchedRange != zfindexRangeZero())
+        if(this->matchedRange != ZFIndexRangeZero())
         {
             ret += zfText(" in ");
-            zfindexRangeToString(ret, this->matchedRange);
+            ZFIndexRangeToString(ret, this->matchedRange);
         }
         if(!this->namedGroups.isEmpty())
         {
@@ -32,7 +32,7 @@ void ZFRegExpResult::objectInfoT(ZF_IN_OUT zfstring &ret) const
                 {
                     ret += zfText(", ");
                 }
-                zfindexRangeToString(ret, this->namedGroups[i]);
+                ZFIndexRangeToString(ret, this->namedGroups[i]);
             }
         }
     }
@@ -58,9 +58,9 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
             return zffalse;
         }
 
-        v.matchedRange = zfindexRangeZero();
+        v.matchedRange = ZFIndexRangeZero();
         element = ZFSerializableUtil::checkElementByName(serializableData, ZFSerializableKeyword_ZFRegExpResult_matchedRange);
-        if(element != zfnull && !zfindexRangeFromData(v.matchedRange, serializableData, outErrorHint, outErrorPos))
+        if(element != zfnull && !ZFIndexRangeFromData(v.matchedRange, serializableData, outErrorHint, outErrorPos))
         {
             return zffalse;
         }
@@ -69,7 +69,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
         element = ZFSerializableUtil::checkElementByName(serializableData, ZFSerializableKeyword_ZFRegExpResult_namedGroups);
         if(element != zfnull && !ZFCoreArrayFromData(
             v.namedGroups,
-            zfindexRangeFromData,
+            ZFIndexRangeFromData,
             serializableData,
             outErrorHint,
             outErrorPos))
@@ -91,10 +91,10 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
             serializableData.elementAdd(element);
         }
 
-        if(v.matchedRange != zfindexRangeZero())
+        if(v.matchedRange != ZFIndexRangeZero())
         {
             ZFSerializableData element;
-            if(!zfindexRangeToData(element, v.matchedRange, outErrorHint))
+            if(!ZFIndexRangeToData(element, v.matchedRange, outErrorHint))
             {
                 return zffalse;
             }
@@ -105,7 +105,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
         if(!v.namedGroups.isEmpty())
         {
             ZFSerializableData element;
-            if(!ZFCoreArrayToData(element, zfindexRangeToData, v.namedGroups, outErrorHint))
+            if(!ZFCoreArrayToData(element, ZFIndexRangeToData, v.namedGroups, outErrorHint))
             {
                 return zffalse;
             }
@@ -117,8 +117,8 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
     })
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRegExpResult, zfbool, matched)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRegExpResult, zfindexRange, matchedRange)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRegExpResult, ZFCoreArrayPOD<zfindexRange>, namedGroups)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRegExpResult, ZFIndexRange, matchedRange)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFRegExpResult, ZFCoreArrayPOD<ZFIndexRange>, namedGroups)
 
 // ============================================================
 // global

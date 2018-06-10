@@ -32,7 +32,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyF
  * get id name from id value, or null if no such id
  * @note can be found only if accessed or registered by #ZFIDMAP_REGISTER
  */
-extern ZF_ENV_EXPORT const zfchar *ZFIdMapGetName(ZF_IN const zfidentity &idValue);
+extern ZF_ENV_EXPORT const zfchar *ZFIdMapGetName(ZF_IN zfidentity idValue);
 /**
  * @brief see #ZFIDMAP
  *
@@ -61,7 +61,7 @@ extern ZF_ENV_EXPORT zfidentity ZFIdMapDynamicRegister(ZF_IN const zfchar *idNam
  * do nothing if no such id,
  * assert fail if the id is not dynamically registered
  */
-extern ZF_ENV_EXPORT void ZFIdMapDynamicUnregister(ZF_IN const zfidentity &idValue);
+extern ZF_ENV_EXPORT void ZFIdMapDynamicUnregister(ZF_IN zfidentity idValue);
 
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFIdMapHolder
 {

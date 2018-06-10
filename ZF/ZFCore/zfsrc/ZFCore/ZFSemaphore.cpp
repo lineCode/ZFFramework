@@ -86,11 +86,11 @@ void ZFSemaphore::semaphoreWaitLocked(void)
     this->semaphoreUnlock();
 }
 
-zfbool ZFSemaphore::semaphoreWait(ZF_IN const zftimet &miliSecs)
+zfbool ZFSemaphore::semaphoreWait(ZF_IN zftimet miliSecs)
 {
     return d->impl->semaphoreWait(this, miliSecs);
 }
-zfbool ZFSemaphore::semaphoreWaitLocked(ZF_IN const zftimet &miliSecs)
+zfbool ZFSemaphore::semaphoreWaitLocked(ZF_IN zftimet miliSecs)
 {
     this->semaphoreLock();
     zfbool ret = this->semaphoreWait(miliSecs);

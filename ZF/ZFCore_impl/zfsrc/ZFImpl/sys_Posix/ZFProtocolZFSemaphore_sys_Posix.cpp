@@ -83,7 +83,7 @@ public:
         this->semaWait(semaphoreToken);
     }
     virtual zfbool semaphoreWait(ZF_IN ZFSemaphore *semaphore,
-                                 ZF_IN const zftimet &miliSecsTimeout)
+                                 ZF_IN zftimet miliSecsTimeout)
     {
         _ZFP_ZFSemaphoreImpl_sys_Posix_Token *semaphoreToken = ZFCastStatic(_ZFP_ZFSemaphoreImpl_sys_Posix_Token *, semaphore->nativeSemaphore());
 
@@ -121,7 +121,7 @@ public:
         pthread_cond_wait(&(semaphoreToken->sema), &(semaphoreToken->semaLocker));
     }
     zfbool semaWait(ZF_IN _ZFP_ZFSemaphoreImpl_sys_Posix_Token *semaphoreToken,
-                    ZF_IN const zftimet &miliSecs)
+                    ZF_IN zftimet miliSecs)
     {
         timeval timev;
         timespec t;

@@ -216,7 +216,7 @@ public:
      * index is ordered by #ZFUIListAdapter,
      * so first cell may positioned at bottom accorrding to layout orientation
      */
-    ZFMETHOD_DECLARE_0(const zfindexRange &, listVisibleCellIndexRange)
+    ZFMETHOD_DECLARE_0(const ZFIndexRange &, listVisibleCellIndexRange)
 
 public:
     /**

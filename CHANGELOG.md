@@ -2,6 +2,7 @@
 
 * optimize lua implicit conversion
 * optimize dynamic register impl
+* formalize api names
 
 # 0.3.0
 

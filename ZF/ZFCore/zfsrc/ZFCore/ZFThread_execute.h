@@ -107,7 +107,7 @@ ZFMETHOD_FUNC_DECLARE_1(void, ZFThreadExecuteWait,
  */
 ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFThreadExecuteWait,
                         ZFMP_IN(zfidentity, taskId),
-                        ZFMP_IN(const zftimet &, miliSecs))
+                        ZFMP_IN(zftimet, miliSecs))
 
 /**
  * @brief attach observer to the tasks started by ZFThreadExecuteXxx, see #ZFObject::observerNotify
@@ -121,14 +121,14 @@ ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFThreadExecuteWait,
  */
 ZFMETHOD_FUNC_DECLARE_3(void, ZFThreadExecuteObserverAdd,
                         ZFMP_IN(zfidentity, taskId),
-                        ZFMP_IN(const zfidentity &, eventId),
+                        ZFMP_IN(zfidentity, eventId),
                         ZFMP_IN(const ZFListener &, callback))
 /**
  * @brief see #ZFThreadExecuteObserverAdd
  */
 ZFMETHOD_FUNC_DECLARE_3(void, ZFThreadExecuteObserverRemove,
                         ZFMP_IN(zfidentity, taskId),
-                        ZFMP_IN(const zfidentity &, eventId),
+                        ZFMP_IN(zfidentity, eventId),
                         ZFMP_IN(const ZFListener &, callback))
 
 ZF_NAMESPACE_GLOBAL_END

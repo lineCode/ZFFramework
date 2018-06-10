@@ -11,8 +11,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-const zfindexRange _ZFP_zfindexRangeZero = {0, 0};
-const zfindexRange _ZFP_zfindexRangeMax = {0, zfindexMax()};
+const ZFIndexRange _ZFP_ZFIndexRangeZero = {0, 0};
+const ZFIndexRange _ZFP_ZFIndexRangeMax = {0, zfindexMax()};
 
 ZF_NAMESPACE_GLOBAL_END
 

@@ -123,7 +123,7 @@ public:
             (jint)textEditKeyboardReturnType);
     }
 
-    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT zfindexRange &textSelectRange)
+    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT ZFIndexRange &textSelectRange)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId_start = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_textSelectRange_start"),
@@ -139,7 +139,7 @@ public:
         textSelectRange.count = JNIUtilCallStaticIntMethod(jniEnv, this->jclsOwner, jmId_count,
             ZFCastStatic(jobject, textEdit->nativeImplView()));
     }
-    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const zfindexRange &textSelectRange)
+    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const ZFIndexRange &textSelectRange)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_textSelectRangeSet"),

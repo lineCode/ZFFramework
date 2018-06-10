@@ -17,7 +17,7 @@ void zfVersionGet(ZF_OUT zfstring &ret,
                   ZF_IN const zfchar *version,
                   ZF_IN zfindex subVersionIndex)
 {
-    ZFCoreArrayPOD<zfindexRange> pos;
+    ZFCoreArrayPOD<ZFIndexRange> pos;
     if(*version != '\0' && !zfCoreDataPairSplitString(pos, zfindexMax(), version, zfindexMax(), zfText("."), zfnull, zfnull))
     {
         return ;
@@ -39,7 +39,7 @@ void zfVersionSet(ZF_IN_OUT zfstring &version,
                   ZF_IN const zfchar *subVersion,
                   ZF_IN_OPT const zfchar *emptySubVersion /* = zfText("0") */)
 {
-    ZFCoreArrayPOD<zfindexRange> pos;
+    ZFCoreArrayPOD<ZFIndexRange> pos;
     if(!version.isEmpty() && !zfCoreDataPairSplitString(pos, zfindexMax(), version, zfindexMax(), zfText("."), zfnull, zfnull))
     {
         return ;
@@ -86,8 +86,8 @@ ZFCompareResult zfVersionCompare(ZF_IN const zfchar *version0,
                                  ZF_IN const zfchar *version1,
                                  ZF_IN_OPT ZFComparer<const zfchar *>::Comparer subVersionComparer /* = ZFComparerForVersion */)
 {
-    ZFCoreArrayPOD<zfindexRange> pos0;
-    ZFCoreArrayPOD<zfindexRange> pos1;
+    ZFCoreArrayPOD<ZFIndexRange> pos0;
+    ZFCoreArrayPOD<ZFIndexRange> pos1;
     if(!zfCoreDataPairSplitString(pos0, zfindexMax(), version0, zfindexMax(), zfText("."), zfnull, zfnull)
        || !zfCoreDataPairSplitString(pos1, zfindexMax(), version1, zfindexMax(), zfText("."), zfnull, zfnull))
     {

@@ -17,8 +17,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFEXPORT_VAR_READONLY_DEFINE(ZFTimeValue, ZFTimeValueZero, ZFTimeValueMake(zftimetZero(), zftimetZero()))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFTimeValue, ZFTimeValueMake,
-                              ZFMP_IN(const zftimet &, sec),
-                              ZFMP_IN(const zftimet &, usec))
+                              ZFMP_IN(zftimet, sec),
+                              ZFMP_IN(zftimet, usec))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_1(ZFTimeValue, ZFTimeValueFromMiliSeconds,
                               ZFMP_IN(zftimet, t))
@@ -192,19 +192,19 @@ void operator -= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1)
 {
     ZFTimeValueDec(v0, v0, v1);
 }
-ZFTimeValue operator * (ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1)
+ZFTimeValue operator * (ZF_IN const ZFTimeValue &v0, ZF_IN zfindex v1)
 {
     return ZFTimeValueMul(v0, v1);
 }
-ZFTimeValue operator / (ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1)
+ZFTimeValue operator / (ZF_IN const ZFTimeValue &v0, ZF_IN zfindex v1)
 {
     return ZFTimeValueDiv(v0, v1);
 }
-void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1)
+void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN zfindex v1)
 {
     ZFTimeValueMul(v0, v0, v1);
 }
-void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1)
+void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN zfindex v1)
 {
     ZFTimeValueDiv(v0, v0, v1);
 }

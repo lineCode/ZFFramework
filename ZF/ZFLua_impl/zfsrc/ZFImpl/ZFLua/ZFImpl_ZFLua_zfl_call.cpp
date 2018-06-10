@@ -30,6 +30,8 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
     zfautoObject ret;
     for(zfindex iMethod = 0; iMethod < methodList.count(); ++iMethod)
     {
+        errorHint.removeAll();
+
         const ZFMethod *method = methodList[iMethod];
         if(method->methodPrivilegeType() != ZFMethodPrivilegeTypePublic
             || paramCount > method->methodParamCount()
@@ -38,8 +40,6 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
         {
             continue;
         }
-
-        errorHint.removeAll();
 
         zfautoObject paramListTmp[ZFMETHOD_MAX_PARAM] = {
             paramList[0],
@@ -82,57 +82,39 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
         }
     }
 
-    if(methodList.count() == 1)
+    zfstring err;
+    zfstringAppend(err,
+        zfText("[zfl_call] no matching method to call, obj: \"%s\", params: "),
+        ZFObjectInfo(obj).cString()
+        );
+    err += zfText("[");
+    for(zfindex i = 0; i < paramCount; ++i)
     {
-        zfstring err;
-        zfstringAppend(err,
-            zfText("[zfl_call] failed to perform generic invoke for method: %s, obj: \"%s\", params: "),
-            methodList[0]->objectInfo().cString(),
-            ZFObjectInfo(obj).cString()
-            );
-        err += zfText("[");
-        for(zfindex i = 0; i < paramCount; ++i)
+        if(i != 0)
         {
-            if(i != 0)
-            {
-                err += zfText(", ");
-            }
-            err += ZFObjectInfo(paramList[i].toObject());
+            err += zfText(", ");
         }
-        err += zfText("]");
-        err += zfText(", reason: ");
-        err += errorHint;
-        ZFLuaErrorOccurredTrim(zfText("%s"), err.cString());
+        err += ZFObjectInfo(paramList[i].toObject());
+    }
+    err += zfText("]");
+    err += zfText(", last error reason: ");
+    if(errorHint.isEmpty())
+    {
+        err += zfText("method is not public or param count mismatch");
     }
     else
     {
-        zfstring err;
-        zfstringAppend(err,
-            zfText("[zfl_call] no matching method to call, obj: \"%s\", params: "),
-            ZFObjectInfo(obj).cString()
-            );
-        err += zfText("[");
-        for(zfindex i = 0; i < paramCount; ++i)
-        {
-            if(i != 0)
-            {
-                err += zfText(", ");
-            }
-            err += ZFObjectInfo(paramList[i].toObject());
-        }
-        err += zfText("]");
-        err += zfText(", last error reason: ");
         err += errorHint;
-
-        err += zfText(", candidate methods:");
-        for(zfindex i = 0; i < methodList.count(); ++i)
-        {
-            err += zfText("\n    ");
-            methodList[i]->objectInfoT(err);
-        }
-
-        ZFLuaErrorOccurredTrim(zfText("%s"), err.cString());
     }
+
+    err += zfText(", candidate methods:");
+    for(zfindex i = 0; i < methodList.count(); ++i)
+    {
+        err += zfText("\n    ");
+        methodList[i]->objectInfoT(err);
+    }
+
+    ZFLuaErrorOccurredTrim(zfText("%s"), err.cString());
     return ZFImpl_ZFLua_luaError(L);
 }
 
@@ -347,7 +329,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
             return ZFImpl_ZFLua_luaError(L);
         }
 
-        ZFCoreArrayPOD<zfindexRange> methodSigPos;
+        ZFCoreArrayPOD<ZFIndexRange> methodSigPos;
         if(!ZFMethodSigSplit(methodSigPos, methodSig.cString(), methodSig.length()))
         {
             ZFLuaErrorOccurredTrim(

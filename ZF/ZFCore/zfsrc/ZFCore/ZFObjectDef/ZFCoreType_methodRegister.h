@@ -34,8 +34,8 @@ ZFEXPORT_VAR_READONLY_DECLARE(zfidentity, zfidentityInvalid)
 
 ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE(zfiterator, zfiteratorInvalid, zfiteratorInvalid())
 
-ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE(zfindexRange, zfindexRangeZero, zfindexRangeZero())
-ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE(zfindexRange, zfindexRangeMax, zfindexRangeMax())
+ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE(ZFIndexRange, ZFIndexRangeZero, ZFIndexRangeZero())
+ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE(ZFIndexRange, ZFIndexRangeMax, ZFIndexRangeMax())
 
 ZFEXPORT_VAR_READONLY_DECLARE(zfindex, ZFVERSION_MAIN)
 ZFEXPORT_VAR_READONLY_DECLARE(zfindex, ZFVERSION_SUB)

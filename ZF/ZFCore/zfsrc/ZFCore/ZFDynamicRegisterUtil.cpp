@@ -369,10 +369,13 @@ ZFDynamic &ZFDynamic::removeAllOnEvent(ZF_IN zfidentity eventId /* = ZFGlobalEve
     d->removeAllOnEventId = eventId;
     d->removeAllOnEventListener = action;
     d->removeAllOnEventSelfHolder = zflineAlloc(v_ZFDynamic, *this);
-    ZFGlobalEventCenter::instance()->observerAdd(
+    zfidentity taskId = ZFGlobalEventCenter::instance()->observerAdd(
         d->removeAllOnEventId,
         d->removeAllOnEventListener,
         d->removeAllOnEventSelfHolder);
+    // for dynamic registered contents,
+    // later registered one should be removed first
+    ZFGlobalEventCenter::instance()->observerMoveToFirst(taskId);
     return *this;
 }
 zfidentity ZFDynamic::removeAllOnEventGet(void) const
@@ -934,13 +937,17 @@ static zfautoObject _ZFP_ZFDynamicPropertyInit(ZF_IN const ZFProperty *property)
 }
 ZFDynamic &ZFDynamic::property(ZF_IN const zfchar *propertyTypeId,
                                ZF_IN const zfchar *propertyName,
-                               ZF_IN_OPT ZFObject *propertyInitValue /* = zfnull */)
+                               ZF_IN_OPT ZFObject *propertyInitValue /* = zfnull */,
+                               ZF_IN_OPT ZFMethodPrivilegeType setterPrivilegeType /* = ZFMethodPrivilegeTypePublic */,
+                               ZF_IN_OPT ZFMethodPrivilegeType getterPrivilegeType /* = ZFMethodPrivilegeTypePublic */)
 {
     if(d->errorOccurred) {return *this;}
     ZFPropertyDynamicRegisterParam param;
     param.propertyOwnerClassSet(d->cls);
     param.propertyTypeIdSet(propertyTypeId);
     param.propertyNameSet(propertyName);
+    param.propertySetterTypeSet(setterPrivilegeType);
+    param.propertyGetterTypeSet(getterPrivilegeType);
     if(propertyInitValue != zfnull)
     {
         ZFTypeIdWrapper *propertyInitValueWrapper = ZFCastZFObject(ZFTypeIdWrapper *, propertyInitValue);
@@ -958,7 +965,9 @@ ZFDynamic &ZFDynamic::property(ZF_IN const zfchar *propertyTypeId,
 }
 ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainProperty,
                                ZF_IN const zfchar *propertyName,
-                               ZF_IN_OPT ZFObject *propertyInitValue /* = zfnull */)
+                               ZF_IN_OPT ZFObject *propertyInitValue /* = zfnull */,
+                               ZF_IN_OPT ZFMethodPrivilegeType setterPrivilegeType /* = ZFMethodPrivilegeTypePublic */,
+                               ZF_IN_OPT ZFMethodPrivilegeType getterPrivilegeType /* = ZFMethodPrivilegeTypePublic */)
 {
     if(d->errorOccurred) {return *this;}
     if(propertyClassOfRetainProperty == zfnull)
@@ -971,6 +980,8 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
     param.propertyTypeIdSet(ZFTypeId_ZFObject());
     param.propertyNameSet(propertyName);
     param.propertyClassOfRetainPropertySet(propertyClassOfRetainProperty);
+    param.propertySetterTypeSet(setterPrivilegeType);
+    param.propertyGetterTypeSet(getterPrivilegeType);
     if(propertyInitValue != zfnull)
     {
         if(!propertyInitValue->classData()->classIsTypeOf(propertyClassOfRetainProperty))
@@ -1121,8 +1132,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFDynamic, ZFDynamic &, method
     /* ZFMETHOD_MAX_PARAM , ZFMP_IN_OPT(const zfchar *, methodParamTypeId7, zfnull) */
     )
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, method, ZFMP_IN(const ZFMethodDynamicRegisterParam &, param))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const zfchar *, propertyTypeId), ZFMP_IN(const zfchar *, propertyName), ZFMP_IN_OPT(ZFObject *, propertyInitValue, zfnull))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const ZFClass *, propertyClassOfRetainProperty), ZFMP_IN(const zfchar *, propertyName), ZFMP_IN_OPT(ZFObject *, propertyInitValue, zfnull))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_5(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const zfchar *, propertyTypeId), ZFMP_IN(const zfchar *, propertyName), ZFMP_IN_OPT(ZFObject *, propertyInitValue, zfnull), ZFMP_IN_OPT(ZFMethodPrivilegeType, setterPrivilegeType, ZFMethodPrivilegeTypePublic), ZFMP_IN_OPT(ZFMethodPrivilegeType, getterPrivilegeType, ZFMethodPrivilegeTypePublic))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_5(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const ZFClass *, propertyClassOfRetainProperty), ZFMP_IN(const zfchar *, propertyName), ZFMP_IN_OPT(ZFObject *, propertyInitValue, zfnull), ZFMP_IN_OPT(ZFMethodPrivilegeType, setterPrivilegeType, ZFMethodPrivilegeTypePublic), ZFMP_IN_OPT(ZFMethodPrivilegeType, getterPrivilegeType, ZFMethodPrivilegeTypePublic))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, property, ZFMP_IN(const ZFPropertyDynamicRegisterParam &, param))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, errorCallbackAdd, ZFMP_IN_OPT(const ZFOutput &, errorCallback, ZFOutputDefault()))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, errorCallbackRemove, ZFMP_IN(const ZFOutput &, errorCallback))

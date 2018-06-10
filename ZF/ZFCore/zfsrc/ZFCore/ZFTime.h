@@ -54,8 +54,8 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFTimeValue, ZFTimeValueZero)
  * @brief make a time value
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFTimeValue, ZFTimeValueMake,
-                               ZFMP_IN(const zftimet &, sec),
-                               ZFMP_IN(const zftimet &, usec))
+                               ZFMP_IN(zftimet, sec),
+                               ZFMP_IN(zftimet, usec))
 {
     ZFTimeValue ret = {sec, usec};
     return ret;
@@ -222,13 +222,13 @@ extern ZF_ENV_EXPORT void operator += (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZF
 /** @brief overrided operator for ZFTimeValue calculate */
 extern ZF_ENV_EXPORT void operator -= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const ZFTimeValue &v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT ZFTimeValue operator * (ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT ZFTimeValue operator * (ZF_IN const ZFTimeValue &v0, ZF_IN zfindex v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT ZFTimeValue operator / (ZF_IN const ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT ZFTimeValue operator / (ZF_IN const ZFTimeValue &v0, ZF_IN zfindex v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN zfindex v1);
 /** @brief overrided operator for ZFTimeValue calculate */
-extern ZF_ENV_EXPORT void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN const zfindex &v1);
+extern ZF_ENV_EXPORT void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN zfindex v1);
 
 ZFTYPEID_PROGRESS_DECLARE(ZFTimeValue, {
         ret.sec = from.sec + (zft_zftimet)((to.sec - from.sec) * progress);

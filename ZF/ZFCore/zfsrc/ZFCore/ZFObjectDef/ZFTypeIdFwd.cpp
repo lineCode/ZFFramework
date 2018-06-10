@@ -35,7 +35,7 @@ void _ZFP_ZFTypeIdRegister(ZF_IN const zfchar *typeId,
     zfCoreAssert(m.find(typeId) == m.end());
     m[typeId] = typeIdData;
 }
-void _ZFP_ZFTypeIdUnregister(ZF_IN const zfchar *typeId)
+ZFTypeIdBase *_ZFP_ZFTypeIdUnregister(ZF_IN const zfchar *typeId)
 {
     zfCoreMutexLocker();
     zfstlmap<zfstlstringZ, ZFTypeIdBase *> &m = ZF_STATIC_INITIALIZER_INSTANCE(ZFTypeIdHolder)->m;
@@ -43,7 +43,7 @@ void _ZFP_ZFTypeIdUnregister(ZF_IN const zfchar *typeId)
     zfCoreAssert(it != m.end());
     ZFTypeIdBase *t = it->second;
     m.erase(it);
-    zfdelete(t);
+    return t;
 }
 const ZFTypeIdBase *ZFTypeIdGet(ZF_IN const zfchar *typeId)
 {

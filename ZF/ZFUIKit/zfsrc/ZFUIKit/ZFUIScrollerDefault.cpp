@@ -188,7 +188,7 @@ public:
                 : this->calcBounceTailFromContentOffset(contentOffset));
     }
 
-    zfint calcScrollOffset(ZF_IN zfint dragOffset, ZF_IN const zftimet &timeOffset)
+    zfint calcScrollOffset(ZF_IN zfint dragOffset, ZF_IN zftimet timeOffset)
     {
         zfint offset = 0;
         if(timeOffset > 0)
@@ -239,7 +239,7 @@ public:
 
     // ============================================================
     // aniByPoint logic
-    void aniByPointUpdate(ZF_IN const zftimet &curTime)
+    void aniByPointUpdate(ZF_IN zftimet curTime)
     {
         if(curTime >= this->aniByPointStopTime)
         {
@@ -373,7 +373,7 @@ public:
         this->scrollAniNotifyStart();
         this->aniBySpeedLastTime = this->aniLastTime;
     }
-    void aniBySpeedUpdate(ZF_IN const zftimet &curTime)
+    void aniBySpeedUpdate(ZF_IN zftimet curTime)
     {
         zfint v = zfmAbs(this->aniBySpeedCurSpeed);
         zftimet t = (curTime - this->aniBySpeedLastTime);
@@ -577,7 +577,7 @@ void ZFUIScrollerDefault::objectOnDealloc(void)
     zfsuper::objectOnDealloc();
 }
 
-void ZFUIScrollerDefault::scrollOwnerSizeChanged(ZF_IN const zfint &ownerSize)
+void ZFUIScrollerDefault::scrollOwnerSizeChanged(ZF_IN zfint ownerSize)
 {
     d->ownerSize = ownerSize;
     d->contentBounceTailFixUpdate();
@@ -704,7 +704,7 @@ zfint ZFUIScrollerDefault::scrollContentSize(void)
 }
 
 void ZFUIScrollerDefault::scrollOnDragBegin(ZF_IN zfint mousePos,
-                                            ZF_IN const zftimet &mouseTime)
+                                            ZF_IN zftimet mouseTime)
 {
     d->scrollAniNotifyStop();
 
@@ -718,7 +718,7 @@ void ZFUIScrollerDefault::scrollOnDragBegin(ZF_IN zfint mousePos,
     d->aniByPointStopPos = mousePos;
 }
 void ZFUIScrollerDefault::scrollOnDrag(ZF_IN zfint mousePos,
-                                       ZF_IN const zftimet &mouseTime)
+                                       ZF_IN zftimet mouseTime)
 {
     d->scrollDragPrevPrevPos = d->scrollDragPrevPos;
     d->scrollDragPrevPrevTime = d->scrollDragPrevTime;
@@ -765,7 +765,7 @@ void ZFUIScrollerDefault::scrollOnDrag(ZF_IN zfint mousePos,
         d->contentOffset = offset;
     }
 }
-void ZFUIScrollerDefault::scrollOnDragEnd(ZF_IN const zftimet &mouseTime,
+void ZFUIScrollerDefault::scrollOnDragEnd(ZF_IN zftimet mouseTime,
                                           ZF_IN zfbool needScrollAni)
 {
     if(!needScrollAni)
@@ -786,7 +786,7 @@ void ZFUIScrollerDefault::scrollOnDragEnd(ZF_IN const zftimet &mouseTime,
     d->scrollAlignToPageCheckUpdate();
 }
 
-void ZFUIScrollerDefault::scrollAniOnUpdate(ZF_IN const zftimet &time)
+void ZFUIScrollerDefault::scrollAniOnUpdate(ZF_IN zftimet time)
 {
     d->aniLastTime = time;
     switch(d->aniState)

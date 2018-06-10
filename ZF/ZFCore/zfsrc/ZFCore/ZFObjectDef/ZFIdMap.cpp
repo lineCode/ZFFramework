@@ -155,7 +155,7 @@ void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
         zfdelete(data);
     }
 }
-const zfchar *ZFIdMapGetName(ZF_IN const zfidentity &idValue)
+const zfchar *ZFIdMapGetName(ZF_IN zfidentity idValue)
 {
     zfCoreMutexLocker();
     _ZFP_ZFIdMapModuleData &moduleData = _ZFP_ZFIdMapModuleDataRef();
@@ -199,7 +199,7 @@ zfidentity ZFIdMapDynamicRegister(ZF_IN const zfchar *idName)
 {
     return *_ZFP_ZFIdMapRegister(zfnull, idName, zftrue);
 }
-void ZFIdMapDynamicUnregister(ZF_IN const zfidentity &idValue)
+void ZFIdMapDynamicUnregister(ZF_IN zfidentity idValue)
 {
     _ZFP_ZFIdMapUnregister(zfnull, idValue, zftrue);
 }
@@ -210,11 +210,11 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(const zfchar *, ZFIdMapGetName, ZFMP_IN(const zfidentity &, idValue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(const zfchar *, ZFIdMapGetName, ZFMP_IN(zfidentity, idValue))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, ZFIdMapGetId, ZFMP_IN(const zfchar *, idName))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFIdMapGetAll, ZFMP_OUT(ZFCoreArrayPOD<zfidentity> &, idValues), ZFMP_OUT(ZFCoreArrayPOD<const zfchar *> &, idNames))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfidentity, ZFIdMapDynamicRegister, ZFMP_IN(const zfchar *, idName))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFIdMapDynamicUnregister, ZFMP_IN(const zfidentity &, idValue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFIdMapDynamicUnregister, ZFMP_IN(zfidentity, idValue))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

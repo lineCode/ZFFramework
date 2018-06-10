@@ -157,7 +157,7 @@ public:
 
 public:
     void processDragBegin(ZF_IN const ZFUIPoint &mousePos,
-                          ZF_IN const zftimet &mouseTime)
+                          ZF_IN zftimet mouseTime)
     {
         // reset state before drag begin
         this->xScrollAniTimerStarted = zffalse;
@@ -201,7 +201,7 @@ public:
         this->scrollerActionRun();
     }
     void processDrag(ZF_IN const ZFUIPoint &mousePos,
-                     ZF_IN const zftimet &mouseTime)
+                     ZF_IN zftimet mouseTime)
     {
         if(this->state != ZFUIScrollViewState::e_Dragging)
         {
@@ -241,7 +241,7 @@ public:
         this->scrollerActionAdd(_ZFP_ZFUIScrollViewActionDrag);
         this->scrollerActionRun();
     }
-    void processDragEnd(ZF_IN const zftimet &mouseTime,
+    void processDragEnd(ZF_IN zftimet mouseTime,
                         ZF_IN zfbool needScrollAni)
     {
         if(this->state != ZFUIScrollViewState::e_Dragging)
@@ -269,7 +269,7 @@ public:
         this->scrollerActionAdd(_ZFP_ZFUIScrollViewActionDragEnd);
         this->scrollerActionRun();
     }
-    void processScrollAnimation(ZF_IN const zftimet &relativeTimeInMiliseconds)
+    void processScrollAnimation(ZF_IN zftimet relativeTimeInMiliseconds)
     {
         this->scrollAniLastTime = relativeTimeInMiliseconds;
 
@@ -1317,18 +1317,18 @@ ZFMETHOD_DEFINE_0(ZFUIScrollView, zfint, autoScrollSpeedY)
 
 ZFMETHOD_DEFINE_2(ZFUIScrollView, void, scrollSimulateDragBegin,
                   ZFMP_IN(const ZFUIPoint &, mousePos),
-                  ZFMP_IN(const zftimet &, mouseTime))
+                  ZFMP_IN(zftimet, mouseTime))
 {
     this->_ZFP_ZFUIScrollView_notifyDragBegin(mousePos, mouseTime);
 }
 ZFMETHOD_DEFINE_2(ZFUIScrollView, void, scrollSimulateDrag,
                   ZFMP_IN(const ZFUIPoint &, mousePos),
-                  ZFMP_IN(const zftimet &, mouseTime))
+                  ZFMP_IN(zftimet, mouseTime))
 {
     this->_ZFP_ZFUIScrollView_notifyDrag(mousePos, mouseTime);
 }
 ZFMETHOD_DEFINE_2(ZFUIScrollView, void, scrollSimulateDragEnd,
-                  ZFMP_IN(const zftimet &, mouseTime),
+                  ZFMP_IN(zftimet, mouseTime),
                   ZFMP_IN_OPT(zfbool, needScrollAni, zftrue))
 {
     this->_ZFP_ZFUIScrollView_notifyDragEnd(mouseTime, needScrollAni);
@@ -1360,7 +1360,7 @@ ZFMETHOD_DEFINE_0(ZFUIScrollView, ZFUIScrollViewStateEnum, scrollViewState)
 // ============================================================
 // scroll callbacks
 void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDragBegin(ZF_IN const ZFUIPoint &mousePos,
-                                                         ZF_IN const zftimet &mouseTime)
+                                                         ZF_IN zftimet mouseTime)
 {
     this->scrollOverrideSet(zftrue);
     this->autoScrollStopX();
@@ -1374,7 +1374,7 @@ void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDragBegin(ZF_IN const ZFUIPoint &
     }
 }
 void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDrag(ZF_IN const ZFUIPoint &mousePos,
-                                                    ZF_IN const zftimet &mouseTime)
+                                                    ZF_IN zftimet mouseTime)
 {
     this->scrollOverrideSet(zftrue);
     this->autoScrollStopX();
@@ -1382,7 +1382,7 @@ void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDrag(ZF_IN const ZFUIPoint &mouse
     this->scrollOverrideSet(zffalse);
     d->processDrag(mousePos, mouseTime);
 }
-void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDragEnd(ZF_IN const zftimet &mouseTime,
+void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDragEnd(ZF_IN zftimet mouseTime,
                                                        ZF_IN zfbool needScrollAni)
 {
     this->scrollOverrideSet(zftrue);
@@ -1391,7 +1391,7 @@ void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyDragEnd(ZF_IN const zftimet &mous
     this->scrollOverrideSet(zffalse);
     d->processDragEnd(mouseTime, needScrollAni);
 }
-void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyScrollAnimation(ZF_IN const zftimet &relativeTimeInMiliseconds)
+void ZFUIScrollView::_ZFP_ZFUIScrollView_notifyScrollAnimation(ZF_IN zftimet relativeTimeInMiliseconds)
 {
     d->processScrollAnimation(relativeTimeInMiliseconds);
 }

@@ -85,9 +85,9 @@ public:
      * @note must be wrapped by #semaphoreLock and #semaphoreUnlock,
      *   or use semaphoreWaitLocked for short
      */
-    virtual zfbool semaphoreWait(ZF_IN const zftimet &miliSecs);
+    virtual zfbool semaphoreWait(ZF_IN zftimet miliSecs);
     /** @brief see #semaphoreSignal */
-    virtual zfbool semaphoreWaitLocked(ZF_IN const zftimet &miliSecs);
+    virtual zfbool semaphoreWaitLocked(ZF_IN zftimet miliSecs);
 
 private:
     _ZFP_ZFSemaphorePrivate *d;

@@ -43,10 +43,17 @@ static int _ZFP_ZFLuaRes(ZF_IN lua_State *L)
 }
 static int _ZFP_ZFLuaLocalAction(ZF_IN lua_State *L, ZF_IN zfbool isImport)
 {
+    zfautoObject paramHolder;
+    if(ZFImpl_ZFLua_toObject(paramHolder, L, 2)
+        && ZFCastZFObject(v_ZFCallback *, paramHolder) != zfnull)
+    {
+        ZFImpl_ZFLua_luaPush(L, paramHolder);
+        return 1;
+    }
+
     zfblockedAlloc(v_ZFCallback, ret);
-    zfautoObject pathInfoHolder;
-    ZFImpl_ZFLua_toObject(pathInfoHolder, L, 1);
-    v_ZFPathInfo *pathInfo = pathInfoHolder;
+    ZFImpl_ZFLua_toObject(paramHolder, L, 1);
+    v_ZFPathInfo *pathInfo = paramHolder;
     if(pathInfo == zfnull)
     {
         if(isImport)

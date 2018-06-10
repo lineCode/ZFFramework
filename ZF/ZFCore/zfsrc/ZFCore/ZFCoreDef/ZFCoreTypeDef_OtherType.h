@@ -89,55 +89,55 @@ typedef enum
 /**
  * @brief POD data to hold index range
  */
-zfclassPOD ZF_ENV_EXPORT zfindexRange
+zfclassPOD ZF_ENV_EXPORT ZFIndexRange
 {
 public:
     zfindex start; /**< @brief start */
     zfindex count; /**< @brief count */
 };
-extern ZF_ENV_EXPORT const zfindexRange _ZFP_zfindexRangeZero;
-extern ZF_ENV_EXPORT const zfindexRange _ZFP_zfindexRangeMax;
+extern ZF_ENV_EXPORT const ZFIndexRange _ZFP_ZFIndexRangeZero;
+extern ZF_ENV_EXPORT const ZFIndexRange _ZFP_ZFIndexRangeMax;
 /**
  * @brief zero index range
  */
-#define zfindexRangeZero() _ZFP_zfindexRangeZero
+#define ZFIndexRangeZero() _ZFP_ZFIndexRangeZero
 /**
  * @brief max index range (0, zfindexMax())
  */
-#define zfindexRangeMax() _ZFP_zfindexRangeMax
+#define ZFIndexRangeMax() _ZFP_ZFIndexRangeMax
 /**
- * @brief make a zfindexRange
+ * @brief make a ZFIndexRange
  */
-inline zfindexRange zfindexRangeMake(ZF_IN zfindex start,
+inline ZFIndexRange ZFIndexRangeMake(ZF_IN zfindex start,
                                      ZF_IN zfindex count)
 {
-    zfindexRange ret = {start, count};
+    ZFIndexRange ret = {start, count};
     return ret;
 }
 /**
  * @brief compare
  */
-inline ZFCompareResult zfindexRangeIsEqual(ZF_IN const zfindexRange &e0,
-                                           ZF_IN const zfindexRange &e1)
+inline ZFCompareResult ZFIndexRangeIsEqual(ZF_IN const ZFIndexRange &e0,
+                                           ZF_IN const ZFIndexRange &e1)
 {
     return ((e0.start == e1.start && e0.count == e1.count) ? ZFCompareTheSame : ZFCompareUncomparable);
 }
 /**
  * @brief true if contain index in range
  */
-inline zfbool zfindexRangeContain(ZF_IN const zfindexRange &range,
+inline zfbool ZFIndexRangeContain(ZF_IN const ZFIndexRange &range,
                                   ZF_IN zfindex index)
 {
     return (range.count > 0 && index >= range.start && index < range.start + range.count);
 }
 /** @cond ZFPrivateDoc */
-inline zfbool operator == (ZF_IN const zfindexRange &v0,
-                           ZF_IN const zfindexRange &v1)
+inline zfbool operator == (ZF_IN const ZFIndexRange &v0,
+                           ZF_IN const ZFIndexRange &v1)
 {
     return (v0.start == v1.start && v0.count == v1.count);
 }
-inline zfbool operator != (ZF_IN const zfindexRange &v0,
-                           ZF_IN const zfindexRange &v1)
+inline zfbool operator != (ZF_IN const ZFIndexRange &v0,
+                           ZF_IN const ZFIndexRange &v1)
 {
     return (v0.start != v1.start || v0.count != v1.count);
 }

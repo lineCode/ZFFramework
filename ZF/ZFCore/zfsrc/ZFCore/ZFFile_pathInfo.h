@@ -365,6 +365,21 @@ extern ZF_ENV_EXPORT zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInf
                                                    ZF_IN ZFToken token,
                                                    ZF_IN zfindex BOMSize);
 
+/**
+ * @brief util to make a child path info relative to existing one,
+ *   see also #ZFFilePathInfoCallbackToChild
+ */
+ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFFilePathInfoMakeT,
+                        ZFMP_OUT(ZFPathInfo &, ret),
+                        ZFMP_IN(const ZFPathInfo &, pathInfo),
+                        ZFMP_IN(const zfchar *, childPath))
+/**
+ * @brief see #ZFFilePathInfoMakeT
+ */
+ZFMETHOD_FUNC_DECLARE_2(ZFPathInfo, ZFFilePathInfoMake,
+                        ZFMP_IN(const ZFPathInfo &, pathInfo),
+                        ZFMP_IN(const zfchar *, childPath))
+
 // ============================================================
 // ZFInputForPathInfo
 /**

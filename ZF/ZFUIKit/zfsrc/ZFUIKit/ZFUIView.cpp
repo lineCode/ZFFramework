@@ -2398,7 +2398,7 @@ void ZFUIView::viewPropertyOnUpdate(void)
 
 // ============================================================
 // override
-void ZFUIView::observerOnAdd(ZF_IN const zfidentity &eventId)
+void ZFUIView::observerOnAdd(ZF_IN zfidentity eventId)
 {
     zfsuper::observerOnAdd(eventId);
     if(eventId == ZFUIView::EventViewPropertyOnUpdate())
@@ -2430,7 +2430,7 @@ void ZFUIView::observerOnAdd(ZF_IN const zfidentity &eventId)
         ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_viewOnRemoveFromParent);
     }
 }
-void ZFUIView::observerOnRemove(ZF_IN const zfidentity &eventId)
+void ZFUIView::observerOnRemove(ZF_IN zfidentity eventId)
 {
     zfsuper::observerOnRemove(eventId);
     if(eventId == ZFUIView::EventViewPropertyOnUpdate())

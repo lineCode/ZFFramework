@@ -67,7 +67,7 @@ public:
         nativeSemaphore->wait(&(nativeSemaphore->_ZFP_mutex));
     }
     virtual zfbool semaphoreWait(ZF_IN ZFSemaphore *semaphore,
-                                 ZF_IN const zftimet &miliSecsTimeout)
+                                 ZF_IN zftimet miliSecsTimeout)
     {
         _ZFP_ZFSemaphoreImpl_sys_Qt_Semaphore *nativeSemaphore = ZFCastStatic(_ZFP_ZFSemaphoreImpl_sys_Qt_Semaphore *, semaphore->nativeSemaphore());
         zfbool ret = nativeSemaphore->wait(&(nativeSemaphore->_ZFP_mutex), miliSecsTimeout);

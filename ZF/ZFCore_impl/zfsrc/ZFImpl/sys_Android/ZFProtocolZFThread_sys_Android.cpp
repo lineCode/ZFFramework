@@ -161,7 +161,7 @@ public:
         return it->second;
     }
 
-    virtual void sleep(ZF_IN const zftimet &miliSecs)
+    virtual void sleep(ZF_IN zftimet miliSecs)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_sleep"),

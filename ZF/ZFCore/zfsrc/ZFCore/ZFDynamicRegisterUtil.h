@@ -314,11 +314,15 @@ public:
      */
     ZFDynamic &property(ZF_IN const zfchar *propertyTypeId,
                         ZF_IN const zfchar *propertyName,
-                        ZF_IN_OPT ZFObject *propertyInitValue = zfnull);
+                        ZF_IN_OPT ZFObject *propertyInitValue = zfnull,
+                        ZF_IN_OPT ZFMethodPrivilegeType setterPrivilegeType = ZFMethodPrivilegeTypePublic,
+                        ZF_IN_OPT ZFMethodPrivilegeType getterPrivilegeType = ZFMethodPrivilegeTypePublic);
     /** @brief see #ZFDynamic */
     ZFDynamic &property(ZF_IN const ZFClass *propertyClassOfRetainProperty,
                         ZF_IN const zfchar *propertyName,
-                        ZF_IN_OPT ZFObject *propertyInitValue = zfnull);
+                        ZF_IN_OPT ZFObject *propertyInitValue = zfnull,
+                        ZF_IN_OPT ZFMethodPrivilegeType setterPrivilegeType = ZFMethodPrivilegeTypePublic,
+                        ZF_IN_OPT ZFMethodPrivilegeType getterPrivilegeType = ZFMethodPrivilegeTypePublic);
     /** @brief see #ZFDynamic */
     ZFDynamic &property(ZF_IN const ZFPropertyDynamicRegisterParam &param);
 

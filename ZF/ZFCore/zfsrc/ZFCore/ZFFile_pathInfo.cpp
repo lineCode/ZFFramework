@@ -38,6 +38,7 @@ zfbool ZFFilePathInfoCallbackToChildDefault(ZF_IN const zfchar *pathData,
         pathDataChild += ZFFileSeparator();
     }
     pathDataChild += childName;
+    ZFFilePathFormatRelative(pathDataChild);
     return zftrue;
 }
 zfbool ZFFilePathInfoCallbackToParentDefault(ZF_IN const zfchar *pathData,
@@ -545,6 +546,37 @@ zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInfoData &impl,
     {
         return ret - BOMSize;
     }
+}
+
+ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoMakeT,
+                       ZFMP_OUT(ZFPathInfo &, ret),
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_IN(const zfchar *, childPath))
+{
+    const ZFFilePathInfoData *impl = ZFFilePathInfoDataGet(pathInfo.pathType);
+    if(impl == zfnull)
+    {
+        return zffalse;
+    }
+    ret.pathType = pathInfo.pathType;
+    if(!impl->callbackIsDir(pathInfo.pathData))
+    {
+        zfstring pathData;
+        return impl->callbackToParent(pathInfo.pathData, pathData)
+            && impl->callbackToChild(pathData, ret.pathData, childPath);
+    }
+    else
+    {
+        return impl->callbackToChild(pathInfo.pathData, ret.pathData, childPath);
+    }
+}
+ZFMETHOD_FUNC_DEFINE_2(ZFPathInfo, ZFFilePathInfoMake,
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_IN(const zfchar *, childPath))
+{
+    ZFPathInfo ret;
+    ZFFilePathInfoMakeT(ret, pathInfo, childPath);
+    return ret;
 }
 
 // ============================================================

@@ -158,8 +158,18 @@ public:
     /*
      * if not empty, the file is find from resAdditionalPath
      * ensured end with file separator
+     * ensured clear when find task ends from resAdditionalPath
      */
     zfstring resAdditionalPath;
+    zfbool resFindFirstStarted;
+public:
+    _ZFP_ZFFileResFindData(void)
+    : resPathSaved()
+    , resAdditionalFd()
+    , resAdditionalPath()
+    , resFindFirstStarted(zffalse)
+    {
+    }
 public:
     void copyToFd(ZF_OUT ZFFileFindData::Impl &fd) const
     {
@@ -232,7 +242,8 @@ ZFMETHOD_FUNC_DEFINE_1(zfbool, ZFFileResFindNext,
         implUserData->resAdditionalPath.removeAll();
         ZFFileFileFindClose(implUserData->resAdditionalFd);
 
-        return _ZFP_ZFFileResProcessImpl->resFindFirst(fd.impl(), implUserData->resPathSaved);
+        implUserData->resFindFirstStarted = _ZFP_ZFFileResProcessImpl->resFindFirst(fd.impl(), implUserData->resPathSaved);
+        return implUserData->resFindFirstStarted;
     }
     return _ZFP_ZFFileResProcessImpl->resFindNext(fd.impl());
 }
@@ -245,7 +256,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFFileResFindClose,
     {
         ZFFileFileFindClose(implUserData->resAdditionalFd);
     }
-    else
+    else if(implUserData->resFindFirstStarted)
     {
         _ZFP_ZFFileResProcessImpl->resFindClose(fd.impl());
     }

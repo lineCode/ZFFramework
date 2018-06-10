@@ -83,19 +83,19 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextEdit, ZFRegExp *, textEditFilter)
         this->textSet(zfText(""));
     }
 }
-ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUITextEdit, ZFIndexRange, textSelectRange)
 {
     zfindex textLength = this->text().length();
     if(propertyValue.start >= textLength)
     {
-        propertyValue = zfindexRangeZero();
+        propertyValue = ZFIndexRangeZero();
     }
     else if(propertyValue.count > textLength - propertyValue.start)
     {
         propertyValue.count = textLength - propertyValue.start;
     }
 }
-ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextEdit, zfindexRange, textSelectRange)
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextEdit, ZFIndexRange, textSelectRange)
 {
     if(d->textSelectRangeChangedByImplFlag)
     {
@@ -293,7 +293,7 @@ void ZFUITextEdit::_ZFP_ZFUITextEdit_textSelectRangeNotifyChange(void)
         return ;
     }
 
-    zfindexRange tmp = zfindexRangeZero();
+    ZFIndexRange tmp = ZFIndexRangeZero();
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->textSelectRange(this, tmp);
 
     d->textSelectRangeChangedByImplFlag = zftrue;

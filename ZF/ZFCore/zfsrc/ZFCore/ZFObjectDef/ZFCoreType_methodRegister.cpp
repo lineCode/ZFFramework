@@ -193,16 +193,16 @@ ZFEXPORT_VAR_READONLY_DEFINE(zfidentity, zfidentityZero, zfidentityZero())
 ZFEXPORT_VAR_READONLY_DEFINE(zfidentity, zfidentityInvalid, zfidentityInvalid())
 ZFEXPORT_ENUM_DEFINE(ZFCompareResult, ZFCompareUncomparable, ZFCompareSmaller, ZFCompareTheSame, ZFCompareGreater)
 ZFEXPORT_ENUM_DEFINE(ZFSeekPos, ZFSeekPosBegin, ZFSeekPosCur, ZFSeekPosCurReversely, ZFSeekPosEnd)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_zfindexRange, zfindex, start)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_zfindexRange, zfindex, count)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFIndexRange, zfindex, start)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFIndexRange, zfindex, count)
 
 ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(zfiterator, zfiteratorInvalid, zfiteratorInvalid())
 
-ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(zfindexRange, zfindexRangeZero, zfindexRangeZero())
-ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(zfindexRange, zfindexRangeMax, zfindexRangeMax())
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfindexRange, zfindexRangeMake, ZFMP_IN(zfindex, start), ZFMP_IN(zfindex, count))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFCompareResult, zfindexRangeIsEqual, ZFMP_IN(const zfindexRange &, e0), ZFMP_IN(const zfindexRange &, e1))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfbool, zfindexRangeContain, ZFMP_IN(const zfindexRange &, range), ZFMP_IN(zfindex, index))
+ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(ZFIndexRange, ZFIndexRangeZero, ZFIndexRangeZero())
+ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(ZFIndexRange, ZFIndexRangeMax, ZFIndexRangeMax())
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFIndexRange, ZFIndexRangeMake, ZFMP_IN(zfindex, start), ZFMP_IN(zfindex, count))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFCompareResult, ZFIndexRangeIsEqual, ZFMP_IN(const ZFIndexRange &, e0), ZFMP_IN(const ZFIndexRange &, e1))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfbool, ZFIndexRangeContain, ZFMP_IN(const ZFIndexRange &, range), ZFMP_IN(zfindex, index))
 
 ZFEXPORT_VAR_READONLY_DEFINE(ZFToken, ZFTokenInvalid, ZFTokenInvalid())
 

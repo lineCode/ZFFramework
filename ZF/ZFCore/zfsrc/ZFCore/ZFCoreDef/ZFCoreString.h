@@ -224,11 +224,13 @@ public:
 
 public:
     /** @cond ZFPrivateDoc */
-    inline T_Char &operator [] (ZF_IN zfindex pos)
+    template<typename T_Index>
+    inline T_Char &operator [] (ZF_IN T_Index const &pos)
     {
         return d.buf()[pos];
     }
-    inline const T_Char &operator [] (ZF_IN zfindex pos) const
+    template<typename T_Index>
+    inline const T_Char &operator [] (ZF_IN T_Index const &pos) const
     {
         return d.buf()[pos];
     }

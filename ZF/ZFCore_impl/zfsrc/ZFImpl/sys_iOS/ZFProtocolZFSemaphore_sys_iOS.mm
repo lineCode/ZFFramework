@@ -50,7 +50,7 @@ public:
         [(__bridge NSCondition *)semaphore->nativeSemaphore() wait];
     }
     virtual zfbool semaphoreWait(ZF_IN ZFSemaphore *semaphore,
-                                 ZF_IN const zftimet &miliSecsTimeout)
+                                 ZF_IN zftimet miliSecsTimeout)
     {
         return [(__bridge NSCondition *)semaphore->nativeSemaphore() waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:((NSTimeInterval)miliSecsTimeout / 1000)]];
     }

@@ -221,8 +221,8 @@ public:
     ZFMETHOD_DECLARE_4(zfautoObject, createCache,
                        ZFMP_IN(ZFOperationParam *, operationParam),
                        ZFMP_IN(ZFOperationResult *, operationResult),
-                       ZFMP_IN_OPT(const zftimet &, cacheExpireTime, zftimetZero()),
-                       ZFMP_IN_OPT(const zftimet &, cacheTime, zftimetZero()))
+                       ZFMP_IN_OPT(zftimet, cacheExpireTime, zftimetZero()),
+                       ZFMP_IN_OPT(zftimet, cacheTime, zftimetZero()))
 
     /**
      * @brief create progress

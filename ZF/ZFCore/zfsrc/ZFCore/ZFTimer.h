@@ -70,10 +70,10 @@ protected:
      * you may change them after timer created,
      * but you must not if timer is started
      */
-    ZFOBJECT_ON_INIT_INLINE_5(ZFMP_IN(const zftimet &, timerInterval),
+    ZFOBJECT_ON_INIT_INLINE_5(ZFMP_IN(zftimet, timerInterval),
                               ZFMP_IN_OPT(ZFObject *, timerParam0, zfnull),
                               ZFMP_IN_OPT(ZFObject *, timerParam1, zfnull),
-                              ZFMP_IN_OPT(const zftimet &, timerDelay, zftimetZero()),
+                              ZFMP_IN_OPT(zftimet, timerDelay, zftimetZero()),
                               ZFMP_IN_OPT(zfbool, timerActivateInMainThread, zffalse))
     {
         this->objectOnInit();

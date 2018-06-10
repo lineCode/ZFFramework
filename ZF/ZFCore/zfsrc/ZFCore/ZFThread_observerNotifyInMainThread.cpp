@@ -99,7 +99,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFObserverNotifyInMainThreadDataHolder)
 ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFObserverNotifyInMainThreadWithCustomSender,
                        ZFMP_IN(ZFObject *, customSender),
                        ZFMP_IN(ZFObject *, obj),
-                       ZFMP_IN(const zfidentity &, eventId),
+                       ZFMP_IN(zfidentity, eventId),
                        ZFMP_IN_OPT(ZFObject *, param0, zfnull),
                        ZFMP_IN_OPT(ZFObject *, param1, zfnull))
 {
@@ -130,7 +130,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFObserverNotifyInMainThreadWithCustomSender,
 }
 ZFMETHOD_FUNC_DEFINE_INLINE_4(zfidentity, ZFObserverNotifyInMainThread,
                               ZFMP_IN(ZFObject *, obj),
-                              ZFMP_IN(const zfidentity &, eventId),
+                              ZFMP_IN(zfidentity, eventId),
                               ZFMP_IN_OPT(ZFObject *, param0, zfnull),
                               ZFMP_IN_OPT(ZFObject *, param1, zfnull))
 ZFMETHOD_FUNC_DEFINE_1(void, ZFObserverNotifyInMainThreadCancel,

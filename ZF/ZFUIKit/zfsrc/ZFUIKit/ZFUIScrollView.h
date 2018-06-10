@@ -452,18 +452,18 @@ public:
      */
     ZFMETHOD_DECLARE_2(void, scrollSimulateDragBegin,
                        ZFMP_IN(const ZFUIPoint &, mousePos),
-                       ZFMP_IN(const zftimet &, mouseTime))
+                       ZFMP_IN(zftimet, mouseTime))
     /**
      * @brief simulate drag
      */
     ZFMETHOD_DECLARE_2(void, scrollSimulateDrag,
                        ZFMP_IN(const ZFUIPoint &, mousePos),
-                       ZFMP_IN(const zftimet &, mouseTime))
+                       ZFMP_IN(zftimet, mouseTime))
     /**
      * @brief simulate drag
      */
     ZFMETHOD_DECLARE_2(void, scrollSimulateDragEnd,
-                       ZFMP_IN(const zftimet &, mouseTime),
+                       ZFMP_IN(zftimet, mouseTime),
                        ZFMP_IN_OPT(zfbool, needScrollAni, zftrue))
 
 protected:
@@ -492,12 +492,12 @@ public:
     // scroll callbacks
 public:
     zffinal void _ZFP_ZFUIScrollView_notifyDragBegin(ZF_IN const ZFUIPoint &mousePos,
-                                                     ZF_IN const zftimet &mouseTime);
+                                                     ZF_IN zftimet mouseTime);
     zffinal void _ZFP_ZFUIScrollView_notifyDrag(ZF_IN const ZFUIPoint &mousePos,
-                                                ZF_IN const zftimet &mouseTime);
-    zffinal void _ZFP_ZFUIScrollView_notifyDragEnd(ZF_IN const zftimet &mouseTime,
+                                                ZF_IN zftimet mouseTime);
+    zffinal void _ZFP_ZFUIScrollView_notifyDragEnd(ZF_IN zftimet mouseTime,
                                                    ZF_IN zfbool needScrollAni);
-    zffinal void _ZFP_ZFUIScrollView_notifyScrollAnimation(ZF_IN const zftimet &relativeTimeInMiliseconds);
+    zffinal void _ZFP_ZFUIScrollView_notifyScrollAnimation(ZF_IN zftimet relativeTimeInMiliseconds);
 protected:
     /** @brief see #EventScrollOnDragBegin */
     virtual inline void scrollOnDragBegin(void)

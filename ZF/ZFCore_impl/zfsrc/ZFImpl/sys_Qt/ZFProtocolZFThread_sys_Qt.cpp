@@ -219,7 +219,7 @@ public:
         }
     }
 
-    virtual void sleep(ZF_IN const zftimet &miliSecs)
+    virtual void sleep(ZF_IN zftimet miliSecs)
     {
         QThread::msleep(miliSecs);
     }

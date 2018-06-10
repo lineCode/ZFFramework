@@ -54,7 +54,7 @@ public:
     /**
      * @brief see #ZFThread::sleep
      */
-    virtual void sleep(ZF_IN const zftimet &miliSecs) zfpurevirtual;
+    virtual void sleep(ZF_IN zftimet miliSecs) zfpurevirtual;
 
     /**
      * @brief see #ZFThreadExecuteInMainThread
@@ -178,7 +178,7 @@ public:
         zfCoreLogTrim(zfTextA("you must not wait main thread"));
     }
     zfoverride
-    virtual zfbool threadWait(ZF_IN const zftimet &miliSecs)
+    virtual zfbool threadWait(ZF_IN zftimet miliSecs)
     {
         zfCoreLogTrim(zfTextA("you must not wait main thread"));
         return zffalse;

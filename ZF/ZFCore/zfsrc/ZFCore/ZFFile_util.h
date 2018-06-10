@@ -43,6 +43,12 @@ ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFFilePathFormat,
                         ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
 
 /**
+ * @brief util method to resolve ".." in path
+ */
+ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathFormatRelative,
+                        ZFMP_IN_OUT(zfstring &, ret))
+
+/**
  * @brief get file name from path or src if error,
  *   e.g. "file.ext" from "/path/file.ext"
  * @note path must be well formed, use #ZFFilePathFormat if necessary
@@ -182,6 +188,28 @@ ZFMETHOD_FUNC_DECLARE_4(void, ZFFilePathInfoTreePrint,
                         ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                         ZFMP_IN_OPT(const zfchar *, headToken, zfnull),
                         ZFMP_IN_OPT(const zfchar *, indentToken, zfText("  ")))
+
+// ============================================================
+/**
+ * @brief util method to loop each child file in specified pathInfo
+ *
+ * usage:
+ * @code
+ *   ZFLISTENER_LOCAL(fileCallback, {
+ *       const ZFPathInfo &pathInfo = listenerData.param0->to<v_ZFPathInfo *>()->zfv;
+ *       const ZFFileFindData &fd = listenerData.param1->to<v_ZFFileFindData *>()->zfv;
+ *       // do your things with the file
+ *   })
+ *   ZFFilePathInfoForEach(pathInfo, fileCallback);
+ * @endcode
+ *
+ * fileCallback's param0 is #v_ZFPathInfo that describe the child file or dir,
+ * and param1 is #v_ZFFileFindData
+ */
+ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFFilePathInfoForEach,
+                        ZFMP_IN(const ZFPathInfo &, pathInfo),
+                        ZFMP_IN(const ZFListener &, fileCallback),
+                        ZFMP_IN_OPT(ZFObject *, userData, zfnull))
 
 // ============================================================
 // ZFIOBufferedCallbackUsingTmpFile

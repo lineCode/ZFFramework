@@ -38,7 +38,7 @@ ZFTYPEID_ID_DATA_REGISTER(ZFObject, ZFObject *)
 // ============================================================
 // ZFCallerInfo
 ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfoHolder, {
-        zfindexRange pos[3] = {0};
+        ZFIndexRange pos[3] = {0};
         const zfchar *p = src;
         const zfchar *pEnd = src + ((srcLen == zfindexMax()) ? zfslen(src) : srcLen);
 

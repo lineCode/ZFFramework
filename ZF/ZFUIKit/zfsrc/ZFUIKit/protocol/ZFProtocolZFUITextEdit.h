@@ -51,9 +51,9 @@ public:
                                                ZF_IN ZFUITextEditKeyboardReturnTypeEnum textEditKeyboardReturnType) zfpurevirtual;
 
     /** @brief see #ZFUITextEdit */
-    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT zfindexRange &textSelectRange) zfpurevirtual;
+    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_OUT ZFIndexRange &textSelectRange) zfpurevirtual;
     /** @brief see #ZFUITextEdit */
-    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const zfindexRange &textSelectRange) zfpurevirtual;
+    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const ZFIndexRange &textSelectRange) zfpurevirtual;
 
 public:
     /** @brief see #ZFUITextEdit */

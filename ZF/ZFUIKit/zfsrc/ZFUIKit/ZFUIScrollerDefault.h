@@ -35,7 +35,7 @@ protected:
 
 public:
     zfoverride
-    virtual void scrollOwnerSizeChanged(ZF_IN const zfint &ownerSize);
+    virtual void scrollOwnerSizeChanged(ZF_IN zfint ownerSize);
     zfoverride
     virtual void scrollBounceChanged(ZF_IN zfbool scrollBounce,
                                      ZF_IN zfbool scrollBounceAlways);
@@ -77,17 +77,17 @@ public:
 public:
     zfoverride
     virtual void scrollOnDragBegin(ZF_IN zfint mousePos,
-                                   ZF_IN const zftimet &mouseTime);
+                                   ZF_IN zftimet mouseTime);
     zfoverride
     virtual void scrollOnDrag(ZF_IN zfint mousePos,
-                              ZF_IN const zftimet &mouseTime);
+                              ZF_IN zftimet mouseTime);
     zfoverride
-    virtual void scrollOnDragEnd(ZF_IN const zftimet &mouseTime,
+    virtual void scrollOnDragEnd(ZF_IN zftimet mouseTime,
                                  ZF_IN zfbool needScrollAni);
 
 public:
     zfoverride
-    virtual void scrollAniOnUpdate(ZF_IN const zftimet &time);
+    virtual void scrollAniOnUpdate(ZF_IN zftimet time);
 
 private:
     _ZFP_ZFUIScrollerDefaultPrivate *d;

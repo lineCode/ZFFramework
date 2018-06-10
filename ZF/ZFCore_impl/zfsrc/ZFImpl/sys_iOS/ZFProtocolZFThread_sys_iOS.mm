@@ -202,7 +202,7 @@ public:
         }
     }
 
-    virtual void sleep(ZF_IN const zftimet &miliSecs)
+    virtual void sleep(ZF_IN zftimet miliSecs)
     {
         [NSThread sleepForTimeInterval:((double)miliSecs / 1000)];
     }

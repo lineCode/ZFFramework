@@ -117,7 +117,7 @@ zfbool zfflagsFromString(ZF_OUT zfflags &ret,
         }
         return zffalse;
     }
-    ZFCoreArrayPOD<zfindexRange> pos;
+    ZFCoreArrayPOD<ZFIndexRange> pos;
     zfstring separatorTokens;
     separatorTokens += separatorToken;
     if(!zfCoreDataPairSplitString(pos, zfindexMax(), src, srcLen, separatorTokens, zfnull, zfnull, zffalse, outErrorPos))
@@ -470,8 +470,8 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFSeekPos, ZFSeekPos, {
     })
 
 // ============================================================
-ZFTYPEID_DEFINE_BY_STRING_CONVERTER(zfindexRange, zfindexRange, {
-        v = zfindexRangeZero();
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFIndexRange, ZFIndexRange, {
+        v = ZFIndexRangeZero();
         ZFCoreArrayPOD<zfindex> pair;
         if(!zfCoreDataPairSplitInt(pair, 2, src, srcLen))
         {

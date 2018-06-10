@@ -70,7 +70,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
 
         return zftrue;
     }, {
-        ZFCoreArrayPOD<zfindexRange> pos;
+        ZFCoreArrayPOD<ZFIndexRange> pos;
         if(!zfCoreDataPairSplitString(pos, 3, src, srcLen, zfText(":"), zfnull, zfnull, zftrue)) {return zffalse;}
         const ZFClass *cls = ZFClass::classForName(zfstring(src + pos[0].start, pos[0].count));
         if(cls == zfnull)

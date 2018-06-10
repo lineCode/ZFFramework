@@ -54,7 +54,7 @@ public:
      * @brief called when owner scroll view's size changed,
      *   you should fix content frame to match bounds if necessary
      */
-    virtual void scrollOwnerSizeChanged(ZF_IN const zfint &ownerSize) zfpurevirtual;
+    virtual void scrollOwnerSizeChanged(ZF_IN zfint ownerSize) zfpurevirtual;
     /**
      * @brief whether use bounce
      */
@@ -145,14 +145,14 @@ public:
      * note drag events is not ensured paired
      */
     virtual void scrollOnDragBegin(ZF_IN zfint mousePos,
-                                   ZF_IN const zftimet &mouseTime) zfpurevirtual;
+                                   ZF_IN zftimet mouseTime) zfpurevirtual;
     /**
      * @brief drag
      *
      * note drag events is not ensured paired
      */
     virtual void scrollOnDrag(ZF_IN zfint mousePos,
-                              ZF_IN const zftimet &mouseTime) zfpurevirtual;
+                              ZF_IN zftimet mouseTime) zfpurevirtual;
     /**
      * @brief drag end
      *
@@ -160,14 +160,14 @@ public:
      * \n
      * if scroll animation is needed, use #scrollAniStartCallback to start
      */
-    virtual void scrollOnDragEnd(ZF_IN const zftimet &mouseTime,
+    virtual void scrollOnDragEnd(ZF_IN zftimet mouseTime,
                                  ZF_IN zfbool needScrollAni) zfpurevirtual;
 
 public:
     /**
      * @brief called to update scroll animation
      */
-    virtual void scrollAniOnUpdate(ZF_IN const zftimet &time) zfpurevirtual;
+    virtual void scrollAniOnUpdate(ZF_IN zftimet time) zfpurevirtual;
 };
 
 // ============================================================

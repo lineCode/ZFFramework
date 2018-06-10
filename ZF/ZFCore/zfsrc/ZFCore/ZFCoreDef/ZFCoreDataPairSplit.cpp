@@ -11,7 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-zfbool zfCoreDataPairSplitString(ZF_OUT ZFCoreArray<zfindexRange> &outData,
+zfbool zfCoreDataPairSplitString(ZF_OUT ZFCoreArray<ZFIndexRange> &outData,
                                  ZF_IN zfindex desiredCountOrIndexMax,
                                  ZF_IN const zfchar *src,
                                  ZF_IN_OPT zfindex srcLen /* = zfindexMax() */,
@@ -143,7 +143,7 @@ zfbool zfCoreDataPairSplitString(ZF_OUT ZFCoreArray<zfindexRange> &outData,
         }
 
         // save item
-        outData.add(zfindexRangeMake(p - src, pl - p));
+        outData.add(ZFIndexRangeMake(p - src, pl - p));
         ++count;
 
         // end item

@@ -673,8 +673,8 @@ ZFMETHOD_DEFINE_0(ZFOperation, zfautoObject, createCache)
 ZFMETHOD_DEFINE_4(ZFOperation, zfautoObject, createCache,
                   ZFMP_IN(ZFOperationParam *, operationParam),
                   ZFMP_IN(ZFOperationResult *, operationResult),
-                  ZFMP_IN_OPT(const zftimet &, cacheExpireTime, zftimetZero()),
-                  ZFMP_IN_OPT(const zftimet &, cacheTime, zftimetZero()))
+                  ZFMP_IN_OPT(zftimet, cacheExpireTime, zftimetZero()),
+                  ZFMP_IN_OPT(zftimet, cacheTime, zftimetZero()))
 {
     zfautoObject operationCacheTmp = this->createCache();
     ZFOperationCache *operationCache = operationCacheTmp.to<ZFOperationCache *>();

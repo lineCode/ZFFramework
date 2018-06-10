@@ -120,6 +120,63 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathFormat,
     }
 }
 
+ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathFormatRelative,
+                       ZFMP_IN_OUT(zfstring &, ret))
+{
+    if(ret.isEmpty())
+    {
+        return ;
+    }
+
+    zfindex p = 0;
+    do
+    {
+        if(p + 2 >= ret.length())
+        {
+            return ;
+        }
+        if(!(ret[p] == ZFFileSeparator() && ret[p + 1] == '.' && ret[p + 2] == '.'))
+        {
+            ++p;
+            continue;
+        }
+        if(!(p + 3 >= ret.length() || ret[p + 3] == ZFFileSeparator()))
+        {
+            p += 4;
+            continue;
+        }
+        zfindex pL = zfstringFindReversely(ret.cString(), p, ZFFileSeparatorString());
+        if(pL == zfindexMax())
+        {
+            if(p == 3 && ret[0] == '.' && ret[1] == '.')
+            {
+                return ;
+            }
+            if(p + 3 >= ret.length())
+            {
+                ret.removeAll();
+                return ;
+            }
+            else
+            {
+                ret.remove(0, p + 4);
+            }
+            p = 0;
+            continue;
+        }
+        if(p + 3 >= ret.length())
+        {
+            ret.remove(pL);
+            return ;
+        }
+        else
+        {
+            ret.remove(pL, p + 3 - pL);
+        }
+        p = pL;
+    } while(zftrue);
+}
+
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFileNameOf,
                        ZFMP_OUT(zfstring &, ret),
                        ZFMP_IN(const zfchar *, src))
@@ -446,6 +503,43 @@ ZFMETHOD_FUNC_DEFINE_4(void, ZFFilePathInfoTreePrint,
     {
         _ZFP_ZFFileTreePrint(pathInfo.pathData, outputCallback, headToken, indentToken, 0, *data);
     }
+}
+
+// ============================================================
+ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoForEach,
+                       ZFMP_IN(const ZFPathInfo &, pathInfo),
+                       ZFMP_IN(const ZFListener &, fileCallback),
+                       ZFMP_IN_OPT(ZFObject *, userData, zfnull))
+{
+    const ZFFilePathInfoData *impl = ZFFilePathInfoDataGet(pathInfo.pathType);
+    if(impl == zfnull)
+    {
+        return zffalse;
+    }
+    ZFFileFindData fd;
+    if(impl->callbackFindFirst(fd, pathInfo.pathData))
+    {
+        zfblockedAlloc(v_ZFPathInfo, childPathInfo);
+        zfblockedAlloc(v_ZFFileFindData, childFd);
+        childPathInfo->zfv.pathType = pathInfo.pathType;
+        do
+        {
+            childFd->zfv = fd;
+            childPathInfo->zfv.pathData.removeAll();
+            if(!impl->callbackToChild(pathInfo.pathData, childPathInfo->zfv.pathData, fd.fileName()))
+            {
+                break;
+            }
+            fileCallback.execute(ZFListenerData(
+                    zfidentityInvalid(),
+                    zfnull,
+                    childPathInfo,
+                    childFd
+                ), userData);
+        } while(impl->callbackFindNext(fd));
+        impl->callbackFindClose(fd);
+    }
+    return zftrue;
 }
 
 // ============================================================

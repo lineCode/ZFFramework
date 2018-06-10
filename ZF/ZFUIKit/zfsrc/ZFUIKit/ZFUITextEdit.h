@@ -212,9 +212,9 @@ public:
     /**
      * @brief text edit's cursor position
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfindexRange, textSelectRange, zfindexRangeZero())
-    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfindexRange, textSelectRange)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfindexRange, textSelectRange)
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFIndexRange, textSelectRange, ZFIndexRangeZero())
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFIndexRange, textSelectRange)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFIndexRange, textSelectRange)
 
     /**
      * @brief whether #textEditNotifyConfirm when lost focus, true by default

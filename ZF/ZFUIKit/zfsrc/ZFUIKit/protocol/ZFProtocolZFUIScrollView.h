@@ -147,7 +147,7 @@ public:
      */
     zffinal void notifyScrollViewDragBegin(ZF_IN ZFUIScrollView *scrollView,
                                            ZF_IN const ZFUIPoint &mousePos,
-                                           ZF_IN const zftimet &mouseTime)
+                                           ZF_IN zftimet mouseTime)
     {
         scrollView->_ZFP_ZFUIScrollView_notifyDragBegin(ZFUIPointApplyScaleReversely(mousePos, scrollView->scaleFixed()), mouseTime);
     }
@@ -156,7 +156,7 @@ public:
      */
     zffinal void notifyScrollViewDrag(ZF_IN ZFUIScrollView *scrollView,
                                       ZF_IN const ZFUIPoint &mousePos,
-                                      ZF_IN const zftimet &mouseTime)
+                                      ZF_IN zftimet mouseTime)
     {
         scrollView->_ZFP_ZFUIScrollView_notifyDrag(ZFUIPointApplyScaleReversely(mousePos, scrollView->scaleFixed()), mouseTime);
     }
@@ -164,7 +164,7 @@ public:
      * @brief see #scrollViewScrollContentFrameSet for how to implements scroll logic
      */
     zffinal void notifyScrollViewDragEnd(ZF_IN ZFUIScrollView *scrollView,
-                                         ZF_IN const zftimet &mouseTime,
+                                         ZF_IN zftimet mouseTime,
                                          ZF_IN zfbool needScrollAni)
     {
         scrollView->_ZFP_ZFUIScrollView_notifyDragEnd(mouseTime, needScrollAni);
@@ -173,7 +173,7 @@ public:
      * @brief see #scrollViewScrollAnimationStart for how to implements scroll animation logic
      */
     zffinal void notifyScrollViewScrollAnimation(ZF_IN ZFUIScrollView *scrollView,
-                                                 ZF_IN const zftimet &relativeTimeInMiliseconds)
+                                                 ZF_IN zftimet relativeTimeInMiliseconds)
     {
         scrollView->_ZFP_ZFUIScrollView_notifyScrollAnimation(relativeTimeInMiliseconds);
     }

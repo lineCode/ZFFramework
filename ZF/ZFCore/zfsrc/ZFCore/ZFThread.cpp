@@ -408,7 +408,7 @@ ZFMETHOD_DEFINE_0(ZFThread, ZFThread *, currentThread)
 }
 
 ZFMETHOD_DEFINE_1(ZFThread, void, sleep,
-                  ZFMP_IN(const zftimet &, miliSecs))
+                  ZFMP_IN(zftimet, miliSecs))
 {
     _ZFP_ZFThreadImpl->sleep(miliSecs);
 }
@@ -518,7 +518,7 @@ ZFMETHOD_DEFINE_0(ZFThread, void, threadWait)
     }
 }
 ZFMETHOD_DEFINE_1(ZFThread, zfbool, threadWait,
-                  ZFMP_IN(const zftimet &, miliSecs))
+                  ZFMP_IN(zftimet, miliSecs))
 {
     if(_ZFP_ZFThread_d->semaWaitHolder != zfnull)
     {
@@ -932,7 +932,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadExecuteWait,
 }
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFThreadExecuteWait,
                        ZFMP_IN(zfidentity, taskId),
-                       ZFMP_IN(const zftimet &, miliSecs))
+                       ZFMP_IN(zftimet, miliSecs))
 {
     if(taskId != zfidentityInvalid())
     {
@@ -974,7 +974,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFThreadExecuteWait,
 
 ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverAdd,
                        ZFMP_IN(zfidentity, taskId),
-                       ZFMP_IN(const zfidentity &, eventId),
+                       ZFMP_IN(zfidentity, eventId),
                        ZFMP_IN(const ZFListener &, callback))
 {
     if(eventId != ZFThread::EventThreadOnStart()
@@ -1009,7 +1009,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverAdd,
 }
 ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverRemove,
                        ZFMP_IN(zfidentity, taskId),
-                       ZFMP_IN(const zfidentity &, eventId),
+                       ZFMP_IN(zfidentity, eventId),
                        ZFMP_IN(const ZFListener &, callback))
 {
     if(eventId != ZFThread::EventThreadOnStart()

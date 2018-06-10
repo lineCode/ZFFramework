@@ -513,7 +513,7 @@ zfbool ZFCoreArrayFromString(ZF_OUT ZFCoreArray<T_Type> &v,
                              ZF_IN const zfchar *src,
                              ZF_IN_OPT zfindex srcLen = zfindexMax())
 {
-    ZFCoreArrayPOD<zfindexRange> pos;
+    ZFCoreArrayPOD<ZFIndexRange> pos;
     if(!zfCoreDataPairSplitString(pos, zfindexMax(), src, srcLen, zfText(","), zfText("["), zfText("]"), zftrue))
     {
         return zffalse;
