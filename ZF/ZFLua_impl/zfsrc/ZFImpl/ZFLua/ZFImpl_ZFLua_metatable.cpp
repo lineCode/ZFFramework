@@ -287,7 +287,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_tostring(ZF_IN lua_State *L)
 }
 
 // ============================================================
-void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT zfint objIndex /* = -1 */)
+void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex /* = -1 */)
 {
     lua_getglobal(L, zfTextA("_ZFP_ZFImpl_ZFLua_implSetupObject"));
     if(!lua_isfunction(L, -1))
@@ -444,7 +444,7 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
         return zftrue;
     }
 
-    zfblockedAlloc(v_zfint, ret, (zfint)n);
+    zfblockedAlloc(v_zfint, ret, (int)n);
     ZFImpl_ZFLua_luaPush(L, ret);
     return 1;
 }

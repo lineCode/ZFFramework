@@ -150,6 +150,18 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   -  `ZFLuaImport(localFilePath [, param0, param1, ...])`
  *     or `ZFLuaImport(inputCallback [, param0, param1, ...])`\n
  *     util method for #ZFLuaExecute + #ZFInputForLocalFile
+ *   -  `ZFLuaImportOnce(localFilePath [, param0, param1, ...])`
+ *     or `ZFLuaImportOnce(inputCallback [, param0, param1, ...])`\n
+ *     same as ZFLuaImport, but only run once for each input with same #ZFCallback::callbackId,
+ *     you may also use ZFLuaImportOnceReset to reset the cache state\n
+ *     this is useful to load #ZFDynamic contents from lua code
+ *   -  `ZFLuaImportAll(localFilePath [, importCallback, importCallbackUserData, recursive])`
+ *     or `ZFLuaImportAll(pathInfo [, importCallback, importCallbackUserData, recursive])`\n
+ *     util method to import all lua files under specified path,
+ *     files are looped by #ZFFilePathInfoCallbackFindFirst,
+ *     and lua files are imported by ZFLuaImportOnce\n
+ *     importCallback's param0 holds a #v_ZFPathInfo that points to the file
+ *     which would be loaded
  *   -  `ZFLuaRes(localFilePath)`
  *     or `ZFLuaRes(inputCallback)`\n
  *     util method for #ZFObjectIOLoad + #ZFInputForLocalFile

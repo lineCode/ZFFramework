@@ -161,8 +161,8 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
  */
 static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
 {
-    static const zfint luaParamOffset = 2;
-    zfint count = (zfint)lua_gettop(L);
+    static const int luaParamOffset = 2;
+    int count = (int)lua_gettop(L);
     if(count < luaParamOffset || count > ZFMETHOD_MAX_PARAM + luaParamOffset)
     {
         ZFLuaErrorOccurredTrim(
@@ -170,7 +170,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
     }
-    zfint paramCount = count - luaParamOffset;
+    int paramCount = count - luaParamOffset;
 
     zfautoObject obj;
     if(!ZFImpl_ZFLua_toObject(obj, L, 1))
@@ -198,7 +198,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
             , ZFMethodGenericInvokerDefaultParamHolder()
             , ZFMethodGenericInvokerDefaultParamHolder()
         };
-    for(zfint i = 0; i < paramCount; ++i)
+    for(int i = 0; i < paramCount; ++i)
     {
         if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i + 1))
         {
@@ -270,8 +270,8 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
  */
 static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
 {
-    static const zfint luaParamOffset = 1;
-    zfint count = (zfint)lua_gettop(L);
+    static const int luaParamOffset = 1;
+    int count = (int)lua_gettop(L);
     if(count < luaParamOffset || count > ZFMETHOD_MAX_PARAM + luaParamOffset)
     {
         ZFLuaErrorOccurredTrim(
@@ -279,7 +279,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
     }
-    zfint paramCount = count - luaParamOffset;
+    int paramCount = count - luaParamOffset;
 
     zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
               ZFMethodGenericInvokerDefaultParamHolder()
@@ -291,7 +291,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
             , ZFMethodGenericInvokerDefaultParamHolder()
             , ZFMethodGenericInvokerDefaultParamHolder()
         };
-    for(zfint i = 0; i < paramCount; ++i)
+    for(int i = 0; i < paramCount; ++i)
     {
         if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i + 1))
         {
@@ -381,8 +381,8 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
  */
 static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
 {
-    static zfint luaParamOffset = 2;
-    zfint count = (zfint)lua_gettop(L);
+    static int luaParamOffset = 2;
+    int count = (int)lua_gettop(L);
     if(count < luaParamOffset || count > ZFMETHOD_MAX_PARAM + luaParamOffset)
     {
         ZFLuaErrorOccurredTrim(
@@ -390,7 +390,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
     }
-    zfint paramCount = count - luaParamOffset;
+    int paramCount = count - luaParamOffset;
 
     zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
               ZFMethodGenericInvokerDefaultParamHolder()
@@ -402,7 +402,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
             , ZFMethodGenericInvokerDefaultParamHolder()
             , ZFMethodGenericInvokerDefaultParamHolder()
         };
-    for(zfint i = 0; i < paramCount; ++i)
+    for(int i = 0; i < paramCount; ++i)
     {
         if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i + 1))
         {

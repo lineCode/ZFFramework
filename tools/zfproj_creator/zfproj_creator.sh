@@ -43,6 +43,15 @@ if ! test -e "$CONFIG_FILE_PATH" ; then
 fi
 
 # ============================================================
+# command check
+_rsync_exist=0
+rsync --version >/dev/null 2>&1 && _rsync_exist=1 || _rsync_exist=0
+if ! test "x-$_rsync_exist" = "x-1" ; then
+    echo "rsync not found"
+    exit 1
+fi
+
+# ============================================================
 ZF_ROOT_PATH=$WORK_DIR/../../../ZFFramework
 
 # state
@@ -68,6 +77,7 @@ cat "$_CONFIG_FILE_PATH" \
     | sed -E 's#([\+=]+) +#\1#g' \
     | sed -E 's# +#\|#g' \
     | sed -E 's#^([a-zA-Z_0-9]+)\+=(.*)$#\1=\"\$\1 \2\"#g' \
+    | sed -E 's#^(.+)$#export \1#g' \
       >"$_CONFIG_FILE_PATH"
 source "$_CONFIG_FILE_PATH"
 rm "$_CONFIG_FILE_PATH" >/dev/null 2>&1
@@ -180,17 +190,17 @@ if test 1 = 1 ; then
             fi
             cmd="echo \$${2}_${i}"
             name=`eval $cmd`
-            echo "    ${2}_${i} =\t${name}"
+            echo "    ${2}_${i} = ${name}"
         done
     }
     echo "configs:"
-    echo "    ZFTT_C_app_proj =\t$ZFTT_C_app_proj"
-    echo "    ZFTT_C_lib_proj =\t$ZFTT_C_lib_proj"
-    echo "    ZFTT_C_impl_proj =\t$ZFTT_C_impl_proj"
-    echo "    ZFTT_R_proj_name =\t$ZFTT_R_proj_name"
-    echo "    ZFTT_R_proj_name =\t$ZFTT_R_proj_name"
-    echo "    ZFTT_C_needUIKit =\t$ZFTT_C_needUIKit"
-    echo "    ZFTT_C_needUIWebKit =\t$ZFTT_C_needUIWebKit"
+    echo "    ZFTT_C_app_proj = $ZFTT_C_app_proj"
+    echo "    ZFTT_C_lib_proj = $ZFTT_C_lib_proj"
+    echo "    ZFTT_C_impl_proj = $ZFTT_C_impl_proj"
+    echo "    ZFTT_R_proj_name = $ZFTT_R_proj_name"
+    echo "    ZFTT_R_proj_name = $ZFTT_R_proj_name"
+    echo "    ZFTT_C_needUIKit = $ZFTT_C_needUIKit"
+    echo "    ZFTT_C_needUIWebKit = $ZFTT_C_needUIWebKit"
     printState "ZFTT_C_lib_require" "ZFTT_R_lib_name"
     printState "ZFTT_C_impl_require" "ZFTT_R_impl_name"
     printState "ZFTT_C_lib_ext_require" "ZFTT_R_lib_ext_name"
@@ -302,7 +312,7 @@ while ((1)) ; do
             fi
             condNameList=`echo "$exist" | sed -E 's#.*\{(ZFTT_C_[a-zA-Z_0-9]+)\}.*#\1#g'`
             for condName in $condNameList ; do
-                printf "\r%s    processing: $fileName\t$condName" $(tput el)
+                printf "\r%s    processing: $fileName $condName" $(tput el)
                 cond="echo \$$condName"
                 cond=`eval $cond`
                 if test "x-$cond" = "x-1" ; then
@@ -333,7 +343,7 @@ while ((1)) ; do
             fi
             condNameList=`echo "$exist" | sed -E 's#.*\{(ZFTT_R_[a-zA-Z_0-9]+)\}.*#\1#g'`
             for condName in $condNameList ; do
-                printf "\r%s    processing: $fileName\t$condName" $(tput el)
+                printf "\r%s    processing: $fileName $condName" $(tput el)
                 cond="echo \$$condName"
                 cond=`eval $cond`
                 cat "$f" \

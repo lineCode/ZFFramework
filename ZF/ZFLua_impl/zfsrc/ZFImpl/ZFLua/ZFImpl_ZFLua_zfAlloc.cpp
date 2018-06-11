@@ -74,14 +74,14 @@ static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
 }
 static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
 {
-    zfint count = (zfint)lua_gettop(L);
+    int count = (int)lua_gettop(L);
     if(count < 1)
     {
         ZFLuaErrorOccurredTrim(zfText("[zfAlloc] takes at least one param"));
         return ZFImpl_ZFLua_luaError(L);
     }
-    zfint paramCount = (count - 1);
-    zfint luaParamOffset = 2;
+    int paramCount = (count - 1);
+    int luaParamOffset = 2;
 
     const ZFClass *cls = zfnull;
 
@@ -137,7 +137,7 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
             , ZFMethodGenericInvokerDefaultParamHolder()
             , ZFMethodGenericInvokerDefaultParamHolder()
         };
-    for(zfint i = 0; i < paramCount; ++i)
+    for(int i = 0; i < paramCount; ++i)
     {
         if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
         {

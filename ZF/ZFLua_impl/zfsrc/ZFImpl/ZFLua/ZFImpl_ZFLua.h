@@ -125,7 +125,7 @@ extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF
 /** @brief see #ZFImpl_ZFLua_luaState */
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF_IN const zfchar **scopeNameList);
 /** @brief see #ZFImpl_ZFLua_luaState */
-extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupObject(ZF_IN_OUT lua_State *L, ZF_IN_OPT zfint objIndex = -1);
+extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupObject(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex = -1);
 
 // ============================================================
 /**
@@ -165,7 +165,7 @@ zfclassLikePOD ZF_ENV_EXPORT ZFImpl_ZFLua_ImplDispatchInfo
 {
 public:
     lua_State *L; /**< @brief the lua state */
-    zfint luaParamOffset;  /**< @brief lua offset to first method param */
+    int luaParamOffset;  /**< @brief lua offset to first method param */
     zfbool isStatic; /**< @brief whether the method called as static method */
     const zfchar *classOrNamespace; /**< @brief class or namespace text */
     const ZFClass *classOrNull; /**< @brief class if able to find */
@@ -180,7 +180,7 @@ public:
 public:
     /** @brief main constructor */
     explicit ZFImpl_ZFLua_ImplDispatchInfo(ZF_IN_OUT lua_State *L,
-                                           ZF_IN zfint luaParamOffset,
+                                           ZF_IN int luaParamOffset,
                                            ZF_IN zfbool isStatic,
                                            ZF_IN const zfchar *classOrNamespace,
                                            ZF_IN const ZFClass *classOrNull,
@@ -465,13 +465,13 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
 /** @brief see #ZFImpl_ZFLua_luaObjectInfo */
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
                                                       ZF_IN lua_State *L,
-                                                      ZF_IN zfint luaStackOffset,
+                                                      ZF_IN int luaStackOffset,
                                                       ZF_IN_OPT zfbool printLuaType = zffalse);
 /**
  * @brief get raw lua object info
  */
 inline zfstring ZFImpl_ZFLua_luaObjectInfo(ZF_IN lua_State *L,
-                                           ZF_IN zfint luaStackOffset,
+                                           ZF_IN int luaStackOffset,
                                            ZF_IN_OPT zfbool printLuaType = zffalse)
 {
     zfstring ret;
@@ -484,7 +484,7 @@ inline zfstring ZFImpl_ZFLua_luaObjectInfo(ZF_IN lua_State *L,
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
                                                   ZF_IN lua_State *L,
-                                                  ZF_IN zfint luaStackOffset);
+                                                  ZF_IN int luaStackOffset);
 
 /**
  * @brief get params from lua
@@ -498,7 +498,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
                                                    ZF_IN lua_State *L,
-                                                   ZF_IN zfint luaStackOffset);
+                                                   ZF_IN int luaStackOffset);
 /**
  * @brief try to convert to desired type id from unknown type
  */
@@ -516,7 +516,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
                                                     ZF_IN lua_State *L,
-                                                    ZF_IN zfint luaStackOffset);
+                                                    ZF_IN int luaStackOffset);
 
 /**
  * @brief get params from lua
@@ -528,7 +528,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
                                                   ZF_IN lua_State *L,
-                                                  ZF_IN zfint luaStackOffset,
+                                                  ZF_IN int luaStackOffset,
                                                   ZF_IN_OPT zfbool allowEmpty = zffalse,
                                                   ZF_OUT_OPT const ZFClass **holderCls = zfnull);
 /** @brief see #ZFImpl_ZFLua_toString */
@@ -540,7 +540,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
 /** @brief see #ZFImpl_ZFLua_toNumber */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
                                                    ZF_IN lua_State *L,
-                                                   ZF_IN zfint luaStackOffset,
+                                                   ZF_IN int luaStackOffset,
                                                    ZF_IN_OPT zfbool allowEmpty = zffalse,
                                                    ZF_OUT_OPT const ZFClass **holderCls = zfnull);
 /**
@@ -566,7 +566,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
  * if allowEmpty, a #ZFValue::intValueCreate would be returned
  */
 inline zfautoObject ZFImpl_ZFLua_toNumber(ZF_IN lua_State *L,
-                                          ZF_IN zfint luaStackOffset,
+                                          ZF_IN int luaStackOffset,
                                           ZF_IN_OPT zfbool allowEmpty = zffalse,
                                           ZF_OUT_OPT const ZFClass **holderCls = zfnull)
 {
@@ -599,7 +599,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
                                                         ZF_IN_OUT zfstring &s,
-                                                        ZF_IN_OPT zfint luaParamOffset = 0);
+                                                        ZF_IN_OPT int luaParamOffset = 0);
 
 // ============================================================
 // wrapper for impl
@@ -645,7 +645,7 @@ inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN const zfautoObject &v
     ZFImpl_ZFLua_luaPush(L, t);
 }
 /** @brief util for impl */
-inline const zfautoObject &ZFImpl_ZFLua_luaGet(ZF_IN lua_State *L, ZF_IN zfint luaStackOffset)
+inline const zfautoObject &ZFImpl_ZFLua_luaGet(ZF_IN lua_State *L, ZF_IN int luaStackOffset)
 {
     return ELuna::convert2CppType<zfautoObject const &>::convertType(L, luaStackOffset);
 }

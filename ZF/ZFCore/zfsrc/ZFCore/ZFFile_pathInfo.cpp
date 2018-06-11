@@ -32,12 +32,37 @@ zfbool ZFFilePathInfoCallbackToChildDefault(ZF_IN const zfchar *pathData,
                                             ZF_IN_OUT zfstring &pathDataChild,
                                             ZF_IN const zfchar *childName)
 {
-    if(!zfsIsEmpty(pathData))
+    if(pathData >= pathDataChild.cString() && pathData < pathDataChild.cString() + pathDataChild.length())
     {
-        pathDataChild += pathData;
-        pathDataChild += ZFFileSeparator();
+        if(pathData == pathDataChild.cString())
+        {
+            if(!pathDataChild.isEmpty())
+            {
+                pathDataChild += ZFFileSeparator();
+            }
+            pathDataChild += childName;
+        }
+        else
+        {
+            zfstring t;
+            if(!zfsIsEmpty(pathData))
+            {
+                t += pathData;
+                t += ZFFileSeparator();
+            }
+            t += childName;
+            pathDataChild = t;
+        }
     }
-    pathDataChild += childName;
+    else
+    {
+        if(!zfsIsEmpty(pathData))
+        {
+            pathDataChild += pathData;
+            pathDataChild += ZFFileSeparator();
+        }
+        pathDataChild += childName;
+    }
     ZFFilePathFormatRelative(pathDataChild);
     return zftrue;
 }

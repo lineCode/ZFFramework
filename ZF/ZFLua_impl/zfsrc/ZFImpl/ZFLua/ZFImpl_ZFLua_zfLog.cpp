@@ -34,7 +34,7 @@ static int _ZFP_ZFImpl_ZFLua_zfLogTrim(ZF_IN lua_State *L)
 
 static int _ZFP_ZFImpl_ZFLua_zfLogT(ZF_IN lua_State *L)
 {
-    zfint count = (zfint)lua_gettop(L);
+    int count = (int)lua_gettop(L);
     if(count != 0)
     {
         ZFLuaErrorOccurredTrim(
@@ -51,7 +51,7 @@ static int _ZFP_ZFImpl_ZFLua_zfLogT(ZF_IN lua_State *L)
 
 static int _ZFP_ZFImpl_ZFLua_zfLogTrimT(ZF_IN lua_State *L)
 {
-    zfint count = (zfint)lua_gettop(L);
+    int count = (int)lua_gettop(L);
     if(count != 0)
     {
         ZFLuaErrorOccurredTrim(
@@ -71,8 +71,8 @@ static void _ZFP_ZFImpl_ZFLuaPathInfoSetupCallback_zfLog(ZF_IN_OUT zfstring &ret
                                                          ZF_IN const ZFPathInfo &pathInfo)
 {
     ret += zfText(
-            "local function zfLog(fmt, ...)"
-            "    return _G['zfLog']('[' .. tostring(zfl_pathInfo()) .. '] ' .. fmt, ...);"
+            "local function zfLog(f, ...)"
+            "    return _G['zfLog']('[' .. tostring(zfl_pathInfo()) .. '] ' .. f, ...);"
             "end;"
             "local function zfLogT()"
             "    return _G['zfLogT']():log('[%s]', zfl_pathInfo());"

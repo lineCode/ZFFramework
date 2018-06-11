@@ -225,7 +225,7 @@ void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF_IN const zfchar **sc
         ZFImpl_ZFLua_execute(L, code);
     }
 }
-void ZFImpl_ZFLua_implSetupObject(ZF_IN_OUT lua_State *L, ZF_IN_OPT zfint objIndex /* = -1 */)
+void ZFImpl_ZFLua_implSetupObject(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex /* = -1 */)
 {
     ZFImpl_ZFLua_implSetupObject_metatable(L, objIndex);
 }
@@ -526,7 +526,7 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
 // utils
 void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
                                  ZF_IN lua_State *L,
-                                 ZF_IN zfint luaStackOffset,
+                                 ZF_IN int luaStackOffset,
                                  ZF_IN_OPT zfbool printLuaType /* = zffalse */)
 {
     if(printLuaType)
@@ -599,7 +599,7 @@ void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
 }
 zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
                              ZF_IN lua_State *L,
-                             ZF_IN zfint luaStackOffset)
+                             ZF_IN int luaStackOffset)
 {
     if(lua_isuserdata(L, luaStackOffset))
     {
@@ -614,7 +614,7 @@ zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
 
 zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
                               ZF_IN lua_State *L,
-                              ZF_IN zfint luaStackOffset)
+                              ZF_IN int luaStackOffset)
 {
     if(ZFImpl_ZFLua_toObject(param, L, luaStackOffset))
     {
@@ -704,7 +704,7 @@ public:
 };
 zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
                                ZF_IN lua_State *L,
-                               ZF_IN zfint luaStackOffset)
+                               ZF_IN int luaStackOffset)
 {
     if(ZFImpl_ZFLua_toObject(param, L, luaStackOffset))
     {
@@ -739,7 +739,7 @@ zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
 
 zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
                              ZF_IN lua_State *L,
-                             ZF_IN zfint luaStackOffset,
+                             ZF_IN int luaStackOffset,
                              ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
                              ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
 {
@@ -804,7 +804,7 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
 
 zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
                               ZF_IN lua_State *L,
-                              ZF_IN zfint luaStackOffset,
+                              ZF_IN int luaStackOffset,
                               ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
                               ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
 {
@@ -1001,9 +1001,9 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
 
 zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
                                    ZF_IN_OUT zfstring &s,
-                                   ZF_IN_OPT zfint luaParamOffset /* = 0 */)
+                                   ZF_IN_OPT int luaParamOffset /* = 0 */)
 {
-    zfint count = (zfint)lua_gettop(L);
+    int count = (int)lua_gettop(L);
     if(count <= luaParamOffset)
     {
         return zftrue;
@@ -1016,7 +1016,7 @@ zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
     }
 
     zfstring params[ZFMETHOD_MAX_PARAM];
-    for(zfint i = luaParamOffset + 1; i < count; ++i)
+    for(int i = luaParamOffset + 1; i < count; ++i)
     {
         zfautoObject t;
         if(ZFImpl_ZFLua_toObject(t, L, i + 1))

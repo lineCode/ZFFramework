@@ -13,7 +13,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 static int _ZFP_ZFImpl_ZFLua_zfText(ZF_IN lua_State *L)
 {
-    zfint count = (zfint)lua_gettop(L);
+    int count = (int)lua_gettop(L);
     if(count != 1)
     {
         ZFLuaErrorOccurredTrim(

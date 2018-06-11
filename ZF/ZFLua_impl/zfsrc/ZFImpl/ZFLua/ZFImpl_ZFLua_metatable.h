@@ -22,7 +22,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief setup metatable for zfautoObject in lua env
  */
-extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT zfint objIndex = -1);
+extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex = -1);
 
 ZF_NAMESPACE_GLOBAL_END
 
