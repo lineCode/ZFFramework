@@ -163,13 +163,13 @@ public:
 ZFCALLBACK_DECLARE_BEGIN(ZFListener, ZFCallback)
 public:
     /** @brief see #ZFListener */
-    inline void execute(ZF_IN const ZFListenerData &listenerData,
+    inline void execute(ZF_IN_OPT const ZFListenerData &listenerData = ZFListenerData(),
                         ZF_IN_OPT ZFObject *userData = zfnull) const
     {
         ZFCallback::executeExact<void, const ZFListenerData &, ZFObject *>(listenerData, userData);
     }
     /** @brief see #ZFListener */
-    inline void operator () (ZF_IN const ZFListenerData &listenerData,
+    inline void operator () (ZF_IN_OPT const ZFListenerData &listenerData = ZFListenerData(),
                              ZF_IN_OPT ZFObject *userData = zfnull) const
     {
         ZFCallback::executeExact<void, const ZFListenerData &, ZFObject *>(listenerData, userData);

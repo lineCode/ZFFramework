@@ -287,7 +287,6 @@ public:
      * -  for assign property, it points to (const YourPropertyType *)
      *
      * called when first time accessed, and each time setter is called
-     * @note for #ZFPropertyDynamicRegister, old property value would always null
      */
     ZFOBSERVER_EVENT(ObjectPropertyValueOnUpdate)
 

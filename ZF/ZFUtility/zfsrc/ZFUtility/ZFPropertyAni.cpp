@@ -240,13 +240,17 @@ public:
         {
             return ;
         }
+        const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
+        if(property->propertyOwnerClass() == ZFPropertyAniSetting::ClassData())
+        {
+            return ;
+        }
         const void *oldValue = listenerData.param1->to<ZFPointerHolder *>()->holdedData;
         if(oldValue == zfnull)
         {
             return ;
         }
         ZFObject *ownerObj = listenerData.sender;
-        const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
         const void *curValue = property->callbackValueGet(property, ownerObj);
         if(property->callbackCompare(property, ownerObj, curValue, oldValue) == ZFCompareTheSame
             || !property->callbackProgressUpdate(property, ownerObj, zfnull, zfnull, 1))
@@ -282,6 +286,11 @@ public:
 
         d->targets[ownerObj][property] = data;
         data.taskData->targets[ownerObj][property] = data;
+
+        // restore old value
+        ++_ZFP_ZFPropertyAniOverrideFlag;
+        property->callbackValueSet(property, ownerObj, data.from);
+        --_ZFP_ZFPropertyAniOverrideFlag;
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(objectOnDealloc)
     {
