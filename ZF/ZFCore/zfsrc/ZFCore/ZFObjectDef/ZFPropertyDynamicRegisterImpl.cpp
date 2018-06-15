@@ -506,10 +506,21 @@ static zfbool _ZFP_PropDynReg_callbackProgressUpdate(ZF_IN const ZFProperty *pro
         , param[7]
         );
     valueOld = ownerObj->tagGet(d->tagKey);
+
+    _ZFP_I_PropDynRetainHolder *retain = valueOld;
+    if(retain != zfnull)
+    {
+        // dynamic registerd retain property does not support progress update
+        // since lack of template type
+        // but you can use ZFPropertyCallbackProgressUpdateChange to supply custom progress update logic
+        // typically there's no need for retain property's progress update, though
+        return zffalse;
+    }
+
     ZFTypeIdWrapper *wrapper = valueOld;
     if(wrapper == zfnull)
     {
-        return zfnull;
+        return zffalse;
     }
     param[0] = wrapper->copy();
     if(!param[0]->to<ZFTypeIdWrapper *>()->wrappedValueProgressUpdate(from, to, progress))

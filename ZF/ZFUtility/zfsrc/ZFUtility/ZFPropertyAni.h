@@ -39,11 +39,18 @@ public:
 
 public:
     /**
-     * @brief ani duration in mili seconds, 250 by default
+     * @brief ani duration in mili seconds, 0 to use #ZFAnimationDurationDefault, 0 by default
      * @note this property would automatically copy from #instance
      *   when #ZFPropertyAniBegin
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration, 250)
+    ZFPROPERTY_ASSIGN(zftimet, aniDuration)
+    /**
+     * @brief util method to #aniDuration
+     */
+    ZFMETHOD_INLINE_0(zftimet, aniDurationFixed)
+    {
+        return (this->aniDuration() > 0 ? this->aniDuration() : ZFAnimationDurationDefault());
+    }
     /**
      * @brief ani curve, null to use linear curve, null by default
      * @note this property would automatically copy from #instance
@@ -51,7 +58,7 @@ public:
      */
     ZFPROPERTY_RETAIN(ZFTimeLineCurve *, aniCurve)
     /**
-     * @brief ani duration in mili seconds, 35 by default
+     * @brief ani update interval in mili seconds, 35 by default
      * @note this property would automatically copy from #instance
      *   when #ZFPropertyAniBegin
      */
@@ -131,6 +138,7 @@ ZFMETHOD_FUNC_DECLARE_0(zfbool, ZFPropertyAniEnd)
  */
 ZFMETHOD_FUNC_DECLARE_0(ZFPropertyAniSetting *, ZFPropertyAniState)
 
+// ============================================================
 /**
  * @brief see #ZFPropertyAniBegin
  */
@@ -147,6 +155,32 @@ public:
         ZFPropertyAniEnd();
     }
 };
+
+// ============================================================
+/**
+ * @brief util method for script to perform property animation
+ */
+ZFMETHOD_FUNC_DECLARE_8(void, ZFPropertyAni,
+                        ZFMP_IN(ZFObject *, obj),
+                        ZFMP_IN(const zfchar *, propertyName),
+                        ZFMP_IN(const zfchar *, fromValueString),
+                        ZFMP_IN(const zfchar *, toValueString),
+                        ZFMP_IN_OPT(zftimet, aniDuration, 0),
+                        ZFMP_IN_OPT(ZFTimeLineCurve *, aniCurve, zfnull),
+                        ZFMP_IN_OPT(const ZFListener &, finishListener, ZFCallbackNull()),
+                        ZFMP_IN_OPT(ZFObject *, userData, zfnull))
+/**
+ * @brief util method for script to perform property animation
+ */
+ZFMETHOD_FUNC_DECLARE_8(void, ZFPropertyAni,
+                        ZFMP_IN(ZFObject *, obj),
+                        ZFMP_IN(const zfchar *, propertyName),
+                        ZFMP_IN(ZFObject *, fromValue),
+                        ZFMP_IN(ZFObject *, toValue),
+                        ZFMP_IN_OPT(zftimet, aniDuration, 0),
+                        ZFMP_IN_OPT(ZFTimeLineCurve *, aniCurve, zfnull),
+                        ZFMP_IN_OPT(const ZFListener &, finishListener, ZFCallbackNull()),
+                        ZFMP_IN_OPT(ZFObject *, userData, zfnull))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPropertyAni_h_

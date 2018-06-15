@@ -68,7 +68,7 @@ protected:
         this->prepareSettingButton(window);
     }
 
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration, 250)
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration, 0)
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniInterval, 35)
     ZFPROPERTY_RETAIN(ZFTimeLineCurve *, aniCurve)
 private:
@@ -78,7 +78,7 @@ private:
 
         ZFUIKit_test_prepareSettingForNormalProperty(settings, this, zftimet, ZFPropertyAccess(zfself, aniDuration),
             ZFCoreArrayPODCreate(zftimet
-                , (zftimet)250
+                , (zftimet)0
                 , (zftimet)3000
                 ));
 

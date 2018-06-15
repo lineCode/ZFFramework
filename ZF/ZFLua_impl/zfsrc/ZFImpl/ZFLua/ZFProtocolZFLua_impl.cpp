@@ -26,17 +26,25 @@ public:
         ZFImpl_ZFLua_luaStateChange((lua_State *)L);
     }
 
-    virtual void luaStateList(ZF_OUT ZFCoreArrayPOD<void *> &ret)
+    virtual void luaStateList(ZF_OUT ZFCoreArray<void *> &ret)
     {
         typedef void *_T;
-        ret.addFrom((const _T *)ZFImpl_ZFLua_luaStateAttached().arrayBuf(), ZFImpl_ZFLua_luaStateAttached().count());
+        ret.addFrom((const _T *)ZFImpl_ZFLua_luaStateList().arrayBuf(), ZFImpl_ZFLua_luaStateList().count());
+    }
+
+    virtual void *luaStateOpen(void)
+    {
+        return ZFImpl_ZFLua_luaStateOpen();
+    }
+    virtual void luaStateClose(ZF_IN void *L)
+    {
+        ZFImpl_ZFLua_luaStateClose((lua_State *)L);
     }
 
     virtual void luaStateAttach(ZF_IN void *L)
     {
         ZFImpl_ZFLua_luaStateAttach((lua_State *)L);
     }
-
     virtual void luaStateDetach(ZF_IN void *L)
     {
         ZFImpl_ZFLua_luaStateDetach((lua_State *)L);
@@ -58,7 +66,7 @@ public:
         }
 
         zfstring buf;
-        ZFImpl_ZFLua_implSetupPathInfo(buf, pathInfoOrNull);
+        ZFImpl_ZFLua_implPathInfoSetup((lua_State *)L, buf, pathInfoOrNull);
         ZFInputReadToString(buf, input);
         return ZFImpl_ZFLua_execute((lua_State *)L, buf.cString(), buf.length(), luaResult, luaParams, errorHint, input.callbackId());
     }

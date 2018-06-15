@@ -13,7 +13,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define _ZFP_ZF2048GamePrivateAniDuration ZFUIGlobalStyle::DefaultStyle()->aniDurationShort()
+#define _ZFP_ZF2048GamePrivateAniDuration ZFAnimationDurationDefault()
 zfclassNotPOD _ZFP_ZF2048GamePrivate
 {
 public:

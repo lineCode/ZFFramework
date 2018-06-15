@@ -11,6 +11,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFEXPORT_VAR_DEFINE(zftimet, ZFAnimationDurationDefault, 250)
+
 // ============================================================
 zfclass _ZFP_I_ZFAnimationAniList : zfextends ZFObject
 {
@@ -95,23 +97,6 @@ void ZFAnimation::objectOnDeallocPrepare(void)
 {
     this->aniStop();
     zfsuper::objectOnDeallocPrepare();
-}
-
-zfidentity ZFAnimation::objectHash(void)
-{
-    return (zft_zfidentity)this->aniDuration();
-}
-ZFCompareResult ZFAnimation::objectCompare(ZF_IN ZFObject *anotherObj)
-{
-    if(this == anotherObj) {return ZFCompareTheSame;}
-    zfself *another = ZFCastZFObject(zfself *, anotherObj);
-    if(another == zfnull) {return ZFCompareUncomparable;}
-
-    if(this->aniDuration() == another->aniDuration())
-    {
-        return ZFCompareTheSame;
-    }
-    return ZFCompareUncomparable;
 }
 
 ZFMETHOD_DEFINE_1(ZFAnimation, void, aniTargetSet,
@@ -200,7 +185,7 @@ ZFMETHOD_DEFINE_0(ZFAnimation, zfbool, aniValid)
 }
 zfbool ZFAnimation::aniImplCheckValid(void)
 {
-    return (this->aniDuration() > 0);
+    return (this->aniDurationFixed() > 0);
 }
 
 void ZFAnimation::_ZFP_ZFAnimation_aniImplDelayNotifyFinish(ZF_IN zfidentity taskId)
@@ -275,7 +260,7 @@ void ZFAnimation::aniImplStart(void)
     if(this->classData() == ZFAnimation::ClassData())
     {
         d->aniDummyThreadId = ZFThreadExecuteInMainThreadAfterDelay(
-            this->aniDuration(),
+            this->aniDurationFixed(),
             ZF_GLOBAL_INITIALIZER_INSTANCE(ZFAnimationTaskHolder)->dummyOnFinishListener,
             this->objectHolder());
     }

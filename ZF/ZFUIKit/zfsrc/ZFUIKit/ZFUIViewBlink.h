@@ -36,8 +36,8 @@ public:
     /** @brief image to blink, null to use default */
     ZFCORE_PARAM(ZFUIImage *, blinkImage)
 
-    /** @brief duration to blink, #ZFUIGlobalStyle::aniDurationNormal by default */
-    ZFCORE_PARAM_WITH_INIT(zftimet, blinkDuration, ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal())
+    /** @brief duration to blink, 0 to use #ZFAnimationDurationDefault, 0 by default */
+    ZFCORE_PARAM(zftimet, blinkDuration)
     /** @brief blink count, 1 by default */
     ZFCORE_PARAM_WITH_INIT(zfindex, blinkCount, 1)
 
@@ -70,7 +70,7 @@ ZFMETHOD_FUNC_DECLARE_2(void, ZFUIViewBlink,
 ZFMETHOD_FUNC_DECLARE_INLINE_4(void, ZFUIViewBlink,
                                ZFMP_IN(ZFUIView *, view),
                                ZFMP_IN(ZFUIImage *, blinkImage),
-                               ZFMP_IN_OPT(zftimet, blinkDuration, ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal()),
+                               ZFMP_IN_OPT(zftimet, blinkDuration, zftimetZero()),
                                ZFMP_IN_OPT(zfindex, blinkCount, 1))
 {
     ZFUIViewBlink(view, ZFUIViewBlinkParam()

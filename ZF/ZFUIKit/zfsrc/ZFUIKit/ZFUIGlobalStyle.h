@@ -187,34 +187,6 @@ public:
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textColorLinkVisited, ZFUIColorMagenta())
 
     // ============================================================
-    // animations
-    /**
-     * @brief short animation delay in miliseconds
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDelayShort, 100)
-    /**
-     * @brief normal animation delay in miliseconds
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDelayNormal, 250)
-    /**
-     * @brief long animation delay in miliseconds
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDelayLong, 500)
-
-    /**
-     * @brief short animation duration in miliseconds
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDurationShort, 100)
-    /**
-     * @brief normal animation duration in miliseconds
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDurationNormal, 250)
-    /**
-     * @brief long animation duration in miliseconds
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDurationLong, 500)
-
-    // ============================================================
     // control
     /**
      * @brief normal control color

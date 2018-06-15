@@ -18,6 +18,11 @@
 #include "ZFUtilityDef.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+/**
+ * @brief global default animation duration, 250 by default
+ */
+ZFEXPORT_VAR_DECLARE(zftimet, ZFAnimationDurationDefault)
+
 // ============================================================
 zfclassFwd _ZFP_ZFAnimationPrivate;
 /**
@@ -74,12 +79,6 @@ protected:
     zfoverride
     virtual void objectOnDeallocPrepare(void);
 
-public:
-    zfoverride
-    virtual zfidentity objectHash(void);
-    zfoverride
-    virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
-
     // ============================================================
     // property
 public:
@@ -88,10 +87,16 @@ public:
      */
     ZFPROPERTY_ASSIGN(zftimet, aniDelay)
     /**
-     * @brief animation's duration in miliseconds, 250 by default
+     * @brief animation's duration in miliseconds, 0 to use #ZFAnimationDurationDefault, 0 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration,
-                                250)
+    ZFPROPERTY_ASSIGN(zftimet, aniDuration)
+    /**
+     * @brief util method to #aniDuration
+     */
+    ZFMETHOD_INLINE_0(zftimet, aniDurationFixed)
+    {
+        return (this->aniDuration() > 0 ? this->aniDuration() : ZFAnimationDurationDefault());
+    }
     /**
      * @brief whether automatically stop previous animation attached to #aniTarget,
      *   false by default

@@ -116,10 +116,6 @@ ZFEXPORT_VAR_READONLY_ALIAS_DECLARE(ZFListener, ZFThreadTaskRequestMergeCallback
  * to disable merge, set taskRequestDataMerged to null, and old/new task would be scheduled separately\n
  * or, you may use the pre-defined callbacks such as #ZFThreadTaskRequestMergeCallbackDoNotMerge
  */
-ZFMETHOD_FUNC_DECLARE_2(zfidentity, ZFThreadTaskRequest,
-                        ZFMP_IN(ZFThreadTaskRequestData *, taskRequestData),
-                        ZFMP_IN_OPT(const ZFListener &, mergeCallback, ZFThreadTaskRequestMergeCallbackDefault()))
-/** @brief see #ZFThreadTaskRequest */
 ZFMETHOD_FUNC_DECLARE_6(zfidentity, ZFThreadTaskRequest,
                         ZFMP_IN(const ZFListener &, taskCallback),
                         ZFMP_IN_OPT(ZFObject *, taskUserData, zfnull),
@@ -127,6 +123,10 @@ ZFMETHOD_FUNC_DECLARE_6(zfidentity, ZFThreadTaskRequest,
                         ZFMP_IN_OPT(ZFObject *, taskParam1, zfnull),
                         ZFMP_IN_OPT(ZFObject *, taskOwner, zfnull),
                         ZFMP_IN_OPT(const ZFListener &, taskMergeCallback, ZFThreadTaskRequestMergeCallbackDefault()))
+/** @brief see #ZFThreadTaskRequest */
+ZFMETHOD_FUNC_DECLARE_2(zfidentity, ZFThreadTaskRequest,
+                        ZFMP_IN(ZFThreadTaskRequestData *, taskRequestData),
+                        ZFMP_IN_OPT(const ZFListener &, mergeCallback, ZFThreadTaskRequestMergeCallbackDefault()))
 /**
  * @brief see #ZFThreadTaskRequest
  */

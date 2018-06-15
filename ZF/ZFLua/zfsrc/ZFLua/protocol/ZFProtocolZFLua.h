@@ -32,12 +32,16 @@ public:
     /** @brief see #ZFLuaStateChange */
     virtual void luaStateChange(ZF_IN void *L) zfpurevirtual;
 
-    /** @brief see #ZFLuaStateAttached */
-    virtual void luaStateList(ZF_OUT ZFCoreArrayPOD<void *> &ret) zfpurevirtual;
+    /** @brief see #ZFLuaStateListT */
+    virtual void luaStateList(ZF_OUT ZFCoreArray<void *> &ret) zfpurevirtual;
+
+    /** @brief see #ZFLuaStateAttach */
+    virtual void *luaStateOpen(void) zfpurevirtual;
+    /** @brief see #ZFLuaStateAttach */
+    virtual void luaStateClose(ZF_IN void *L) zfpurevirtual;
 
     /** @brief see #ZFLuaStateAttach */
     virtual void luaStateAttach(ZF_IN void *L) zfpurevirtual;
-
     /** @brief see #ZFLuaStateDetach */
     virtual void luaStateDetach(ZF_IN void *L) zfpurevirtual;
 

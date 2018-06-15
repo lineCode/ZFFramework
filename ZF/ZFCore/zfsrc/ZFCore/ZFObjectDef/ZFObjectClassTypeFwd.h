@@ -131,15 +131,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
             paramName##_ZFCoreParam &operator = (ZF_IN const paramName##_ZFCoreParam &ref); \
         public: \
             T_ParamType value; \
-        public: \
-            inline const zfcharA *_callerFile(void) const \
-            { \
-                return ZF_CALLER_FILE; \
-            } \
-            inline zfuint _callerLine(void) const \
-            { \
-                return ZF_CALLER_LINE; \
-            } \
         }; \
         paramName##_ZFCoreParam paramName##_; \
         /** @endcond */ \

@@ -145,6 +145,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   -  `zfText('lua string')`\n
  *     same as `zfstring('lua string')`
  * -  path info
+ *   -  `zfl_L()`\n
+ *     lua_State of current chunk, stored as #v_VoidPointer
  *   -  `zfl_pathInfo()`\n
  *     return path info of current context, null if not available
  *   -  `ZFLuaImport(localFilePath [, param0, param1, ...])`
@@ -181,19 +183,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  all types would be registered automatically,
  * -  for dynamically loaded library, all types would also be registered normally,
  *   however, won't be automatically unregistered when unloaded
- *
- * @note this method should not be called inside lua code,
- *   unless you specified proper lua state (L),
- *   for lua code, use `ZFLuaImport` is recommended
  */
 ZFMETHOD_FUNC_DECLARE_3(zfautoObject, ZFLuaExecute,
                         ZFMP_IN(const ZFInput &, input),
                         ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                         ZFMP_IN_OPT(void *, L, zfnull))
 /** @brief see #ZFLuaExecute */
-ZFMETHOD_FUNC_DECLARE_4(zfautoObject, ZFLuaExecute,
+ZFMETHOD_FUNC_DECLARE_3(zfautoObject, ZFLuaExecute,
                         ZFMP_IN(const zfchar *, buf),
-                        ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
                         ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                         ZFMP_IN_OPT(void *, L, zfnull))
 

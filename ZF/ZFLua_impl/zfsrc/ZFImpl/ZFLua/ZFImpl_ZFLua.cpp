@@ -19,16 +19,16 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFImpl_ZFLua_luaStateHolder, ZFLevelAppEssential)
 {
-    L = ZFImpl_ZFLua_luaOpen();
+    L = (lua_State *)ZFLuaStateOpen();
     this->builtinLuaEnv = zftrue;
-    ZFImpl_ZFLua_luaStateAttach(L);
+    ZFLuaStateAttach(L);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFImpl_ZFLua_luaStateHolder)
 {
-    ZFImpl_ZFLua_luaStateDetach(L);
+    ZFLuaStateDetach(L);
     if(this->builtinLuaEnv)
     {
-        ZFImpl_ZFLua_luaClose(L);
+        ZFLuaStateClose(L);
     }
 }
 lua_State *L;
@@ -49,14 +49,23 @@ void ZFImpl_ZFLua_luaStateChange(ZF_IN lua_State *L)
         return ;
     }
 
-    ZFImpl_ZFLua_luaStateDetach(d->L);
+    ZFLuaStateDetach(d->L);
     if(d->builtinLuaEnv)
     {
         d->builtinLuaEnv = zffalse;
-        ZFImpl_ZFLua_luaClose(d->L);
+        ZFLuaStateClose(d->L);
     }
     d->L = L;
-    ZFImpl_ZFLua_luaStateAttach(d->L);
+    ZFLuaStateAttach(d->L);
+}
+
+void *ZFImpl_ZFLua_luaStateOpen(void)
+{
+    return ZFImpl_ZFLua_luaOpen();
+}
+void ZFImpl_ZFLua_luaStateClose(ZF_IN lua_State *L)
+{
+    ZFImpl_ZFLua_luaClose(L);
 }
 
 // ============================================================
@@ -119,6 +128,20 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
             "zffalse = _ZFP_ZFImpl_ZFLua_zffalse()\n"
         ));
 
+    // zfl_L
+    zfclassNotPOD _ZFP_ZFImpl_ZFLua_LHolder
+    {
+    public:
+        static int f(ZF_IN lua_State *L)
+        {
+            zfblockedAlloc(v_VoidPointer, ret, (void *)L);
+            zfautoObject tmp = ret;
+            ZFImpl_ZFLua_luaPush(L, tmp);
+            return 1;
+        }
+    };
+    ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfl_L"), _ZFP_ZFImpl_ZFLua_LHolder::f);
+
     // zfl_call metatable
     ZFImpl_ZFLua_execute(L, zfText(
             "_ZFP_zfl_call = function(scope, k)\n"
@@ -157,7 +180,11 @@ void ZFImpl_ZFLua_luaStateDetach(ZF_IN lua_State *L)
     d->attachedState.erase(L);
     d->attachedStateList.removeElement(L);
 }
-const ZFCoreArrayPOD<lua_State *> &ZFImpl_ZFLua_luaStateAttached(void)
+void ZFImpl_ZFLua_luaStateListT(ZF_IN_OUT ZFCoreArray<lua_State *> &ret)
+{
+    ret.addFrom(ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_luaStateGlobalHolder)->attachedStateList);
+}
+const ZFCoreArrayPOD<lua_State *> &ZFImpl_ZFLua_luaStateList(void)
 {
     return ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_luaStateGlobalHolder)->attachedStateList;
 }
@@ -700,6 +727,13 @@ public:
 
             lua_pcall(L, 2, 0, 0);
         }
+    }
+protected:
+    zfoverride
+    virtual void objectOnDeallocPrepare(void)
+    {
+        luaL_unref(L, LUA_REGISTRYINDEX, luaFunc);
+        zfsuper::objectOnDeallocPrepare();
     }
 };
 zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,

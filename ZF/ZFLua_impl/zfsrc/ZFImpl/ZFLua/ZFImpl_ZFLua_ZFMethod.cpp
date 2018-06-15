@@ -39,7 +39,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange)
     {
         if(data->changedMethod->methodIsFunctionType())
         {
-            const ZFCoreArrayPOD<lua_State *> &luaStateList = ZFImpl_ZFLua_luaStateAttached();
+            const ZFCoreArrayPOD<lua_State *> &luaStateList = ZFImpl_ZFLua_luaStateList();
             for(zfindex i = 0; i < luaStateList.count(); ++i)
             {
                 ZFImpl_ZFLua_implSetupScope(luaStateList[i], data->changedMethod->methodNamespace());

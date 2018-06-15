@@ -95,10 +95,10 @@ public:
 
 public:
     /**
-     * @brief default duration between each frame, 10 by default
+     * @brief default duration between each frame, 35 by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniFrameDurationDefault,
-                                10)
+                                35)
 
     /**
      * @brief whether keep previous state when start animating, true by default

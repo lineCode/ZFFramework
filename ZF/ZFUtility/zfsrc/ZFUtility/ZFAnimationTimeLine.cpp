@@ -25,14 +25,14 @@ public:
     ZFLISTENER_INLINE(timerOnEvent)
     {
         zffloat progress = zfmApplyRange(
-            (zffloat)(ZFTime::timestamp() - this->timeStart) / this->pimplOwner->aniDuration()
+            (zffloat)(ZFTime::timestamp() - this->timeStart) / this->pimplOwner->aniDurationFixed()
             , (zffloat)0, (zffloat)1);
         if(this->pimplOwner->aniTimeLineCurve() != zfnull)
         {
             progress = this->pimplOwner->aniTimeLineCurve()->progressUpdate(progress);
         }
         this->pimplOwner->aniTimeLineOnUpdate(progress);
-        if(ZFTime::timestamp() - this->timeStart >= this->pimplOwner->aniDuration())
+        if(ZFTime::timestamp() - this->timeStart >= this->pimplOwner->aniDurationFixed())
         {
             this->timer->timerStop();
             this->pimplOwner->aniImplNotifyStop();
@@ -104,9 +104,9 @@ void ZFAnimationTimeLine::aniImplStart(void)
 {
     zfsuper::aniImplStart();
     d->timeStart = ZFTime::timestamp();
-    if(this->aniDuration() < this->aniTimeLineInterval())
+    if(this->aniDurationFixed() < this->aniTimeLineInterval())
     {
-        d->timer->timerIntervalSet(this->aniDuration());
+        d->timer->timerIntervalSet(this->aniDurationFixed());
     }
     else
     {

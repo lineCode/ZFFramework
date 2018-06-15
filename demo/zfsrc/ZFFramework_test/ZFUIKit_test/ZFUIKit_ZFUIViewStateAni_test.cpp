@@ -84,7 +84,7 @@ private:
 
         ZFUIKit_test_prepareSettingForNormalProperty(settings, ZFUIViewStateAniSettingForMove::instance(), zftimet, ZFPropertyAccess(ZFUIViewStateAniSettingForMove, aniDuration),
             ZFCoreArrayPODCreate(zftimet
-                , (zftimet)250
+                , (zftimet)0
                 , (zftimet)3000
                 ));
 

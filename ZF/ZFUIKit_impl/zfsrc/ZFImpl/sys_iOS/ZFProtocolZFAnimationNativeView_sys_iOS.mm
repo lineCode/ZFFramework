@@ -85,7 +85,7 @@
             nativeCurve = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
             break;
     }
-    NSTimeInterval nativeDuration = (NSTimeInterval)self.ownerAni->aniDuration() / 1000;
+    NSTimeInterval nativeDuration = (NSTimeInterval)self.ownerAni->aniDurationFixed() / 1000;
     NSMutableArray *nativeAnimations = [NSMutableArray array];
 
     {

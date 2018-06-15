@@ -48,9 +48,9 @@ zfclass ZF_ENV_EXPORT ZFUIViewStateAniSettingForAlpha : zfextends ZFStyleableObj
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, aniToleranceY, ZFUIGlobalStyle::DefaultStyle()->itemSpace())
     /**
-     * @brief ani duration, #ZFUIGlobalStyle::aniDurationLong by default
+     * @brief ani duration, 0 to use #ZFAnimationDurationDefault, 0 by default
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, aniDuration, ZFUIGlobalStyle::DefaultStyle()->aniDurationLong())
+    ZFPROPERTY_ASSIGN(zftimet, aniDuration)
     /**
      * @brief ani curve, #ZFAnimationNativeViewCurve::e_EaseOut by default
      */

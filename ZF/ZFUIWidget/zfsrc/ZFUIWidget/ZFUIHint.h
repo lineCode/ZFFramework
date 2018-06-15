@@ -102,11 +102,16 @@ public:
      */
     ZFPROPERTY_RETAIN(ZFAnimation *, hintAniShow)
     /**
-     * @brief hint duration in miliseconds, #ZFUIHintDurationDefault by default
+     * @brief hint duration in miliseconds, 0 to use #ZFUIHintDurationDefault, 0 by default
      *
      * @note show and hide animation won't be included in #hintDuration
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, hintDuration, ZFUIHintDurationDefault())
+    ZFPROPERTY_ASSIGN(zftimet, hintDuration)
+    /** @brief util method to #hintDuration */
+    ZFMETHOD_INLINE_0(zftimet, hintDurationFixed)
+    {
+        return (this->hintDuration() > 0 ? this->hintDuration() : ZFUIHintDurationDefault());
+    }
     /**
      * @brief the animation to hide the hint, null by default
      */

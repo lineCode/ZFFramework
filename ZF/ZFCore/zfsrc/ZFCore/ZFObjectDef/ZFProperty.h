@@ -525,12 +525,12 @@ inline zfbool _ZFP_propCbDProgressUpdate(ZF_IN const ZFProperty *property,
 {
     if(from == zfnull)
     {
-        return _ZFP_ZFPropertyProgressHolder<T_PropHT>::update();
+        return _ZFP_ZFPropertyProgressHolder<T_PropVT>::update();
     }
     else
     {
         T_PropHT v = T_PropHT();
-        if(_ZFP_ZFPropertyProgressHolder<T_PropHT>::update(&v, from, to, progress))
+        if(_ZFP_ZFPropertyProgressHolder<T_PropVT>::update(&v, from, to, progress))
         {
             property->setterMethod()->_ZFP_execute<void, T_PropVT const &>(ownerObj, v);
             return zftrue;

@@ -282,9 +282,9 @@ public:
             return ret;
         }
     }
-    void aniByPointStart(ZF_IN zfint stopPos, ZF_IN_OPT zftimet duration = (zftimet)-1)
+    void aniByPointStart(ZF_IN zfint stopPos, ZF_IN_OPT zftimet duration = zftimetZero())
     {
-        if(duration < 0)
+        if(duration <= 0)
         {
             duration = this->aniByPointDurationForOffset(stopPos - this->contentOffset);
         }

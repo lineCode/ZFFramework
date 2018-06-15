@@ -12,6 +12,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+#define _ZFP_ZFImpl_ZFLua_zfLog_DEBUG_ENABLE ZF_ENV_DEBUG
+
 static int _ZFP_ZFImpl_ZFLua_zfLog(ZF_IN lua_State *L)
 {
     zfstring s;
@@ -67,28 +69,37 @@ static int _ZFP_ZFImpl_ZFLua_zfLogTrimT(ZF_IN lua_State *L)
 }
 
 // ============================================================
-static void _ZFP_ZFImpl_ZFLuaPathInfoSetupCallback_zfLog(ZF_IN_OUT zfstring &ret,
-                                                         ZF_IN const ZFPathInfo &pathInfo)
-{
-    ret += zfText(
-            "local function zfLog(f, ...)"
-            "    return _G['zfLog']('[' .. tostring(zfl_pathInfo()) .. '] ' .. f, ...);"
-            "end;"
-            "local function zfLogT()"
-            "    return _G['zfLogT']():log('[%s]', zfl_pathInfo());"
-            "end;"
-        );
-}
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfLog, {
         ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLog"), _ZFP_ZFImpl_ZFLua_zfLog);
         ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLogTrim"), _ZFP_ZFImpl_ZFLua_zfLogTrim);
         ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLogT"), _ZFP_ZFImpl_ZFLua_zfLogT);
         ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLogTrimT"), _ZFP_ZFImpl_ZFLua_zfLogTrimT);
-
-        ZFImpl_ZFLuaPathInfoSetupCallbackAdd(_ZFP_ZFImpl_ZFLuaPathInfoSetupCallback_zfLog);
     }, {
-        ZFImpl_ZFLuaPathInfoSetupCallbackRemove(_ZFP_ZFImpl_ZFLuaPathInfoSetupCallback_zfLog);
     })
+
+#if _ZFP_ZFImpl_ZFLua_zfLog_DEBUG_ENABLE
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLog, zfText(
+            "function (f, ...)"
+            "    return _G['zfLog']('[' .. tostring(zfl_l) .. ' (' .. debug.getinfo(2).currentline .. ')] ' .. (f or ''), ...);"
+            "end"
+        ))
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLogT, zfText(
+            "function ()"
+            "    return _G['zfLogT']():log('[%s (%s)]', zfl_l, zfint(debug.getinfo(2).currentline));"
+            "end"
+        ))
+#else
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLog, zfText(
+            "function (f, ...)"
+            "    return _G['zfLog']('[' .. tostring(zfl_l) .. '] ' .. (f or ''), ...);"
+            "end"
+        ))
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLogT, zfText(
+            "function ()"
+            "    return _G['zfLogT']():log('[%s]', zfl_l);"
+            "end"
+        ))
+#endif
 
 ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->className(), zfText("log"), {
         ZFImpl_ZFLua_implDispatch_AssertClassExist();
@@ -102,7 +113,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNam
         if(!ZFImpl_ZFLua_toString(fmt, dispatchInfo.paramList[0], zftrue))
         {
             return dispatchInfo.dispatchError(
-                zfText("unable to accss fmt from: %s"),
+                zfText("[zfLogT::log] unable to accss fmt from: %s"),
                 ZFObjectInfo(dispatchInfo.paramList[0]).cString());
         }
         ZFOutput output = ZFCastZFObject(v_ZFCallback *, dispatchInfo.objectOrNull)->zfv;

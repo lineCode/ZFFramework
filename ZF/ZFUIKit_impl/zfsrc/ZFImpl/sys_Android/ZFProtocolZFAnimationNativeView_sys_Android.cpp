@@ -118,7 +118,7 @@ private:
         JNIUtilCallStaticVoidMethod(jniEnv, this->jclsOwner, jmId
             , nativeAnimation
             , (jint)ani->aniCurve()
-            , (jint)ani->aniDuration()
+            , (jint)ani->aniDurationFixed()
             );
 
         // ============================================================

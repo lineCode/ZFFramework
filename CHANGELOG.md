@@ -1,7 +1,8 @@
 # master
 
-* optimize lua implicit conversion
 * optimize dynamic register impl
+* optimize lua implicit conversion
+* optimize lua path info impl
 * formalize api names
 
 # 0.3.0

@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFLuaExecute.h"
 #include "ZFLuaState.h"
+#include "ZFLuaGC.h"
 #include "protocol/ZFProtocolZFLua.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -47,6 +48,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
     zfautoObject ret;
     if(_ZFP_ZFLuaExecute(input.pathInfo(), input, &ret, luaParams, L))
     {
+        ZFLuaGC(L);
         return ret;
     }
     else
@@ -55,15 +57,15 @@ ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
     }
 }
 
-ZFMETHOD_FUNC_DEFINE_4(zfautoObject, ZFLuaExecute,
+ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
                        ZFMP_IN(const zfchar *, buf),
-                       ZFMP_IN_OPT(zfindex, bufLen, zfindexMax()),
                        ZFMP_IN_OPT(const ZFCoreArray<zfautoObject> *, luaParams, zfnull),
                        ZFMP_IN_OPT(void *, L, zfnull))
 {
     zfautoObject ret;
-    if(_ZFP_ZFLuaExecute(zfnull, ZFInputForBuffer(buf, bufLen), &ret, luaParams, L))
+    if(_ZFP_ZFLuaExecute(zfnull, ZFInputForBuffer(buf), &ret, luaParams, L))
     {
+        ZFLuaGC(L);
         return ret;
     }
     else

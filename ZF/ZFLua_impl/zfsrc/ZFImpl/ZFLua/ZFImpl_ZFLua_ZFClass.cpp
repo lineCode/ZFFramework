@@ -17,7 +17,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange)
     const ZFClassDataChangeData *data = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
     if(data->changedClass != zfnull && data->changeType == ZFClassDataChangeTypeAttach)
     {
-        const ZFCoreArrayPOD<lua_State *> &luaStateList = ZFImpl_ZFLua_luaStateAttached();
+        const ZFCoreArrayPOD<lua_State *> &luaStateList = ZFImpl_ZFLua_luaStateList();
         for(zfindex i = 0; i < luaStateList.count(); ++i)
         {
             ZFImpl_ZFLua_implSetupScope(luaStateList[i], data->changedClass->className());

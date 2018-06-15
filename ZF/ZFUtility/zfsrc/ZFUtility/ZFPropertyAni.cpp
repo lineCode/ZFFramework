@@ -91,7 +91,7 @@ public:
         for(zfindex i = 0; i < this->tasks.count(); ++i)
         {
             _ZFP_I_ZFPropertyAniTaskData *taskData = this->tasks[i];
-            taskData->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
+            taskData->setting->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
             zfRelease(taskData);
         }
         this->tasks.removeAll();
@@ -100,7 +100,7 @@ public:
         {
             _ZFP_I_ZFPropertyAniTaskData *taskData = this->tasksRunning[i];
             taskData->updateTimer->timerStop();
-            taskData->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
+            taskData->setting->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
             zfRelease(taskData);
         }
         this->tasksRunning.removeAll();
@@ -130,7 +130,7 @@ public:
         _ZFP_ZFPropertyAniProcessFlag = zftrue;
         _ZFP_I_ZFPropertyAniTaskData *taskData = userData->objectHolded();
         zftimet curTime = ZFTime::timestamp();
-        zffloat progress = (zffloat)(curTime - taskData->startTime) / taskData->setting->aniDuration();
+        zffloat progress = (zffloat)(curTime - taskData->startTime) / taskData->setting->aniDurationFixed();
         zfbool finished = zffalse;
         if(progress < 0 || progress > 1)
         {
@@ -151,7 +151,7 @@ public:
             ZF_GLOBAL_INITIALIZER_CLASS(ZFPropertyAniDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFPropertyAniDataHolder);
             d->tasksRunning.removeElement(taskData);
             _ZFP_ZFPropertyAniProcessFlag = zffalse;
-            taskData->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
+            taskData->setting->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
             zfRelease(taskData);
         }
         else
@@ -229,7 +229,7 @@ public:
         {
             d->tasksRunning.removeElement(taskData);
             taskData->updateTimer->timerStop();
-            taskData->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
+            taskData->setting->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
             zfRelease(taskData);
         }
         --_ZFP_ZFPropertyAniOverrideFlag;
@@ -320,7 +320,7 @@ public:
                 {
                     taskData->updateTimer->timerStop();
                     d->tasksRunning.removeElement(taskData);
-                    taskData->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
+                    taskData->setting->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
                     zfRelease(taskData);
                 }
             }
@@ -392,7 +392,7 @@ ZFMETHOD_FUNC_DEFINE_0(zfbool, ZFPropertyAniEnd)
 
     if(!ret)
     {
-        taskData->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
+        taskData->setting->observerNotify(ZFPropertyAniSetting::EventPropertyAniOnStop());
         zfRelease(taskData);
     }
     return ret;
@@ -408,6 +408,178 @@ ZFMETHOD_FUNC_DEFINE_0(ZFPropertyAniSetting *, ZFPropertyAniState)
     else
     {
         return d->tasks.getLast()->setting;
+    }
+}
+
+// ============================================================
+static const ZFProperty *_ZFP_ZFPropertyAniPrepare(ZF_IN ZFObject *obj,
+                                                   ZF_IN const zfchar *propertyName)
+{
+    if(obj == zfnull)
+    {
+        return zfnull;
+    }
+    const ZFProperty *property = obj->classData()->propertyForName(propertyName);
+    if(property == zfnull
+        || property->setterMethod()->methodPrivilegeType() != ZFMethodPrivilegeTypePublic
+        || !property->callbackProgressUpdate(property, obj, zfnull, zfnull, 0))
+    {
+        return zfnull;
+    }
+    return property;
+}
+ZFMETHOD_FUNC_DEFINE_8(void, ZFPropertyAni,
+                       ZFMP_IN(ZFObject *, obj),
+                       ZFMP_IN(const zfchar *, propertyName),
+                       ZFMP_IN(const zfchar *, fromValueString),
+                       ZFMP_IN(const zfchar *, toValueString),
+                       ZFMP_IN_OPT(zftimet, aniDuration, 0),
+                       ZFMP_IN_OPT(ZFTimeLineCurve *, aniCurve, zfnull),
+                       ZFMP_IN_OPT(const ZFListener &, finishListener, ZFCallbackNull()),
+                       ZFMP_IN_OPT(ZFObject *, userData, zfnull))
+{
+    const ZFProperty *property = _ZFP_ZFPropertyAniPrepare(obj, propertyName);
+    if(property == zfnull)
+    {
+        return ;
+    }
+    zfautoObject fromValue;
+    zfautoObject toValue;
+    if(property->propertyIsRetainProperty())
+    {
+        if(!ZFObjectFromString(fromValue, fromValueString)
+            || !ZFObjectFromString(toValue, toValueString))
+        {
+            return ;
+        }
+        if(fromValue != zfnull && !fromValue->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        {
+            return ;
+        }
+        if(toValue != zfnull && !toValue->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        {
+            return ;
+        }
+        property->callbackValueSet(property, obj, &fromValue);
+    }
+    else
+    {
+        const ZFTypeIdBase *typeId = ZFTypeIdGet(property->propertyTypeId());
+        if(typeId == zfnull)
+        {
+            return ;
+        }
+        if(!typeId->typeIdWrapper(fromValue)
+            || !typeId->typeIdWrapper(toValue))
+        {
+            return ;
+        }
+        ZFTypeIdWrapper *fromValueWrapper = fromValue;
+        ZFTypeIdWrapper *toValueWrapper = toValue;
+        if(fromValueWrapper == zfnull || toValueWrapper == zfnull)
+        {
+            return ;
+        }
+        if(!fromValueWrapper->wrappedValueFromString(fromValueString)
+            || !toValueWrapper->wrappedValueFromString(toValueString))
+        {
+            return ;
+        }
+        property->callbackValueSet(property, obj, fromValueWrapper->wrappedValue());
+    }
+
+    ZFPropertyAniBlock(setting);
+    setting->aniDurationSet(aniDuration);
+    setting->aniCurveSet(aniCurve);
+    if(finishListener.callbackIsValid())
+    {
+        setting->observerAdd(ZFObserverAddParam()
+                .eventIdSet(ZFPropertyAniSetting::EventPropertyAniOnStop())
+                .observerSet(finishListener)
+                .userDataSet(userData)
+                .autoRemoveAfterActivateSet(zftrue)
+            );
+    }
+
+    if(property->propertyIsRetainProperty())
+    {
+        property->callbackValueSet(property, obj, &toValue);
+    }
+    else
+    {
+        ZFTypeIdWrapper *toValueWrapper = toValue;
+        property->callbackValueSet(property, obj, toValueWrapper->wrappedValue());
+    }
+}
+ZFMETHOD_FUNC_DEFINE_8(void, ZFPropertyAni,
+                       ZFMP_IN(ZFObject *, obj),
+                       ZFMP_IN(const zfchar *, propertyName),
+                       ZFMP_IN(ZFObject *, fromValue),
+                       ZFMP_IN(ZFObject *, toValue),
+                       ZFMP_IN_OPT(zftimet, aniDuration, 0),
+                       ZFMP_IN_OPT(ZFTimeLineCurve *, aniCurve, zfnull),
+                       ZFMP_IN_OPT(const ZFListener &, finishListener, ZFCallbackNull()),
+                       ZFMP_IN_OPT(ZFObject *, userData, zfnull))
+{
+    const ZFProperty *property = _ZFP_ZFPropertyAniPrepare(obj, propertyName);
+    if(property == zfnull)
+    {
+        return ;
+    }
+    if(property->propertyIsRetainProperty())
+    {
+        if(fromValue != zfnull && !fromValue->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        {
+            return ;
+        }
+        if(toValue != zfnull && !toValue->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        {
+            return ;
+        }
+        zfautoObject fromValueHolder = fromValue;
+        property->callbackValueSet(property, obj, &fromValueHolder);
+    }
+    else
+    {
+        const ZFTypeIdBase *typeId = ZFTypeIdGet(property->propertyTypeId());
+        if(typeId == zfnull)
+        {
+            return ;
+        }
+        ZFTypeIdWrapper *fromValueWrapper = ZFCastZFObject(ZFTypeIdWrapper *, fromValue);
+        ZFTypeIdWrapper *toValueWrapper = ZFCastZFObject(ZFTypeIdWrapper *, toValue);
+        if(fromValueWrapper == zfnull || toValueWrapper == zfnull
+            || !zfscmpTheSame(fromValueWrapper->wrappedValueTypeId(), typeId->typeId())
+            || !zfscmpTheSame(toValueWrapper->wrappedValueTypeId(), typeId->typeId())
+            )
+        {
+            return ;
+        }
+        property->callbackValueSet(property, obj, fromValueWrapper->wrappedValue());
+    }
+
+    ZFPropertyAniBlock(setting);
+    setting->aniDurationSet(aniDuration);
+    setting->aniCurveSet(aniCurve);
+    if(finishListener.callbackIsValid())
+    {
+        setting->observerAdd(ZFObserverAddParam()
+                .eventIdSet(ZFPropertyAniSetting::EventPropertyAniOnStop())
+                .observerSet(finishListener)
+                .userDataSet(userData)
+                .autoRemoveAfterActivateSet(zftrue)
+            );
+    }
+
+    if(property->propertyIsRetainProperty())
+    {
+        zfautoObject toValueHolder = toValue;
+        property->callbackValueSet(property, obj, &toValueHolder);
+    }
+    else
+    {
+        ZFTypeIdWrapper *toValueWrapper = ZFCastZFObject(ZFTypeIdWrapper *, toValue);
+        property->callbackValueSet(property, obj, toValueWrapper->wrappedValue());
     }
 }
 

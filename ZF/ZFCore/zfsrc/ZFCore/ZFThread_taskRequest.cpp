@@ -150,6 +150,22 @@ ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(ZFListener, ZFThreadTaskRequestMergeCallba
 ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(ZFListener, ZFThreadTaskRequestMergeCallbackDoNotMerge, ZFThreadTaskRequestMergeCallbackDoNotMerge())
 ZFEXPORT_VAR_READONLY_ALIAS_DEFINE(ZFListener, ZFThreadTaskRequestMergeCallbackDefault, ZFThreadTaskRequestMergeCallbackIgnoreOldTask)
 
+ZFMETHOD_FUNC_DEFINE_6(zfidentity, ZFThreadTaskRequest,
+                       ZFMP_IN(const ZFListener &, taskCallback),
+                       ZFMP_IN_OPT(ZFObject *, taskUserData, zfnull),
+                       ZFMP_IN_OPT(ZFObject *, taskParam0, zfnull),
+                       ZFMP_IN_OPT(ZFObject *, taskParam1, zfnull),
+                       ZFMP_IN_OPT(ZFObject *, taskOwner, zfnull),
+                       ZFMP_IN_OPT(const ZFListener &, taskMergeCallback, ZFThreadTaskRequestMergeCallbackDefault()))
+{
+    zfblockedAlloc(ZFThreadTaskRequestData, taskRequestData);
+    taskRequestData->taskCallbackSet(taskCallback);
+    taskRequestData->taskUserDataSet(taskUserData);
+    taskRequestData->taskParam0Set(taskParam0);
+    taskRequestData->taskParam1Set(taskParam1);
+    taskRequestData->taskOwnerSet(taskOwner);
+    return ZFThreadTaskRequest(taskRequestData, taskMergeCallback);
+}
 ZFMETHOD_FUNC_DEFINE_2(zfidentity, ZFThreadTaskRequest,
                        ZFMP_IN(ZFThreadTaskRequestData *, taskRequestData),
                        ZFMP_IN_OPT(const ZFListener &, mergeCallback, ZFThreadTaskRequestMergeCallbackDefault()))
@@ -216,22 +232,6 @@ ZFMETHOD_FUNC_DEFINE_2(zfidentity, ZFThreadTaskRequest,
         zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
     }
     return taskId;
-}
-ZFMETHOD_FUNC_DEFINE_6(zfidentity, ZFThreadTaskRequest,
-                       ZFMP_IN(const ZFListener &, taskCallback),
-                       ZFMP_IN_OPT(ZFObject *, taskUserData, zfnull),
-                       ZFMP_IN_OPT(ZFObject *, taskParam0, zfnull),
-                       ZFMP_IN_OPT(ZFObject *, taskParam1, zfnull),
-                       ZFMP_IN_OPT(ZFObject *, taskOwner, zfnull),
-                       ZFMP_IN_OPT(const ZFListener &, taskMergeCallback, ZFThreadTaskRequestMergeCallbackDefault()))
-{
-    zfblockedAlloc(ZFThreadTaskRequestData, taskRequestData);
-    taskRequestData->taskCallbackSet(taskCallback);
-    taskRequestData->taskUserDataSet(taskUserData);
-    taskRequestData->taskParam0Set(taskParam0);
-    taskRequestData->taskParam1Set(taskParam1);
-    taskRequestData->taskOwnerSet(taskOwner);
-    return ZFThreadTaskRequest(taskRequestData, taskMergeCallback);
 }
 ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancel,
                        ZFMP_IN(zfidentity, taskId))

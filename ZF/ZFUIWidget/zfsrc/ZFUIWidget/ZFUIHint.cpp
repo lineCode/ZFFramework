@@ -163,7 +163,7 @@ public:
     {
         zfRetainChange(this->hintAnimating, zfnull);
         this->hintShowDelayTaskId = ZFThreadExecuteInMainThreadAfterDelay(
-            this->pimplOwner->hintDuration(),
+            this->pimplOwner->hintDurationFixed(),
             this->hintShowDelayTimeoutListener,
             this->pimplOwner->objectHolder());
     }

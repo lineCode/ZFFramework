@@ -32,7 +32,6 @@ protected:
         view->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
 
         this->ani()->aniTargetSet(view);
-        this->ani()->aniDurationSet((zftimet)3000);
 
         this->prepareSettingButton(window, this->ani());
 
@@ -86,8 +85,8 @@ private:
 
         ZFUIKit_test_prepareSettingForNormalProperty(settings, ani, zftimet, ZFPropertyAccess(ZFAnimationNativeView, aniDuration),
             ZFCoreArrayPODCreate(zftimet
+                , (zftimet)0
                 , (zftimet)3000
-                , (zftimet)250
                 ));
 
         ZFUIKit_test_prepareSettingForNormalProperty(settings, ani, ZFAnimationNativeViewCurveEnum, ZFPropertyAccess(ZFAnimationNativeView, aniCurve),

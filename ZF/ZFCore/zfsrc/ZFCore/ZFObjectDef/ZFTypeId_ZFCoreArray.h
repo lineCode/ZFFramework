@@ -252,7 +252,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none());
+        return ZFTypeId_ZFCoreArray();
     }
     zfoverride
     virtual zfbool typeIdSerializable(void) const
@@ -337,7 +337,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return (TypeIdSerializable ? ZFTypeId_ZFCoreArray() : ZFTypeId_none());
+        return ZFTypeId_ZFCoreArray();
     }
     zfoverride
     virtual zfbool typeIdSerializable(void) const

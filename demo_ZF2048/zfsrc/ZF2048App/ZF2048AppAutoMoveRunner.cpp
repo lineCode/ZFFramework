@@ -139,7 +139,7 @@ void ZF2048AppAutoMoveRunner::objectOnInit(void)
     zfsuper::objectOnInit();
     d = zfnew(_ZFP_ZF2048AppAutoMoveRunnerPrivate);
     d->loopTimer = zfAlloc(ZFTimer);
-    d->loopTimer->timerIntervalSet((zftimet)(ZFUIGlobalStyle::DefaultStyle()->aniDurationNormal() * 1.5f));
+    d->loopTimer->timerIntervalSet((zftimet)(ZFAnimationDurationDefault() * 1.5f));
     d->loopTimer->timerActivateInMainThreadSet(zftrue);
     d->loopTimer->observerAdd(ZFTimer::EventTimerOnActivate(), ZFCallbackForFunc(_ZFP_ZF2048AppAutoMoveRunnerPrivate::timerEvent), this->objectHolder());
 }

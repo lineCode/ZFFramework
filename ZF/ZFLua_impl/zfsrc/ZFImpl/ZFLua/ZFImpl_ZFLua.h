@@ -65,6 +65,17 @@ extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaStateChange(ZF_IN lua_State *L);
  *
  * must not be attached more than one time
  */
+extern ZF_ENV_EXPORT void *ZFImpl_ZFLua_luaStateOpen(void);
+/**
+ * @brief see #ZFImpl_ZFLua_luaState
+ */
+extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaStateClose(ZF_IN lua_State *L);
+
+/**
+ * @brief see #ZFImpl_ZFLua_luaState
+ *
+ * must not be attached more than one time
+ */
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L);
 /**
  * @brief see #ZFImpl_ZFLua_luaStateAttach
@@ -73,10 +84,15 @@ extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L);
  * all methods registered to L can not be undo
  */
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaStateDetach(ZF_IN lua_State *L);
+
 /**
  * @brief return all lua_State that currently registered, for impl or debug use only
  */
-extern ZF_ENV_EXPORT const ZFCoreArrayPOD<lua_State *> &ZFImpl_ZFLua_luaStateAttached(void);
+extern ZF_ENV_EXPORT const ZFCoreArrayPOD<lua_State *> &ZFImpl_ZFLua_luaStateList(void);
+/**
+ * @brief see #ZFImpl_ZFLua_luaStateList
+ */
+extern ZF_ENV_EXPORT void ZFImpl_ZFLua_luaStateListT(ZF_IN_OUT ZFCoreArray<lua_State *> &ret);
 
 // ============================================================
 typedef void (*_ZFP_ZFImpl_ZFLua_ImplSetupCallback)(ZF_IN_OUT lua_State *L);
