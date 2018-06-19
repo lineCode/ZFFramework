@@ -32,7 +32,7 @@ zfclass ZF_ENV_EXPORT ZFObjectCache : zfextends ZFObject
     ZFPROPERTY_ASSIGN_WITH_INIT(zfindex, cacheMaxSize, 10)
 
     /**
-     * @brief whether invoke #cacheTrim when receive #ZFGlobalEvent::EventAppOnReceiveMemoryWarning, true by default
+     * @brief whether invoke #cacheTrim when receive #ZFGlobalEvent::EventAppOnMemoryLow, true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cacheTrimWhenReceiveMemoryWarning, zftrue)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, cacheTrimWhenReceiveMemoryWarning)

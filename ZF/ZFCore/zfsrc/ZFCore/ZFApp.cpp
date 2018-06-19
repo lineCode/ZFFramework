@@ -1,0 +1,23 @@
+/* ====================================================================== *
+ * Copyright (c) 2010-2018 ZFFramework
+ * Github repo: https://github.com/ZFFramework/ZFFramework
+ * Home page: http://ZFFramework.com
+ * Blog: http://zsaber.com
+ * Contact: master@zsaber.com (Chinese and English only)
+ * Distributed under MIT license:
+ *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
+ * ====================================================================== */
+#include "ZFApp.h"
+
+ZF_NAMESPACE_GLOBAL_BEGIN
+ZF_NAMESPACE_BEGIN(ZFApp)
+
+ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFApp, void, appExit)
+{
+    ZFFrameworkCleanup();
+    exit(0);
+}
+
+ZF_NAMESPACE_END(ZFApp)
+ZF_NAMESPACE_GLOBAL_END
+

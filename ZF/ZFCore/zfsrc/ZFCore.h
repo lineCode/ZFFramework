@@ -15,6 +15,7 @@
 #ifndef _ZFI_ZFCore_h_
 #define _ZFI_ZFCore_h_
 
+#include "ZFCore/ZFApp.h"
 #include "ZFCore/ZFArray.h"
 #include "ZFCore/ZFAutoReleasePool.h"
 #include "ZFCore/ZFCacheable.h"

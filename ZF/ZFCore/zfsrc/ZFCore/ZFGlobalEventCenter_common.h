@@ -39,7 +39,7 @@ ZFOBSERVER_EVENT_GLOBAL(AppOnDestroy)
  * notified when received memory warning (depend on implementation),
  * params and result has no use and is always null
  */
-ZFOBSERVER_EVENT_GLOBAL(AppOnReceiveMemoryWarning)
+ZFOBSERVER_EVENT_GLOBAL(AppOnMemoryLow)
 
 ZF_NAMESPACE_END(ZFGlobalEvent)
 ZF_NAMESPACE_GLOBAL_END

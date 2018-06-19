@@ -13,7 +13,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, AppOnCreate)
 ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, AppOnDestroy)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, AppOnReceiveMemoryWarning)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, AppOnMemoryLow)
 
 static void _ZFP_ZFGlobalEventCenter_common_AppOnCreate(void)
 {
