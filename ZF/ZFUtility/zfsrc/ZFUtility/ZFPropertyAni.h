@@ -15,6 +15,7 @@
 #ifndef _ZFI_ZFPropertyAni_h_
 #define _ZFI_ZFPropertyAni_h_
 
+#include "ZFAnimation.h"
 #include "ZFTimeLineCurve.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
