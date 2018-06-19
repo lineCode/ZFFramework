@@ -102,7 +102,15 @@ void ZFEnum::objectOnInit(ZF_IN ZFEnum *another)
 
 void ZFEnum::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
-    ret += this->classData()->className();
+    if(this->enumIsFlags()
+        && zfsncmp(this->classData()->className(), ZFTypeIdWrapperPrefixName, ZFTypeIdWrapperPrefixNameLen) == 0)
+    {
+        ret += this->classData()->className() + ZFTypeIdWrapperPrefixNameLen;
+    }
+    else
+    {
+        ret += this->classData()->className();
+    }
     ret += zfText("::");
     if(this->enumValue() == ZFEnumInvalid())
     {

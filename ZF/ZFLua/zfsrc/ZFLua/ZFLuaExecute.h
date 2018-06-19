@@ -147,7 +147,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * -  path info
  *   -  `zfl_L()`\n
  *     lua_State of current chunk, stored as #v_VoidPointer
- *   -  `zfl_pathInfo()`\n
+ *   -  `ZFLuaPathInfo()`\n
  *     return path info of current context, null if not available
  *   -  `ZFLuaImport(localFilePath [, param0, param1, ...])`
  *     or `ZFLuaImport(inputCallback [, param0, param1, ...])`\n

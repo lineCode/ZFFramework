@@ -325,14 +325,14 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(PathInfo, {
          * would be hide by local one
          */
         ZFImpl_ZFLua_execute(L, zfText(
-                "function zfl_pathInfo()\n"
+                "function ZFLuaPathInfo()\n"
                 "    return zfnull;\n"
                 "end\n"
             ));
     }, {
     })
 
-ZFImpl_ZFLua_implPathInfo_DEFINE(zfl_pathInfo, zfText(
+ZFImpl_ZFLua_implPathInfo_DEFINE(ZFLuaPathInfo, zfText(
         "function ()"
         "    return zfl_l;"
         "end"
