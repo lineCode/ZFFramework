@@ -357,10 +357,10 @@ public:
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizeMax)
 
     /**
-     * @brief background color, #ZFUIColorTransparent by default
+     * @brief background color, #ZFUIColorZero by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, viewBackgroundColor,
-                                ZFUIColorTransparent())
+                                ZFUIColorZero())
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, viewBackgroundColor)
 
     // ============================================================

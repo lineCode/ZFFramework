@@ -49,7 +49,7 @@ public:
     }
     void _ZFP_textShadowUpdate(ZF_IN const ZFUIColor &textShadowColor, ZF_IN const ZFUISize &textShadowOffset)
     {
-        if(textShadowColor == ZFUIColorTransparent())
+        if(textShadowColor == ZFUIColorZero())
         {
             this->setGraphicsEffect(zfnull);
         }

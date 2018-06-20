@@ -104,7 +104,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromInput,
 // color
 ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(color, ZFUIImageSerializeType_color)
 {
-    ZFUIColor color = ZFUIColorTransparent();
+    ZFUIColor color = ZFUIColorZero();
     { // color
         const ZFSerializableData *categoryData = ZFSerializableUtil::checkElementByCategory(serializableData, ZFSerializableKeyword_ZFUIImageIO_color);
         if(categoryData != zfnull)
@@ -136,7 +136,7 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(color, ZFUIImageSerializeType_color)
 
     ZFSerializableData imageData;
     {
-        if(!ZFUIColorIsEqual(color, ZFUIColorTransparent()))
+        if(!ZFUIColorIsEqual(color, ZFUIColorZero()))
         {
             ZFSerializableData categoryData;
             if(!ZFUIColorToData(categoryData, color, outErrorHint))
@@ -192,7 +192,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageLoadFromColor,
     do
     {
         // color
-        if(color != ZFUIColorTransparent())
+        if(color != ZFUIColorZero())
         {
             ZFSerializableData categoryData;
             if(!ZFUIColorToData(categoryData, color))

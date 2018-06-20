@@ -44,7 +44,7 @@ private:
             layout->childAdd(child);
             child->textSet(zfstringWithFormat(zfText("text %zi"), i));
             child->textAlignSet(ZFUIAlign::e_Center);
-            child->viewBackgroundColorSet(ZFUIColorRandom(255));
+            child->viewBackgroundColorSet(ZFUIColorRandom());
         }
 
         layout->childAtIndex(1)->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(1);
@@ -59,7 +59,7 @@ private:
             l->childAdd(child);
             child->textSet(zfstringWithFormat(zfText("text %zi"), 3 + i));
             child->textAlignSet(ZFUIAlign::e_Center);
-            child->viewBackgroundColorSet(ZFUIColorRandom(255));
+            child->viewBackgroundColorSet(ZFUIColorRandom());
         }
     }
     void prepareSettingButton(ZF_IN ZFUIWindow *window,

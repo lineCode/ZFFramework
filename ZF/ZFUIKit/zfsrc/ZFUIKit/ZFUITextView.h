@@ -77,12 +77,12 @@ public:
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textColor)
 
     /**
-     * @brief text shadow color, #ZFUIColorTransparent by default, use transparent to disable text shadow
+     * @brief text shadow color, #ZFUIColorZero by default, use transparent to disable text shadow
      *
      * note that implementation may have no text shadow support
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, textShadowColor,
-                                ZFUIColorTransparent())
+                                ZFUIColorZero())
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIColor, textShadowColor)
 
     /**

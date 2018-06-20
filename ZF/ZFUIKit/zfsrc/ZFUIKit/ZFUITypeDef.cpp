@@ -539,7 +539,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
                 return zffalse;
             }
 
-            c = 0xFFFFFFFF;
+            c = 0;
             zfuint tmp = 0;
 
             tmp = 0;
@@ -560,17 +560,31 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
                 if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
                 c = ((c << 8) | tmp);
             }
+            else
+            {
+                c = ((c << 8) | 0xFF);
+            }
         } while(zffalse);
 
         v = c;
 
         return zftrue;
     }, {
-        zfstringAppend(s, zfText("#%02X%02X%02X%02X"),
-            ZFUIColorGetA(v),
-            ZFUIColorGetR(v),
-            ZFUIColorGetG(v),
-            ZFUIColorGetB(v));
+        if(ZFUIColorGetA(v) == 0xFF)
+        {
+            zfstringAppend(s, zfText("#%02X%02X%02X"),
+                ZFUIColorGetR(v),
+                ZFUIColorGetG(v),
+                ZFUIColorGetB(v));
+        }
+        else
+        {
+            zfstringAppend(s, zfText("#%02X%02X%02X%02X"),
+                ZFUIColorGetR(v),
+                ZFUIColorGetG(v),
+                ZFUIColorGetB(v),
+                ZFUIColorGetA(v));
+        }
         return zftrue;
     })
 
@@ -579,10 +593,10 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(zfbool, ZFUIColorIsEqual,
                               ZFMP_IN(ZFUIColor const &, v1))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_4(ZFUIColor, ZFUIColorMake,
-                              ZFMP_IN(zfuint, a),
                               ZFMP_IN(zfuint, r),
                               ZFMP_IN(zfuint, g),
-                              ZFMP_IN(zfuint, b))
+                              ZFMP_IN(zfuint, b),
+                              ZFMP_IN_OPT(zfuint, a, 0xFF))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_1(zfuint, ZFUIColorGetA,
                               ZFMP_IN(ZFUIColor const &, c))
@@ -618,6 +632,9 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorChangeG,
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorChangeB,
                               ZFMP_IN(ZFUIColor const &, c),
                               ZFMP_IN(zfuint, b))
+
+ZFMETHOD_FUNC_DEFINE_INLINE_1(ZFUIColor, ZFUIColorRandom,
+                              ZFMP_IN_OPT(zfint, alpha, 0xFF))
 
 // ============================================================
 ZFENUM_DEFINE_FLAGS(ZFUIOrientation, ZFUIOrientationFlags)

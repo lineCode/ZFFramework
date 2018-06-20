@@ -174,8 +174,8 @@ protected:
             zfint r = zfmRand(255);
             zfint g = zfmRand(255);
             zfint b = zfmRand(255);
-            button->buttonBackgroundStyleNormal()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(64, r, g, b)));
-            button->buttonBackgroundStyleHighlighted()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(255, r, g, b)));
+            button->buttonBackgroundStyleNormal()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(r, g, b, 64)));
+            button->buttonBackgroundStyleHighlighted()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(r, g, b)));
         }
         this->pageAniOverrideForOnce(zfnull, zfnull);
         this->_buttonLayout()->childAtIndex(0)->to<ZFUIButton *>()->buttonCheckedSet(zftrue);

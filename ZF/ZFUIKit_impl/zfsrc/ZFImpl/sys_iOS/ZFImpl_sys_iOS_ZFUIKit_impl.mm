@@ -71,7 +71,7 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorFromUIColorT(ZF_OUT ZFUIColor &ret, ZF
 {
     zfuint argb[4] = {0};
     ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(argb, uiColor);
-    ret = ZFUIColorMake(argb[0], argb[1], argb[2], argb[3]);
+    ret = ZFUIColorMake(argb[1], argb[2], argb[3], argb[0]);
 }
 
 // ============================================================

@@ -40,7 +40,7 @@ protected:
         embededScrollView->layoutParam()->layoutMarginSet(ZFUIMarginMake(80));
         embededScrollView->layoutParam()->sizeHintSet(ZFUISizeMake(200, 100));
         embededScrollView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        embededScrollView->viewBackgroundColorSet(ZFUIColorMake(192, 0, 0, 255));
+        embededScrollView->viewBackgroundColorSet(ZFUIColorMake(0, 0, 255, 192));
 
         this->setupScrollListener(embededScrollView);
         this->setupScrollContent(embededScrollView, ZFUISizeMake(60), ZFUISizeMake(30), ZFUISizeMake(10));

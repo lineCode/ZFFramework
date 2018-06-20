@@ -360,7 +360,7 @@ ZFMETHOD_DEFINE_0(ZFUIDialog, void, dialogShow)
 
     d->viewUIEnableTreeSet(zffalse);
     this->dialogBeforeShow();
-    if(this->dialogWindowColor() != ZFUIColorTransparent() && this->dialogWindowAutoDim())
+    if(this->dialogWindowColor() != ZFUIColorZero() && this->dialogWindowAutoDim())
     {
         d->dialogWindowAniShow->aniTargetSet(d->dialogWindowBg);
         d->dialogWindowAniShow->observerAdd(ZFObserverAddParam()
@@ -404,7 +404,7 @@ ZFMETHOD_DEFINE_0(ZFUIDialog, void, dialogHide)
 
     d->viewUIEnableTreeSet(zffalse);
     this->dialogBeforeHide();
-    if(this->dialogWindowColor() != ZFUIColorTransparent() && this->dialogWindowAutoDim())
+    if(this->dialogWindowColor() != ZFUIColorZero() && this->dialogWindowAutoDim())
     {
         d->dialogWindowAniHide->aniTargetSet(d->dialogWindowBg);
         d->dialogWindowAniHide->observerAdd(ZFObserverAddParam()
