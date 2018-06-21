@@ -13,7 +13,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
                                                ZF_IN const ZFClass *cls,
-                                               ZF_IN const zfautoObject *paramList,
+                                               ZF_IN const zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM],
                                                ZF_IN zfindex paramCount)
 {
     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
@@ -54,16 +54,7 @@ static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
         {
             continue;
         }
-        if(cls->newInstanceGenericCheck(token, method
-                , paramListTmp[0]
-                , paramListTmp[1]
-                , paramListTmp[2]
-                , paramListTmp[3]
-                , paramListTmp[4]
-                , paramListTmp[5]
-                , paramListTmp[6]
-                , paramListTmp[7]
-            ))
+        if(cls->newInstanceGenericCheck(token, method, paramListTmp))
         {
             ret = cls->newInstanceGenericEnd(token, zftrue);
             return zftrue;

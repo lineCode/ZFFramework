@@ -316,14 +316,7 @@ public:
     /** @brief see #newInstanceGeneric */
     zfbool newInstanceGenericCheck(ZF_IN ZFToken token
                                    , ZF_IN const ZFMethod *objectOnInitMethod
-                                   , ZF_IN_OUT zfautoObject &param0
-                                   , ZF_IN_OUT zfautoObject &param1
-                                   , ZF_IN_OUT zfautoObject &param2
-                                   , ZF_IN_OUT zfautoObject &param3
-                                   , ZF_IN_OUT zfautoObject &param4
-                                   , ZF_IN_OUT zfautoObject &param5
-                                   , ZF_IN_OUT zfautoObject &param6
-                                   , ZF_IN_OUT zfautoObject &param7
+                                   , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                    ) const; /* ZFMETHOD_MAX_PARAM */
     /** @brief see #newInstanceGeneric */
     zfautoObject newInstanceGenericEnd(ZF_IN ZFToken token,

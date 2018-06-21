@@ -21,7 +21,7 @@ static void _ZFP_ZFImpl_ZFLua_zfl_callStatic_methodScopeFix(ZF_IN_OUT zfstring &
     }
 }
 static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
-                                              ZF_IN_OUT zfautoObject *paramList,
+                                              ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM],
                                               ZF_IN zfindex paramCount,
                                               ZF_IN const ZFCoreArrayPOD<const ZFMethod *> &methodList,
                                               ZF_IN ZFObject *obj)
@@ -66,16 +66,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_invoker(ZF_IN lua_State *L,
         }
 
         ret = zfnull;
-        if(method->methodGenericInvoker()(method, obj, &errorHint, ret
-                , paramListTmp[0]
-                , paramListTmp[1]
-                , paramListTmp[2]
-                , paramListTmp[3]
-                , paramListTmp[4]
-                , paramListTmp[5]
-                , paramListTmp[6]
-                , paramListTmp[7]
-            ))
+        if(method->methodGenericInvoker()(method, obj, &errorHint, ret, paramListTmp))
         {
             ZFImpl_ZFLua_luaPush(L, ret);
             return 1;

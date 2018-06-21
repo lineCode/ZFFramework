@@ -602,16 +602,7 @@ zfautoObject ZFClass::newInstanceGeneric(
         };
         for(zfindex i = 0; i < objectOnInitMethodList.count(); ++i)
         {
-            if(this->newInstanceGenericCheck(token, objectOnInitMethodList[i]
-                    , paramList[0]
-                    , paramList[1]
-                    , paramList[2]
-                    , paramList[3]
-                    , paramList[4]
-                    , paramList[5]
-                    , paramList[6]
-                    , paramList[7]
-                ))
+            if(this->newInstanceGenericCheck(token, objectOnInitMethodList[i], paramList))
             {
                 return this->newInstanceGenericEnd(token, zftrue);
             }
@@ -627,14 +618,7 @@ ZFToken ZFClass::newInstanceGenericBegin(void) const
 }
 zfbool ZFClass::newInstanceGenericCheck(ZF_IN ZFToken token
                                         , ZF_IN const ZFMethod *objectOnInitMethod
-                                        , ZF_IN_OUT zfautoObject &param0
-                                        , ZF_IN_OUT zfautoObject &param1
-                                        , ZF_IN_OUT zfautoObject &param2
-                                        , ZF_IN_OUT zfautoObject &param3
-                                        , ZF_IN_OUT zfautoObject &param4
-                                        , ZF_IN_OUT zfautoObject &param5
-                                        , ZF_IN_OUT zfautoObject &param6
-                                        , ZF_IN_OUT zfautoObject &param7
+                                        , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                         ) const
 {
     if(objectOnInitMethod == zfnull
@@ -646,16 +630,7 @@ zfbool ZFClass::newInstanceGenericCheck(ZF_IN ZFToken token
     }
     ZFObject *obj = (ZFObject *)token;
     zfautoObject methodRetDummy;
-    return objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, methodRetDummy
-            , param0
-            , param1
-            , param2
-            , param3
-            , param4
-            , param5
-            , param6
-            , param7
-        );
+    return objectOnInitMethod->methodGenericInvoker()(objectOnInitMethod, obj, zfnull, methodRetDummy, paramList);
 }
 zfautoObject ZFClass::newInstanceGenericEnd(ZF_IN ZFToken token,
                                             ZF_IN zfbool objectOnInitMethodInvokeSuccess) const

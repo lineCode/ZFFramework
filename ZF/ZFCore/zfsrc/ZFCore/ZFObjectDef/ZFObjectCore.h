@@ -457,6 +457,7 @@ public:
      *   which may break unrelated modules' additional logic,
      *   remove only if necessary\n
      *   typically, you should remove exactly the one you have added
+     * @note this method would be called during #EventObjectBeforeDealloc and #objectOnDeallocPrepare
      */
     zffinal void tagRemoveAll(void);
 

@@ -33,14 +33,7 @@ typedef zfbool (*ZFMethodGenericInvoker)(ZF_IN const ZFMethod *invokerMethod
                                          , ZF_IN ZFObject *invokerObject
                                          , ZF_OUT_OPT zfstring *errorHint
                                          , ZF_OUT zfautoObject &ret
-                                         , ZF_IN_OUT zfautoObject &param0
-                                         , ZF_IN_OUT zfautoObject &param1
-                                         , ZF_IN_OUT zfautoObject &param2
-                                         , ZF_IN_OUT zfautoObject &param3
-                                         , ZF_IN_OUT zfautoObject &param4
-                                         , ZF_IN_OUT zfautoObject &param5
-                                         , ZF_IN_OUT zfautoObject &param6
-                                         , ZF_IN_OUT zfautoObject &param7
+                                         , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                          );
 
 /**
@@ -51,15 +44,7 @@ typedef zfbool (*ZFMethodGenericInvoker)(ZF_IN const ZFMethod *invokerMethod
     , ZF_IN ZFObject *invokerObject \
     , ZF_OUT_OPT zfstring *errorHint \
     , ZF_OUT zfautoObject &ret \
-    , ZF_IN_OUT zfautoObject &param0 \
-    , ZF_IN_OUT zfautoObject &param1 \
-    , ZF_IN_OUT zfautoObject &param2 \
-    , ZF_IN_OUT zfautoObject &param3 \
-    , ZF_IN_OUT zfautoObject &param4 \
-    , ZF_IN_OUT zfautoObject &param5 \
-    , ZF_IN_OUT zfautoObject &param6 \
-    , ZF_IN_OUT zfautoObject &param7 \
-    ZFM_EMPTY()
+    , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
 
 extern ZF_ENV_EXPORT ZFObject *_ZFP_ZFMethodGenericInvokerDefaultParamRef;
 /**
@@ -105,19 +90,31 @@ extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
         N, \
         ZFM_TOSTRING(ParamType), \
         param)
-inline zfautoObject &_ZFP_MtdGIParam(ZF_IN_OUT zfautoObject &param, ZF_IN_OPT const zfautoObject &pDef = zfautoObjectNull())
+template<typename T_Type, typename T_Access>
+zfclassNotPOD _ZFP_MtdGIPA
 {
-    if(param == ZFMethodGenericInvokerDefaultParam())
+public:
+    zfautoObject &obj;
+public:
+    explicit _ZFP_MtdGIPA(ZF_IN_OUT zfautoObject &obj) : obj(obj) {}
+    T_Access a(ZF_IN_OPT const zfautoObject &pDef = zfautoObjectNull())
     {
-        param = pDef;
+        if(this->obj == ZFMethodGenericInvokerDefaultParam())
+        {
+            this->obj = pDef;
+        }
+        return ZFTypeId<T_Type>::template Value<T_Access>::access(this->obj);
     }
-    return param;
-}
+public:
+    ~_ZFP_MtdGIPA(void)
+    {
+        ZFTypeId<T_Type>::template Value<T_Access>::accessFinish(this->obj);
+    }
+};
 #define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
-    ZFTypeId<_TR##N>::Value<_T##N>::access(_ZFP_MtdGIParam( \
-            param \
-            DefaultExpandOrEmpty(, pDef##N()) \
-        ))
+    _ZFP_MtdGIPA<_TR##N, _T##N>(param).a(DefaultExpandOrEmpty(pDef##N()))
+#define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_FINISH_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
+    ZFTypeId<_TR##N>::Value<_T##N>::accessFinish(param);
 #define _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS(N, DefaultExpandOrEmpty, ParamType, DefaultValueFix) \
     DefaultExpandOrEmpty( \
         static zfautoObject pDef##N(void) \
@@ -143,14 +140,7 @@ zfclassNotPOD _ZFP_MtdGIFix
 public:
     typedef T_ReturnType (*Ivk)(ZF_IN const ZFMethod *invokerMethod
                                 , ZF_IN ZFObject *invokerObject
-                                , ZF_IN_OUT zfautoObject &param0
-                                , ZF_IN_OUT zfautoObject &param1
-                                , ZF_IN_OUT zfautoObject &param2
-                                , ZF_IN_OUT zfautoObject &param3
-                                , ZF_IN_OUT zfautoObject &param4
-                                , ZF_IN_OUT zfautoObject &param5
-                                , ZF_IN_OUT zfautoObject &param6
-                                , ZF_IN_OUT zfautoObject &param7
+                                , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                 );
 public:
     static zfbool action(ZF_IN Ivk invoke
@@ -158,26 +148,10 @@ public:
                          , ZF_IN ZFObject *invokerObject
                          , ZF_OUT_OPT zfstring *errorHint
                          , ZF_OUT_OPT zfautoObject &ret
-                         , ZF_IN_OUT zfautoObject &param0
-                         , ZF_IN_OUT zfautoObject &param1
-                         , ZF_IN_OUT zfautoObject &param2
-                         , ZF_IN_OUT zfautoObject &param3
-                         , ZF_IN_OUT zfautoObject &param4
-                         , ZF_IN_OUT zfautoObject &param5
-                         , ZF_IN_OUT zfautoObject &param6
-                         , ZF_IN_OUT zfautoObject &param7
+                         , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                          )
     {
-        T_ReturnType retTmp = invoke(invokerMethod, invokerObject
-                , param0
-                , param1
-                , param2
-                , param3
-                , param4
-                , param5
-                , param6
-                , param7
-            );
+        T_ReturnType retTmp = invoke(invokerMethod, invokerObject, paramList);
         typedef typename zftTraits<T_ReturnType>::TrNoRef T_ReturnTypeTmp;
         if(ZFTypeId<T_ReturnTypeTmp>::ValueStore(ret, retTmp))
         {
@@ -201,14 +175,7 @@ zfclassNotPOD _ZFP_MtdGIFix<void>
 public:
     typedef void (*Ivk)(ZF_IN const ZFMethod *invokerMethod
                         , ZF_IN ZFObject *invokerObject
-                        , ZF_IN_OUT zfautoObject &param0
-                        , ZF_IN_OUT zfautoObject &param1
-                        , ZF_IN_OUT zfautoObject &param2
-                        , ZF_IN_OUT zfautoObject &param3
-                        , ZF_IN_OUT zfautoObject &param4
-                        , ZF_IN_OUT zfautoObject &param5
-                        , ZF_IN_OUT zfautoObject &param6
-                        , ZF_IN_OUT zfautoObject &param7
+                        , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                         );
 public:
     static zfbool action(ZF_IN Ivk invoke
@@ -216,26 +183,10 @@ public:
                          , ZF_IN ZFObject *invokerObject
                          , ZF_OUT_OPT zfstring *errorHint
                          , ZF_OUT_OPT zfautoObject &ret
-                         , ZF_IN_OUT zfautoObject &param0
-                         , ZF_IN_OUT zfautoObject &param1
-                         , ZF_IN_OUT zfautoObject &param2
-                         , ZF_IN_OUT zfautoObject &param3
-                         , ZF_IN_OUT zfautoObject &param4
-                         , ZF_IN_OUT zfautoObject &param5
-                         , ZF_IN_OUT zfautoObject &param6
-                         , ZF_IN_OUT zfautoObject &param7
+                         , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                          )
     {
-        invoke(invokerMethod, invokerObject
-                , param0
-                , param1
-                , param2
-                , param3
-                , param4
-                , param5
-                , param6
-                , param7
-            );
+        invoke(invokerMethod, invokerObject, paramList);
         return zftrue;
     }
 };
@@ -275,54 +226,30 @@ public:
                          , ZF_IN ZFObject *invokerObject \
                          , ZF_OUT_OPT zfstring *errorHint \
                          , ZF_OUT_OPT zfautoObject &ret \
-                         , ZF_IN_OUT zfautoObject &param0 \
-                         , ZF_IN_OUT zfautoObject &param1 \
-                         , ZF_IN_OUT zfautoObject &param2 \
-                         , ZF_IN_OUT zfautoObject &param3 \
-                         , ZF_IN_OUT zfautoObject &param4 \
-                         , ZF_IN_OUT zfautoObject &param5 \
-                         , ZF_IN_OUT zfautoObject &param6 \
-                         , ZF_IN_OUT zfautoObject &param7 \
+                         , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM] \
                          ) \
         { \
             ParamExpandOrEmpty0( \
                 if( \
-                    !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(0, DefaultExpandOrEmpty0, ParamType0, param0) \
-                    ParamExpandOrEmpty1(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(1, DefaultExpandOrEmpty1, ParamType1, param1)) \
-                    ParamExpandOrEmpty2(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(2, DefaultExpandOrEmpty2, ParamType2, param2)) \
-                    ParamExpandOrEmpty3(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(3, DefaultExpandOrEmpty3, ParamType3, param3)) \
-                    ParamExpandOrEmpty4(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(4, DefaultExpandOrEmpty4, ParamType4, param4)) \
-                    ParamExpandOrEmpty5(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(5, DefaultExpandOrEmpty5, ParamType5, param5)) \
-                    ParamExpandOrEmpty6(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(6, DefaultExpandOrEmpty6, ParamType6, param6)) \
-                    ParamExpandOrEmpty7(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(7, DefaultExpandOrEmpty7, ParamType7, param7)) \
+                                           !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(0, DefaultExpandOrEmpty0, ParamType0, paramList[0]) \
+                    ParamExpandOrEmpty1(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(1, DefaultExpandOrEmpty1, ParamType1, paramList[1])) \
+                    ParamExpandOrEmpty2(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(2, DefaultExpandOrEmpty2, ParamType2, paramList[2])) \
+                    ParamExpandOrEmpty3(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(3, DefaultExpandOrEmpty3, ParamType3, paramList[3])) \
+                    ParamExpandOrEmpty4(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(4, DefaultExpandOrEmpty4, ParamType4, paramList[4])) \
+                    ParamExpandOrEmpty5(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(5, DefaultExpandOrEmpty5, ParamType5, paramList[5])) \
+                    ParamExpandOrEmpty6(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(6, DefaultExpandOrEmpty6, ParamType6, paramList[6])) \
+                    ParamExpandOrEmpty7(|| !_ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(7, DefaultExpandOrEmpty7, ParamType7, paramList[7])) \
                     ) \
                 { \
                     return zffalse; \
                 } \
             ) \
-            zfbool _ret = _ZFP_MtdGIFix<ReturnType>::action(I, invokerMethod, invokerObject, errorHint, ret \
-                    , param0 \
-                    , param1 \
-                    , param2 \
-                    , param3 \
-                    , param4 \
-                    , param5 \
-                    , param6 \
-                    , param7 \
-                ); \
-            return _ret; \
+            return _ZFP_MtdGIFix<ReturnType>::action(I, invokerMethod, invokerObject, errorHint, ret, paramList); \
         } \
     private: \
         static ReturnType I(ZF_IN const ZFMethod *invokerMethod \
                             , ZF_IN ZFObject *invokerObject \
-                            , ZF_IN_OUT zfautoObject &param0 \
-                            , ZF_IN_OUT zfautoObject &param1 \
-                            , ZF_IN_OUT zfautoObject &param2 \
-                            , ZF_IN_OUT zfautoObject &param3 \
-                            , ZF_IN_OUT zfautoObject &param4 \
-                            , ZF_IN_OUT zfautoObject &param5 \
-                            , ZF_IN_OUT zfautoObject &param6 \
-                            , ZF_IN_OUT zfautoObject &param7 \
+                            , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM] \
                             ) \
         { \
             return invokerMethod->_ZFP_execute<ReturnType \
@@ -335,14 +262,14 @@ public:
                     ParamExpandOrEmpty6(ZFM_COMMA() ParamType6) \
                     ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
                 >(invokerObject \
-                    ParamExpandOrEmpty0(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(0, DefaultExpandOrEmpty0, ParamType0, param0)) \
-                    ParamExpandOrEmpty1(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(1, DefaultExpandOrEmpty1, ParamType1, param1)) \
-                    ParamExpandOrEmpty2(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(2, DefaultExpandOrEmpty2, ParamType2, param2)) \
-                    ParamExpandOrEmpty3(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(3, DefaultExpandOrEmpty3, ParamType3, param3)) \
-                    ParamExpandOrEmpty4(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(4, DefaultExpandOrEmpty4, ParamType4, param4)) \
-                    ParamExpandOrEmpty5(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(5, DefaultExpandOrEmpty5, ParamType5, param5)) \
-                    ParamExpandOrEmpty6(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(6, DefaultExpandOrEmpty6, ParamType6, param6)) \
-                    ParamExpandOrEmpty7(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(7, DefaultExpandOrEmpty7, ParamType7, param7)) \
+                    ParamExpandOrEmpty0(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(0, DefaultExpandOrEmpty0, ParamType0, paramList[0])) \
+                    ParamExpandOrEmpty1(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(1, DefaultExpandOrEmpty1, ParamType1, paramList[1])) \
+                    ParamExpandOrEmpty2(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(2, DefaultExpandOrEmpty2, ParamType2, paramList[2])) \
+                    ParamExpandOrEmpty3(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(3, DefaultExpandOrEmpty3, ParamType3, paramList[3])) \
+                    ParamExpandOrEmpty4(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(4, DefaultExpandOrEmpty4, ParamType4, paramList[4])) \
+                    ParamExpandOrEmpty5(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(5, DefaultExpandOrEmpty5, ParamType5, paramList[5])) \
+                    ParamExpandOrEmpty6(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(6, DefaultExpandOrEmpty6, ParamType6, paramList[6])) \
+                    ParamExpandOrEmpty7(ZFM_COMMA() _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(7, DefaultExpandOrEmpty7, ParamType7, paramList[7])) \
                 ); \
         } \
     public:
@@ -356,14 +283,7 @@ extern ZF_ENV_EXPORT zfbool _ZFP_ZFMethodGenericInvoke(ZF_IN const ZFMethod *inv
                                                        , ZF_IN ZFObject *invokerObject
                                                        , ZF_OUT_OPT zfstring *errorHint
                                                        , ZF_OUT zfautoObject &ret
-                                                       , ZF_IN_OUT zfautoObject &param0
-                                                       , ZF_IN_OUT zfautoObject &param1
-                                                       , ZF_IN_OUT zfautoObject &param2
-                                                       , ZF_IN_OUT zfautoObject &param3
-                                                       , ZF_IN_OUT zfautoObject &param4
-                                                       , ZF_IN_OUT zfautoObject &param5
-                                                       , ZF_IN_OUT zfautoObject &param6
-                                                       , ZF_IN_OUT zfautoObject &param7
+                                                       , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                                        );
 extern ZF_ENV_EXPORT void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *method,
                                                           ZF_IN ZFObject *obj,
@@ -377,8 +297,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *
             _ZFP_ZFMethodGenericInvokeError(method, obj, N); \
         } \
         _ZFP_ZFTypeIdWrapperMarkConstCheck<Type##N>::a(_p[N]);
-#define _ZFP_ZFMethodGenericInvoke_REPEAT2(N) _p[N]
-#define _ZFP_ZFMethodGenericInvoke_REPEAT3(N) \
+#define _ZFP_ZFMethodGenericInvoke_REPEAT2(N) \
         _ZFP_MtdGII_P<Type##N>::p(param##N, _p[N]);
 
 #define _ZFP_ZFMethodGenericInvoke_DECLARE(N) \
@@ -398,11 +317,11 @@ extern ZF_ENV_EXPORT void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *
         ZFM_REPEAT(N, _ZFP_ZFMethodGenericInvoke_REPEAT1, ZFM_EMPTY, ZFM_EMPTY) \
         zfautoObject _ret; \
         zfstring errorHint; \
-        if(!_ZFP_ZFMethodGenericInvoke(method, obj, &errorHint, _ret ZFM_REPEAT(ZFMETHOD_MAX_PARAM, _ZFP_ZFMethodGenericInvoke_REPEAT2, ZFM_COMMA, ZFM_COMMA))) \
+        if(!_ZFP_ZFMethodGenericInvoke(method, obj, &errorHint, _ret, _p)) \
         { \
             _ZFP_ZFMethodGenericInvokeError(method, obj, -1, errorHint); \
         } \
-        ZFM_REPEAT(N, _ZFP_ZFMethodGenericInvoke_REPEAT3, ZFM_EMPTY, ZFM_EMPTY) \
+        ZFM_REPEAT(N, _ZFP_ZFMethodGenericInvoke_REPEAT2, ZFM_EMPTY, ZFM_EMPTY) \
         return _ZFP_MtdGII_R<T_ReturnType>::r(method, obj, _ret); \
     }
 
@@ -438,6 +357,7 @@ public:
     {
         typedef typename zftTraits<T_ParamType &>::TrNoRef _Type;
         p = ZFTypeId<_Type>::template Value<T_ParamType &>::access(h);
+        ZFTypeId<_Type>::template Value<T_ParamType &>::accessFinish(h);
     }
 };
 template<typename T_ParamType>
@@ -450,6 +370,7 @@ public:
         if(p)
         {
             *p = ZFTypeId<_Type>::template Value<T_ParamType const &>::access(h);
+            ZFTypeId<_Type>::template Value<T_ParamType const &>::accessFinish(h);
         }
     }
 };

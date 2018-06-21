@@ -187,7 +187,7 @@ public:
     const ZFClass *classOrNull; /**< @brief class if able to find */
     ZFObject *objectOrNull; /**< @brief null for static method or non-null for instance method */
     const zfchar *methodName; /**< @brief method name */
-    const zfautoObject *paramList; /**< @brief param list */
+    zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]; /**< @brief param list */
     zfindex paramCount; /**< @brief param count */
     zfautoObject returnValue; /**< @brief #ZFImpl_ZFLua_implDispatchReturnValueNotSet if no return value, see #returnValueCustom */
     int returnValueCustom; /**< @brief -1 by default, set non-negative to show custom return value specified, see #returnValue */
@@ -202,7 +202,7 @@ public:
                                            ZF_IN const ZFClass *classOrNull,
                                            ZF_IN ZFObject *objectOrNull,
                                            ZF_IN const zfchar *methodName,
-                                           ZF_IN const zfautoObject *paramList,
+                                           ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM],
                                            ZF_IN zfindex paramCount)
     : L(L)
     , luaParamOffset(luaParamOffset)

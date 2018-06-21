@@ -73,14 +73,7 @@ zfbool _ZFP_ZFMethodGenericInvoke(ZF_IN const ZFMethod *invokerMethod
                                   , ZF_IN ZFObject *invokerObject
                                   , ZF_OUT_OPT zfstring *errorHint
                                   , ZF_OUT zfautoObject &ret
-                                  , ZF_IN_OUT zfautoObject &param0
-                                  , ZF_IN_OUT zfautoObject &param1
-                                  , ZF_IN_OUT zfautoObject &param2
-                                  , ZF_IN_OUT zfautoObject &param3
-                                  , ZF_IN_OUT zfautoObject &param4
-                                  , ZF_IN_OUT zfautoObject &param5
-                                  , ZF_IN_OUT zfautoObject &param6
-                                  , ZF_IN_OUT zfautoObject &param7
+                                  , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                   )
 {
     return invokerMethod->methodGenericInvoker()(
@@ -88,14 +81,7 @@ zfbool _ZFP_ZFMethodGenericInvoke(ZF_IN const ZFMethod *invokerMethod
             , invokerObject
             , errorHint
             , ret
-            , param0
-            , param1
-            , param2
-            , param3
-            , param4
-            , param5
-            , param6
-            , param7
+            , paramList
         );
 }
 void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *method,

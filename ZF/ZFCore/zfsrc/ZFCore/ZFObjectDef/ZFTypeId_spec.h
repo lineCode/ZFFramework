@@ -65,6 +65,9 @@ public:
         {
             return typename zftTraits<T_Access>::TrType();
         }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
     };
 };
 /** @endcond */
@@ -142,6 +145,9 @@ public:
         {
             return obj;
         }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
     };
     template<typename T_Access>
     zfclassNotPOD Value<T_Access, 1>
@@ -154,6 +160,9 @@ public:
         static typename zftTraits<T_Access>::TrNoRef access(ZF_IN_OUT zfautoObject &obj)
         {
             return &obj;
+        }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
         }
     };
 };
@@ -215,6 +224,9 @@ public:
         {
             return (T_Access)obj;
         }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
     };
     template<typename T_Access>
     zfclassNotPOD Value<T_Access, 1>
@@ -228,6 +240,9 @@ public:
         {
             // zfautoObjectT ensured safe for reinterpret cast
             return (typename zftTraits<T_Access>::TrNoRef)&obj;
+        }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
         }
     };
 };
@@ -303,6 +318,19 @@ public:
                 _ZFP_PropAliasOnDetach);
             return *holder;
         }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+            if(obj == zfnull)
+            {
+                return ;
+            }
+            _ZFP_PropAliasDetach(obj,
+                zfsConnectLineFree(
+                    zftTraits<T_Type>::TrType::ClassData()->className(),
+                    zfText("_"),
+                    zftTraits<T_Access>::ModifierName())
+                );
+        }
     private:
         static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
                                            ZF_IN void *v)
@@ -337,6 +365,19 @@ public:
                     zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
             return *holder;
+        }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+            if(obj == zfnull)
+            {
+                return ;
+            }
+            _ZFP_PropAliasAttach(obj,
+                zfsConnectLineFree(
+                    typename zftTraits<_TrNoRef>::TrType::ClassData()->className(),
+                    zfText("_"),
+                    zftTraits<T_Access>::ModifierName())
+                );
         }
     private:
         static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj,
@@ -405,6 +446,9 @@ public:
         {
             return obj;
         }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
     };
     template<typename T_Access>
     zfclassNotPOD Value<T_Access, 1>
@@ -419,6 +463,9 @@ public:
         static const ZFAny *access(ZF_IN_OUT zfautoObject &obj)
         {
             return zfnull;
+        }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
         }
     };
 };
@@ -497,6 +544,10 @@ public:
         {
             return ZFTypeId<T_Type_>::template Value<T_Access>::access(obj);
         }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+            ZFTypeId<T_Type_>::template Value<T_Access>::accessFinish(obj);
+        }
     };
     template<typename T_Access>
     zfclassNotPOD Value<T_Access, 1>
@@ -509,6 +560,13 @@ public:
         static typename zftTraits<T_Access>::TrNoRef access(ZF_IN_OUT zfautoObject &obj)
         {
             return ((obj == zfnull) ? zfnull : ZFTypeId<T_Type_>::template Value<T_Access>::access(obj));
+        }
+        static void accessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+            if(obj != zfnull)
+            {
+                ZFTypeId<T_Type_>::template Value<T_Access>::accessFinish(obj);
+            }
         }
     };
 };

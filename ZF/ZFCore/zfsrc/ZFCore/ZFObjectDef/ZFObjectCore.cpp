@@ -162,16 +162,7 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
             param6,
             param7,
         };
-        if(m->methodGenericInvoker()(m, this, &errorHintTmp, ret
-                , paramList[0]
-                , paramList[1]
-                , paramList[2]
-                , paramList[3]
-                , paramList[4]
-                , paramList[5]
-                , paramList[6]
-                , paramList[7]
-            ))
+        if(m->methodGenericInvoker()(m, this, &errorHintTmp, ret, paramList))
         {
             if(success != zfnull)
             {
@@ -421,6 +412,7 @@ void ZFObject::_ZFP_ZFObjectCheckRelease(void)
         if(d->objectRetainCount == 1)
         {
             this->observerNotify(ZFObject::EventObjectBeforeDealloc());
+            this->tagRemoveAll();
             if(d->objectRetainCount > 1)
             {
                 this->objectOnRelease();

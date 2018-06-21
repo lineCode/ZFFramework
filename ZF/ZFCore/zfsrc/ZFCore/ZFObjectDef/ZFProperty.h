@@ -438,6 +438,7 @@ zfbool _ZFP_propCbDSerializeFrom(ZF_IN const ZFProperty *propertyInfo,
             propertyInfo->setterMethod()->execute<void, T_PropVT const &>(ownerObject,
                     ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::access(zfv)
                 );
+            ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::accessFinish(zfv);
             return zftrue;
         }
         else

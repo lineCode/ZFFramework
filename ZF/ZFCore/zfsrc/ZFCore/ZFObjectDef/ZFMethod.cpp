@@ -259,16 +259,7 @@ zfautoObject ZFMethod::methodGenericInvoke(ZF_IN_OPT ZFObject *ownerObjOrNull /*
         param6,
         param7,
     };
-    zfbool t = this->methodGenericInvoker()(this, ownerObjOrNull, errorHint, ret
-            , paramList[0]
-            , paramList[1]
-            , paramList[2]
-            , paramList[3]
-            , paramList[4]
-            , paramList[5]
-            , paramList[6]
-            , paramList[7]
-        );
+    zfbool t = this->methodGenericInvoker()(this, ownerObjOrNull, errorHint, ret, paramList);
     if(success != zfnull)
     {
         *success = t;

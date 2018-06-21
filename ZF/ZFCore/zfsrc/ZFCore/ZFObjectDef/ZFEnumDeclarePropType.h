@@ -110,6 +110,9 @@ public:
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
+            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            { \
+            } \
         }; \
         template<typename T_Access> \
         zfclassNotPOD Value<T_Access, 1> \
@@ -138,6 +141,12 @@ public:
                     zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierName()), \
                     _ZFP_PropAliasOnDetach); \
                 return *holder; \
+            } \
+            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            { \
+                _ZFP_PropAliasDetach(obj, \
+                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierName()) \
+                    ); \
             } \
         private: \
             static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
@@ -266,6 +275,9 @@ public:
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
+            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            { \
+            } \
         }; \
         template<typename T_Access> \
         zfclassNotPOD Value<T_Access, 1> \
@@ -294,6 +306,12 @@ public:
                     zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierName()), \
                     _ZFP_PropAliasOnDetach); \
                 return *holder; \
+            } \
+            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            { \
+                _ZFP_PropAliasDetach(obj, \
+                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), zfText("_"), zftTraits<_TrNoRef>::ModifierName()) \
+                    ); \
             } \
         private: \
             static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
