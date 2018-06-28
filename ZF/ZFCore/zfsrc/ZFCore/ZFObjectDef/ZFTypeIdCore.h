@@ -174,7 +174,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
                                     ZF_OUT_OPT zfstring *outErrorHint = zfnull, \
                                     ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull) \
         { \
-            if(ZFSerializableUtil::requireSerializableClass(propertyInfo->propertyTypeId(), serializableData, outErrorHint, outErrorPos) == zfnull) \
+            if(ZFSerializableUtil::requireItemClass(serializableData, propertyInfo->propertyTypeId(), outErrorHint, outErrorPos) == zfnull) \
             { \
                 return zffalse; \
             } \
@@ -289,7 +289,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(TypeName, Type, convertFromStringAction, convertToStringAction) \
     ZFTYPEID_DEFINE_WITH_CUSTOM_WRAPPER(TypeName, Type, { \
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_##TypeName(), serializableData, outErrorHint, outErrorPos) == zfnull) \
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_##TypeName(), outErrorHint, outErrorPos) == zfnull) \
         { \
             return zffalse; \
         } \

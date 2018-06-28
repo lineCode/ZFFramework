@@ -166,7 +166,7 @@ zfbool zfstringFromData(ZF_OUT const zfchar * &v,
                         ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
                         ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
 {
-    if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_zfstring(), serializableData, outErrorHint, outErrorPos) == zfnull)
+    if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_zfstring(), outErrorHint, outErrorPos) == zfnull)
     {
         return zffalse;
     }
@@ -310,7 +310,7 @@ _ZFP_ZFTYPEID_DEFINE_int_allow_negative(zftimet, zftimet)
 
 // ============================================================
 ZFTYPEID_DEFINE(zfidentity, zfidentity, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_zfidentity(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_zfidentity(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }

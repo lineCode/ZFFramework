@@ -816,7 +816,7 @@ zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
 {
     result = zfnull;
 
-    const zfchar *serializableClass = ZFSerializableUtil::requireSerializableClass(ZFTypeId_none(), serializableData, outErrorHint, outErrorPos);
+    const zfchar *serializableClass = ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_none(), outErrorHint, outErrorPos);
     if(serializableClass == zfnull)
     {
         return zffalse;

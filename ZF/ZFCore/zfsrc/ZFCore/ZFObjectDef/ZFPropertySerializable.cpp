@@ -23,7 +23,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
             serializableData.resolveMark();
             return zftrue;
         }
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFProperty(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFProperty(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }

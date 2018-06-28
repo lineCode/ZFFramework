@@ -40,7 +40,7 @@ void ZFTextTemplateIndexData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 
 // ============================================================
 ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateIndexData, ZFTextTemplateIndexData, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFTextTemplateIndexData(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFTextTemplateIndexData(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }
@@ -668,7 +668,7 @@ void ZFTextTemplateParam::objectInfoT(ZF_IN_OUT zfstring &ret) const
 
 // ============================================================
 ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemplateParam, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFTextTemplateParam(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFTextTemplateParam(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }

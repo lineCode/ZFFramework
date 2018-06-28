@@ -54,18 +54,18 @@ extern ZF_ENV_EXPORT void errorOccurredWhile(ZF_OUT_OPT zfstring *outErrorHint,
 /**
  * @brief util to check whether the serializable data contains desired attribute
  *
- * use null desiredClass shows that any class name is allowed except empty\n
+ * use #ZFTypeId_none shows that any class name is allowed except empty\n
  * return null if no match
  */
-extern ZF_ENV_EXPORT const zfchar *checkSerializableClass(ZF_IN const zfchar *desiredClass,
-                                                          ZF_IN const ZFSerializableData &serializableData);
+extern ZF_ENV_EXPORT const zfchar *checkItemClass(ZF_IN const ZFSerializableData &serializableData,
+                                                  ZF_IN const zfchar *desiredClass);
 /**
- * @brief see #checkSerializableClass, output error hint if failed
+ * @brief see #checkItemClass, output error hint if failed
  */
-extern ZF_ENV_EXPORT const zfchar *requireSerializableClass(ZF_IN const zfchar *desiredClass,
-                                                            ZF_IN const ZFSerializableData &serializableData,
-                                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull,
-                                                            ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
+extern ZF_ENV_EXPORT const zfchar *requireItemClass(ZF_IN const ZFSerializableData &serializableData,
+                                                    ZF_IN const zfchar *desiredClass,
+                                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull,
+                                                    ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
 
 /**
  * @brief util to check whether the serializable data contains desired attribute,

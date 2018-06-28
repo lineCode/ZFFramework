@@ -44,7 +44,7 @@ void ZFRegExpResult::objectInfoT(ZF_IN_OUT zfstring &ret) const
 }
 
 ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFRegExpResult(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFRegExpResult(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }

@@ -52,7 +52,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
             serializableData.resolveMark();
             return zftrue;
         }
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFCallback(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFCallback(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }

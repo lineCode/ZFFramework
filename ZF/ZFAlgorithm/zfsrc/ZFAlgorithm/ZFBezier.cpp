@@ -176,7 +176,7 @@ ZFEXPORT_VAR_READONLY_DEFINE(ZFBezier, ZFBezierBounceInOut, ZFBezier(0.2f, -0.5f
 
 // ============================================================
 ZFTYPEID_DEFINE(ZFBezier, ZFBezier, {
-        if(ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFBezier(), serializableData, outErrorHint, outErrorPos) == zfnull)
+        if(ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFBezier(), outErrorHint, outErrorPos) == zfnull)
         {
             return zffalse;
         }

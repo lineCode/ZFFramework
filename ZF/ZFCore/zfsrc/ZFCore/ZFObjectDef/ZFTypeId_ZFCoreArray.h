@@ -623,7 +623,7 @@ zfbool ZFCoreArrayFromData(ZF_OUT ZFCoreArray<T_Type> &v,
 {
     v.removeAll();
 
-    if(!ZFSerializableUtil::requireSerializableClass(ZFTypeId_ZFCoreArray(), serializableData, outErrorHint, outErrorPos))
+    if(!ZFSerializableUtil::requireItemClass(serializableData, ZFTypeId_ZFCoreArray(), outErrorHint, outErrorPos))
     {
         return zffalse;
     }
