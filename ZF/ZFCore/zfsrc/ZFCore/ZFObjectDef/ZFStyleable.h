@@ -424,7 +424,7 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  * example:
  * @code
  *   // register
- *   ZFSTYLE_PROPERTY_COPY_DEFINE(ZFTypeId_YourPropertyTypeId, {
+ *   ZFSTYLE_PROPERTY_COPY_DEFINE(YourPropertyTypeIdSig, {
  *           // proto type:
  *           //   zfbool copyFrom(ZF_IN ZFObject *propertyOwner,
  *           //                   ZF_IN const ZFProperty *property,
@@ -494,7 +494,7 @@ extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
 /**
  * @brief see #ZFStyleSet
  */
-#define ZFSTYLE_PROPERTY_COPY_DEFINE(propertyTypeIdSig, stylePropertyCopyAction) \
+#define ZFSTYLE_PROPERTY_COPY_DEFINE(propertyTypeIdSig, stylePropertyCopyAction, ...) \
     ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(StylePropCp_##propertyTypeIdSig, ZFLevelZFFrameworkNormal) \
     { \
         _ZFP_ZFStylePropertyCopyRegister(ZFTypeId_##propertyTypeIdSig(), zfself::action); \
@@ -507,7 +507,7 @@ extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
                          ZF_IN const ZFProperty *property, \
                          ZF_IN ZFStyleable *styleValue) \
     { \
-        stylePropertyCopyAction \
+        stylePropertyCopyAction __VA_ARGS__ \
     } \
     ZF_GLOBAL_INITIALIZER_END(StylePropCp_##propertyTypeIdSig)
 typedef zfbool (*_ZFP_ZFStylePropertyCopyCallback)(ZF_IN ZFObject *propertyOwner,

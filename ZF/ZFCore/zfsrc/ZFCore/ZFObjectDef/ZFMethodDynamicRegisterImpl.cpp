@@ -148,7 +148,6 @@ const ZFMethod *ZFMethodDynamicRegister(ZF_IN const ZFMethodDynamicRegisterParam
             , param.methodOwnerClass()
             , param.methodPrivilegeType()
             , param.methodNamespace() ? param.methodNamespace() : ZFMethodFuncNamespaceGlobal
-            , zfText("MtdDynReg")
             , param.methodName()
             , param.methodReturnTypeId()
             , param.methodReturnTypeName()

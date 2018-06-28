@@ -150,7 +150,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         _ZFP_ZFPROPERTY_GETTER(GetterAccessType, Type, Name) \
         /** @brief see @ref Name */ \
         _ZFP_ZFPROPERTY_SETTER_RETAIN(SetterAccessType, Type, Name) \
-        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, ZFTypeId_ZFObject(), Name, \
+        _ZFP_ZFPROPERTY_DECLARE_RETAIN(Type, zftTraits<Type>::TrType::ClassData()->className(), Name, \
                                        InitValueOrEmpty) \
     public:
 

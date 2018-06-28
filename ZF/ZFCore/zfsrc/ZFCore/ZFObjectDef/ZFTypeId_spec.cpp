@@ -32,10 +32,6 @@ ZFOUTPUT_TYPE_DEFINE(zfautoObject, {
     })
 
 // ============================================================
-// ZFObject
-ZFTYPEID_ID_DATA_REGISTER(ZFObject, ZFObject *)
-
-// ============================================================
 // ZFCallerInfo
 ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfoHolder, {
         ZFIndexRange pos[3] = {0};

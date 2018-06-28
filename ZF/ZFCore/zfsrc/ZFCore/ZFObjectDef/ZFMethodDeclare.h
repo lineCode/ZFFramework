@@ -394,7 +394,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                     , zfself::ClassData() \
                     , _ZFP_ZFMethod_initClassMemberType_privilege(PublicOrProtectedOrPrivate) \
                     , zfnull \
-                    , zfnull \
                     , ZFM_TOSTRING(MethodName) \
                     , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
                     , ZFM_TOSTRING_DIRECT(ReturnType) \
@@ -598,7 +597,6 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const ZFClass *cls,
                 , methodTypeText \
                 , zfself::ClassData() \
                 , privilegeType \
-                , zfnull \
                 , zfnull \
                 , ZFM_TOSTRING(MethodName) \
                 , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \

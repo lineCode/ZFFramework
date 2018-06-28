@@ -78,7 +78,7 @@ public:
      *
      * property are serializable except:
      * -  #propertyTypeId is #ZFTypeId_none
-     * -  assign property with #ZFTypeId_ZFObject
+     * -  assign property with ZFObject type
      * -  #ZFTypeIdBase::typeIdSerializable returned false
      *
      * @note this property would be calculated at runtime,
@@ -104,6 +104,7 @@ public:
     {
         return this->_ZFP_ZFProperty_name.cString();
     }
+
     /**
      * @brief type string for the property
      *
@@ -121,7 +122,7 @@ public:
      * this value should be ensured the type id for the type or #ZFTypeId_none if no known type,
      * this value is used for property's advanced serialize and copy logic,
      * see #ZFTypeIdBase
-     * @note for retain property, this value is always #ZFTypeId_ZFObject
+     * @note for retain property, this value is always the class name of the #propertyClassOfRetainProperty
      */
     inline const zfchar *propertyTypeId(void) const
     {

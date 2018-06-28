@@ -19,8 +19,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-#define _ZFP_ZFMethodFuncUserRegister_methodExtSig zfText("MtdFUR")
-
 #define _ZFP_ZFMethodFuncUserRegisterParamExpand( \
         GenericInvokerOwner, methodInvoker, methodNamespaceString, \
         ReturnType, methodNameString \
@@ -43,7 +41,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , zfnull \
         , ZFMethodPrivilegeTypePublic \
         , methodNamespaceString \
-        , _ZFP_ZFMethodFuncUserRegister_methodExtSig \
         , methodNameString \
         , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
         , ZFM_TOSTRING_DIRECT(ReturnType) \

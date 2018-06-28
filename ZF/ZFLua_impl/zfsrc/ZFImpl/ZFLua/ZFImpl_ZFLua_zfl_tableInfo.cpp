@@ -14,6 +14,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_tableInfo, {
         ZFImpl_ZFLua_execute(L, zfText(
                 "function zfl_tableInfo(root)\n"
+                "    if type(root) ~= 'table' then\n"
+                "        return tostring(root)\n"
+                "    end\n"
                 "    local cache = {[root] = '.'}\n"
                 "    local function _dump(t, space, name)\n"
                 "        local temp = {}\n"

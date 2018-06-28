@@ -34,6 +34,7 @@ private:
     ZFLISTENER_INLINE(windowOnHide)
     {
         this->testCaseStop(ZFResultType::e_Success);
+        ZFLuaGC();
     }
 };
 ZFOBJECT_REGISTER(ZFLua_app_test)

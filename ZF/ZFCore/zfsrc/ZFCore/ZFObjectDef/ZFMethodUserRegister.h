@@ -23,8 +23,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
 
 // ============================================================
-#define _ZFP_ZFMethodUserRegister_methodExtSig zfText("MtdUR")
-
 #define _ZFP_ZFMethodUserRegisterParamExpand( \
         GenericInvokerOwner, methodInvoker, ownerClass, \
         PublicOrProtectedOrPrivate, ZFMethodType_, \
@@ -48,7 +46,6 @@ extern ZF_ENV_EXPORT void ZFMethodUserUnregister(ZF_IN const ZFMethod *method);
         , ownerClass \
         , _ZFP_ZFMethod_initClassMemberType_privilege(PublicOrProtectedOrPrivate) \
         , zfnull \
-        , _ZFP_ZFMethodUserRegister_methodExtSig \
         , methodNameString \
         , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
         , ZFM_TOSTRING_DIRECT(ReturnType) \

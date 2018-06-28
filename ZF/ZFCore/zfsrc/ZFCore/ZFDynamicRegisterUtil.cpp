@@ -977,7 +977,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
     }
     ZFPropertyDynamicRegisterParam param;
     param.propertyOwnerClassSet(d->cls);
-    param.propertyTypeIdSet(ZFTypeId_ZFObject());
+    param.propertyTypeIdSet(propertyClassOfRetainProperty->className());
     param.propertyNameSet(propertyName);
     param.propertyClassOfRetainPropertySet(propertyClassOfRetainProperty);
     param.propertySetterTypeSet(setterPrivilegeType);

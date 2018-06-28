@@ -25,10 +25,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   ensured empty string
  */
 #define ZFTypeId_none() zfText("")
-/**
- * @brief type id for retain property, see #ZFProperty::propertyTypeId
- */
-#define ZFTypeId_ZFObject() zfText("ZFObject")
 
 // ============================================================
 /** @brief class prefix for subclass of #ZFTypeIdWrapper */

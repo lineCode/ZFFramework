@@ -263,7 +263,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return ZFTypeId_ZFObject();
+        return zftTraits<T_Type>::TrType::ClassData()->className();
     }
     zfoverride
     virtual zfbool typeIdSerializable(void) const
@@ -403,7 +403,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return ZFTypeId_ZFObject();
+        return ZFObject::ClassData()->className();
     }
     zfoverride
     virtual zfbool typeIdSerializable(void) const

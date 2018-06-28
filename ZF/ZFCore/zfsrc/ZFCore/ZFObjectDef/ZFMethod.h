@@ -645,7 +645,6 @@ extern ZF_ENV_EXPORT ZFMethod *_ZFP_ZFMethodRegister(ZF_IN zfbool methodIsUserRe
                                                      , ZF_IN const ZFClass *methodOwnerClass
                                                      , ZF_IN ZFMethodPrivilegeType methodPrivilegeType
                                                      , ZF_IN const zfchar *methodNamespace
-                                                     , ZF_IN const zfchar *methodExtSig
                                                      , ZF_IN const zfchar *methodName
                                                      , ZF_IN const zfchar *returnTypeId
                                                      , ZF_IN const zfchar *returnTypeName
@@ -661,7 +660,6 @@ extern ZF_ENV_EXPORT ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserR
                                                       , ZF_IN const ZFClass *methodOwnerClass
                                                       , ZF_IN ZFMethodPrivilegeType methodPrivilegeType
                                                       , ZF_IN const zfchar *methodNamespace
-                                                      , ZF_IN const zfchar *methodExtSig
                                                       , ZF_IN const zfchar *methodName
                                                       , ZF_IN const zfchar *returnTypeId
                                                       , ZF_IN const zfchar *returnTypeName
@@ -682,7 +680,6 @@ public:
                                 , ZF_IN const ZFClass *methodOwnerClass
                                 , ZF_IN ZFMethodPrivilegeType methodPrivilegeType
                                 , ZF_IN const zfchar *methodNamespace
-                                , ZF_IN const zfchar *methodExtSig
                                 , ZF_IN const zfchar *methodName
                                 , ZF_IN const zfchar *returnTypeId
                                 , ZF_IN const zfchar *returnTypeName
@@ -699,7 +696,6 @@ public:
                                 , ZF_IN const ZFClass *methodOwnerClass
                                 , ZF_IN ZFMethodPrivilegeType methodPrivilegeType
                                 , ZF_IN const zfchar *methodNamespace
-                                , ZF_IN const zfchar *methodExtSig
                                 , ZF_IN const zfchar *methodName
                                 , ZF_IN const zfchar *returnTypeId
                                 , ZF_IN const zfchar *returnTypeName

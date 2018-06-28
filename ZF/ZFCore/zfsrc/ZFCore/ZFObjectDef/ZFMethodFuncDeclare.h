@@ -395,7 +395,6 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
                 , zfnull \
                 , ZFMethodPrivilegeTypePublic \
                 , ZFM_TOSTRING(MethodNamespace) \
-                , zfnull \
                 , ZFM_TOSTRING(MethodName) \
                 , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
                 , ZFM_TOSTRING_DIRECT(ReturnType) \

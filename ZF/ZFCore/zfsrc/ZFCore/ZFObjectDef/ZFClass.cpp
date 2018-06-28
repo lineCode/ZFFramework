@@ -1382,7 +1382,7 @@ void ZFClass::_ZFP_ZFClass_methodAndPropertyAutoRegister(void) const
     }
 }
 
-void ZFClass::_ZFP_ZFClass_methodRegister(ZF_IN const ZFMethod *method)
+void ZFClass::_ZFP_ZFClass_methodRegister(ZF_IN const ZFMethod *method) const
 {
     zfstlvector<const ZFMethod *> &methodList = d->methodMap[method->methodName()];
     methodList.push_back(method);
@@ -1409,7 +1409,7 @@ void ZFClass::_ZFP_ZFClass_methodUnregister(ZF_IN const ZFMethod *method)
     }
 }
 
-zfbool ZFClass::_ZFP_ZFClass_propertyRegister(ZF_IN const ZFProperty *zfproperty)
+zfbool ZFClass::_ZFP_ZFClass_propertyRegister(ZF_IN const ZFProperty *zfproperty) const
 {
     if(d->propertyMap.isContain(zfproperty->propertyName()))
     {
@@ -1422,7 +1422,7 @@ zfbool ZFClass::_ZFP_ZFClass_propertyRegister(ZF_IN const ZFProperty *zfproperty
         return zftrue;
     }
 }
-void ZFClass::_ZFP_ZFClass_propertyUnregister(ZF_IN const ZFProperty *zfproperty)
+void ZFClass::_ZFP_ZFClass_propertyUnregister(ZF_IN const ZFProperty *zfproperty) const
 {
     d->propertyMap.remove(zfproperty->propertyName());
     d->propertyList.removeElement(zfproperty);

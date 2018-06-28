@@ -42,10 +42,6 @@ zfbool ZFProperty::propertySerializable(void) const
     {
         return zffalse;
     }
-    else if(!this->propertyIsRetainProperty() && zfscmpTheSame(this->propertyTypeId(), ZFTypeId_ZFObject()))
-    {
-        return zffalse;
-    }
     const ZFTypeIdBase *t = ZFTypeIdGet(this->propertyTypeId());
     if(t == zfnull || !t->typeIdSerializable())
     {
@@ -110,7 +106,7 @@ void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
     this->_ZFP_ZFProperty_propertyOwnerClass = propertyOwnerClass;
     this->_ZFP_ZFProperty_name = name;
     this->_ZFP_ZFProperty_typeName = typeName;
-    if(propertyClassOfRetainProperty == zfnull && zfscmpTheSame(typeIdName, ZFTypeId_ZFObject()))
+    if(propertyClassOfRetainProperty == zfnull && ZFClass::classForName(typeIdName) != zfnull)
     { // assign property with ZFObject type, is not serializable
         this->_ZFP_ZFProperty_typeId = ZFTypeId_none();
     }
@@ -330,7 +326,7 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
         propertyInfo->callbackUserRegisterInitValueSetup = callbackUserRegisterInitValueSetup;
         propertyInfo->_ZFP_ZFProperty_callbackDealloc = callbackDealloc;
 
-        propertyOwnerClass->_ZFP_ZFClass_removeConst()->_ZFP_ZFClass_propertyRegister(propertyInfo);
+        propertyOwnerClass->_ZFP_ZFClass_propertyRegister(propertyInfo);
         _ZFP_ZFClassDataChangeNotify(ZFClassDataChangeTypeAttach, zfnull, propertyInfo, zfnull);
     }
 
@@ -345,13 +341,13 @@ void _ZFP_ZFPropertyUnregister(ZF_IN const ZFProperty *propertyInfo)
     propertyInfo->getterMethod()->_ZFP_ZFMethod_removeConst()->_ZFP_ZFMethod_methodOwnerProperty = zfnull;
     if(propertyInfo->propertyIsUserRegister())
     {
-        propertyInfo->propertyOwnerClass()->_ZFP_ZFClass_removeConst()->_ZFP_ZFClass_propertyUnregister(propertyInfo);
+        propertyInfo->propertyOwnerClass()->_ZFP_ZFClass_propertyUnregister(propertyInfo);
         ZFMethodUserUnregister(propertyInfo->setterMethod());
         ZFMethodUserUnregister(propertyInfo->getterMethod());
     }
     else if(propertyInfo->propertyIsDynamicRegister())
     {
-        propertyInfo->propertyOwnerClass()->_ZFP_ZFClass_removeConst()->_ZFP_ZFClass_propertyUnregister(propertyInfo);
+        propertyInfo->propertyOwnerClass()->_ZFP_ZFClass_propertyUnregister(propertyInfo);
         ZFMethodDynamicUnregister(propertyInfo->setterMethod());
         ZFMethodDynamicUnregister(propertyInfo->getterMethod());
         zfRetainChange(propertyInfo->_ZFP_ZFProperty_removeConst()->_ZFP_ZFProperty_propertyDynamicRegisterUserData, zfnull);
