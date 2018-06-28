@@ -27,7 +27,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * so we hack it by appending extra code before each #ZFLuaExecute,
  * to setup some path info related datas, mainly `zfl_L()` to return a #ZFPathInfo\n
  * \n
- * impl may use #ZFImpl_ZFLua_implPathInfoRegister to append extra contents,
+ * impl may use #ZFImpl_ZFLua_implPathInfo_DEFINE to append extra contents,
  * the final extra code may be something look like this:
  * @code
  *   -- in global scope
@@ -61,6 +61,7 @@ extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implPathInfoSetup(ZF_IN lua_State *L,
                                                          ZF_OUT zfstring &ret,
                                                          ZF_IN const ZFPathInfo *pathInfo);
 
+/** @see #ZFImpl_ZFLua_implPathInfoSetup */
 #define ZFImpl_ZFLua_implPathInfo_DEFINE(luaFunc, luaFuncBody) \
     ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFImpl_ZFLua_implPathInfo_##luaFunc, ZFLevelZFFrameworkNormal) \
     { \

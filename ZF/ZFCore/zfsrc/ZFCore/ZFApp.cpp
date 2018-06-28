@@ -11,6 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFApp)
+/** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: all uppercase macro not skipped within namespace
 
 ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFApp, void, appExit)
 {
@@ -18,6 +19,7 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFApp, void, appExit)
     exit(0);
 }
 
+/** @endcond */
 ZF_NAMESPACE_END(ZFApp)
 ZF_NAMESPACE_GLOBAL_END
 
