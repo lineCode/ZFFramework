@@ -71,13 +71,13 @@ public:
     zfindex generateBlockIndex(void)
     {
         ZFCoreArrayPOD<zfindex> available;
-        const ZF2048Value *p = this->data.pointerValueGet();
-        const ZF2048Value *pEnd = this->data.pointerValueGet() + this->dataWidth * this->dataHeight;
+        const ZF2048Value *p = this->data;
+        const ZF2048Value *pEnd = this->data + this->dataWidth * this->dataHeight;
         for( ; p != pEnd; ++p)
         {
             if(*p == 0)
             {
-                available.add(p - this->data.pointerValueGet());
+                available.add(p - this->data);
             }
         }
         zfCoreAssert(available.count() > 0);
@@ -112,7 +112,7 @@ public:
     }
     void scoreUpdate(void)
     {
-        const ZF2048Value *data = this->data.pointerValueGet();
+        const ZF2048Value *data = this->data;
         const ZF2048Value *dataEnd = data + this->dataWidth * this->dataHeight;
         this->score = 0;
         this->scoreMaxNumber = 0;
@@ -180,11 +180,11 @@ zfindex ZF2048Core::dataHeight(void)
 }
 const ZF2048Value *ZF2048Core::data(void)
 {
-    return d->data.pointerValueGet();
+    return d->data;
 }
 const ZF2048Value *ZF2048Core::dataPrev(void)
 {
-    return d->dataPrev.pointerValueGet();
+    return d->dataPrev;
 }
 ZFCoreArrayPOD<ZF2048Action> ZF2048Core::action(ZF_IN_OPT zfindex historyIndex /* = 0 */)
 {
@@ -219,7 +219,7 @@ void ZF2048Core::reset(ZF_IN_OPT zfindex width /* = 4 */,
     zfindex size = sizeof(ZF2048Value) * d->dataWidth * d->dataHeight;
     ZF2048Value *data = (ZF2048Value *)zfmalloc(size);
     zfmemset(data, 0, size);
-    d->data.pointerValueSet(data);
+    d->data = data;
     d->dataPointerCache.removeAll();
     for(zfindex i = 0; i < width; ++i)
     {
@@ -232,11 +232,11 @@ void ZF2048Core::reset(ZF_IN_OPT zfindex width /* = 4 */,
 
     ZF2048Value *dataPrev = (ZF2048Value *)zfmalloc(size);
     zfmemcpy(dataPrev, data, size);
-    d->dataPrev.pointerValueSet(dataPrev);
+    d->dataPrev = dataPrev;
 
     ZF2048Value *dataTmp = (ZF2048Value *)zfmalloc(size);
     zfmemcpy(dataTmp, data, size);
-    d->dataTmp.pointerValueSet(dataTmp);
+    d->dataTmp = dataTmp;
 
     this->gameDataOnChange();
 }
@@ -370,7 +370,7 @@ zfbool ZF2048Core::canMove(void)
 
 zfbool ZF2048Core::moveLeft(void)
 {
-    zfmemcpy(d->dataTmp.pointerValueGet(), d->data.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataTmp, d->data, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     ZFCoreArrayPOD<ZF2048Action> actionList;
     for(zfindex y = 0; y < d->dataHeight; ++y)
@@ -447,7 +447,7 @@ zfbool ZF2048Core::moveLeft(void)
     d->dataPointerCache[action.from.x][action.from.y] = action.value;
     d->addActionList(actionList);
 
-    zfmemcpy(d->dataPrev.pointerValueGet(), d->dataTmp.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataPrev, d->dataTmp, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     d->gameOverNeedCheck = zftrue;
     d->scoreUpdateQuickly(action.value);
@@ -456,7 +456,7 @@ zfbool ZF2048Core::moveLeft(void)
 }
 zfbool ZF2048Core::moveTop(void)
 {
-    zfmemcpy(d->dataTmp.pointerValueGet(), d->data.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataTmp, d->data, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     ZFCoreArrayPOD<ZF2048Action> actionList;
     for(zfindex x = 0; x < d->dataWidth; ++x)
@@ -533,7 +533,7 @@ zfbool ZF2048Core::moveTop(void)
     d->dataPointerCache[action.from.x][action.from.y] = action.value;
     d->addActionList(actionList);
 
-    zfmemcpy(d->dataPrev.pointerValueGet(), d->dataTmp.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataPrev, d->dataTmp, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     d->gameOverNeedCheck = zftrue;
     d->scoreUpdateQuickly(action.value);
@@ -542,7 +542,7 @@ zfbool ZF2048Core::moveTop(void)
 }
 zfbool ZF2048Core::moveRight(void)
 {
-    zfmemcpy(d->dataTmp.pointerValueGet(), d->data.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataTmp, d->data, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     ZFCoreArrayPOD<ZF2048Action> actionList;
     for(zfindex y = 0; y < d->dataHeight; ++y)
@@ -619,7 +619,7 @@ zfbool ZF2048Core::moveRight(void)
     d->dataPointerCache[action.from.x][action.from.y] = action.value;
     d->addActionList(actionList);
 
-    zfmemcpy(d->dataPrev.pointerValueGet(), d->dataTmp.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataPrev, d->dataTmp, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     d->gameOverNeedCheck = zftrue;
     d->scoreUpdateQuickly(action.value);
@@ -628,7 +628,7 @@ zfbool ZF2048Core::moveRight(void)
 }
 zfbool ZF2048Core::moveBottom(void)
 {
-    zfmemcpy(d->dataTmp.pointerValueGet(), d->data.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataTmp, d->data, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     ZFCoreArrayPOD<ZF2048Action> actionList;
     for(zfindex x = 0; x < d->dataWidth; ++x)
@@ -705,7 +705,7 @@ zfbool ZF2048Core::moveBottom(void)
     d->dataPointerCache[action.from.x][action.from.y] = action.value;
     d->addActionList(actionList);
 
-    zfmemcpy(d->dataPrev.pointerValueGet(), d->dataTmp.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataPrev, d->dataTmp, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     d->gameOverNeedCheck = zftrue;
     d->scoreUpdateQuickly(action.value);
@@ -720,7 +720,7 @@ void ZF2048Core::undo(void)
         return ;
     }
 
-    zfmemcpy(d->dataPrev.pointerValueGet(), d->data.pointerValueGet(), sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
+    zfmemcpy(d->dataPrev, d->data, sizeof(ZF2048Value) * d->dataWidth * d->dataHeight);
 
     ZFCoreArrayPOD<ZF2048Action> actionList = d->actionHistory.removeFirstAndGet();
     ZFCoreArrayPOD<zfindex> toBlockFix;
@@ -768,7 +768,7 @@ void ZF2048Core::undo(void)
 
 void ZF2048Core::debugStatus(ZF_IN_OPT const ZFOutput &outputCallback /* = ZFOutputDefault() */)
 {
-    d->debugStatus(outputCallback, d->data.pointerValueGet());
+    d->debugStatus(outputCallback, d->data);
 }
 
 void ZF2048Core::gameDataOnChange(void)

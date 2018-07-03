@@ -78,7 +78,7 @@ public:
         zfsuper::copyFrom(ref);
         this->classFilter.copyFrom(ref.classFilter);
         _ZFP_ZFFilterForZFPropertySetting *setting = zfnew(_ZFP_ZFFilterForZFPropertySetting);
-        zfmemcpy(setting, ref.d.pointerValueGet(), sizeof(_ZFP_ZFFilterForZFPropertySetting));
+        zfmemcpy(setting, ref.d, sizeof(_ZFP_ZFFilterForZFPropertySetting));
         d = setting;
     }
     /** @endcond */

@@ -1334,7 +1334,7 @@ void ZFClass::_ZFP_ZFClassInitFinish_instanceObserverCache(ZF_IN ZFClass *cls)
         zfstldeque<ZFCorePointerForObject<_ZFP_ZFClassPrivate::InstanceObserverData *> > &parentInstanceObserver = it->first->d->instanceObserver;
         for(zfstlsize i = 0; i < parentInstanceObserver.size(); ++i)
         {
-            cls->d->instanceObserverCached.push_back(parentInstanceObserver[i].pointerValueGet());
+            cls->d->instanceObserverCached.push_back(parentInstanceObserver[i]);
         }
     }
 }

@@ -1944,7 +1944,7 @@ ZFMETHOD_DEFINE_3(ZFUIView, void, childAdd,
 }
 ZFMETHOD_DEFINE_3(ZFUIView, void, childAdd,
                   ZFMP_IN(ZFUIView *, view),
-                  ZFMP_IN(ZFUISizeParam, sizeParam),
+                  ZFMP_IN(const ZFUISizeParam &, sizeParam),
                   ZFMP_IN_OPT(ZFUIAlignFlags const &, layoutAlign, ZFUIAlign::e_LeftInner | ZFUIAlign::e_TopInner))
 {
     this->childAdd(view);

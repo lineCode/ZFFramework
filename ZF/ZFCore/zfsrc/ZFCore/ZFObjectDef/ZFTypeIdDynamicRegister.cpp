@@ -55,7 +55,7 @@ zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
         zfstringAppend(errorHint, zfText("empty typeIdName"));
         return zffalse;
     }
-    if(typeIdData.pointerValue() == zfnull)
+    if(typeIdData == zfnull)
     {
         zfstringAppend(errorHint, zfText("null typeIdData"));
         return zffalse;
@@ -75,7 +75,7 @@ zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
         return zffalse;
     }
     d->m[typeIdName] = typeIdData;
-    _ZFP_ZFTypeIdRegister(typeIdName, typeIdData.pointerValueGet());
+    _ZFP_ZFTypeIdRegister(typeIdName, typeIdData);
     return zftrue;
 }
 void ZFTypeIdDynamicUnregister(ZF_IN const zfchar *typeIdName)
