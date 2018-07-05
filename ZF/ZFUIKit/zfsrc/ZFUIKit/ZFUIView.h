@@ -216,14 +216,13 @@ public:
     // serialize
 public:
     /**
-     * @brief store ref layout param for this view
+     * @brief store ref layout param for this view for reducing serialization output size
      *
-     * typically for impl views,
      * if set, while serializing this view's layout param,
      * the ref one would be used as reference object to filter out contents that didn't change
      * (see #ZFSerializable::serializeToData)\n
-     * by default, all impl child add methods (#internalBgViewAdd series)
-     * would call this method automatically
+     * by default, all children would have it's parent's default layout param (#layoutParamCreate)
+     * as the ref layout param, during adding to parent
      */
     virtual void serializableRefLayoutParamSet(ZF_IN ZFUIViewLayoutParam *serializableRefLayoutParam);
     /** @brief see #serializableRefLayoutParamSet */
@@ -238,11 +237,16 @@ protected:
                                                  ZF_IN ZFSerializable *referencedOwnerOrNull,
                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull);
     /**
-     * @brief by default, #ZFUIView would serialize all normal child views,
-     *   for some adapter view it may be not necessary,
-     *   you may override this method to disable the auto serialization of child views
+     * @brief whether we should serialize all children
+     *
+     * by default, #ZFUIView would serialize all normal child views,
+     * for some adapter view it may be not necessary,
+     * you may override this method to disable the auto serialization of child views
      */
-    virtual zfbool serializableOnCheckNeedSerializeChildren(void);
+    virtual inline zfbool serializableOnCheckNeedSerializeChildren(void)
+    {
+        return zftrue;
+    }
 
 public:
     // ============================================================
@@ -1219,6 +1223,13 @@ protected:
 
     // ============================================================
     // override
+protected:
+    /**
+     * @brief for a view, copy style would also copy all of it's children
+     */
+    zfoverride
+    virtual void styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable);
+
 protected:
     zfoverride
     virtual void observerOnAdd(ZF_IN zfidentity eventId);

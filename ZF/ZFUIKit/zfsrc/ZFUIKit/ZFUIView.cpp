@@ -70,6 +70,7 @@ public:
     ZFUIViewChildLayerEnum viewLayer;
     ZFUIViewLayoutParam *layoutParam; // retain
     ZFUIViewLayoutParam *serializableRefLayoutParam; // retain
+    zfautoObject serializableRefLayoutParamCache;
 
     _ZFP_ZFUIViewInternalViewAutoSerializeTagMapType internalViewAutoSerializeTags;
 
@@ -136,6 +137,7 @@ public:
     , viewLayer(ZFUIViewChildLayer::e_Normal)
     , layoutParam(zfnull)
     , serializableRefLayoutParam(zfnull)
+    , serializableRefLayoutParamCache()
     , internalViewAutoSerializeTags()
     , scaleForImpl(1)
     , scaleFixed(1)
@@ -224,14 +226,11 @@ public:
         zfCoreAssertWithMessageTrim(view->viewParent() == zfnull, zfTextA("[ZFUIView] add child which already has parent, you should remove it first"));
         zfRetain(view);
 
-        if(childLayer != ZFUIViewChildLayer::e_Normal)
+        if(this->serializableRefLayoutParamCache == zfnull)
         {
-            view->serializableRefLayoutParamSet(owner->layoutParamCreate().to<ZFUIViewLayoutParam *>());
+            this->serializableRefLayoutParamCache = owner->layoutParamCreate();
         }
-        else
-        {
-            view->serializableRefLayoutParamSet(zfnull);
-        }
+        view->serializableRefLayoutParamSet(this->serializableRefLayoutParamCache);
 
         zfbool layoutParamNeedRelease = zffalse;
         if(layoutParam == zfnull)
@@ -907,10 +906,6 @@ zfbool ZFUIView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
             }
         }
     }
-    return zftrue;
-}
-zfbool ZFUIView::serializableOnCheckNeedSerializeChildren(void)
-{
     return zftrue;
 }
 
@@ -1903,6 +1898,42 @@ ZFMETHOD_DEFINE_3(ZFUIView, ZFUIView *, childFindById,
         return zfnull;
     }
 
+    if(!findRecursively)
+    {
+        for(zfindex i = 0; i < d->layerNormal.views.count(); ++i)
+        {
+            if(zfscmpTheSame(d->layerNormal.views[i]->viewId().cString(), viewId))
+            {
+                return d->layerNormal.views[i];
+            }
+        }
+        if(includeInternalViews)
+        {
+            for(zfindex i = 0; i < d->layerInternalImpl.views.count(); ++i)
+            {
+                if(zfscmpTheSame(d->layerInternalImpl.views[i]->viewId().cString(), viewId))
+                {
+                    return d->layerInternalImpl.views[i];
+                }
+            }
+            for(zfindex i = 0; i < d->layerInternalBg.views.count(); ++i)
+            {
+                if(zfscmpTheSame(d->layerInternalBg.views[i]->viewId().cString(), viewId))
+                {
+                    return d->layerInternalBg.views[i];
+                }
+            }
+            for(zfindex i = 0; i < d->layerInternalFg.views.count(); ++i)
+            {
+                if(zfscmpTheSame(d->layerInternalFg.views[i]->viewId().cString(), viewId))
+                {
+                    return d->layerInternalFg.views[i];
+                }
+            }
+        }
+        return zfnull;
+    }
+
     ZFCoreArrayPOD<ZFUIView *> toFind;
     toFind.add(this);
     while(!toFind.isEmpty())
@@ -1912,10 +1943,6 @@ ZFMETHOD_DEFINE_3(ZFUIView, ZFUIView *, childFindById,
         if(zfscmpTheSame(view->viewId().cString(), viewId))
         {
             return view;
-        }
-        if(!findRecursively)
-        {
-            continue;
         }
         toFind.addFrom(view->childArray());
         if(includeInternalViews)
@@ -2398,6 +2425,22 @@ void ZFUIView::viewPropertyOnUpdate(void)
 
 // ============================================================
 // override
+void ZFUIView::styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable)
+{
+    zfsuperI(ZFStyleable)::styleableOnCopyFrom(anotherStyleable);
+    ZFUIView *ref = ZFCastZFObject(ZFUIView *, anotherStyleable);
+    if(ref == zfnull || this->childCount() != 0)
+    {
+        return ;
+    }
+    for(zfindex i = 0; i < ref->childCount(); ++i)
+    {
+        zfautoObject child = ref->childAtIndex(i)->copy();
+        zfautoObject childLayoutParam = ref->childAtIndex(i)->layoutParam()->copy();
+        this->childAdd(child, childLayoutParam);
+    }
+}
+
 void ZFUIView::observerOnAdd(ZF_IN zfidentity eventId)
 {
     zfsuper::observerOnAdd(eventId);

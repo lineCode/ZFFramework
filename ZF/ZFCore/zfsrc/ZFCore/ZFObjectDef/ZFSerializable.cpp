@@ -285,6 +285,7 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
     if(styleable != zfnull && styleable->styleKey() != zfnull)
     {
         referencedObject = ZFCastZFObject(ZFSerializable *, ZFStyleGet(styleable->styleKey()));
+        serializableData.attributeSet(ZFSerializableKeyword_styleKey, styleable->styleKey());
     }
     if(referencedObject == zfnull)
     {
