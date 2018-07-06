@@ -213,7 +213,7 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
     for(zfindex i = 0; i < allMethod.count(); ++i)
     {
         const ZFMethod *t = allMethod[i];
-        if(!zfsIsEmpty(t->methodNamespace())
+        if(t->methodNamespace() != zfnull
             && zfsncmp(t->methodNamespace(), zfpFix, zfpFixLen) != 0)
         {
             tags[t->methodNamespace()] = zftrue;

@@ -67,9 +67,11 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
                                 ZF_IN const zfchar *methodName)
 {
     zfCoreMutexLocker();
-    if(zfsIsEmpty(methodNamespace))
+    if(methodNamespace == zfnull
+        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
-        methodNamespace = ZF_NAMESPACE_GLOBAL_NAME;
+        methodNamespace = zfText("");
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
@@ -100,9 +102,11 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
                                 )
 {
     zfCoreMutexLocker();
-    if(zfsIsEmpty(methodNamespace))
+    if(methodNamespace == zfnull
+        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
-        methodNamespace = ZF_NAMESPACE_GLOBAL_NAME;
+        methodNamespace = zfText("");
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
@@ -179,9 +183,11 @@ void ZFMethodFuncGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
 {
     zfCoreMutexLocker();
 
-    if(zfsIsEmpty(methodNamespace))
+    if(methodNamespace == zfnull
+        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
-        methodNamespace = ZF_NAMESPACE_GLOBAL_NAME;
+        methodNamespace = zfText("");
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);

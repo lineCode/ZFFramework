@@ -161,10 +161,7 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
 
     if(this->methodIsFunctionType())
     {
-        if(!zfscmpTheSame(this->methodNamespace(), ZF_NAMESPACE_GLOBAL_NAME))
-        {
-            ret += this->methodNamespace();
-        }
+        ret += this->methodNamespace();
         ret += zfText("::");
     }
     else
@@ -332,11 +329,8 @@ static void _ZFP_ZFMethodInstanceSig(ZF_OUT zfstring &ret,
                                      , ZF_IN_OPT const zfchar *methodParamTypeId7 /* = zfnull */
                                      )
 {
-    if(methodScope == zfnull || *methodScope == '\0')
-    {
-        ret += ZF_NAMESPACE_GLOBAL_NAME;
-    }
-    else
+    if(!zfscmpTheSame(methodScope, ZF_NAMESPACE_GLOBAL_NAME)
+        && !zfscmpTheSame(methodScope, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
         ret += methodScope;
     }

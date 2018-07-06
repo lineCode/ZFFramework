@@ -10,8 +10,8 @@
 package com.ZFFramework.Android.ZF_impl;
 
 public class ZFEnum {
-    public static int raw(String rawEnumValueName) {
-        return native_rawEnumValue(rawEnumValueName);
+    public static int raw(String rawEnumNamespace, String rawEnumValueName) {
+        return native_rawEnumValue(rawEnumNamespace, rawEnumValueName);
     }
     public static int e(String enumClassName, String enumValueName) {
         return native_enumValue(enumClassName, enumValueName);
@@ -23,7 +23,7 @@ public class ZFEnum {
         return native_enumName(enumClassName, enumValue);
     }
 
-    private native static int native_rawEnumValue(String rawEnumValueName);
+    private native static int native_rawEnumValue(String rawEnumNamespace, String rawEnumValueName);
     private native static int native_enumValue(String enumClassName, String enumValueName);
     private native static int native_enumDefault(String enumClassName);
     private native static String native_enumName(String enumClassName, int enumValue);

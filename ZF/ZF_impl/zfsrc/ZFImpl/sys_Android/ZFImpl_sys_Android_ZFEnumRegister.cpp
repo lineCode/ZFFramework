@@ -20,16 +20,19 @@ ZF_NAMESPACE_GLOBAL_END
 
 JNI_METHOD_DECLARE(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1rawEnumValue,
                    JNIEnv *jniEnv, jclass jniCls,
+                   jstring rawEnumNamespace,
                    jstring rawEnumValueName)
 {
+    const zfcharA *rawEnumNamespaceT = JNIUtilGetStringUTFChars(jniEnv, rawEnumNamespace, zfnull);
     const zfcharA *rawEnumValueNameT = JNIUtilGetStringUTFChars(jniEnv, rawEnumValueName, zfnull);
     zfuint ret = ZFEnumInvalid();
     do
     {
-        const ZFMethod *method = ZFMethodFuncGet(ZF_NAMESPACE_GLOBAL_NAME, ZFStringA2Z(rawEnumValueNameT));
+        const ZFMethod *method = ZFMethodFuncGet(ZFStringA2Z(rawEnumNamespaceT), ZFStringA2Z(rawEnumValueNameT));
         if(method == zfnull) {break;}
         ret = method->execute<zfuint>(zfnull);
     } while(zffalse);
+    JNIUtilReleaseStringUTFChars(jniEnv, rawEnumNamespace, rawEnumNamespaceT);
     JNIUtilReleaseStringUTFChars(jniEnv, rawEnumValueName, rawEnumValueNameT);
     return (jint)ret;
 }

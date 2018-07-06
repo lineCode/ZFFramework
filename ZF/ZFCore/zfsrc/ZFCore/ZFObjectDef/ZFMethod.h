@@ -587,11 +587,12 @@ public:
         return (this->_ZFP_ZFMethod_methodOwnerClass == zfnull);
     }
     /**
-     * @brief get the method namespace, for func type only
+     * @brief get the method namespace, for func type only,
+     *   ensured null for global scope (#ZF_NAMESPACE_GLOBAL)
      */
     inline const zfchar *methodNamespace(void) const
     {
-        return this->_ZFP_ZFMethod_methodNamespace.cString();
+        return (this->_ZFP_ZFMethod_methodNamespace.isEmpty() ? zfnull : this->_ZFP_ZFMethod_methodNamespace.cString());
     }
 
 public:

@@ -9,6 +9,9 @@
  * ====================================================================== */
 #include "ZFImpl_ZFLua.h"
 
+#include "ZFCore/ZFSTLWrapper/zfstl_map.h"
+#include "ZFCore/ZFSTLWrapper/zfstl_string.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -16,7 +19,7 @@ static void _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(ZF_IN const ZFCoreArray
                                                          ZF_IN const ZFMethod *method)
 {
     if(!method->methodIsFunctionType()
-        || !zfscmpTheSame(method->methodNamespace(), ZF_NAMESPACE_GLOBAL_NAME))
+        || method->methodNamespace() != zfnull)
     {
         return ;
     }
@@ -53,20 +56,32 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, {
         ZFCoreArrayPOD<const ZFMethod *> allMethod = ZFMethodFuncGetAll();
         if(!allMethod.isEmpty())
         {
-            const zfchar **methodNameList = (const zfchar **)zfmalloc(sizeof(const zfchar *) * (allMethod.count() + 1));
-            zfblockedFree(methodNameList);
-
+            zfstlmap<zfstlstringZ, zfbool> methodNamespaceList;
             ZFCoreArrayPOD<lua_State *> luaStateList;
             luaStateList.add(L);
             for(zfindex i = 0; i < allMethod.count(); ++i)
             {
                 const ZFMethod *method = allMethod[i];
-                methodNameList[i] = method->methodNamespace();
+                if(method->methodNamespace() != zfnull)
+                {
+                    methodNamespaceList[method->methodNamespace()] = zftrue;
+                }
                 _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(luaStateList, method);
             }
-            methodNameList[allMethod.count()] = zfnull;
 
-            ZFImpl_ZFLua_implSetupScope(L, methodNameList);
+            if(!methodNamespaceList.empty())
+            {
+                const zfchar **tmp = (const zfchar **)zfmalloc(sizeof(const zfchar *) * (allMethod.count() + 1));
+                zfblockedFree(tmp);
+                zfindex i = 0;
+                for(zfstlmap<zfstlstringZ, zfbool>::iterator it = methodNamespaceList.begin(); it != methodNamespaceList.end(); ++it)
+                {
+                    tmp[i] = it->first.c_str();
+                    ++i;
+                }
+                tmp[i] = zfnull;
+                ZFImpl_ZFLua_implSetupScope(L, tmp);
+            }
         }
 
         ZFClassDataChangeObserver.observerAdd(
