@@ -69,7 +69,7 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
     zfCoreMutexLocker();
     if(zfsIsEmpty(methodNamespace))
     {
-        methodNamespace = ZFMethodFuncNamespaceGlobal;
+        methodNamespace = ZF_NAMESPACE_GLOBAL_NAME;
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
@@ -102,7 +102,7 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
     zfCoreMutexLocker();
     if(zfsIsEmpty(methodNamespace))
     {
-        methodNamespace = ZFMethodFuncNamespaceGlobal;
+        methodNamespace = ZF_NAMESPACE_GLOBAL_NAME;
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
@@ -181,7 +181,7 @@ void ZFMethodFuncGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
 
     if(zfsIsEmpty(methodNamespace))
     {
-        methodNamespace = ZFMethodFuncNamespaceGlobal;
+        methodNamespace = ZF_NAMESPACE_GLOBAL_NAME;
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);

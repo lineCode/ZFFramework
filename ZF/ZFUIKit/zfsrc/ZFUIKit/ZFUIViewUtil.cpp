@@ -13,8 +13,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFUIViewUtil)
 /** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: all uppercase macro not skipped within namespace
 
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFUIViewUtil, ZFUIView *, viewRoot,
-                               ZFMP_IN(ZFUIView *, view))
+ZFMETHOD_FUNC_DEFINE_1(ZFUIView *, viewRoot,
+                       ZFMP_IN(ZFUIView *, view))
 {
     if(view != zfnull)
     {
@@ -26,9 +26,9 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFUIViewUtil, ZFUIView *, viewRoot,
     return view;
 }
 
-ZFMETHOD_FUNC_DEFINE_WITH_NS_2(ZFUIViewUtil, zfbool, viewIsChildOf,
-                               ZFMP_IN(ZFUIView *, view),
-                               ZFMP_IN(ZFUIView *, parentToCheck))
+ZFMETHOD_FUNC_DEFINE_2(zfbool, viewIsChildOf,
+                       ZFMP_IN(ZFUIView *, view),
+                       ZFMP_IN(ZFUIView *, parentToCheck))
 {
     if(view != zfnull)
     {
@@ -45,12 +45,12 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_2(ZFUIViewUtil, zfbool, viewIsChildOf,
     return zffalse;
 }
 
-ZFMETHOD_FUNC_DEFINE_WITH_NS_5(ZFUIViewUtil, ZFUIView *, viewChildAt,
-                               ZFMP_IN(ZFUIView *, view),
-                               ZFMP_IN(const ZFUIPoint &, pos),
-                               ZFMP_IN_OPT(zfbool, filterDisabledView, zffalse),
-                               ZFMP_IN_OPT(zfbool, filterInternalView, zftrue),
-                               ZFMP_IN_OPT(const ZFFilterForZFObject *, filter, zfnull))
+ZFMETHOD_FUNC_DEFINE_5(ZFUIView *, viewChildAt,
+                       ZFMP_IN(ZFUIView *, view),
+                       ZFMP_IN(const ZFUIPoint &, pos),
+                       ZFMP_IN_OPT(zfbool, filterDisabledView, zffalse),
+                       ZFMP_IN_OPT(zfbool, filterInternalView, zftrue),
+                       ZFMP_IN_OPT(const ZFFilterForZFObject *, filter, zfnull))
 {
     if(view == zfnull
         || (filterDisabledView && !view->viewUIEnableTree())
@@ -127,10 +127,10 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_5(ZFUIViewUtil, ZFUIView *, viewChildAt,
     return view;
 }
 
-ZFMETHOD_FUNC_DEFINE_WITH_NS_3(ZFUIViewUtil, void, viewRectToParent,
-                               ZFMP_OUT(ZFUIRect &, rect),
-                               ZFMP_IN(ZFUIView *, view),
-                               ZFMP_IN(ZFUIView *, parent))
+ZFMETHOD_FUNC_DEFINE_3(void, viewRectToParent,
+                       ZFMP_OUT(ZFUIRect &, rect),
+                       ZFMP_IN(ZFUIView *, view),
+                       ZFMP_IN(ZFUIView *, parent))
 {
     if(view == zfnull || parent == zfnull)
     {
@@ -151,11 +151,16 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_3(ZFUIViewUtil, void, viewRectToParent,
         rect = ZFUIRectZero();
     }
 }
-ZFMETHOD_FUNC_DEFINE_DETAIL_2(ZFMethodFuncIsInline, ZFUIViewUtil, ZFUIRect, viewRectToParent,
-                              ZFMP_IN(ZFUIView *, view),
-                              ZFMP_IN(ZFUIView *, parent))
+ZFMETHOD_FUNC_DEFINE_2(ZFUIRect, viewRectToParent,
+                       ZFMP_IN(ZFUIView *, view),
+                       ZFMP_IN(ZFUIView *, parent))
+{
+    ZFUIRect ret = ZFUIRectZero();
+    ZFUIViewUtil::viewRectToParent(ret, view, parent);
+    return ret;
+}
 
 /** @endcond */
-ZF_NAMESPACE_END(ZFUIViewUtil)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFUIViewUtil)
 ZF_NAMESPACE_GLOBAL_END
 

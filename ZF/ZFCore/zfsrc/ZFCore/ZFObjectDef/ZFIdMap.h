@@ -136,51 +136,49 @@ public:
  *   // in header files
  *   ZF_NAMESPACE_BEGIN(YourNamespace)
  *   / ** @brief you can add doxygen docs here * /
- *   ZFIDMAP_GLOBAL(YourNamespace, YourSth)
+ *   ZFIDMAP_GLOBAL(YourSth)
  *   ZF_NAMESPACE_END(YourNamespace)
  *
- *   ZFIDMAP_GLOBAL_REGISTER(YourNamespace, YourSth)
+ *   ZFIDMAP_GLOBAL_REGISTER(YourSth)
  *
  *   // use the id
  *   zfidentity idValue = YourNamespace::IdYourSth();
  * @endcode
  * unlike #ZFIDMAP, this macro would declare id outside of class scope
  */
-#define ZFIDMAP_GLOBAL(YourNamespace, YourIdName) \
-    ZFIDMAP_GLOBAL_DETAIL(YourNamespace, Id, YourIdName)
+#define ZFIDMAP_GLOBAL(YourIdName) \
+    ZFIDMAP_GLOBAL_DETAIL(Id, YourIdName)
 /** @brief see #ZFIDMAP_GLOBAL */
-#define ZFIDMAP_GLOBAL_DETAIL(GlobalNamespace, prefix, YourIdName) \
+#define ZFIDMAP_GLOBAL_DETAIL(prefix, YourIdName) \
     /** @cond ZFPrivateDoc */ \
-    zfclass ZF_ENV_EXPORT _ZFP_ZFIdMapHolder_##GlobalNamespace##_##prefix##_##YourIdName \
+    zfclass ZF_ENV_EXPORT _ZFP_ZFIdMapHolder_##prefix##_##YourIdName \
     { \
     public: \
-        static zfidentity idValue(void) \
+        static _ZFP_ZFIdMapHolder &h(void) \
         { \
-            static _ZFP_ZFIdMapHolder d(idName()); \
-            return *(d.idValue); \
-        } \
-        static const zfchar *idName(void) \
-        { \
-            return ZFM_TOSTRING_DIRECT(GlobalNamespace) zfText("::") ZFM_TOSTRING_DIRECT(prefix) ZFM_TOSTRING_DIRECT(YourIdName); \
+            static _ZFP_ZFIdMapHolder d( \
+                    zfsConnectLineFree(ZF_NAMESPACE_CURRENT(), zfText("::"), ZFM_TOSTRING_DIRECT(prefix), ZFM_TOSTRING_DIRECT(YourIdName)) \
+                ); \
+            return d; \
         } \
     }; \
     /** @endcond */ \
     /** \n see #ZFIDMAP_GLOBAL */ \
     inline zfidentity prefix##YourIdName(void) \
     { \
-        return _ZFP_ZFIdMapHolder_##GlobalNamespace##_##prefix##_##YourIdName::idValue(); \
+        return *(_ZFP_ZFIdMapHolder_##prefix##_##YourIdName::h().idValue); \
     } \
     /** @brief see @ref prefix##YourIdName, @ref ZFIDMAP_GLOBAL */ \
     inline const zfchar *prefix##YourIdName##_name(void) \
     { \
-        return _ZFP_ZFIdMapHolder_##GlobalNamespace##_##prefix##_##YourIdName::idName(); \
+        return _ZFP_ZFIdMapHolder_##prefix##_##YourIdName::h().idName; \
     }
 
 /** @brief see #ZFIDMAP */
 #define ZFIDMAP_REGISTER(Scope, YourIdName) \
-    ZFIDMAP_DETAIL_REGISTER(Scope, Id, YourIdName)
+    ZFIDMAP_REGISTER_DETAIL(Scope, Id, YourIdName)
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_DETAIL_REGISTER(Scope, prefix, YourIdName) \
+#define ZFIDMAP_REGISTER_DETAIL(Scope, prefix, YourIdName) \
     ZF_STATIC_REGISTER_INIT(ZFIdMap_##Scope##_##YourIdName) \
     { \
         (void)Scope::prefix##YourIdName(); \
@@ -213,38 +211,38 @@ public:
     ZF_STATIC_REGISTER_END(ZFIdMap_##Scope##_##YourIdName)
 
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_GLOBAL_REGISTER(Scope, YourIdName) \
-    ZFIDMAP_GLOBAL_DETAIL_REGISTER(Scope, Id, YourIdName)
+#define ZFIDMAP_GLOBAL_REGISTER(YourIdName) \
+    ZFIDMAP_GLOBAL_REGISTER_DETAIL(Id, YourIdName)
 /** @brief see #ZFIDMAP */
-#define ZFIDMAP_GLOBAL_DETAIL_REGISTER(Scope, prefix, YourIdName) \
-    ZF_STATIC_REGISTER_INIT(ZFIdMap_##Scope##_##YourIdName) \
+#define ZFIDMAP_GLOBAL_REGISTER_DETAIL(prefix, YourIdName) \
+    ZF_STATIC_REGISTER_INIT(ZFIdMap_##YourIdName) \
     { \
-        (void)Scope::prefix##YourIdName(); \
+        (void)prefix##YourIdName(); \
         \
         { \
-            ZFMethodFuncUserRegisterDetail_0(resultMethod, &i_id, ZFM_TOSTRING(Scope), \
+            ZFMethodFuncUserRegisterDetail_0(resultMethod, &i_id, ZF_NAMESPACE_CURRENT(), \
                 zfidentity, ZFM_TOSTRING(prefix##YourIdName)); \
             this->m_id = resultMethod; \
         } \
         { \
-            ZFMethodFuncUserRegisterDetail_0(resultMethod, &i_idName, ZFM_TOSTRING(Scope), \
+            ZFMethodFuncUserRegisterDetail_0(resultMethod, &i_idName, ZF_NAMESPACE_CURRENT(), \
                 const zfchar *, ZFM_TOSTRING(prefix##YourIdName##_name)); \
             this->m_idName = resultMethod; \
         } \
     } \
-    ZF_STATIC_REGISTER_DESTROY(ZFIdMap_##Scope##_##YourIdName) \
+    ZF_STATIC_REGISTER_DESTROY(ZFIdMap_##YourIdName) \
     { \
         ZFMethodFuncUserUnregister(this->m_id); \
         ZFMethodFuncUserUnregister(this->m_idName); \
     } \
     const ZFMethod *m_id; \
     static zfidentity i_id(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj) \
-    {return Scope::prefix##YourIdName();} \
+    {return prefix##YourIdName();} \
     \
     const ZFMethod *m_idName; \
     static const zfchar *i_idName(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj) \
-    {return Scope::prefix##YourIdName##_name();} \
-    ZF_STATIC_REGISTER_END(ZFIdMap_##Scope##_##YourIdName) \
+    {return prefix##YourIdName##_name();} \
+    ZF_STATIC_REGISTER_END(ZFIdMap_##YourIdName) \
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFIdMap_h_

@@ -12,12 +12,14 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusAutoApplyStart)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusAutoApplyStop)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusAutoApplyPause)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusAutoApplyResume)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusViewBlinkOn)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkWhenFocusViewBlinkOff)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkWhenFocusAutoApplyStart)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkWhenFocusAutoApplyStop)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkWhenFocusAutoApplyPause)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkWhenFocusAutoApplyResume)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkWhenFocusViewBlinkOn)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkWhenFocusViewBlinkOff)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 // ============================================================
 ZFEXPORT_VAR_DEFINE(ZFFilterForZFObject, ZFUIViewBlinkWhenFocusFilter, ZFFilterForZFObject())

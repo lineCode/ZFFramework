@@ -292,8 +292,8 @@ void _ZFP_ZFImpl_ZFLua_implDispatchRegister(ZF_IN _ZFP_ZFImpl_ZFLua_ImplDispatch
     zfCoreMutexLocker();
 
     if(classOrNamespace == zfnull
-        || zfscmpTheSame(classOrNamespace, ZFLuaFuncNamespaceGlobal)
-        || zfscmpTheSame(classOrNamespace, ZFMethodFuncNamespaceGlobal))
+        || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
         classOrNamespace = zfText("");
     }
@@ -310,8 +310,8 @@ void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZFImpl_ZFLua_ImplDispat
     zfCoreMutexLocker();
 
     if(classOrNamespace == zfnull
-        || zfscmpTheSame(classOrNamespace, ZFLuaFuncNamespaceGlobal)
-        || zfscmpTheSame(classOrNamespace, ZFMethodFuncNamespaceGlobal))
+        || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
         classOrNamespace = zfText("");
     }
@@ -348,8 +348,8 @@ void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZFImpl_ZFLua_ImplDispat
 void ZFImpl_ZFLua_implDispatch(ZF_IN_OUT ZFImpl_ZFLua_ImplDispatchInfo &dispatchInfo)
 {
     if(dispatchInfo.classOrNamespace == zfnull
-        || zfscmpTheSame(dispatchInfo.classOrNamespace, ZFLuaFuncNamespaceGlobal)
-        || zfscmpTheSame(dispatchInfo.classOrNamespace, ZFMethodFuncNamespaceGlobal))
+        || zfscmpTheSame(dispatchInfo.classOrNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        || zfscmpTheSame(dispatchInfo.classOrNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
         dispatchInfo.classOrNamespace = zfText("");
     }

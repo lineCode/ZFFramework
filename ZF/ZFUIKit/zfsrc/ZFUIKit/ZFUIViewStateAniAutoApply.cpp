@@ -12,10 +12,12 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewStateAniAutoApplyStart)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewStateAniAutoApplyStop)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewStateAniAutoApplyPause)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewStateAniAutoApplyResume)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewStateAniAutoApplyStart)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewStateAniAutoApplyStop)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewStateAniAutoApplyPause)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewStateAniAutoApplyResume)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 // ============================================================
 ZFEXPORT_VAR_DEFINE(zfbool, ZFUIViewStateAniAutoApply, zffalse)

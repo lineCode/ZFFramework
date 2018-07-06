@@ -29,7 +29,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFMethod, const ZFMethod *, {
     }, {
         if(v->methodIsFunctionType())
         {
-            if(!zfscmpTheSame(v->methodNamespace(), ZFMethodFuncNamespaceGlobal))
+            if(!zfscmpTheSame(v->methodNamespace(), ZF_NAMESPACE_GLOBAL_NAME))
             {
                 s += v->methodNamespace();
             }

@@ -64,7 +64,9 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForModuleFile)
 
 // ============================================================
 // setting
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFFilePathForSettingOnChange)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFFilePathForSettingOnChange)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForSetting)
 {
@@ -86,7 +88,9 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForSettingSet,
 
 // ============================================================
 // storage
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFFilePathForStorageOnChange)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFFilePathForStorageOnChange)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForStorage)
 {
@@ -108,7 +112,9 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageSet,
 
 // ============================================================
 // storage shared
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFFilePathForStorageSharedOnChange)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFFilePathForStorageSharedOnChange)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForStorageShared)
 {
@@ -130,9 +136,11 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageSharedSet,
 
 // ============================================================
 // cache
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFFilePathForCacheOnChange)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFFilePathForCacheBeforeClear)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ZFFilePathForCacheAfterClear)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFFilePathForCacheOnChange)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFFilePathForCacheBeforeClear)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFFilePathForCacheAfterClear)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForCache)
 {

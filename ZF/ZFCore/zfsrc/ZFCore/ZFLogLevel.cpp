@@ -13,7 +13,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFENUM_DEFINE(ZFLogLevel)
 
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, LogLevelOnChange)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(LogLevelOnChange)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 static ZFLogLevelEnum _ZFP_ZFLogLevelGlobal = ZFLogLevel::EnumDefault();
 void ZFLogLevelSet(ZF_IN ZFLogLevelEnum level)

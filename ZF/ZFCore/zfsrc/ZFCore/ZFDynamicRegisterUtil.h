@@ -238,7 +238,7 @@ public:
 
 public:
     /** @brief see #ZFDynamic */
-    ZFDynamic &NSBegin(ZF_IN_OPT const zfchar *methodNamespace = ZFMethodFuncNamespaceGlobal);
+    ZFDynamic &NSBegin(ZF_IN_OPT const zfchar *methodNamespace = ZF_NAMESPACE_GLOBAL_NAME);
     /** @brief see #ZFDynamic */
     ZFDynamic &NSEnd(void);
 

@@ -14,8 +14,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 static void _ZFP_ZFImpl_ZFLua_zfl_callStatic_methodScopeFix(ZF_IN_OUT zfstring &methodScope)
 {
-    if(methodScope.compare(ZFLuaFuncNamespaceGlobal) == 0
-        || methodScope.compare(ZFMethodFuncNamespaceGlobal) == 0)
+    if(methodScope.compare(ZF_NAMESPACE_GLOBAL_NAME) == 0
+        || methodScope.compare(ZF_NAMESPACE_GLOBAL_ABBR_NAME) == 0)
     {
         methodScope.removeAll();
     }

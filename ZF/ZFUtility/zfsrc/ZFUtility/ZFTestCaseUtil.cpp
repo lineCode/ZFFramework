@@ -11,8 +11,10 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, TestCaseRunAllOnStart)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, TestCaseRunAllOnStop)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(TestCaseRunAllOnStart)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(TestCaseRunAllOnStop)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 // ============================================================
 zfbool ZFTestCaseRun(ZF_IN const ZFClass *cls,

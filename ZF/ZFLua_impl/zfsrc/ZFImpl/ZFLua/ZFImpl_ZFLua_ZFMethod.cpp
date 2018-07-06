@@ -16,7 +16,7 @@ static void _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(ZF_IN const ZFCoreArray
                                                          ZF_IN const ZFMethod *method)
 {
     if(!method->methodIsFunctionType()
-        || !zfscmpTheSame(method->methodNamespace(), ZFMethodFuncNamespaceGlobal))
+        || !zfscmpTheSame(method->methodNamespace(), ZF_NAMESPACE_GLOBAL_NAME))
     {
         return ;
     }
@@ -73,8 +73,8 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, {
             ZFGlobalEvent::EventClassDataChange(),
             ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange));
 
-        ZFImpl_ZFLua_implSetupScope(L, ZFLuaFuncNamespaceGlobal);
-        ZFImpl_ZFLua_implSetupScope(L, ZFMethodFuncNamespaceGlobal);
+        ZFImpl_ZFLua_implSetupScope(L, ZF_NAMESPACE_GLOBAL_NAME);
+        ZFImpl_ZFLua_implSetupScope(L, ZF_NAMESPACE_GLOBAL_ABBR_NAME);
     }, {
         ZFClassDataChangeObserver.observerRemove(
             ZFGlobalEvent::EventClassDataChange(),

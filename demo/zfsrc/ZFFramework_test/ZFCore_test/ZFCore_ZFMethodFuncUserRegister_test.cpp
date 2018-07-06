@@ -248,32 +248,34 @@ public:
 };
 ZFOBJECT_REGISTER(ZFCore_ZFMethodFuncUserRegister_test)
 
+ZF_NAMESPACE_BEGIN(ZFCore_ZFMethodFuncUserRegister_testNamespace)
+
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_1(ZFCore_ZFMethodFuncUserRegister_test_funcStatic,
-    ZFCore_ZFMethodFuncUserRegister_test::func1, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func1,
     zfstring, zfText("funcStatic")
     , ZFMP_IN(zfstring const &, param0)
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_0(ZFCore_ZFMethodFuncUserRegister_test_funcStatic0,
-    ZFCore_ZFMethodFuncUserRegister_test::func0, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func0,
     zfstring, zfText("funcStatic0")
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_1(ZFCore_ZFMethodFuncUserRegister_test_funcStatic1,
-    ZFCore_ZFMethodFuncUserRegister_test::func1, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func1,
     zfstring, zfText("funcStatic1")
     , ZFMP_IN(zfstring const &, param0)
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_2(ZFCore_ZFMethodFuncUserRegister_test_funcStatic2,
-    ZFCore_ZFMethodFuncUserRegister_test::func2, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func2,
     zfstring, zfText("funcStatic2")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_3(ZFCore_ZFMethodFuncUserRegister_test_funcStatic3,
-    ZFCore_ZFMethodFuncUserRegister_test::func3, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func3,
     zfstring, zfText("funcStatic3")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -281,7 +283,7 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_3(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_4(ZFCore_ZFMethodFuncUserRegister_test_funcStatic4,
-    ZFCore_ZFMethodFuncUserRegister_test::func4, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func4,
     zfstring, zfText("funcStatic4")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -290,7 +292,7 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_4(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_5(ZFCore_ZFMethodFuncUserRegister_test_funcStatic5,
-    ZFCore_ZFMethodFuncUserRegister_test::func5, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func5,
     zfstring, zfText("funcStatic5")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -300,7 +302,7 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_5(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_6(ZFCore_ZFMethodFuncUserRegister_test_funcStatic6,
-    ZFCore_ZFMethodFuncUserRegister_test::func6, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func6,
     zfstring, zfText("funcStatic6")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -311,7 +313,7 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_6(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_7(ZFCore_ZFMethodFuncUserRegister_test_funcStatic7,
-    ZFCore_ZFMethodFuncUserRegister_test::func7, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func7,
     zfstring, zfText("funcStatic7")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -323,7 +325,7 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_7(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     )
 
 ZFMETHOD_FUNC_USER_REGISTER_DETAIL_8(ZFCore_ZFMethodFuncUserRegister_test_funcStatic8,
-    ZFCore_ZFMethodFuncUserRegister_test::func8, zfText("ZFCore_ZFMethodFuncUserRegister_testNamespace"),
+    ZFCore_ZFMethodFuncUserRegister_test::func8,
     zfstring, zfText("funcStatic8")
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
@@ -334,6 +336,8 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_8(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     , ZFMP_IN(zfstring const &, param6)
     , ZFMP_IN(zfstring const &, param7)
     )
+
+ZF_NAMESPACE_END_WITH_REGISTER(ZFCore_ZFMethodFuncUserRegister_testNamespace)
 
 ZF_NAMESPACE_GLOBAL_END
 

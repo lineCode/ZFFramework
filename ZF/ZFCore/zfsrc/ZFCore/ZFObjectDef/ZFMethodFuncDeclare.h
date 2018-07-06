@@ -71,12 +71,12 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
 
 // ============================================================
 #define _ZFP_ZFMethodFuncAccess(MethodNamespace, MethodName) \
-    _ZFP_MtdFA_(MethodNamespace, MethodName)
-#define _ZFP_MtdFA_(MethodNamespace, MethodName) \
-    (_ZFP_MtdFA_##MethodNamespace##_##MethodName(zfnull))
+    _ZFP_ZFMethodFuncAccess_(MethodNamespace, MethodName)
+#define _ZFP_ZFMethodFuncAccess_(MethodNamespace, MethodName) \
+    (MethodNamespace::_ZFP_MtdFA_##MethodName(zfnull))
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMethodFuncAccess(MethodName) \
-    _ZFP_ZFMethodFuncAccess(ZFMethodFuncNamespaceGlobalId, MethodName)
+    _ZFP_ZFMethodFuncAccess(ZF_NAMESPACE_GLOBAL_ID, MethodName)
 
 #define _ZFP_ZFMethodFuncAccessDetail(...) \
     _ZFP_MtdD_EXPAND(_ZFP_ZFMethodFuncAccessDetail_(__VA_ARGS__))
@@ -90,7 +90,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
         , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
     ) \
-    (_ZFP_MtdFA_##MethodNamespace##_##MethodName((void (*)( \
+    (MethodNamespace::_ZFP_MtdFA_##MethodName((void (*)( \
            ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
            ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
            ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
@@ -255,32 +255,30 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         )
 
 // ============================================================
-/** @brief see #ZFMETHOD_FUNC_DECLARE_DETAIL_0 */
-#define ZFMethodFuncIsInline isInline
-/** @brief see #ZFMETHOD_FUNC_DECLARE_DETAIL_0 */
-#define ZFMethodFuncNotInline notInline
+#define _ZFP_ZFMethodFuncIsInline isInline
+#define _ZFP_ZFMethodFuncNotInline notInline
 
 #define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix_isInline() inline
 #define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix_notInline() extern ZF_ENV_EXPORT
-#define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix(ZFMethodFuncIsInlineOrNotInline) _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix_##ZFMethodFuncIsInlineOrNotInline()
+#define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix(isInlineOrNot) _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix_##isInlineOrNot()
 
 #define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix_isInline()
 #define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix_notInline() ;
-#define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix(ZFMethodFuncIsInlineOrNotInline) _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix_##ZFMethodFuncIsInlineOrNotInline()
+#define _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix(isInlineOrNot) _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix_##isInlineOrNot()
 
 #define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix_isInline() inline
 #define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix_notInline() extern ZF_ENV_EXPORT
-#define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix(ZFMethodFuncIsInlineOrNotInline) _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix_##ZFMethodFuncIsInlineOrNotInline()
+#define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix(isInlineOrNot) _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix_##isInlineOrNot()
 
 #define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix_isInline() ;
 #define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix_notInline()
-#define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix(ZFMethodFuncIsInlineOrNotInline) _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix_##ZFMethodFuncIsInlineOrNotInline()
+#define _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix(isInlineOrNot) _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix_##isInlineOrNot()
 
 // ============================================================
 #define _ZFP_ZFMETHOD_FUNC_DECLARE(...) \
     _ZFP_MtdD_EXPAND(_ZFP_ZFMETHOD_FUNC_DECLARE_(__VA_ARGS__))
 #define _ZFP_ZFMETHOD_FUNC_DECLARE_( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, DECLARE_LINE \
+        isInlineOrNot, ReturnType, MethodName, DECLARE_LINE \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
         , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
@@ -291,7 +289,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
     ) \
     /** @cond ZFPrivateDoc */ \
-    extern ZF_ENV_EXPORT const ZFMethod *_ZFP_MtdFA_##MethodNamespace##_##MethodName(void (*)( \
+    extern ZF_ENV_EXPORT const ZFMethod *_ZFP_MtdFA_##MethodName(void (*)( \
             ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
             ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
             ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
@@ -302,7 +300,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
             ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
         )); \
     /** @endcond */ \
-    _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix(ZFMethodFuncIsInlineOrNotInline) ReturnType (MethodName)( \
+    _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePrefix(isInlineOrNot) ReturnType (MethodName)( \
             ParamExpandOrEmpty0(            ParamType0 param0 DefaultValueFix0()) \
             ParamExpandOrEmpty1(ZFM_COMMA() ParamType1 param1 DefaultValueFix1()) \
             ParamExpandOrEmpty2(ZFM_COMMA() ParamType2 param2 DefaultValueFix2()) \
@@ -311,12 +309,12 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
             ParamExpandOrEmpty5(ZFM_COMMA() ParamType5 param5 DefaultValueFix5()) \
             ParamExpandOrEmpty6(ZFM_COMMA() ParamType6 param6 DefaultValueFix6()) \
             ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7 DefaultValueFix7()) \
-        ) _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix(ZFMethodFuncIsInlineOrNotInline)
+        ) _ZFP_ZFMETHOD_FUNC_DECLARE_inlinePostfix(isInlineOrNot)
 
 #define _ZFP_ZFMETHOD_FUNC_DEFINE(...) \
     _ZFP_MtdD_EXPAND(_ZFP_ZFMETHOD_FUNC_DEFINE_(__VA_ARGS__))
 #define _ZFP_ZFMETHOD_FUNC_DEFINE_( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, DECLARE_LINE \
+        isInlineOrNot, ReturnType, MethodName, DECLARE_LINE \
         , ParamExpandOrEmpty0, ParamType0, param0, DefaultExpandOrEmpty0, DefaultValueFix0 \
         , ParamExpandOrEmpty1, ParamType1, param1, DefaultExpandOrEmpty1, DefaultValueFix1 \
         , ParamExpandOrEmpty2, ParamType2, param2, DefaultExpandOrEmpty2, DefaultValueFix2 \
@@ -326,7 +324,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         , ParamExpandOrEmpty6, ParamType6, param6, DefaultExpandOrEmpty6, DefaultValueFix6 \
         , ParamExpandOrEmpty7, ParamType7, param7, DefaultExpandOrEmpty7, DefaultValueFix7 \
     ) \
-    _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix(ZFMethodFuncIsInlineOrNotInline) ReturnType (MethodName)( \
+    _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix(isInlineOrNot) ReturnType (MethodName)( \
             ParamExpandOrEmpty0(            ParamType0 param0) \
             ParamExpandOrEmpty1(ZFM_COMMA() ParamType1 param1) \
             ParamExpandOrEmpty2(ZFM_COMMA() ParamType2 param2) \
@@ -336,7 +334,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
             ParamExpandOrEmpty6(ZFM_COMMA() ParamType6 param6) \
             ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7) \
         ); \
-    zfclassNotPOD ZF_ENV_EXPORT _ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE \
+    zfclassNotPOD ZF_ENV_EXPORT _ZFP_MtdFH_##MethodName##_##DECLARE_LINE \
     { \
     public: \
         _ZFP_ZFMETHOD_GENERIC_INVOKER_DECLARE( \
@@ -375,7 +373,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
                 ); \
         } \
     }; \
-    extern ZF_ENV_EXPORT const ZFMethod *_ZFP_MtdFA_##MethodNamespace##_##MethodName(void (*)( \
+    const ZFMethod *_ZFP_MtdFA_##MethodName(void (*)( \
             ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
             ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
             ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
@@ -389,62 +387,62 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         static _ZFP_ZFMethodRegisterHolder _methodHolder(zffalse \
                 , zffalse \
                 , zfnull \
-                , ZFCastReinterpret(ZFFuncAddrType, &_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE::methodInvoker) \
-                , _ZFP_ZFMETHOD_GENERIC_INVOKER_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE) \
+                , ZFCastReinterpret(ZFFuncAddrType, &_ZFP_MtdFH_##MethodName##_##DECLARE_LINE::methodInvoker) \
+                , _ZFP_ZFMETHOD_GENERIC_INVOKER_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE) \
                 , _ZFP_ZFMethodTypeText(ZFMethodTypeStatic) \
                 , zfnull \
                 , ZFMethodPrivilegeTypePublic \
-                , ZFM_TOSTRING(MethodNamespace) \
+                , ZF_NAMESPACE_CURRENT() \
                 , ZFM_TOSTRING(MethodName) \
                 , ZFTypeId<zftTraits<ReturnType>::TrNoRef>::TypeId() \
                 , ZFM_TOSTRING_DIRECT(ReturnType) \
                 ParamExpandOrEmpty0(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType0>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType0) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty0, 0) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty0, 0) \
                     ) \
                 ParamExpandOrEmpty1(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType1>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType1) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty1, 1) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty1, 1) \
                     ) \
                 ParamExpandOrEmpty2(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType2>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType2) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty2, 2) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty2, 2) \
                     ) \
                 ParamExpandOrEmpty3(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType3>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType3) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty3, 3) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty3, 3) \
                     ) \
                 ParamExpandOrEmpty4(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType4>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType4) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty4, 4) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty4, 4) \
                     ) \
                 ParamExpandOrEmpty5(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType5>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType5) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty5, 5) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty5, 5) \
                     ) \
                 ParamExpandOrEmpty6(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType6>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType6) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty6, 6) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty6, 6) \
                     ) \
                 ParamExpandOrEmpty7(ZFM_EMPTY() \
                         , ZFTypeId<zftTraits<ParamType7>::TrNoRef>::TypeId() \
                         , ZFM_TOSTRING(ParamType7) \
-                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodNamespace##_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty7, 7) \
+                        , _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS_ADDR(_ZFP_MtdFH_##MethodName##_##DECLARE_LINE, DefaultExpandOrEmpty7, 7) \
                     ) \
                 , zfnull \
             ); \
         return _methodHolder.method; \
     } \
-    ZF_STATIC_REGISTER_INIT(MtdFR_##MethodNamespace##_##MethodName##_##DECLARE_LINE) \
+    ZF_STATIC_REGISTER_INIT(MtdFR_##MethodName##_##DECLARE_LINE) \
     { \
-        (_ZFP_MtdFA_##MethodNamespace##_##MethodName((void (*)( \
+        (_ZFP_MtdFA_##MethodName((void (*)( \
                ParamExpandOrEmpty0(ZFM_EMPTY() ParamType0) \
                ParamExpandOrEmpty1(ZFM_COMMA() ParamType1) \
                ParamExpandOrEmpty2(ZFM_COMMA() ParamType2) \
@@ -455,8 +453,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
                ParamExpandOrEmpty7(ZFM_COMMA() ParamType7) \
             ))zfnull)); \
     } \
-    ZF_STATIC_REGISTER_END(MtdFR_##MethodNamespace##_##MethodName##_##DECLARE_LINE) \
-    _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix(ZFMethodFuncIsInlineOrNotInline) ReturnType (MethodName)( \
+    ZF_STATIC_REGISTER_END(MtdFR_##MethodName##_##DECLARE_LINE) \
+    _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePrefix(isInlineOrNot) ReturnType (MethodName)( \
             ParamExpandOrEmpty0(            ParamType0 param0) \
             ParamExpandOrEmpty1(ZFM_COMMA() ParamType1 param1) \
             ParamExpandOrEmpty2(ZFM_COMMA() ParamType2 param2) \
@@ -465,7 +463,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
             ParamExpandOrEmpty5(ZFM_COMMA() ParamType5 param5) \
             ParamExpandOrEmpty6(ZFM_COMMA() ParamType6 param6) \
             ParamExpandOrEmpty7(ZFM_COMMA() ParamType7 param7) \
-        ) _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix(ZFMethodFuncIsInlineOrNotInline)
+        ) _ZFP_ZFMETHOD_FUNC_DEFINE_inlinePostfix(isInlineOrNot)
 
 // ============================================================
 // 0 param method declare
@@ -487,35 +485,28 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
  * similar to #ZFMETHOD_INLINE_0, but declared in global scope instead of class scope,
  * declared method can be reflected by #ZFMethodFuncGet,
  * and can be invoked by by #ZFMethod::execute with null as first param\n
- * function type method support at most one level namespace,
- * or, use #ZFMethodFuncNamespaceGlobalId if your method has no namespace
+ * function type method support at most one level namespace
  */
 #define ZFMETHOD_FUNC_DECLARE_0( \
     ReturnType, MethodName \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_0( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_0( \
     ReturnType, MethodName \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_0( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_0( \
-    MethodNamespace, ReturnType, MethodName \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_0( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_0( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -529,29 +520,23 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
 #define ZFMETHOD_FUNC_DEFINE_0( \
     ReturnType, MethodName \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_0( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_0( \
     ReturnType, MethodName \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_0( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_0( \
-    MethodNamespace, ReturnType, MethodName \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_0( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_0( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -569,35 +554,24 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_1( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_1( \
     ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_1( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_1( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_1( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_1( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -612,35 +586,24 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_1( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_1( \
     ReturnType, MethodName \
     , ZFMP_0 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_1( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_1( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_1( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_1( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_ZFMP_DUMMY() \
         , _ZFP_ZFMP_DUMMY() \
@@ -659,10 +622,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_2( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_2( \
@@ -670,30 +639,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_2( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_2( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_2( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_2( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_ZFMP_DUMMY() \
@@ -709,10 +656,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_2( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_2( \
@@ -720,30 +673,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_0 \
     , ZFMP_1 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_2( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_2( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_2( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_2( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_ZFMP_DUMMY() \
@@ -763,11 +694,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_3( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_3( \
@@ -776,34 +712,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_3( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_3( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_3( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_3( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -820,11 +730,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_3( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_3( \
@@ -833,34 +748,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_1 \
     , ZFMP_2 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_3( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_3( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_3( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_3( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -881,12 +770,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_2 \
     , ZFMP_3 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_4( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
         , _ZFP_MtdP_EXPAND(ZFMP_3) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_4( \
@@ -896,38 +789,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_2 \
     , ZFMP_3 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_4( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_4( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_4( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_4( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -945,12 +808,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_2 \
     , ZFMP_3 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_4( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
         , _ZFP_MtdP_EXPAND(ZFMP_3) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_4( \
@@ -960,38 +827,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_2 \
     , ZFMP_3 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_4( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_4( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_4( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_4( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1013,13 +850,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_3 \
     , ZFMP_4 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_5( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
         , _ZFP_MtdP_EXPAND(ZFMP_3) \
         , _ZFP_MtdP_EXPAND(ZFMP_4) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_5( \
@@ -1030,42 +870,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_3 \
     , ZFMP_4 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_5( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_5( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_5( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_5( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1084,13 +890,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_3 \
     , ZFMP_4 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_5( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
         , _ZFP_MtdP_EXPAND(ZFMP_3) \
         , _ZFP_MtdP_EXPAND(ZFMP_4) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_5( \
@@ -1101,42 +910,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_3 \
     , ZFMP_4 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_5( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_5( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_5( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_5( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1159,14 +934,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_4 \
     , ZFMP_5 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_6( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
         , _ZFP_MtdP_EXPAND(ZFMP_3) \
         , _ZFP_MtdP_EXPAND(ZFMP_4) \
         , _ZFP_MtdP_EXPAND(ZFMP_5) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_6( \
@@ -1178,46 +955,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_4 \
     , ZFMP_5 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_6( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_6( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_6( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_6( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1237,14 +976,16 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_4 \
     , ZFMP_5 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_6( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
         , _ZFP_MtdP_EXPAND(ZFMP_3) \
         , _ZFP_MtdP_EXPAND(ZFMP_4) \
         , _ZFP_MtdP_EXPAND(ZFMP_5) \
+        , _ZFP_ZFMP_DUMMY() \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_6( \
@@ -1256,46 +997,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_4 \
     , ZFMP_5 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_6( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_6( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_6( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_6( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1319,8 +1022,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_5 \
     , ZFMP_6 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_7( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1328,6 +1031,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         , _ZFP_MtdP_EXPAND(ZFMP_4) \
         , _ZFP_MtdP_EXPAND(ZFMP_5) \
         , _ZFP_MtdP_EXPAND(ZFMP_6) \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DECLARE_INLINE_7( \
@@ -1340,50 +1044,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_5 \
     , ZFMP_6 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_7( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_7( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_7( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_7( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1404,8 +1066,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_5 \
     , ZFMP_6 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_7( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1413,6 +1075,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
         , _ZFP_MtdP_EXPAND(ZFMP_4) \
         , _ZFP_MtdP_EXPAND(ZFMP_5) \
         , _ZFP_MtdP_EXPAND(ZFMP_6) \
+        , _ZFP_ZFMP_DUMMY() \
         )
 /** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
 #define ZFMETHOD_FUNC_DEFINE_INLINE_7( \
@@ -1425,50 +1088,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_5 \
     , ZFMP_6 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_7( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_7( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_7( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_7( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1493,8 +1114,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_6 \
     , ZFMP_7 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_8( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DECLARE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1516,54 +1137,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_6 \
     , ZFMP_7 \
     ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_8( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        , _ZFP_MtdP_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_WITH_NS_8( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
-    ZFMETHOD_FUNC_DECLARE_DETAIL_8( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        , _ZFP_MtdP_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DECLARE_DETAIL_8( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DECLARE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1585,8 +1160,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_6 \
     , ZFMP_7 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_8( \
-        ZFMethodFuncNotInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
+    _ZFP_ZFMETHOD_FUNC_DEFINE( \
+        _ZFP_ZFMethodFuncNotInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \
@@ -1608,54 +1183,8 @@ inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodFuncGetAll(ZF_IN const zfchar *m
     , ZFMP_6 \
     , ZFMP_7 \
     ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_8( \
-        ZFMethodFuncIsInline, ZFMethodFuncNamespaceGlobalId, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        , _ZFP_MtdP_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_WITH_NS_8( \
-    MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
-    ZFMETHOD_FUNC_DEFINE_DETAIL_8( \
-        ZFMethodFuncNotInline, MethodNamespace, ReturnType, MethodName \
-        , _ZFP_MtdP_EXPAND(ZFMP_0) \
-        , _ZFP_MtdP_EXPAND(ZFMP_1) \
-        , _ZFP_MtdP_EXPAND(ZFMP_2) \
-        , _ZFP_MtdP_EXPAND(ZFMP_3) \
-        , _ZFP_MtdP_EXPAND(ZFMP_4) \
-        , _ZFP_MtdP_EXPAND(ZFMP_5) \
-        , _ZFP_MtdP_EXPAND(ZFMP_6) \
-        , _ZFP_MtdP_EXPAND(ZFMP_7) \
-        )
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMETHOD_FUNC_DEFINE_DETAIL_8( \
-    ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName \
-    , ZFMP_0 \
-    , ZFMP_1 \
-    , ZFMP_2 \
-    , ZFMP_3 \
-    , ZFMP_4 \
-    , ZFMP_5 \
-    , ZFMP_6 \
-    , ZFMP_7 \
-    ) \
     _ZFP_ZFMETHOD_FUNC_DEFINE( \
-        ZFMethodFuncIsInlineOrNotInline, MethodNamespace, ReturnType, MethodName, ZF_CALLER_LINE \
+        _ZFP_ZFMethodFuncIsInline, ReturnType, MethodName, ZF_CALLER_LINE \
         , _ZFP_MtdP_EXPAND(ZFMP_0) \
         , _ZFP_MtdP_EXPAND(ZFMP_1) \
         , _ZFP_MtdP_EXPAND(ZFMP_2) \

@@ -15,8 +15,10 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkOn)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ViewBlinkOff)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkOn)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ViewBlinkOff)
+ZF_NAMESPACE_END(ZFGlobalEvent)
 
 // ============================================================
 #define _ZFP_ZFUIViewBlink_DEBUG_noAni 0

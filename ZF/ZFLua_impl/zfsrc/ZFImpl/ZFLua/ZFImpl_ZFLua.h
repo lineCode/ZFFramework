@@ -286,7 +286,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
  * @endcode
  * \n
  * params:
- * -  classOrNamespace : null or empty or #ZFMethodFuncNamespaceGlobal for global scope function,
+ * -  classOrNamespace : null or empty or #ZF_NAMESPACE_GLOBAL_NAME or #ZF_NAMESPACE_GLOBAL_ABBR_NAME for global scope function,
  *   otherwise, should be the class name or namespace
  *   registered by #ZFImpl_ZFLua_implSetupScope
  * -  methodName : the method name

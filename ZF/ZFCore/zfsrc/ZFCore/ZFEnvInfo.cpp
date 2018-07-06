@@ -36,8 +36,8 @@ void envSummaryCallbackUnregister(ZF_IN const zfchar *name)
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFEnvSummaryDataHolder)->envSummaryCallbackMap.erase(name);
 }
 
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, envSummary,
-                               ZFMP_IN_OUT(zfstring &, ret))
+ZFMETHOD_FUNC_DEFINE_1(void, envSummary,
+                       ZFMP_IN_OUT(zfstring &, ret))
 {
     zfstring tmp;
 
@@ -58,7 +58,7 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, envSummary,
         it->second(ret);
     }
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, envSummary)
+ZFMETHOD_FUNC_DEFINE_0(zfstring, envSummary)
 {
     zfstring ret;
     ZFEnvInfo::envSummary(ret);
@@ -66,8 +66,8 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, envSummary)
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, systemName,
-                               ZFMP_IN_OUT(zfstring &, ret))
+ZFMETHOD_FUNC_DEFINE_1(void, systemName,
+                       ZFMP_IN_OUT(zfstring &, ret))
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFEnvInfo_systemInfo) *impl = ZFPROTOCOL_TRY_ACCESS(ZFEnvInfo_systemInfo);
     if(impl != zfnull)
@@ -75,14 +75,14 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, systemName,
         impl->systemName(ret);
     }
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, systemName)
+ZFMETHOD_FUNC_DEFINE_0(zfstring, systemName)
 {
     zfstring ret;
     ZFEnvInfo::systemName(ret);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, systemVersion,
-                               ZFMP_IN_OUT(zfstring &, ret))
+ZFMETHOD_FUNC_DEFINE_1(void, systemVersion,
+                       ZFMP_IN_OUT(zfstring &, ret))
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFEnvInfo_systemInfo) *impl = ZFPROTOCOL_TRY_ACCESS(ZFEnvInfo_systemInfo);
     if(impl != zfnull)
@@ -90,7 +90,7 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, systemVersion,
         impl->systemVersion(ret);
     }
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, systemVersion)
+ZFMETHOD_FUNC_DEFINE_0(zfstring, systemVersion)
 {
     zfstring ret;
     ZFEnvInfo::systemVersion(ret);
@@ -98,8 +98,8 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, systemVersion)
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, frameworkName,
-                               ZFMP_IN_OUT(zfstring &, ret))
+ZFMETHOD_FUNC_DEFINE_1(void, frameworkName,
+                       ZFMP_IN_OUT(zfstring &, ret))
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFEnvInfo_frameworkInfo) *impl = ZFPROTOCOL_TRY_ACCESS(ZFEnvInfo_frameworkInfo);
     if(impl != zfnull)
@@ -107,14 +107,14 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, frameworkName,
         impl->frameworkName(ret);
     }
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, frameworkName)
+ZFMETHOD_FUNC_DEFINE_0(zfstring, frameworkName)
 {
     zfstring ret;
     ZFEnvInfo::frameworkName(ret);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, frameworkVersion,
-                               ZFMP_IN_OUT(zfstring &, ret))
+ZFMETHOD_FUNC_DEFINE_1(void, frameworkVersion,
+                       ZFMP_IN_OUT(zfstring &, ret))
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFEnvInfo_frameworkInfo) *impl = ZFPROTOCOL_TRY_ACCESS(ZFEnvInfo_frameworkInfo);
     if(impl != zfnull)
@@ -122,7 +122,7 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, void, frameworkVersion,
         impl->frameworkVersion(ret);
     }
 }
-ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, frameworkVersion)
+ZFMETHOD_FUNC_DEFINE_0(zfstring, frameworkVersion)
 {
     zfstring ret;
     ZFEnvInfo::frameworkVersion(ret);
@@ -130,7 +130,7 @@ ZFMETHOD_FUNC_DEFINE_WITH_NS_0(ZFEnvInfo, zfstring, frameworkVersion)
 }
 
 /** @endcond */
-ZF_NAMESPACE_END(ZFEnvInfo)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFEnvInfo)
 
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEnvSummary_common, ZFLevelZFFrameworkNormal)

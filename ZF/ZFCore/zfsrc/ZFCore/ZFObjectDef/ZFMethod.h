@@ -135,11 +135,6 @@ zfclassFwd ZFClass;
 #define _ZFP_ZFMP_DUMMY() \
     _ZFP_MtdM_EMPTY, ParamType, paramName, _ZFP_MtdM_EMPTY, _ZFP_ZFMethodNoDefaultParam
 
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMethodFuncNamespaceGlobalId ZF_NAMESPACE_GLOBAL_ID
-/** @brief see #ZFMETHOD_FUNC_DECLARE_0 */
-#define ZFMethodFuncNamespaceGlobal ZFM_TOSTRING(ZFMethodFuncNamespaceGlobalId)
-
 /**
  * @brief callback to access method param's default value,
  *   for method generic invoker

@@ -383,6 +383,11 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
 #define ZFOBSERVER_EVENT(YourEvent) \
     ZFIDMAP_DETAIL(Event, YourEvent)
 
+/** @brief see #ZFOBSERVER_EVENT */
+#define ZFOBSERVER_EVENT_REGISTER(YourClass, YourEvent) \
+    ZFIDMAP_REGISTER_DETAIL(YourClass, Event, YourEvent)
+
+// ============================================================
 /**
  * @brief declare a observer event in global scope, see #ZFOBSERVER_EVENT
  *
@@ -391,7 +396,7 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
  *   // in header files
  *   ZF_NAMESPACE_BEGIN(YourNamespace)
  *   / ** @brief you can add doxygen docs here * /
- *   ZFOBSERVER_EVENT_GLOBAL_WITH_NS(YourNamespace, YourEvent)
+ *   ZFOBSERVER_EVENT_GLOBAL(YourEvent)
  *   ZF_NAMESPACE_END(YourNamespace)
  *
  *   ZFOBSERVER_EVENT_GLOBAL_REGISTER(YourNamespace, YourEvent)
@@ -402,22 +407,12 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
  * unlike #ZFOBSERVER_EVENT, this macro would declare event outside of class scope,
  * typically you should use #ZFOBSERVER_EVENT_GLOBAL which have "ZFGlobalEvent" as namespace
  */
-#define ZFOBSERVER_EVENT_GLOBAL_WITH_NS(GlobalNamespace, YourEvent) \
-    ZFIDMAP_GLOBAL_DETAIL(GlobalNamespace, Event, YourEvent)
-
-/**
- * @brief global event with namespace "ZFGlobalEvent", see #ZFOBSERVER_EVENT_GLOBAL_WITH_NS
- */
 #define ZFOBSERVER_EVENT_GLOBAL(YourEvent) \
-    ZFOBSERVER_EVENT_GLOBAL_WITH_NS(ZFGlobalEvent, YourEvent)
+    ZFIDMAP_GLOBAL_DETAIL(Event, YourEvent)
 
 /** @brief see #ZFOBSERVER_EVENT */
-#define ZFOBSERVER_EVENT_REGISTER(Scope, YourEvent) \
-    ZFIDMAP_DETAIL_REGISTER(Scope, Event, YourEvent)
-
-/** @brief see #ZFOBSERVER_EVENT */
-#define ZFOBSERVER_EVENT_GLOBAL_REGISTER(Scope, YourEvent) \
-    ZFIDMAP_GLOBAL_DETAIL_REGISTER(Scope, Event, YourEvent)
+#define ZFOBSERVER_EVENT_GLOBAL_REGISTER(YourEvent) \
+    ZFIDMAP_GLOBAL_REGISTER_DETAIL(Event, YourEvent)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectObserver_h_

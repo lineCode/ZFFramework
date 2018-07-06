@@ -704,6 +704,8 @@ ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
     return d;
 }
 
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFGlobalEvent)
 ZF_NAMESPACE_GLOBAL_END
 
 #if _ZFP_ZFOBJECT_METHOD_REG

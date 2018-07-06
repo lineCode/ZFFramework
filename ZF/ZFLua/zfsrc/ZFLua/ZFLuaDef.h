@@ -18,18 +18,6 @@
 #include "ZFCore.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-/** @brief see #ZFLuaFuncNamespaceGlobal */
-#define ZFLuaFuncNamespaceGlobalId ZF_NAMESPACE_GLOBAL_ID_ABBR
-/**
- * @brief global short namespace in lua code
- *
- * these function namespace are considered the same in lua code
- * -  #ZFMethodFuncNamespaceGlobal
- * -  #ZFLuaFuncNamespaceGlobal
- * -  empty string
- */
-#define ZFLuaFuncNamespaceGlobal ZFM_TOSTRING(ZFLuaFuncNamespaceGlobalId)
-
 // ============================================================
 extern ZF_ENV_EXPORT ZFCoreArray<ZFOutput> &_ZFP_ZFLuaErrorCallbacks(void);
 /**

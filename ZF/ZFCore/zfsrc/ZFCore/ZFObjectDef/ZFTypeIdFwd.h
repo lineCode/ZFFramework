@@ -202,6 +202,8 @@ public:
  * to achieve this, you must:
  * -  specialize template #ZFTypeId
  * -  use this macro to register your type
+ *
+ * note, type id can only be registered within global namespace (#ZF_NAMESPACE_GLOBAL)
  */
 #define ZFTYPEID_ID_DATA_REGISTER(TypeName, Type) \
     ZF_STATIC_REGISTER_INIT(PropTIReg_##TypeName) \
@@ -211,7 +213,7 @@ public:
             zfnew(ZFTypeId<_ZFP_PropTypeW2_##TypeName>)); \
         ZFMethodFuncUserRegister_0(dummy, { \
                 return ZFTypeId_##TypeName(); \
-            }, const zfchar *, ZFTypeId_##TypeName); \
+            }, ZF_NAMESPACE_GLOBAL_NAME, const zfchar *, ZFM_TOSTRING(ZFTypeId_##TypeName)); \
     } \
     ZF_STATIC_REGISTER_DESTROY(PropTIReg_##TypeName) \
     { \

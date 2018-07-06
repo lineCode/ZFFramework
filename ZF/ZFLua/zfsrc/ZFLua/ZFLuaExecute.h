@@ -55,8 +55,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     "functionName" can be #v_ZFMethod, #v_zfstring, or native lua string,
  *     while other types must exactly match the original types\n
  *     these namespace are considered as the same:
- *     -  #ZFMethodFuncNamespaceGlobal
- *     -  #ZFLuaFuncNamespaceGlobal
+ *     -  #ZF_NAMESPACE_GLOBAL_NAME
+ *     -  #ZF_NAMESPACE_GLOBAL_ABBR_NAME
  *     -  empty string
  *   -  while calling functions with lua raw string, such as `func('abc')`,
  *     we will try to convert to proper param type by string converter,

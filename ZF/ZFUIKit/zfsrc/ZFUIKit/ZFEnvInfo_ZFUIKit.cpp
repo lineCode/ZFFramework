@@ -17,8 +17,8 @@ ZFENUM_DEFINE(ZFEnvDeviceUIType)
 ZF_NAMESPACE_BEGIN(ZFEnvInfo)
 /** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: all uppercase macro not skipped within namespace
 
-ZFMETHOD_FUNC_DEFINE_WITH_NS_1(ZFEnvInfo, ZFEnvDeviceUITypeEnum, deviceUIType,
-                               ZFMP_IN_OPT(ZFEnvDeviceUITypeEnum, defaultValue, ZFEnvDeviceUIType::e_Desktop))
+ZFMETHOD_FUNC_DEFINE_1(ZFEnvDeviceUITypeEnum, deviceUIType,
+                       ZFMP_IN_OPT(ZFEnvDeviceUITypeEnum, defaultValue, ZFEnvDeviceUIType::e_Desktop))
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFEnvInfo_deviceUIInfo) *impl = ZFPROTOCOL_TRY_ACCESS(ZFEnvInfo_deviceUIInfo);
     if(impl != zfnull)

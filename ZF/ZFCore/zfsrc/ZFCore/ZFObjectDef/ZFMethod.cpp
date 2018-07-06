@@ -161,7 +161,7 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
 
     if(this->methodIsFunctionType())
     {
-        if(!zfscmpTheSame(this->methodNamespace(), ZFMethodFuncNamespaceGlobal))
+        if(!zfscmpTheSame(this->methodNamespace(), ZF_NAMESPACE_GLOBAL_NAME))
         {
             ret += this->methodNamespace();
         }
@@ -334,7 +334,7 @@ static void _ZFP_ZFMethodInstanceSig(ZF_OUT zfstring &ret,
 {
     if(methodScope == zfnull || *methodScope == '\0')
     {
-        ret += ZFMethodFuncNamespaceGlobal;
+        ret += ZF_NAMESPACE_GLOBAL_NAME;
     }
     else
     {

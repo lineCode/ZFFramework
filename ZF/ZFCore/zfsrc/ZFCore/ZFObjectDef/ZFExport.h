@@ -30,9 +30,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief util to export global variable
  *
- * te variable are exported as #ZFMETHOD_FUNC_DECLARE_0,
- * and can only be exported to global #ZFMethodFuncNamespaceGlobal namespace,
- * fr other namespace, you may declare #ZFMETHOD_FUNC_DECLARE_WITH_NS_0 manually\n
+ * the variable are exported as #ZFMETHOD_FUNC_DECLARE_0\n
  * usage:
  * @code
  *   // in header file
@@ -215,7 +213,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     ZF_GLOBAL_INITIALIZER_END(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE)
 #define _ZFP_ZFEXPORT_ENUM_EXPAND(v) \
     { \
-        ZFMethodFuncUserRegister_0(resultMethod, {return v;}, _EnumName, v); \
+        ZFMethodFuncUserRegister_0(resultMethod, {return v;}, ZF_NAMESPACE_CURRENT(), _EnumName, ZFM_TOSTRING(v)); \
         m.add(resultMethod); \
     }
 

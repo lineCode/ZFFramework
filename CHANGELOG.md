@@ -5,6 +5,7 @@
 * optimize lua path info impl
 * support output param for generic invoker
 * formalize api names
+* optimize method namespace impl
 
 # 0.3.0
 

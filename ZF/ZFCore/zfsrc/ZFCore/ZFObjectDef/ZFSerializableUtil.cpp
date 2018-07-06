@@ -289,6 +289,6 @@ zfbool printResolveStatus(ZF_IN const ZFSerializableData &serializableData,
     return ret;
 }
 
-ZF_NAMESPACE_END(ZFSerializableUtil)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFSerializableUtil)
 ZF_NAMESPACE_GLOBAL_END
 

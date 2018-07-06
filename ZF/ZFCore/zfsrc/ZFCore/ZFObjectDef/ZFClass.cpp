@@ -1569,7 +1569,10 @@ void ZFClassGetAllT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
 }
 
 // ============================================================
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFGlobalEvent, ClassDataChange)
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(ClassDataChange)
+ZF_NAMESPACE_END(ZFGlobalEvent)
+
 ZFObserverHolder &_ZFP_ZFClassDataChangeObserverRef(void)
 {
     static ZFObserverHolder d;
