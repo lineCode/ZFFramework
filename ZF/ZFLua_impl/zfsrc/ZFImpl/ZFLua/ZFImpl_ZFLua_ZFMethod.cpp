@@ -52,7 +52,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange)
         }
     }
 }
-ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, {
+ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, ZFM_EXPAND({
         ZFCoreArrayPOD<const ZFMethod *> allMethod = ZFMethodFuncGetAll();
         if(!allMethod.isEmpty())
         {
@@ -90,7 +90,7 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, {
 
         ZFImpl_ZFLua_implSetupScope(L, ZF_NAMESPACE_GLOBAL_NAME);
         ZFImpl_ZFLua_implSetupScope(L, ZF_NAMESPACE_GLOBAL_ABBR_NAME);
-    }, {
+    }), {
         ZFClassDataChangeObserver.observerRemove(
             ZFGlobalEvent::EventClassDataChange(),
             ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange));
