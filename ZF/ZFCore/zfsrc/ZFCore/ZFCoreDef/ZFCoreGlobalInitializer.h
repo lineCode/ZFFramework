@@ -145,6 +145,7 @@ private:
  *   the execute order of the code block is not ensured
  * @warning init and destroy step is not one time,
  *   they'll be called each time ZFFrameworkInit/ZFFrameworkCleanup is called
+ * @note see #ZF_STATIC_REGISTER_INIT for recommended usage
  */
 #define ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(Name, ZFLevel_) \
     _ZFP_ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(Name, ZFLevel_)

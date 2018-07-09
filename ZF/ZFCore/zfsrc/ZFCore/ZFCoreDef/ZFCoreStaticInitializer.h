@@ -64,10 +64,13 @@ public:
  * @warning you should not access any of ZFFramework members
  *   in the static initializer,
  *   you may check it by #ZFFrameworkStateCheck
+ * @note see #ZF_STATIC_REGISTER_INIT for recommended usage
  */
 #define ZF_STATIC_INITIALIZER_INIT(Name) \
     zfclassNotPOD _ZFP_SI_##Name \
     { \
+    protected: \
+        typedef _ZFP_SI_##Name zfself; \
     public: \
         static void *_ZFP_SI_ctor_##Name(void) \
         { \

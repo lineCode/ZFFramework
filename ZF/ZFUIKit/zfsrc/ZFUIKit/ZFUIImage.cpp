@@ -10,40 +10,44 @@
 #include "ZFUIImage.h"
 #include "protocol/ZFProtocolZFUIImage.h"
 
+#include "ZFCore/ZFSTLWrapper/zfstl_string.h"
+#include "ZFCore/ZFSTLWrapper/zfstl_map.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // serializabel data
-zfclassPOD _ZFP_ZFUIImageSerializeTypeData
+static zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> &_ZFP_ZFUIImageSerializeDataMap(void)
 {
-public:
-    _ZFP_ZFUIImageSerializeFromCallback fromCallback;
-};
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIImageSerializeTypeHolder, ZFLevelZFFrameworkStatic)
-{
+    static zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> d;
+    return d;
 }
-public:
-    ZFCoreMap types; // _ZFP_ZFUIImageSerializeTypeData
-ZF_GLOBAL_INITIALIZER_END(ZFUIImageSerializeTypeHolder)
 void _ZFP_ZFUIImageSerializeTypeRegister(ZF_IN const zfchar *name,
                                          ZF_IN _ZFP_ZFUIImageSerializeFromCallback fromCallback)
 {
-    if(name != zfnull && fromCallback != zfnull)
-    {
-        _ZFP_ZFUIImageSerializeTypeData *typeData = (_ZFP_ZFUIImageSerializeTypeData *)zfmalloc(sizeof(_ZFP_ZFUIImageSerializeTypeData));
-        typeData->fromCallback = fromCallback;
-        ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIImageSerializeTypeHolder)->types.set(name,
-            ZFCorePointerForPOD<_ZFP_ZFUIImageSerializeTypeData *>(typeData));
-    }
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> &m = _ZFP_ZFUIImageSerializeDataMap();
+    zfCoreAssert(name != zfnull && fromCallback != zfnull);
+    zfCoreAssertWithMessageTrim(m.find(name) == m.end(),
+        zfTextA("[ZFUIIMAGE_SERIALIZE_TYPE_DEFINE] %s already registered"),
+        zfsCoreZ2A(name));
+    m[name] = fromCallback;
 }
 void _ZFP_ZFUIImageSerializeTypeUnregister(ZF_IN const zfchar *name)
 {
-    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIImageSerializeTypeHolder)->types.remove(name);
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> &m = _ZFP_ZFUIImageSerializeDataMap();
+    m.erase(name);
 }
 
 void ZFUIImageSerializeTypeGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret)
 {
-    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIImageSerializeTypeHolder)->types.allKeyT(ret);
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> &m = _ZFP_ZFUIImageSerializeDataMap();
+    for(zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback>::iterator it = m.begin(); it != m.end(); ++it)
+    {
+        ret.add(it->first.c_str());
+    }
 }
 
 // ============================================================
@@ -164,8 +168,17 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
     const zfchar *typeName = zfnull;
     ZFSerializableUtilSerializeAttributeFromData(serializableData, outErrorHint, outErrorPos,
         require, ZFSerializableKeyword_ZFUIImage_imageType, zfstring, typeName);
-    _ZFP_ZFUIImageSerializeTypeData *typeData = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIImageSerializeTypeHolder)->types.get<_ZFP_ZFUIImageSerializeTypeData *>(typeName);
-    if(typeData == zfnull)
+    _ZFP_ZFUIImageSerializeFromCallback fromCallback = zfnull;
+    {
+        zfCoreMutexLocker();
+        zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> &m = _ZFP_ZFUIImageSerializeDataMap();
+        zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback>::iterator it = m.find(typeName);
+        if(it != m.end())
+        {
+            fromCallback = it->second;
+        }
+    }
+    if(fromCallback == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
             zfText("no such image serializable type registered: \"%s\""), typeName);
@@ -180,7 +193,7 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
         {
             return zffalse;
         }
-        if(!typeData->fromCallback(this, *categoryData, outErrorHint, outErrorPos))
+        if(!fromCallback(this, *categoryData, outErrorHint, outErrorPos))
         {
             return zffalse;
         }

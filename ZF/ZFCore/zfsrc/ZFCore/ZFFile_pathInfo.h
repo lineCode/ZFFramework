@@ -292,7 +292,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFFilePathInfoUnregister(ZF_IN const zfchar *path
         , callbackIsError_ \
         , callbackSize_ \
     ) \
-    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFFilePathInfoReg_##registerSig, ZFLevelZFFrameworkStatic) \
+    ZF_STATIC_REGISTER_INIT(ZFFilePathInfoReg_##registerSig) \
     { \
         ZFFilePathInfoData data; \
         data.callbackIsExist = callbackIsExist_; \
@@ -317,11 +317,11 @@ extern ZF_ENV_EXPORT void _ZFP_ZFFilePathInfoUnregister(ZF_IN const zfchar *path
         data.callbackSize = callbackSize_; \
         _ZFP_ZFFilePathInfoRegister(pathType, data); \
     } \
-    ZF_GLOBAL_INITIALIZER_DESTROY(ZFFilePathInfoReg_##registerSig) \
+    ZF_STATIC_REGISTER_DESTROY(ZFFilePathInfoReg_##registerSig) \
     { \
         _ZFP_ZFFilePathInfoUnregister(pathType); \
     } \
-    ZF_GLOBAL_INITIALIZER_END(ZFFilePathInfoReg_##registerSig)
+    ZF_STATIC_REGISTER_END(ZFFilePathInfoReg_##registerSig)
 
 /**
  * @brief get data registered by #ZFPATHTYPE_FILEIO_REGISTER

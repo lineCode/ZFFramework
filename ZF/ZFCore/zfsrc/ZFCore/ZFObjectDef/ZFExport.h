@@ -197,12 +197,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define _ZFP_ZFEXPORT_ENUM_DEFINE(...) \
     _ZFP_ZFEXPORT_ENUM_DEFINE_EXPAND(_ZFP_ZFEXPORT_ENUM_DEFINE_(__VA_ARGS__))
 #define _ZFP_ZFEXPORT_ENUM_DEFINE_(DECLARE_LINE, EnumName, enumValues, ...) \
-    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE, ZFLevelZFFrameworkNormal) \
+    ZF_STATIC_REGISTER_INIT(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE) \
     { \
         typedef EnumName _EnumName; \
         ZFM_FIX_PARAM(_ZFP_ZFEXPORT_ENUM_EXPAND, ZFM_EMPTY, enumValues, ##__VA_ARGS__) \
     } \
-    ZF_GLOBAL_INITIALIZER_DESTROY(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE) \
+    ZF_STATIC_REGISTER_DESTROY(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE) \
     { \
         for(zfindex i = 0; i < m.count(); ++i) \
         { \
@@ -210,7 +210,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         } \
     } \
     ZFCoreArrayPOD<const ZFMethod *> m; \
-    ZF_GLOBAL_INITIALIZER_END(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE)
+    ZF_STATIC_REGISTER_END(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE)
 #define _ZFP_ZFEXPORT_ENUM_EXPAND(v) \
     { \
         ZFMethodFuncUserRegister_0(resultMethod, {return v;}, ZF_NAMESPACE_CURRENT(), _EnumName, ZFM_TOSTRING(v)); \

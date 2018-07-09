@@ -10,6 +10,9 @@
 #include "ZFCallbackSerializable.h"
 #include "ZFObjectImpl.h"
 
+#include "../ZFSTLWrapper/zfstl_string.h"
+#include "../ZFSTLWrapper/zfstl_map.h"
+
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -155,35 +158,35 @@ ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, ZFInput, ZFInput)
 
 // ============================================================
 // custom serialize logic
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFCallbackSerializeCustomDataHolder, ZFLevelZFFrameworkStatic)
+static zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback> &_ZFP_ZFCallbackSerializeCustomCallbackMap(void)
 {
+    static zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback> d;
+    return d;
 }
-public:
-    ZFCoreMap datas; // _ZFP_ZFCallbackSerializeCustomCallback *
-ZF_GLOBAL_INITIALIZER_END(ZFCallbackSerializeCustomDataHolder)
 void _ZFP_ZFCallbackSerializeCustomTypeRegister(ZF_IN const zfchar *customType,
                                                 ZF_IN _ZFP_ZFCallbackSerializeCustomCallback serializeCallback)
 {
-    ZFCoreMap &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFCallbackSerializeCustomDataHolder)->datas;
-    zfCoreAssertWithMessage(m.get(customType) == zfnull, zfTextA("custom callback serialize type \"%s\" already registered"), zfsCoreZ2A(customType));
-    zfCoreAssert(customType != zfnull && *customType != '\0' && serializeCallback != zfnull);
+    zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback> &m = _ZFP_ZFCallbackSerializeCustomCallbackMap();
+    zfCoreAssert(!zfsIsEmpty(customType) && serializeCallback != zfnull);
+    zfCoreAssertWithMessage(m.find(customType) == m.end(), zfTextA("custom callback serialize type \"%s\" already registered"), zfsCoreZ2A(customType));
 
-    m.set(customType, ZFCorePointerForObject<_ZFP_ZFCallbackSerializeCustomCallback *>(zfnew(_ZFP_ZFCallbackSerializeCustomCallback, serializeCallback)));
+    m[customType] = serializeCallback;
 }
 void _ZFP_ZFCallbackSerializeCustomTypeUnregister(ZF_IN const zfchar *customType)
 {
-    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFCallbackSerializeCustomDataHolder)->datas.remove(customType);
+    _ZFP_ZFCallbackSerializeCustomCallbackMap().erase(customType);
 }
 _ZFP_ZFCallbackSerializeCustomCallback _ZFP_ZFCallbackSerializeCustomTypeGet(ZF_IN const zfchar *customType)
 {
-    ZFCorePointerBase *value = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFCallbackSerializeCustomDataHolder)->datas.get(customType);
-    if(value == zfnull)
+    zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback> &m = _ZFP_ZFCallbackSerializeCustomCallbackMap();
+    zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback>::iterator it = m.find(customType);
+    if(it != m.end())
     {
-        return zfnull;
+        return it->second;
     }
     else
     {
-        return *(value->pointerValueT<const _ZFP_ZFCallbackSerializeCustomCallback *>());
+        return zfnull;
     }
 }
 

@@ -495,11 +495,11 @@ extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
  * @brief see #ZFStyleSet
  */
 #define ZFSTYLE_PROPERTY_COPY_DEFINE(propertyTypeIdSig, stylePropertyCopyAction, ...) \
-    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(StylePropCp_##propertyTypeIdSig, ZFLevelZFFrameworkNormal) \
+    ZF_STATIC_REGISTER_INIT(StylePropCp_##propertyTypeIdSig) \
     { \
         _ZFP_ZFStylePropertyCopyRegister(ZFTypeId_##propertyTypeIdSig(), zfself::action); \
     } \
-    ZF_GLOBAL_INITIALIZER_DESTROY(StylePropCp_##propertyTypeIdSig) \
+    ZF_STATIC_REGISTER_DESTROY(StylePropCp_##propertyTypeIdSig) \
     { \
         _ZFP_ZFStylePropertyCopyUnregister(ZFTypeId_##propertyTypeIdSig()); \
     } \
@@ -509,7 +509,7 @@ extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
     { \
         stylePropertyCopyAction __VA_ARGS__ \
     } \
-    ZF_GLOBAL_INITIALIZER_END(StylePropCp_##propertyTypeIdSig)
+    ZF_STATIC_REGISTER_END(StylePropCp_##propertyTypeIdSig)
 typedef zfbool (*_ZFP_ZFStylePropertyCopyCallback)(ZF_IN ZFObject *propertyOwner,
                                                    ZF_IN const ZFProperty *property,
                                                    ZF_IN ZFStyleable *styleValue);

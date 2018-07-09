@@ -96,12 +96,12 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOImplCheck(ZF_IN const ZFPathInfo &pathInfo
  * @endcode
  */
 #define ZFOBJECTIO_DEFINE(registerSig, checkerAction, fromInputAction, toOutputAction) \
-    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ObjIOReg_##registerSig, ZFLevelZFFrameworkStatic) \
+    ZF_STATIC_REGISTER_INIT(ObjIOReg_##registerSig) \
     { \
         _ZFP_ZFObjectIORegister(ZFM_TOSTRING_DIRECT(registerSig), \
             zfself::_ZFP_checker, zfself::_ZFP_fromInput, zfself::_ZFP_toOutput); \
     } \
-    ZF_GLOBAL_INITIALIZER_DESTROY(ObjIOReg_##registerSig) \
+    ZF_STATIC_REGISTER_DESTROY(ObjIOReg_##registerSig) \
     { \
         _ZFP_ZFObjectIOUnregister(ZFM_TOSTRING_DIRECT(registerSig)); \
     } \
@@ -121,7 +121,7 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIOImplCheck(ZF_IN const ZFPathInfo &pathInfo
     { \
         toOutputAction \
     } \
-    ZF_GLOBAL_INITIALIZER_END(ObjIOReg_##registerSig)
+    ZF_STATIC_REGISTER_END(ObjIOReg_##registerSig)
 
 typedef zfbool (*_ZFP_ZFObjectIOCallback_checker)(ZF_IN const ZFPathInfo &pathInfo);
 typedef zfbool (*_ZFP_ZFObjectIOCallback_fromInput)(ZF_OUT zfautoObject &ret,

@@ -120,9 +120,11 @@ const zfchar *ZFStyleable::styleKey(void)
 }
 
 // ============================================================
-static zfbool _ZFP_ZFStylePropertyCopy(ZF_IN ZFObject *propertyOwner,
-                                       ZF_IN const ZFProperty *property,
-                                       ZF_IN const zfchar *styleKey);
+static zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &_ZFP_ZFStylePropertyCustomCopyMapMap(void)
+{
+    static zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> d;
+    return d;
+}
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStylePropertyChangeDataHolder, ZFLevelZFFrameworkEssential)
 {
@@ -130,14 +132,13 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStylePropertyChangeDataHolder, ZFLevelZF
 }
 public:
     ZFListener stylePropertyOnChangeListener;
-    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> customCopyMap;
 ZF_GLOBAL_INITIALIZER_END(ZFStylePropertyChangeDataHolder)
 
 static zfbool _ZFP_ZFStylePropertyCopy(ZF_IN ZFObject *propertyOwner,
                                        ZF_IN const ZFProperty *property,
                                        ZF_IN const zfchar *styleKey)
 {
-    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFStylePropertyChangeDataHolder)->customCopyMap;
+    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = _ZFP_ZFStylePropertyCustomCopyMapMap();
     zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback>::iterator it = m.find(property->propertyTypeId());
     if(it == m.end())
     {
@@ -272,7 +273,7 @@ void _ZFP_ZFStylePropertyCopyRegister(ZF_IN const zfchar *propertyTypeId,
                                       ZF_IN _ZFP_ZFStylePropertyCopyCallback callback)
 {
     zfCoreMutexLocker();
-    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFStylePropertyChangeDataHolder)->customCopyMap;
+    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = _ZFP_ZFStylePropertyCustomCopyMapMap();
     zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback>::iterator it = m.find(propertyTypeId);
     zfCoreAssertWithMessageTrim(it == m.end(),
         zfTextA("[ZFSTYLE_PROPERTY_COPY_DEFINE] %s already registered"),
@@ -282,7 +283,7 @@ void _ZFP_ZFStylePropertyCopyRegister(ZF_IN const zfchar *propertyTypeId,
 void _ZFP_ZFStylePropertyCopyUnregister(ZF_IN const zfchar *propertyTypeId)
 {
     zfCoreMutexLocker();
-    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFStylePropertyChangeDataHolder)->customCopyMap;
+    zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = _ZFP_ZFStylePropertyCustomCopyMapMap();
     zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback>::iterator it = m.find(propertyTypeId);
     if(it != m.end())
     {
