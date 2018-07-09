@@ -106,10 +106,8 @@ static void _ZFP_ZFImpl_ZFLua_implPathInfoSetup_escape(ZF_OUT zfstring &ret,
     {
         if(*p == '\'')
         {
-            if(p != pL)
-            {
-                ret.append(pL, p - pL);
-            }
+            ret.append(pL, p - pL);
+            pL = p + 1;
             ret += zfText("\\'");
         }
         ++p;
