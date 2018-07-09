@@ -209,7 +209,6 @@ public:
             _ZFP_ZFEnumMax = ((zfuint)-1), \
         } ZFEnumType; \
     public: \
-        /** @brief see #ZFObject::objectHash */ \
         zfoverride \
         virtual zfidentity objectHash(void) \
         { \
@@ -254,6 +253,7 @@ public:
             return zfself::_ZFP_ZFEnumDataRef()->enumNameForValue(value); \
         } \
     public: \
+        /** @cond ZFPrivateDoc */ \
         zfoverride \
         virtual zfindex enumCount(void) \
         { \
@@ -299,6 +299,7 @@ public:
         { \
             return zfself::EnumNameForValue(value); \
         } \
+        /** @endcond */ \
     public: \
         static const _ZFP_ZFEnumData *_ZFP_ZFEnumDataRef(void) \
         { \
@@ -359,11 +360,13 @@ public:
     { \
         ZFOBJECT_DECLARE(EnumName##Editable, EnumName) \
     public: \
+        /** @cond ZFPrivateDoc */ \
         zfoverride \
         virtual void enumValueSet(ZF_IN zfuint value) \
         { \
             zfsuper::enumValueSet(value); \
         } \
+        /** @endcond */ \
     }; \
     /** @brief same as @ref EnumName##Enum, see @ref EnumName */ \
     typedef EnumName::ZFEnumType EnumName##Enum; \

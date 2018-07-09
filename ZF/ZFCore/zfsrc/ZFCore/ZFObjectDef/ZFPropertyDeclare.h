@@ -557,10 +557,10 @@ public:
 #define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
                                              InitValueOrEmpty) \
     public: \
-        /** @brief original type for the property */ \
+        /** @cond ZFPrivateDoc */ \
         typedef Type PropVT_##Name; \
-        /** @brief value holder type for the property */ \
         typedef Type PropHT_##Name; \
+        /** @endcond */ \
     private: \
         zffinal zfclassNotPOD _ZFP_PropV_##Name \
         { \
