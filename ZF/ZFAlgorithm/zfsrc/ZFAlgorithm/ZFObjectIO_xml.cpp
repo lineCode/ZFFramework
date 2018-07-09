@@ -12,8 +12,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBJECTIO_DEFINE(xml, zfText("xml"), {
-        return zftrue;
+ZFOBJECTIO_DEFINE(xml, {
+        return ZFObjectIOImplCheck(pathInfo, zfText("xml"));
     }, {
         return ZFObjectFromXml(ret, input, outErrorHint);
     }, {

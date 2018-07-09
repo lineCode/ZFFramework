@@ -7,20 +7,21 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-/**
- * @file ZFLua.h
- * @brief header file for ZFLua module
- */
+#include "ZFObjectIO_lua.h"
+#include "ZFPathType_lua.h"
 
-#ifndef _ZFI_ZFLua_h_
-#define _ZFI_ZFLua_h_
+ZF_NAMESPACE_GLOBAL_BEGIN
 
-#include "ZFLua/ZFLuaDef.h"
-#include "ZFLua/ZFLuaExecute.h"
-#include "ZFLua/ZFLuaGC.h"
-#include "ZFLua/ZFLuaState.h"
-#include "ZFLua/ZFObjectIO_lua.h"
-#include "ZFLua/ZFPathType_lua.h"
+ZFOBJECTIO_DEFINE(lua, {
+        return (zfscmpTheSame(pathInfo.pathType.cString(), ZFPathType_lua)
+            || ZFObjectIOImplCheck(pathInfo, zfText("lua")));
+    }, {
+        ret = ZFLuaExecute(input);
+        return input.callbackIsValid();
+    }, {
+        zfstringAppend(outErrorHint, zfText("not supported"));
+        return zffalse;
+    })
 
-#endif // #ifndef _ZFI_ZFLua_h_
+ZF_NAMESPACE_GLOBAL_END
 

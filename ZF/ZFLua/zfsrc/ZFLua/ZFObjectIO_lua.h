@@ -8,19 +8,24 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFLua.h
- * @brief header file for ZFLua module
+ * @file ZFObjectIO_lua.h
+ * @brief IO type for #ZFObjectIOLoad
  */
 
-#ifndef _ZFI_ZFLua_h_
-#define _ZFI_ZFLua_h_
+#ifndef _ZFI_ZFObjectIO_lua_h_
+#define _ZFI_ZFObjectIO_lua_h_
 
-#include "ZFLua/ZFLuaDef.h"
-#include "ZFLua/ZFLuaExecute.h"
-#include "ZFLua/ZFLuaGC.h"
-#include "ZFLua/ZFLuaState.h"
-#include "ZFLua/ZFObjectIO_lua.h"
-#include "ZFLua/ZFPathType_lua.h"
+#include "ZFLuaExecute.h"
+ZF_NAMESPACE_GLOBAL_BEGIN
 
-#endif // #ifndef _ZFI_ZFLua_h_
+/**
+ * @brief see #ZFObjectIOLoad
+ *
+ * for "*.lua" file, which should be executed by #ZFLuaExecute
+ * and return an object
+ */
+#define ZFObjectIO_lua zfText("lua")
+
+ZF_NAMESPACE_GLOBAL_END
+#endif // #ifndef _ZFI_ZFObjectIO_lua_h_
 

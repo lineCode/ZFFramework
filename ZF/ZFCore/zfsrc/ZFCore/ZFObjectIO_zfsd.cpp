@@ -11,8 +11,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFOBJECTIO_DEFINE(zfsd, zfText("zfsd"), {
-        return zftrue;
+ZFOBJECTIO_DEFINE(zfsd, {
+        return ZFObjectIOImplCheck(pathInfo, zfText("zfsd"));
     }, {
         return ZFObjectFromInput(ret, input, outErrorHint);
     }, {

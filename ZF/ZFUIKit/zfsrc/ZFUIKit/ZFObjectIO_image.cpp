@@ -48,9 +48,10 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObjectIO_image_imageExtDefault, ZFLevelZ
 ZF_GLOBAL_INITIALIZER_END(ZFObjectIO_image_imageExtDefault)
 
 // ============================================================
-ZFOBJECTIO_DEFINE(image, zfText(""), ZFM_EXPAND({
+ZFOBJECTIO_DEFINE(image, ZFM_EXPAND({
         zfstlmap<zfstlstringZ, zfbool> &m = _ZFP_ZFObjectIO_image_imageExtMap();
-        return (m.find(fileExt) != m.end());
+        const zfchar *fileExt = ZFObjectIOImplCheckFileExt(pathInfo);
+        return (fileExt != zfnull && m.find(fileExt) != m.end());
     }), {
         ret = ZFUIImageLoadFromInput(input);
         if(ret == zfnull)

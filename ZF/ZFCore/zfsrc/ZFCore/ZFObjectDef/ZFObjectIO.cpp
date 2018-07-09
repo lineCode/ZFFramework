@@ -10,14 +10,12 @@
 #include "ZFObjectIO.h"
 #include "ZFObjectImpl.h"
 
-#include "../ZFSTLWrapper/zfstl_string.h"
-#include "../ZFSTLWrapper/zfstl_map.h"
 #include "../ZFSTLWrapper/zfstl_deque.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-zfclassLikePOD _ZFP_ZFObjectIOData
+zfclassNotPOD _ZFP_ZFObjectIOData
 {
 public:
     zfstring registerSig;
@@ -25,151 +23,88 @@ public:
     _ZFP_ZFObjectIOCallback_fromInput fromInput;
     _ZFP_ZFObjectIOCallback_toOutput toOutput;
 };
-static zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &_ZFP_ZFObjectIODataMap(void)
+static zfstldeque<_ZFP_ZFObjectIOData *> &_ZFP_ZFObjectIODataList(void)
 {
-    static zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > m;
-    return m;
+    static zfstldeque<_ZFP_ZFObjectIOData *> d;
+    return d;
 }
 
 void _ZFP_ZFObjectIORegister(ZF_IN const zfchar *registerSig,
-                             ZF_IN const zfchar *fileExt,
                              ZF_IN _ZFP_ZFObjectIOCallback_checker checker,
                              ZF_IN _ZFP_ZFObjectIOCallback_fromInput fromInput,
                              ZF_IN _ZFP_ZFObjectIOCallback_toOutput toOutput)
 {
     zfCoreMutexLocker();
-    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &m = _ZFP_ZFObjectIODataMap();
-    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator it = m.find(fileExt);
-    if(it != m.end())
+    zfstldeque<_ZFP_ZFObjectIOData *> &l = _ZFP_ZFObjectIODataList();
+    for(zfstlsize i = 0; i < l.size(); ++i)
     {
-        for(zfstlsize i = 0; i < it->second.size(); ++i)
+        if(l[i]->registerSig.compare(registerSig) == 0)
         {
-            if(it->second[i].registerSig.compare(registerSig) == 0)
-            {
-                zfCoreCriticalMessageTrim(zfTextA("[ZFObjectIO] \"%s\" already registered"),
-                    zfsCoreZ2A(registerSig));
-                return ;
-            }
+            zfCoreCriticalMessageTrim(zfTextA("[ZFObjectIO] \"%s\" already registered"),
+                zfsCoreZ2A(registerSig));
+            return ;
         }
     }
 
-    _ZFP_ZFObjectIOData data;
-    data.registerSig = registerSig;
-    data.checker = checker;
-    data.fromInput = fromInput;
-    data.toOutput = toOutput;
-    m[fileExt].push_back(data);
+    _ZFP_ZFObjectIOData *data = zfnew(_ZFP_ZFObjectIOData);
+    data->registerSig = registerSig;
+    data->checker = checker;
+    data->fromInput = fromInput;
+    data->toOutput = toOutput;
+    l.push_back(data);
 }
 void _ZFP_ZFObjectIOUnregister(ZF_IN const zfchar *registerSig)
 {
     zfCoreMutexLocker();
-    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &m = _ZFP_ZFObjectIODataMap();
-    for(zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator it = m.begin(); it != m.end(); ++it)
+    zfstldeque<_ZFP_ZFObjectIOData *> &l = _ZFP_ZFObjectIODataList();
+    for(zfstlsize i = 0; i < l.size(); ++i)
     {
-        for(zfstlsize i = 0; i < it->second.size(); ++i)
+        if(l[i]->registerSig.compare(registerSig) == 0)
         {
-            if(it->second[i].registerSig.compare(registerSig) == 0)
-            {
-                it->second.erase(it->second.begin() + i);
-                if(it->second.empty())
-                {
-                    m.erase(it);
-                }
-                return ;
-            }
+            zfdelete(l[i]);
+            l.erase(l.begin() + i);
+            break;
         }
     }
 }
 
 // ============================================================
-static zfbool _ZFP_ZFObjectIOCheckAction(ZF_OUT _ZFP_ZFObjectIOData *&ret,
-                                         ZF_IN const ZFCallback &callback,
-                                         ZF_OUT_OPT zfstring *outErrorHint,
-                                         ZF_IN_OUT zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator &it,
-                                         ZF_IN const zfchar *fileExt)
-{
-    for(zfstlsize i = it->second.size() - 1; i != (zfstlsize)-1; --i)
-    {
-        _ZFP_ZFObjectIOData &d = it->second[i];
-        if(d.checker(*callback.pathInfo(), fileExt))
-        {
-            ret = &d;
-            // move recently matched to tail for better performance
-            if(i != it->second.size() - 1)
-            {
-                _ZFP_ZFObjectIOData t = d;
-                it->second.erase(it->second.begin() + i);
-                it->second.push_back(t);
-            }
-            return zftrue;
-        }
-    }
-    return zffalse;
-}
-static zfbool _ZFP_ZFObjectIOCheck(ZF_OUT _ZFP_ZFObjectIOData *&ret,
-                                   ZF_IN const ZFCallback &callback,
-                                   ZF_OUT_OPT zfstring *outErrorHint = zfnull)
-{
-    if(callback.pathInfo() == zfnull)
-    {
-        zfstringAppend(outErrorHint, zfText("callback does not contain pathInfo"));
-        return zffalse;
-    }
-    const zfchar *tmp = callback.pathInfo()->pathData.cString();
-    const zfchar *fileExt = tmp + callback.pathInfo()->pathData.length() - 1;
-    while(*fileExt != '.' && fileExt > tmp) {--fileExt;}
-    if(*fileExt != '.')
-    {
-        fileExt = zfnull;
-    }
-    else
-    {
-        ++fileExt;
-    }
-    if(fileExt == zfnull)
-    {
-        fileExt = zfText("");
-    }
-
-    zfCoreMutexLocker();
-    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> > &m = _ZFP_ZFObjectIODataMap();
-    zfstlmap<zfstlstringZ, zfstldeque<_ZFP_ZFObjectIOData> >::iterator it = m.find(fileExt);
-    if(it != m.end())
-    {
-        if(_ZFP_ZFObjectIOCheckAction(ret, callback, outErrorHint, it, fileExt))
-        {
-            return zftrue;
-        }
-    }
-    if(!zfsIsEmpty(fileExt))
-    {
-        it = m.find(zfText(""));
-        if(it != m.end())
-        {
-            if(_ZFP_ZFObjectIOCheckAction(ret, callback, outErrorHint, it, fileExt))
-            {
-                return zftrue;
-            }
-        }
-    }
-    zfstringAppend(outErrorHint,
-        zfText("no impl can resolve: %s"),
-        ZFPathInfoToString(*callback.pathInfo()).cString());
-    return zffalse;
-}
 zfbool ZFObjectIOLoadT(ZF_OUT zfautoObject &ret,
                        ZF_IN const ZFInput &input,
                        ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
-    _ZFP_ZFObjectIOData *data = zfnull;
-    if(!_ZFP_ZFObjectIOCheck(data, input, outErrorHint))
+    if(input.pathInfo() == zfnull)
     {
+        zfstringAppend(outErrorHint, zfText("callback %s does not have path info"),
+            input.objectInfo().cString());
         return zffalse;
     }
-    else
+
+    zfCoreMutexLock();
+    zfstldeque<_ZFP_ZFObjectIOData *> &l = _ZFP_ZFObjectIODataList();
+    for(zfstlsize i = l.size() - 1; i != (zfstlsize)-1; --i)
     {
-        return data->fromInput(ret, input, outErrorHint);
+        _ZFP_ZFObjectIOData *d = l[i];
+        zfCoreMutexUnlock();
+        if(l[i]->checker(*input.pathInfo())
+            && l[i]->fromInput(ret, input, outErrorHint))
+        {
+            zfCoreMutexLock();
+            // move to tail for better search performance
+            if(i != l.size() - 1)
+            {
+                l.erase(l.begin() + i);
+                l.push_back(d);
+            }
+            zfCoreMutexUnlock();
+            return zftrue;
+        }
+        zfCoreMutexLock();
     }
+    zfCoreMutexUnlock();
+    zfstringAppend(outErrorHint, zfText("no impl for can resolve %s"), 
+        ZFPathInfoToString(*input.pathInfo()).cString());
+    return zffalse;
 }
 zfautoObject ZFObjectIOLoad(ZF_IN const ZFInput &input,
                             ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
@@ -182,15 +117,60 @@ zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
                       ZF_IN ZFObject *obj,
                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
 {
-    _ZFP_ZFObjectIOData *data = zfnull;
-    if(!_ZFP_ZFObjectIOCheck(data, output, outErrorHint))
+    if(output.pathInfo() == zfnull)
     {
+        zfstringAppend(outErrorHint, zfText("callback %s does not have path info"),
+            output.objectInfo().cString());
         return zffalse;
+    }
+
+    zfCoreMutexLock();
+    zfstldeque<_ZFP_ZFObjectIOData *> &l = _ZFP_ZFObjectIODataList();
+    for(zfstlsize i = l.size() - 1; i != (zfstlsize)-1; --i)
+    {
+        _ZFP_ZFObjectIOData *d = l[i];
+        zfCoreMutexUnlock();
+        if(l[i]->checker(*output.pathInfo())
+            && l[i]->toOutput(output, obj, outErrorHint))
+        {
+            zfCoreMutexLock();
+            // move to tail for better search performance
+            if(i != l.size() - 1)
+            {
+                l.erase(l.begin() + i);
+                l.push_back(d);
+            }
+            zfCoreMutexUnlock();
+            return zftrue;
+        }
+        zfCoreMutexLock();
+    }
+    zfCoreMutexUnlock();
+    zfstringAppend(outErrorHint, zfText("no impl for can resolve %s"), 
+        ZFPathInfoToString(*output.pathInfo()).cString());
+    return zffalse;
+}
+
+const zfchar *ZFObjectIOImplCheckFileExt(ZF_IN const ZFPathInfo &pathInfo)
+{
+    const zfchar *pStart = pathInfo.pathData.cString();
+    const zfchar *ret = pStart + pathInfo.pathData.length() - 1;
+    while(ret > pStart && *ret != '.') {--ret;}
+    if(*ret == '.')
+    {
+        return ret + 1;
     }
     else
     {
-        return data->toOutput(output, obj, outErrorHint);
+        return zfnull;
     }
+}
+zfbool ZFObjectIOImplCheck(ZF_IN const ZFPathInfo &pathInfo,
+                           ZF_IN const zfchar *desiredFileExt)
+{
+    zfindex len = zfslen(desiredFileExt);
+    return (pathInfo.pathData.length() >= len
+        && zfscmpTheSame(pathInfo.pathData.cString() + pathInfo.pathData.length() - len, desiredFileExt));
 }
 
 ZF_NAMESPACE_GLOBAL_END

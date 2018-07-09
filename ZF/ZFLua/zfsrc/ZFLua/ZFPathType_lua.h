@@ -8,19 +8,23 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFLua.h
- * @brief header file for ZFLua module
+ * @file ZFPathType_lua.h
+ * @brief #ZFPathInfo impl
  */
 
-#ifndef _ZFI_ZFLua_h_
-#define _ZFI_ZFLua_h_
+#ifndef _ZFI_ZFPathType_lua_h_
+#define _ZFI_ZFPathType_lua_h_
 
-#include "ZFLua/ZFLuaDef.h"
-#include "ZFLua/ZFLuaExecute.h"
-#include "ZFLua/ZFLuaGC.h"
-#include "ZFLua/ZFLuaState.h"
-#include "ZFLua/ZFObjectIO_lua.h"
-#include "ZFLua/ZFPathType_lua.h"
+#include "ZFLuaDef.h"
+ZF_NAMESPACE_GLOBAL_BEGIN
 
-#endif // #ifndef _ZFI_ZFLua_h_
+/**
+ * @brief see #ZFPathInfo
+ *
+ * pathData is plain text that holds the lua code
+ */
+#define ZFPathType_lua zfText("lua")
+
+ZF_NAMESPACE_GLOBAL_END
+#endif // #ifndef _ZFI_ZFPathType_lua_h_
 
