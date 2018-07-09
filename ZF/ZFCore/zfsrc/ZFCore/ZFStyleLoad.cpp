@@ -108,22 +108,5 @@ ZFMETHOD_FUNC_DEFINE_1(zfbool, ZFStyleLoad,
     return zftrue;
 }
 
-// ============================================================
-ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFStyleCreate,
-                       ZFMP_IN(const zfchar *, styleKey))
-{
-    ZFStyleable *style = ZFStyleGet(styleKey);
-    if(style != zfnull)
-    {
-        zfautoObject ret = style->classData()->newInstance();
-        ZFStyleable *t = ret;
-        if(t->styleKeySet(styleKey))
-        {
-            return ret;
-        }
-    }
-    return zfnull;
-}
-
 ZF_NAMESPACE_GLOBAL_END
 

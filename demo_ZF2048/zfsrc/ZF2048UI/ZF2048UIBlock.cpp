@@ -26,10 +26,10 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048UIBlock, ZF2048Value, blockValue)
     }
 
     zfstring skinKey = zfstringWithFormat(zfText("ZF2048/block/block_%d"), (zfint)this->blockValue());
-    this->imageSet(ZFStyleCreate(skinKey));
+    this->imageSet(ZFStyleGet(skinKey));
     if(this->image() == zfnull)
     {
-        this->imageSet(ZFStyleCreate(zfText("ZF2048/block/block_na")));
+        this->imageSet(ZFStyleGet(zfText("ZF2048/block/block_na")));
         this->blockTitle()->viewVisibleSet(zftrue);
     }
     else

@@ -87,7 +87,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromInput,
         return zfnull;
     }
 
-    if(input.callbackSerializeCustomType() != zfnull)
+    if(!input.callbackSerializeCustomDisabled())
     {
         ZFSerializableData inputData;
         if(ZFCallbackToData(inputData, input))

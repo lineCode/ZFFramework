@@ -137,7 +137,7 @@ static zfindex _ZFP_zfLogOnOutput(ZF_IN const void *src, ZF_IN zfindex size)
 ZFOutput zfLogTrimT(void)
 {
     ZFOutput ret;
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     ZFOutputForFormatT(ret, ZFCallbackForFunc(_ZFP_zfLogOnOutput), _ZFP_ZFLogFormatHolder);
     return ret;
 }

@@ -272,8 +272,8 @@ zfindex ZFInputReadUntil(ZF_IN_OUT zfstring &ret,
     return readCount;
 }
 zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
-                                  ZF_IN zfindex tokenCount,
-                                  ZF_IN_OUT const ZFInput &input)
+                          ZF_IN zfindex tokenCount,
+                          ZF_IN_OUT const ZFInput &input)
 {
     zfindex ret = zfindexMax();
     if(input.callbackIsValid())
@@ -375,9 +375,9 @@ public:
     }
 };
 ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
-                                               ZF_IN_OPT zfindex start /* = 0 */,
-                                               ZF_IN_OPT zfindex count /* = zfindexMax() */,
-                                               ZF_IN_OPT zfbool autoRestorePos /* = zftrue */)
+                               ZF_IN_OPT zfindex start /* = 0 */,
+                               ZF_IN_OPT zfindex count /* = zfindexMax() */,
+                               ZF_IN_OPT zfbool autoRestorePos /* = zftrue */)
 {
     zfbool valid = zffalse;
     zfindex savedPos = zfindexMax();
@@ -426,7 +426,7 @@ ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
         ret.callbackIdSet(zfstringWithFormat(zfText("ZFInputForInputInRange[%zi, %zi]:%@"), start, count, inputCallback.callbackId()));
     }
 
-    if(inputCallback.callbackSerializeCustomType() != zfnull)
+    if(!inputCallback.callbackSerializeCustomDisabled())
     {
         ZFSerializableData inputData;
         if(ZFCallbackToData(inputData, inputCallback))

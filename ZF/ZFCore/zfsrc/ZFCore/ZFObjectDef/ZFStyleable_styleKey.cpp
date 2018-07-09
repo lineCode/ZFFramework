@@ -41,14 +41,14 @@ void _ZFP_ZFStyleKeyHolder::styleOnChange(ZF_IN const ZFListenerData &listenerDa
 {
     zfCoreMutexLocker();
     ZFStyleable *owner = userData->objectHolded();
-    ZFStyleable *style = ZFStyleGet(owner->styleKey());
-    if(style)
+    zfautoObject style = ZFStyleGet(owner->styleKey());
+    if(style != zfnull)
     {
         zfCoreAssertWithMessageTrim(style->classData()->classIsTypeOf(owner->classData())
             || owner->classData()->classIsTypeOf(style->classData()),
             zfTextA("[ZFStyle] applying style from incorrect type, to object: %s, from style: %s"),
             zfsCoreZ2A(owner->toObject()->objectInfoOfInstance().cString()),
-            zfsCoreZ2A(style->toObject()->objectInfoOfInstance().cString()));
+            zfsCoreZ2A(style->objectInfoOfInstance().cString()));
 
         owner->styleableCopyFrom(style);
         if(!owner->styleKeyOnCheckValid())
@@ -97,7 +97,7 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const zfchar *styleKey)
             ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(
                 this->toObject(),
                 ZFGlobalEvent::EventZFStyleOnInvalid(),
-                zfnull,
+                zflockfree_zflineAlloc(ZFPointerHolder),
                 zflockfree_zflineAlloc(ZFPointerHolder, styleKey));
             return zffalse;
         }
@@ -144,12 +144,15 @@ static zfbool _ZFP_ZFStylePropertyCopy(ZF_IN ZFObject *propertyOwner,
     {
         return zffalse;
     }
-    ZFStyleable *styleValue = ZFStyleGet(styleKey);
+    zfautoObject styleValue = ZFStyleGet(styleKey);
     if(styleValue == zfnull)
     {
         return zffalse;
     }
-    return it->second(propertyOwner, property, styleValue);
+    else
+    {
+        return it->second(propertyOwner, property, styleValue);
+    }
 }
 void _ZFP_ZFStyleKeyHolder::stylePropertyOnChange(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
 {

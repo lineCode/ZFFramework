@@ -288,7 +288,7 @@ public:
 public:
     static void showAbout(void)
     {
-        ZFUIHintShow(ZFStyleGet(zfText("ZF2048_aboutContent"))->to<ZFString *>()->stringValue());
+        ZFUIHintShow(ZFStyleGet(zfText("ZF2048_aboutContent")).to<ZFString *>()->stringValue());
     }
 
 protected:

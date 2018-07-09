@@ -91,7 +91,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
     }, {
         if(v.callbackSerializeCustomType() != zfnull)
         {
-            if(zfscmpTheSame(v.callbackSerializeCustomType(), ZFCallbackSerializeCustomTypeDisable))
+            if(v.callbackSerializeCustomDisabled())
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, zfText("callback was marked as not serializable"));
                 return zffalse;

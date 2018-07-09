@@ -49,6 +49,11 @@ void ZFStyleable::styleableCopyFrom(ZF_IN ZFStyleable *anotherStyleable)
     {
         return ;
     }
+    if(this->styleKey() == zfnull)
+    {
+        this->styleKeySet(anotherStyleable->styleKey());
+    }
+
     _ZFP_I_ZFStyleable_PropertyTypeHolder *holderTmp = this->_ZFP_ZFStyleable_getPropertyTypeHolder();
     const ZFClass *thisCls = this->classData();
     const ZFClass *anotherCls = anotherStyleable->classData();
@@ -124,6 +129,10 @@ void ZFStyleable::styleableOnCopyPropertyFrom(ZF_IN ZFStyleable *anotherStyleabl
                                               ZF_IN const ZFProperty *property,
                                               ZF_IN ZFStyleable::PropertyType propertyType)
 {
+    if(this->styleKey(property) == zfnull)
+    {
+        this->styleKeySet(property, anotherStyleable->styleKey(property));
+    }
     switch(propertyType)
     {
         case ZFStyleable::PropertyTypeNormal:
@@ -316,6 +325,29 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFStyleCleanup)
 }
 ZF_GLOBAL_INITIALIZER_END(ZFStyleCleanup)
 
+static zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder> &_ZFP_ZFStyleDecoderMap(void)
+{
+    static zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder> d;
+    return d;
+}
+void _ZFP_ZFStyleDecoderRegister(ZF_IN const zfchar *registerSig,
+                                 ZF_IN _ZFP_ZFStyleDecoder decoder)
+{
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder> &m = _ZFP_ZFStyleDecoderMap();
+    zfCoreAssert(registerSig != zfnull && decoder != zfnull);
+    zfCoreAssertWithMessageTrim(m.find(registerSig) == m.end(),
+        zfTextA("[ZFSTYLE_DECODER_DEFINE] %s already registered"),
+        registerSig);
+    m[registerSig] = decoder;
+}
+void _ZFP_ZFStyleDecoderUnregister(ZF_IN const zfchar *registerSig)
+{
+    zfCoreMutexLocker();
+    zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder> &m = _ZFP_ZFStyleDecoderMap();
+    m.erase(registerSig);
+}
+
 void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue)
 {
     if(styleValue)
@@ -325,9 +357,24 @@ void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue)
         zfCoreMutexUnlock();
     }
 }
-ZFStyleable *ZFStyleGet(ZF_IN const zfchar *styleKey)
+zfautoObject ZFStyleGet(ZF_IN const zfchar *styleKey)
 {
+    if(zfsIsEmpty(styleKey))
+    {
+        return zfnull;
+    }
+
     zfCoreMutexLocker();
+    zfautoObject ret;
+    zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder> &m = _ZFP_ZFStyleDecoderMap();
+    for(zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder>::iterator it = m.begin(); it != m.end(); ++it)
+    {
+        if(it->second(ret, styleKey))
+        {
+            return ret;
+        }
+    }
+
     zfstlmap<zfstlstringZ, zfautoObject> &d = _ZFP_ZFStyleHolder();
     zfstlmap<zfstlstringZ, zfautoObject>::iterator it = d.find(styleKey);
     if(it != d.end())
@@ -440,7 +487,7 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFStyleable, const zfchar *, styleKey
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFStyleDefaultApplyAutoCopy, ZFMP_IN(ZFStyleable *, styleValue))
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFStyleSet, ZFMP_IN(const zfchar *, styleKey), ZFMP_IN(ZFStyleable *, styleValue))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFStyleable *, ZFStyleGet, ZFMP_IN(const zfchar *, styleKey))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfautoObject, ZFStyleGet, ZFMP_IN(const zfchar *, styleKey))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFStyleGetAll, ZFMP_IN_OUT(ZFCoreArrayPOD<const zfchar *> &, styleKey), ZFMP_IN_OUT(ZFCoreArrayPOD<ZFStyleable *>, styleValue))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(void, ZFStyleRemoveAll)
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(void, ZFStyleChangeBegin)

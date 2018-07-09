@@ -625,15 +625,25 @@ ZFMETHOD_FUNC_DEFINE_2(ZFInput, ZFInputForPathInfoString,
                        ZFMP_IN(const zfchar *, pathInfoString),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
+    ZFInput ret;
+    ZFInputForPathInfoStringT(ret, pathInfoString, flags);
+    return ret;
+}
+ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFInputForPathInfoStringT,
+                       ZFMP_IN_OUT(ZFCallback &, ret),
+                       ZFMP_IN(const zfchar *, pathInfoString),
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
+{
     zfstring pathType;
     const zfchar *pathData = zfnull;
     if(!ZFPathInfoParse(pathInfoString, pathType, pathData))
     {
-        return ZFCallbackNull();
+        return zffalse;
     }
-    ZFInput ret;
-    ZFInputForPathInfoT(ret, pathType, pathData, flags);
-    return ret;
+    else
+    {
+        return ZFInputForPathInfoT(ret, pathType, pathData, flags);
+    }
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForPathInfoT,
                        ZFMP_IN_OUT(ZFCallback &, ret),
@@ -646,7 +656,6 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForPathInfoT,
     {
         return zffalse;
     }
-    zfbool needSerialize = (ret.callbackSerializeCustomType() == zfnull);
     ret = ZFCallbackForMemberMethod(
         inputOwner, ZFMethodAccess(_ZFP_I_ZFInputForPathInfoOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, inputOwner);
@@ -657,7 +666,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForPathInfoT,
     ZFPathInfoToString(callbackId, *ret.pathInfo());
     ret.callbackIdSet(callbackId);
 
-    if(needSerialize)
+    if(!ret.callbackSerializeCustomDisabled())
     {
         zfbool success = zffalse;
         ZFSerializableData customData;
@@ -720,7 +729,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForPathInfo, ZFCallbackSerializeC
         return zffalse;
     }
 
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
     if(!ret.callbackIsValid())
     {
@@ -808,15 +817,25 @@ ZFMETHOD_FUNC_DEFINE_2(ZFOutput, ZFOutputForPathInfoString,
                        ZFMP_IN(const zfchar *, pathInfoString),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
+    ZFOutput ret;
+    ZFOutputForPathInfoStringT(ret, pathInfoString, flags);
+    return ret;
+}
+ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForPathInfoStringT,
+                       ZFMP_IN_OUT(ZFCallback &, ret),
+                       ZFMP_IN(const zfchar *, pathInfoString),
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
+{
     zfstring pathType;
     const zfchar *pathData = zfnull;
     if(!ZFPathInfoParse(pathInfoString, pathType, pathData))
     {
-        return ZFCallbackNull();
+        return zffalse;
     }
-    ZFOutput ret;
-    ZFOutputForPathInfoT(ret, pathType, pathData, flags);
-    return ret;
+    else
+    {
+        return ZFOutputForPathInfoT(ret, pathType, pathData, flags);
+    }
 }
 ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputForPathInfoT,
                        ZFMP_IN_OUT(ZFCallback &, ret),
@@ -829,7 +848,6 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputForPathInfoT,
     {
         return zffalse;
     }
-    zfbool needSerialize = (ret.callbackSerializeCustomType() == zfnull);
     ret = ZFCallbackForMemberMethod(
         outputOwner, ZFMethodAccess(_ZFP_I_ZFOutputForPathInfoOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, outputOwner);
@@ -840,7 +858,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputForPathInfoT,
     ZFPathInfoToString(callbackId, *ret.pathInfo());
     ret.callbackIdSet(callbackId);
 
-    if(needSerialize)
+    if(!ret.callbackSerializeCustomDisabled())
     {
         zfbool success = zffalse;
         ZFSerializableData customData;
@@ -903,7 +921,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForPathInfo, ZFCallbackSerialize
         return zffalse;
     }
 
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     ZFOutputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
     if(!ret.callbackIsValid())
     {
@@ -966,7 +984,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForLocalFileT,
     {
         return zffalse;
     }
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     if(!ZFInputForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags))
     {
         return zffalse;
@@ -1042,7 +1060,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerialize
         return zffalse;
     }
 
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     zfstring pathDataAbs;
     if(!_ZFP_ZFFileCallbackForLocalFileGetAbsPath(pathDataAbs, *pathInfo, localPath))
     {
@@ -1081,7 +1099,7 @@ ZFMETHOD_FUNC_DEFINE_3(ZFOutput, ZFOutputForLocalFile,
         return ZFCallbackNull();
     }
     ZFOutput ret;
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     if(!ZFOutputForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags))
     {
         return ZFCallbackNull();
@@ -1153,7 +1171,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForLocalFile, ZFCallbackSerializ
         return zffalse;
     }
 
-    ret.callbackSerializeCustomDisable();
+    ret.callbackSerializeCustomDisable(zftrue);
     zfstring pathDataAbs;
     if(!_ZFP_ZFFileCallbackForLocalFileGetAbsPath(pathDataAbs, *pathInfo, localPath))
     {
@@ -1174,6 +1192,18 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForLocalFile, ZFCallbackSerializ
     serializableData.resolveMark();
     return zftrue;
 }
+
+// ============================================================
+ZFSTYLE_DECODER_DEFINE(ZFStyleDecoder_pathInfo, {
+    if(*styleKey != '@')
+    {
+        return zffalse;
+    }
+    ZFInput input;
+    input.callbackSerializeCustomDisable(zftrue);
+    return ZFInputForPathInfoStringT(input, styleKey + 1)
+        && ZFObjectIOLoadT(ret, input);
+})
 
 ZF_NAMESPACE_GLOBAL_END
 

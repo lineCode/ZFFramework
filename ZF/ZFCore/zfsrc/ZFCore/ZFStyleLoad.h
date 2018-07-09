@@ -64,12 +64,6 @@ ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFStyleLoad,
 ZFMETHOD_FUNC_DECLARE_1(zfbool, ZFStyleLoad,
                         ZFMP_IN(const ZFSerializableData &, serializableData))
 
-/**
- * @brief create styleable object from specified styleKey
- */
-ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFStyleCreate,
-                        ZFMP_IN(const zfchar *, styleKey))
-
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFStyleLoad_h_
 

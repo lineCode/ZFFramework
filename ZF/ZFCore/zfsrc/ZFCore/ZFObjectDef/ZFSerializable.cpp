@@ -280,11 +280,13 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
                                        ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
                                        ZF_IN_OPT ZFSerializable *referencedOwnerOrNull /* = zfnull */)
 {
+    zfautoObject referencedObjectHolder;
     ZFSerializable *referencedObject = zfnull;
     ZFStyleable *styleable = ZFCastZFObject(ZFStyleable *, this);
     if(styleable != zfnull && styleable->styleKey() != zfnull)
     {
-        referencedObject = ZFCastZFObject(ZFSerializable *, ZFStyleGet(styleable->styleKey()));
+        referencedObjectHolder = ZFStyleGet(styleable->styleKey());
+        referencedObject = referencedObjectHolder;
         serializableData.attributeSet(ZFSerializableKeyword_styleKey, styleable->styleKey());
     }
     if(referencedObject == zfnull)

@@ -109,7 +109,7 @@ static int _ZFP_ZFLuaLocalInput(ZF_IN lua_State *L, ZF_IN zfbool requireValid, Z
         }
     }
 
-    ret->zfv.callbackSerializeCustomDisable();
+    ret->zfv.callbackSerializeCustomDisable(zftrue);
     ZFInputForLocalFileT(ret->zfv, pathInfo->zfv, localFilePath);
     if(!ret->zfv.callbackIsValid())
     {
@@ -251,7 +251,7 @@ static int _ZFP_ZFLuaImportAllExecute(ZF_IN lua_State *L,
                                       ZF_IN ZFObject *importCallbackUserData)
 {
     ZFInput input;
-    input.callbackSerializeCustomDisable();
+    input.callbackSerializeCustomDisable(zftrue);
     ZFInputForPathInfoT(input, pathInfo->zfv.pathType, pathInfo->zfv.pathData);
     if(!input.callbackIsValid())
     {

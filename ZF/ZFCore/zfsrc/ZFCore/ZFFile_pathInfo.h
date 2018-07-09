@@ -393,6 +393,13 @@ ZFMETHOD_FUNC_DECLARE_2(ZFInput, ZFInputForPathInfoString,
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 /**
  * @brief see #ZFInputForPathInfo
+ */
+ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFInputForPathInfoStringT,
+                        ZFMP_IN_OUT(ZFCallback &, ret),
+                        ZFMP_IN(const zfchar *, pathInfoString),
+                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
+/**
+ * @brief see #ZFInputForPathInfo
  *
  * this method is designed for performance for further impl, by:
  * -  allow set #ZFCallbackSerializeCustomTypeDisable
@@ -437,6 +444,13 @@ ZFMETHOD_FUNC_DECLARE_2(ZFOutput, ZFOutputForPathInfo,
  * @brief see #ZFOutputForPathInfo
  */
 ZFMETHOD_FUNC_DECLARE_2(ZFOutput, ZFOutputForPathInfoString,
+                        ZFMP_IN(const zfchar *, pathInfoString),
+                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
+/**
+ * @brief see #ZFOutputForPathInfo
+ */
+ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFOutputForPathInfoStringT,
+                        ZFMP_IN_OUT(ZFCallback &, ret),
                         ZFMP_IN(const zfchar *, pathInfoString),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 /**
@@ -523,6 +537,16 @@ ZFMETHOD_FUNC_DECLARE_3(ZFOutput, ZFOutputForLocalFile,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN(const zfchar *, localPath),
                         ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
+
+// ============================================================
+/**
+ * @brief see #ZFSTYLE_DECODER_DEFINE
+ *
+ * styleKey should start with '@' and holds a #ZFPathInfo,
+ * the result style object would be created by
+ * #ZFInputForPathInfo and #ZFObjectIOLoad
+ */
+#define ZFStyleDecoder_pathInfo pathInfo
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFFile_pathInfo_h_

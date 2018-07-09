@@ -154,7 +154,6 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
         ret = output;
         return zffalse;
     }
-    zfbool needSerialize = (ret.callbackSerializeCustomType() == zfnull);
 
     _ZFP_I_ZFOutputForFormatOwner *outputOwner = zfAlloc(_ZFP_I_ZFOutputForFormatOwner);
     outputOwner->output = output;
@@ -164,7 +163,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, output.callbackTagGet(ZFCallbackTagKeyword_ioOwner));
     zfRelease(outputOwner);
 
-    if(needSerialize)
+    if(!ret.callbackSerializeCustomDisabled())
     {
         ZFSerializableData outputData;
         ZFSerializableData formatData;
@@ -232,7 +231,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForFormat, ZFCallbackSerializeCu
 
 
     ZFOutput retTmp;
-    retTmp.callbackSerializeCustomDisable();
+    retTmp.callbackSerializeCustomDisable(zftrue);
     if(!ZFOutputForFormatT(retTmp, output, format))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *formatData,
