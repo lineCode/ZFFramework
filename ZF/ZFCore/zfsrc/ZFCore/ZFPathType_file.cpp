@@ -37,10 +37,9 @@ ZFPATHTYPE_FILEIO_REGISTER(file, ZFPathType_file
 
 // ============================================================
 // ZFInputForFile
-ZFMETHOD_FUNC_DEFINE_INLINE_3(ZFInput, ZFInputForFile,
+ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFInput, ZFInputForFile,
                               ZFMP_IN(const zfchar *, filePath),
-                              ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                              ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                              ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 
 // ============================================================
 // ZFOutputForFile

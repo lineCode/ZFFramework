@@ -518,61 +518,6 @@ void ZFFilePathInfoDataGetAllT(ZF_OUT ZFCoreArrayPOD<const zfchar *> &ret)
 }
 
 // ============================================================
-zfindex ZFFilePathInfoBOMCheck(ZF_IN_OUT const ZFFilePathInfoData &impl,
-                               ZF_IN_OUT ZFToken token,
-                               ZF_IN_OPT const ZFFileBOMList &autoSkipBOMTable /* = ZFFileBOMListDefault() */)
-{
-    zfindex ret = 0;
-    while(!autoSkipBOMTable.isEmpty())
-    {
-        zfbyte tmp[ZFFileBOMMaxSize] = {0};
-        if(impl.callbackRead(token, tmp, ZFFileBOMMaxSize) == 0) {break;}
-
-        for(zfindex i = 0; i < autoSkipBOMTable.count(); ++i)
-        {
-            const zfbyte *BOM = autoSkipBOMTable[i].BOM;
-            zfindex len = zfslenA((const zfcharA *)BOM);
-            if(zfmemcmp(tmp, BOM, len) == 0)
-            {
-                ret = len;
-                break;
-            }
-        }
-
-        impl.callbackSeek(token, ret, ZFSeekPosBegin);
-        break;
-    }
-    return ret;
-}
-zfbool ZFFilePathInfoBOMSeek(ZF_IN_OUT const ZFFilePathInfoData &impl,
-                             ZF_IN_OUT ZFToken token,
-                             ZF_IN zfindex BOMSize,
-                             ZF_IN zfindex byteSize,
-                             ZF_IN ZFSeekPos pos)
-{
-    zfindex fileSize = impl.callbackSize(token);
-    if(fileSize == zfindexMax())
-    {
-        return zffalse;
-    }
-    zfindex tmp = ZFIOCallbackCalcFSeek(BOMSize, fileSize, impl.callbackTell(token), byteSize, pos);
-    return impl.callbackSeek(token, tmp, pos);
-}
-zfindex ZFFilePathInfoBOMTell(ZF_IN_OUT const ZFFilePathInfoData &impl,
-                              ZF_IN ZFToken token,
-                              ZF_IN zfindex BOMSize)
-{
-    zfindex ret = impl.callbackTell(token);
-    if(ret == zfindexMax())
-    {
-        return zfindexMax();
-    }
-    else
-    {
-        return ret - BOMSize;
-    }
-}
-
 ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoMakeT,
                        ZFMP_OUT(ZFPathInfo &, ret),
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
@@ -625,8 +570,7 @@ protected:
 public:
     virtual zfbool openFile(ZF_IN const zfchar *pathType,
                             ZF_IN const zfchar *pathData,
-                            ZF_IN ZFFileOpenOptionFlags flags,
-                            ZF_IN const ZFFileBOMList &autoSkipBOMTable)
+                            ZF_IN ZFFileOpenOptionFlags flags)
     {
         this->impl = ZFFilePathInfoDataGet(pathType);
         if(this->impl == zfnull)
@@ -635,10 +579,6 @@ public:
         }
 
         this->token = this->impl->callbackOpen(pathData, flags, zftrue);
-        if(this->token != ZFTokenInvalid() && !autoSkipBOMTable.isEmpty())
-        {
-            this->BOMSize = ZFFilePathInfoBOMCheck(*(this->impl), this->token, autoSkipBOMTable);
-        }
         return (this->token != ZFTokenInvalid());
     }
 
@@ -652,11 +592,11 @@ public:
                       ZFMP_IN(zfindex, byteSize),
                       ZFMP_IN(ZFSeekPos, pos))
     {
-        return ZFFilePathInfoBOMSeek(*(this->impl), this->token, this->BOMSize, byteSize, pos);
+        return this->impl->callbackSeek(this->token, byteSize, pos);
     }
     ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
-        return ZFFilePathInfoBOMTell(*(this->impl), this->token, this->BOMSize);
+        return this->impl->callbackTell(this->token);
     }
     ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
@@ -666,28 +606,24 @@ public:
 private:
     const ZFFilePathInfoData *impl;
     ZFToken token;
-    zfindex BOMSize;
 protected:
     _ZFP_I_ZFInputForPathInfoOwner(void)
     : impl(zfnull)
     , token(ZFTokenInvalid())
-    , BOMSize(0)
     {
     }
 };
-ZFMETHOD_FUNC_DEFINE_3(ZFInput, ZFInputForPathInfo,
+ZFMETHOD_FUNC_DEFINE_2(ZFInput, ZFInputForPathInfo,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
-                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                       ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     ZFInput ret;
-    ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_3(ZFInput, ZFInputForPathInfoString,
+ZFMETHOD_FUNC_DEFINE_2(ZFInput, ZFInputForPathInfoString,
                        ZFMP_IN(const zfchar *, pathInfoString),
-                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                       ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     zfstring pathType;
     const zfchar *pathData = zfnull;
@@ -696,18 +632,17 @@ ZFMETHOD_FUNC_DEFINE_3(ZFInput, ZFInputForPathInfoString,
         return ZFCallbackNull();
     }
     ZFInput ret;
-    ZFInputForPathInfoT(ret, pathType, pathData, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, pathType, pathData, flags);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForPathInfoT,
+ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForPathInfoT,
                        ZFMP_IN_OUT(ZFCallback &, ret),
                        ZFMP_IN(const zfchar *, pathType),
                        ZFMP_IN(const zfchar *, pathData),
-                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                       ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     zfblockedAlloc(_ZFP_I_ZFInputForPathInfoOwner, inputOwner);
-    if(!inputOwner->openFile(pathType, pathData, flags, autoSkipBOMTable))
+    if(!inputOwner->openFile(pathType, pathData, flags))
     {
         return zffalse;
     }
@@ -720,10 +655,6 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForPathInfoT,
 
     zfstring callbackId;
     ZFPathInfoToString(callbackId, *ret.pathInfo());
-    if(autoSkipBOMTable.objectCompare(ZFFileBOMListDefault()) != ZFCompareTheSame)
-    {
-        ZFFileBOMListToString(callbackId, autoSkipBOMTable);
-    }
     ret.callbackIdSet(callbackId);
 
     if(needSerialize)
@@ -750,17 +681,6 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForPathInfoT,
                 }
                 flagsData.categorySet(ZFSerializableKeyword_ZFFileCallback_flags);
                 customData.elementAdd(flagsData);
-            }
-
-            if(autoSkipBOMTable.objectCompare(ZFFileBOMListDefault()) != ZFCompareTheSame)
-            {
-                ZFSerializableData autoSkipBOMTableData;
-                if(!zfstringToData(autoSkipBOMTableData, ZFFileBOMListToString(autoSkipBOMTable)))
-                {
-                    break;
-                }
-                autoSkipBOMTableData.categorySet(ZFSerializableKeyword_ZFFileCallback_autoSkipBOMTable);
-                customData.elementAdd(autoSkipBOMTableData);
             }
 
             success = zftrue;
@@ -800,20 +720,8 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForPathInfo, ZFCallbackSerializeC
         return zffalse;
     }
 
-    ZFFileBOMList autoSkipBOMTable;
-    const ZFSerializableData *autoSkipBOMTableData = ZFSerializableUtil::checkElementByCategory(
-        serializableData, ZFSerializableKeyword_ZFFileCallback_autoSkipBOMTable);
-    if(autoSkipBOMTableData != zfnull && !ZFCoreArrayFromData(autoSkipBOMTable, ZFFileBOMFromData, *autoSkipBOMTableData, outErrorHint, outErrorPos))
-    {
-        return zffalse;
-    }
-    else
-    {
-        autoSkipBOMTable = ZFFileBOMListDefault();
-    }
-
     ret.callbackSerializeCustomDisable();
-    ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, pathInfo.pathType, pathInfo.pathData, flags);
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
@@ -867,11 +775,11 @@ public:
                       ZFMP_IN(zfindex, byteSize),
                       ZFMP_IN(ZFSeekPos, pos))
     {
-        return ZFFilePathInfoBOMSeek(*(this->impl), this->token, 0, byteSize, pos);
+        return this->impl->callbackSeek(this->token, byteSize, pos);
     }
     ZFMETHOD_INLINE_0(zfindex, ioTell)
     {
-        return ZFFilePathInfoBOMTell(*(this->impl), this->token, 0);
+        return this->impl->callbackTell(this->token);
     }
     ZFMETHOD_INLINE_0(zfindex, ioSize)
     {
@@ -1033,22 +941,20 @@ static zfbool _ZFP_ZFFileCallbackForLocalFileGetAbsPath(ZF_OUT zfstring &pathDat
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_4(ZFInput, ZFInputForLocalFile,
+ZFMETHOD_FUNC_DEFINE_3(ZFInput, ZFInputForLocalFile,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, localPath),
-                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                       ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     ZFInput ret;
-    ZFInputForLocalFileT(ret, pathInfo, localPath, flags, autoSkipBOMTable);
+    ZFInputForLocalFileT(ret, pathInfo, localPath, flags);
     return ret;
 }
-ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForLocalFileT,
+ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForLocalFileT,
                        ZFMP_OUT(ZFCallback &, ret),
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, localPath),
-                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                       ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                       ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     if(zfsIsEmpty(localPath))
     {
@@ -1061,7 +967,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForLocalFileT,
         return zffalse;
     }
     ret.callbackSerializeCustomDisable();
-    if(!ZFInputForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags, autoSkipBOMTable))
+    if(!ZFInputForPathInfoT(ret, pathInfo.pathType, pathDataAbs, flags))
     {
         return zffalse;
     }
@@ -1089,17 +995,6 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFInputForLocalFileT,
                 }
                 flagsData.categorySet(ZFSerializableKeyword_ZFFileCallback_flags);
                 customData.elementAdd(flagsData);
-            }
-
-            if(autoSkipBOMTable.objectCompare(ZFFileBOMListDefault()) != ZFCompareTheSame)
-            {
-                ZFSerializableData autoSkipBOMTableData;
-                if(!zfstringToData(autoSkipBOMTableData, ZFFileBOMListToString(autoSkipBOMTable)))
-                {
-                    break;
-                }
-                autoSkipBOMTableData.categorySet(ZFSerializableKeyword_ZFFileCallback_autoSkipBOMTable);
-                customData.elementAdd(autoSkipBOMTableData);
             }
 
             success = zftrue;
@@ -1147,18 +1042,6 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerialize
         return zffalse;
     }
 
-    ZFFileBOMList autoSkipBOMTable;
-    const ZFSerializableData *autoSkipBOMTableData = ZFSerializableUtil::checkElementByCategory(
-        serializableData, ZFSerializableKeyword_ZFFileCallback_autoSkipBOMTable);
-    if(autoSkipBOMTableData != zfnull && !ZFCoreArrayFromData(autoSkipBOMTable, ZFFileBOMFromData, *autoSkipBOMTableData, outErrorHint, outErrorPos))
-    {
-        return zffalse;
-    }
-    else
-    {
-        autoSkipBOMTable = ZFFileBOMListDefault();
-    }
-
     ret.callbackSerializeCustomDisable();
     zfstring pathDataAbs;
     if(!_ZFP_ZFFileCallbackForLocalFileGetAbsPath(pathDataAbs, *pathInfo, localPath))
@@ -1169,7 +1052,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerialize
             localPath);
         return zffalse;
     }
-    ZFInputForPathInfoT(ret, pathInfo->pathType, pathDataAbs, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, pathInfo->pathType, pathDataAbs, flags);
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,

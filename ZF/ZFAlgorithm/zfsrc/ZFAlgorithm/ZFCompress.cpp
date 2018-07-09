@@ -231,7 +231,7 @@ static zfbool _ZFP_ZFCompressDir(ZF_IN_OUT ZFToken compressToken,
             ZFInput inputRaw;
             if(!ZFInputForPathInfoT(inputRaw,
                 pathType, pathData,
-                ZFFileOpenOption::e_Read, ZFFileBOMListEmpty()))
+                ZFFileOpenOption::e_Read))
             {
                 return zffalse;
             }

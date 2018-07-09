@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFFile_fwd_h_
 #define _ZFI_ZFFile_fwd_h_
 
-#include "ZFFileBOM.h"
+#include "ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -158,8 +158,6 @@ ZFOUTPUT_TYPE(ZFFileFindData, {output << v.objectInfo();})
 #define ZFSerializableKeyword_ZFFileCallback_pathInfo zfText("pathInfo")
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFFileCallback_flags zfText("flags")
-/** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFFileCallback_autoSkipBOMTable zfText("autoSkipBOMTable")
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFFileCallback_filePath zfText("filePath")
 

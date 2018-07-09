@@ -34,19 +34,16 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * param:
  * -  (const zfchar *)filePath: file path to use
  * -  (ZFFileOpenOption)flags: flags to open file
- * -  (const ZFFileBOMList &)autoSkipBOMTable: BOM to skip,
- *   if not empty, BOM would be discarded and BOM's size would be ignored while calculating the file's size
  *
  * auto open and auto close files, may return a null callback if open file error\n
  * auto setup callback cache id with res file path
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_3(ZFInput, ZFInputForFile,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInput, ZFInputForFile,
                                ZFMP_IN(const zfchar *, filePath),
-                               ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read),
-                               ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+                               ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     ZFInput ret;
-    ZFInputForPathInfoT(ret, ZFPathType_file, filePath, flags, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, ZFPathType_file, filePath, flags);
     return ret;
 }
 

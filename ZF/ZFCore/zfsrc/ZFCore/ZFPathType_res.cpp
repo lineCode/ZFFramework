@@ -47,9 +47,8 @@ ZFPATHTYPE_FILEIO_REGISTER(res, ZFPathType_res
 
 // ============================================================
 // ZFInputForResFile
-ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFInput, ZFInputForResFile,
-                              ZFMP_IN(const zfchar *, resFilePath),
-                              ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+ZFMETHOD_FUNC_DEFINE_INLINE_1(ZFInput, ZFInputForResFile,
+                              ZFMP_IN(const zfchar *, resFilePath))
 
 ZF_NAMESPACE_GLOBAL_END
 

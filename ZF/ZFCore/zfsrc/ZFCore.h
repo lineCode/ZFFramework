@@ -26,7 +26,6 @@
 #include "ZFCore/ZFEnvInfo.h"
 #include "ZFCore/ZFEvent.h"
 #include "ZFCore/ZFFile.h"
-#include "ZFCore/ZFFileBOM.h"
 #include "ZFCore/ZFGlobalEventCenter_common.h"
 #include "ZFCore/ZFHashMap.h"
 #include "ZFCore/ZFHashSet.h"

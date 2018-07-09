@@ -34,17 +34,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * param:
  * -  (const zfchar *)resFilePath: resource file path to use
- * -  (const ZFFileBOMList &)autoSkipBOMTable: BOM to skip,
- *   if not empty, BOM would be discarded and BOM's size would be ignored while calculating the file's size
  *
  * auto open and auto close files, may return a null callback if open file error
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInput, ZFInputForResFile,
-                               ZFMP_IN(const zfchar *, resFilePath),
-                               ZFMP_IN_OPT(const ZFFileBOMList &, autoSkipBOMTable, ZFFileBOMListDefault()))
+ZFMETHOD_FUNC_DECLARE_INLINE_1(ZFInput, ZFInputForResFile,
+                               ZFMP_IN(const zfchar *, resFilePath))
 {
     ZFInput ret;
-    ZFInputForPathInfoT(ret, ZFPathType_res, resFilePath, ZFFileOpenOption::e_Read, autoSkipBOMTable);
+    ZFInputForPathInfoT(ret, ZFPathType_res, resFilePath, ZFFileOpenOption::e_Read);
     return ret;
 }
 

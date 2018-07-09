@@ -175,8 +175,7 @@ ZFMETHOD_FUNC_DECLARE_3(zfbool, ZFFileFileSeek,
  * note that the tail '\0' won't be written to buf
  * @warning ZFFile always read files in binary mode,
  *   for text files,
- *   you must make sure the file is UTF8 encoded without BOM,
- *   otherwise, you must process the file's encoding and BOM manually
+ *   you must make sure the file is UTF8 encoded without BOM
  */
 ZFMETHOD_FUNC_DECLARE_3(zfindex, ZFFileFileRead,
                         ZFMP_IN(ZFToken, token),
