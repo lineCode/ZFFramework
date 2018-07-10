@@ -554,7 +554,8 @@ zfbool ZFSerializable::serializableOnSerializePropertyToData(ZF_OUT ZFSerializab
 
     if(property->propertyIsRetainProperty())
     {
-        const zfautoObject *obj = (const zfautoObject *)property->callbackValueGet(property, this->toObject());
+        ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
+        const zfautoObject *obj = (const zfautoObject *)_valueGetHolder.value();
         if(obj == zfnull || !ZFObjectToData(propertyData, *obj, outErrorHint))
         {
             return zffalse;
@@ -571,7 +572,8 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
                                                                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
                                                                       ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
 {
-    const zfautoObject *objHolder = (const zfautoObject *)property->callbackValueGet(property, this->toObject());
+    ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
+    const zfautoObject *objHolder = (const zfautoObject *)_valueGetHolder.value();
     if(objHolder == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
@@ -638,7 +640,8 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyToData(ZF_OUT ZFSer
         return zftrue;
     }
 
-    const zfautoObject *obj = (const zfautoObject *)property->callbackValueGet(property, this->toObject());
+    ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
+    const zfautoObject *obj = (const zfautoObject *)_valueGetHolder.value();
     if(obj == zfnull || !ZFObjectIsSerializable(*obj))
     {
         return zftrue;
@@ -647,7 +650,8 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyToData(ZF_OUT ZFSer
     ZFSerializable *propertyRef = zfnull;
     if(referencedOwnerOrNull != zfnull)
     {
-        const zfautoObject *t = (const zfautoObject *)property->callbackValueGet(property, referencedOwnerOrNull->toObject());
+        ZFPropertyCallbackValueGetHolder _valueGetHolderRef(property, referencedOwnerOrNull->toObject());
+        const zfautoObject *t = (const zfautoObject *)_valueGetHolderRef.value();
         if(t != zfnull)
         {
             propertyRef = t->to<ZFSerializable *>();

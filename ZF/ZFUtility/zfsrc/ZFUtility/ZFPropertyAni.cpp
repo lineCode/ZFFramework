@@ -251,7 +251,8 @@ public:
             return ;
         }
         ZFObject *ownerObj = listenerData.sender;
-        const void *curValue = property->callbackValueGet(property, ownerObj);
+        ZFPropertyCallbackValueGetHolder _valueGetHolder(property, ownerObj);
+        const void *curValue = _valueGetHolder.value();
         if(property->callbackCompare(property, ownerObj, curValue, oldValue) == ZFCompareTheSame
             || !property->callbackProgressUpdate(property, ownerObj, zfnull, zfnull, 1))
         {

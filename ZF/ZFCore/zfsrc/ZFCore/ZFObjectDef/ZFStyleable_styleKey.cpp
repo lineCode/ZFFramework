@@ -181,18 +181,6 @@ void _ZFP_ZFStyleKeyHolder::stylePropertyOnChange(ZF_IN const ZFListenerData &li
 }
 zfbool ZFStyleable::styleKeySet(ZF_IN const ZFProperty *property, ZF_IN const zfchar *styleKey)
 {
-    if(property == zfnull
-        || property->propertyIsRetainProperty()
-        || zfscmpTheSame(property->propertyTypeId(), ZFTypeId_none()))
-    {
-        zfCoreMutexLocker();
-        ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(
-            this->toObject(),
-            ZFGlobalEvent::EventZFStyleOnInvalid(),
-            zflockfree_zflineAlloc(ZFPointerHolder, property),
-            zflockfree_zflineAlloc(ZFPointerHolder, styleKey));
-        return zffalse;
-    }
     zfCoreMutexLocker();
     if(styleKey == zfnull)
     {

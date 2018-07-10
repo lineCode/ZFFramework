@@ -15,7 +15,7 @@
 #ifndef _ZFI_ZFPropertyDeclare_h_
 #define _ZFI_ZFPropertyDeclare_h_
 
-#include "ZFProperty.h"
+#include "ZFPropertyCallbackDefaultImpl.h"
 #include "zfautoObjectFwd.h"
 #include "ZFMethodDeclare.h"
 
@@ -413,9 +413,10 @@ public:
                     , propertyClassOfRetainProperty \
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
-                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , zfself::_ZFP_propCbGet_##Name \
                     , zfself::_ZFP_propCbReset_##Name \
+                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
+                    , zfself::_ZFP_propCbGet_retain_##Name \
+                    , _ZFP_propCbDValueGetRelease_dummy \
                     , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
                     , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
                     , _ZFP_propCbDValueStore<PropHT_##Name> \
@@ -445,9 +446,10 @@ public:
                     , propertyClassOfRetainProperty \
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
-                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , _ZFP_propCbDValueGet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
                     , zfself::_ZFP_propCbReset_##Name \
+                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDValueGet_assign<zfself::PropHT_##Name, zfself::PropVT_##Name> \
+                    , _ZFP_propCbDValueGetRelease_dummy \
                     , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
                     , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
                     , _ZFP_propCbDValueStore<PropHT_##Name> \
@@ -545,8 +547,9 @@ public:
                 return zftrue; \
             } \
         } \
-        static const void *_ZFP_propCbGet_##Name(ZF_IN const ZFProperty *property, \
-                                                 ZF_IN ZFObject *ownerObj) \
+        static const void *_ZFP_propCbGet_retain_##Name(ZF_IN const ZFProperty *property, \
+                                                        ZF_IN ZFObject *ownerObj, \
+                                                        ZF_IN_OUT void *&valueToken) \
         { \
             zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \

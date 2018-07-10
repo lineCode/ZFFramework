@@ -50,11 +50,9 @@ inline ZFCompareResult ZFPropertyCompare(ZF_IN const ZFProperty *propertyInfo,
                                          ZF_IN ZFObject *obj0,
                                          ZF_IN ZFObject *obj1)
 {
-    return propertyInfo->callbackCompare(
-        propertyInfo,
-        obj0,
-        propertyInfo->callbackValueGet(propertyInfo, obj0),
-        propertyInfo->callbackValueGet(propertyInfo, obj1));
+    ZFPropertyCallbackValueGetHolder _valueGetHolder0(propertyInfo, obj0);
+    ZFPropertyCallbackValueGetHolder _valueGetHolder1(propertyInfo, obj1);
+    return propertyInfo->callbackCompare(propertyInfo, obj0, _valueGetHolder0.value(), _valueGetHolder1.value());
 }
 
 // ============================================================
@@ -66,10 +64,8 @@ inline void ZFPropertyCopy(ZF_IN const ZFProperty *propertyInfo,
                            ZF_IN ZFObject *dstObj,
                            ZF_IN ZFObject *srcObj)
 {
-    propertyInfo->callbackValueSet(
-        propertyInfo,
-        dstObj,
-        propertyInfo->callbackValueGet(propertyInfo, srcObj));
+    ZFPropertyCallbackValueGetHolder _valueGetHolder(propertyInfo, srcObj);
+    propertyInfo->callbackValueSet(propertyInfo, dstObj, _valueGetHolder.value());
 }
 
 // ============================================================
@@ -100,11 +96,8 @@ inline void ZFPropertyGetInfo(ZF_IN_OUT zfstring &ret,
                               ZF_IN const ZFProperty *propertyInfo,
                               ZF_IN ZFObject *ownerObject)
 {
-    propertyInfo->callbackGetInfo(
-        propertyInfo,
-        ownerObject,
-        propertyInfo->callbackValueGet(propertyInfo, ownerObject),
-        ret);
+    ZFPropertyCallbackValueGetHolder _valueGetHolder(propertyInfo, ownerObject);
+    propertyInfo->callbackGetInfo(propertyInfo, ownerObject, _valueGetHolder.value(), ret);
 }
 /** @brief see #ZFPropertyGetInfo */
 inline zfstring ZFPropertyGetInfo(ZF_IN const ZFProperty *propertyInfo,

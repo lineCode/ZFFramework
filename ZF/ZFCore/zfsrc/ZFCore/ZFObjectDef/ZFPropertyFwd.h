@@ -60,6 +60,16 @@ extern ZF_ENV_EXPORT void ZFPropertyCallbackIsInitValueChange(ZF_IN const ZFProp
 
 // ============================================================
 /**
+ * @brief used to reset the property to its init state
+ */
+typedef void (*ZFPropertyCallbackValueReset)(ZF_IN const ZFProperty *property,
+                                             ZF_IN ZFObject *ownerObj);
+/** @brief change default impl for #ZFPropertyCallbackValueReset, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
+                                                             ZF_IN ZFPropertyCallbackValueReset callback);
+
+// ============================================================
+/**
  * @brief used to set property value without knowing the type
  *
  * @note for the type of the value, see #ZFPropertyCallbackValueGet
@@ -77,22 +87,46 @@ extern ZF_ENV_EXPORT void ZFPropertyCallbackValueSetChange(ZF_IN const ZFPropert
  *
  * @note for retain property, the returned pointer points to a #zfautoObject\n
  *   for assign property, the returned pointer pointer
+ * @note you must call #ZFPropertyCallbackValueGetRelease when you finished access the value
  */
 typedef const void *(*ZFPropertyCallbackValueGet)(ZF_IN const ZFProperty *property,
-                                                  ZF_IN ZFObject *ownerObj);
+                                                  ZF_IN ZFObject *ownerObj,
+                                                  ZF_IN_OUT void *&valueToken);
 /** @brief change default impl for #ZFPropertyCallbackValueGet, use with caution */
 extern ZF_ENV_EXPORT void ZFPropertyCallbackValueGetChange(ZF_IN const ZFProperty *property,
                                                            ZF_IN ZFPropertyCallbackValueGet callback);
 
 // ============================================================
 /**
- * @brief used to reset the property to its init state
+ * @brief used to release the value get by #ZFPropertyCallbackValueGet
  */
-typedef void (*ZFPropertyCallbackValueReset)(ZF_IN const ZFProperty *property,
-                                             ZF_IN ZFObject *ownerObj);
-/** @brief change default impl for #ZFPropertyCallbackValueReset, use with caution */
-extern ZF_ENV_EXPORT void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
-                                                             ZF_IN ZFPropertyCallbackValueReset callback);
+typedef void (*ZFPropertyCallbackValueGetRelease)(ZF_IN const ZFProperty *property,
+                                                  ZF_IN ZFObject *ownerObj,
+                                                  ZF_IN void *valueToken,
+                                                  ZF_IN const void *value);
+/** @brief change default impl for #ZFPropertyCallbackValueGetRelease, use with caution */
+extern ZF_ENV_EXPORT void ZFPropertyCallbackValueGetReleaseChange(ZF_IN const ZFProperty *property,
+                                                                  ZF_IN ZFPropertyCallbackValueGetRelease callback);
+/**
+ * @brief util class to #ZFPropertyCallbackValueGet and #ZFPropertyCallbackValueGetRelease
+ */
+zfclassLikePOD ZF_ENV_EXPORT ZFPropertyCallbackValueGetHolder
+{
+private:
+    const ZFProperty *_property;
+    ZFObject *_ownerObj;
+    void *_valueToken;
+    const void *_value;
+public:
+    /** @brief main constructor */
+    explicit ZFPropertyCallbackValueGetHolder(ZF_IN const ZFProperty *property,
+                                              ZF_IN ZFObject *ownerObj);
+    ~ZFPropertyCallbackValueGetHolder(void);
+    /** @brief access the value */
+    const void *value(void) const {return _value;}
+private:
+    ZFPropertyCallbackValueGetHolder &operator = (ZF_IN const ZFPropertyCallbackValueGetHolder &ref);
+};
 
 // ============================================================
 /**

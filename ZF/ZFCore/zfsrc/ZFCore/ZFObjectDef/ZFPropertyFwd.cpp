@@ -24,6 +24,12 @@ void ZFPropertyCallbackIsInitValueChange(ZF_IN const ZFProperty *property,
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackIsInitValue = callback;
 }
+void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
+                                        ZF_IN ZFPropertyCallbackValueReset callback)
+{
+    zfCoreAssert(property != zfnull && callback != zfnull);
+    property->_ZFP_ZFProperty_removeConst()->callbackValueReset = callback;
+}
 void ZFPropertyCallbackValueSetChange(ZF_IN const ZFProperty *property,
                                       ZF_IN ZFPropertyCallbackValueSet callback)
 {
@@ -36,11 +42,24 @@ void ZFPropertyCallbackValueGetChange(ZF_IN const ZFProperty *property,
     zfCoreAssert(property != zfnull && callback != zfnull);
     property->_ZFP_ZFProperty_removeConst()->callbackValueGet = callback;
 }
-void ZFPropertyCallbackValueResetChange(ZF_IN const ZFProperty *property,
-                                        ZF_IN ZFPropertyCallbackValueReset callback)
+void ZFPropertyCallbackValueGetReleaseChange(ZF_IN const ZFProperty *property,
+                                             ZF_IN ZFPropertyCallbackValueGetRelease callback)
 {
     zfCoreAssert(property != zfnull && callback != zfnull);
-    property->_ZFP_ZFProperty_removeConst()->callbackValueReset = callback;
+    property->_ZFP_ZFProperty_removeConst()->callbackValueGetRelease = callback;
+}
+ZFPropertyCallbackValueGetHolder::ZFPropertyCallbackValueGetHolder(ZF_IN const ZFProperty *property,
+                                                                   ZF_IN ZFObject *ownerObj)
+: _property(property)
+, _ownerObj(ownerObj)
+, _valueToken(zfnull)
+, _value(zfnull)
+{
+    _value = property->callbackValueGet(property, ownerObj, _valueToken);
+}
+ZFPropertyCallbackValueGetHolder::~ZFPropertyCallbackValueGetHolder(void)
+{
+    _property->callbackValueGetRelease(_property, _ownerObj, _valueToken, _value);
 }
 void ZFPropertyCallbackCompareChange(ZF_IN const ZFProperty *property,
                                      ZF_IN ZFPropertyCallbackCompare callback)

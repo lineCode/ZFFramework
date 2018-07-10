@@ -65,6 +65,7 @@
 #include "ZFObjectDef/ZFOutputDefault.h"
 #include "ZFObjectDef/ZFPointerHolder.h"
 #include "ZFObjectDef/ZFProperty.h"
+#include "ZFObjectDef/ZFPropertyCallbackDefaultImpl.h"
 #include "ZFObjectDef/ZFPropertyDeclare.h"
 #include "ZFObjectDef/ZFPropertyDynamicRegister.h"
 #include "ZFObjectDef/ZFPropertyFwd.h"

@@ -31,6 +31,8 @@ zfclassFwd ZFPropertyDynamicRegisterParam;
  * -  use #ZFMethodGenericInvoker to implement,
  *   have lower performance (trade for flexibility)
  * -  no weak property support (assign property with ZFObject type)
+ * -  you may register a property by supplying existing setter and getter method,
+ *   or simply leave it empty to use builtin impl
  *
  * @note dynamic registered contents would be removed automatically
  *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
@@ -101,6 +103,52 @@ public:
     /** @brief see #ZFPropertyDynamicRegister */
     ZFMethodPrivilegeType propertyGetterType(void) const;
 
+    // ============================================================
+    // for custom impl
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyDynamicRegisterParam &propertyCustomImplSet(ZF_IN const ZFMethod *propertySetterMethod
+                                                          , ZF_IN const ZFMethod *propertyGetterMethod
+                                                          , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
+                                                          , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
+                                                          , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
+                                                          , ZF_IN_OPT ZFPropertyCallbackValueSet callbackValueSet = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackValueGet callbackValueGet = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackValueGetRelease callbackValueGetRelease = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackCompare callbackCompare = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackGetInfo callbackGetInfo = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackValueStore callbackValueStore = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackValueRelease callbackValueRelease = zfnull
+                                                          , ZF_IN_OPT ZFPropertyCallbackProgressUpdate callbackProgressUpdate = zfnull
+                                                          );
+
+    /** @brief see #ZFPropertyDynamicRegister */
+    const ZFMethod *propertyCustomImplSetterMethod(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    const ZFMethod *propertyCustomImplGetterMethod(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackIsValueAccessed propertyCustomImplCallbackIsValueAccessed(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackIsInitValue propertyCustomImplCallbackIsInitValue(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackValueReset propertyCustomImplCallbackValueReset(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackValueSet propertyCustomImplCallbackValueSet(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackValueGet propertyCustomImplCallbackValueGet(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackValueGetRelease propertyCustomImplCallbackValueGetRelease(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackCompare propertyCustomImplCallbackCompare(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackGetInfo propertyCustomImplCallbackGetInfo(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackValueStore propertyCustomImplCallbackValueStore(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackValueRelease propertyCustomImplCallbackValueRelease(void) const;
+    /** @brief see #ZFPropertyDynamicRegister */
+    ZFPropertyCallbackProgressUpdate propertyCustomImplCallbackProgressUpdate(void) const;
+
+    // ============================================================
 public:
     /** @cond ZFPrivateDoc */
     ZFPropertyDynamicRegisterParam(void);
