@@ -26,15 +26,17 @@ ZF_STATIC_INITIALIZER_END(ZFMethodFuncDataHolder)
 
 void _ZFP_ZFMethodFuncRegister(ZF_IN const ZFMethod *method)
 {
+    const zfchar *methodNamespace = method->methodNamespace() ? method->methodNamespace() : zfText("");
     _ZFP_ZFMethodFuncMethodMap
-        [method->methodNamespace()]
+        [methodNamespace]
         [method->methodName()]
         .push_back(method);
 }
 void _ZFP_ZFMethodFuncUnregister(ZF_IN const ZFMethod *method)
 {
+    const zfchar *methodNamespace = method->methodNamespace() ? method->methodNamespace() : zfText("");
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
-    zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(method->methodNamespace());
+    zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
     if(itNS == m.end())
     {
         return ;

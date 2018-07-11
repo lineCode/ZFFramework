@@ -589,6 +589,18 @@ protected:
 
         return zftrue;
     }
+public:
+    zfoverride
+    virtual inline zfbool serializeFromString(ZF_IN const zfchar *src,
+                                              ZF_IN_OPT zfindex srcLen = zfindexMax())
+    {
+        return this->wrappedValueFromString(src, srcLen);
+    }
+    zfoverride
+    virtual inline zfbool serializeToString(ZF_IN_OUT zfstring &ret)
+    {
+        return this->wrappedValueToString(ret);
+    }
 };
 
 // ============================================================

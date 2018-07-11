@@ -234,6 +234,21 @@ protected:
                                                  ZF_IN ZFSerializable *referencedOwnerOrNull,
                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 
+public:
+    zfoverride
+    virtual inline zfbool serializeFromString(ZF_IN const zfchar *src,
+                                              ZF_IN_OPT zfindex srcLen = zfindexMax())
+    {
+        this->stringValueSet(srcLen == zfindexMax() ? src : zfstring(src, srcLen).cString());
+        return zftrue;
+    }
+    zfoverride
+    virtual inline zfbool serializeToString(ZF_IN_OUT zfstring &ret)
+    {
+        ret += this->stringValue();
+        return zftrue;
+    }
+
 protected:
     zfoverride
     virtual void styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable)

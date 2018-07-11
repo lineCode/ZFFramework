@@ -91,7 +91,11 @@ void ZFMethod::_ZFP_ZFMethod_initClassMemberType(ZF_IN const ZFClass *methodOwne
 }
 void ZFMethod::_ZFP_ZFMethod_initFuncType(ZF_IN const zfchar *methodNamespace)
 {
-    this->_ZFP_ZFMethod_methodNamespace = methodNamespace;
+    if(!zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
+        && !zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
+    {
+        this->_ZFP_ZFMethod_methodNamespace = methodNamespace;
+    }
 
     this->_ZFP_ZFMethod_methodOwnerClass = zfnull;
     this->_ZFP_ZFMethod_privilegeType = ZFMethodPrivilegeTypePublic;

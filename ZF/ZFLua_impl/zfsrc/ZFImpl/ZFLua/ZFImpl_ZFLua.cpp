@@ -651,6 +651,49 @@ zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
                                 ZF_IN ZFImpl_ZFLua_UnknownParam *unknownType,
                                 ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
 {
+    const ZFClass *cls = ZFClass::classForName(typeId);
+    if(cls != zfnull)
+    {
+        if(!cls->classIsTypeOf(ZFSerializable::ClassData()))
+        {
+            if(errorHint != zfnull)
+            {
+                zfstringAppend(errorHint, zfText("%s not type of %s"),
+                    typeId, ZFSerializable::ClassData());
+            }
+            return zffalse;
+        }
+        const ZFMethod *method = cls->methodForName(ZFSerializableKeyword_serializableNewInstance);
+        if(method != zfnull)
+        {
+            param = method->execute<zfautoObject>(zfnull);
+        }
+        else
+        {
+            param = cls->newInstance();
+        }
+        if(param == zfnull)
+        {
+            if(errorHint != zfnull)
+            {
+                zfstringAppend(errorHint, zfText("unable to create %s"),
+                    cls->objectInfo().cString());
+            }
+            return zffalse;
+        }
+        if(!param.to<ZFSerializable *>()->serializeFromString(unknownType->zfv))
+        {
+            if(errorHint != zfnull)
+            {
+                zfstringAppend(errorHint, zfText("unable to create %s from %s"),
+                    cls->objectInfo().cString(),
+                    unknownType->zfv.cString());
+            }
+            return zffalse;
+        }
+        return zftrue;
+    }
+
     const ZFTypeIdBase *typeIdData = ZFTypeIdGet(typeId);
     if(typeIdData == zfnull || !typeIdData->typeIdWrapper(param))
     {

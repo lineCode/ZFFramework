@@ -244,6 +244,21 @@ public:
                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull,
                                    ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
 
+    /**
+     * @brief subclass may override this to supply short form serializable data,
+     *   return false by default
+     */
+    virtual inline zfbool serializeFromString(ZF_IN const zfchar *src,
+                                              ZF_IN_OPT zfindex srcLen = zfindexMax())
+    {
+        return zffalse;
+    }
+    /** @brief see #serializeFromString */
+    virtual inline zfbool serializeToString(ZF_IN_OUT zfstring &ret)
+    {
+        return zffalse;
+    }
+
 private:
     zffinal _ZFP_I_ZFSerializablePropertyTypeHolder *_ZFP_ZFSerializable_getPropertyTypeHolder(void);
 public:
