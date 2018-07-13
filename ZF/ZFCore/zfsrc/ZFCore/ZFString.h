@@ -239,7 +239,7 @@ public:
     virtual inline zfbool serializeFromString(ZF_IN const zfchar *src,
                                               ZF_IN_OPT zfindex srcLen = zfindexMax())
     {
-        this->stringValueSet(srcLen == zfindexMax() ? src : zfstring(src, srcLen).cString());
+        this->stringValueSet(srcLen == zfindexMax() || src[srcLen] == '\0' ? src : zfstring(src, srcLen).cString());
         return zftrue;
     }
     zfoverride

@@ -347,7 +347,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
             v = zfidentityInvalid();
             return zftrue;
         }
-        v = ZFIdMapGetId(srcLen == zfindexMax() ? src : zfstring(src, srcLen).cString());
+        v = ZFIdMapGetId(srcLen == zfindexMax() || src[srcLen] == '\0' ? src : zfstring(src, srcLen).cString());
         return (v != zfidentityInvalid());
     }, {
         if(v == zfidentityInvalid())

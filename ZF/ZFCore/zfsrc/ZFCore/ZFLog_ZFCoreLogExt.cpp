@@ -9,24 +9,15 @@
  * ====================================================================== */
 #include "ZFLog.h"
 #include "ZFLog_StackTrace.h"
+#include "ZFImplOutput.h"
 #include "ZFString.h"
-
-#include "protocol/ZFProtocolZFOutput.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 static void _ZFP_zfCoreLogZFLogWrapper(ZF_IN const zfcharA *s)
 {
-    if(ZFPROTOCOL_TRY_ACCESS(ZFOutput) != zfnull)
-    {
-        ZFPROTOCOL_ACCESS(ZFOutput)->outputCoreLog(s);
-    }
-    else
-    {
-        // try to print to std output
-        fprintf(stderr, zfTextA("%s"), s);
-    }
+    ZFImplOutputCoreLog(s);
 }
 
 static void _ZFP_ZFLog_ZFCoreLogExtFunc(ZF_IN const ZFCallerInfo &callerInfo)

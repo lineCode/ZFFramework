@@ -8,35 +8,35 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFImpl_sys_Android_ZFCore_impl.h"
-#include "ZFCore/protocol/ZFProtocolZFOutput.h"
+#include "ZFCore/protocol/ZFProtocolZFImplOutput.h"
 #include "ZFCore/ZFString.h"
 
 #if ZF_ENV_sys_Android
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define _ZFP_ZFImpl_sys_Android_ZFOutput_output(fmt, ...) \
+#define _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(fmt, ...) \
     AndroidLogDetail(AndroidLogLevelA, AndroidLogTagDefault, fmt, ##__VA_ARGS__)
 
-zfclass _ZFP_I_ZFOutputImpl_sys_Android_SyncObject : zfextends ZFObject
+zfclass _ZFP_I_ZFImplOutputImpl_sys_Android_SyncObject : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_I_ZFOutputImpl_sys_Android_SyncObject, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFImplOutputImpl_sys_Android_SyncObject, ZFObject)
 };
 
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFOutputImpl_sys_Android, ZFOutput, ZFProtocolLevel::e_SystemNormal)
+ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFImplOutputImpl_sys_Android, ZFImplOutput, ZFProtocolLevel::e_SystemNormal)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:Logcat"))
 public:
     zfoverride
     virtual void protocolOnInitFinish(void)
     {
         zfsuper::protocolOnInitFinish();
-        this->syncObj = zfAlloc(_ZFP_I_ZFOutputImpl_sys_Android_SyncObject);
+        this->syncObj = zfAlloc(_ZFP_I_ZFImplOutputImpl_sys_Android_SyncObject);
     }
     zfoverride
     virtual void protocolOnDeallocPrepare(void)
     {
         if(this->savedString.length() > 0)
         {
-            _ZFP_ZFImpl_sys_Android_ZFOutput_output(zfTextA("%s"), this->savedString.cString());
+            _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA("%s"), this->savedString.cString());
         }
         zfRelease(this->syncObj);
         zfsuper::protocolOnDeallocPrepare();
@@ -72,12 +72,12 @@ private:
             {
                 if(s.length() == 1)
                 {
-                    _ZFP_ZFImpl_sys_Android_ZFOutput_output(zfTextA(" "));
+                    _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA(" "));
                 }
                 else
                 {
                     s.remove(s.length() - 1);
-                    _ZFP_ZFImpl_sys_Android_ZFOutput_output(zfTextA("%s"), s.cString());
+                    _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA("%s"), s.cString());
                 }
                 s.removeAll();
             }
@@ -88,20 +88,20 @@ private:
                 {
                     if(index == 0)
                     {
-                        _ZFP_ZFImpl_sys_Android_ZFOutput_output(zfTextA(" "));
+                        _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA(" "));
                     }
                     else
                     {
                         s[index] = '\0';
-                        _ZFP_ZFImpl_sys_Android_ZFOutput_output(zfTextA("%s"), s.cString());
+                        _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA("%s"), s.cString());
                     }
                     s.remove(0, index + 1);
                 }
             }
         }
     }
-ZFPROTOCOL_IMPLEMENTATION_END(ZFOutputImpl_sys_Android)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFOutputImpl_sys_Android)
+ZFPROTOCOL_IMPLEMENTATION_END(ZFImplOutputImpl_sys_Android)
+ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFImplOutputImpl_sys_Android)
 
 ZF_NAMESPACE_GLOBAL_END
 

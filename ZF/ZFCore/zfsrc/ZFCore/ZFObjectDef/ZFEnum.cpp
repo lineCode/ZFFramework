@@ -217,7 +217,7 @@ zfbool ZFEnum::wrappedValueToData(ZF_OUT ZFSerializableData &serializableData,
 zfbool ZFEnum::wrappedValueFromString(ZF_IN const zfchar *src,
                                       ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
 {
-    if(zfscmpTheSame(ZFEnumNameInvalid(), srcLen == zfindexMax() ? src : zfstring(src, srcLen).cString()))
+    if(zfsncmp(ZFEnumNameInvalid(), src, srcLen == zfindexMax() ? zfslen(src) : srcLen) == 0)
     {
         this->enumValueSet(ZFEnumInvalid());
         return zftrue;

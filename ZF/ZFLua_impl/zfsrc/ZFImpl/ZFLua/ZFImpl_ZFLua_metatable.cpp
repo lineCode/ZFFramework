@@ -153,10 +153,8 @@ static zfbool _ZFP_ZFImpl_ZFLua_metatable_concat_action(ZF_IN_OUT zfstring &v, Z
                 return zftrue;
             }
         }
-        if(ZFObjectToString(v, param))
-        {
-            return zftrue;
-        }
+        ZFObjectInfoT(v, param);
+        return zftrue;
     }
     ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s"),
         ZFImpl_ZFLua_luaObjectInfo(L, luaStackOffset, zftrue).cString());

@@ -8,7 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFImpl_sys_Qt_ZFCore_impl.h"
-#include "ZFCore/protocol/ZFProtocolZFOutput.h"
+#include "ZFCore/protocol/ZFProtocolZFImplOutput.h"
 #include "ZFCore/ZFString.h"
 
 #if ZF_ENV_sys_Qt
@@ -18,7 +18,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFOutputImpl_sys_Qt, ZFOutput, ZFProtocolLevel::e_SystemHigh)
+ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFImplOutputImpl_sys_Qt, ZFImplOutput, ZFProtocolLevel::e_SystemHigh)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:qDebug"))
 public:
     zfoverride
@@ -77,8 +77,8 @@ private:
     }
 private:
     QMutex _logMutex;
-ZFPROTOCOL_IMPLEMENTATION_END(ZFOutputImpl_sys_Qt)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFOutputImpl_sys_Qt)
+ZFPROTOCOL_IMPLEMENTATION_END(ZFImplOutputImpl_sys_Qt)
+ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFImplOutputImpl_sys_Qt)
 
 ZF_NAMESPACE_GLOBAL_END
 

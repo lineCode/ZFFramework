@@ -18,6 +18,7 @@
 #include "ZFUIView.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+zfclassFwd ZFUIWindow;
 /**
  * @brief root view for holding a ZFUIView's tree
  *
@@ -35,6 +36,12 @@ public:
      */
     ZFMETHOD_DECLARE_1(void, scaleForAppSet,
                        ZFMP_IN(zffloat, scale))
+
+public:
+    /**
+     * @brief all #ZFUIWindow attached to the root view
+     */
+    ZFMETHOD_DECLARE_0(const ZFCoreArrayPOD<ZFUIWindow *> &, windowList)
 
 protected:
     zfoverride
@@ -54,6 +61,9 @@ protected:
                                  ZF_IN const ZFUISizeParam &sizeParam);
     zfoverride
     virtual void layoutOnLayout(ZF_IN const ZFUIRect &bounds);
+
+public:
+    ZFCoreArrayPOD<ZFUIWindow *> _ZFP_ZFUIRootView_windowList;
 };
 
 ZF_NAMESPACE_GLOBAL_END

@@ -109,6 +109,7 @@ ZFMETHOD_DEFINE_0(ZFUIWindow, ZFUISysWindow *, windowOwnerSysWindow)
 
 ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowShow)
 {
+    zfindex windowIndex = 0;
     zfindex addToIndex = 0;
     ZFCoreArrayPOD<ZFUIView *> tmpArray = this->windowOwnerSysWindow()->rootView()->childArray();
     for(zfindex i = 0; i < tmpArray.count(); ++i)
@@ -118,6 +119,7 @@ ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowShow)
         {
             if(tmpWindow->windowLevel() <= this->windowLevel())
             {
+                ++windowIndex;
                 addToIndex = i + 1;
             }
             else
@@ -127,10 +129,16 @@ ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowShow)
         }
     }
     this->windowOwnerSysWindow()->rootView()->childAdd(this, d->windowLayoutParam, addToIndex);
+    this->windowOwnerSysWindow()->rootView()->_ZFP_ZFUIRootView_windowList.add(windowIndex, this);
 }
 ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowHide)
 {
     zfRetain(this);
+    ZFUIRootView *rootView = ZFCastZFObject(ZFUIRootView *, this->viewParentVirtual());
+    if(rootView != zfnull)
+    {
+        rootView->_ZFP_ZFUIRootView_windowList.removeElement(this);
+    }
     d->windowRemoveOverrideFlag = zftrue;
     this->viewRemoveFromParent();
     d->windowRemoveOverrideFlag = zffalse;

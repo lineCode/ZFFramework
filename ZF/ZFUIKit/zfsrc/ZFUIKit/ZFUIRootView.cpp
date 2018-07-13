@@ -25,6 +25,11 @@ ZFMETHOD_DEFINE_1(ZFUIRootView, void, scaleForAppSet,
     }
 }
 
+ZFMETHOD_DEFINE_0(ZFUIRootView, const ZFCoreArrayPOD<ZFUIWindow *> &, windowList)
+{
+    return _ZFP_ZFUIRootView_windowList;
+}
+
 void ZFUIRootView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
 {
     zfCoreAssertWithMessage(viewDelegate == zfnull,

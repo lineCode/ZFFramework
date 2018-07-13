@@ -458,62 +458,49 @@ extern ZF_ENV_EXPORT zfbool ZFObjectIsSerializable(ZF_IN ZFObject *obj);
 
 // ============================================================
 /**
- * @brief convenient method to serialize from encoded data
+ * @brief convenient method to #ZFSerializable::serializeFromData
  *
  * @note return null object doesn't necessarily mean fail,
  *   if the input is ZFSerializableKeyword_null,
  *   which describe a null object,
  *   the result would be null
  */
-extern ZF_ENV_EXPORT zfbool ZFObjectFromString(ZF_OUT zfautoObject &result,
-                                               ZF_IN const zfchar *encodedData,
-                                               ZF_IN_OPT zfindex encodedDataLen = zfindexMax(),
-                                               ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfautoObject ZFObjectFromString(ZF_IN const zfchar *encodedData,
-                                                     ZF_IN_OPT zfindex encodedDataLen = zfindexMax(),
-                                                     ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfbool ZFObjectToString(ZF_OUT zfstring &encodedData,
-                                             ZF_IN ZFObject *obj,
-                                             ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfstring ZFObjectToString(ZF_IN ZFObject *obj,
-                                               ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-
-// ============================================================
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfbool ZFObjectFromInput(ZF_OUT zfautoObject &result,
-                                              ZF_IN_OUT const ZFInput &input,
-                                              ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfautoObject ZFObjectFromInput(ZF_IN_OUT const ZFInput &input,
-                                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfbool ZFObjectToOutput(ZF_IN_OUT const ZFOutput &output,
-                                             ZF_IN ZFObject *obj,
-                                             ZF_OUT_OPT zfstring *outErrorHint = zfnull);
-
-// ============================================================
-/** @brief see #ZFObjectFromString */
 extern ZF_ENV_EXPORT zfautoObject ZFObjectFromData(ZF_IN const ZFSerializableData &serializableData,
                                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull,
                                                    ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
-/** @brief see #ZFObjectFromString */
+/** @brief see #ZFObjectFromData */
 extern ZF_ENV_EXPORT zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
                                              ZF_IN const ZFSerializableData &serializableData,
                                              ZF_OUT_OPT zfstring *outErrorHint = zfnull,
                                              ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
-/** @brief see #ZFObjectFromString */
+/** @brief see #ZFObjectFromData */
 extern ZF_ENV_EXPORT zfbool ZFObjectToData(ZF_OUT ZFSerializableData &serializableData,
                                            ZF_IN ZFObject *obj,
                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull,
                                            ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
-/** @brief see #ZFObjectFromString */
+/** @brief see #ZFObjectFromData */
 extern ZF_ENV_EXPORT ZFSerializableData ZFObjectToData(ZF_IN ZFObject *obj,
                                                        ZF_OUT_OPT zfbool *outSuccess = zfnull,
                                                        ZF_OUT_OPT zfstring *outErrorHint = zfnull,
                                                        ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
+
+// ============================================================
+/**
+ * @brief convenient method to #ZFSerializable::serializeFromString
+ */
+extern ZF_ENV_EXPORT zfbool ZFObjectFromString(ZF_OUT zfautoObject &result,
+                                               ZF_IN const ZFClass *cls,
+                                               ZF_IN const zfchar *src,
+                                               ZF_IN_OPT zfindex srcLen = zfindexMax());
+/** @brief see #ZFObjectFromString */
+extern ZF_ENV_EXPORT zfautoObject ZFObjectFromString(ZF_IN const ZFClass *cls,
+                                                     ZF_IN const zfchar *src,
+                                                     ZF_IN_OPT zfindex srcLen = zfindexMax());
+/** @brief see #ZFObjectFromString */
+extern ZF_ENV_EXPORT zfbool ZFObjectToString(ZF_IN_OUT zfstring &ret,
+                                             ZF_IN ZFObject *obj);
+/** @brief see #ZFObjectFromString */
+extern ZF_ENV_EXPORT zfstring ZFObjectToString(ZF_IN ZFObject *obj);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFSerializable_h_

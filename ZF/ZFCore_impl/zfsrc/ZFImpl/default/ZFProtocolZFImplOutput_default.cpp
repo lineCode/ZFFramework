@@ -8,13 +8,13 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFImpl_default_ZFCore_impl.h"
-#include "ZFCore/protocol/ZFProtocolZFOutput.h"
+#include "ZFCore/protocol/ZFProtocolZFImplOutput.h"
 #include "ZFCore/ZFString.h"
 #include <stdio.h>
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFOutputImpl_default, ZFOutput, ZFProtocolLevel::e_Default)
+ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFImplOutputImpl_default, ZFImplOutput, ZFProtocolLevel::e_Default)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("C:printf"))
 public:
     virtual void outputCoreLog(ZF_IN const zfcharA *s)
@@ -32,8 +32,8 @@ public:
             printf(zfTextA("%s"), ZFStringZ2A(zfstring(s, count).cString()));
         }
     }
-ZFPROTOCOL_IMPLEMENTATION_END(ZFOutputImpl_default)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFOutputImpl_default)
+ZFPROTOCOL_IMPLEMENTATION_END(ZFImplOutputImpl_default)
+ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFImplOutputImpl_default)
 
 ZF_NAMESPACE_GLOBAL_END
 

@@ -286,8 +286,15 @@ ZFINTERFACE_ON_DEALLOC_DEFINE(ZFStyleable)
 {
     if(_ZFP_styleKey)
     {
-        zffree(_ZFP_styleKey->styleKey);
-        _ZFP_styleKey->styleKey = zfnull;
+        if(_ZFP_styleKey->styleKey != zfnull)
+        {
+            ZFObjectGlobalEventObserver().observerRemove(
+                ZFGlobalEvent::EventZFStyleOnChange(),
+                ZF_GLOBAL_INITIALIZER_INSTANCE(ZFStyleChangeDataHolder)->styleOnChangeListener,
+                this->toObject()->objectHolder());
+            zffree(_ZFP_styleKey->styleKey);
+            _ZFP_styleKey->styleKey = zfnull;
+        }
         if(!_ZFP_styleKey->stylePropertyKeyMap.empty())
         {
             ZFObjectGlobalEventObserver().observerRemove(

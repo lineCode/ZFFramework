@@ -8,8 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFOutputForConsole.h"
-#include "protocol/ZFProtocolZFOutput.h"
-#include "ZFString.h"
+#include "ZFImplOutput.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -24,25 +23,16 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForConsole, ZFCallbackSerializeC
 // ZFOutputForConsole
 static zfindex _ZFP_ZFOutputForConsoleFunction(ZF_IN const void *s, ZF_IN zfindex count)
 {
-    ZFPROTOCOL_INTERFACE_CLASS(ZFOutput) *impl = ZFPROTOCOL_TRY_ACCESS(ZFOutput);
-    zfindex sLen = ((count == zfindexMax()) ? zfslen((const zfchar *)s) : (count / sizeof(zfchar)));
-    if(impl == zfnull)
+    if(count == zfindexMax())
     {
-        if(sLen == zfindexMax())
-        {
-            printf(zfTextA("%s"), ZFStringZ2A(s));
-        }
-        else
-        {
-            zfstring tmp((const zfchar *)s, sLen);
-            printf(zfTextA("%s"), ZFStringZ2A(tmp.cString()));
-        }
+        ZFImplOutput((const zfchar *)s, zfindexMax());
+        return zfslen((const zfchar *)s) * sizeof(zfchar);
     }
     else
     {
-        impl->outputLog((const zfchar *)s, sLen);
+        ZFImplOutput((const zfchar *)s, count / sizeof(zfchar));
+        return count;
     }
-    return sLen * sizeof(zfchar);
 }
 static ZFOutput _ZFP_ZFOutputForConsole_create(void)
 {

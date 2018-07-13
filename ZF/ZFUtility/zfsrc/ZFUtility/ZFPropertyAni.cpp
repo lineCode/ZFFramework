@@ -448,16 +448,8 @@ ZFMETHOD_FUNC_DEFINE_8(void, ZFPropertyAni,
     zfautoObject toValue;
     if(property->propertyIsRetainProperty())
     {
-        if(!ZFObjectFromString(fromValue, fromValueString)
-            || !ZFObjectFromString(toValue, toValueString))
-        {
-            return ;
-        }
-        if(fromValue != zfnull && !fromValue->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
-        {
-            return ;
-        }
-        if(toValue != zfnull && !toValue->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
+        if(!ZFObjectFromString(fromValue, property->propertyClassOfRetainProperty(), fromValueString)
+            || !ZFObjectFromString(toValue, property->propertyClassOfRetainProperty(), toValueString))
         {
             return ;
         }

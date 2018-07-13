@@ -204,7 +204,9 @@ public:
 #define _ZFP_ZFENUM_VALUE_WITH_INIT(Value, initValue) /** @brief \n Value(initValue)\n */ e_##Value = initValue,
 
 #define _ZFP_ZFENUM_SEPARATOR(EnumName, isEnableDuplicateValue_) \
-            /* ensure sizeof(enum) == sizeof(zfuint) */ \
+            /** @brief max enum value */ \
+            ZFEnumCount, \
+            /* used to ensure sizeof(enum) == sizeof(zfuint) */ \
             /* required for enum value reinterpret cast (EnumReinterpretCast) */ \
             _ZFP_ZFEnumMax = ((zfuint)-1), \
         } ZFEnumType; \

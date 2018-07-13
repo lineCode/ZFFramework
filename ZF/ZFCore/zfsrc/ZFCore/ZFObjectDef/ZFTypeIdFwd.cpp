@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFTypeIdFwd.h"
 #include "ZFObjectImpl.h"
+#include "ZFListenerDeclare.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"
@@ -78,12 +79,28 @@ public:
     ZFObject *obj;
     void *v;
     _ZFP_PropAliasDetachCallback detachCallback;
+    ZFListener ownerOnDeallocListener;
 protected:
     zfoverride
     virtual void objectOnDeallocPrepare(void)
     {
-        this->detachCallback(this->obj, this->v);
+        this->cleanup();
         zfsuper::objectOnDeallocPrepare();
+    }
+    ZFLISTENER_INLINE(ownerOnDealloc)
+    {
+        this->cleanup();
+    }
+private:
+    void cleanup(void)
+    {
+        if(this->detachCallback != zfnull)
+        {
+            this->obj->observerRemove(ZFObject::EventObjectBeforeDealloc(), this->ownerOnDeallocListener);
+            _ZFP_PropAliasDetachCallback detachCallbackTmp = this->detachCallback;
+            this->detachCallback = zfnull;
+            detachCallbackTmp(this->obj, this->v);
+        }
     }
 };
 
@@ -101,6 +118,8 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
         d->obj = obj;
         d->v = v;
         d->detachCallback = detachCallback;
+        d->ownerOnDeallocListener = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_I_PropAliasHolder, ownerOnDealloc));
+        obj->observerAdd(ZFObject::EventObjectBeforeDealloc(), d->ownerOnDeallocListener);
         obj->tagSet(key, d);
         zfRelease(d);
     }

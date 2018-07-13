@@ -58,7 +58,8 @@ public:
      *
      * if available:
      * -  if the type is ZFObject type, set v to #zfautoObjectNull and return true,
-     *   the value would be serialized by #ZFObjectFromString series later
+     *   the value would be serialized as #ZFSerializable
+     *   according to object class
      * -  if the type is not ZFObject type,
      *   impl should set v to proper holder type (#ZFTypeIdWrapper)
      *   and return true

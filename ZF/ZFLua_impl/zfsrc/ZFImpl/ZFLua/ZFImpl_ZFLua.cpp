@@ -654,44 +654,19 @@ zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
     const ZFClass *cls = ZFClass::classForName(typeId);
     if(cls != zfnull)
     {
-        if(!cls->classIsTypeOf(ZFSerializable::ClassData()))
+        if(!ZFObjectFromString(param, cls, unknownType->zfv, unknownType->zfv.length()))
         {
             if(errorHint != zfnull)
             {
-                zfstringAppend(errorHint, zfText("%s not type of %s"),
-                    typeId, ZFSerializable::ClassData());
+                zfstringAppend(errorHint, zfText("%s unable to convert from string \"%s\""),
+                    typeId, unknownType->zfv.cString());
             }
             return zffalse;
-        }
-        const ZFMethod *method = cls->methodForName(ZFSerializableKeyword_serializableNewInstance);
-        if(method != zfnull)
-        {
-            param = method->execute<zfautoObject>(zfnull);
         }
         else
         {
-            param = cls->newInstance();
+            return zftrue;
         }
-        if(param == zfnull)
-        {
-            if(errorHint != zfnull)
-            {
-                zfstringAppend(errorHint, zfText("unable to create %s"),
-                    cls->objectInfo().cString());
-            }
-            return zffalse;
-        }
-        if(!param.to<ZFSerializable *>()->serializeFromString(unknownType->zfv))
-        {
-            if(errorHint != zfnull)
-            {
-                zfstringAppend(errorHint, zfText("unable to create %s from %s"),
-                    cls->objectInfo().cString(),
-                    unknownType->zfv.cString());
-            }
-            return zffalse;
-        }
-        return zftrue;
     }
 
     const ZFTypeIdBase *typeIdData = ZFTypeIdGet(typeId);
@@ -705,14 +680,7 @@ zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
     }
 
     zfbool success = zffalse;
-    if(param == zfnull)
-    {
-        if(ZFObjectFromString(param, unknownType->zfv, unknownType->zfv.length()))
-        {
-            success = zftrue;
-        }
-    }
-    else
+    if(param != zfnull)
     {
         ZFTypeIdWrapper *wrapper = param;
         if(wrapper != zfnull && wrapper->wrappedValueFromString(unknownType->zfv, unknownType->zfv.length()))

@@ -7,11 +7,11 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFProtocolZFOutput.h"
+#include "ZFProtocolZFImplOutput.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROTOCOL_INTERFACE_REGISTER(ZFOutput)
+ZFPROTOCOL_INTERFACE_REGISTER(ZFImplOutput)
 
 ZF_NAMESPACE_GLOBAL_END
 
