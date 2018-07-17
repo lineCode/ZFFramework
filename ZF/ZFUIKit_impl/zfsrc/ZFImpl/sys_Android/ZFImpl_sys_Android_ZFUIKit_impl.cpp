@@ -208,6 +208,25 @@ void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(ZF_OUT ZFUIRect &ret, ZF_IN j
     ret.size.height = JNIUtilGetIntField(jniEnv, jobjRect, jfIdHeight);
 }
 
+jint ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(ZF_IN const ZFUIColor &color)
+{
+    return (jint)(0
+            | (ZFUIColorGetA(color) << 24)
+            | (ZFUIColorGetR(color) << 16)
+            | (ZFUIColorGetG(color) << 8)
+            | ZFUIColorGetB(color)
+        );
+}
+void ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColorT(ZF_OUT ZFUIColor &ret, ZF_IN jint jColor)
+{
+    ret = ZFUIColorMake(
+            (zfint)((jColor >> 16) & 0xFF),
+            (zfint)((jColor >> 8) & 0xFF),
+            (zfint)(jColor & 0xFF),
+            (zfint)((jColor >> 24) & 0xFF)
+        );
+}
+
 // ============================================================
 void ZFImpl_sys_Android_ViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView)
 {

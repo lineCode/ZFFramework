@@ -205,8 +205,7 @@ public:
             ).c_str());
         JNIUtilCallStaticVoidMethod(jniEnv, this->jclsZFUIView, jmId,
             ZFCastStatic(jobject, view->nativeView()),
-            // must ensure it is ARGB format in Color of Java code
-            (jint)viewBackgroundColor);
+            ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(viewBackgroundColor));
     }
 
 public:

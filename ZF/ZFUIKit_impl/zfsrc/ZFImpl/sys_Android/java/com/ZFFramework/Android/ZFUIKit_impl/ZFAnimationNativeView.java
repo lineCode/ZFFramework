@@ -14,6 +14,8 @@ import com.ZFFramework.Android.NativeUtil.ZFAndroidLog;
 import com.ZFFramework.Android.ZF_impl.ZFEnum;
 import android.graphics.Camera;
 import android.graphics.Matrix;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -235,9 +237,16 @@ public class ZFAnimationNativeView {
         @Override
         public void onAnimationStart(Animation animation) {
         }
+        private static Handler _stopDelay = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                ((NativeAnimationListener)msg.obj).doStop();
+            }
+        };
         @Override
         public void onAnimationEnd(Animation animation) {
-            this.doStop();
+            _stopDelay.sendMessageDelayed(Message.obtain(_stopDelay, 0, this), 0);
         }
         @Override
         public void onAnimationRepeat(Animation animation) {

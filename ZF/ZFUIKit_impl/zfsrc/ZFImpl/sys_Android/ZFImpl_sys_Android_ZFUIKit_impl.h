@@ -83,6 +83,17 @@ inline ZFUIRect ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(ZF_IN jobject jobjR
 }
 
 // ============================================================
+// Color
+extern ZF_ENV_EXPORT jint ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(ZF_IN const ZFUIColor &color);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColorT(ZF_OUT ZFUIColor &ret, ZF_IN jint jColor);
+inline ZFUIColor ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColor(ZF_IN jint jColor)
+{
+    ZFUIColor ret = ZFUIColorZero();
+    ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColorT(ret, jColor);
+    return ret;
+}
+
+// ============================================================
 // ZFAndroidUI
 #define ZFImpl_sys_Android_JNI_ID_ZFAndroidUI ZFImpl_sys_Android_JNI_ID(NativeUtil_ZFAndroidUI)
 #define ZFImpl_sys_Android_JNI_NAME_ZFAndroidUI ZFImpl_sys_Android_JNI_NAME(NativeUtil.ZFAndroidUI)
