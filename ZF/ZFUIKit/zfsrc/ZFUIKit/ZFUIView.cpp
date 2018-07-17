@@ -1669,21 +1669,13 @@ ZFMETHOD_DEFINE_0(ZFUIView, void, layoutRequest)
         {
             ZFBitTest(d->viewDelegate->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
         }
-        if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest)
-            || ZFBitTest(_ZFP_ZFUIView_stateFlags, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest))
-        {
-            this->observerNotify(ZFUIView::EventViewLayoutOnLayoutRequest(), this);
-        }
+        this->layoutOnLayoutRequest(this);
 
         ZFUIView *view = this->viewParentVirtual();
         while(view != zfnull && !ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
         {
             ZFBitSet(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
-            if(ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest)
-                || ZFBitTest(_ZFP_ZFUIView_stateFlags, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest))
-            {
-                view->observerNotify(ZFUIView::EventViewLayoutOnLayoutRequest(), this);
-            }
+            view->layoutOnLayoutRequest(this);
             view = view->viewParentVirtual();
         }
 
@@ -1873,6 +1865,14 @@ ZFMETHOD_DEFINE_0(ZFUIView, ZFUIRect, layoutedFrameFixed)
     return ret;
 }
 
+void ZFUIView::layoutOnLayoutRequest(ZF_IN ZFUIView *requestByView)
+{
+    if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest)
+        || ZFBitTest(_ZFP_ZFUIView_stateFlags, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest))
+    {
+        this->observerNotify(ZFUIView::EventViewLayoutOnLayoutRequest(), requestByView);
+    }
+}
 void ZFUIView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
 {
     for(zfindex i = 0; i < this->childCount(); ++i)

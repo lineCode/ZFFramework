@@ -845,6 +845,10 @@ public:
 
 protected:
     /**
+     * @brief called during #layoutRequest
+     */
+    virtual void layoutOnLayoutRequest(ZF_IN ZFUIView *requestByView);
+    /**
      * @brief called by #layoutMeasure to decide the view's size
      *
      * you may override without call super to supply your own layout logic\n
