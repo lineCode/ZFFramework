@@ -914,11 +914,6 @@ zfbool ZFUIView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfstring, viewDelegateClass)
 {
     zfautoObject viewDelegateTmp = ZFClass::newInstanceForName(this->viewDelegateClass());
-    if(!this->viewDelegateSupported() && viewDelegateTmp != zfnull)
-    {
-        zfCoreCriticalMessage(zfTextA("viewDelegate not supported"));
-        return ;
-    }
     this->viewDelegateSet(viewDelegateTmp);
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfbool, viewVisible)
@@ -1357,6 +1352,11 @@ void ZFUIView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
 {
     if(viewDelegate == d->viewDelegate)
     {
+        return ;
+    }
+    if(!this->viewDelegateSupported() && viewDelegate != zfnull)
+    {
+        zfCoreCriticalMessage(zfTextA("viewDelegate not supported"));
         return ;
     }
     zfCoreAssertWithMessage(viewDelegate != this, zfTextA("you must not set viewDelegate to self"));
