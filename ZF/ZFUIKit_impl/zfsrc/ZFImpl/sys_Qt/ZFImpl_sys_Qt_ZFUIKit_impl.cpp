@@ -20,7 +20,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_IN_OUT zfstring &s, ZF_IN QWidget *view)
 {
     // class name
-    s += ZFStringA2Z(view->metaObject()->classNameFull());
+    s += ZFStringA2Z(view->metaObject()->className());
 
     // instance
     zfstringAppend(s, zfText(" %p"), view);

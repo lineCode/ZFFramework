@@ -10,6 +10,7 @@
 #include "ZFCoreStatistic.h"
 #include "ZFCoreStringUtil.h"
 #include "ZFCoreMap.h"
+#include "ZFNamespaceImpl.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFCoreStatistic)
