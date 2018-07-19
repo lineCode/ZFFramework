@@ -51,7 +51,7 @@ zfclass _ZFP_I_PropDynRegData : zfextends ZFObject
     ZFOBJECT_DECLARE(_ZFP_I_PropDynRegData, ZFObject)
 
 public:
-    const ZFTypeIdBase *d;
+    const ZFTypeIdBase *d; // null for retain property
     ZFPropertyDynamicRegisterInitValueCallback initValueCallback;
     /*
      * for assign property, store ZFTypeIdWrapper, ensured not null if accessed
@@ -101,7 +101,7 @@ public:
                 zfstringAppend(errorHint,
                     zfText("invalid init value %s, desired: %s"),
                     ZFObjectInfo(holder->zfv.toObject()).cString(),
-                    property->propertyClassOfRetainProperty()->className());
+                    property->propertyClassOfRetainProperty()->classNameFull());
                 return zffalse;
             }
             ret = holder;
@@ -202,7 +202,7 @@ static zfbool _ZFP_PropDynReg_setterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
         zfstringAppend(errorHint, zfText("invalid value: %s, desired: %s"),
             ZFObjectInfo(valueNew).cString(),
             property->propertyIsRetainProperty()
-                ? property->propertyClassOfRetainProperty()->className()
+                ? property->propertyClassOfRetainProperty()->classNameFull()
                 : property->propertyTypeId());
         return zffalse;
     }
@@ -362,7 +362,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
     }
     else
     {
-        if(!zfscmpTheSame(param.propertyTypeId(), param.propertyClassOfRetainProperty()->className()))
+        if(!zfscmpTheSame(param.propertyTypeId(), param.propertyClassOfRetainProperty()->classNameFull()))
         {
             zfstringAppend(errorHint,
                 zfText("propertyTypeId must be same as propertyClassOfRetainProperty for retain property"));
@@ -370,12 +370,17 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
         }
     }
 
-    const ZFTypeIdBase *d = ZFTypeIdGet(param.propertyTypeId());
-    if(d == zfnull)
+    const ZFTypeIdBase *d = zfnull;
+    if(param.propertyClassOfRetainProperty() == zfnull)
     {
-        zfstringAppend(errorHint,
-            zfText("propertyTypeId %s not registered"));
-        return zfnull;
+        d = ZFTypeIdGet(param.propertyTypeId());
+        if(d == zfnull)
+        {
+            zfstringAppend(errorHint,
+                zfText("propertyTypeId %s not registered"),
+                param.propertyTypeId());
+            return zfnull;
+        }
     }
 
     const ZFProperty *existProperty = param.propertyOwnerClass()->propertyForName(param.propertyName());

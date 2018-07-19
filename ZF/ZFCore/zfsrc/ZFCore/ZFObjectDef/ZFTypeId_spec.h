@@ -263,7 +263,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return zftTraits<T_Type>::TrType::ClassData()->className();
+        return zftTraits<T_Type>::TrType::ClassData()->classNameFull();
     }
     zfoverride
     virtual zfbool typeIdSerializable(void) const
@@ -312,7 +312,7 @@ public:
             T_Type *holder = zfnew(T_Type, ZFCastZFObject(T_Type, obj));
             _ZFP_PropAliasAttach(obj, holder,
                 zfsConnectLineFree(
-                    zftTraits<T_Type>::TrType::ClassData()->className(),
+                    zftTraits<T_Type>::TrType::ClassData()->classNameFull(),
                     zfText("_"),
                     zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
@@ -326,7 +326,7 @@ public:
             }
             _ZFP_PropAliasDetach(obj,
                 zfsConnectLineFree(
-                    zftTraits<T_Type>::TrType::ClassData()->className(),
+                    zftTraits<T_Type>::TrType::ClassData()->classNameFull(),
                     zfText("_"),
                     zftTraits<T_Access>::ModifierName())
                 );
@@ -360,7 +360,7 @@ public:
             *holder = ZFCastZFObject(T_Type, obj);
             _ZFP_PropAliasAttach(obj, holder,
                 zfsConnectLineFree(
-                    typename zftTraits<_TrNoRef>::TrType::ClassData()->className(),
+                    typename zftTraits<_TrNoRef>::TrType::ClassData()->classNameFull(),
                     zfText("_"),
                     zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
@@ -374,7 +374,7 @@ public:
             }
             _ZFP_PropAliasAttach(obj,
                 zfsConnectLineFree(
-                    typename zftTraits<_TrNoRef>::TrType::ClassData()->className(),
+                    typename zftTraits<_TrNoRef>::TrType::ClassData()->classNameFull(),
                     zfText("_"),
                     zftTraits<T_Access>::ModifierName())
                 );
@@ -403,7 +403,7 @@ public:
     };
     static inline const zfchar *TypeId(void)
     {
-        return ZFObject::ClassData()->className();
+        return ZFObject::ClassData()->classNameFull();
     }
     zfoverride
     virtual zfbool typeIdSerializable(void) const

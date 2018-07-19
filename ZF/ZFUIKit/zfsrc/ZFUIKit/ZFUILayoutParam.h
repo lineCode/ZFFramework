@@ -133,7 +133,7 @@ public:
     zfoverride
     virtual zfidentity objectHash(void)
     {
-        return zfidentityCalcString(this->classData()->className());
+        return zfidentityCalcString(this->classData()->classNameFull());
     }
     zfoverride
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj)

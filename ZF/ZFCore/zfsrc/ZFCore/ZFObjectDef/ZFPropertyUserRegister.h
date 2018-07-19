@@ -602,7 +602,7 @@ private:
         Type, propertyNameString, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Retain, \
-        zftTraits<Type>::TrType::ClassData()->className(), \
+        zftTraits<Type>::TrType::ClassData()->classNameFull(), \
         zftTraits<Type>::TrType::ClassData() \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \
@@ -644,7 +644,7 @@ private:
         Type, propertyNameSig, InitValueOrEmpty, \
         SetterAccessType, GetterAccessType, \
         Retain, \
-        zftTraits<Type>::TrType::ClassData()->className(), \
+        zftTraits<Type>::TrType::ClassData()->classNameFull(), \
         zftTraits<Type>::TrType::ClassData() \
         , Func_ZFPropertySetterInvoker \
         , Func_ZFPropertyGetterInvoker \

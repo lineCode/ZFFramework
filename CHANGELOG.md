@@ -6,6 +6,7 @@
 * support output param for generic invoker
 * formalize api names
 * optimize method namespace impl
+* add embeded namespace support
 
 # 0.3.0
 

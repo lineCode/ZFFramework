@@ -146,13 +146,16 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
 
     // zfl_call metatable
     ZFImpl_ZFLua_execute(L, zfText(
-            "_ZFP_zfl_call = function(scope, k)\n"
-            "    return function(...)\n"
-            "        return zfl_callStatic2(scope, k, ...)\n"
-            "    end\n"
+            "_ZFP_zfl_index = function(tbl, k)\n"
+            "    local t = tbl .. '.' .. k\n" // ZFNamespaceSeparator
+            "    local d = debug.getmetatable(t)\n"
+            "    d.__index = _ZFP_zfl_index\n"
+            "    d.__call = _ZFP_zfl_call\n"
+            "    debug.setmetatable(t, d)\n"
+            "    return t\n"
             "end\n"
-            "_ZFP_zfl_zfAlloc = function(scope, ...)\n"
-            "    return zfAlloc(scope, ...)\n"
+            "_ZFP_zfl_call = function(tbl, ...)\n"
+            "    return zfl_callStatic(tbl, ...)\n"
             "end\n"
         ));
 
@@ -225,8 +228,8 @@ static void _ZFP_ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT zfstring &code,
     zfstringAppend(code, zfText(
             "%s = '%s'\n"
             "local tbl = debug.getmetatable(%s)\n"
-            "tbl.__index = _ZFP_zfl_call\n"
-            "tbl.__call = _ZFP_zfl_zfAlloc\n"
+            "tbl.__index = _ZFP_zfl_index\n"
+            "tbl.__call = _ZFP_zfl_call\n"
             "debug.setmetatable(%s, tbl)\n"
         ), scopeName, scopeName, scopeName, scopeName);
 }
@@ -1062,35 +1065,35 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
 
 zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
                                    ZF_IN_OUT zfstring &s,
-                                   ZF_IN_OPT int luaParamOffset /* = 0 */)
+                                   ZF_IN_OPT int luaParamOffset /* = 1 */)
 {
     int count = (int)lua_gettop(L);
-    if(count <= luaParamOffset)
+    if(count <= luaParamOffset - 1)
     {
         return zftrue;
     }
 
     zfstring fmt;
-    if(!ZFImpl_ZFLua_toString(fmt, L, luaParamOffset + 1))
+    if(!ZFImpl_ZFLua_toString(fmt, L, luaParamOffset))
     {
         return zffalse;
     }
 
     zfstring params[ZFMETHOD_MAX_PARAM];
-    for(int i = luaParamOffset + 1; i < count; ++i)
+    for(int i = luaParamOffset; i < count; ++i)
     {
         zfautoObject t;
         if(ZFImpl_ZFLua_toObject(t, L, i + 1))
         {
-            ZFObjectInfoT(params[i - luaParamOffset - 1], t.toObject());
+            ZFObjectInfoT(params[i - luaParamOffset], t.toObject());
         }
-        else if(ZFImpl_ZFLua_toString(params[i - luaParamOffset - 1], L, i + 1))
+        else if(ZFImpl_ZFLua_toString(params[i - luaParamOffset], L, i + 1))
         {
             // nothing to do
         }
         else
         {
-            ZFImpl_ZFLua_luaObjectInfoT(params[i - luaParamOffset - 1], L, i + 1);
+            ZFImpl_ZFLua_luaObjectInfoT(params[i - luaParamOffset], L, i + 1);
         }
     }
 

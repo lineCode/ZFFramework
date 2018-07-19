@@ -27,7 +27,7 @@ static void _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(ZF_IN const ZFCoreArray
     zfstring code;
     zfstringAppend(code, zfText(
             "function %s(...)\n"
-            "    return zfl_callStatic2('zf', '%s', ...)\n"
+            "    return zfl_callStatic2('', '%s', ...)\n"
             "end\n"
         ), method->methodName(), method->methodName());
     for(zfindex i = 0; i < luaStateList.count(); ++i)
@@ -64,7 +64,15 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, ZFM_EXPAND({
                 const ZFMethod *method = allMethod[i];
                 if(method->methodNamespace() != zfnull)
                 {
-                    methodNamespaceList[method->methodNamespace()] = zftrue;
+                    zfindex dotPos = zfstringFind(method->methodNamespace(), zfindexMax(), ZFNamespaceSeparator());
+                    if(dotPos == zfindexMax())
+                    {
+                        methodNamespaceList[method->methodNamespace()] = zftrue;
+                    }
+                    else
+                    {
+                        methodNamespaceList[zfstring(method->methodNamespace(), dotPos).cString()] = zftrue;
+                    }
                 }
                 _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(luaStateList, method);
             }

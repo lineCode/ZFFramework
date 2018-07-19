@@ -30,7 +30,7 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
         if(s != zfnull)
         {
             stringValid = zftrue;
-            convertSuccess = ZFImpl_ZFLua_zfstringAppend(L, s->zfv, 1);
+            convertSuccess = ZFImpl_ZFLua_zfstringAppend(L, s->zfv, 2);
         }
     }
 
@@ -41,7 +41,7 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
         {
             stringValid = zftrue;
             zfstring tmp = s->stringValue();
-            convertSuccess = ZFImpl_ZFLua_zfstringAppend(L, tmp, 1);
+            convertSuccess = ZFImpl_ZFLua_zfstringAppend(L, tmp, 2);
             if(convertSuccess)
             {
                 s->stringValueSet(tmp);

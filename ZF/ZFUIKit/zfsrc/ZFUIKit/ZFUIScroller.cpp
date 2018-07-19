@@ -27,8 +27,8 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollerClassSet,
     if(cls != zfnull && !cls->classIsTypeOf(ZFUIScroller::ClassData()))
     {
         zfCoreLog(zfTextA("class %s not type of %s"),
-            zfsCoreZ2A(cls->className()),
-            zfsCoreZ2A(ZFUIScroller::ClassData()->className()));
+            zfsCoreZ2A(cls->classNameFull()),
+            zfsCoreZ2A(ZFUIScroller::ClassData()->classNameFull()));
         return ;
     }
 

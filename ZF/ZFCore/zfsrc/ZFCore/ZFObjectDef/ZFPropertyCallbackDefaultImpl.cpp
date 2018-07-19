@@ -159,11 +159,11 @@ void _ZFP_ZFPropertyValueStoreImpl(ZF_IN const ZFProperty *property,
 {
     zfCoreMutexLocker();
     _ZFP_I_ZFPropertyValueStoreHolder *d = ownerObj->tagGet<_ZFP_I_ZFPropertyValueStoreHolder *>(
-            _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->className());
+            _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->classNameFull());
     if(d == zfnull)
     {
         d = zfAlloc(_ZFP_I_ZFPropertyValueStoreHolder);
-        ownerObj->tagSet(_ZFP_I_ZFPropertyValueStoreHolder::ClassData()->className(), d);
+        ownerObj->tagSet(_ZFP_I_ZFPropertyValueStoreHolder::ClassData()->classNameFull(), d);
         zfRelease(d);
     }
     d->d[property][valueStored] = ZFCorePointerForObject<ZFCorePointerBase *>(valueHolder);
@@ -174,7 +174,7 @@ void _ZFP_ZFPropertyValueReleaseImpl(ZF_IN const ZFProperty *property,
 {
     zfCoreMutexLocker();
     _ZFP_I_ZFPropertyValueStoreHolder *d = ownerObj->tagGet<_ZFP_I_ZFPropertyValueStoreHolder *>(
-            _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->className());
+        _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->classNameFull());
     if(d == zfnull)
     {
         return ;

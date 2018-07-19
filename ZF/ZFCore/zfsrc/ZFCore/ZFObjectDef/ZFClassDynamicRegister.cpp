@@ -34,20 +34,28 @@ zfstlmap<const ZFClass *, zfbool> m;
 ZF_GLOBAL_INITIALIZER_END(ZFClassDynamicRegisterAutoRemove)
 
 // ============================================================
-const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *className,
-                                      ZF_IN const ZFClass *parent,
+const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *classNameFull,
+                                      ZF_IN_OPT const ZFClass *parent /* = zfnull */,
                                       ZF_IN_OPT ZFObject *classDynamicRegisterUserData /* = zfnull */,
                                       ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
 {
-    if(parent == zfnull || parent->classIsAbstract() || zfsIsEmpty(className))
+    if(parent == zfnull)
+    {
+        parent = ZFObject::ClassData();
+    }
+    if(parent->classIsAbstract())
     {
         zfstringAppend(errorHint,
-            zfText("invalid parent or className, parent: %s, className: %s"),
-            parent ? parent->objectInfo().cString() : ZFTOKEN_zfnull,
-            className);
+            zfText("parent must not be abstract: %s"),
+            parent->objectInfo().cString());
         return zfnull;
     }
-    const ZFClass *cls = ZFClass::classForName(className);
+    if(zfsIsEmpty(classNameFull))
+    {
+        zfstringAppend(errorHint, zfText("null classNameFull"));
+        return zfnull;
+    }
+    const ZFClass *cls = ZFClass::classForName(classNameFull);
     if(cls != zfnull)
     {
         zfstringAppend(errorHint,
@@ -56,9 +64,11 @@ const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *className,
             parent->objectInfo().cString());
         return zfnull;
     }
+    zfindex dotPos = zfstringFindReversely(classNameFull, zfindexMax(), ZFNamespaceSeparator());
     cls = ZFClass::_ZFP_ZFClassRegister(
         zfnull,
-        className,
+        dotPos == zfindexMax() ? zfnull : zfstring(classNameFull, dotPos).cString(),
+        dotPos == zfindexMax() ? classNameFull : classNameFull + dotPos + 1,
         parent,
         parent->_ZFP_objectConstructor(),
         parent->_ZFP_objectDestructor(),
@@ -92,7 +102,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(const ZFClass *, ZFClassDynamicRegister, ZFMP_IN(const zfchar *, className), ZFMP_IN(const ZFClass *, parent), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(const ZFClass *, ZFClassDynamicRegister, ZFMP_IN(const zfchar *, classNameFull), ZFMP_IN_OPT(const ZFClass *, parent, zfnull), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFClassDynamicUnregister, ZFMP_IN(const ZFClass *, cls))
 
 ZF_NAMESPACE_GLOBAL_END

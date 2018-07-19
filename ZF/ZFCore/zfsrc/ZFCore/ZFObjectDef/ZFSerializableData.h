@@ -159,7 +159,7 @@ public:
     // class
 public:
     /** @brief see #ZFSerializable */
-    zffinal void itemClassSet(ZF_IN const zfchar *clsName);
+    zffinal void itemClassSet(ZF_IN const zfchar *classNameFull);
     /** @brief see #ZFSerializable */
     zffinal const zfchar *itemClass(void) const;
 

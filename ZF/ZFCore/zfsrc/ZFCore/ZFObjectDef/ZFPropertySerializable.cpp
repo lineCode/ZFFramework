@@ -50,7 +50,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
         if(v == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                zfText("no such property \"%s\" in class \"%s\""), tmpValue, ownerClass->className());
+                zfText("no such property \"%s\" in class \"%s\""), tmpValue, ownerClass->classNameFull());
             return zffalse;
         }
 
@@ -65,7 +65,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
 
         serializableData.itemClassSet(ZFTypeId_ZFProperty());
 
-        serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_owner, v->propertyOwnerClass()->className());
+        serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_owner, v->propertyOwnerClass()->classNameFull());
         serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_property, v->propertyName());
 
         return zftrue;
@@ -82,7 +82,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
     }, {
         if(v)
         {
-            s += v->propertyOwnerClass()->className();
+            s += v->propertyOwnerClass()->classNameFull();
             s += zfText("::");
             s += v->propertyName();
         }

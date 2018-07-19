@@ -340,7 +340,7 @@ ZFMETHOD_FUNC_DEFINE_1(ZFUIOnScreenKeyboardAutoFitLayout *, ZFUIOnScreenKeyboard
     {
         zfCoreAssertWithMessageTrim(window->viewDelegate() == zfnull,
             zfTextA("[ZFUIOnScreenKeyboardAutoFitStart] you must not set window's viewDelegate when using auto fit"));
-        window->viewDelegateClassSet(ZFUIOnScreenKeyboardAutoFitLayout::ClassData()->className());
+        window->viewDelegateClassSet(ZFUIOnScreenKeyboardAutoFitLayout::ClassData()->classNameFull());
         return window->viewDelegate<ZFUIOnScreenKeyboardAutoFitLayout *>();
     }
     return zfnull;

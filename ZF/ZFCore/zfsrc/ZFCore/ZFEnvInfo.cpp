@@ -130,7 +130,7 @@ ZFMETHOD_FUNC_DEFINE_0(zfstring, frameworkVersion)
 }
 
 /** @endcond */
-ZF_NAMESPACE_END_WITH_REGISTER(ZFEnvInfo)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFEnvInfo, ZF_NAMESPACE_GLOBAL)
 
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEnvSummary_common, ZFLevelZFFrameworkNormal)

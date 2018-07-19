@@ -225,7 +225,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForFormat, ZFCallbackSerializeCu
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *formatData,
             zfText("format object %s not type of %s"),
             ZFObjectInfo(formatHolder.toObject()).cString(),
-            ZFOutputFormat::ClassData()->className());
+            ZFOutputFormat::ClassData()->classNameFull());
         return zffalse;
     }
 

@@ -496,7 +496,7 @@ public:
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                 zfText("%s not type of %s"),
-                internalView.toObject()->objectInfoOfInstance().cString(), ZFUIView::ClassData()->className());
+                internalView.toObject()->objectInfoOfInstance().cString(), ZFUIView::ClassData()->classNameFull());
             return zffalse;
         }
         ZFUIView *internalViewTmp = internalView.to<ZFUIView *>();
@@ -753,7 +753,7 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("%s not type of %s"),
-                    element.toObject()->objectInfoOfInstance().cString(), ZFUIView::ClassData()->className());
+                    element.toObject()->objectInfoOfInstance().cString(), ZFUIView::ClassData()->classNameFull());
                 return zffalse;
             }
             ZFUIView *child = element.to<ZFUIView *>();
@@ -778,7 +778,7 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
                     zfText("%s not type of %s"),
-                    layoutParam.toObject()->objectInfoOfInstance().cString(), ZFUIViewLayoutParam::ClassData()->className());
+                    layoutParam.toObject()->objectInfoOfInstance().cString(), ZFUIViewLayoutParam::ClassData()->classNameFull());
                 return zffalse;
             }
 
@@ -913,7 +913,12 @@ zfbool ZFUIView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
 // properties
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfstring, viewDelegateClass)
 {
-    zfautoObject viewDelegateTmp = ZFClass::newInstanceForName(this->viewDelegateClass());
+    const ZFClass *cls = ZFClass::classForName(this->viewDelegateClass());
+    zfautoObject viewDelegateTmp;
+    if(cls != zfnull)
+    {
+        viewDelegateTmp = cls->newInstance();
+    }
     this->viewDelegateSet(viewDelegateTmp);
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfbool, viewVisible)
@@ -1136,7 +1141,7 @@ void ZFUIView::objectOnDeallocPrepare(void)
 
 zfidentity ZFUIView::objectHash(void)
 {
-    zfidentity hash = zfidentityHash(zfidentityCalcString(this->classData()->className()) , this->childCount());
+    zfidentity hash = zfidentityHash(zfidentityCalcString(this->classData()->classNameFull()) , this->childCount());
     for(zfindex i = 0; i < this->childCount(); ++i)
     {
         hash = zfidentityHash(hash, this->childAtIndex(i)->objectHash());

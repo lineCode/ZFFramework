@@ -99,18 +99,19 @@ public:
      *   -  have #ZFOBJECT_REGISTER defined,
      *      or match the situation described in #ZFOBJECT_REGISTER
      *
-     * @see ZFOBJECT_DECLARE, ZFOBJECT_REGISTER, newInstanceForName
+     * @see ZFOBJECT_DECLARE, ZFOBJECT_REGISTER
+     *
+     * @note the className may be simple format ("MyObject")
+     *   or full format ("Scope0.Scope1.MyObject"),
+     *   while in simple format,
+     *   the class must be placed in global scope (#ZF_NAMESPACE_GLOBAL)
      */
-    static const ZFClass *classForName(ZF_IN const zfchar *className);
-
+    static const ZFClass *classForName(ZF_IN const zfchar *classNameOrFullName);
     /**
-     * @brief convenient method to create a new instance by name
-     * @return new instance or zfnull if class not found
-     * @note must have ZFClass map set up,
-     *   for more information, please refer to #classForName and #ZFOBJECT_REGISTER
-     * @see ZFOBJECT_DECLARE, ZFOBJECT_REGISTER, classForName
+     * @brief find class with explicit namespace, see #classForName
      */
-    static zfautoObject newInstanceForName(ZF_IN const zfchar *className);
+    static const ZFClass *classForName(ZF_IN const zfchar *className,
+                                       ZF_IN const zfchar *classNamespace);
 
     // ============================================================
     // instance observer
@@ -197,11 +198,25 @@ public:
 
 public:
     /**
+     * @brief class namespace, ensured null for global scope class
+     */
+    inline const zfchar *classNamespace(void) const
+    {
+        return this->classNamespaceCache;
+    }
+    /**
      * @brief class name, e.g. "ZFObject"
      */
     inline const zfchar *className(void) const
     {
         return this->classNameCache;
+    }
+    /**
+     * @brief class full name, e.g. "NS0.NS1.YourObject"
+     */
+    inline const zfchar *classNameFull(void) const
+    {
+        return this->classNameFullCache;
     }
 
     /**
@@ -513,7 +528,8 @@ public:
     // private
 public:
     static ZFClass *_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
-                                         ZF_IN const zfchar *name,
+                                         ZF_IN const zfchar *classNamespace,
+                                         ZF_IN const zfchar *className,
                                          ZF_IN const ZFClass *parent,
                                          ZF_IN _ZFP_ZFObjectConstructor constructor,
                                          ZF_IN _ZFP_ZFObjectDestructor destructor,
@@ -567,7 +583,9 @@ public:
 private:
     _ZFP_ZFClassPrivate *d;
     friend zfclassFwd _ZFP_ZFClassPrivate;
+    const zfchar *classNamespaceCache;
     const zfchar *classNameCache;
+    const zfchar *classNameFullCache;
     const ZFClass *classParentCache;
 };
 
@@ -575,7 +593,8 @@ private:
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFClassRegisterHolder
 {
 public:
-    _ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *name,
+    _ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *classNamespace,
+                               ZF_IN const zfchar *className,
                                ZF_IN const ZFClass *parent,
                                ZF_IN _ZFP_ZFObjectConstructor constructor,
                                ZF_IN _ZFP_ZFObjectDestructor destructor,
@@ -654,7 +673,7 @@ public:
     {
         if(cls)
         {
-            return zfsCoreZ2A(cls->className());
+            return zfsCoreZ2A(cls->classNameFull());
         }
         else
         {

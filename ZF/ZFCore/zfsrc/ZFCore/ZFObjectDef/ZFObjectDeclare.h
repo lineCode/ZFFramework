@@ -113,6 +113,7 @@ public:
         static const ZFClass *ClassData(void) \
         { \
             static _ZFP_ZFClassRegisterHolder _holder( \
+                    ZF_NAMESPACE_CURRENT(), \
                     ZFM_TOSTRING_DIRECT(ChildClass), \
                     zfsuper::ClassData(), \
                     &zfself::_ZFP_Obj_ctor, \
@@ -129,6 +130,7 @@ public:
         static const ZFClass *ClassData(void) \
         { \
             static _ZFP_ZFClassRegisterHolder _holder( \
+                    ZF_NAMESPACE_CURRENT(), \
                     ZFM_TOSTRING_DIRECT(ChildClass), \
                     zfsuper::ClassData(), \
                     zfnull, \
@@ -198,7 +200,7 @@ public:
  *   ZFOBJECT_REGISTER(YourClass)
  * @endcode
  * you only need this if you want to use the ZFClass map function,
- * such as ZFClass::classForName and ZFClass::newInstanceForName\n
+ * such as ZFClass::classForName\n
  * \n
  * detailed:\n
  * ZFClass map is set up when YourClass::ClassData is called, which may occurred when:

@@ -189,7 +189,7 @@ static void _ZFP_ZFFilterForZFClass_contentInfoGetter(ZF_IN_OUT zfstring &ret, Z
     ret += '(';
     ZFFilterForZFClassTypeToString(ret, v.filterType);
     ret += ' ';
-    ret += v.filterClass->className();
+    ret += v.filterClass->classNameFull();
     ret += ')';
 }
 void ZFFilterForZFClass::objectInfoT(ZF_IN_OUT zfstring &ret) const

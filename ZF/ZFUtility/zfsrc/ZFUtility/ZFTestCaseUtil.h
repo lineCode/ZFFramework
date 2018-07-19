@@ -32,7 +32,7 @@ extern ZF_ENV_EXPORT zfbool ZFTestCaseRun(ZF_IN const ZFClass *cls,
 /**
  * @brief see #ZFTestCaseRun
  */
-extern ZF_ENV_EXPORT zfbool ZFTestCaseRun(ZF_IN const zfchar *clsName,
+extern ZF_ENV_EXPORT zfbool ZFTestCaseRun(ZF_IN const zfchar *classNameFull,
                                           ZF_OUT_OPT ZFTestCase **testCaseHaveRun = zfnull);
 
 // ============================================================

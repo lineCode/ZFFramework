@@ -124,7 +124,7 @@ static void _ZFP_ZFFramework_test_prepareTestCase(ZF_IN ZFUIView *containerView)
     public:
         static ZFCompareResult action(ZF_IN const ZFClass * const &cls0, ZF_IN const ZFClass * const &cls1)
         {
-            return ZFComparerDefault(cls0->className(), cls1->className());
+            return ZFComparerDefault(cls0->classNameFull(), cls1->classNameFull());
         }
     };
     allTestCase.sort(_ZFP_main_class_sort::action);
@@ -132,7 +132,7 @@ static void _ZFP_ZFFramework_test_prepareTestCase(ZF_IN ZFUIView *containerView)
     while(!allTestCase.isEmpty())
     {
         ZFCoreArrayPOD<const ZFClass *> subModule;
-        zfstring subModuleName = allTestCase[0]->className();
+        zfstring subModuleName = allTestCase[0]->classNameFull();
         {
             zfindex t = zfstringFind(subModuleName, '_');
             if(t == zfindexMax())
@@ -146,7 +146,7 @@ static void _ZFP_ZFFramework_test_prepareTestCase(ZF_IN ZFUIView *containerView)
         }
         for(zfindex i = 0; i < allTestCase.count(); ++i)
         {
-            if(zfsncmp(allTestCase[i]->className(), subModuleName.cString(), subModuleName.length()) == 0)
+            if(zfsncmp(allTestCase[i]->classNameFull(), subModuleName.cString(), subModuleName.length()) == 0)
             {
                 subModule.add(allTestCase[i]);
                 allTestCase.remove(i);
@@ -239,6 +239,6 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModuleTest(ZF_IN ZFUIView *c
     userData->tagSet(zfText("testCase"), zflineAlloc(ZFPointerHolder, testCase));
     userData->tagSet(zfText("containerView"), containerView->objectHolder());
     button->observerAdd(ZFUIButton::EventButtonOnClick(), onClickButton, userData);
-    button->buttonLabelTextSet(zfstring(testCase->className() + zfslen(subModuleName) + 1));
+    button->buttonLabelTextSet(zfstring(testCase->classNameFull() + zfslen(subModuleName) + 1));
 }
 

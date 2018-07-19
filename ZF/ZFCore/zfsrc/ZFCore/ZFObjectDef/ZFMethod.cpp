@@ -170,7 +170,7 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
     }
     else
     {
-        ret += this->methodOwnerClass()->className();
+        ret += this->methodOwnerClass()->classNameFull();
         ret += zfText("::");
     }
 
@@ -423,8 +423,7 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
 
     zfCoreAssert(methodGenericInvoker != zfnull);
     zfCoreAssert(methodType != zfnull);
-    zfCoreAssert((methodOwnerClass != zfnull)
-        || (methodNamespace != zfnull && *methodNamespace != '\0'));
+    zfCoreAssert(methodOwnerClass == zfnull || methodNamespace == zfnull);
     zfCoreAssert(methodName != zfnull && *methodName != '\0');
     zfCoreAssert(returnTypeId != zfnull && *returnTypeId != '\0');
     zfCoreAssert(returnTypeName != zfnull && *returnTypeName != '\0');
@@ -448,7 +447,7 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
 
     zfstring methodInternalId;
     _ZFP_ZFMethodInstanceSig(methodInternalId
-            , methodOwnerClass ? methodOwnerClass->className() : methodNamespace
+            , methodOwnerClass ? methodOwnerClass->classNameFull() : methodNamespace
             , methodName
             , paramTypeId[0]
             , paramTypeId[1]
@@ -470,7 +469,7 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
             {
                 zfCoreCriticalMessageTrim(
                     zfTextA("[ZFMethodUserRegister] registering a method that already registered, class: %s, methodName: %s, methodInternalId: %s"),
-                    zfsCoreZ2A(methodOwnerClass->className()),
+                    zfsCoreZ2A(methodOwnerClass->classNameFull()),
                     zfsCoreZ2A(methodName),
                     zfsCoreZ2A(methodInternalId.cString()));
             }
@@ -489,7 +488,7 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
             {
                 zfCoreCriticalMessageTrim(
                     zfTextA("[ZFMethodDynamicRegister] registering a method that already registered, class: %s, methodName: %s, methodInternalId: %s"),
-                    zfsCoreZ2A(methodOwnerClass->className()),
+                    zfsCoreZ2A(methodOwnerClass->classNameFull()),
                     zfsCoreZ2A(methodName),
                     zfsCoreZ2A(methodInternalId.cString()));
             }

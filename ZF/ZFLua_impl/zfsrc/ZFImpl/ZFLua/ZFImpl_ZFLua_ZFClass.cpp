@@ -15,7 +15,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange)
 {
     const ZFClassDataChangeData *data = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
-    if(data->changedClass != zfnull && data->changeType == ZFClassDataChangeTypeAttach)
+    if(data->changedClass != zfnull && data->changeType == ZFClassDataChangeTypeAttach
+        && data->changedClass->classNamespace() == zfnull)
     {
         const ZFCoreArrayPOD<lua_State *> &luaStateList = ZFImpl_ZFLua_luaStateList();
         for(zfindex i = 0; i < luaStateList.count(); ++i)
@@ -30,11 +31,16 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFClass, {
         {
             const zfchar **classNameList = (const zfchar **)zfmalloc(sizeof(const zfchar *) * (allClass.count() + 1));
             zfblockedFree(classNameList);
+            zfindex attached = 0;
             for(zfindex i = 0; i < allClass.count(); ++i)
             {
-                classNameList[i] = allClass[i]->className();
+                if(allClass[i]->classNamespace() == zfnull)
+                {
+                    classNameList[attached] = allClass[i]->className();
+                    ++attached;
+                }
             }
-            classNameList[allClass.count()] = zfnull;
+            classNameList[attached] = zfnull;
 
             ZFImpl_ZFLua_implSetupScope(L, classNameList);
         }

@@ -167,16 +167,16 @@ public:
         if(ret != zfnull)
         {
             zfCoreAssertWithMessage(ZFCastZFObject(ZFUIListCell *, ret.toObject()) != zfnull, zfTextA("list cell %s not type of %s"),
-                zfsCoreZ2A(ret.toObject()->classData()->className()),
-                zfsCoreZ2A(ZFUIListCell::ClassData()->className()));
+                zfsCoreZ2A(ret.toObject()->classData()->classNameFull()),
+                zfsCoreZ2A(ZFUIListCell::ClassData()->classNameFull()));
             return ret;
         }
         ret = this->listAdapter->cellAtIndex(index);
-        zfCoreAssertWithMessage(ret != zfnull, zfTextA("cellAtIndex must return a %s"), zfsCoreZ2A(ZFUIListCell::ClassData()->className()));
+        zfCoreAssertWithMessage(ret != zfnull, zfTextA("cellAtIndex must return a %s"), zfsCoreZ2A(ZFUIListCell::ClassData()->classNameFull()));
         ZFUIListCell *cell = ZFCastZFObject(ZFUIListCell *, ret.toObject());
         zfCoreAssertWithMessage(cell != zfnull, zfTextA("list cell %s not type of %s"),
-            zfsCoreZ2A(ret.toObject()->classData()->className()),
-            zfsCoreZ2A(ZFUIListCell::ClassData()->className()));
+            zfsCoreZ2A(ret.toObject()->classData()->classNameFull()),
+            zfsCoreZ2A(ZFUIListCell::ClassData()->classNameFull()));
         return ret;
     }
     void cellOnUpdate(ZF_IN zfindex index, ZF_IN ZFUIListCell *cell)

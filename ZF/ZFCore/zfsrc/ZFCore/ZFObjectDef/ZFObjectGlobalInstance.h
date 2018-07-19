@@ -305,7 +305,7 @@ public:
                                          ZFLevel_) \
     _ZFP_ZFOBJECT_SINGLETON_DEFINE(OwnerClass, \
                                    AccessTypeName, ObjectTypeName, \
-                                   zfsConnectLineFree(zfText("_ZFP_ZFObject_"), zfself::ClassData()->className(), zfText("_"), #AccessTypeName, #accessMethodName), \
+                                   zfsConnectLineFree(zfText("_ZFP_ZFObject_"), zfself::ClassData()->classNameFull(), zfText("_"), #AccessTypeName, #accessMethodName), \
                                    accessMethodName, \
                                    ZFLevel_)
 

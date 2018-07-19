@@ -28,8 +28,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @note dynamic registered contents would be removed automatically
  *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
  */
-extern ZF_ENV_EXPORT const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *className,
-                                                           ZF_IN const ZFClass *parent,
+extern ZF_ENV_EXPORT const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *classNameFull,
+                                                           ZF_IN_OPT const ZFClass *parent = zfnull,
                                                            ZF_IN_OPT ZFObject *classDynamicRegisterUserData = zfnull,
                                                            ZF_OUT_OPT zfstring *errorHint = zfnull);
 /**

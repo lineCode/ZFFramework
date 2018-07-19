@@ -39,12 +39,12 @@ extern ZF_ENV_EXPORT lua_State *_ZFP_ZFImpl_ZFLua_luaState(void);
  *   (wrapped directly for ZFObject type,
  *   wrapped by #ZFTypeIdWrapper for non-ZFObject type)
  * -  all global variables are also wrapped by #zfautoObject
- * -  class and namespace are wrapped by lua raw string value as a global variable,
+ * -  class and topmost namespace are wrapped by lua raw string value as a global variable,
  *   and should be registered by #ZFImpl_ZFLua_implSetupScope\n
  *   these things are equal:
  *   -  `MyClass.myFunc(param);`
- *   -  `zfl_callStatic("MyClass::myFunc", param);`
- *   -  `var cls = MyClass; cls.myFunc(param);`
+ *   -  `zfl_callStatic("MyClass.myFunc", param);`
+ *   -  `local cls = MyClass; cls.myFunc(param);`
  * -  member functions are dispatched as `obj:myFunc(param)`,
  *   which equals to `obj.myFunc(obj, param)`
  * -  the method dispatch can be modified by registering #ZFImpl_ZFLua_implDispatch_DEFINE,
@@ -401,7 +401,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
             return dispatchInfo.dispatchError( \
                 zfText("%s::%s param type mismatch, expect %s, got %s"), \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
-                desiredClass::ClassData()->className(), \
+                desiredClass::ClassData()->classNameFull(), \
                 ZFObjectInfo(dispatchInfo.paramList[N]->toObject()).cString()); \
         } \
     } while(zffalse)
@@ -426,7 +426,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
             return dispatchInfo.dispatchError( \
                 zfText("%s::%s param type mismatch, expect %s, got %s"), \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
-                desiredClass::ClassData()->className(), \
+                desiredClass::ClassData()->classNameFull(), \
                 ZFObjectInfo(dispatchInfo.paramList[N]->toObject()).cString()); \
         } \
     } while(zffalse)
@@ -439,7 +439,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
         return dispatchInfo.dispatchError( \
             zfText("%s::%s owner object type mismatch, expect %s, got %s"), \
             dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
-            WrapperType::ClassData()->className(), \
+            WrapperType::ClassData()->classNameFull(), \
             ZFObjectInfo(dispatchInfo.objectOrNull).cString()); \
     } \
     OwnerObjectType objName = _ZFP_##objName->zfv
@@ -453,7 +453,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
             return dispatchInfo.dispatchError( \
                 zfText("%s::%s owner object type mismatch, expect %s, got %s"), \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
-                OwnerZFObjectType::ClassData()->className(), \
+                OwnerZFObjectType::ClassData()->classNameFull(), \
                 ZFObjectInfo(dispatchInfo.objectOrNull).cString()); \
         } \
     } while(zffalse)
@@ -615,7 +615,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
                                                         ZF_IN_OUT zfstring &s,
-                                                        ZF_IN_OPT int luaParamOffset = 0);
+                                                        ZF_IN_OPT int luaParamOffset = 1);
 
 // ============================================================
 // wrapper for impl

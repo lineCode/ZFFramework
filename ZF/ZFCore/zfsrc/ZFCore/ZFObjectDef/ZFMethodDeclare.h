@@ -24,10 +24,10 @@ zfclassFwd ZFClass;
 /**
  * @brief util method to find ZFMethod, return null if method not registered
  */
-extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const zfchar *className,
+extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const zfchar *classNameOrFullName,
                                                  ZF_IN const zfchar *methodName);
 /** @brief see #ZFMethodGet */
-extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const zfchar *className,
+extern ZF_ENV_EXPORT const ZFMethod *ZFMethodGet(ZF_IN const zfchar *classNameOrFullName,
                                                  ZF_IN const zfchar *methodName
                                                  , ZF_IN_OPT const zfchar *methodParamTypeId0
                                                  , ZF_IN_OPT const zfchar *methodParamTypeId1 = zfnull

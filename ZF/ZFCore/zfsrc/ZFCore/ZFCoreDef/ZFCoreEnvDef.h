@@ -33,8 +33,8 @@
 /**
  * @brief end namespace
  */
-#define ZF_NAMESPACE_END_WITH_REGISTER(NameSpace) \
-    ZF_NAMESPACE_REGISTER(NameSpace) \
+#define ZF_NAMESPACE_END_WITH_REGISTER(NameSpace, ParentNameSpace) \
+    ZF_NAMESPACE_REGISTER(NameSpace, ParentNameSpace) \
     ZF_NAMESPACE_END(NameSpace)
 
 /**
@@ -42,23 +42,6 @@
  */
 #define ZF_NAMESPACE_USE(NameSpace) \
     using namespace NameSpace;
-
-/**
- * @brief register namespace
- */
-#define ZF_NAMESPACE_REGISTER(NameSpace) \
-    _ZFP_ZF_NAMESPACE_REGISTER(NameSpace)
-#define _ZFP_ZF_NAMESPACE_REGISTER(NameSpace) \
-    const char *_ZFP_ZF_NAMESPACE_NOT_DECLARED(void) \
-    { \
-        return #NameSpace; \
-    }
-
-/**
- * @brief get current namespace name
- */
-#define ZF_NAMESPACE_CURRENT() \
-    zfsCoreA2Z(_ZFP_ZF_NAMESPACE_NOT_DECLARED())
 
 /**
  * @brief global namespace id for impl

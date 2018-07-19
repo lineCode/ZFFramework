@@ -72,7 +72,7 @@ ZFOBJECTIO_DEFINE(image, ZFM_EXPAND({
             zfstringAppend(outErrorHint,
                 zfText("object %s is not type of %s"),
                 ZFObjectInfoOfInstance(obj).cString(),
-                ZFUIImage::ClassData()->className());
+                ZFUIImage::ClassData()->classNameFull());
             return zffalse;
         }
         if(!ZFUIImageEncodeToFile(output, image))

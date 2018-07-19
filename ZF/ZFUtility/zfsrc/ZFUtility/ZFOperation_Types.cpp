@@ -17,7 +17,7 @@ ZFOBJECT_REGISTER(ZFOperationParam)
 
 zfidentity ZFOperationParam::objectHash(void)
 {
-    return zfidentityCalcString(this->classData()->className());
+    return zfidentityCalcString(this->classData()->classNameFull());
 }
 ZFCompareResult ZFOperationParam::objectCompare(ZF_IN ZFObject *anotherObj)
 {

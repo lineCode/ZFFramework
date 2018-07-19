@@ -18,14 +18,15 @@ there are many abbreviations in ZFFramework which keep code style and you should
 * `zft` : `ZF Template`, core template utils
 * `ZFM` : `ZF Macro`, core macro utils
 * `ZFTAG_` : `ZF tag`, used to mark some workaround that currently can't be perfectly solved
+* `ZF` and `zf` : short for ZFFramework namespace, also used in script impls
 
 
 ## ZFCastZFObject
 
-we use ZFCastZFObject for dynamic type cast, instead of traditional dynamic_cast
+we use ZFCastZFObject for dynamic type cast, instead of traditional `dynamic_cast`
 
 the main reason for that is the performance, ZFFramework use multi-inheritance to simulate interface logic,
-which would cause deep inherit tree, which cause dynamic_cast to be very slow
+which would cause deep inherit tree, which cause `dynamic_cast` to be very slow
 
 secondly, it reduce the dependency of RTTI, which is not much necessary for ZFFramework
 
@@ -33,10 +34,9 @@ secondly, it reduce the dependency of RTTI, which is not much necessary for ZFFr
 ## class namespace
 
 since written in C++, raw namespace are supported, however,
-ZFClass has no namespace support, and it's designed to be so, because:
-
-* string operations are slow, especially under ZFFramework's heavily serialization and styleable logic,
-    having namespace support would cause huge increased string concatenate and split operations
+it's strongly recommended to use `ZF_NAMESPACE_BEGIN` series,
+since it make it possible to achieve reflection of namespace
+as well as class and methods with namespaces
 
 
 ## STL dependency
@@ -109,19 +109,20 @@ we are trying hard to achive script binding by reflection dynamically and automa
 1. all ZFMethod supply a generic invoker (`ZFMethod::methodGenericInvoker`)
     that takes base ZFObject as param and invoke the original method
 1. use reflection, to bind the generic invoker to scrypt languages dynamically
-1. the final script language should look like
+1. the final script language should look like (lua for example)
 
     ```
-    var obj = MyZFObjectType::zfAlloc();
-    var objParam = zfAlloc("SomeType");
-    var result = obj.myFunc(zfint(1), zfstring("2"), YourType("encodedData"), objParam);
-    var result = obj.myFunc(1, "2", "encodedData", objParam);
+    local obj = MyZFObjectType();
+    local objParam = YourType();
+    local result = obj:myFunc(zfint(1), zfstring("2"), YourType("encodedData"), objParam);
+    local result = obj:myFunc(1, "2", "encodedData", objParam);
     ```
 
-    1. `zfAlloc` should be binded automatically by reflecting all `ZFClass` types
-    1. `YourType` would be binded by ZFTYPEID_DECLARE series
+    1. object allocation should be binded automatically by reflecting all `ZFClass` types
+    1. `YourType` would be binded by `ZFTYPEID_DECLARE` series
     1. `YourType` can be serialized from encoded string data if it's serializable
       (declared by ZFTYPEID_DECLARE)
     1. `myFunc` should be binded automatically by reflecting all `ZFMethod` from `ZFClass` types
+    1. when `ZFMethod` called, unknown param type would be serialized to desired type implicitly
     1. finally, `myFunc` would be invoked with all ZFObject type as params and result
 

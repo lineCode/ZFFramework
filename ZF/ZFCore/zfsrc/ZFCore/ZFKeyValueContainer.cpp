@@ -149,7 +149,7 @@ zfbool ZFKeyValueContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSer
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
             zfText("%s not type of %s"),
-            referencedOwnerOrNull->toObject()->objectInfoOfInstance().cString(), ZFKeyValueContainer::ClassData()->className());
+            referencedOwnerOrNull->toObject()->objectInfoOfInstance().cString(), ZFKeyValueContainer::ClassData()->classNameFull());
         return zffalse;
     }
 

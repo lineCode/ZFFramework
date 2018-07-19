@@ -44,10 +44,10 @@ zfbool ZFTestCaseRun(ZF_IN const ZFClass *cls,
     }
     return zftrue;
 }
-zfbool ZFTestCaseRun(ZF_IN const zfchar *clsName,
+zfbool ZFTestCaseRun(ZF_IN const zfchar *classNameFull,
                      ZF_OUT_OPT ZFTestCase **testCase /* = zfnull */)
 {
-    return ZFTestCaseRun(ZFClass::classForName(clsName), testCase);
+    return ZFTestCaseRun(ZFClass::classForName(classNameFull), testCase);
 }
 
 // ============================================================

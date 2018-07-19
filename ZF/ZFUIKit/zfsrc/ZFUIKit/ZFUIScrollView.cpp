@@ -677,7 +677,7 @@ void ZFUIScrollView::objectOnInit(void)
     d->yScroll = zfRetain(ZFCastZFObject(ZFUIScroller *, this->scrollerClass()->newInstance().toObject()));
     zfCoreAssertWithMessage(d->xScroll != zfnull && d->yScroll != zfnull,
         zfTextA("scrollerClass must return a class type of %s"),
-        zfsCoreZ2A(ZFUIScroller::ClassData()->className()));
+        zfsCoreZ2A(ZFUIScroller::ClassData()->classNameFull()));
     zfCoreAssert(d->xScroll != zfnull && d->yScroll != zfnull);
     d->scrollerInit();
 

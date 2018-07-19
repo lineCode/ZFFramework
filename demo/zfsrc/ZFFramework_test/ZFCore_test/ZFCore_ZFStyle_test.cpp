@@ -35,7 +35,7 @@ protected:
         this->testCaseOutputSeparator();
         this->testCaseOutput(zfText("prepare style"));
 
-        const zfchar *styleKey = _ZFP_ZFCore_ZFStyle_test_Object::ClassData()->className();
+        const zfchar *styleKey = _ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull();
         {
             zfblockedAlloc(_ZFP_ZFCore_ZFStyle_test_Object, styleValue);
             styleValue->myPropertySet(123);
@@ -45,7 +45,7 @@ protected:
         this->testCaseOutputSeparator();
         this->testCaseOutput(zfText("attach object to style"));
         zfblockedAlloc(_ZFP_ZFCore_ZFStyle_test_Object, obj);
-        obj->styleKeySet(_ZFP_ZFCore_ZFStyle_test_Object::ClassData()->className());
+        obj->styleKeySet(_ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull());
 
         this->testCaseOutputSeparator();
         this->testCaseOutput(zfText("notify change style"));

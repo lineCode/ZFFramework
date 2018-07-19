@@ -300,7 +300,7 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
             zfText("serialize with a reference style object whose type mismatch, self: %s, style: %s"),
-            this->classData()->className(), referencedObject->classData()->className());
+            this->classData()->classNameFull(), referencedObject->classData()->classNameFull());
         return zffalse;
     }
 
@@ -368,7 +368,7 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
     }
     else
     {
-        serializableData.itemClassSet(this->classData()->className());
+        serializableData.itemClassSet(this->classData()->classNameFull());
     }
 
     if(ZFSerializable::editMode() && d != zfnull)
@@ -385,7 +385,7 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
 _ZFP_I_ZFSerializablePropertyTypeHolder *ZFSerializable::_ZFP_ZFSerializable_getPropertyTypeHolder(void)
 {
     zfCoreMutexLocker();
-    _ZFP_I_ZFSerializablePropertyTypeHolder *holder = this->classData()->classTagGet<_ZFP_I_ZFSerializablePropertyTypeHolder *>(_ZFP_I_ZFSerializablePropertyTypeHolder::ClassData()->className());
+    _ZFP_I_ZFSerializablePropertyTypeHolder *holder = this->classData()->classTagGet<_ZFP_I_ZFSerializablePropertyTypeHolder *>(_ZFP_I_ZFSerializablePropertyTypeHolder::ClassData()->classNameFull());
     if(holder == zfnull)
     {
         zflockfree_zfblockedAlloc(_ZFP_I_ZFSerializablePropertyTypeHolder, holderTmp);
@@ -439,9 +439,9 @@ _ZFP_I_ZFSerializablePropertyTypeHolder *ZFSerializable::_ZFP_ZFSerializable_get
 
         holder = holderTmp;
         this->classData()->classTagSet(
-            _ZFP_I_ZFSerializablePropertyTypeHolder::ClassData()->className(),
+            _ZFP_I_ZFSerializablePropertyTypeHolder::ClassData()->classNameFull(),
             holderTmp);
-        this->classData()->classDataChangeAutoRemoveTagAdd(_ZFP_I_ZFSerializablePropertyTypeHolder::ClassData()->className());
+        this->classData()->classDataChangeAutoRemoveTagAdd(_ZFP_I_ZFSerializablePropertyTypeHolder::ClassData()->classNameFull());
     }
     return holder;
 }
@@ -526,7 +526,7 @@ zfbool ZFSerializable::serializableOnSerializePropertyFromData(ZF_IN const ZFSer
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
                 zfText("object %s not type of %s"),
-                obj.toObject()->objectInfoOfInstance().cString(), property->propertyClassOfRetainProperty()->className());
+                obj.toObject()->objectInfoOfInstance().cString(), property->propertyClassOfRetainProperty()->classNameFull());
             return zffalse;
         }
         property->callbackValueSet(property, this->toObject(), &obj);
@@ -579,7 +579,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
         ZFSerializableUtil::errorOccurred(outErrorHint,
             zfText("unable to access property %s's value is null while serializing \"%s\""),
             property->propertyName(),
-            this->classData()->className());
+            this->classData()->classNameFull());
         return zffalse;
     }
     ZFObject *obj = *objHolder;
@@ -588,7 +588,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
         ZFSerializableUtil::errorOccurred(outErrorHint,
             zfText("embeded property %s is null while serializing \"%s\""),
             property->propertyName(),
-            this->classData()->className());
+            this->classData()->classNameFull());
         return zffalse;
     }
     else if(!ZFObjectIsSerializable(obj))
@@ -596,7 +596,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
         ZFSerializableUtil::errorOccurred(outErrorHint,
             zfText("not serializable object %s while serializing \"%s\""),
             obj->objectInfoOfInstance().cString(),
-            this->classData()->className());
+            this->classData()->classNameFull());
         return zffalse;
     }
     else
@@ -607,7 +607,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
             ZFSerializableUtil::errorOccurred(outErrorHint,
                 zfText("no class named %s while serializing \"%s\"'s property %s"),
                 propertyData.itemClass(),
-                this->classData()->className(),
+                this->classData()->classNameFull(),
                 property->propertyName());
             return zffalse;
         }
@@ -616,8 +616,8 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
             ZFSerializableUtil::errorOccurred(outErrorHint,
                 zfText("node %s is not type of %s while serializing \"%s\"'s property %s"),
                 propertyData.itemClass(),
-                property->propertyClassOfRetainProperty()->className(),
-                this->classData()->className(),
+                property->propertyClassOfRetainProperty()->classNameFull(),
+                this->classData()->classNameFull(),
                 property->propertyName());
             return zffalse;
         }

@@ -127,8 +127,8 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollThumbHorizontalClassSet,
     if(cls != zfnull && !cls->classIsTypeOf(ZFUIScrollThumb::ClassData()))
     {
         zfCoreLog(zfTextA("class %s not type of %s"),
-            zfsCoreZ2A(cls->className()),
-            zfsCoreZ2A(ZFUIScrollThumb::ClassData()->className()));
+            zfsCoreZ2A(cls->classNameFull()),
+            zfsCoreZ2A(ZFUIScrollThumb::ClassData()->classNameFull()));
         return ;
     }
 
@@ -149,8 +149,8 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollThumbVerticalClassSet,
     if(cls != zfnull && !cls->classIsTypeOf(ZFUIScrollThumb::ClassData()))
     {
         zfCoreLog(zfTextA("class %s not type of %s"),
-            zfsCoreZ2A(cls->className()),
-            zfsCoreZ2A(ZFUIScrollThumb::ClassData()->className()));
+            zfsCoreZ2A(cls->classNameFull()),
+            zfsCoreZ2A(ZFUIScrollThumb::ClassData()->classNameFull()));
         return ;
     }
 

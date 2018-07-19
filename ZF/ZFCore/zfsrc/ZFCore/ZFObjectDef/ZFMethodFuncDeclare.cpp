@@ -69,9 +69,8 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
                                 ZF_IN const zfchar *methodName)
 {
     zfCoreMutexLocker();
-    if(methodNamespace == zfnull
-        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
-        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
+    methodNamespace = ZFNamespaceSkipGlobal(methodNamespace);
+    if(methodNamespace == zfnull)
     {
         methodNamespace = zfText("");
     }
@@ -104,9 +103,8 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
                                 )
 {
     zfCoreMutexLocker();
-    if(methodNamespace == zfnull
-        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
-        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
+    methodNamespace = ZFNamespaceSkipGlobal(methodNamespace);
+    if(methodNamespace == zfnull)
     {
         methodNamespace = zfText("");
     }
@@ -185,9 +183,8 @@ void ZFMethodFuncGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
 {
     zfCoreMutexLocker();
 
-    if(methodNamespace == zfnull
-        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_NAME)
-        || zfscmpTheSame(methodNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
+    methodNamespace = ZFNamespaceSkipGlobal(methodNamespace);
+    if(methodNamespace == zfnull)
     {
         methodNamespace = zfText("");
     }

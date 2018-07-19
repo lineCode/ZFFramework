@@ -83,7 +83,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     value = e->enumValue(); // return the value stored as EnumName
  *     zfRelease(e);
  *
- *     zfautoObject tmp = ZFClass::newInstanceForName(zfText("EnumName")); // see #ZFOBJECT_REGISTER for more info
+ *     zfautoObject tmp = ZFClass::classForName(zfText("EnumName"))->newInstance(); // see #ZFOBJECT_REGISTER for more info
  *     e = tmp.to<ZFEnum *>();
  *     for(zfindex i = 0; i < e->enumCount(); ++i)
  *     { // OK, list all the value and name for e, which is EnumName type
@@ -215,7 +215,7 @@ public:
         virtual zfidentity objectHash(void) \
         { \
             return zfidentityHash( \
-                zfidentityCalcString(zfself::ClassData()->className()), \
+                zfidentityCalcString(zfself::ClassData()->classNameFull()), \
                 zfidentityCalcPOD(this->enumValue())); \
         } \
     public: \

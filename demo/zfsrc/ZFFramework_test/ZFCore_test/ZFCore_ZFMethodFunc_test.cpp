@@ -21,7 +21,7 @@ ZFMETHOD_FUNC_DEFINE_0(void, ZFCore_ZFMethodFunc_test_func)
 {
     zfLogT();
 }
-ZF_NAMESPACE_END_WITH_REGISTER(ZFCore_ZFMethodFunc_test_namespace)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFCore_ZFMethodFunc_test_namespace, ZF_NAMESPACE_GLOBAL)
 
 ZFMETHOD_FUNC_DEFINE_0(zfstring, ZFCore_ZFMethodFunc_test_func0)
 {

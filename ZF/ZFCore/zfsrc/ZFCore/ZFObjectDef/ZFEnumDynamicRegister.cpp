@@ -55,7 +55,7 @@ public:
     virtual zfidentity objectHash(void)
     {
         return zfidentityHash(
-            zfidentityCalcString(zfself::ClassData()->className()),
+            zfidentityCalcString(zfself::ClassData()->classNameFull()),
             zfidentityCalcPOD(this->enumValue()));
     }
 public:
@@ -108,7 +108,7 @@ public:
     zfoverride
     virtual const zfchar *wrappedValueTypeId(void)
     {
-        return _ZFP_ZFEnumDataRef()->ownerClass->className();
+        return _ZFP_ZFEnumDataRef()->ownerClass->classNameFull();
     }
 private:
     const _ZFP_ZFEnumData *_ZFP_ZFEnumDataRef(void)
@@ -134,7 +134,7 @@ public:
     zfoverride
     virtual const zfchar *typeId(void) const
     {
-        return this->enumClass->className();
+        return this->enumClass->classNameFull();
     }
     zfoverride
     virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
@@ -263,7 +263,7 @@ void ZFEnumDynamicUnregister(ZF_IN const ZFClass *enumClass)
         ZFMethodUserUnregister(d->userRegMethods[i]);
     }
     const ZFClass *enumEditableClass = d->enumEditableClass;
-    ZFTypeIdDynamicUnregister(enumClass->className());
+    ZFTypeIdDynamicUnregister(enumClass->classNameFull());
     _ZFP_ZFEnumDataCleanup(enumClass);
     ZFClassDynamicUnregister(enumEditableClass);
     ZFClassDynamicUnregister(enumClass);

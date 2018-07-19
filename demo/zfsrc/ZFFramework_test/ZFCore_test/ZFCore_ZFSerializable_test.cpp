@@ -47,7 +47,7 @@ protected:
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     {
-        ret += this->classData()->className();
+        ret += this->classData()->classNameFull();
         ZFClassUtil::objectPropertyInfo(ret, this);
     }
 };

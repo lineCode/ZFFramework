@@ -20,7 +20,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFClass, const ZFClass *, {
     }, {
         if(v)
         {
-            s += v->className();
+            s += v->classNameFull();
         }
         return zftrue;
     })

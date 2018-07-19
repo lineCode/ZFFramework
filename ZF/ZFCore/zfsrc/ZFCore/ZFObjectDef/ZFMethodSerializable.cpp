@@ -29,14 +29,18 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFMethod, const ZFMethod *, {
     }, {
         if(v->methodIsFunctionType())
         {
-            s += v->methodNamespace();
+            if(v->methodNamespace() != zfnull)
+            {
+                s += v->methodNamespace();
+                s += ZFNamespaceSeparator();
+            }
         }
         else
         {
-            s += v->methodOwnerClass()->className();
+            s += v->methodOwnerClass()->classNameFull();
+            s += ZFNamespaceSeparator();
         }
 
-        s += zfText("::");
         s += v->methodName();
 
         for(zfindex i = 0; i < v->methodParamCount(); ++i)
@@ -157,33 +161,43 @@ zfbool ZFMethodSigSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &ret,
                         ZF_IN const zfchar *src,
                         ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
 {
-    ZFCoreArrayPOD<ZFIndexRange> pos;
+    ret.removeAll();
+    ret.add(ZFIndexRangeZero()); // add placeholder for method scope
     if(!zfCoreDataPairSplitString(
-        pos,
+        ret,
         zfHint("desiredCountOrIndexMax")zfindexMax(),
         src, srcLen,
         zfHint("separatorTokens")zfText(":"),
         zfHint("leftToken")zfnull, zfHint("rightToken")zfnull,
         zfHint("allowEmptyItem")zftrue)
-        || pos.count() < 3
-        || pos[1].count != 0
-        || pos[2].count == 0)
+        || ret.count() > 1 + ZFMETHOD_MAX_PARAM
+        || ret.count() <= 1
+        || ret[1].count == 0
+        )
     {
         return zffalse;
     }
 
-    // [Scope]::methodName[:methodParamTypeId0]
-    ret.add(pos[0]);
-    ret.add(pos[2]);
-    for(zfindex i = 3; i < pos.count(); ++i)
-    {
-        ret.add(pos[i]);
+    // [Scope0.Scope1.]methodName[:methodParamTypeId0]
+    zfindex dotPos = zfstringFindReversely(src, ret[1].count, ZFNamespaceSeparator());
+    if(dotPos == 0)
+    { // .methodName
+        ret[1].start += 1;
+        ret[1].count -= 1;
     }
+    else if(dotPos != zfindexMax())
+    { // [Scope0.]Scope1.methodName
+        ret[0].start = 0;
+        ret[0].count = dotPos;
+        zfindex offset = dotPos + 1 - ret[1].start;
+        ret[1].start += offset;
+        ret[1].count -= offset;
+    }
+
     while(ret.count() < (ZFMETHOD_MAX_PARAM + 2))
     {
         ret.add(ZFIndexRangeZero());
     }
-
     return zftrue;
 }
 

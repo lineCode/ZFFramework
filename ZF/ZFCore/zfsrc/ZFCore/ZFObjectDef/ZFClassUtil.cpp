@@ -185,7 +185,7 @@ void objectInfoT(ZF_IN_OUT zfstring &ret,
     }
 
     ret += ZFTOKEN_ZFObjectInfoLeft;
-    ret += obj->classData()->className();
+    ret += obj->classData()->classNameFull();
     ret += zfText("(");
     zfsFromPointerT(ret, obj);
     ret += zfText(")");
@@ -195,7 +195,7 @@ void objectInfoT(ZF_IN_OUT zfstring &ret,
     ret += ZFTOKEN_ZFObjectInfoRight;
 }
 
-ZF_NAMESPACE_END_WITH_REGISTER(ZFClassUtil)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFClassUtil, ZF_NAMESPACE_GLOBAL)
 
 ZF_NAMESPACE_GLOBAL_END
 

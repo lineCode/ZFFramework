@@ -7,10 +7,52 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFImpl_ZFLua.h"
+#include "ZFImpl_ZFLua_zfAlloc.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
+                                               ZF_IN const ZFClass *cls,
+                                               ZF_IN const zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM],
+                                               ZF_IN zfindex paramCount);
+zfbool ZFImpl_ZFLua_zfAlloc(ZF_OUT zfautoObject &ret,
+                            ZF_IN lua_State *L,
+                            ZF_IN const ZFClass *cls,
+                            ZF_IN int paramCount,
+                            ZF_IN int luaParamOffset)
+{
+    if(paramCount == 0)
+    {
+        ret = cls->newInstance();
+        return zftrue;
+    }
+
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
+              ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+            , ZFMethodGenericInvokerDefaultParamHolder()
+        };
+    for(int i = 0; i < paramCount; ++i)
+    {
+        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
+        {
+            return zffalse;
+        }
+    }
+    return _ZFP_ZFImpl_ZFLua_zfAllocGeneric(
+            ret,
+            cls,
+            paramList,
+            paramCount
+        );
+}
+
+// ============================================================
 static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
                                                ZF_IN const ZFClass *cls,
                                                ZF_IN const zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM],
@@ -63,16 +105,17 @@ static zfbool _ZFP_ZFImpl_ZFLua_zfAllocGeneric(ZF_OUT zfautoObject &ret,
     cls->newInstanceGenericEnd(token, zffalse);
     return zffalse;
 }
+
 static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
 {
+    static const int luaParamOffset = 2;
     int count = (int)lua_gettop(L);
-    if(count < 1)
+    if(count < luaParamOffset - 1)
     {
         ZFLuaErrorOccurredTrim(zfText("[zfAlloc] takes at least one param"));
         return ZFImpl_ZFLua_luaError(L);
     }
-    int paramCount = (count - 1);
-    int luaParamOffset = 2;
+    int paramCount = (count - (luaParamOffset - 1));
 
     const ZFClass *cls = zfnull;
 
@@ -92,19 +135,28 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
     }
     else
     {
-        zfstring className;
-        if(!ZFImpl_ZFLua_toString(className, L, 1))
+        zfstring classNameFull;
+        if(!ZFImpl_ZFLua_toString(classNameFull, L, 1))
         {
             ZFLuaErrorOccurredTrim(zfText("[zfAlloc] unknown param type: %s"),
                 ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
             return ZFImpl_ZFLua_luaError(L);
         }
-        cls = ZFClass::classForName(className);
+        cls = ZFClass::classForName(classNameFull);
         if(cls == zfnull)
         {
-            zfstring classNameTmp = ZFImpl_ZFLua_PropTypePrefix;
-            classNameTmp += className;
-            cls = ZFClass::classForName(classNameTmp);
+            zfindex dotPos = zfstringFindReversely(classNameFull, zfindexMax(), ZFNamespaceSeparator());
+            if(dotPos == zfindexMax())
+            {
+                zfstring tmp = ZFImpl_ZFLua_PropTypePrefix;
+                tmp += classNameFull;
+                cls = ZFClass::classForName(tmp);
+            }
+            else
+            {
+                classNameFull.insert(dotPos + 1, ZFImpl_ZFLua_PropTypePrefix);
+                cls = ZFClass::classForName(classNameFull);
+            }
         }
     }
     if(cls == zfnull)
@@ -118,32 +170,8 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
         return 1;
     }
 
-    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
-              ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-        };
-    for(int i = 0; i < paramCount; ++i)
-    {
-        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
-        {
-            ZFImpl_ZFLua_luaPush(L, zfautoObjectNull());
-            return 1;
-        }
-    }
-
     zfautoObject ret;
-    _ZFP_ZFImpl_ZFLua_zfAllocGeneric(
-            ret,
-            cls,
-            paramList,
-            paramCount
-        );
+    ZFImpl_ZFLua_zfAlloc(ret, L, cls, paramCount, luaParamOffset);
     ZFImpl_ZFLua_luaPush(L, ret);
     return 1;
 }
@@ -166,7 +194,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, 
             if(dispatchInfo.returnValue == zfnull)
             {
                 return dispatchInfo.dispatchError(zfText("unable to create %s"),
-                    dispatchInfo.classOrNull->className());
+                    dispatchInfo.classOrNull->classNameFull());
             }
             return dispatchInfo.dispatchSuccess();
         }
@@ -193,7 +221,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, 
                 }
                 return dispatchInfo.dispatchError(
                     zfText("unable to create class %s, no matching objectOnInit with params: %s"),
-                    dispatchInfo.classOrNull->className(),
+                    dispatchInfo.classOrNull->classNameFull(),
                     paramHint.cString());
             }
         }

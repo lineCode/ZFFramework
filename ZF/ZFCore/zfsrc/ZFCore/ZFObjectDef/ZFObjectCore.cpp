@@ -108,7 +108,7 @@ ZFAny ZFObject::objectHolded(void)
 
 void ZFObject::objectInfoOfInstanceT(ZF_IN_OUT zfstring &ret)
 {
-    ret += this->classData()->className();
+    ret += this->classData()->classNameFull();
     ret += zfText("(");
     zfsFromPointerT(ret, this);
     ret += zfText(")");
@@ -203,7 +203,7 @@ void ZFObject::tagSet(ZF_IN const zfchar *key,
     if(ZFBitTest(d->objectInstanceState, ZFObjectInstanceStateOnDealloc) && tag != zfnull)
     {
         zfCoreCriticalMessageTrim(zfTextA("[ZFObject] you must not set tag while object is deallocating, class: %s, tag: %s"),
-            zfsCoreZ2A(this->classData()->className()),
+            zfsCoreZ2A(this->classData()->classNameFull()),
             zfsCoreZ2A(key));
         return ;
     }

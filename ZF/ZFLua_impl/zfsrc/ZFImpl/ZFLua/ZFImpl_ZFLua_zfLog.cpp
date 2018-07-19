@@ -101,7 +101,7 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfLog, {
         ))
 #endif
 
-ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->className(), zfText("log"), {
+ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNameFull(), zfText("log"), {
         ZFImpl_ZFLua_implDispatch_AssertClassExist();
         ZFImpl_ZFLua_implDispatch_AssertParamCountRange(0, ZFMETHOD_MAX_PARAM);
         ZFImpl_ZFLua_implDispatch_AssertNotStaticMethod();

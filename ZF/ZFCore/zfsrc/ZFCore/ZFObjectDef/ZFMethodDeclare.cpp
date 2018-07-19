@@ -13,17 +13,17 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /* ZFMETHOD_MAX_PARAM */
-const ZFMethod *ZFMethodGet(ZF_IN const zfchar *className,
+const ZFMethod *ZFMethodGet(ZF_IN const zfchar *classNameOrFullName,
                             ZF_IN const zfchar *methodName)
 {
-    const ZFClass *cls = ZFClass::classForName(className);
+    const ZFClass *cls = ZFClass::classForName(classNameOrFullName);
     if(cls != zfnull)
     {
         return cls->methodForName(methodName);
     }
     return zfnull;
 }
-const ZFMethod *ZFMethodGet(ZF_IN const zfchar *className,
+const ZFMethod *ZFMethodGet(ZF_IN const zfchar *classNameOrFullName,
                             ZF_IN const zfchar *methodName
                             , ZF_IN_OPT const zfchar *methodParamTypeId0
                             , ZF_IN_OPT const zfchar *methodParamTypeId1 /* = zfnull */
@@ -35,7 +35,7 @@ const ZFMethod *ZFMethodGet(ZF_IN const zfchar *className,
                             , ZF_IN_OPT const zfchar *methodParamTypeId7 /* = zfnull */
                             )
 {
-    const ZFClass *cls = ZFClass::classForName(className);
+    const ZFClass *cls = ZFClass::classForName(classNameOrFullName);
     if(cls != zfnull)
     {
         return cls->methodForName(methodName
@@ -95,8 +95,8 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFMethod *, ZFMethodGet, ZFMP_IN(const zfchar *, className), ZFMP_IN(const zfchar *, methodName))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_8(const ZFMethod *, ZFMethodGet, ZFMP_IN(const zfchar *, className), ZFMP_IN(const zfchar *, methodName)
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFMethod *, ZFMethodGet, ZFMP_IN(const zfchar *, classNameOrFullName), ZFMP_IN(const zfchar *, methodName))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_8(const ZFMethod *, ZFMethodGet, ZFMP_IN(const zfchar *, classNameOrFullName), ZFMP_IN(const zfchar *, methodName)
     , ZFMP_IN(const zfchar *, param0)
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId1, zfnull)
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId2, zfnull)

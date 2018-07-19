@@ -46,7 +46,7 @@ zfclassNotPOD _ZFP_ZFSerializableDataPrivate
 public:
     zfuint refCount;
     _ZFP_ZFSerializableDataPrivate *serializableDataParent;
-    zfstlstringZ className;
+    zfstlstringZ classNameFull;
     zfbool resolved;
     ZFPathInfo *pathInfo;
     _ZFP_ZFSerializableDataAttributeMapType attributes;
@@ -56,7 +56,7 @@ public:
 public:
     void removeAll(void)
     {
-        this->className.clear();
+        this->classNameFull.clear();
         this->attributes.clear();
         if(!this->elements.empty())
         {
@@ -74,7 +74,7 @@ public:
     _ZFP_ZFSerializableDataPrivate(void)
     : refCount(1)
     , serializableDataParent(zfnull)
-    , className()
+    , classNameFull()
     , resolved(zffalse)
     , pathInfo(zfnull)
     , attributes()
@@ -151,7 +151,7 @@ void ZFSerializableData::copyFrom(ZF_IN const ZFSerializableData &ref)
         return ;
     }
 
-    d->className = ref.d->className;
+    d->classNameFull = ref.d->classNameFull;
     d->attributes = ref.d->attributes;
 
     if(d->pathInfo == zfnull)
@@ -270,20 +270,20 @@ zfbool ZFSerializableData::serializableDataParent(ZF_OUT ZFSerializableData &ret
 
 // ============================================================
 // class
-void ZFSerializableData::itemClassSet(ZF_IN const zfchar *clsName)
+void ZFSerializableData::itemClassSet(ZF_IN const zfchar *classNameFull)
 {
-    if(clsName == zfnull)
+    if(classNameFull == zfnull)
     {
-        d->className.clear();
+        d->classNameFull.clear();
     }
     else
     {
-        d->className = clsName;
+        d->classNameFull = classNameFull;
     }
 }
 const zfchar *ZFSerializableData::itemClass(void) const
 {
-    return d->className.empty() ? zfnull : d->className.c_str();
+    return d->classNameFull.empty() ? zfnull : d->classNameFull.c_str();
 }
 
 // ============================================================
@@ -903,7 +903,7 @@ ZFCompareResult ZFSerializableData::objectCompare(ZF_IN const ZFSerializableData
 zfbool ZFSerializableData::isEmpty(void) const
 {
     return (
-        d->className.empty()
+        d->classNameFull.empty()
         && d->attributes.empty()
         && d->elements.empty()
         );
@@ -922,7 +922,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, pathInfoSe
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFSerializableData, void, pathInfoSet, ZFMP_IN(const zfchar *, pathType), ZFMP_IN(const zfchar *, pathData))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, const ZFPathInfo *, pathInfoCheck)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, zfbool, serializableDataParent, ZFMP_OUT(ZFSerializableData &, ret))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, itemClassSet, ZFMP_IN(const zfchar *, clsName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, itemClassSet, ZFMP_IN(const zfchar *, classNameFull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, const zfchar *, itemClass)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFSerializableData, void, propertyNameSet, ZFMP_IN(const zfchar *, name))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFSerializableData, const zfchar *, propertyName)

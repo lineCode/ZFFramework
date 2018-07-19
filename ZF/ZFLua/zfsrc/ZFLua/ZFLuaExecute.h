@@ -46,13 +46,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     for "functionName", see #ZFTypeId_ZFMethod\n
  *     "functionName" can be #v_ZFMethod, #v_zfstring, or native lua string,
  *     while other types must exactly match the original types
- *   -  `ret = zfl_callStatic("::methodName", param0, param1, ...)`
- *     or `ret = zfl_callStatic("ClassOrNamespace::methodName", param0, param1, ...)`
+ *   -  `ret = zfl_callStatic("methodName", param0, param1, ...)`
  *     or `ret = zfl_callStatic2("ClassOrNamespace", "methodName", param0, param1, ...)`
  *     or `ret = ClassOrNamespace.methodName(param0, param1, ...)`\n
  *     call global function or static class member method, params are optional\n
  *     for "functionName", see #ZFTypeId_ZFMethod\n
- *     "functionName" can be #v_ZFMethod, #v_zfstring, or native lua string,
+ *     "functionName" can be #v_ZFMethod, #v_zfstring, #v_ZFClass, or native lua string,
  *     while other types must exactly match the original types\n
  *     these namespace are considered as the same:
  *     -  #ZF_NAMESPACE_GLOBAL_NAME

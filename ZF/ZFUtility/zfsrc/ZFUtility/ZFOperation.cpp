@@ -718,7 +718,7 @@ static const ZFClass *_ZFP_ZFOperation_findTypeClass(ZF_IN const ZFClass *operat
     const ZFClass *operationClassToCheck = operationClass;
     while(operationClassToCheck != zfnull && operationClassToCheck != ZFOperation::ClassData())
     {
-        const ZFClass *tmp = ZFClass::classForName(zfsConnectLineFree(operationClassToCheck->className(), desiredTypeName));
+        const ZFClass *tmp = ZFClass::classForName(zfsConnectLineFree(operationClassToCheck->classNameFull(), desiredTypeName));
         if(tmp != zfnull)
         {
             return tmp;

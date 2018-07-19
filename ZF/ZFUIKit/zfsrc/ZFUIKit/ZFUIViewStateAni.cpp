@@ -26,7 +26,7 @@ ZFOBSERVER_EVENT_GLOBAL_REGISTER(StateAniViewDetach)
 ZFOBSERVER_EVENT_GLOBAL_REGISTER(StateAniViewAniPrepare)
 ZFOBSERVER_EVENT_GLOBAL_REGISTER(StateAniViewAniStart)
 ZFOBSERVER_EVENT_GLOBAL_REGISTER(StateAniViewAniStop)
-ZF_NAMESPACE_END_WITH_REGISTER(ZFUIViewStateAniImpl)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFUIViewStateAniImpl, ZF_NAMESPACE_GLOBAL)
 
 // ============================================================
 // ZFUIViewStateAniFilter
@@ -232,7 +232,7 @@ private:
         zfCoreAssertWithMessage(ani != zfnull,
             zfTextA("%s not type of %s"),
             zfsCoreZ2A(aniList->getFirst()->objectInfoOfInstance().cString()),
-            zfsCoreZ2A(ZFAnimation::ClassData()->className()));
+            zfsCoreZ2A(ZFAnimation::ClassData()->classNameFull()));
         taskData.ani = ani;
         ani->observerAdd(ZFAnimation::EventAniOnStopOrOnInvalid(), this->viewAniOnStopListener, view->objectHolder());
 

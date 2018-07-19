@@ -123,7 +123,7 @@ public:
         static _ZFP_ZFIdMapHolder &_ZFP_IM_##prefix##YourIdName(void) \
         { \
             static _ZFP_ZFIdMapHolder d( \
-                    zfsConnectLineFree(zfself::ClassData()->className(), zfText("::"), ZFM_TOSTRING_DIRECT(prefix), ZFM_TOSTRING_DIRECT(YourIdName)) \
+                    zfsConnectLineFree(zfself::ClassData()->classNameFull(), zfText("::"), ZFM_TOSTRING_DIRECT(prefix), ZFM_TOSTRING_DIRECT(YourIdName)) \
                 ); \
             return d; \
         }

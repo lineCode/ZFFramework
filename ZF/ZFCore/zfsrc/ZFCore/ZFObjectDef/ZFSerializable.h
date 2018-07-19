@@ -181,7 +181,7 @@ public:
     /**
      * @brief internal use only
      *
-     * map of <className, #ZFSerializable::EditModeData>\n
+     * map of <classNameFull, #ZFSerializable::EditModeData>\n
      * used to store class data that currently not registered,
      * so that it can be serialized to data without data loss\n
      * \n

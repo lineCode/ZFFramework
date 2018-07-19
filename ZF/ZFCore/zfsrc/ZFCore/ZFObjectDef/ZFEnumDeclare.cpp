@@ -73,7 +73,7 @@ void _ZFP_ZFEnumData::add(ZF_IN zfbool isEnableDuplicateValue,
             zfsFromInt<zfstringA>(value).cString(),
             zfsCoreZ2A(name),
             zfsCoreZ2A(it->second[0]),
-            zfsCoreZ2A(this->ownerClass->className()));
+            zfsCoreZ2A(this->ownerClass->classNameFull()));
         it->second.add(zfsCopy(name));
     }
     else
@@ -150,19 +150,19 @@ const zfchar *_ZFP_ZFEnumData::enumNameForValue(ZF_IN zfuint value) const
 _ZFP_ZFEnumData *_ZFP_ZFEnumDataAccess(ZF_IN const ZFClass *ownerClass)
 {
     zfCoreMutexLocker();
-    _ZFP_ZFEnumData *d = _ZFP_ZFEnumDataMap.get<_ZFP_ZFEnumData *>(ownerClass->className());
+    _ZFP_ZFEnumData *d = _ZFP_ZFEnumDataMap.get<_ZFP_ZFEnumData *>(ownerClass->classNameFull());
     if(d != zfnull)
     {
         return d;
     }
     d = zfnew(_ZFP_ZFEnumData);
-    _ZFP_ZFEnumDataMap.set(ownerClass->className(), ZFCorePointerForObject<_ZFP_ZFEnumData *>(d));
+    _ZFP_ZFEnumDataMap.set(ownerClass->classNameFull(), ZFCorePointerForObject<_ZFP_ZFEnumData *>(d));
     d->ownerClass = ownerClass;
     return d;
 }
 void _ZFP_ZFEnumDataCleanup(ZF_IN const ZFClass *ownerClass)
 {
-    _ZFP_ZFEnumDataMap.remove(ownerClass->className());
+    _ZFP_ZFEnumDataMap.remove(ownerClass->classNameFull());
 }
 
 // ============================================================
@@ -198,7 +198,7 @@ static void _ZFP_ZFEnumIvk_enumValueSet(ZF_IN const ZFMethod *invokerMethod, ZF_
 
 const _ZFP_ZFEnumData *_ZFP_ZFEnumDataFind(ZF_IN const ZFClass *enumClass)
 {
-    return _ZFP_ZFEnumDataMap.get<_ZFP_ZFEnumData *>(enumClass->className());
+    return _ZFP_ZFEnumDataMap.get<_ZFP_ZFEnumData *>(enumClass->classNameFull());
 }
 void _ZFP_ZFEnumMethodReg(ZF_IN_OUT ZFCoreArrayPOD<const ZFMethod *> &ret,
                           ZF_IN const _ZFP_ZFEnumData *d)

@@ -50,6 +50,7 @@
 #include "ZFCoreDef/ZFIterator.h"
 #include "ZFCoreDef/ZFLevel.h"
 #include "ZFCoreDef/ZFMemPool.h"
+#include "ZFCoreDef/ZFNamespaceImpl.h"
 #include "ZFCoreDef/ZFPathInfo.h"
 #include "ZFCoreDef/ZFToken.h"
 #include "ZFCoreDef/ZFVersion.h"

@@ -199,11 +199,11 @@ void ZFAnimation::_ZFP_ZFAnimation_aniReadyStart(void)
 {
     if(this->aniTarget() != zfnull)
     {
-        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->tagGet<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->className());
+        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->tagGet<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull());
         if(aniList == zfnull)
         {
             aniList = zfAlloc(_ZFP_I_ZFAnimationAniList);
-            this->aniTarget()->tagSet(_ZFP_I_ZFAnimationAniList::ClassData()->className(), aniList);
+            this->aniTarget()->tagSet(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull(), aniList);
             zfRelease(aniList);
         }
         if(this->aniAutoStopPrev())
@@ -220,7 +220,7 @@ void ZFAnimation::_ZFP_ZFAnimation_aniReadyStop(void)
 {
     if(this->aniTarget() != zfnull)
     {
-        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->tagGet<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->className());
+        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->tagGet<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull());
         if(aniList != zfnull)
         {
             aniList->aniList.removeElement(this);

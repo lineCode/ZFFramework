@@ -285,7 +285,7 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN zfidentity eventId,
     if(this->observerOwner() && ZFBitTest(this->observerOwner()->objectInstanceState(), ZFObjectInstanceStateOnDealloc))
     {
         zfCoreCriticalMessageTrim(zfTextA("[ZFObject] you must not add observer while object is deallocating, class: %s, event: %s"),
-            zfsCoreZ2A(this->observerOwner()->classData()->className()),
+            zfsCoreZ2A(this->observerOwner()->classData()->classNameFull()),
             ZFIdMapGetName(eventId));
         return zfidentityInvalid();
     }
@@ -705,7 +705,7 @@ ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
 }
 
 ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
-ZF_NAMESPACE_END_WITH_REGISTER(ZFGlobalEvent)
+ZF_NAMESPACE_END_WITH_REGISTER(ZFGlobalEvent, ZF_NAMESPACE_GLOBAL)
 ZF_NAMESPACE_GLOBAL_END
 
 #if _ZFP_ZFOBJECT_METHOD_REG

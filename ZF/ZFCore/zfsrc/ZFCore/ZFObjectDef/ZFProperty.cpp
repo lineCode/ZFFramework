@@ -25,7 +25,7 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
         ret += this->propertyTypeName();
     }
     ret += ')';
-    ret += this->propertyOwnerClass()->className();
+    ret += this->propertyOwnerClass()->classNameFull();
     ret += zfText("::");
     ret += this->propertyName();
 }
@@ -166,12 +166,12 @@ void ZFPropertyGetAllT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
 
 // ============================================================
 static void _ZFP_ZFPropertyInstanceSig(ZF_OUT zfstring &ret,
-                                       ZF_IN const zfchar *className,
+                                       ZF_IN const zfchar *classNameFull,
                                        ZF_IN const zfchar *propertyName)
 {
-    if(className)
+    if(classNameFull)
     {
-        ret += className;
+        ret += classNameFull;
     }
     ret += ':';
     if(propertyName)
@@ -275,14 +275,14 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
     zfCoreAssert(callbackProgressUpdate != zfnull);
 
     zfstring propertyInternalId;
-    _ZFP_ZFPropertyInstanceSig(propertyInternalId, propertyOwnerClass->className(), name);
+    _ZFP_ZFPropertyInstanceSig(propertyInternalId, propertyOwnerClass->classNameFull(), name);
 
     if(propertyIsUserRegister)
     {
         propertyInfo = _ZFP_ZFPropertyInstanceFind(propertyInternalId);
         zfCoreAssertWithMessageTrim(propertyInfo == zfnull,
             zfTextA("[ZFPropertyUserRegister] registering a property that already registered, class: %s, propertyName: %s"),
-            zfsCoreZ2A(propertyOwnerClass->className()),
+            zfsCoreZ2A(propertyOwnerClass->classNameFull()),
             zfsCoreZ2A(name));
     }
     else if(propertyIsDynamicRegister)
@@ -290,7 +290,7 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
         propertyInfo = _ZFP_ZFPropertyInstanceFind(propertyInternalId);
         zfCoreAssertWithMessageTrim(propertyInfo == zfnull,
             zfTextA("[ZFPropertyDynamicRegister] registering a property that already registered, class: %s, propertyName: %s"),
-            zfsCoreZ2A(propertyOwnerClass->className()),
+            zfsCoreZ2A(propertyOwnerClass->classNameFull()),
             zfsCoreZ2A(name));
     }
     propertyInfo = _ZFP_ZFPropertyInstanceAccess(propertyInternalId);

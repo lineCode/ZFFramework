@@ -43,7 +43,7 @@ zfbool ZFEnum::serializableOnSerializeFromData(ZF_IN const ZFSerializableData &s
             if(enumValue == ZFEnumInvalid())
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                    zfText("invalid value %s for enum %s"), valueString, this->classData()->className());
+                    zfText("invalid value %s for enum %s"), valueString, this->classData()->classNameFull());
                 return zffalse;
             }
         }
@@ -102,6 +102,11 @@ void ZFEnum::objectOnInit(ZF_IN ZFEnum *another)
 
 void ZFEnum::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
+    if(this->classData()->classNamespace() != zfnull)
+    {
+        ret += this->classData()->classNamespace();
+        ret += ZFNamespaceSeparator();
+    }
     if(this->enumIsFlags()
         && zfsncmp(this->classData()->className(), ZFTypeIdWrapperPrefixName, ZFTypeIdWrapperPrefixNameLen) == 0)
     {
@@ -278,7 +283,7 @@ public:
     static _ZFP_I_ZFEnum_stringConverterDataHolder *setup(ZF_IN const ZFClass *enumClass)
     {
         zfCoreMutexLocker();
-        _ZFP_I_ZFEnum_stringConverterDataHolder *ret = enumClass->classTagGet<_ZFP_I_ZFEnum_stringConverterDataHolder *>(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->className());
+        _ZFP_I_ZFEnum_stringConverterDataHolder *ret = enumClass->classTagGet<_ZFP_I_ZFEnum_stringConverterDataHolder *>(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->classNameFull());
         if(ret == zfnull)
         {
             const ZFMethod *enumCountMethod = enumClass->methodForName(zfText("EnumCount"));
@@ -287,7 +292,7 @@ public:
             zfCoreAssert(enumCountMethod != zfnull && enumValueAtIndexMethod != zfnull && enumNameAtIndexMethod != zfnull);
 
             ret = zfAlloc(_ZFP_I_ZFEnum_stringConverterDataHolder);
-            enumClass->classTagSet(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->className(), ret);
+            enumClass->classTagSet(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->classNameFull(), ret);
             zfRelease(ret);
 
             ret->enumCount = enumCountMethod->execute<zfindex>(zfnull);

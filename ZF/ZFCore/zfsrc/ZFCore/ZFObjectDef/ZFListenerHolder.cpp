@@ -17,7 +17,7 @@ ZFOBJECT_REGISTER(ZFListenerHolder)
 
 zfidentity ZFListenerHolder::objectHash(void)
 {
-    return zfidentityHash(zfidentityCalcString(this->classData()->className())
+    return zfidentityHash(zfidentityCalcString(this->classData()->classNameFull())
         , zfidentityCalcPointer(this->listenerData.sender)
         , zfidentityCalcPointer(this->listenerData.param0)
         , zfidentityCalcPointer(this->listenerData.param1)

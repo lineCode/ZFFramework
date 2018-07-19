@@ -23,7 +23,7 @@ void ZFFramework_test_TestCase::objectOnInit(void)
         ZFFilePathForCache(),
         ZFFileSeparator(),
         ZFFileSeparator(),
-        this->classData()->className());
+        this->classData()->classNameFull());
 }
 void ZFFramework_test_TestCase::objectOnDealloc(void)
 {
