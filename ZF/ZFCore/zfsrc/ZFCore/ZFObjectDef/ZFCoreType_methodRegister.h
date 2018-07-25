@@ -19,6 +19,9 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @cond ZFPrivateDoc */
+ZFEXPORT_VAR_READONLY_DECLARE(const zfchar *, ZFNamespaceSeparator)
+ZFEXPORT_VAR_READONLY_DECLARE(zfindex, ZFNamespaceSeparatorLen)
+
 ZFEXPORT_VAR_READONLY_DECLARE(zfindex, zfindexMax)
 ZFEXPORT_VAR_READONLY_DECLARE(zfindex, zfindexZero)
 ZFEXPORT_VAR_READONLY_DECLARE(zfint, zfintZero)

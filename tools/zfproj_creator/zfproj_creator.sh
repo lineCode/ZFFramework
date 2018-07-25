@@ -1,9 +1,12 @@
 WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 CONFIG_FILE_PATH=$1
 DST_PATH=$2
-if test "x-$CONFIG_FILE_PATH" = "x-" ; then
+printUsage() {
     echo "usage:"
     echo "  zfproj_creator.sh CONFIG_FILE_PATH [ZF_OUTPUT]"
+    echo "  zfproj_creator.sh -app PROJ_NAME OUTPUT_PATH"
+    echo "  zfproj_creator.sh -lib PROJ_NAME OUTPUT_PATH"
+    echo "  zfproj_creator.sh -impl PROJ_NAME OUTPUT_PATH"
     echo ""
     echo "config file format:"
     echo "  these are required:"
@@ -35,8 +38,72 @@ if test "x-$CONFIG_FILE_PATH" = "x-" ; then
     echo "            ZF/"
     echo "                YourProjName/"
     echo "                    zfproj/"
+}
+
+if test "x-$CONFIG_FILE_PATH" = "x-" ; then
+    printUsage
     exit 1
+elif test "x-$CONFIG_FILE_PATH" = "x--app" || test "x-$CONFIG_FILE_PATH" = "x--lib" || test "x-$CONFIG_FILE_PATH" = "x--impl" ; then
+    PROJ_NAME=$2
+    OUTPUT_PATH=$3
+    if test "x-$PROJ_NAME" = "x-" || test "x-$OUTPUT_PATH" = "x-" ; then
+        printUsage
+        exit 1
+    fi
+    if test "x-$CONFIG_FILE_PATH" = "x--app" ; then
+        _CONFIG_FILE_PATH="$OUTPUT_PATH/$PROJ_NAME/$PROJ_NAME/zfscript/zfautoscript_zfproj.txt"
+        ZF_TYPE=app
+        ZF_OUTPUT="../.."
+        ZF_INPLACE_SRC="\$ZF_NAME"
+    elif test "x-$CONFIG_FILE_PATH" = "x--lib" ; then
+        _CONFIG_FILE_PATH="$OUTPUT_PATH/ZFModule/ZF/$PROJ_NAME/zfscript/zfautoscript_zfproj.txt"
+        ZF_TYPE=lib
+        ZF_OUTPUT=".."
+        ZF_INPLACE_SRC="ZFModule/ZF/\$ZF_NAME"
+    elif test "x-$CONFIG_FILE_PATH" = "x--impl" ; then
+        _CONFIG_FILE_PATH="$OUTPUT_PATH/ZFModule/ZF/$PROJ_NAME/zfscript/zfautoscript_zfproj.txt"
+        ZF_TYPE=impl
+        ZF_OUTPUT=".."
+        ZF_INPLACE_SRC="ZFModule/ZF/\$ZF_NAME"
+    fi
+    mkdir -p "${_CONFIG_FILE_PATH%[/\\]*}"
+    rm "$_CONFIG_FILE_PATH" >/dev/null 2>&1
+    _configFileTemplate() {
+        # ZFTAG_ADD_MODULE
+        echo "ZF_NAME = $PROJ_NAME"
+        echo "ZF_TYPE = $ZF_TYPE"
+        echo ""
+        echo "ZF_OUTPUT = $ZF_OUTPUT"
+        echo "ZF_INPLACE = 1"
+        echo "ZF_INPLACE_SRC = $ZF_INPLACE_SRC"
+        echo ""
+        echo "ZF_LIB += ZFCore"
+        echo "# ZF_LIB += ZFAlgorithm"
+        echo "# ZF_LIB += ZFUtility"
+        echo "# ZF_LIB += ZFUIKit"
+        echo "# ZF_LIB += ZFUIWidget"
+        echo "# ZF_LIB += ZFLua"
+        echo "# ZF_LIB += ZFUIWebKit"
+        echo ""
+        echo "ZF_IMPL += ZF_impl"
+        echo "# ZF_IMPL += ZFCore_impl"
+        echo "# ZF_IMPL += ZFAlgorithm_impl"
+        echo "# ZF_IMPL += ZFUIKit_impl"
+        echo "# ZF_IMPL += ZFLua_impl"
+        echo "# ZF_IMPL += ZFUIWebKit_impl"
+        echo ""
+        echo "# ZF_LIB_EXT += https://github.com/ZFFramework/ZFModuleDemo_lib ZFModuleDemo_lib master"
+        echo ""
+        echo "# ZF_IMPL_EXT += https://github.com/ZFFramework/ZFModuleDemo_impl"
+        echo ""
+    }
+    _configFileTemplate > "$_CONFIG_FILE_PATH"
+    echo "config file created: $_CONFIG_FILE_PATH"
+    echo "    use 'zfproj_recursive.sh $OUTPUT_PATH $OUTPUT_PATH' to create entire project folder structure"
+    echo "    or use 'zfproj_recursive.sh $OUTPUT_PATH' to update existing proejct inplace"
+    exit 0
 fi
+
 if ! test -e "$CONFIG_FILE_PATH" ; then
     echo "config file not exist: $CONFIG_FILE_PATH"
     exit 1
@@ -71,6 +138,7 @@ _CONFIG_FILE_PATH=$ZF_ROOT_PATH/_tmp/zfproj_creator.tmp
 mkdir -p "${_CONFIG_FILE_PATH%[/\\]*}" >/dev/null 2>&1
 cp "$CONFIG_FILE_PATH" "$_CONFIG_FILE_PATH"
 cat "$_CONFIG_FILE_PATH" \
+    | sed -E 's/^#.*//g' \
     | sed -E 's#^ +##g' \
     | sed -E 's# +$##g' \
     | sed -E 's# +([\+=]+)#\1#g' \
