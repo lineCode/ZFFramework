@@ -93,7 +93,7 @@ protected:
     }
     zfoverride
     virtual void pageOnDetach(ZF_IN ZFUIPage *page,
-                             ZF_IN ZFUIPagePauseReasonEnum reason)
+                              ZF_IN ZFUIPagePauseReasonEnum reason)
     {
         zfsuperI(ZFUIPageManager)::pageOnDetach(page, reason);
 

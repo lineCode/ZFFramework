@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 zfindex ZFInputReadToOutput(ZF_IN_OUT const ZFOutput &output,
-                                    ZF_IN_OUT const ZFInput &input)
+                            ZF_IN_OUT const ZFInput &input)
 {
     zfindex size = 0;
     if(input.callbackIsValid() && output.callbackIsValid())

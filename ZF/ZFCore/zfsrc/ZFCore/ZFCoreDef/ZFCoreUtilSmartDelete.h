@@ -127,7 +127,7 @@ public:
 };
 template<typename T_Object>
 void _ZFP_zfblockedDeleteSetup(ZF_IN _ZFP_zfblockedDeleteContainer *container,
-                              ZF_IN T_Object * const &p)
+                               ZF_IN T_Object * const &p)
 {
     container->p = ZFCastStatic(void *, p);
     container->deleteCallback = _ZFP_zfblockedDeleteOnDelete<T_Object>;

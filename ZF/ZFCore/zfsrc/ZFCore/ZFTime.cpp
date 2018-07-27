@@ -401,7 +401,7 @@ zfbool ZFTime::timeInfoFromTimeValue(ZF_OUT ZFTimeInfo &ti,
     return _ZFP_ZFTimeImpl->timeInfoFromTimeValue(ti, tv);
 }
 zfbool ZFTime::timeInfoToTimeValue(ZF_OUT ZFTimeValue &tv,
-                   ZF_IN const ZFTimeInfo &ti)
+                                   ZF_IN const ZFTimeInfo &ti)
 {
     return _ZFP_ZFTimeImpl->timeInfoToTimeValue(tv, ti);
 }

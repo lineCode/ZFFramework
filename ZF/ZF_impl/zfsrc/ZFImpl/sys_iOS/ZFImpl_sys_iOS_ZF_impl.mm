@@ -51,7 +51,7 @@ static zfbool _ZFP_ZFImpl_sys_iOS_classIsSysClass(ZF_IN Class cls)
         );
 }
 NSString *ZFImpl_sys_iOS_objectInfoNative(ZF_IN id nativeObject,
-                                         ZF_IN_OPT NSArray *ignorePropertyNames /* = nil */)
+                                          ZF_IN_OPT NSArray *ignorePropertyNames /* = nil */)
 {
     if(nativeObject == nil)
     {

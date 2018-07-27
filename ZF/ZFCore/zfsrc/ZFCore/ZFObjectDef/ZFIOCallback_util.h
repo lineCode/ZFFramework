@@ -26,7 +26,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * return size already written to output even if error occurred
  */
 extern ZF_ENV_EXPORT zfindex ZFInputReadToOutput(ZF_IN_OUT const ZFOutput &output,
-                                                         ZF_IN_OUT const ZFInput &input);
+                                                 ZF_IN_OUT const ZFInput &input);
 
 // ============================================================
 // ZFIOBufferedCallback

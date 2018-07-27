@@ -831,33 +831,22 @@ zfbool ZFUIView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
     if(d->layoutParam != zfnull && this->viewParent() != zfnull)
     {
         ZFUIViewLayoutParam *refLayoutParam = ((ref == zfnull) ? zfnull : ref->d->layoutParam);
-        zfbool needAdd = zffalse;
-
+        if(refLayoutParam == zfnull)
+        {
+            refLayoutParam = d->serializableRefLayoutParam;
+        }
         if(refLayoutParam != zfnull)
-        {
-            if(ZFObjectCompare(d->layoutParam, refLayoutParam) != ZFCompareTheSame)
-            {
-                needAdd = zftrue;
-            }
-        }
-        else
-        {
-            if(d->serializableRefLayoutParam == zfnull || ZFObjectCompare(d->layoutParam, d->serializableRefLayoutParam) != ZFCompareTheSame)
-            {
-                refLayoutParam = d->serializableRefLayoutParam;
-                needAdd = zftrue;
-            }
-        }
-
-        if(needAdd)
         {
             ZFSerializableData categoryData;
             if(!ZFObjectToData(categoryData, d->layoutParam, outErrorHint, refLayoutParam))
             {
                 return zffalse;
             }
-            categoryData.categorySet(ZFSerializableKeyword_ZFUIView_layoutParam);
-            serializableData.elementAdd(categoryData);
+            if(categoryData.attributeCount() > 0 || categoryData.elementCount() > 0)
+            {
+                categoryData.categorySet(ZFSerializableKeyword_ZFUIView_layoutParam);
+                serializableData.elementAdd(categoryData);
+            }
         }
     }
 

@@ -217,7 +217,7 @@ void ZFOperationAsync::taskNotifyProgress(ZF_IN ZFOperationParam *operationParam
         );
 }
 void ZFOperationAsync::taskNotifyProgress(ZF_IN zfidentity operationId,
-                                     ZF_IN_OPT ZFOperationProgress *operationProgress /* = zfnull */)
+                                          ZF_IN_OPT ZFOperationProgress *operationProgress /* = zfnull */)
 {
     ZFThreadExecuteInMainThread(
         ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFOperationAsyncPrivate, onNotifyFinishInMainThread)),

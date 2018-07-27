@@ -189,8 +189,8 @@ ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input)
 }
 
 zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
-                                ZF_IN_OUT const ZFInput &input,
-                                ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */)
+                        ZF_IN_OUT const ZFInput &input,
+                        ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */)
 {
     zfindex charSetCount = zfslen(charSet);
     zfbool matched = zffalse;
@@ -222,10 +222,10 @@ zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
     return zffalse;
 }
 zfindex ZFInputReadUntil(ZF_IN_OUT zfstring &ret,
-                                 ZF_IN_OUT const ZFInput &input,
-                                 ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */,
-                                 ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
-                                 ZF_OUT_OPT zfchar *firstCharMatchedCharSet /* = zfnull */)
+                         ZF_IN_OUT const ZFInput &input,
+                         ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */,
+                         ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
+                         ZF_OUT_OPT zfchar *firstCharMatchedCharSet /* = zfnull */)
 {
     zfindex readCount = 0;
     if(firstCharMatchedCharSet != zfnull)
@@ -573,8 +573,8 @@ public:
     }
 };
 static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
-                                                     ZF_IN const void *src,
-                                                     ZF_IN_OPT zfindex count /* = zfindexMax() */)
+                                     ZF_IN const void *src,
+                                     ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
     if(src == zfnull)
     {
@@ -615,12 +615,12 @@ static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
     return ret;
 }
 ZFInput ZFInputForBuffer(ZF_IN const void *src,
-                                         ZF_IN_OPT zfindex count /* = zfindexMax() */)
+                         ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
     return _ZFP_ZFInputForBuffer(zffalse, src, count);
 }
 ZFInput ZFInputForBufferCopy(ZF_IN const void *src,
-                                             ZF_IN_OPT zfindex count /* = zfindexMax() */)
+                             ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
     return _ZFP_ZFInputForBuffer(zftrue, src, count);
 }
