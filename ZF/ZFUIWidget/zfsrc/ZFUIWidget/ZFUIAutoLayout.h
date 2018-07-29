@@ -44,12 +44,18 @@ zfclassLikePOD ZF_ENV_EXPORT ZFUIAutoLayoutRule
     ZFCORE_PARAM_DECLARE_SELF(ZFUIAutoLayoutRule)
 
 public:
-    ZFCORE_PARAM_WITH_INIT(ZFUIAutoLayoutPosEnum, pos, ZFUIAutoLayoutPos::e_None) /**< @brief see #ZFUIAutoLayout */
-    ZFCORE_PARAM(zfstring, targetId) /**< @brief see #ZFUIAutoLayout */
-    ZFCORE_PARAM(ZFUIView *, target) /**< @brief see #ZFUIAutoLayout */
-    ZFCORE_PARAM_WITH_INIT(ZFUIAutoLayoutPosEnum, targetPos, ZFUIAutoLayoutPos::e_None) /**< @brief see #ZFUIAutoLayout */
-    ZFCORE_PARAM_WITH_INIT(zffloat, scale, 0) /**< @brief see #ZFUIAutoLayout */
-    ZFCORE_PARAM(zfint, offset) /**< @brief see #ZFUIAutoLayout */
+    /** @brief see #ZFUIAutoLayout */
+    ZFCORE_PARAM_WITH_INIT(ZFUIAutoLayoutPosEnum, pos, ZFUIAutoLayoutPos::e_None)
+    /** @brief see #ZFUIAutoLayout */
+    ZFCORE_PARAM(zfstring, targetId)
+    /** @brief see #ZFUIAutoLayout */
+    ZFCORE_PARAM(ZFUIView *, target)
+    /** @brief see #ZFUIAutoLayout */
+    ZFCORE_PARAM_WITH_INIT(ZFUIAutoLayoutPosEnum, targetPos, ZFUIAutoLayoutPos::e_None)
+    /** @brief see #ZFUIAutoLayout */
+    ZFCORE_PARAM_WITH_INIT(zffloat, scale, 0)
+    /** @brief see #ZFUIAutoLayout */
+    ZFCORE_PARAM(zfint, offset)
 
 public:
     /** @brief remove all contents */

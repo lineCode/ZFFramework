@@ -30,28 +30,28 @@ zfclassFwd _ZFP_ZFUIAutoLayoutMakerPrivate;
  * @endcode
  *
  * all available functions of maker:
- * -  #al_maker(view) :
+ * -  al_maker(view) :
  *   change the maker's target
- * -  #left(), top/right/bottom/width/height, etc :
+ * -  left(), top/right/bottom/width/height, etc :
  *   specify the #ZFUIAutoLayoutRule::pos
- * -  #toLeft(target), top/right/bottom/width/height, etc :
+ * -  toLeft(target), top/right/bottom/width/height, etc :
  *   specify the #ZFUIAutoLayoutRule::target and #ZFUIAutoLayoutRule::targetPos
- * -  #toParentLeft(), top/right/bottom/width/height, etc :
- *   util to #toLeft with parent
- * -  #scale(scale) :
+ * -  toParentLeft(), top/right/bottom/width/height, etc :
+ *   util to toLeft(target) with parent
+ * -  scale(scale) :
  *   specify the #ZFUIAutoLayoutRule::scale
- * -  #offset(offset) :
+ * -  offset(offset) :
  *   specify the #ZFUIAutoLayoutRule::offset
- * -  #biasX(biasX) / #biasY(biasY):
+ * -  biasX(biasX) / biasY(biasY):
  *   specify the #ZFUIAutoLayoutParam::biasX
- * -  #done() :
+ * -  done() :
  *   the rule would be made when the maker destroyed,
  *   however, the destroy step may be scheduled later for script files with GC,
  *   so you may use this method to explicitly apply the rule maker
  *
  * all avaialbe functions in global scope for convenient:
- * -  #ZFUIAutoLayoutMaker(view)
- * -  #al_maker(view)
+ * -  ZFUIAutoLayoutMaker(view)
+ * -  al_maker(view)
  */
 zffinal zfclassLikePOD ZF_ENV_EXPORT ZFUIAutoLayoutMaker
 {
