@@ -1,0 +1,82 @@
+/* ====================================================================== *
+ * Copyright (c) 2010-2018 ZFFramework
+ * Github repo: https://github.com/ZFFramework/ZFFramework
+ * Home page: http://ZFFramework.com
+ * Blog: http://zsaber.com
+ * Contact: master@zsaber.com (Chinese and English only)
+ * Distributed under MIT license:
+ *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
+ * ====================================================================== */
+#include "ZFUIWidget_test.h"
+
+ZF_NAMESPACE_GLOBAL_BEGIN
+
+zfclass ZFUIWidget_ZFUIAutoLayout_test : zfextends ZFFramework_test_TestCase
+{
+    ZFOBJECT_DECLARE(ZFUIWidget_ZFUIAutoLayout_test, ZFFramework_test_TestCase)
+
+protected:
+    zfoverride
+    virtual void testCaseOnStart(void)
+    {
+        zfsuper::testCaseOnStart();
+        ZFFramework_test_protocolCheck(ZFUIView)
+        ZFUIWindow *window = zfnull;
+        ZFUIView *container = zfnull;
+        ZFUIKit_test_prepareTestWindow(window, container, this);
+
+        zfblockedAlloc(ZFUIAutoLayout, layout);
+        container->childAdd(layout, ZFUISizeParamFillFill());
+        layout->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
+        layout->viewBackgroundColorSet(ZFUIColorRed());
+
+        ZFCoreArrayPOD<ZFUIView *> v;
+        for(zfindex i = 0; i < 5; ++i)
+        {
+            zfblockedAlloc(ZFUITextView, t);
+            layout->childAdd(t);
+            v.add(t);
+            t->textSet(zfstringWithFormat(zfText("text %zi"), i));
+            t->viewBackgroundColorSet(ZFUIColorRandom());
+        }
+
+        al_maker(v[0]).left().toParentLeft().right().toLeft(v[1]);
+        al_maker(v[1]).left().toRight(v[0]).right().toLeft(v[2]);
+        al_maker(v[2]).left().toRight(v[1]).right().toParentRight();
+
+        al_maker(v[3]).right().toLeft(v[1]).bottom().toTop(v[1]).height().toWidth(v[1]).scale(2);
+        al_maker(v[4]).left().toRight(v[1]).top().toBottom(v[1]).height().toWidth(v[1]).scale(3);
+
+        this->prepareSettingButton(window, layout);
+    }
+
+private:
+    void prepareSettingButton(ZF_IN ZFUIWindow *window,
+                              ZF_IN ZFUIAutoLayout *layout)
+    {
+        zfblockedAlloc(ZFArrayEditable, settings);
+
+        ZFUIKit_test_prepareSettingForLayoutRequest(settings, layout);
+
+        ZFUIKit_test_prepareSettingForNormalProperty(settings, layout->layoutParam(), ZFUISizeParam, ZFPropertyAccess(ZFUIViewLayoutParam, sizeParam),
+            ZFCoreArrayPODCreate(ZFUISizeParam
+                , ZFUISizeParamWrapWrap()
+                , ZFUISizeParamFillWrap()
+                , ZFUISizeParamWrapFill()
+                , ZFUISizeParamFillFill()
+                ));
+
+        ZFUIKit_test_prepareSettingForNormalProperty(settings, layout->childAtIndex(0)->layoutParam<ZFUIAutoLayoutParam *>(), zffloat, ZFPropertyAccess(ZFUIAutoLayoutParam, biasX),
+            ZFCoreArrayPODCreate(zffloat
+                , 0.5f
+                , 0.1f
+                , 0.9f
+                ));
+
+        ZFUIKit_test_prepareSettingButtonWithTestWindow(window, settings);
+    }
+};
+ZFOBJECT_REGISTER(ZFUIWidget_ZFUIAutoLayout_test)
+
+ZF_NAMESPACE_GLOBAL_END
+

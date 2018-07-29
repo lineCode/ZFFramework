@@ -7,6 +7,7 @@
 * formalize api names
 * optimize method namespace impl
 * add embeded namespace support
+* add auto layout
 
 # 0.3.0
 
