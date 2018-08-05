@@ -35,6 +35,7 @@ ZFListenerData::ZFListenerData(ZF_IN const ZFListenerData &ref)
     }
 }
 
+/** @cond ZFPrivateDoc */
 ZFListenerData &ZFListenerData::operator = (ZF_IN const ZFListenerData &ref)
 {
     this->eventId = ref.eventId;
@@ -103,6 +104,7 @@ zfbool ZFListenerData::operator == (ZF_IN const ZFListenerData &ref) const
         }
     }
 }
+/** @endcond */
 
 void ZFListenerData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {

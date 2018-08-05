@@ -1,5 +1,7 @@
 # master
 
+# 0.4.0
+
 * optimize dynamic register impl
 * optimize lua implicit conversion
 * optimize lua path info impl
