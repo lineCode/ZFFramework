@@ -530,12 +530,9 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoForEach,
             {
                 break;
             }
-            fileCallback.execute(ZFListenerData(
-                    zfidentityInvalid(),
-                    zfnull,
-                    childPathInfo,
-                    childFd
-                ), userData);
+            fileCallback.execute(
+                ZFListenerData().param0Set(childPathInfo).param1Set(childFd),
+                userData);
         } while(impl->callbackFindNext(fd));
         impl->callbackFindClose(fd);
     }

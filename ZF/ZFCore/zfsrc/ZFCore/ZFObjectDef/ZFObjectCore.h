@@ -643,9 +643,7 @@ protected:
      *
      * ensured called before any other registered observer
      */
-    virtual inline void observerOnEvent(ZF_IN zfidentity eventId,
-                                        ZF_IN ZFObject *param0,
-                                        ZF_IN ZFObject *param1)
+    virtual inline void observerOnEvent(ZF_IN_OUT ZFListenerData &listenerData)
     {
     }
 

@@ -84,7 +84,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadTaskRequestCallback_action)
             zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
         }
         taskData->taskCallback().execute(
-            ZFListenerData(zfidentityInvalid(), zfnull, taskData->taskParam0(), taskData->taskParam1()),
+            ZFListenerData().param0Set(taskData->taskParam0()).param1Set(taskData->taskParam1()),
             taskData->taskUserData());
         if(lockAvailable)
         {
@@ -198,7 +198,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfidentity, ZFThreadTaskRequest,
         zfblockedAlloc(ZFThreadTaskRequestMergeCallbackData, mergeCallbackData);
         mergeCallbackData->taskRequestDataOld = _ZFP_ZFThread_taskDatas->get<ZFThreadTaskRequestData *>(oldTaskIndex);
         mergeCallbackData->taskRequestDataNew = taskRequestData;
-        mergeCallback.execute(ZFListenerData(zfidentityInvalid(), zfnull, mergeCallbackData));
+        mergeCallback.execute(ZFListenerData().param0Set(mergeCallbackData));
         if(mergeCallbackData->taskRequestDataMerged != zfnull)
         {
             taskRequestData = mergeCallbackData->taskRequestDataMerged;

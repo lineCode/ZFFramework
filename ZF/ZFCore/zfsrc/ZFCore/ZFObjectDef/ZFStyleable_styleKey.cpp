@@ -37,7 +37,7 @@ public:
     ZFListener styleOnChangeListener;
 ZF_GLOBAL_INITIALIZER_END(ZFStyleChangeDataHolder)
 
-void _ZFP_ZFStyleKeyHolder::styleOnChange(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+void _ZFP_ZFStyleKeyHolder::styleOnChange(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
 {
     zfCoreMutexLocker();
     ZFStyleable *owner = userData->objectHolded();
@@ -90,7 +90,8 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const zfchar *styleKey)
                 this->toObject()->objectHolder());
         }
         zfsChange(_ZFP_styleKey->styleKey, styleKey);
-        _ZFP_ZFStyleKeyHolder::styleOnChange(ZFListenerData(), this->toObject()->objectHolder());
+        ZFListenerData listenerData;
+        _ZFP_ZFStyleKeyHolder::styleOnChange(listenerData, this->toObject()->objectHolder());
 
         if(_ZFP_styleKey->styleKey == zfnull)
         {
@@ -154,7 +155,7 @@ static zfbool _ZFP_ZFStylePropertyCopy(ZF_IN ZFObject *propertyOwner,
         return it->second(propertyOwner, property, styleValue);
     }
 }
-void _ZFP_ZFStyleKeyHolder::stylePropertyOnChange(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+void _ZFP_ZFStyleKeyHolder::stylePropertyOnChange(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
 {
     zfCoreMutexLocker();
     ZFObject *ownerObj = userData->objectHolded();

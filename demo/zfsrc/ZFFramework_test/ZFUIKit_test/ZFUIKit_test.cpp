@@ -86,7 +86,7 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
             ZFUIKit_test_SettingData *setting = ZFAny(userData);
             ZFUIButtonBasic *button = ZFAny(listenerData.sender);
 
-            setting->buttonClickListener().execute(ZFListenerData(zfidentityInvalid(), button), setting->userData());
+            setting->buttonClickListener().execute(ZFListenerData().senderSet(button), setting->userData());
             setting->settingUpdate();
         })
         button->observerAdd(ZFUIButton::EventButtonOnClick(), onButtonClick, setting);
@@ -99,13 +99,17 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
             ZFUIButtonBasic *button = userData->tagGet<ZFUIButtonBasic *>(zfText("button"));
 
             zfblockedAlloc(ZFStringEditable, buttonText);
-            setting->buttonTextGetter().execute(ZFListenerData(zfidentityInvalid(), button, buttonText), setting->userData());
+            setting->buttonTextGetter().execute(
+                ZFListenerData().senderSet(button).param0Set(buttonText),
+                setting->userData());
             button->buttonLabelTextSet(buttonText->stringValue());
         })
         setting->observerAdd(ZFUIKit_test_SettingData::EventSettingOnChange(), settingOnChange, settingChangeUserData);
 
         zfblockedAlloc(ZFStringEditable, buttonText);
-        setting->buttonTextGetter().execute(ZFListenerData(zfidentityInvalid(), button, buttonText), setting->userData());
+        setting->buttonTextGetter().execute(
+            ZFListenerData().senderSet(button).param0Set(buttonText),
+            setting->userData());
         button->buttonLabelTextSet(buttonText->stringValue());
     }
 

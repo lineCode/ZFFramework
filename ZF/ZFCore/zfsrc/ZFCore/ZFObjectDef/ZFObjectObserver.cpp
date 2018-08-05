@@ -10,6 +10,7 @@
 #include "ZFObjectCore.h"
 #include "ZFObjectImpl.h"
 
+#include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_deque.h"
 
@@ -17,6 +18,92 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // ZFListenerData
+typedef zfstlmap<zfstlstringZ, zfbool> _ZFP_ZFListenerForwardMapType;
+
+ZFListenerData::ZFListenerData(ZF_IN const ZFListenerData &ref)
+: eventId(ref.eventId)
+, sender(ref.sender)
+, param0(ref.param0)
+, param1(ref.param1)
+, eventFiltered(ref.eventFiltered)
+, eventForwardMap(zfnull)
+{
+    if(ref.eventForwardMap != zfnull && !((_ZFP_ZFListenerForwardMapType *)ref.eventForwardMap)->empty())
+    {
+        *((_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)
+            = *((_ZFP_ZFListenerForwardMapType *)ref.eventForwardMap);
+    }
+}
+
+ZFListenerData &ZFListenerData::operator = (ZF_IN const ZFListenerData &ref)
+{
+    this->eventId = ref.eventId;
+    this->sender = ref.sender;
+    this->param0 = ref.param0;
+    this->param1 = ref.param1;
+    this->eventFiltered = ref.eventFiltered;
+    if(ref.eventForwardMap != zfnull && !((_ZFP_ZFListenerForwardMapType *)ref.eventForwardMap)->empty())
+    {
+        if(this->eventForwardMap == zfnull)
+        {
+            this->eventForwardMap = zfnew(_ZFP_ZFListenerForwardMapType);
+        }
+        *((_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)
+            = *((_ZFP_ZFListenerForwardMapType *)ref.eventForwardMap);
+    }
+    else
+    {
+        if(this->eventForwardMap != zfnull)
+        {
+            ((_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)->clear();
+        }
+    }
+    return *this;
+}
+zfbool ZFListenerData::operator == (ZF_IN const ZFListenerData &ref) const
+{
+    if(zffalse
+            || this->eventId != ref.eventId
+            || this->sender != ref.sender
+            || this->param0 != ref.param0
+            || this->param1 != ref.param1
+            || this->eventFiltered != ref.eventFiltered
+        )
+    {
+        return zffalse;
+    }
+    if(ref.eventForwardMap == zfnull)
+    {
+        return (this->eventForwardMap == zfnull || ((_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)->empty());
+    }
+    else
+    {
+        if(this->eventForwardMap == zfnull)
+        {
+            return (((_ZFP_ZFListenerForwardMapType *)ref.eventForwardMap)->empty());
+        }
+        else
+        {
+            _ZFP_ZFListenerForwardMapType &m0 = *(_ZFP_ZFListenerForwardMapType *)this->eventForwardMap;
+            _ZFP_ZFListenerForwardMapType &m1 = *(_ZFP_ZFListenerForwardMapType *)ref.eventForwardMap;
+            if(m0.size() != m1.size())
+            {
+                return zffalse;
+            }
+            for(_ZFP_ZFListenerForwardMapType::iterator it0 = m0.begin(), it1 = m1.begin();
+                it0 != m0.begin();
+                ++it0, ++it1)
+            {
+                if(it0->first != it1->first)
+                {
+                    return zffalse;
+                }
+            }
+            return zftrue;
+        }
+    }
+}
+
 void ZFListenerData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
     ret += ZFTOKEN_ZFObjectInfoLeft;
@@ -42,7 +129,67 @@ void ZFListenerData::objectInfoT(ZF_IN_OUT zfstring &ret) const
         ret += zfText(", param1: ");
         ZFObjectInfoT(ret, this->param1);
     }
+    if(this->eventFiltered)
+    {
+        ret += zfText(", filtered: ");
+        ret += ZFTOKEN_zfbool_zftrue;
+    }
+    if(this->eventForwardMap != zfnull)
+    {
+        _ZFP_ZFListenerForwardMapType &m = *(_ZFP_ZFListenerForwardMapType *)this->eventForwardMap;
+        if(!m.empty())
+        {
+            ret += zfText(" (");
+            for(_ZFP_ZFListenerForwardMapType::iterator it = m.begin(); it != m.end(); ++it)
+            {
+                if(it != m.begin())
+                {
+                    ret += zfText(", ");
+                }
+                ret += it->first.c_str();
+            }
+            ret += zfText(")");
+        }
+    }
     ret += ZFTOKEN_ZFObjectInfoRight;
+}
+
+void ZFListenerData::eventForwardSet(ZF_IN const zfchar *forwardFlag)
+{
+    if(forwardFlag != zfnull)
+    {
+        if(this->eventForwardMap == zfnull)
+        {
+            this->eventForwardMap = zfnew(_ZFP_ZFListenerForwardMapType);
+        }
+        (*(_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)[forwardFlag] = zftrue;
+    }
+}
+void ZFListenerData::eventForwardRemove(ZF_IN const zfchar *forwardFlag)
+{
+    if(forwardFlag != zfnull && this->eventForwardMap != zfnull)
+    {
+        ((_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)->erase(forwardFlag);
+    }
+}
+void ZFListenerData::eventForwardRemoveAll(void)
+{
+    if(this->eventForwardMap != zfnull)
+    {
+        ((_ZFP_ZFListenerForwardMapType *)this->eventForwardMap)->clear();
+    }
+}
+zfbool ZFListenerData::eventForward(ZF_IN const zfchar *forwardFlag) const
+{
+    if(this->eventForwardMap != zfnull && forwardFlag != zfnull)
+    {
+        _ZFP_ZFListenerForwardMapType &m = *(_ZFP_ZFListenerForwardMapType *)this->eventForwardMap;
+        return (m.find(forwardFlag) != m.end());
+    }
+    else
+    {
+        return zffalse;
+    }
 }
 
 // ============================================================
@@ -306,34 +453,32 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN zfidentity eventId,
     }
 
     _ZFP_ZFObserverData *&head = d->observerMap[eventId];
-    _ZFP_ZFObserverData *p = head;
-    if(p != zfnull)
+    if(head == zfnull || head->observerLevel > observerLevel)
     {
-        while(p->pNext != zfnull && p->pNext->observerLevel <= observerLevel)
+        t->pNext = head;
+        if(head != zfnull)
         {
-            p = p->pNext;
+            head->pPrev = t;
         }
-    }
-    if(p == zfnull)
-    {
         head = t;
-        t->pNext = zfnull;
-        t->pNext = zfnull;
-
-        d->attachMapAttach(eventId);
-        if(this->observerOwner())
+        if(this->observerOwner() != zfnull)
         {
             this->observerOwner()->observerOnAdd(eventId);
         }
     }
     else
     {
-        t->pNext = p->pNext;
-        t->pPrev = p;
+        _ZFP_ZFObserverData *p = head;
+        while(p->pNext != zfnull && p->pNext->observerLevel <= observerLevel)
+        {
+            p = p->pNext;
+        }
         if(p->pNext != zfnull)
         {
             p->pNext->pPrev = t;
         }
+        t->pNext = p->pNext;
+        t->pPrev = p;
         p->pNext = t;
     }
 
@@ -590,17 +735,17 @@ void ZFObserverHolder::observerNotifyWithCustomSender(ZF_IN ZFObject *customSend
     _ZFP_ZFObserverData *toDelete = zfnull;
 
     d->observerNotifyPrepare(toNotify, toDelete, eventId, this->observerOwner());
+    ZFListenerData listenerData(eventId, customSender, param0, param1);
     if(this->observerOwner() != zfnull)
     {
-        this->observerOwner()->observerOnEvent(eventId, param0, param1);
+        this->observerOwner()->observerOnEvent(listenerData);
         ZFObjectGlobalEventObserver().d->observerNotifyPrepare(toNotify, toDelete, eventId, this->observerOwner());
     }
     zfCoreMutexUnlock();
 
     if(!toNotify.empty())
     {
-        ZFListenerData listenerData(eventId, customSender, param0, param1);
-        for(zfstlsize i = 0; i < toNotify.size(); ++i)
+        for(zfstlsize i = 0; i < toNotify.size() && !listenerData.eventFiltered; ++i)
         {
             const _ZFP_ZFObserverData &observerData = *(toNotify[i]);
             observerData.observer.execute(listenerData, observerData.userData);
@@ -716,8 +861,14 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, zfidentity, eventId)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, ZFObject *, sender)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, ZFObject *, param0)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, ZFObject *, param1)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, zfbool, eventFiltered)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFListenerData, void, eventForwardSet, ZFMP_IN(const zfchar *, forwardFlag))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFListenerData, void, eventForwardRemove, ZFMP_IN(const zfchar *, forwardFlag))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFListenerData, void, eventForwardRemoveAll)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFListenerData, zfbool, eventForward, ZFMP_IN(const zfchar *, forwardFlag))
 
-ZFMETHOD_USER_REGISTER_2({return ZFListener(invokerObject->to<v_ZFCallback *>()->zfv).execute(listenerData, userData);}, v_ZFCallback, void, execute, ZFMP_IN_OPT(const ZFListenerData &, listenerData, ZFListenerData()), ZFMP_IN_OPT(ZFObject *, userData, zfnull))
+ZFMETHOD_USER_REGISTER_0({ZFListenerData listenerData; return ZFListener(invokerObject->to<v_ZFCallback *>()->zfv).execute(listenerData, zfnull);}, v_ZFCallback, void, execute)
+ZFMETHOD_USER_REGISTER_2({return ZFListener(invokerObject->to<v_ZFCallback *>()->zfv).execute(listenerData, userData);}, v_ZFCallback, void, execute, ZFMP_IN_OUT(ZFListenerData &, listenerData), ZFMP_IN_OPT(ZFObject *, userData, zfnull))
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFObserverAddParam, zfidentity const &, eventId)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFObserverAddParam, void, eventIdSet, ZFMP_IN(zfidentity const &, v))

@@ -415,7 +415,7 @@ ZFMETHOD_DEFINE_1(ZFThread, void, sleep,
 
 // ============================================================
 // zfautoRelease
-static ZFObject *_ZFP_ZFThread_drainPoolCallbackMethod(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+static ZFObject *_ZFP_ZFThread_drainPoolCallbackMethod(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
 {
     ZFThread *thread = ZFCastZFObjectUnchecked(ZFThread *, userData);
     thread->autoReleasePoolDrain();
@@ -480,7 +480,7 @@ ZFMETHOD_DEFINE_3(ZFThread, void, threadStart,
             ? this->threadRunnable()
             : ZFListener(ZFCallbackForMemberMethod(this, ZFMethodAccess(ZFThread, threadOnRun))),
         userData,
-        ZFListenerData(zfidentityInvalid(), zfnull, param0, param1),
+        ZFListenerData().param0Set(param0).param1Set(param1),
         zfnull,
         this,
         _ZFP_ZFThread_d);
@@ -568,7 +568,7 @@ void ZFThread::_ZFP_ZFThreadAutoReleasePoolMarkResolved(void)
 }
 
 ZFMETHOD_DEFINE_2(ZFThread, void, threadOnRun,
-                  ZFMP_IN(const ZFListenerData &, listenerData),
+                  ZFMP_IN_OUT(ZFListenerData &, listenerData),
                   ZFMP_IN(ZFObject *, userData))
 {
     // nothing to do

@@ -694,7 +694,6 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewOnAddToParent)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewOnRemoveFromParent)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewScaleOnChange)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewFocusOnChange)
-ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewOnEventFilter)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewOnEvent)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewLayoutOnLayoutRequest)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewLayoutOnMeasureFinish)
@@ -2317,14 +2316,6 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, viewEventSend,
 
     zfRetain(this);
     zfblockedRelease(this);
-
-    this->viewEventOnEventFilter(event);
-    this->observerNotify(ZFUIView::EventViewOnEventFilter(), event);
-
-    if(event->eventResolved())
-    {
-        return ;
-    }
 
     this->viewEventOnEvent(event);
     this->observerNotify(ZFUIView::EventViewOnEvent(), event);

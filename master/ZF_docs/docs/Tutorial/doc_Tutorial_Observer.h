@@ -21,7 +21,7 @@
  *               myParam1); // param1
  *       }
  *   };
- *   static void testListener(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+ *   static void testListener(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
  *   {
  *       zfLogT()
  *           << listenerData.sender // should be MyObject

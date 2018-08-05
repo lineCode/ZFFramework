@@ -927,7 +927,7 @@ void ZFUIPageManager::requestOnResolveCustom(ZF_IN ZFUIPageRequestCustom *reques
 void ZFUIPageManager::resolveCustom(ZF_IN ZFUIPageRequestCustom *request)
 {
     request->listener().execute(
-        ZFListenerData(zfidentityInvalid(), this->toObject(), request->param0(), request->param1()),
+        ZFListenerData().senderSet(this->toObject()).param0Set(request->param0()).param1Set(request->param1()),
         request->userData());
 
     request->requestResolvedSet(zftrue);

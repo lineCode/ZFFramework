@@ -13,7 +13,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-static void _ZFP_ZFUIViewTreePrintDelayedAction(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+static void _ZFP_ZFUIViewTreePrintDelayedAction(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
 {
     ZFListenerHolder *data = ZFCastZFObjectUnchecked(ZFListenerHolder *, userData);
     ZFUIViewTreePrint(ZFCastZFObjectUnchecked(ZFUIView *, data->listenerData.param0), data->runnable);
@@ -24,7 +24,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrintDelayed,
 {
     ZFThreadTaskRequest(
         ZFCallbackForFunc(_ZFP_ZFUIViewTreePrintDelayedAction),
-        zflineAlloc(ZFListenerHolder, outputCallback, ZFListenerData(zfidentityInvalid(), zfnull, view)));
+        zflineAlloc(ZFListenerHolder, outputCallback, ZFListenerData().param0Set(view)));
 }
 
 ZFMETHOD_FUNC_DEFINE_3(void, ZFUIViewTreePrintDelayed,
@@ -35,7 +35,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFUIViewTreePrintDelayed,
     ZFThreadExecuteInMainThreadAfterDelay(
         delay,
         ZFCallbackForFunc(_ZFP_ZFUIViewTreePrintDelayedAction),
-        zflineAlloc(ZFListenerHolder, outputCallback, ZFListenerData(zfidentityInvalid(), zfnull, view)));
+        zflineAlloc(ZFListenerHolder, outputCallback, ZFListenerData().param0Set(view)));
 }
 
 // ============================================================

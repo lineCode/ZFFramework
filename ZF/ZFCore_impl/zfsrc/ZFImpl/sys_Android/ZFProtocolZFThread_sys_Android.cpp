@@ -256,7 +256,8 @@ public:
                 .add(JNIPointerJNIType)
             ).c_str());
 
-        ZFListenerHolder *nativeData = zfAlloc(ZFListenerHolder, runnable, ZFListenerData(zfidentityInvalid(), zfnull, param0, param1));
+        ZFListenerHolder *nativeData = zfAlloc(ZFListenerHolder, runnable,
+            ZFListenerData().param0Set(param0).param1Set(param1));
         jobject tmp = JNIUtilCallStaticObjectMethod(jniEnv,
             this->jclsOwner,
             jmId,
@@ -314,7 +315,7 @@ JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteIn
 {
     _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = _ZFP_ZFThreadImpl_sys_Android_getExecuteData(executeDataId);
 
-    d->runnable.execute(ZFListenerData(zfidentityInvalid(), zfnull, d->param0, d->param1));
+    d->runnable.execute(ZFListenerData().param0Set(d->param0).param1Set(d->param1));
     zfdelete(d);
 }
 
@@ -328,7 +329,7 @@ JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteIn
     _ZFP_ZFThreadImpl_sys_Android_threadMap[nativeThread] = d->ownerZFThread;
     zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 
-    d->runnable.execute(ZFListenerData(zfidentityInvalid(), zfnull, d->param0, d->param1));
+    d->runnable.execute(ZFListenerData().param0Set(d->param0).param1Set(d->param1));
     zfdelete(d);
 
     zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);

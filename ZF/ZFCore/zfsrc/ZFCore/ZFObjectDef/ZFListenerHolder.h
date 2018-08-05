@@ -40,7 +40,7 @@ public:
 protected:
     /** @brief see #ZFObject::objectOnInit */
     virtual void objectOnInit(ZF_IN const ZFListener &runnable,
-                              ZF_IN const ZFListenerData &listenerData,
+                              ZF_IN_OUT ZFListenerData &listenerData,
                               ZF_IN_OPT ZFObject *userData = zfnull)
     {
         this->objectOnInit();

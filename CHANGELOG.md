@@ -8,6 +8,7 @@
 * optimize method namespace impl
 * add embeded namespace support
 * add auto layout
+* add low level event filter
 
 # 0.3.0
 

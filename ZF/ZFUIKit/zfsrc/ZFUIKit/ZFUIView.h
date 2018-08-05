@@ -153,14 +153,6 @@ public:
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * param0 is the #ZFUIEvent\n
-     * you may resolve the event by #ZFEvent::eventResolvedSet
-     * to prevent the event from being sent to its original receiver
-     */
-    ZFOBSERVER_EVENT(ViewOnEventFilter)
-    /**
-     * @brief see #ZFObject::observerNotify
-     *
      * param0 is the #ZFUIEvent
      */
     ZFOBSERVER_EVENT(ViewOnEvent)
@@ -1142,12 +1134,6 @@ public:
     ZFMETHOD_DECLARE_1(void, viewEventSend,
                        ZFMP_IN(ZFUIEvent *, event))
 protected:
-    /**
-     * @brief see #EventViewOnEventFilter
-     */
-    virtual inline void viewEventOnEventFilter(ZF_IN ZFUIEvent *event)
-    {
-    }
     /**
      * @brief notified when a ZFUIEvent occurred
      *

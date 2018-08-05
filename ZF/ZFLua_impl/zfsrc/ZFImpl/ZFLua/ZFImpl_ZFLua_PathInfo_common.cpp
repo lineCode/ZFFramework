@@ -270,7 +270,7 @@ static int _ZFP_ZFLuaImportAllExecute(ZF_IN lua_State *L,
 
     if(importCallback.callbackIsValid())
     {
-        importCallback.execute(ZFListenerData(zfidentityInvalid(), zfnull, pathInfo), importCallbackUserData);
+        importCallback.execute(ZFListenerData().param0Set(pathInfo), importCallbackUserData);
     }
     ZFLuaExecute(input, zfnull, L);
     return 0;
