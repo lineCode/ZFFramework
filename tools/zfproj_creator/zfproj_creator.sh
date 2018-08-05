@@ -61,6 +61,7 @@ elif test "x-$CONFIG_FILE_PATH" = "x--app" || test "x-$CONFIG_FILE_PATH" = "x--l
         ZF_OUTPUT=".."
         ZF_INPLACE_SRC="ZFModule/ZF/\$ZF_NAME"
     elif test "x-$CONFIG_FILE_PATH" = "x--impl" ; then
+        PROJ_NAME=${PROJ_NAME}_impl
         _CONFIG_FILE_PATH="$OUTPUT_PATH/ZFModule/ZF/$PROJ_NAME/zfscript/zfautoscript_zfproj.txt"
         ZF_TYPE=impl
         ZF_OUTPUT=".."
@@ -297,7 +298,7 @@ fi
 for i in "$ZF_EXCLUDE" ; do
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"$i\""
 done
-if ! test "x-$ZF_INPLACE" = "x-" ; then
+if ! test "x-$ZF_INPLACE" = "x-" && test -e "$DST_PATH/zfres" ; then
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"zfsrc\""
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"zfres\""
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.png\""
