@@ -55,7 +55,7 @@ for ZF_MODULE_NAME list, please refer to https://github.com/ZFFramework/ZFFramew
       CMD
   s.xcconfig         = {
       'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/Headers/Public/ZFFramework"',
-      'OTHER_LDFLAGS' => '-ObjC -all_load',
+      'OTHER_LDFLAGS' => '-ObjC -force_load "${TARGET_BUILD_DIR}/ZFFramework/libZFFramework.a"',
   }
   s.preserve_paths   = '**/*'
 

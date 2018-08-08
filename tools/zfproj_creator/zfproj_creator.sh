@@ -86,7 +86,7 @@ elif test "x-$CONFIG_FILE_PATH" = "x--app" || test "x-$CONFIG_FILE_PATH" = "x--l
         echo "# ZF_LIB += ZFUIWebKit"
         echo ""
         echo "ZF_IMPL += ZF_impl"
-        echo "# ZF_IMPL += ZFCore_impl"
+        echo "ZF_IMPL += ZFCore_impl"
         echo "# ZF_IMPL += ZFAlgorithm_impl"
         echo "# ZF_IMPL += ZFUIKit_impl"
         echo "# ZF_IMPL += ZFLua_impl"
@@ -266,7 +266,6 @@ if test 1 = 1 ; then
     echo "    ZFTT_C_lib_proj = $ZFTT_C_lib_proj"
     echo "    ZFTT_C_impl_proj = $ZFTT_C_impl_proj"
     echo "    ZFTT_R_proj_name = $ZFTT_R_proj_name"
-    echo "    ZFTT_R_proj_name = $ZFTT_R_proj_name"
     echo "    ZFTT_C_needUIKit = $ZFTT_C_needUIKit"
     echo "    ZFTT_C_needUIWebKit = $ZFTT_C_needUIWebKit"
     printState "ZFTT_C_lib_require" "ZFTT_R_lib_name"
@@ -297,12 +296,14 @@ fi
 for i in "$ZF_EXCLUDE" ; do
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"$i\""
 done
-if ! test "x-$ZF_INPLACE" = "x-" && test -e "$DST_PATH/zfres" ; then
-    _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"zfsrc\""
-    _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"zfres\""
-    _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.png\""
-    _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.icns\""
-    _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.ico\""
+if ! test "x-$ZF_INPLACE" = "x-" ; then
+    if test -e "$DST_PATH/.gitignore" || test -e "$DST_PATH/zfres" || test -e "$DST_PATH/zfsrc" ; then
+        _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"zfsrc\""
+        _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"zfres\""
+        _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.png\""
+        _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.icns\""
+        _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"*.ico\""
+    fi
 fi
 eval "rsync $_SYNC_EXCLUDE -r \"$_TMP_DIR_SRC\" \"$_TMP_DIR_DST\" >/dev/null 2>&1"
 
