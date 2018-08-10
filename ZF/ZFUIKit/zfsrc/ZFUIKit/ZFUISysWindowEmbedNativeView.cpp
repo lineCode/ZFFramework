@@ -67,15 +67,15 @@ ZFMETHOD_DEFINE_1(ZFUISysWindow, zfautoObject, nativeWindowEmbedNativeView,
 }
 ZFMETHOD_DEFINE_0(ZFUISysWindow, void, nativeWindowEmbedNativeViewDetach)
 {
-    if(d->embedImpl != zfnull)
+    if(this->nativeWindowEmbedImpl() != zfnull)
     {
         if(this->nativeWindowIsResumed())
         {
-            d->embedImpl->notifyOnPause(this);
+            this->nativeWindowEmbedImpl()->notifyOnPause(this);
         }
         if(this->nativeWindowIsCreated())
         {
-            d->embedImpl->notifyOnDestroy(this);
+            this->nativeWindowEmbedImpl()->notifyOnDestroy(this);
         }
     }
 }

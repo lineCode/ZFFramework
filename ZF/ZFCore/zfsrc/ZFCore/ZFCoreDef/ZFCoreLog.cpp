@@ -11,9 +11,6 @@
 #include "ZFCoreSPrintf.h"
 #include "ZFCoreStaticInitializer.h"
 #include "ZFCoreArray.h"
-        #include <QDebug>
-        #define zfzfzfLog(fmt, ...) \
-            qDebug(fmt, ##__VA_ARGS__)
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -81,7 +78,6 @@ void _ZFP_zfCoreLogV(ZF_IN const ZFCallerInfo &callerInfo,
     }
 
     _ZFP_ZFCoreLogOutputCallback(s.cString());
-    zfzfzfLog("%s", s.cString());
 }
 
 void zfCoreCriticalErrorCallbackPrepareAdd(ZF_IN ZFCoreCriticalErrorCallback callback)
@@ -116,7 +112,6 @@ void _ZFP_zfCoreCriticalErrorPrepare(ZF_IN const ZFCallerInfo &callerInfo)
 }
 void _ZFP_zfCoreCriticalError(ZF_IN const ZFCallerInfo &callerInfo)
 {
-    zfzfzfLog("%s", callerInfo.objectInfo().cString());
     const ZFCoreArrayPOD<ZFCoreCriticalErrorCallback> &criticalErrorCallbacks = _ZFP_ZFCoreCriticalErrorCallbacks;
     for(zfindex i = 0; i < criticalErrorCallbacks.count(); ++i)
     {
