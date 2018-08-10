@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFImpl_sys_iOS_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUISysWindow.h"
+#include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 #include "ZFImpl/sys_iOS/ZFMainEntry_sys_iOS.h"
 
 #if ZF_ENV_sys_iOS
@@ -32,7 +33,6 @@
 @property (nonatomic, assign) ZFUISysWindow *ownerZFUISysWindow;
 @property (nonatomic, assign) ZFUIOrientationEnum sysWindowOrientation;
 @property (nonatomic, assign) ZFUIOrientationFlags sysWindowOrientationFlags;
-@property (nonatomic, assign) BOOL _ZFP_windowResumeFlag;
 @property (nonatomic, assign) zfint _ZFP_windowRotateOverrideFlag;
 - (void)_ZFP_updateLayout;
 @end
@@ -63,9 +63,8 @@
             weakSelf._ZFP_windowRotateOverrideFlag -= 1;
             if(weakSelf.ownerZFUISysWindow != zfnull)
             {
-                if(!weakSelf._ZFP_windowResumeFlag)
+                if(!weakSelf.ownerZFUISysWindow->nativeWindowIsResumed())
                 {
-                    weakSelf._ZFP_windowResumeFlag = YES;
                     weakSelf.impl->notifyOnResume(weakSelf.ownerZFUISysWindow);
                 }
             }
@@ -197,9 +196,8 @@
     [super viewWillAppear:animated];
     if(self.ownerZFUISysWindow != zfnull && self._ZFP_windowRotateOverrideFlag == 0)
     {
-        if(!self._ZFP_windowResumeFlag)
+        if(!self.ownerZFUISysWindow->nativeWindowIsResumed())
         {
-            self._ZFP_windowResumeFlag = YES;
             self.impl->notifyOnResume(self.ownerZFUISysWindow);
         }
     }
@@ -209,9 +207,8 @@
     [super viewWillDisappear:animated];
     if(self.ownerZFUISysWindow != zfnull && self._ZFP_windowRotateOverrideFlag == 0)
     {
-        if(self._ZFP_windowResumeFlag)
+        if(self.ownerZFUISysWindow->nativeWindowIsResumed())
         {
-            self._ZFP_windowResumeFlag = NO;
             self.impl->notifyOnPause(self.ownerZFUISysWindow);
         }
     }
@@ -268,7 +265,10 @@ public:
         {
             _ZFP_ZFUISysWindowImpl_sys_iOS_NativeWindow *nativeWindow = (__bridge_transfer _ZFP_ZFUISysWindowImpl_sys_iOS_NativeWindow *)this->_mainWindow->nativeWindow();
             nativeWindow.ownerZFUISysWindow = zfnull;
-            ZFImpl_sys_iOS_rootWindow().rootViewController = nil;
+            if(ZFImpl_sys_iOS_rootWindow().rootViewController == nativeWindow)
+            {
+                ZFImpl_sys_iOS_rootWindow().rootViewController = nil;
+            }
 
             if(this->_mainWindow->nativeWindowIsResumed())
             {
@@ -306,22 +306,22 @@ public:
         [nativeRootView removeFromSuperview];
     }
 
-    virtual ZFUISysWindow *modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
+    virtual zfautoObject modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
     {
-        ZFUISysWindow *modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
+        zfautoObject modalWindow = ZFUISysWindow::ClassData()->newInstance();
         _ZFP_ZFUISysWindowImpl_sys_iOS_NativeWindow *nativeModalWindow = [_ZFP_ZFUISysWindowImpl_sys_iOS_NativeWindow new];
         nativeModalWindow.ownerZFUISysWindow = modalWindow;
 
-        [(__bridge UIViewController *)sysWindowOwner->nativeWindow() presentViewController:nativeModalWindow animated:YES completion:nil];
         this->notifyOnCreate(modalWindow, (__bridge_retained void *)nativeModalWindow);
+        [(__bridge UIViewController *)sysWindowOwner->nativeWindow() presentViewController:nativeModalWindow animated:YES completion:nil];
 
         return modalWindow;
     }
     virtual void modalWindowFinish(ZF_IN ZFUISysWindow *sysWindowOwner,
                                    ZF_IN ZFUISysWindow *sysWindowToFinish)
     {
-        this->notifyOnDestroy(sysWindowToFinish);
         [(__bridge UIViewController *)sysWindowOwner->nativeWindow() dismissViewControllerAnimated:YES completion:nil];
+        this->notifyOnDestroy(sysWindowToFinish);
     }
 
     virtual void sysWindowLayoutParamOnInit(ZF_IN ZFUISysWindow *sysWindow)

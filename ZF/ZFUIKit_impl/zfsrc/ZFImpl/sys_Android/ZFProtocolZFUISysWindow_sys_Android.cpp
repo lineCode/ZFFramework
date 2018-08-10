@@ -110,9 +110,9 @@ public:
             );
     }
 
-    virtual ZFUISysWindow *modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
+    virtual zfautoObject modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
     {
-        ZFUISysWindow *modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
+        zfautoObject modalWindow = ZFUISysWindow::ClassData()->newInstance();
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_modalWindowShow"),

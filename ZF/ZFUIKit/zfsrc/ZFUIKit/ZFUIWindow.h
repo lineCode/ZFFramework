@@ -75,7 +75,7 @@ zfclassFwd _ZFP_ZFUIWindowPrivate;
  * and it would be released automatically when you hide window by #windowHide\n
  * \n
  * ADVANCED:\n
- * ZFUIWindow would be attached to main ZFUISysWindow (#ZFUISysWindow::mainWindow) by default,
+ * ZFUIWindow would be attached to #ZFUISysWindow::keyWindow by default,
  * you may change its owner ZFUISysWindow by #windowOwnerSysWindowSet,
  * but only before #windowShow is called
  */
@@ -144,6 +144,11 @@ public:
                               ZFMP_IN(ZFUIView *, view))
 
 protected:
+    /**
+     * @brief init with custom #windowOwnerSysWindow,
+     *   null to use #ZFUISysWindow::keyWindow
+     */
+    ZFOBJECT_ON_INIT_DECLARE_1(ZFMP_IN(ZFUISysWindow *, windowOwnerSysWindow))
     zfoverride
     virtual void objectOnInit(void);
     zfoverride

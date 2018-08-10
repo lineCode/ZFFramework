@@ -272,14 +272,14 @@ static void _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged(ZF_IN UIView *nativ
     }
 }
 
-@implementation UIView (_ZFP_ZFUIViewImpl_sys_iOS_MethodSwizzling)
+@implementation UIResponder (_ZFP_ZFUIViewImpl_sys_iOS_MethodSwizzling)
 - (BOOL)_ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_becomeFirstResponder
 {
     BOOL old = self.isFirstResponder;
     BOOL ret = [self _ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_becomeFirstResponder];
-    if(!old && self.isFirstResponder)
+    if(!old && self.isFirstResponder && [self isKindOfClass:[UIView class]])
     {
-        _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged(self);
+        _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged((UIView *)self);
     }
     return ret;
 }
@@ -287,9 +287,9 @@ static void _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged(ZF_IN UIView *nativ
 {
     BOOL old = self.isFirstResponder;
     BOOL ret = [self _ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_resignFirstResponder];
-    if(old && !self.isFirstResponder)
+    if(old && !self.isFirstResponder && [self isKindOfClass:[UIView class]])
     {
-        _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged(self);
+        _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged((UIView *)self);
     }
     return ret;
 }
@@ -298,13 +298,13 @@ static void _ZFP_ZFUIViewImpl_sys_iOS_notifyViewFocusChanged(ZF_IN UIView *nativ
 static void _ZFP_ZFUIViewImpl_sys_iOS_methodSwizzlePrepare(void)
 {
     {
-        Method methodOrg =  class_getInstanceMethod([UIView class], @selector(becomeFirstResponder));
-        Method methodNew = class_getInstanceMethod([UIView class], @selector(_ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_becomeFirstResponder));
+        Method methodOrg =  class_getInstanceMethod([UIResponder class], @selector(becomeFirstResponder));
+        Method methodNew = class_getInstanceMethod([UIResponder class], @selector(_ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_becomeFirstResponder));
         method_exchangeImplementations(methodOrg, methodNew);
     }
     {
-        Method methodOrg =  class_getInstanceMethod([UIView class], @selector(resignFirstResponder));
-        Method methodNew = class_getInstanceMethod([UIView class], @selector(_ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_resignFirstResponder));
+        Method methodOrg =  class_getInstanceMethod([UIResponder class], @selector(resignFirstResponder));
+        Method methodNew = class_getInstanceMethod([UIResponder class], @selector(_ZFP_ZFUIViewImpl_sys_iOS_methodSwizzling_resignFirstResponder));
         method_exchangeImplementations(methodOrg, methodNew);
     }
 }

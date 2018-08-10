@@ -200,6 +200,7 @@ zfclassLikePOD _ZFP_ZFObserverData
 {
 public:
     zfidentity taskId;
+    zfidentity eventId;
     ZFListener observer;
     ZFObject *userData; // no auto retain, manually retain or release
     ZFObject *owner;
@@ -209,24 +210,15 @@ public:
     _ZFP_ZFObserverData *pNext;
 
 public:
-    _ZFP_ZFObserverData(void)
-    : taskId(zfidentityInvalid())
-    , observer()
-    , userData(zfnull)
-    , owner(zfnull)
-    , observerLevel(ZFLevelAppNormal)
-    , autoRemoveAfterActivate(zffalse)
-    , pPrev(zfnull)
-    , pNext(zfnull)
-    {
-    }
-    _ZFP_ZFObserverData(ZF_IN zfidentity taskId,
-                        ZF_IN const ZFListener &observer,
-                        ZF_IN_OPT ZFObject *userData = zfnull,
-                        ZF_IN_OPT ZFObject *owner = zfnull,
-                        ZF_IN_OPT ZFLevel observerLevel = ZFLevelAppNormal,
-                        ZF_IN_OPT zfbool autoRemoveAfterActivate = zffalse)
+    explicit _ZFP_ZFObserverData(ZF_IN zfidentity taskId,
+                                 ZF_IN zfidentity eventId,
+                                 ZF_IN const ZFListener &observer,
+                                 ZF_IN ZFObject *userData,
+                                 ZF_IN ZFObject *owner,
+                                 ZF_IN ZFLevel observerLevel,
+                                 ZF_IN zfbool autoRemoveAfterActivate)
     : taskId(taskId)
+    , eventId(eventId)
     , observer(observer)
     , userData(userData)
     , owner(owner)
@@ -257,7 +249,7 @@ zfclassNotPOD _ZFP_ZFObserverHolderPrivate
 {
 public:
     zfuint refCount;
-    zfstlmap<zfidentity, _ZFP_ZFObserverData *> observerMap; // <eventId, p>
+    zfstlmap<zfidentity, _ZFP_ZFObserverData *> observerMap; // <eventId, pList>
     zfstlmap<zfidentity, _ZFP_ZFObserverData *> observerTaskIdMap; // <taskId, p>
     zfstlmap<ZFObject *, zfstlmap<_ZFP_ZFObserverData *, zfidentity> > observerOwnerMap; // <owner, <p, eventId> >
     ZFIdentityGenerator taskIdGenerator;
@@ -313,6 +305,10 @@ public:
                 if(p->autoRemoveAfterActivate)
                 {
                     this->observerDetach(it, p);
+                    if(it->second == zfnull)
+                    {
+                        this->observerMap.erase(it);
+                    }
 
                     if(toDelete == zfnull)
                     {
@@ -442,6 +438,7 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN zfidentity eventId,
     zfidentity taskId = d->taskIdGenerator.idAcquire();
     _ZFP_ZFObserverData *t = zfpoolNew(_ZFP_ZFObserverData
             , taskId
+            , eventId
             , observer
             , zflockfree_zfRetain(userData)
             , owner
@@ -451,7 +448,7 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN zfidentity eventId,
     d->observerTaskIdMap[taskId] = t;
     if(owner != zfnull)
     {
-        d->observerOwnerMap[owner][t] = zftrue;
+        d->observerOwnerMap[owner][t] = eventId;
     }
 
     _ZFP_ZFObserverData *&head = d->observerMap[eventId];
@@ -579,11 +576,12 @@ void ZFObserverHolder::observerRemoveByTaskId(ZF_IN zfidentity taskId) const
     }
 
     _ZFP_ZFObserverData *p = itTaskId->second;
-    zfstlmap<zfidentity, _ZFP_ZFObserverData *>::iterator it = d->observerMap.find(p->taskId);
+    zfstlmap<zfidentity, _ZFP_ZFObserverData *>::iterator it = d->observerMap.find(p->eventId);
     d->observerDetach(it, p);
     if(it->second == zfnull)
     {
-        d->attachMapDetach(p->taskId);
+        d->observerMap.erase(it);
+        d->attachMapDetach(p->eventId);
         if(this->observerOwner())
         {
             this->observerOwner()->observerOnRemove(p->taskId);
@@ -611,6 +609,7 @@ void ZFObserverHolder::observerRemoveByOwner(ZF_IN ZFObject *owner) const
             d->observerDetach(it, p);
             if(it->second == zfnull)
             {
+                d->observerMap.erase(it);
                 if(this->observerOwner())
                 {
                     d->attachMapDetach(eventId);

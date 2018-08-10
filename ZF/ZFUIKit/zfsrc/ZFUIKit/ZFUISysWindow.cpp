@@ -14,6 +14,11 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+ZFOBSERVER_EVENT_GLOBAL_REGISTER(SysWindowMainWindowOnAttach)
+ZF_NAMESPACE_END(ZFGlobalEvent)
+
+// ============================================================
 zfclassNotPOD _ZFP_ZFUISysWindowPrivate
 {
 public:
@@ -22,7 +27,7 @@ public:
     ZFUIRootView *windowRootView;
     ZFUIOrientationFlags sysWindowOrientationFlags;
     ZFUISysWindow *modalWindowOwner;
-    ZFUISysWindow *modalWindowShowing;
+    ZFUISysWindow *modalWindowShowing; // manually retain
     ZFUIViewLayoutParam *sysWindowLayoutParam;
     ZFListener sysWindowLayoutParamOnChangeListener;
     zfbool nativeWindowCreated;
@@ -83,8 +88,11 @@ ZFUISysWindowEmbedImpl *ZFUISysWindow::nativeWindowEmbedImpl(void)
     return d->embedImpl;
 }
 
+// ============================================================
 static ZFUISysWindow *_ZFP_ZFUISysWindow_mainWindowRegistered = zfnull;
+static ZFUISysWindow *_ZFP_ZFUISysWindow_mainWindowBuiltin = zfnull;
 static ZFUISysWindow *_ZFP_ZFUISysWindow_mainWindow = zfnull;
+static ZFObjectHolder *_ZFP_ZFUISysWindow_keyWindow = zfnull;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUISysWindowMainWindowCleanup, ZFLevelZFFrameworkLow)
 {
 }
@@ -96,32 +104,72 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFUISysWindowMainWindowCleanup)
         impl->mainWindowOnCleanup();
     }
     _ZFP_ZFUISysWindow_mainWindowRegistered = zfnull;
+    _ZFP_ZFUISysWindow_mainWindowBuiltin = zfnull;
     _ZFP_ZFUISysWindow_mainWindow = zfnull;
+    zfRelease(_ZFP_ZFUISysWindow_keyWindow);
+    _ZFP_ZFUISysWindow_keyWindow = zfnull;
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUISysWindowMainWindowCleanup)
+
 void ZFUISysWindow::mainWindowRegister(ZF_IN ZFUISysWindow *window)
 {
     zfCoreAssertWithMessage(_ZFP_ZFUISysWindow_mainWindow == zfnull,
-        zfTextA("mainWindowRegister must be called before accessing mainWindow"));
+        zfTextA("[ZFUISysWindow] mainWindowRegister must be called before accessing mainWindow"));
+    zfCoreAssertWithMessage(window != zfnull,
+        zfTextA("[ZFUISysWindow] mainWindowRegister called with null window"));
+
     _ZFP_ZFUISysWindow_mainWindowRegistered = window;
+    _ZFP_ZFUISysWindow_mainWindow = _ZFP_ZFUISysWindow_mainWindowRegistered;
+
+    ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventSysWindowMainWindowOnAttach());
 }
 
 ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, mainWindow)
 {
     if(_ZFP_ZFUISysWindow_mainWindow == zfnull)
     {
-        if(_ZFP_ZFUISysWindow_mainWindowRegistered != zfnull)
-        {
-            _ZFP_ZFUISysWindow_mainWindow = _ZFP_ZFUISysWindow_mainWindowRegistered;
-        }
-        else
-        {
-            _ZFP_ZFUISysWindow_mainWindow = ZFPROTOCOL_ACCESS(ZFUISysWindow)->mainWindow();
-        }
+        _ZFP_ZFUISysWindow_mainWindowBuiltin = ZFPROTOCOL_ACCESS(ZFUISysWindow)->mainWindow();
+        _ZFP_ZFUISysWindow_mainWindow = _ZFP_ZFUISysWindow_mainWindowBuiltin;
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventSysWindowMainWindowOnAttach());
     }
     return _ZFP_ZFUISysWindow_mainWindow;
 }
 
+ZFMETHOD_DEFINE_0(ZFUISysWindow, zfbool, mainWindowAttached)
+{
+    return (_ZFP_ZFUISysWindow_mainWindow != zfnull);
+}
+
+ZFMETHOD_DEFINE_1(ZFUISysWindow, void, keyWindowSet,
+                  ZFMP_IN(ZFUISysWindow *, window))
+{
+    if(window == zfnull)
+    {
+        zfRetainChange(_ZFP_ZFUISysWindow_keyWindow, zfnull);
+    }
+    else
+    {
+        zfRetainChange(_ZFP_ZFUISysWindow_keyWindow, window->objectHolder());
+    }
+}
+ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, keyWindow)
+{
+    ZFUISysWindow *ret = zfnull;
+    if(_ZFP_ZFUISysWindow_keyWindow != zfnull)
+    {
+        ret = _ZFP_ZFUISysWindow_keyWindow->objectHolded();
+    }
+    if(ret != zfnull)
+    {
+        return ret;
+    }
+    else
+    {
+        return ZFUISysWindow::mainWindow();
+    }
+}
+
+// ============================================================
 ZFMETHOD_DEFINE_0(ZFUISysWindow, const ZFUIMargin &, sysWindowMargin)
 {
     return d->sysWindowMargin;
@@ -281,7 +329,7 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, modalWindowShow)
 {
     zfCoreAssertWithMessage(d->modalWindowShowing == zfnull, zfTextA("already has a showing modal window, you must finish it first"));
 
-    ZFUISysWindow *modalWindow = zfnull;
+    zfautoObject modalWindow;
     if(d->embedImpl != zfnull)
     {
         modalWindow = d->embedImpl->modalWindowShow(this);
@@ -294,8 +342,8 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, modalWindowShow)
         modalWindow = ZFPROTOCOL_ACCESS(ZFUISysWindow)->modalWindowShow(this);
     }
 
-    d->modalWindowShowing = modalWindow;
-    modalWindow->d->modalWindowOwner = this;
+    d->modalWindowShowing = zfRetain(modalWindow);
+    d->modalWindowShowing->d->modalWindowOwner = this;
     return modalWindow;
 }
 ZFMETHOD_DEFINE_0(ZFUISysWindow, void, modalWindowFinish)
@@ -310,6 +358,7 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, void, modalWindowFinish)
     {
         ZFPROTOCOL_ACCESS(ZFUISysWindow)->modalWindowFinish(d->modalWindowOwner, this);
     }
+    zfblockedRelease(d->modalWindowOwner->d->modalWindowShowing);
     d->modalWindowOwner->d->modalWindowShowing = zfnull;
     d->modalWindowOwner = zfnull;
 
@@ -363,6 +412,7 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onCreate(ZF_IN void *nativeWindow)
     ZFUIView::_ZFP_ZFUIView_nativeViewNotifyAdd(this->rootView(), nativeParentView);
 
     this->observerNotify(ZFUISysWindow::EventSysWindowOnCreate());
+    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnCreate());
 }
 void ZFUISysWindow::_ZFP_ZFUISysWindow_onDestroy(void)
 {
@@ -388,8 +438,9 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onDestroy(void)
     ZFUIView::_ZFP_ZFUIView_nativeViewNotifyRemove(this->rootView());
 
     this->observerNotify(ZFUISysWindow::EventSysWindowOnDestroy());
+    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnDestroy());
 
-    if(this == _ZFP_ZFUISysWindow_mainWindow)
+    if(this == _ZFP_ZFUISysWindow_mainWindowBuiltin)
     {
         ZFPROTOCOL_ACCESS(ZFUISysWindow)->mainWindowOnDestroy();
     }
@@ -401,6 +452,7 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onResume(void)
 
     d->nativeWindowResumed = zftrue;
     this->observerNotify(ZFUISysWindow::EventSysWindowOnResume());
+    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnResume());
 
     for(zfindex i = this->rootView()->childCount() - 1; i != zfindexMax(); --i)
     {
@@ -420,6 +472,7 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onPause(void)
 
     d->nativeWindowResumed = zffalse;
     this->observerNotify(ZFUISysWindow::EventSysWindowOnPause());
+    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnPause());
 
     for(zfindex i = this->rootView()->childCount() - 1; i != zfindexMax(); --i)
     {
@@ -435,6 +488,7 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onRotate(void)
     zfCoreAssertWithMessage(d->nativeWindowCreated, zfTextA("window not created"));
     zfCoreAssertWithMessage(d->nativeWindowResumed, zfTextA("window not resumed"));
     this->observerNotify(ZFUISysWindow::EventSysWindowOnRotate());
+    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnRotate());
 
     for(zfindex i = this->rootView()->childCount() - 1; i != zfindexMax(); --i)
     {
@@ -457,7 +511,7 @@ void ZFUISysWindowEmbedImpl::nativeWindowRootViewOnRemove(ZF_IN ZFUISysWindow *s
 {
 }
 
-ZFUISysWindow *ZFUISysWindowEmbedImpl::modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
+zfautoObject ZFUISysWindowEmbedImpl::modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
 {
     return ZFPROTOCOL_ACCESS(ZFUISysWindow)->modalWindowShow(sysWindowOwner);
 }
@@ -465,22 +519,6 @@ void ZFUISysWindowEmbedImpl::modalWindowFinish(ZF_IN ZFUISysWindow *sysWindowOwn
                                                ZF_IN ZFUISysWindow *sysWindowToFinish)
 {
     ZFPROTOCOL_ACCESS(ZFUISysWindow)->modalWindowFinish(sysWindowOwner, sysWindowToFinish);
-}
-
-void ZFUISysWindowEmbedImpl::sysWindowLayoutParamOnInit(ZF_IN ZFUISysWindow *sysWindow)
-{
-}
-void ZFUISysWindowEmbedImpl::sysWindowLayoutParamOnChange(ZF_IN ZFUISysWindow *sysWindow)
-{
-}
-
-ZFUIOrientationEnum ZFUISysWindowEmbedImpl::sysWindowOrientation(ZF_IN ZFUISysWindow *sysWindow)
-{
-    return ZFUIOrientation::e_Top;
-}
-void ZFUISysWindowEmbedImpl::sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                                          ZF_IN const ZFUIOrientationFlags &flags)
-{
 }
 
 ZF_NAMESPACE_GLOBAL_END

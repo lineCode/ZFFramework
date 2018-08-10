@@ -39,14 +39,15 @@ public:
     {
         if(!this->layoutItemList.isEmpty())
         {
-            zfCoreCriticalErrorPrepare();
-            zfLogTrimT() << zfText("[ZFUIView] these views has not been removed when parent dealloc:");
+            zfstring errHint;
+            errHint += zfText("[ZFUIView] these views has not been removed when parent dealloc:");
             for(zfindex i = 0; i < this->layoutItemList.count(); ++i)
             {
                 QWidget *v = this->layoutItemList.get(i).widget;
-                zfLogTrimT() << zfText(" ") << ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(v);
+                errHint += zfText(" ");
+                ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(errHint, v);
             }
-            zfCoreCriticalError();
+            zfCoreCriticalMessageTrim(zfTextA("%s"), ZFStringZ2A(errHint.cString()));
         }
     }
 

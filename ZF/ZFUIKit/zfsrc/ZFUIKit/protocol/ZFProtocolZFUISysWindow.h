@@ -17,7 +17,6 @@
 
 #include "ZFCore/ZFProtocol.h"
 #include "ZFUIKit/ZFUISysWindow.h"
-#include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
@@ -73,7 +72,7 @@ public:
     /**
      * @brief see #ZFUISysWindow::modalWindowShow
      */
-    virtual ZFUISysWindow *modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner) zfpurevirtual;
+    virtual zfautoObject modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner) zfpurevirtual;
     /**
      * @brief see #ZFUISysWindow::modalWindowFinish
      */

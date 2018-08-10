@@ -194,6 +194,28 @@ void ZFCallback::objectInfoT(ZF_IN_OUT zfstring &ret) const
             zfCoreCriticalShouldNotGoHere();
             break;
     }
+    if(this->callbackOwnerObject() != zfnull)
+    {
+        ret += zfText(", owner: ");
+        this->callbackOwnerObject()->objectInfoT(ret);
+    }
+    if(d != zfnull && !d->callbackTagMap.empty())
+    {
+        ret += zfText(", tags: ");
+        _ZFP_ZFCallbackTagMap &m = d->callbackTagMap;
+        for(_ZFP_ZFCallbackTagMap::iterator it = m.begin(); it != m.end(); ++it)
+        {
+            if(it != m.begin())
+            {
+                ret += zfText(", ");
+            }
+            ret += zfText("<");
+            ret += it->first.c_str();
+            ret += zfText(", ");
+            ZFObjectInfoT(ret, it->second);
+            ret += zfText(">");
+        }
+    }
 }
 
 ZFCompareResult ZFCallback::objectCompare(ZF_IN const ZFCallback &ref) const

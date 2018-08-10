@@ -18,6 +18,17 @@
 #include "ZFUIRootView.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
+/**
+ * @brief see #ZFObject::observerNotify
+ *
+ * notified when #ZFUISysWindow::mainWindow has attached,
+ * either by access #ZFUISysWindow::mainWindow,
+ * or by #ZFUISysWindow::mainWindowRegister
+ */
+ZFOBSERVER_EVENT_GLOBAL(SysWindowMainWindowOnAttach)
+ZF_NAMESPACE_END(ZFGlobalEvent)
+
 // ============================================================
 zfclassFwd ZFUISysWindowEmbedImpl;
 zfclassFwd _ZFP_ZFUISysWindowPrivate;
@@ -26,6 +37,7 @@ zfclassFwd _ZFP_ZFUISysWindowPrivate;
  *
  * use #mainWindow to access app's main window,
  * use #modalWindowShow to show a new window,
+ * use #nativeWindowEmbed to attach to native impl,
  * never create #ZFUISysWindow's instance manually
  */
 zffinal zfclass ZF_ENV_EXPORT ZFUISysWindow : zfextends ZFObject
@@ -39,32 +51,37 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * notified when window created,
-     * see #nativeWindowIsCreated for more info
+     * see #nativeWindowIsCreated for more info\n
+     * this event would also fired to #ZFGlobalEventCenter
      */
     ZFOBSERVER_EVENT(SysWindowOnCreate)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified when window about to destroy
+     * notified when window about to destroy\n
+     * this event would also fired to #ZFGlobalEventCenter
      */
     ZFOBSERVER_EVENT(SysWindowOnDestroy)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified when window become active
+     * notified when window become active\n
+     * this event would also fired to #ZFGlobalEventCenter
      */
     ZFOBSERVER_EVENT(SysWindowOnResume)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified when window enter background
+     * notified when window enter background\n
+     * this event would also fired to #ZFGlobalEventCenter
      */
     ZFOBSERVER_EVENT(SysWindowOnPause)
     /**
      * @brief see #ZFObject::observerNotify
      *
      * notified when window rotated,
-     * new orientation can be accessed by #sysWindowOrientation
+     * new orientation can be accessed by #sysWindowOrientation\n
+     * this event would also fired to #ZFGlobalEventCenter
      */
     ZFOBSERVER_EVENT(SysWindowOnRotate)
     /**
@@ -88,29 +105,71 @@ public:
      * see #ZFUISysWindowEmbedImpl for all the impl that you need to implement
      */
     static zfautoObject nativeWindowEmbed(ZF_IN ZFUISysWindowEmbedImpl *embedImpl);
+
     /**
      * @brief see #nativeWindowEmbed
      */
     virtual ZFUISysWindowEmbedImpl *nativeWindowEmbedImpl(void);
 
+    /**
+     * @brief default impl to attach window to native view
+     *
+     * note, after attach, you must destroy the window by #nativeWindowEmbedNativeViewDetach
+     * before destroy the nativeParent\n
+     * the nativeParent must support add one or more child which fill itself
+     */
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
+                              zfautoObject, nativeWindowEmbedNativeView,
+                              ZFMP_IN(void *, nativeParent))
+    /**
+     * @brief see #nativeWindowEmbedNativeView
+     */
+    ZFMETHOD_DECLARE_0(void, nativeWindowEmbedNativeViewDetach)
+
 public:
     /**
      * @brief manually register main window, must be called before accessing #mainWindow
      *
-     * this method is useful if you want to embed #ZFUISysWindow to existing UI framework,
+     * this method is useful if you want to embed whole ZFFramework to existing UI framework,
      * to create a custom #ZFUISysWindow, see #nativeWindowEmbed\n
      * @note you must manually manage the life cycle of the registered #ZFUISysWindow
      * @note once registered, it can not be changed back to original internal window,
      *   until #ZFFrameworkCleanup
+     * @note it's safe to unregister and register a new window,
+     *   but you must ensure you won't access the children of the window after you do so
      */
-    static void mainWindowRegister(ZF_IN ZFUISysWindow *window);
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
+                              void, mainWindowRegister,
+                              ZFMP_IN(ZFUISysWindow *, window))
     /**
      * @brief get application's main window
      *
-     * usually, use only one window is recommended
+     * usually, use only one window is recommended\n
+     * the main window would be created and attached automatically
+     * when first time accessed (directly or implicitly by showing a #ZFUIWindow),
+     * and can not be changed after creation\n
+     * to embed ZFFramework to native framework,
+     * you may use #mainWindowRegister
      */
     ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
                               ZFUISysWindow *, mainWindow)
+    /**
+     * @brief whether #mainWindow has attached
+     */
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
+                              zfbool, mainWindowAttached)
+
+    /**
+     * @brief default window that #ZFUIWindow would attach to, set null to use #mainWindow
+     */
+    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
+                              void, keyWindowSet,
+                              ZFMP_IN(ZFUISysWindow *, window))
+    /**
+     * @brief see #keyWindowSet, return #mainWindow if not set
+     */
+    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
+                              ZFUISysWindow *, keyWindow)
 
 public:
     /**
@@ -287,7 +346,7 @@ public:
     /**
      * @brief see #ZFUISysWindow::modalWindowShow
      */
-    virtual ZFUISysWindow *modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner) zfpurevirtual;
+    virtual zfautoObject modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner) zfpurevirtual;
     /**
      * @brief see #ZFUISysWindow::modalWindowFinish
      */
@@ -298,22 +357,31 @@ public:
      * @brief called to update suggested window layout param,
      *   fill with no margin by default
      */
-    virtual void sysWindowLayoutParamOnInit(ZF_IN ZFUISysWindow *sysWindow);
+    virtual void sysWindowLayoutParamOnInit(ZF_IN ZFUISysWindow *sysWindow)
+    {
+    }
     /**
      * @brief called when window layout param changed
      */
-    virtual void sysWindowLayoutParamOnChange(ZF_IN ZFUISysWindow *sysWindow) zfpurevirtual;
+    virtual void sysWindowLayoutParamOnChange(ZF_IN ZFUISysWindow *sysWindow)
+    {
+    }
 
     /**
      * @brief see #ZFUISysWindow::sysWindowOrientation
      */
-    virtual ZFUIOrientationEnum sysWindowOrientation(ZF_IN ZFUISysWindow *sysWindow) zfpurevirtual;
+    virtual ZFUIOrientationEnum sysWindowOrientation(ZF_IN ZFUISysWindow *sysWindow)
+    {
+        return ZFUIOrientation::e_Top;
+    }
     /**
      * @brief see #ZFUISysWindow::sysWindowOrientationFlagsSet,
      *  impl should have #ZFUIOrientation::e_Top as init value
      */
     virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                              ZF_IN const ZFUIOrientationFlags &flags) zfpurevirtual;
+                                              ZF_IN const ZFUIOrientationFlags &flags)
+    {
+    }
 
     // ============================================================
     // callbacks that implementations must notify
@@ -321,6 +389,9 @@ public:
     /**
      * @brief implementation must call this method to measure window's frame,
      *   and layout window using the result frame
+     *
+     * if you are embedding ZFUISysWindow to native view with custom layout logic,
+     * you may skip this method
      */
     zffinal ZFUIRect notifyMeasureWindow(ZF_IN ZFUISysWindow *sysWindow,
                                          ZF_IN const ZFUIRect &rootRefRect,

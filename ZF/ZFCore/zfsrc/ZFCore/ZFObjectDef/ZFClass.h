@@ -685,24 +685,16 @@ public:
  * @brief log that likes "[file function (line)] class xxx not type of xxx"
  */
 #define zfCoreCriticalClassNotTypeOf(cls, desired) \
-    do { \
-        zfCoreCriticalErrorPrepare(); \
-        zfCoreLogCriticalMessage(zfTextA("class %s not type of %s"), \
-            _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(cls).cString(), \
-            _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(desired).cString()); \
-        zfCoreCriticalError(); \
-    } while(zffalse)
+    zfCoreCriticalMessage(zfTextA("class %s not type of %s"), \
+        _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(cls).cString(), \
+        _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(desired).cString())
 /**
  * @brief see #zfCoreCriticalClassNotTypeOf
  */
 #define zfCoreCriticalClassNotTypeOfDetail(callerInfo, cls, desired) \
-    do { \
-        zfCoreCriticalErrorPrepare(); \
-        zfCoreLogCriticalMessageDetail(callerInfo, zfTextA("class %s not type of %s"), \
-            _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(cls).cString(), \
-            _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(desired).cString()); \
-        zfCoreCriticalError(); \
-    } while(zffalse)
+    zfCoreCriticalMessageDetail(callerInfo, zfTextA("class %s not type of %s"), \
+        _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(cls).cString(), \
+        _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(desired).cString())
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFClass_h_

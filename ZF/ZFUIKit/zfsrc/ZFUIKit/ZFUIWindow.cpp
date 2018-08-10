@@ -66,11 +66,19 @@ ZFMETHOD_DEFINE_1(ZFUIWindow, ZFUISysWindow *, sysWindowForView,
     return ((window != zfnull) ? window->windowOwnerSysWindow() : zfnull);
 }
 
+ZFOBJECT_ON_INIT_DEFINE_1(ZFUIWindow, ZFMP_IN(ZFUISysWindow *, windowOwnerSysWindow))
+{
+    this->objectOnInit();
+    if(windowOwnerSysWindow != zfnull)
+    {
+        this->windowOwnerSysWindowSet(windowOwnerSysWindow);
+    }
+}
+
 void ZFUIWindow::objectOnInit(void)
 {
     zfsuper::objectOnInit();
     d = zfpoolNew(_ZFP_ZFUIWindowPrivate);
-    d->windowOwnerSysWindow = ZFUISysWindow::mainWindow();
     d->windowLayoutParam = zfAlloc(ZFUIViewLayoutParam);
     d->windowLayoutParam->sizeParamSet(ZFUISizeParamFillFill());
 }
@@ -99,12 +107,16 @@ ZFMETHOD_DEFINE_1(ZFUIWindow, void, windowOwnerSysWindowSet,
 
         ZFUISysWindow *oldSysWindow = d->windowOwnerSysWindow;
         d->windowOwnerSysWindow = windowOwnerSysWindow;
-        this->windowOwnerSysWindowOnChange(oldSysWindow);
+        if(!(oldSysWindow == windowOwnerSysWindow
+            || (oldSysWindow == zfnull && ZFUISysWindow::mainWindowAttached() && windowOwnerSysWindow == ZFUISysWindow::mainWindow())))
+        {
+            this->windowOwnerSysWindowOnChange(oldSysWindow);
+        }
     }
 }
 ZFMETHOD_DEFINE_0(ZFUIWindow, ZFUISysWindow *, windowOwnerSysWindow)
 {
-    return d->windowOwnerSysWindow;
+    return d->windowOwnerSysWindow ? d->windowOwnerSysWindow : ZFUISysWindow::keyWindow();
 }
 
 ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowShow)

@@ -13,19 +13,49 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
 {
-    this->listener = ZFCallbackForFunc(zfself::keyboardStateOnChange);
-    ZFUIOnScreenKeyboardState::instanceForSysWindow()->observerAdd(ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange(), this->listener);
+    this->observerOwner = zflineAlloc(ZFArrayEditable);
+
+    ZFLISTENER_LOCAL(sysWindowOnCreate, {
+        ZFLISTENER_LOCAL(action, {
+            zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardState] state changed:") << listenerData.sender;
+        })
+        ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender->toAny());
+        state->observerAdd(ZFObserverAddParam()
+                .eventIdSet(ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange())
+                .observerSet(action)
+                .ownerSet(userData)
+            );
+        userData->to<ZFArrayEditable *>()->add(state->objectHolder());
+    })
+    ZFGlobalEventCenter::instance()->observerAdd(ZFObserverAddParam()
+            .eventIdSet(ZFUISysWindow::EventSysWindowOnCreate())
+            .observerSet(sysWindowOnCreate)
+            .ownerSet(this->observerOwner)
+            .userDataSet(this->observerOwner)
+        );
+
+    ZFLISTENER_LOCAL(sysWindowOnDestroy, {
+        ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender->toAny());
+        state->observerRemoveByOwner(userData);
+        userData->to<ZFArrayEditable *>()->removeElement(state->objectHolder());
+    })
+    ZFGlobalEventCenter::instance()->observerAdd(ZFObserverAddParam()
+            .eventIdSet(ZFUISysWindow::EventSysWindowOnDestroy())
+            .observerSet(sysWindowOnDestroy)
+            .ownerSet(this->observerOwner)
+            .userDataSet(this->observerOwner)
+        );
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIOnScreenKeyboardState_test)
 {
-    ZFUIOnScreenKeyboardState::instanceForSysWindow()->observerRemove(ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange(), this->listener);
-}
-private:
-    ZFListener listener;
-    static ZFLISTENER_PROTOTYPE_EXPAND(keyboardStateOnChange)
+    ZFGlobalEventCenter::instance()->observerRemoveByOwner(this->observerOwner);
+    ZFArray *attached = this->observerOwner;
+    for(zfindex i = 0; i < attached->count(); ++i)
     {
-        zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardState]") << listenerData.sender;
+        attached->get(i)->objectHolded()->observerRemoveByOwner(this->observerOwner);
     }
+}
+zfautoObject observerOwner;
 ZF_GLOBAL_INITIALIZER_END(ZFUIOnScreenKeyboardState_test)
 
 ZF_NAMESPACE_GLOBAL_END

@@ -1,3 +1,6 @@
+# master
+* optimize native window attach impl
+
 # 0.4.1
 * update project files
 * fix `all_load` problem for iOS project

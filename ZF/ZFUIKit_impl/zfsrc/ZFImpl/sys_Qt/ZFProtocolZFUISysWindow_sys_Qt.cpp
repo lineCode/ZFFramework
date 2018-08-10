@@ -9,6 +9,7 @@
  * ====================================================================== */
 #include "ZFImpl_sys_Qt_ZFUIKit_impl.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUISysWindow.h"
+#include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
 #include "ZFImpl/sys_Qt/ZFMainEntry_sys_Qt.h"
 
 #if ZF_ENV_sys_Qt
@@ -150,9 +151,9 @@ public:
         nativeWindow->layout()->removeWidget(nativeRootView);
     }
 
-    virtual ZFUISysWindow *modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
+    virtual zfautoObject modalWindowShow(ZF_IN ZFUISysWindow *sysWindowOwner)
     {
-        ZFUISysWindow *modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
+        zfautoObject modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
         ZFImpl_sys_Qt_Window *nativeModalWindow = new ZFImpl_sys_Qt_Window();
         ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"), modalWindow->objectHolder());
         nativeModalWindow->installEventFilter(&_eventWrapper);
@@ -166,10 +167,10 @@ public:
     virtual void modalWindowFinish(ZF_IN ZFUISysWindow *sysWindowOwner,
                                    ZF_IN ZFUISysWindow *sysWindowToFinish)
     {
-        this->notifyOnDestroy(sysWindowToFinish);
         QWidget *nativeModalWindow = ZFCastStatic(QWidget *, sysWindowOwner->nativeWindow());
         nativeModalWindow->hide();
         nativeModalWindow->removeEventFilter(&_eventWrapper);
+        this->notifyOnDestroy(sysWindowToFinish);
         ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"), zfnull);
         delete nativeModalWindow;
     }

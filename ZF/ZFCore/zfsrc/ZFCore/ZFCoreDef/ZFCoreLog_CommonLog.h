@@ -36,6 +36,8 @@ extern ZF_ENV_EXPORT void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerI
 // ============================================================
 /**
  * @brief print a critical error message which is easy to notice
+ *
+ * log only, see also #zfCoreCriticalMessage
  */
 #define zfCoreLogCriticalMessage(fmt, ...) _ZFP_zfCoreLogCriticalMessage(ZFCallerInfoMake(), fmt, ##__VA_ARGS__)
 /** @brief see #zfCoreLogCriticalMessage */
