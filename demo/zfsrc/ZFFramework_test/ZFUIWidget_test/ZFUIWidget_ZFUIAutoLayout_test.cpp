@@ -40,12 +40,12 @@ protected:
             t->viewBackgroundColorSet(ZFUIColorRandom());
         }
 
-        al_maker(v[0]).left().toParentLeft().right().toLeft(v[1]);
-        al_maker(v[1]).left().toRight(v[0]).right().toLeft(v[2]);
-        al_maker(v[2]).left().toRight(v[1]).right().toParentRight();
+        zfal_maker(v[0]).left().toParentLeft().right().toLeft(v[1]);
+        zfal_maker(v[1]).left().toRight(v[0]).right().toLeft(v[2]);
+        zfal_maker(v[2]).left().toRight(v[1]).right().toParentRight();
 
-        al_maker(v[3]).right().toLeft(v[1]).bottom().toTop(v[1]).height().toWidth(v[1]).scale(2);
-        al_maker(v[4]).left().toRight(v[1]).top().toBottom(v[1]).height().toWidth(v[1]).scale(3);
+        zfal_maker(v[3]).right().toLeft(v[1]).bottom().toTop(v[1]).height().toWidth(v[1]).scale(2);
+        zfal_maker(v[4]).left().toRight(v[1]).top().toBottom(v[1]).height().toWidth(v[1]).scale(3);
 
         this->prepareSettingButton(window, layout);
     }

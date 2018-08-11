@@ -26,18 +26,35 @@ zfclassFwd _ZFP_ZFUIAutoLayoutMakerPrivate;
  * @code
  *   ZFUIAutoLayoutMaker(child).left().toLeft(parent).offset(10).scale(2);
  *   // or
- *   al_maker(child).left().toParentLeft();
+ *   zfal_maker(child).left().toParentLeft();
  * @endcode
  *
  * all available functions of maker:
- * -  al_maker(view) :
+ * -  zfal_maker(view) :
  *   change the maker's target
+ * -  width(int) / height(int) :
+ *   explicitly specify the size rule,
+ *   same as setting #ZFUIView::layoutParam with sizeHint and fill sizeParam,
+ *   would be overrided by other rules if conflict,
+ *   set to negative value would reset the rule
+ * -  size(int) / size(int, int) / size(ZFUISize) :
+ *   util to width(int) / height(int)
  * -  left(), top/right/bottom/width/height, etc :
  *   specify the #ZFUIAutoLayoutRule::pos
  * -  toLeft(target), top/right/bottom/width/height, etc :
  *   specify the #ZFUIAutoLayoutRule::target and #ZFUIAutoLayoutRule::targetPos
  * -  toParentLeft(), top/right/bottom/width/height, etc :
  *   util to toLeft(target) with parent
+ * -  to(target) :
+ *   util to toLeft(target) with same position of left() series,
+ *   can be combined with multiple rules:
+ *   @code
+ *     maker.left().top().to(target);
+ *     // same as:
+ *     maker.left().toLeft(target).top().toTop(target);
+ *   @endcode
+ * -  toParent() :
+ *   util to to(target) with parent
  * -  scale(scale) :
  *   specify the #ZFUIAutoLayoutRule::scale
  * -  offset(offset) :
@@ -51,7 +68,7 @@ zfclassFwd _ZFP_ZFUIAutoLayoutMakerPrivate;
  *
  * all avaialbe functions in global scope for convenient:
  * -  ZFUIAutoLayoutMaker(view)
- * -  al_maker(view)
+ * -  zfal_maker(view)
  */
 zffinal zfclassLikePOD ZF_ENV_EXPORT ZFUIAutoLayoutMaker
 {
@@ -71,8 +88,14 @@ public:
     zfbool operator != (ZF_IN const ZFUIAutoLayoutMaker &ref) const {return d != ref.d;}
     /** @endcond */
 
-    ZFUIAutoLayoutMaker &al_maker(ZF_IN ZFUIView *child); /**< @brief see #ZFUIAutoLayoutMaker */
-    ZFUIAutoLayoutMaker &al_maker(ZF_IN ZFUIView *child, ZF_IN ZFUIAutoLayout *parent); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &zfal_maker(ZF_IN ZFUIView *child); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &zfal_maker(ZF_IN ZFUIView *child, ZF_IN ZFUIAutoLayout *parent); /**< @brief see #ZFUIAutoLayoutMaker */
+
+    ZFUIAutoLayoutMaker &width(ZF_IN zfint size); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &height(ZF_IN zfint size); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &size(ZF_IN zfint size); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &size(ZF_IN zfint width, ZF_IN zfint height); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &size(ZF_IN const ZFUISize &size); /**< @brief see #ZFUIAutoLayoutMaker */
 
     ZFUIAutoLayoutMaker &width(void); /**< @brief see #ZFUIAutoLayoutMaker */
     ZFUIAutoLayoutMaker &height(void); /**< @brief see #ZFUIAutoLayoutMaker */
@@ -95,6 +118,9 @@ public:
     ZFUIAutoLayoutMaker &toParentRight(void); /**< @brief see #ZFUIAutoLayoutMaker */
     ZFUIAutoLayoutMaker &toParentBottom(void); /**< @brief see #ZFUIAutoLayoutMaker */
 
+    ZFUIAutoLayoutMaker &to(ZF_IN ZFUIView *target); /**< @brief see #ZFUIAutoLayoutMaker */
+    ZFUIAutoLayoutMaker &toParent(void); /**< @brief see #ZFUIAutoLayoutMaker */
+
     ZFUIAutoLayoutMaker &scale(ZF_IN zffloat scale); /**< @brief see #ZFUIAutoLayoutMaker */
     ZFUIAutoLayoutMaker &offset(ZF_IN zfint offset); /**< @brief see #ZFUIAutoLayoutMaker */
 
@@ -109,9 +135,9 @@ private:
 ZFTYPEID_ACCESS_ONLY_DECLARE(ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker)
 
 /** @brief see #ZFUIAutoLayoutMaker */
-ZFMETHOD_FUNC_DECLARE_1(ZFUIAutoLayoutMaker, al_maker, ZFMP_IN(ZFUIView *, child))
+ZFMETHOD_FUNC_DECLARE_1(ZFUIAutoLayoutMaker, zfal_maker, ZFMP_IN(ZFUIView *, child))
 /** @brief see #ZFUIAutoLayoutMaker */
-ZFMETHOD_FUNC_DECLARE_2(ZFUIAutoLayoutMaker, al_maker, ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIAutoLayout *, parent))
+ZFMETHOD_FUNC_DECLARE_2(ZFUIAutoLayoutMaker, zfal_maker, ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIAutoLayout *, parent))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUIAutoLayoutMaker_h_

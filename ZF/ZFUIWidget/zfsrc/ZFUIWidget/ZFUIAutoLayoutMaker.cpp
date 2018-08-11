@@ -34,7 +34,7 @@ public:
         this->done();
     }
 public:
-    void al_maker(ZF_IN ZFUIView *child, ZF_IN_OPT ZFUIAutoLayout *parent = zfnull)
+    void zfal_maker(ZF_IN ZFUIView *child, ZF_IN_OPT ZFUIAutoLayout *parent = zfnull)
     {
         if(child->viewParentVirtual() == zfnull && parent != zfnull)
         {
@@ -75,13 +75,13 @@ public:
     {
         zfCoreAssertWithMessageTrim(
             this->child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] al_maker not called"));
+            zfTextA("[ZFUIAutoLayoutMaker] zfal_maker not called"));
     }
     void requirePos(void)
     {
         zfCoreAssertWithMessageTrim(
             this->child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] al_maker not called"));
+            zfTextA("[ZFUIAutoLayoutMaker] zfal_maker not called"));
         zfCoreAssertWithMessageTrim(
             !this->ruleAttached.isEmpty(),
             zfTextA("[ZFUIAutoLayoutMaker] pos rule not set (left/width etc)"));
@@ -90,7 +90,7 @@ public:
     {
         zfCoreAssertWithMessageTrim(
             this->child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] al_maker not called"));
+            zfTextA("[ZFUIAutoLayoutMaker] zfal_maker not called"));
         zfCoreAssertWithMessageTrim(
             !this->ruleAttached.isEmpty(),
             zfTextA("[ZFUIAutoLayoutMaker] pos rule not set (left/width etc)"));
@@ -131,6 +131,19 @@ public:
             this->ruleAttached[i]->targetPos() = targetPos;
         }
     }
+    void targetAttach(ZF_IN ZFUIView *target)
+    {
+        this->requirePos();
+        if(target == zfnull)
+        {
+            target = this->child->viewParentVirtual();
+        }
+        for(zfindex i = this->ruleAttached.count() - 1; i != zfindexMax(); --i)
+        {
+            this->ruleAttached[i]->target() = target;
+            this->ruleAttached[i]->targetPos() = this->ruleAttached[i]->pos();
+        }
+    }
 };
 
 // ============================================================
@@ -141,13 +154,13 @@ ZFUIAutoLayoutMaker::ZFUIAutoLayoutMaker(void)
 ZFUIAutoLayoutMaker::ZFUIAutoLayoutMaker(ZF_IN ZFUIView *child)
 : d(zfnew(_ZFP_ZFUIAutoLayoutMakerPrivate))
 {
-    d->al_maker(child);
+    d->zfal_maker(child);
 }
 ZFUIAutoLayoutMaker::ZFUIAutoLayoutMaker(ZF_IN ZFUIView *child,
                                          ZF_IN ZFUIAutoLayout *parent)
 : d(zfnew(_ZFP_ZFUIAutoLayoutMakerPrivate))
 {
-    d->al_maker(child, parent);
+    d->zfal_maker(child, parent);
 }
 /** @cond ZFPrivateDoc */
 ZFUIAutoLayoutMaker::ZFUIAutoLayoutMaker(ZF_IN const ZFUIAutoLayoutMaker &ref)
@@ -176,15 +189,82 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::operator = (ZF_IN const ZFUIAutoLayout
 }
 /** @endcond */
 
-ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::al_maker(ZF_IN ZFUIView *child)
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::zfal_maker(ZF_IN ZFUIView *child)
 {
-    d->al_maker(child);
+    d->zfal_maker(child);
     return *this;
 }
-ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::al_maker(ZF_IN ZFUIView *child, ZF_IN ZFUIAutoLayout *parent)
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::zfal_maker(ZF_IN ZFUIView *child, ZF_IN ZFUIAutoLayout *parent)
 {
-    d->al_maker(child, parent);
+    d->zfal_maker(child, parent);
     return *this;
+}
+
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::width(ZF_IN zfint size)
+{
+    d->requireChild();
+    ZFUIViewLayoutParam *layoutParam = d->child->layoutParam();
+    if(size < 0)
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(-1, layoutParam->sizeHint().height));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Wrap, layoutParam->sizeParam().height));
+    }
+    else
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(size, layoutParam->sizeHint().height));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Fill, layoutParam->sizeParam().height));
+    }
+    return *this;
+}
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::height(ZF_IN zfint size)
+{
+    d->requireChild();
+    ZFUIViewLayoutParam *layoutParam = d->child->layoutParam();
+    if(size < 0)
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().width, -1));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Wrap));
+    }
+    else
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().height, size));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Fill));
+    }
+    return *this;
+}
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::size(ZF_IN zfint size)
+{
+    return this->size(size, size);
+}
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::size(ZF_IN zfint width, ZF_IN zfint height)
+{
+    d->requireChild();
+    ZFUIViewLayoutParam *layoutParam = d->child->layoutParam();
+    if(width < 0)
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(-1, layoutParam->sizeHint().height));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Wrap, layoutParam->sizeParam().height));
+    }
+    else
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(width, layoutParam->sizeHint().height));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Fill, layoutParam->sizeParam().height));
+    }
+    if(height < 0)
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().width, -1));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Wrap));
+    }
+    else
+    {
+        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().height, height));
+        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Fill));
+    }
+    return *this;
+}
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::size(ZF_IN const ZFUISize &size)
+{
+    return this->size(size.width, size.height);
 }
 
 ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::width(void)
@@ -280,6 +360,17 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::toParentBottom(void)
     return *this;
 }
 
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::to(ZF_IN ZFUIView *target)
+{
+    d->targetAttach(target);
+    return *this;
+}
+ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::toParent(void)
+{
+    d->targetAttach(zfnull);
+    return *this;
+}
+
 ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::scale(ZF_IN zffloat scale)
 {
     d->requireTarget();
@@ -319,32 +410,38 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::done(void)
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_1(ZFUIAutoLayoutMaker, al_maker, ZFMP_IN(ZFUIView *, child))
+ZFMETHOD_FUNC_DEFINE_1(ZFUIAutoLayoutMaker, zfal_maker, ZFMP_IN(ZFUIView *, child))
 {
     return ZFUIAutoLayoutMaker(child);
 }
-ZFMETHOD_FUNC_DEFINE_2(ZFUIAutoLayoutMaker, al_maker, ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIAutoLayout *, parent))
+ZFMETHOD_FUNC_DEFINE_2(ZFUIAutoLayoutMaker, zfal_maker, ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIAutoLayout *, parent))
 {
     return ZFUIAutoLayoutMaker(child, parent);
 }
 
 // ============================================================
 ZFMETHOD_USER_REGISTER_1({
-        invokerObject->to<v_ZFUIAutoLayoutMaker *>()->zfv.al_maker(child);
+        invokerObject->to<v_ZFUIAutoLayoutMaker *>()->zfv.zfal_maker(child);
     }, v_ZFUIAutoLayoutMaker,
     void, objectOnInit
     , ZFMP_IN(ZFUIView *, child)
     )
 ZFMETHOD_USER_REGISTER_2({
-        invokerObject->to<v_ZFUIAutoLayoutMaker *>()->zfv.al_maker(child, parent);
+        invokerObject->to<v_ZFUIAutoLayoutMaker *>()->zfv.zfal_maker(child, parent);
     }, v_ZFUIAutoLayoutMaker,
     void, objectOnInit
     , ZFMP_IN(ZFUIView *, child)
     , ZFMP_IN(ZFUIAutoLayout *, parent)
     )
 
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, al_maker, ZFMP_IN(ZFUIView *, child))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, al_maker, ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIAutoLayout *, parent))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, zfal_maker, ZFMP_IN(ZFUIView *, child))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, zfal_maker, ZFMP_IN(ZFUIView *, child), ZFMP_IN(ZFUIAutoLayout *, parent))
+
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, width, ZFMP_IN(zfint, size))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, height, ZFMP_IN(zfint, size))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, size, ZFMP_IN(zfint, size))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, size, ZFMP_IN(zfint, width), ZFMP_IN(zfint, height))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, size, ZFMP_IN(const ZFUISize &, size))
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, width)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, height)
@@ -366,6 +463,9 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutM
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, toParentTop)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, toParentRight)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, toParentBottom)
+
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, to, ZFMP_IN(ZFUIView *, target))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, toParent)
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, scale, ZFMP_IN(zffloat, scale))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFUIAutoLayoutMaker, ZFUIAutoLayoutMaker &, offset, ZFMP_IN(zfint, offset))
