@@ -144,25 +144,6 @@ extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implSetupObject(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex = -1);
 
 // ============================================================
-/**
- * @brief used to hold unknown lua param as string
- */
-zfclass ZF_ENV_EXPORT ZFImpl_ZFLua_UnknownParam : zfextends ZFObject
-{
-    ZFOBJECT_DECLARE(ZFImpl_ZFLua_UnknownParam, ZFObject)
-
-public:
-    /** @brief the value */
-    zfstring zfv;
-protected:
-    zfoverride
-    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
-    {
-        ret += this->zfv;
-    }
-};
-
-// ============================================================
 /** @brief see #ZFImpl_ZFLua_implDispatch_DEFINE */
 typedef enum {
     ZFImpl_ZFLua_ImplDispatchResultForward, /**< @brief not dispatched, function should be further dispatched */
@@ -387,7 +368,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     do { \
         if(paramName == zfnull && dispatchInfo.paramList[N]->toObject() != zfnull) \
         { \
-            ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, dispatchInfo.paramList[N]->toObject()); \
+            ZFDI_Wrapper *t = ZFCastZFObject(ZFDI_Wrapper *, dispatchInfo.paramList[N]->toObject()); \
             if(t != zfnull && desiredClass::ClassData()->classIsTypeOf(ZFTypeIdWrapper::ClassData())) \
             { \
                 zfblockedAlloc(desiredClass, t2); \
@@ -412,7 +393,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     do { \
         if(paramName == zfnull) \
         { \
-            ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, dispatchInfo.paramList[N]->toObject()); \
+            ZFDI_Wrapper *t = ZFCastZFObject(ZFDI_Wrapper *, dispatchInfo.paramList[N]->toObject()); \
             if(t != zfnull && desiredClass::ClassData()->classIsTypeOf(ZFTypeIdWrapper::ClassData())) \
             { \
                 zfblockedAlloc(desiredClass, t2); \
@@ -509,19 +490,12 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
  * -  zfautoObject
  * -  any types that can be converted by #ZFImpl_ZFLua_toCallback
  * -  any type that can be converted to string by #ZFImpl_ZFLua_toString,
- *   result would be stored as #ZFImpl_ZFLua_UnknownParam,
+ *   result would be stored as #ZFDI_Wrapper,
  *   and would be converted to #ZFTypeIdWrapper during function call
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
                                                    ZF_IN lua_State *L,
                                                    ZF_IN int luaStackOffset);
-/**
- * @brief try to convert to desired type id from unknown type
- */
-extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
-                                                     ZF_IN const zfchar *typeId,
-                                                     ZF_IN ZFImpl_ZFLua_UnknownParam *unknownType,
-                                                     ZF_OUT_OPT zfstring *errorHint = zfnull);
 
 /**
  * @brief get params from lua

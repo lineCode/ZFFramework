@@ -35,43 +35,22 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_call, {
 
 // ============================================================
 /*
- * * methodList
- *     * empty to detect by methodName
- *     * not empty to explicit use the method
- * * obj : ensured not null for zfl_call, ensured null for zfl_callStatic/zfl_callStatic2
- * * classOrNamespace/methodName : used only if methodList is empty, to detect the method
+ * type can be:
+ * -  string type
+ * -  #v_ZFMethod
+ * -  #v_ZFClass
+ *
+ * only string type would perform custom dispatch
  */
 static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
                                            ZF_IN const zfchar *zfl_funcName,
-                                           ZF_IN_OUT ZFCoreArrayPOD<const ZFMethod *> &methodList,
                                            ZF_IN ZFObject *obj,
+                                           ZF_IN const zfchar *NS,
+                                           ZF_IN ZFObject *type,
                                            ZF_IN int paramCount,
-                                           ZF_IN int luaParamOffset,
-                                           ZF_IN const zfchar *classOrNamespace,
-                                           ZF_IN const zfchar *methodName)
+                                           ZF_IN int luaParamOffset)
 {
-    zfstring errorHint;
-    zfautoObject ret;
-    classOrNamespace = ZFNamespaceSkipGlobal(classOrNamespace);
-
-    if(obj == zfnull && methodList.isEmpty())
-    { // zfAlloc
-        const ZFClass *cls = ZFClass::classForName(methodName, classOrNamespace);
-        if(cls == zfnull)
-        {
-            zfstring typeWrapperClass = ZFImpl_ZFLua_PropTypePrefix;
-            typeWrapperClass += methodName;
-            cls = ZFClass::classForName(typeWrapperClass, classOrNamespace);
-        }
-        if(cls != zfnull)
-        {
-            ZFImpl_ZFLua_zfAlloc(ret, L, cls, paramCount, luaParamOffset);
-            ZFImpl_ZFLua_luaPush(L, ret);
-            return 1;
-        }
-    }
-
-    zfautoObject paramListOrig[ZFMETHOD_MAX_PARAM] = {
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
               ZFMethodGenericInvokerDefaultParamHolder()
             , ZFMethodGenericInvokerDefaultParamHolder()
             , ZFMethodGenericInvokerDefaultParamHolder()
@@ -83,180 +62,74 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
         };
     for(int i = 0; i < paramCount; ++i)
     {
-        if(!ZFImpl_ZFLua_toGeneric(paramListOrig[i], L, luaParamOffset + i))
+        if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
         {
             ZFLuaErrorOccurredTrim(zfText("[%s] failed to get param%d, got %s, while executing: %s"),
                 zfl_funcName,
                 i,
                 ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i, zftrue).cString(),
-                ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
+                ZFObjectToString(type).cString());
             return ZFImpl_ZFLua_luaError(L);
         }
     }
 
-    if(methodList.isEmpty())
-    {
-        { // custom dispatch
-            ZFImpl_ZFLua_ImplDispatchInfo dispatchInfo(
-                    L, luaParamOffset,
-                    obj == zfnull, classOrNamespace, obj ? obj->classData() : zfnull, obj,
-                    methodName,
-                    paramListOrig, (zfindex)paramCount
-                );
-            ZFImpl_ZFLua_implDispatch(dispatchInfo);
-            switch(dispatchInfo.dispatchResult)
-            {
-                case ZFImpl_ZFLua_ImplDispatchResultSuccess:
-                    if(dispatchInfo.returnValueCustom != -1)
-                    {
-                        return dispatchInfo.returnValueCustom;
-                    }
-                    else
-                    {
-                        if(dispatchInfo.returnValue != ZFImpl_ZFLua_implDispatchReturnValueNotSet)
-                        {
-                            ZFImpl_ZFLua_luaPush(L, dispatchInfo.returnValue);
-                            return 1;
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
-                case ZFImpl_ZFLua_ImplDispatchResultError:
-                    ZFLuaErrorOccurredTrim(zfText("[ImplDispatch] %s"), dispatchInfo.errorHint.cString());
-                    return ZFImpl_ZFLua_luaError(L);
-                case ZFImpl_ZFLua_ImplDispatchResultForward:
-                default:
-                    break;
-            }
-        }
-
-        if(obj != zfnull)
+    const zfchar *methodName = ZFDI_toString(type);
+    if(methodName != zfnull && zfstringFind(methodName, zfindexMax(), ZFNamespaceSeparator()) == zfindexMax())
+    { // custom dispatch
+        ZFImpl_ZFLua_ImplDispatchInfo dispatchInfo(
+                L, luaParamOffset,
+                obj == zfnull, NS, obj ? obj->classData() : zfnull, obj,
+                methodName,
+                paramList, (zfindex)paramCount
+            );
+        ZFImpl_ZFLua_implDispatch(dispatchInfo);
+        switch(dispatchInfo.dispatchResult)
         {
-            obj->classData()->methodForNameGetAllT(methodList, methodName);
-        }
-        else
-        {
-            const ZFClass *cls = ZFClass::classForName(classOrNamespace);
-            if(cls == zfnull)
-            {
-                zfindex dotPos = zfstringFindReversely(classOrNamespace, zfindexMax(), ZFNamespaceSeparator());
-                if(dotPos == zfindexMax())
+            case ZFImpl_ZFLua_ImplDispatchResultSuccess:
+                if(dispatchInfo.returnValueCustom != -1)
                 {
-                    zfstring classNameTmp = ZFImpl_ZFLua_PropTypePrefix;
-                    classNameTmp += classOrNamespace;
-                    cls = ZFClass::classForName(classNameTmp);
+                    return dispatchInfo.returnValueCustom;
                 }
                 else
                 {
-                    zfstring classNameTmp;
-                    classNameTmp.append(classOrNamespace, dotPos + ZFNamespaceSeparatorLen());
-                    classNameTmp += ZFImpl_ZFLua_PropTypePrefix;
-                    classNameTmp += classOrNamespace + dotPos + ZFNamespaceSeparatorLen();
-                    cls = ZFClass::classForName(classNameTmp);
+                    if(dispatchInfo.returnValue != ZFImpl_ZFLua_implDispatchReturnValueNotSet)
+                    {
+                        ZFImpl_ZFLua_luaPush(L, dispatchInfo.returnValue);
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
-            }
-            if(cls == zfnull)
-            {
-                ZFMethodFuncGetAllT(methodList, classOrNamespace, methodName);
-            }
-            else
-            {
-                cls->methodForNameGetAllT(methodList, methodName);
-            }
-        }
-        if(methodList.isEmpty())
-        {
-            ZFLuaErrorOccurredTrim(
-                zfText("[%s] no such method \"%s\" in \"%s\""),
-                zfl_funcName,
-                methodName,
-                classOrNamespace);
-            return ZFImpl_ZFLua_luaError(L);
-        }
-    } // if(methodList.isEmpty())
-
-    for(zfindex iMethod = 0; iMethod < methodList.count(); ++iMethod)
-    {
-        errorHint.removeAll();
-
-        const ZFMethod *method = methodList[iMethod];
-        if(method->methodPrivilegeType() != ZFMethodPrivilegeTypePublic
-            || (method->methodType() != ZFMethodTypeStatic && obj == zfnull)
-            || paramCount > method->methodParamCount()
-            || (method->methodParamDefaultBeginIndex() != zfindexMax()
-                && paramCount < method->methodParamDefaultBeginIndex()))
-        {
-            continue;
-        }
-
-        zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
-            paramListOrig[0],
-            paramListOrig[1],
-            paramListOrig[2],
-            paramListOrig[3],
-            paramListOrig[4],
-            paramListOrig[5],
-            paramListOrig[6],
-            paramListOrig[7],
-        };
-        zfbool parseParamSuccess = zftrue;
-        for(int i = 0; i < paramCount && parseParamSuccess; ++i)
-        {
-            ZFImpl_ZFLua_UnknownParam *t = ZFCastZFObject(ZFImpl_ZFLua_UnknownParam *, paramList[i].toObject());
-            if(t != zfnull)
-            {
-                parseParamSuccess = ZFImpl_ZFLua_fromUnknown(paramList[i], method->methodParamTypeIdAtIndex(i), t, &errorHint);
-            }
-        }
-        if(!parseParamSuccess)
-        {
-            continue;
-        }
-
-        ret = zfnull;
-        if(method->methodGenericInvoker()(method, obj, &errorHint, ret, paramList))
-        {
-            ZFImpl_ZFLua_luaPush(L, ret);
-            return 1;
+            case ZFImpl_ZFLua_ImplDispatchResultError:
+                ZFLuaErrorOccurredTrim(zfText("[ImplDispatch] %s"), dispatchInfo.errorHint.cString());
+                return ZFImpl_ZFLua_luaError(L);
+            case ZFImpl_ZFLua_ImplDispatchResultForward:
+            default:
+                break;
         }
     }
 
-    zfstring err;
-    zfstringAppend(err,
-        zfText("[%s] no matching method to call, obj: \"%s\", params: "),
+    zfautoObject ret;
+    zfstring errorHint;
+    if(ZFDI_invoke(ret, &errorHint, obj, NS, type, (zfindex)paramCount
+            , paramList[0]
+            , paramList[1]
+            , paramList[2]
+            , paramList[3]
+            , paramList[4]
+            , paramList[5]
+            , paramList[6]
+            , paramList[7]
+        ))
+    {
+        ZFImpl_ZFLua_luaPush(L, ret);
+        return 1;
+    }
+    ZFLuaErrorOccurredTrim(zfText("[%s] %s"),
         zfl_funcName,
-        ZFObjectInfo(obj).cString()
-        );
-    err += zfText("[");
-    for(zfindex i = 0; i < paramCount; ++i)
-    {
-        if(i != 0)
-        {
-            err += zfText(", ");
-        }
-        err += ZFObjectInfo(paramListOrig[i].toObject());
-    }
-    err += zfText("]");
-    err += zfText(", last error reason: ");
-    if(errorHint.isEmpty())
-    {
-        err += zfText("method is not public or proto type / param count mismatch");
-    }
-    else
-    {
-        err += errorHint;
-    }
-
-    err += zfText(", candidate methods:");
-    for(zfindex i = 0; i < methodList.count(); ++i)
-    {
-        err += zfText("\n    ");
-        methodList[i]->objectInfoT(err);
-    }
-
-    ZFLuaErrorOccurredTrim(zfText("%s"), err.cString());
+        errorHint.cString());
     return ZFImpl_ZFLua_luaError(L);
 }
 
@@ -295,41 +168,23 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
-
-    ZFCoreArrayPOD<const ZFMethod *> methodList;
+    zfautoObject type;
+    if(!ZFImpl_ZFLua_toGeneric(type, L, 2))
     {
-        zfautoObject methodHolder;
-        if(ZFImpl_ZFLua_toObject(methodHolder, L, 2))
-        {
-            v_ZFMethod *methodWrapper = methodHolder;
-            if(methodWrapper != zfnull)
-            {
-                if(methodWrapper->zfv == zfnull)
-                {
-                    ZFLuaErrorOccurredTrim(zfText("[%s] null method, called on object: %s"),
-                        zfl_funcName,
-                        ZFObjectInfo(obj).cString());
-                    return ZFImpl_ZFLua_luaError(L);
-                }
-                methodList.add(methodWrapper->zfv);
-                return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
-                    L, zfl_funcName, methodList, obj, paramCount, luaParamOffset, zfnull, zfnull);
-            }
-        }
-    }
-
-    zfstring methodName;
-    if(!ZFImpl_ZFLua_toString(methodName, L, 2))
-    {
-        ZFLuaErrorOccurredTrim(zfText("[%s] failed to access function name, expect string type, got %s, called on object: %s"),
+        ZFLuaErrorOccurredTrim(zfText("[%s] unable to access method, got: %s"),
             zfl_funcName,
-            ZFImpl_ZFLua_luaObjectInfo(L, 2, zftrue).cString(),
-            ZFObjectInfo(obj).cString());
+            ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
 
     return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
-        L, zfl_funcName, methodList, obj, paramCount, luaParamOffset, obj->classData()->classNameFull(), methodName);
+        L,
+        zfl_funcName,
+        obj,
+        zfnull,
+        type,
+        paramCount,
+        luaParamOffset);
 }
 
 /*
@@ -350,54 +205,23 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
     }
     int paramCount = count - (luaParamOffset - 1);
 
-    zfautoObject methodHolder;
-    if(ZFImpl_ZFLua_toObject(methodHolder, L, 1))
+    zfautoObject type;
+    if(!ZFImpl_ZFLua_toGeneric(type, L, 1))
     {
-        v_ZFMethod *methodWrapper = methodHolder;
-        if(methodWrapper != zfnull)
-        {
-            if(methodWrapper->zfv == zfnull)
-            {
-                ZFLuaErrorOccurredTrim(zfText("[%s] null method"), zfl_funcName);
-                return ZFImpl_ZFLua_luaError(L);
-            }
-            ZFCoreArrayPOD<const ZFMethod *> methodList;
-            methodList.add(methodWrapper->zfv);
-            return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
-                L, zfl_funcName, methodList, zfnull, paramCount, luaParamOffset, zfnull, zfnull);
-        }
-        v_ZFClass *classWrapper = methodHolder;
-        if(classWrapper != zfnull)
-        {
-            zfautoObject ret;
-            ZFImpl_ZFLua_zfAlloc(ret, L, classWrapper->zfv, paramCount, luaParamOffset);
-            ZFImpl_ZFLua_luaPush(L, ret);
-            return 1;
-        }
-    }
-
-    zfstring methodSig;
-    if(!ZFImpl_ZFLua_toString(methodSig, L, 1))
-    {
-        ZFLuaErrorOccurredTrim(zfText("[%s] failed to access function name, expect string type, got %s"),
+        ZFLuaErrorOccurredTrim(zfText("[%s] unable to access method, got: %s"),
             zfl_funcName,
-            ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
+            ZFImpl_ZFLua_luaObjectInfo(L, 1).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
 
-    ZFCoreArrayPOD<const ZFMethod *> methodList;
-    zfindex dotPos = zfstringFindReversely(methodSig, methodSig.length(), ZFNamespaceSeparator());
-    if(dotPos == zfindexMax())
-    {
-        return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
-            L, zfl_funcName, methodList, zfnull, paramCount, luaParamOffset, zfnull, methodSig);
-    }
-    else
-    {
-        methodSig[dotPos] = '\0';
-        return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
-            L, zfl_funcName, methodList, zfnull, paramCount, luaParamOffset, methodSig, methodSig.cString() + dotPos + ZFNamespaceSeparatorLen());
-    }
+    return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
+        L,
+        zfl_funcName,
+        zfnull,
+        zfnull,
+        type,
+        paramCount,
+        luaParamOffset);
 }
 
 /*
@@ -426,8 +250,8 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
-    zfstring methodName;
-    if(!ZFImpl_ZFLua_toString(methodName, L, 2))
+    zfautoObject type;
+    if(!ZFImpl_ZFLua_toGeneric(type, L, 2))
     {
         ZFLuaErrorOccurredTrim(zfText("[%s] failed to access method name, expect string type, got %s"),
             zfl_funcName,
@@ -435,9 +259,14 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
         return ZFImpl_ZFLua_luaError(L);
     }
 
-    ZFCoreArrayPOD<const ZFMethod *> methodList;
     return _ZFP_ZFImpl_ZFLua_zfl_call_impl(
-        L, zfl_funcName, methodList, zfnull, paramCount, luaParamOffset, classOrNamespace, methodName);
+        L,
+        zfl_funcName,
+        zfnull,
+        classOrNamespace,
+        type,
+        paramCount,
+        luaParamOffset);
 }
 
 ZF_NAMESPACE_GLOBAL_END

@@ -905,6 +905,11 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfstring, viewDelegateClass)
     zfautoObject viewDelegateTmp;
     if(cls != zfnull)
     {
+        zfCoreAssertWithMessageTrim(this->viewDelegateSupported(),
+            zfText("[ZFUIView] viewDelegate \"%s\" not supported for view: %s"),
+            this->viewDelegateClass().cString(),
+            this->objectInfo().cString());
+
         viewDelegateTmp = cls->newInstance();
     }
     this->viewDelegateSet(viewDelegateTmp);
@@ -1345,11 +1350,6 @@ void ZFUIView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
 {
     if(viewDelegate == d->viewDelegate)
     {
-        return ;
-    }
-    if(!this->viewDelegateSupported() && viewDelegate != zfnull)
-    {
-        zfCoreCriticalMessage(zfTextA("viewDelegate not supported"));
         return ;
     }
     zfCoreAssertWithMessage(viewDelegate != this, zfTextA("you must not set viewDelegate to self"));

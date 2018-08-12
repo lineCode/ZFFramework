@@ -363,6 +363,14 @@ public:
         return this->_ZFP_ZFMethod_paramCount;
     }
     /**
+     * @brief get the method's minimum param num,
+     *   same as #methodParamCount if no default param
+     */
+    inline zfindex methodParamCountMin(void) const
+    {
+        return this->_ZFP_ZFMethod_paramCountMin;
+    }
+    /**
      * @brief check whether method param type id matches
      *
      * null type id means not specified (any type matches),
@@ -615,6 +623,7 @@ public:
     zfstring _ZFP_ZFMethod_returnTypeId;
     zfstring _ZFP_ZFMethod_returnTypeName;
     zfindex _ZFP_ZFMethod_paramCount;
+    zfindex _ZFP_ZFMethod_paramCountMin;
     zfstring _ZFP_ZFMethod_paramTypeIdList[ZFMETHOD_MAX_PARAM];
     zfstring _ZFP_ZFMethod_paramTypeNameList[ZFMETHOD_MAX_PARAM];
     ZFMethodParamDefaultValueCallback _ZFP_ZFMethod_paramDefaultValueCallbackList[ZFMETHOD_MAX_PARAM];

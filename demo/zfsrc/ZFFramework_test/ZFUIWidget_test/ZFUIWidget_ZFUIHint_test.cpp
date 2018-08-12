@@ -20,8 +20,8 @@ protected:
     virtual void testCaseOnStart(void)
     {
         zfsuper::testCaseOnStart();
-        ZFFramework_test_protocolCheck(ZFUIView)
-        ZFFramework_test_protocolCheck(ZFUISysWindow)
+        ZFFramework_test_protocolCheck(ZFUIView);
+        ZFFramework_test_protocolCheck(ZFUISysWindow);
 
         zfautoObject hint = ZFUIHintShow(zfText("this is a normal hint"));
 #if 0

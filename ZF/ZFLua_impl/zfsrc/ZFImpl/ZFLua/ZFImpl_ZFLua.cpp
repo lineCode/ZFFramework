@@ -263,9 +263,6 @@ void ZFImpl_ZFLua_implSetupObject(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex
 }
 
 // ============================================================
-ZFOBJECT_REGISTER(ZFImpl_ZFLua_UnknownParam)
-
-// ============================================================
 static zfautoObject _ZFP_ZFImpl_ZFLua_implDispatchReturnValueNotSetInstance;
 const zfautoObject &_ZFP_ZFImpl_ZFLua_implDispatchReturnValueNotSet(void)
 {
@@ -637,7 +634,7 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     {
         return zftrue;
     }
-    zfblockedAlloc(ZFImpl_ZFLua_UnknownParam, t);
+    zfblockedAlloc(ZFDI_Wrapper, t);
     if(ZFImpl_ZFLua_toString(t->zfv, L, luaStackOffset, zftrue))
     {
         param = t;
@@ -647,63 +644,6 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     {
         return zffalse;
     }
-}
-
-zfbool ZFImpl_ZFLua_fromUnknown(ZF_OUT zfautoObject &param,
-                                ZF_IN const zfchar *typeId,
-                                ZF_IN ZFImpl_ZFLua_UnknownParam *unknownType,
-                                ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
-{
-    const ZFClass *cls = ZFClass::classForName(typeId);
-    if(cls != zfnull)
-    {
-        if(!ZFObjectFromString(param, cls, unknownType->zfv, unknownType->zfv.length()))
-        {
-            if(errorHint != zfnull)
-            {
-                zfstringAppend(errorHint, zfText("%s unable to convert from string \"%s\""),
-                    typeId, unknownType->zfv.cString());
-            }
-            return zffalse;
-        }
-        else
-        {
-            return zftrue;
-        }
-    }
-
-    const ZFTypeIdBase *typeIdData = ZFTypeIdGet(typeId);
-    if(typeIdData == zfnull || !typeIdData->typeIdWrapper(param))
-    {
-        if(errorHint != zfnull)
-        {
-            zfstringAppend(errorHint, zfText("%s can not be converted from string automatically"), typeId);
-        }
-        return zffalse;
-    }
-
-    zfbool success = zffalse;
-    if(param != zfnull)
-    {
-        ZFTypeIdWrapper *wrapper = param;
-        if(wrapper != zfnull && wrapper->wrappedValueFromString(unknownType->zfv, unknownType->zfv.length()))
-        {
-            success = zftrue;
-        }
-    }
-
-    if(!success)
-    {
-        if(errorHint != zfnull)
-        {
-            zfstringAppend(errorHint, zfText("%s can not be converted from string \"%s\""),
-                    typeId,
-                    unknownType->zfv.cString()
-                );
-        }
-        return zffalse;
-    }
-    return zftrue;
 }
 
 zfclass _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder : zfextends ZFObject
@@ -854,10 +794,10 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
         s += obj->to<v_zfstring *>()->zfv;
         return zftrue;
     }
-    else if(cls->classIsTypeOf(ZFImpl_ZFLua_UnknownParam::ClassData()))
+    else if(cls->classIsTypeOf(ZFDI_Wrapper::ClassData()))
     {
-        if(holderCls != zfnull) {*holderCls = ZFImpl_ZFLua_UnknownParam::ClassData();}
-        s += obj->to<ZFImpl_ZFLua_UnknownParam *>()->zfv;
+        if(holderCls != zfnull) {*holderCls = ZFDI_Wrapper::ClassData();}
+        s += obj->to<ZFDI_Wrapper *>()->zfv;
         return zftrue;
     }
     else

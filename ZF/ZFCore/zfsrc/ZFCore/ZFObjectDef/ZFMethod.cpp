@@ -82,6 +82,15 @@ void ZFMethod::_ZFP_ZFMethod_init(ZF_IN zfbool methodIsUserRegister,
         ++(this->_ZFP_ZFMethod_paramCount);
     } while(zftrue);
     va_end(vaList);
+
+    if(_ZFP_ZFMethod_paramDefaultBeginIndex == zfindexMax())
+    {
+        _ZFP_ZFMethod_paramCountMin = _ZFP_ZFMethod_paramCount;
+    }
+    else
+    {
+        _ZFP_ZFMethod_paramCountMin = _ZFP_ZFMethod_paramDefaultBeginIndex;
+    }
 }
 void ZFMethod::_ZFP_ZFMethod_initClassMemberType(ZF_IN const ZFClass *methodOwnerClass,
                                                  ZF_IN ZFMethodPrivilegeType privilegeType)
@@ -115,6 +124,7 @@ ZFMethod::ZFMethod(void)
 , _ZFP_ZFMethod_returnTypeId()
 , _ZFP_ZFMethod_returnTypeName()
 , _ZFP_ZFMethod_paramCount(0)
+, _ZFP_ZFMethod_paramCountMin(0)
 , _ZFP_ZFMethod_paramTypeIdList()
 , _ZFP_ZFMethod_paramTypeNameList()
 , _ZFP_ZFMethod_paramDefaultValueCallbackList()
@@ -709,6 +719,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodName
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodReturnTypeId)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodReturnTypeName)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, zfindex, methodParamCount)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, zfindex, methodParamCountMin)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFMethod, zfbool, methodParamTypeIdIsMatch
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId0, zfnull)
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId1, zfnull)

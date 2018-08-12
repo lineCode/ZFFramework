@@ -40,12 +40,14 @@ private:
 };
 
 #define ZFFramework_test_protocolCheck(ProtocolName) \
-    if(!ZFProtocolIsAvailable(ZFM_TOSTRING_DIRECT(ProtocolName))) \
-    { \
-        this->testCaseOutput(#ProtocolName zfText(" not available, skip test case")); \
-        this->testCaseStop(); \
-        return ; \
-    }
+    do { \
+        if(!ZFProtocolIsAvailable(ZFM_TOSTRING_DIRECT(ProtocolName))) \
+        { \
+            this->testCaseOutput(#ProtocolName zfText(" not available, skip test case")); \
+            this->testCaseStop(); \
+            return ; \
+        } \
+    } while(zffalse)
 
 ZF_NAMESPACE_GLOBAL_END
 

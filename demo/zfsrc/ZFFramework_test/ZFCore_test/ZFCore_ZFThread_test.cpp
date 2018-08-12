@@ -28,7 +28,7 @@ protected:
     virtual void testCaseOnStart(void)
     {
         zfsuper::testCaseOnStart();
-        ZFFramework_test_protocolCheck(ZFThread)
+        ZFFramework_test_protocolCheck(ZFThread);
 
         zfLogTrim(zfText("============================================================"));
         zfLogTrim(zfText("ZFThread"));

@@ -80,6 +80,8 @@ public:
  * -  #ZFNamespaceSeparator at head ("." in ".NS0")
  * -  #ZF_NAMESPACE_GLOBAL_NAME
  * -  #ZF_NAMESPACE_GLOBAL_ABBR_NAME
+ *
+ * return null if everything are skipped
  */
 extern ZF_ENV_EXPORT const zfchar *ZFNamespaceSkipGlobal(ZF_IN const zfchar *ns);
 /**

@@ -305,10 +305,6 @@ public:
                 if(p->autoRemoveAfterActivate)
                 {
                     this->observerDetach(it, p);
-                    if(it->second == zfnull)
-                    {
-                        this->observerMap.erase(it);
-                    }
 
                     if(toDelete == zfnull)
                     {

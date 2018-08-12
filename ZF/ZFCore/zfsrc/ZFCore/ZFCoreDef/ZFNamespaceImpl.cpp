@@ -42,7 +42,14 @@ const zfchar *ZFNamespaceSkipGlobal(ZF_IN const zfchar *ns)
         }
         else if(zfsncmp(ns + namePrefix.length(), ZFNamespaceSeparator(), ZFNamespaceSeparatorLen()) == 0)
         {
-            return ns + namePrefix.length() + ZFNamespaceSeparatorLen();
+            if(ns[namePrefix.length() + ZFNamespaceSeparatorLen()] == '\0')
+            {
+                return zfnull;
+            }
+            else
+            {
+                return ns + namePrefix.length() + ZFNamespaceSeparatorLen();
+            }
         }
         else
         {
@@ -57,7 +64,14 @@ const zfchar *ZFNamespaceSkipGlobal(ZF_IN const zfchar *ns)
         }
         else if(zfsncmp(ns + abbrNamePrefix.length(), ZFNamespaceSeparator(), ZFNamespaceSeparatorLen()) == 0)
         {
-            return ns + abbrNamePrefix.length() + ZFNamespaceSeparatorLen();
+            if(ns[abbrNamePrefix.length() + ZFNamespaceSeparatorLen()] == '\0')
+            {
+                return zfnull;
+            }
+            else
+            {
+                return ns + abbrNamePrefix.length() + ZFNamespaceSeparatorLen();
+            }
         }
         else
         {

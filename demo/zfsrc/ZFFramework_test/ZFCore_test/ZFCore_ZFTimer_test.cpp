@@ -34,7 +34,7 @@ protected:
     virtual void testCaseOnStart(void)
     {
         zfsuper::testCaseOnStart();
-        ZFFramework_test_protocolCheck(ZFTimer)
+        ZFFramework_test_protocolCheck(ZFTimer);
 
         this->testCaseOutputSeparator();
         this->testCaseOutput(zfText("ZFTimer"));
@@ -45,7 +45,7 @@ protected:
         timer->timerActivateInMainThreadSet(zftrue);
 #endif
         timer->observerAdd(ZFTimer::EventTimerOnActivate(), ZFCallbackForFunc(_ZFP_ZFCore_ZFTimer_test_timerEvent), this);
-        timer->timerIntervalSet((zftimet)300);
+        timer->timerIntervalSet((zftimet)1000);
         timer->timerStart();
     }
 };
