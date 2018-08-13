@@ -116,7 +116,11 @@ ZFMETHOD_DEFINE_1(ZFUIWindow, void, windowOwnerSysWindowSet,
 }
 ZFMETHOD_DEFINE_0(ZFUIWindow, ZFUISysWindow *, windowOwnerSysWindow)
 {
-    return d->windowOwnerSysWindow ? d->windowOwnerSysWindow : ZFUISysWindow::keyWindow();
+    if(d->windowOwnerSysWindow == zfnull)
+    {
+        d->windowOwnerSysWindow = ZFUISysWindow::keyWindow();
+    }
+    return d->windowOwnerSysWindow;
 }
 
 ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowShow)

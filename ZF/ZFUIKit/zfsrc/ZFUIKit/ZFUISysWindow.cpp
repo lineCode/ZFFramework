@@ -103,10 +103,12 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFUISysWindowMainWindowCleanup)
     {
         impl->mainWindowOnCleanup();
     }
+    zfblockedRelease(_ZFP_ZFUISysWindow_mainWindowRegistered);
+    zfblockedRelease(_ZFP_ZFUISysWindow_keyWindow);
+
     _ZFP_ZFUISysWindow_mainWindowRegistered = zfnull;
     _ZFP_ZFUISysWindow_mainWindowBuiltin = zfnull;
     _ZFP_ZFUISysWindow_mainWindow = zfnull;
-    zfRelease(_ZFP_ZFUISysWindow_keyWindow);
     _ZFP_ZFUISysWindow_keyWindow = zfnull;
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUISysWindowMainWindowCleanup)
@@ -118,7 +120,8 @@ void ZFUISysWindow::mainWindowRegister(ZF_IN ZFUISysWindow *window)
     zfCoreAssertWithMessage(window != zfnull,
         zfTextA("[ZFUISysWindow] mainWindowRegister called with null window"));
 
-    _ZFP_ZFUISysWindow_mainWindowRegistered = window;
+    zfblockedRelease(_ZFP_ZFUISysWindow_mainWindowRegistered);
+    _ZFP_ZFUISysWindow_mainWindowRegistered = zfRetain(window);
     _ZFP_ZFUISysWindow_mainWindow = _ZFP_ZFUISysWindow_mainWindowRegistered;
 
     ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventSysWindowMainWindowOnAttach());
