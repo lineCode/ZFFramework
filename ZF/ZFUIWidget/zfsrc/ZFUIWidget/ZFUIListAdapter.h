@@ -92,6 +92,19 @@ public:
         return this->_ZFP_ZFUIListAdapter_cellSizeHint;
     }
 
+public:
+    /**
+     * @brief if #cellSizeHint not set, whether fill cell size to #listContainerSize,
+     *   false by default
+     *
+     * this property is useful when combined with #ZFUIScrollView::scrollAlignToPageHorizontal series
+     */
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, cellSizeFill, zffalse)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(zfbool, cellSizeFill)
+    {
+        this->listAdapterNotifyReload();
+    }
+
     // ============================================================
     // basic list cell access
 public:
@@ -121,13 +134,38 @@ public:
      * util it's coming to visible\n
      * return a -1 size to measure the cell automatically,
      * otherwise, the cell's size is fixed\n
-     * return #cellSizeHint by default
+     * return #cellSizeHint accorrding to #cellSizeFill by default
      */
     ZFMETHOD_INLINE_2(zfint, cellSizeAtIndex,
                       ZFMP_IN(zfindex, index),
                       ZFMP_IN(ZFUIListCell *, cell))
     {
-        return this->cellSizeHint();
+        if(this->cellSizeHint() < 0)
+        {
+            if(this->cellSizeFill())
+            {
+                switch(this->listOrientation())
+                {
+                    case ZFUIOrientation::e_Left:
+                    case ZFUIOrientation::e_Right:
+                        return this->listContainerSize().width;
+                    case ZFUIOrientation::e_Top:
+                    case ZFUIOrientation::e_Bottom:
+                        return this->listContainerSize().height;
+                    default:
+                        zfCoreCriticalShouldNotGoHere();
+                        return -1;
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            return this->cellSizeHint();
+        }
     }
 
     // ============================================================

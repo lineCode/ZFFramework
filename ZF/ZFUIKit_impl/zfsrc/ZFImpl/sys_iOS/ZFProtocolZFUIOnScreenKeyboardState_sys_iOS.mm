@@ -46,7 +46,7 @@ static _ZFP_ZFUIOnScreenKeyboardStateImpl_sys_iOS *_ZFP_ZFUIOnScreenKeyboardStat
         self.keyboardFrame = keyboardFrameNew;
 
         ZFPROTOCOL_INTERFACE_CLASS(ZFUIOnScreenKeyboardState) *impl = ZFPROTOCOL_TRY_ACCESS(ZFUIOnScreenKeyboardState);
-        if(impl != zfnull)
+        if(impl != zfnull && ZFUISysWindow::mainWindowAttached())
         {
             impl->notifyKeyboardStateOnChange(ZFUIOnScreenKeyboardState::instanceForSysWindow());
         }
