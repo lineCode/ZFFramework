@@ -1071,11 +1071,11 @@ public:
                 {
                     case ZFUIOrientation::e_Left:
                     case ZFUIOrientation::e_Right:
-                        this->listAdapter->listContainerSize().width;
+                        cellSizeHint = this->listAdapter->listContainerSize().width;
                         break;
                     case ZFUIOrientation::e_Top:
                     case ZFUIOrientation::e_Bottom:
-                        this->listAdapter->listContainerSize().height;
+                        cellSizeHint = this->listAdapter->listContainerSize().height;
                         break;
                     default:
                         zfCoreCriticalShouldNotGoHere();
