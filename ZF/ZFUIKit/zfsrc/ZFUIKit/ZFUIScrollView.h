@@ -87,9 +87,9 @@ public:
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * called when #scrollAreaMargin changed
+     * called when #scrollArea changed
      */
-    ZFOBSERVER_EVENT(ScrollAreaMarginOnChange)
+    ZFOBSERVER_EVENT(ScrollAreaOnChange)
     /**
      * @brief see #ZFObject::observerNotify
      *
@@ -529,10 +529,10 @@ protected:
     {
         this->observerNotify(ZFUIScrollView::EventScrollOnScrollEnd());
     }
-    /** @brief see #EventScrollAreaMarginOnChange */
-    virtual inline void scrollAreaMarginOnChange(void)
+    /** @brief see #EventScrollAreaOnChange */
+    virtual inline void scrollAreaOnChange(void)
     {
-        this->observerNotify(ZFUIScrollView::EventScrollAreaMarginOnChange());
+        this->observerNotify(ZFUIScrollView::EventScrollAreaOnChange());
     }
     /** @brief see #EventScrollContentFrameOnChange */
     virtual inline void scrollContentFrameOnChange(void)

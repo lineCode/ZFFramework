@@ -27,7 +27,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
             );
         userData->to<ZFArrayEditable *>()->add(state->objectHolder());
     })
-    ZFGlobalEventCenter::instance()->observerAdd(ZFObserverAddParam()
+    ZFObjectGlobalEventObserver().observerAdd(ZFObserverAddParam()
             .eventIdSet(ZFUISysWindow::EventSysWindowOnCreate())
             .observerSet(sysWindowOnCreate)
             .ownerSet(this->observerOwner)
@@ -39,7 +39,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
         state->observerRemoveByOwner(userData);
         userData->to<ZFArrayEditable *>()->removeElement(state->objectHolder());
     })
-    ZFGlobalEventCenter::instance()->observerAdd(ZFObserverAddParam()
+    ZFObjectGlobalEventObserver().observerAdd(ZFObserverAddParam()
             .eventIdSet(ZFUISysWindow::EventSysWindowOnDestroy())
             .observerSet(sysWindowOnDestroy)
             .ownerSet(this->observerOwner)
@@ -48,7 +48,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIOnScreenKeyboardState_test)
 {
-    ZFGlobalEventCenter::instance()->observerRemoveByOwner(this->observerOwner);
+    ZFObjectGlobalEventObserver().observerRemoveByOwner(this->observerOwner);
     ZFArray *attached = this->observerOwner;
     for(zfindex i = 0; i < attached->count(); ++i)
     {

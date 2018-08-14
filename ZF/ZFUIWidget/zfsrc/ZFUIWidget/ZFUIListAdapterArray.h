@@ -99,18 +99,6 @@ public:
     }
 
 public:
-    /**
-     * @brief whether to override default list cell size hint, false by default
-     *
-     * if true, #cellSizeHintOverrideValue would be used instead of #ZFUIListAdapter::cellSizeHint
-     */
-    ZFPROPERTY_ASSIGN(zfbool, cellSizeHintOverride)
-    /**
-     * @brief valid only if #cellSizeHintOverride, -1 by default, see #ZFUIListAdapter::cellSizeAtIndex
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHintOverrideValue, -1)
-
-public:
     ZFMETHOD_INLINE_0(zfindex, cellCount)
     {
         return d->count();
@@ -119,19 +107,6 @@ public:
                       ZFMP_IN(zfindex, index))
     {
         return d->get(index);
-    }
-    ZFMETHOD_INLINE_2(zfint, cellSizeAtIndex,
-                      ZFMP_IN(zfindex, index),
-                      ZFMP_IN(ZFUIListCell *, cell))
-    {
-        if(this->cellSizeHintOverride())
-        {
-            return this->cellSizeHintOverrideValue();
-        }
-        else
-        {
-            return zfsuperI(ZFUIListAdapter)::cellSizeAtIndex(index, cell);
-        }
     }
 
 protected:

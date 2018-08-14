@@ -51,37 +51,32 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * notified when window created,
-     * see #nativeWindowIsCreated for more info\n
-     * this event would also fired to #ZFGlobalEventCenter
+     * see #nativeWindowIsCreated for more info
      */
     ZFOBSERVER_EVENT(SysWindowOnCreate)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified when window about to destroy\n
-     * this event would also fired to #ZFGlobalEventCenter
+     * notified when window about to destroy
      */
     ZFOBSERVER_EVENT(SysWindowOnDestroy)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified when window become active\n
-     * this event would also fired to #ZFGlobalEventCenter
+     * notified when window become active
      */
     ZFOBSERVER_EVENT(SysWindowOnResume)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * notified when window enter background\n
-     * this event would also fired to #ZFGlobalEventCenter
+     * notified when window enter background
      */
     ZFOBSERVER_EVENT(SysWindowOnPause)
     /**
      * @brief see #ZFObject::observerNotify
      *
      * notified when window rotated,
-     * new orientation can be accessed by #sysWindowOrientation\n
-     * this event would also fired to #ZFGlobalEventCenter
+     * new orientation can be accessed by #sysWindowOrientation
      */
     ZFOBSERVER_EVENT(SysWindowOnRotate)
     /**

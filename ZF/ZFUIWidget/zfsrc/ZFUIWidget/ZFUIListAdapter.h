@@ -81,18 +81,21 @@ public:
         return this->_ZFP_ZFUIListAdapter_listContainerSize;
     }
 
-private:
-    zfint _ZFP_ZFUIListAdapter_cellSizeHint;
 public:
     /**
-     * @brief list cell's size hint
+     * @brief list cell's hint size,
+     *   use -1 to measure by list cell,
+     *   #ZFUIGlobalStyle::itemSizeListCell by default
+     *
+     * setting #cellSizeFill would override this property,
+     * and use #listContainerSize to layout each cell
      */
-    ZFMETHOD_INLINE_0(zfint, cellSizeHint)
+    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHint, ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell())
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(zfint, cellSizeHint)
     {
-        return this->_ZFP_ZFUIListAdapter_cellSizeHint;
+        this->listAdapterNotifyReload();
     }
 
-public:
     /**
      * @brief if #cellSizeHint not set, whether fill cell size to #listContainerSize,
      *   false by default
@@ -140,26 +143,19 @@ public:
                       ZFMP_IN(zfindex, index),
                       ZFMP_IN(ZFUIListCell *, cell))
     {
-        if(this->cellSizeHint() < 0)
+        if(this->cellSizeFill())
         {
-            if(this->cellSizeFill())
+            switch(this->listOrientation())
             {
-                switch(this->listOrientation())
-                {
-                    case ZFUIOrientation::e_Left:
-                    case ZFUIOrientation::e_Right:
-                        return this->listContainerSize().width;
-                    case ZFUIOrientation::e_Top:
-                    case ZFUIOrientation::e_Bottom:
-                        return this->listContainerSize().height;
-                    default:
-                        zfCoreCriticalShouldNotGoHere();
-                        return -1;
-                }
-            }
-            else
-            {
-                return -1;
+                case ZFUIOrientation::e_Left:
+                case ZFUIOrientation::e_Right:
+                    return this->listContainerSize().width;
+                case ZFUIOrientation::e_Top:
+                case ZFUIOrientation::e_Bottom:
+                    return this->listContainerSize().height;
+                default:
+                    zfCoreCriticalShouldNotGoHere();
+                    return -1;
             }
         }
         else

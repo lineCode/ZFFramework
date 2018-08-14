@@ -68,12 +68,12 @@ protected:
         this->hintText()->styleKeySet(zfText("text"), zfText("ZF2048AutoMoveDialog_hint"));
 
         this->childAdd(this->actionList());
-        this->actionList()->cellSizeHintSet(-1);
         this->actionList()->viewSizeMinSet(ZFUISizeMake(0, 120));
         this->actionList()->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
         this->actionList()->layoutParam()->sizeHintSet(ZFUISizeMake(200, 150));
 
         this->actionList()->listAdapterSet(this->actionListAdapter());
+        this->actionListAdapter()->cellSizeHintSet(-1);
         this->actionList()->cellUpdater()->add(zflineAlloc(ZFUIListCellUpdaterBasic));
 
         this->childAdd(this->addActionLayout());

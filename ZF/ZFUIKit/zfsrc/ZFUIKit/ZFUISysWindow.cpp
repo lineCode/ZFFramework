@@ -415,7 +415,6 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onCreate(ZF_IN void *nativeWindow)
     ZFUIView::_ZFP_ZFUIView_nativeViewNotifyAdd(this->rootView(), nativeParentView);
 
     this->observerNotify(ZFUISysWindow::EventSysWindowOnCreate());
-    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnCreate());
 }
 void ZFUISysWindow::_ZFP_ZFUISysWindow_onDestroy(void)
 {
@@ -441,7 +440,6 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onDestroy(void)
     ZFUIView::_ZFP_ZFUIView_nativeViewNotifyRemove(this->rootView());
 
     this->observerNotify(ZFUISysWindow::EventSysWindowOnDestroy());
-    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnDestroy());
 
     if(this == _ZFP_ZFUISysWindow_mainWindowBuiltin)
     {
@@ -455,7 +453,6 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onResume(void)
 
     d->nativeWindowResumed = zftrue;
     this->observerNotify(ZFUISysWindow::EventSysWindowOnResume());
-    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnResume());
 
     for(zfindex i = this->rootView()->childCount() - 1; i != zfindexMax(); --i)
     {
@@ -475,7 +472,6 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onPause(void)
 
     d->nativeWindowResumed = zffalse;
     this->observerNotify(ZFUISysWindow::EventSysWindowOnPause());
-    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnPause());
 
     for(zfindex i = this->rootView()->childCount() - 1; i != zfindexMax(); --i)
     {
@@ -491,7 +487,6 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onRotate(void)
     zfCoreAssertWithMessage(d->nativeWindowCreated, zfTextA("window not created"));
     zfCoreAssertWithMessage(d->nativeWindowResumed, zfTextA("window not resumed"));
     this->observerNotify(ZFUISysWindow::EventSysWindowOnRotate());
-    ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(this, ZFUISysWindow::EventSysWindowOnRotate());
 
     for(zfindex i = this->rootView()->childCount() - 1; i != zfindexMax(); --i)
     {

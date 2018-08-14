@@ -106,15 +106,6 @@ public:
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIOrientationEnum, listOrientation)
 
     /**
-     * @brief list cell's hint size which would be passed to #ZFUIListAdapter,
-     *   use -1 to measure by list cell,
-     *   #ZFUIGlobalStyle::itemSizeListCell by default
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSizeHint,
-                                ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfint, cellSizeHint)
-
-    /**
      * @brief whether auto update #ZFUIScrollView::scrollBounceVertical series accorrding to #listOrientation,
      *   true by default
      */
@@ -167,7 +158,7 @@ protected:
                                    ZF_IN ZFUIViewChildLayerEnum layer);
 
     zfoverride
-    virtual void scrollAreaMarginOnChange(void);
+    virtual void scrollAreaOnChange(void);
     zfoverride
     virtual void scrollContentFrameOnChange(void);
 

@@ -117,7 +117,6 @@ public:
         if(this->listAdapter != zfnull)
         {
             this->listAdapter->_ZFP_ZFUIListAdapter_listOrientation = this->pimplOwner->listOrientation();
-            this->listAdapter->_ZFP_ZFUIListAdapter_cellSizeHint = this->pimplOwner->cellSizeHint();
             this->listAdapter->_ZFP_ZFUIListAdapter_listContainerSize = this->pimplOwner->scrollArea().size;
         }
     }
@@ -1065,7 +1064,28 @@ public:
         }
         else
         {
-            zfint cellSizeHint = zfmMax(this->pimplOwner->cellSizeHint(), ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell());
+            zfint cellSizeHint = this->listAdapter->cellSizeHint();
+            if(this->listAdapter->cellSizeFill())
+            {
+                switch(this->listAdapter->listOrientation())
+                {
+                    case ZFUIOrientation::e_Left:
+                    case ZFUIOrientation::e_Right:
+                        this->listAdapter->listContainerSize().width;
+                        break;
+                    case ZFUIOrientation::e_Top:
+                    case ZFUIOrientation::e_Bottom:
+                        this->listAdapter->listContainerSize().height;
+                        break;
+                    default:
+                        zfCoreCriticalShouldNotGoHere();
+                        break;
+                }
+            }
+            else if(cellSizeHint < 0)
+            {
+                cellSizeHint = ZFUIGlobalStyle::DefaultStyle()->itemSizeListCell();
+            }
             this->cellSizeList.capacitySet(this->cellCount);
             for(zfindex i = this->cellSizeList.count(); i < this->cellCount; ++i)
             {
@@ -1414,13 +1434,6 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, ZFUIOrientationEnum, listOrie
         this->listReload();
     }
 }
-ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, zfint, cellSizeHint)
-{
-    if(this->cellSizeHint() != propertyValueOld)
-    {
-        this->listReload();
-    }
-}
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, zfbool, listBounce)
 {
     if(this->listBounce() != propertyValueOld)
@@ -1488,7 +1501,7 @@ void ZFUIListView::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
         d->listQuickReloadRequested = zftrue;
         d->cellNeedUpdate = zftrue;
     }
-    if((d->listReloadRequested || d->listQuickReloadRequested) && d->listAdapter != zfnull)
+    if(d->listReloadRequested || d->listQuickReloadRequested)
     {
         d->listAdapterSettingUpdate();
     }
@@ -1519,14 +1532,14 @@ void ZFUIListView::viewChildOnRemove(ZF_IN ZFUIView *child,
     zfsuper::viewChildOnRemove(child, layer);
 }
 
-void ZFUIListView::scrollAreaMarginOnChange(void)
+void ZFUIListView::scrollAreaOnChange(void)
 {
-    zfsuper::scrollAreaMarginOnChange();
+    zfsuper::scrollAreaOnChange();
     if(!d->listQuickReloadRequested)
     {
         d->listQuickReloadRequested = zftrue;
-        this->layoutRequest();
     }
+    d->listAdapterSettingUpdate();
 }
 void ZFUIListView::scrollContentFrameOnChange(void)
 {

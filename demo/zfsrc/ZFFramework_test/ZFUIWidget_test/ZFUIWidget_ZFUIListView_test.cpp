@@ -151,7 +151,7 @@ private:
                 , ZFUIOrientation::e_Right
                 , ZFUIOrientation::e_Bottom
                 ));
-        ZFUIKit_test_prepareSettingForNormalProperty(settings, listView, zfint, ZFPropertyAccess(ZFUIListView, cellSizeHint), ZFCoreArrayPODCreate(zfint, 56, 100, 44));
+        ZFUIKit_test_prepareSettingForNormalProperty(settings, listView->listAdapter()->toObject(), zfint, ZFPropertyAccess(ZFUIListAdapter, cellSizeHint), ZFCoreArrayPODCreate(zfint, 56, 100, 44));
 
 #define _ZFP_ZFUIWidget_ZFUIListView_test_autoScrollSpeed 100
         { // auto scroll x
