@@ -517,7 +517,7 @@ private:
 public:
     zfbool scrollAlignToPageCheckUpdate(void)
     {
-        if(!this->scrollAlignToPage)
+        if(!this->scrollAlignToPage || this->scrollAlignToPageOverrideScrollFlag)
         {
             return zffalse;
         }
@@ -642,10 +642,7 @@ void ZFUIScrollerDefault::scrollWithoutAnimation(ZF_IN zfint contentOffset)
 void ZFUIScrollerDefault::scrollByPoint(ZF_IN zfint point)
 {
     d->aniByPointStart(point);
-    if(!d->scrollAlignToPageOverrideScrollFlag)
-    {
-        d->scrollAlignToPageCheckUpdate();
-    }
+    d->scrollAlignToPageCheckUpdate();
 }
 zfint ZFUIScrollerDefault::scrollByPointEndPoint(void)
 {
