@@ -97,6 +97,12 @@ public:
      * you must supply custom embed impl by #ZFUISysWindowEmbedImpl,
      * call this method to get an attached #ZFUISysWindow,
      * and manually manage the life cycle of the returned #ZFUISysWindow\n
+     * \n
+     * the embedImpl would be retained until the created window destroy,
+     * so that you only need to take care of the created winodw,
+     * to explicitly clear all the contents,
+     * simply use `window->nativeWindowEmbedImplDestroy()`\n
+     * \n
      * see #ZFUISysWindowEmbedImpl for all the impl that you need to implement
      */
     static zfautoObject nativeWindowEmbed(ZF_IN ZFUISysWindowEmbedImpl *embedImpl);
@@ -107,19 +113,23 @@ public:
     virtual ZFUISysWindowEmbedImpl *nativeWindowEmbedImpl(void);
 
     /**
+     * @brief util to destroy the window created by #nativeWindowEmbed
+     *
+     * equal to #ZFUISysWindowEmbedImpl::notifyOnPause
+     * + #ZFUISysWindowEmbedImpl::notifyOnDestroy
+     */
+    ZFMETHOD_DECLARE_0(void, nativeWindowEmbedImplDestroy)
+
+    /**
      * @brief default impl to attach window to native view
      *
-     * note, after attach, you must destroy the window by #nativeWindowEmbedNativeViewDetach
+     * note, after attach, you must destroy the window by #nativeWindowEmbedImplDestroy
      * before destroy the nativeParent\n
      * the nativeParent must support add one or more child which fill itself
      */
     ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
                               zfautoObject, nativeWindowEmbedNativeView,
                               ZFMP_IN(void *, nativeParent))
-    /**
-     * @brief see #nativeWindowEmbedNativeView
-     */
-    ZFMETHOD_DECLARE_0(void, nativeWindowEmbedNativeViewDetach)
 
 public:
     /**

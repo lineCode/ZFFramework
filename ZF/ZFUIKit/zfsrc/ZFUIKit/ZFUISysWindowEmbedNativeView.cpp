@@ -9,8 +9,6 @@
  * ====================================================================== */
 #include "ZFUISysWindow.h"
 #include "protocol/ZFProtocolZFUISysWindowEmbedNativeView.h"
-#include "ZFUIRootView.h"
-#include "ZFUIWindow.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -49,7 +47,7 @@ public:
     virtual void modalWindowFinish(ZF_IN ZFUISysWindow *sysWindowOwner,
                                    ZF_IN ZFUISysWindow *sysWindowToFinish)
     {
-        sysWindowToFinish->nativeWindowEmbedNativeViewDetach();
+        sysWindowToFinish->nativeWindowEmbedImplDestroy();
     }
 };
 
@@ -64,20 +62,6 @@ ZFMETHOD_DEFINE_1(ZFUISysWindow, zfautoObject, nativeWindowEmbedNativeView,
     embedImpl->notifyOnCreate(window, zfnull);
     embedImpl->notifyOnResume(window);
     return ret;
-}
-ZFMETHOD_DEFINE_0(ZFUISysWindow, void, nativeWindowEmbedNativeViewDetach)
-{
-    if(this->nativeWindowEmbedImpl() != zfnull)
-    {
-        if(this->nativeWindowIsResumed())
-        {
-            this->nativeWindowEmbedImpl()->notifyOnPause(this);
-        }
-        if(this->nativeWindowIsCreated())
-        {
-            this->nativeWindowEmbedImpl()->notifyOnDestroy(this);
-        }
-    }
 }
 
 ZF_NAMESPACE_GLOBAL_END

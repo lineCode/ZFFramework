@@ -22,7 +22,7 @@ ZF_NAMESPACE_END(ZFGlobalEvent)
 zfclassNotPOD _ZFP_ZFUISysWindowPrivate
 {
 public:
-    ZFUISysWindowEmbedImpl *embedImpl;
+    ZFUISysWindowEmbedImpl *embedImpl; // auto retain
     void *nativeWindow;
     ZFUIRootView *windowRootView;
     ZFUIOrientationFlags sysWindowOrientationFlags;
@@ -48,6 +48,10 @@ public:
     , nativeWindowResumed(zffalse)
     , sysWindowMargin()
     {
+    }
+    ~_ZFP_ZFUISysWindowPrivate(void)
+    {
+        zfRelease(this->embedImpl);
     }
 
 public:
@@ -78,7 +82,7 @@ zfautoObject ZFUISysWindow::nativeWindowEmbed(ZF_IN ZFUISysWindowEmbedImpl *embe
 {
     zfautoObject tmp = ZFUISysWindow::ClassData()->newInstance();
     ZFUISysWindow *ret = tmp.to<ZFUISysWindow *>();
-    ret->d->embedImpl = embedImpl;
+    ret->d->embedImpl = zfRetain(embedImpl);
     embedImpl->_ZFP_ownerZFUISysWindow = ret;
     embedImpl->sysWindowLayoutParamOnInit(ret);
     return tmp;
@@ -86,6 +90,21 @@ zfautoObject ZFUISysWindow::nativeWindowEmbed(ZF_IN ZFUISysWindowEmbedImpl *embe
 ZFUISysWindowEmbedImpl *ZFUISysWindow::nativeWindowEmbedImpl(void)
 {
     return d->embedImpl;
+}
+
+ZFMETHOD_DEFINE_0(ZFUISysWindow, void, nativeWindowEmbedImplDestroy)
+{
+    if(this->nativeWindowEmbedImpl() != zfnull)
+    {
+        if(this->nativeWindowIsResumed())
+        {
+            this->nativeWindowEmbedImpl()->notifyOnPause(this);
+        }
+        if(this->nativeWindowIsCreated())
+        {
+            this->nativeWindowEmbedImpl()->notifyOnDestroy(this);
+        }
+    }
 }
 
 // ============================================================
