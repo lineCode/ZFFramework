@@ -1,5 +1,6 @@
 # master
 * optimize native window attach impl
+* optimize list view impl
 
 # 0.4.1
 * update project files

@@ -1494,6 +1494,72 @@ ZFSerializablePropertyType ZFUIListView::serializableOnCheckPropertyType(ZF_IN c
     }
 }
 
+zfbool ZFUIListView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData &serializableData,
+                                                     ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
+                                                     ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
+{
+    if(!zfsuperI(ZFSerializable)::serializableOnSerializeFromData(serializableData, outErrorHint, outErrorPos)) {return zffalse;}
+
+    this->listAdapterSet(zfnull);
+
+    for(zfindex i = 0; i < serializableData.elementCount(); ++i)
+    {
+        const ZFSerializableData &categoryData = serializableData.elementAtIndex(i);
+        if(categoryData.resolved()) {continue;}
+        const zfchar *category = ZFSerializableUtil::checkCategory(categoryData);
+        if(!zfscmpTheSame(category, ZFSerializableKeyword_ZFUIListView_listAdapter)) {continue;}
+
+        zfautoObject element;
+        if(!ZFObjectFromData(element, categoryData, outErrorHint, outErrorPos))
+        {
+            return zffalse;
+        }
+        if(element != zfnull
+            && !element.toObject()->classData()->classIsTypeOf(ZFUIListAdapter::ClassData()))
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
+                zfText("%s not type of %s"),
+                element.toObject()->objectInfoOfInstance().cString(), ZFUIListAdapter::ClassData()->classNameFull());
+            return zffalse;
+        }
+
+        this->listAdapterSet(element);
+        categoryData.resolveMark();
+    }
+    return zftrue;
+}
+zfbool ZFUIListView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &serializableData,
+                                                   ZF_IN ZFSerializable *referencedOwnerOrNull,
+                                                   ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */)
+{
+    if(!zfsuperI(ZFSerializable)::serializableOnSerializeToData(serializableData, referencedOwnerOrNull, outErrorHint)) {return zffalse;}
+    zfself *ref = ZFCastZFObject(zfself *, referencedOwnerOrNull);
+
+    if(!this->listAdapterSerializable() || this->listAdapter() == zfnull)
+    {
+        return zftrue;
+    }
+
+    ZFSerializableData categoryData;
+    if(!ZFObjectToData(categoryData, this->listAdapter()->toObject(), outErrorHint,
+        ref ? ZFCastZFObject(ZFSerializable *, ref->listAdapter()) : zfnull))
+    {
+        return zffalse;
+    }
+
+    if(!(
+        ref != zfnull && ref->listAdapter() != zfnull
+        && this->listAdapter()->classData()->classIsTypeOf(ref->listAdapter()->classData())
+        && categoryData.elementCount() == 0 && categoryData.attributeCount() == 0
+        ))
+    {
+        categoryData.categorySet(ZFSerializableKeyword_ZFUIListView_listAdapter);
+        serializableData.elementAdd(categoryData);
+    }
+
+    return zftrue;
+}
+
 void ZFUIListView::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
 {
     if(!d->listQuickReloadRequested && this->layoutedFrame().size != this->layoutedFramePrev().size)

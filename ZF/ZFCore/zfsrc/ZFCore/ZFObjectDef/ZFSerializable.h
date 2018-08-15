@@ -372,7 +372,7 @@ protected:
      *       {
      *           return zffalse;
      *       }
-     *       if(categoryData.resolved())
+     *       if(propertyData.resolved())
      *       {
      *           return zftrue;
      *       }

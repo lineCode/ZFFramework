@@ -19,12 +19,23 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
+/** @brief keyword for serialize */
+#define ZFSerializableKeyword_ZFUIListAdapterArray_cell zfText("ZFSerializableKeyword_ZFUIListAdapterArray_cell")
+
 /**
  * @brief basic list adapter which hold all list cells directly (with no recycle logic)
+ *
+ * serializable data:
+ * @code
+ *   <ZFUIListAdapterArray>
+ *       <SomeView category="cell" />
+ *       ... // each cell
+ *   </ZFUIListAdapterArray>
+ * @endcode
  */
-zfclass ZF_ENV_EXPORT ZFUIListAdapterArray : zfextends ZFObject, zfimplements ZFUIListAdapter
+zfclass ZF_ENV_EXPORT ZFUIListAdapterArray : zfextends ZFStyleableObject, zfimplements ZFUIListAdapter
 {
-    ZFOBJECT_DECLARE(ZFUIListAdapterArray, ZFObject)
+    ZFOBJECT_DECLARE(ZFUIListAdapterArray, ZFStyleableObject)
     ZFIMPLEMENTS_DECLARE(ZFUIListAdapter)
 
 protected:
@@ -115,6 +126,16 @@ protected:
     {
         return d->get(index);
     }
+
+protected:
+    zfoverride
+    virtual zfbool serializableOnSerializeFromData(ZF_IN const ZFSerializableData &serializableData,
+                                                   ZF_OUT_OPT zfstring *outErrorHint = zfnull,
+                                                   ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull);
+    zfoverride
+    virtual zfbool serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &serializableData,
+                                                 ZF_IN ZFSerializable *referencedOwnerOrNull,
+                                                 ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 
 private:
     ZFArrayEditable *d;
