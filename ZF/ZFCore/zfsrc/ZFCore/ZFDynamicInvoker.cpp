@@ -185,8 +185,16 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         {
             if(errorHint != zfnull)
             {
-                zfstringAppend(errorHint, zfText("no such method \"%s\" in scope \"%s\""),
-                    methodName, NS);
+                if(obj != zfnull)
+                {
+                    zfstringAppend(errorHint, zfText("no such method \"%s\" for object: %s"),
+                        methodName, obj->objectInfoOfInstance().cString());
+                }
+                else
+                {
+                    zfstringAppend(errorHint, zfText("no such method \"%s\" in scope \"%s\""),
+                        methodName, NS);
+                }
             }
             return zffalse;
         }
