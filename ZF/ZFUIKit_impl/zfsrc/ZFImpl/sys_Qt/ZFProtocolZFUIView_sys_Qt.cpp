@@ -217,8 +217,11 @@ public:
             case QEvent::Wheel:
             {
                 QWheelEvent *eventTmp = (QWheelEvent *)event;
-                ZFCACHEABLE_ACCESS(ZFUIWheelEvent, ZFUIWheelEvent, wheelEvent);
                 QPoint eventSteps = eventTmp->angleDelta() / 8 / 15;
+
+                zfautoObject eventHolder = ZFUIWheelEvent::cacheHolder()->cacheGet(ZFUIWheelEvent::ClassData());
+                ZFUIWheelEvent *wheelEvent = eventHolder;
+                wheelEvent->eventResolvedSet(zffalse);
                 wheelEvent->wheelX = -eventSteps.x();
                 wheelEvent->wheelY = -eventSteps.y();
                 if(wheelEvent->wheelX != 0 || wheelEvent->wheelY != 0)
@@ -348,10 +351,13 @@ public:
 private:
     void mouseEventResolve(QMouseEvent *event, ZFUIMouseActionEnum mouseAction)
     {
-        ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
+        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+        ZFUIMouseEvent *ev = evHolder;
+        ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)event->button();
         ev->mouseAction = mouseAction;
         ev->mousePoint = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointFromQPoint(event->pos());
+        ev->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
         switch(event->button())
         {
             case Qt::RightButton:
@@ -370,7 +376,9 @@ private:
     }
     void mouseHoverEventResolve(const ZFUIPoint &pos, ZFUIMouseActionEnum mouseAction)
     {
-        ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
+        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+        ZFUIMouseEvent *ev = evHolder;
+        ev->eventResolvedSet(zffalse);
         ev->mouseId = 0;
         ev->mouseAction = mouseAction;
         ev->mousePoint = pos;
@@ -402,7 +410,9 @@ private:
     {
         if(this->_ZFP_viewUIEnableTree && this->_ZFP_viewUIEnable)
         {
-            ZFCACHEABLE_ACCESS(ZFUIKeyEvent, ZFUIKeyEvent, ev);
+            zfautoObject evHolder = ZFUIKeyEvent::cacheHolder()->cacheGet(ZFUIKeyEvent::ClassData());
+            ZFUIKeyEvent *ev = evHolder;
+            ev->eventResolvedSet(zffalse);
             ev->keyId = (zfidentity)event->key();
             ev->keyAction = keyAction;
             ev->keyCode = ZFUIViewImpl_sys_Qt_ZFUIKeyCodeFromQKeyCode(event->key());

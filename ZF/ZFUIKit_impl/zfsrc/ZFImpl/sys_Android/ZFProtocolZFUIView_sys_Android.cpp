@@ -357,10 +357,13 @@ JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notifyUIEve
                    jint mousePointX,
                    jint mousePointY)
 {
-    ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, event);
+    zfautoObject eventHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+    ZFUIMouseEvent *event = eventHolder;
+    event->eventResolvedSet(zffalse);
     event->mouseId = mouseId;
     event->mouseAction = (ZFUIMouseActionEnum)mouseAction;
     event->mousePoint = ZFUIPointMake(mousePointX, mousePointY);
+    event->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
     ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(
         ZFCastZFObject(ZFUIView *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUIView)),
         event);
@@ -374,7 +377,9 @@ JNI_METHOD_DECLARE(jboolean, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notifyU
                    jint keyCode,
                    jint keyCodeRaw)
 {
-    ZFCACHEABLE_ACCESS(ZFUIKeyEvent, ZFUIKeyEvent, event);
+    zfautoObject eventHolder = ZFUIKeyEvent::cacheHolder()->cacheGet(ZFUIKeyEvent::ClassData());
+    ZFUIKeyEvent *event = eventHolder;
+    event->eventResolvedSet(zffalse);
     event->keyId = keyId;
     event->keyAction = (ZFUIKeyActionEnum)keyAction;
     event->keyCode = (ZFUIKeyCodeEnum)keyCode;

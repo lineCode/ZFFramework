@@ -8,16 +8,49 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFThread_observerNotifyInMainThread.h"
-#include "ZFCacheable.h"
+
+#include "ZFCore/ZFSTLWrapper/zfstl_list.h"
+#include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-zfclass _ZFP_I_ZFObserverNotifyInMainThreadTaskData : zfextends ZFObject, zfimplements ZFCacheable
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObserverNotifyInMainThreadCacheHolder, ZFLevelZFFrameworkHigh)
+{
+}
+zfstllist<zfautoObject> l;
+ZF_GLOBAL_INITIALIZER_END(ZFObserverNotifyInMainThreadCacheHolder)
+
+zfclass _ZFP_I_ZFObserverNotifyInMainThreadTaskData : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFObserverNotifyInMainThreadTaskData, ZFObject)
-    ZFIMPLEMENTS_DECLARE(ZFCacheable)
-    ZFCACHEABLE_DECLARE(_ZFP_I_ZFObserverNotifyInMainThreadTaskData)
+
+public:
+    static zfautoObject cacheGet(void)
+    {
+        zfCoreMutexLocker();
+        ZF_GLOBAL_INITIALIZER_CLASS(ZFObserverNotifyInMainThreadCacheHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFObserverNotifyInMainThreadCacheHolder);
+        if(d->l.empty())
+        {
+            return zflineAlloc(zfself);
+        }
+        else
+        {
+            zfautoObject ret = *(d->l.begin());
+            d->l.pop_front();
+            return ret;
+        }
+    }
+    static void cacheAdd(ZF_IN zfself *taskData)
+    {
+        zfCoreMutexLocker();
+        taskData->removeAll();
+        ZF_GLOBAL_INITIALIZER_CLASS(ZFObserverNotifyInMainThreadCacheHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFObserverNotifyInMainThreadCacheHolder);
+        if(d->l.size() < 10)
+        {
+            d->l.push_back(taskData);
+        }
+    }
 
 public:
     _ZFP_I_ZFObserverNotifyInMainThreadTaskData(void)
@@ -59,17 +92,8 @@ public:
         this->removeAll();
         zfsuper::objectOnDealloc();
     }
-
-public:
-    zfoverride
-    virtual void cacheableOnReset(void)
-    {
-        zfsuperI(ZFCacheable)::cacheableOnReset();
-        this->removeAll();
-    }
 };
 ZFOBJECT_REGISTER(_ZFP_I_ZFObserverNotifyInMainThreadTaskData)
-ZFCACHEABLE_DEFINE(_ZFP_I_ZFObserverNotifyInMainThreadTaskData, _ZFP_I_ZFObserverNotifyInMainThreadTaskData)
 
 // ============================================================
 static ZFListener *_ZFP_ZFObserverNotifyInMainThreadCallback = zfnull;
@@ -109,7 +133,8 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFObserverNotifyInMainThreadWithCustomSender,
     }
     if(_ZFP_ZFObserverNotifyInMainThreadCallback)
     {
-        _ZFP_I_ZFObserverNotifyInMainThreadTaskData *taskData = _ZFP_I_ZFObserverNotifyInMainThreadTaskData::cacheGet();
+        zfautoObject taskDataHolder = _ZFP_I_ZFObserverNotifyInMainThreadTaskData::cacheGet();
+        _ZFP_I_ZFObserverNotifyInMainThreadTaskData *taskData = taskDataHolder;
         taskData->objSet(obj);
         taskData->customSenderSet(customSender);
         taskData->eventId = eventId;

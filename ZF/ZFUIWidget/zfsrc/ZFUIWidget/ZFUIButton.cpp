@@ -48,10 +48,13 @@ static inline _ZFP_ZFUIButtonMouseData _ZFP_ZFUIButtonMouseDataFromEvent(ZF_IN Z
     return ret;
 }
 #define _ZFP_ZFUIButtonMouseDataToEvent(event, mouseData) \
-    ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, event); \
+    zfautoObject eventHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData()); \
+    ZFUIMouseEvent *event = eventHolder; \
+    event->eventResolvedSet(zffalse); \
     event->mouseId = mouseData.mouseId; \
     event->mouseAction = mouseData.mouseAction; \
-    event->mousePoint = mouseData.mousePoint
+    event->mousePoint = mouseData.mousePoint; \
+    event->mouseButton = ZFUIMouseButton::e_MouseButtonLeft
 
 zfclassNotPOD _ZFP_ZFUIButtonPrivate
 {

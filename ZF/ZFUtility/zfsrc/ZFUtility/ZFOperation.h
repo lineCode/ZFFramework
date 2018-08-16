@@ -539,8 +539,10 @@ public:
     /**
      * @brief access all cache, for debug use only
      */
-    ZFMETHOD_DECLARE_1(void, cacheGetAll,
-                       ZFMP_OUT(ZFCoreArray<ZFOperationCache *> &, allCache))
+    ZFMETHOD_DECLARE_0(ZFCoreArray<zfautoObject>, cacheGetAll)
+    /** @brief see #cacheGetAll */
+    ZFMETHOD_DECLARE_1(void, cacheGetAllT,
+                       ZFMP_OUT(ZFCoreArray<zfautoObject> &, ret))
 
 protected:
     /**

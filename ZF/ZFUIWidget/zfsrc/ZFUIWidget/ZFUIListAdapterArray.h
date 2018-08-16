@@ -110,12 +110,13 @@ public:
     }
 
 public:
-    ZFMETHOD_INLINE_0(zfindex, cellCount)
+    zfoverride
+    virtual zfindex cellCount(void)
     {
         return d->count();
     }
-    ZFMETHOD_INLINE_1(zfautoObject, cellAtIndex,
-                      ZFMP_IN(zfindex, index))
+    zfoverride
+    virtual zfautoObject cellAtIndex(ZF_IN zfindex index)
     {
         return d->get(index);
     }

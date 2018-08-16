@@ -555,7 +555,7 @@ ZFCompareResult ZFValue::serializableDataValueCompare(ZF_IN const ZFSerializable
         value->TypeName##ValueSet(v); \
         return value; \
     } \
-    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFValue, zfautoObject, TypeName##ValueCreate, ZFMP_IN(Type const &, v))
+    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_1(ZFValue, zfautoObject, TypeName##ValueCreate, ZFMP_IN(Type const &, v))
 #define _ZFP_ZFValue_create_hasCache_DEFINE(TypeName, Type, originalType, negativeCount, positiveCount) \
     zfautoObject ZFValue::TypeName##ValueCreate(ZF_IN Type const &v) \
     { \
@@ -576,7 +576,7 @@ ZFCompareResult ZFValue::serializableDataValueCompare(ZF_IN const ZFSerializable
         value->TypeName##ValueSet(v); \
         return value; \
     } \
-    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFValue, zfautoObject, TypeName##ValueCreate, ZFMP_IN(Type const &, v))
+    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_1(ZFValue, zfautoObject, TypeName##ValueCreate, ZFMP_IN(Type const &, v))
 zfautoObject ZFValue::boolValueCreate(ZF_IN zfbool const &v)
 {
     zfCoreMutexLocker();
@@ -591,7 +591,7 @@ zfautoObject ZFValue::boolValueCreate(ZF_IN zfbool const &v)
     }
     return s_value[i];
 }
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFValue, zfautoObject, boolValueCreate, ZFMP_IN(zfbool const &, v))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_1(ZFValue, zfautoObject, boolValueCreate, ZFMP_IN(zfbool const &, v))
 // ZFTAG_ZFVALUE_TYPE_TO_ADD
 _ZFP_ZFValue_create_noCache_DEFINE(char, zfchar, zft_zfchar)
 _ZFP_ZFValue_create_hasCache_DEFINE(int, zfint, zft_zfint, 3, 10)
@@ -811,7 +811,8 @@ void ZFValue::serializableDataValueSet(ZF_IN const ZFSerializableData &v)
         ret->TypeName##ValueSet(v); \
         return ret; \
     } \
-    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFValueEditable, zfautoObject, TypeName##ValueCreate, ZFMP_IN(Type const &, v))
+    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_1(ZFValueEditable, zfautoObject, TypeName##ValueCreate, ZFMP_IN(Type const &, v)) \
+    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFValueEditable, void, TypeName##ValueSet, ZFMP_IN(Type const &, v))
 
 // ZFTAG_ZFVALUE_TYPE_TO_ADD
 _ZFP_ZFValueEditable_create_DEFINE(bool, zfbool, zft_zfbool)

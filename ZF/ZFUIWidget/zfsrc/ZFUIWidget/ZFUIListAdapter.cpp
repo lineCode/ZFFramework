@@ -48,5 +48,9 @@ void ZFUIListAdapter::cellCacheDefaultRecycle(ZF_IN const zfchar *key, ZF_IN ZFU
     cacheList->add(cell);
 }
 
+// ============================================================
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFUIListAdapter, zfindex, cellCount)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFUIListAdapter, zfautoObject, cellAtIndex, ZFMP_IN(zfindex, index))
+
 ZF_NAMESPACE_GLOBAL_END
 

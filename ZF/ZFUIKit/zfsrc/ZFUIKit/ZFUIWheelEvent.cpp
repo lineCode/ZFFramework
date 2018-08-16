@@ -12,7 +12,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIWheelEvent)
-ZFCACHEABLE_DEFINE(ZFUIWheelEvent, ZFUIWheelEvent)
+ZFCACHEHOLDER_DEFINE(ZFUIWheelEvent)
 
 void ZFUIWheelEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
@@ -27,13 +27,7 @@ void ZFUIWheelEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     }
 }
 
-void ZFUIWheelEvent::cacheableOnReset(void)
-{
-    zfsuper::cacheableOnReset();
-    this->wheelX = 0;
-    this->wheelY = 0;
-}
-
+// ============================================================
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFUIWheelEvent, zfint, wheelX)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFUIWheelEvent, zfint, wheelY)
 

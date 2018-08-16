@@ -136,10 +136,13 @@
     {
         [self._ZFP_mouseRecords addObject:touch];
 
-        ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
+        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+        ZFUIMouseEvent *ev = evHolder;
+        ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseDown;
         ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -163,10 +166,13 @@
 
     for(UITouch *touch in self._ZFP_mouseRecords)
     {
-        ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
+        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+        ZFUIMouseEvent *ev = evHolder;
+        ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseMove;
         ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -184,10 +190,13 @@
     {
         [self._ZFP_mouseRecords removeObject:touch];
 
-        ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
+        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+        ZFUIMouseEvent *ev = evHolder;
+        ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseUp;
         ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }
@@ -205,10 +214,13 @@
     {
         [self._ZFP_mouseRecords removeObject:touch];
 
-        ZFCACHEABLE_ACCESS(ZFUIMouseEvent, ZFUIMouseEvent, ev);
+        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
+        ZFUIMouseEvent *ev = evHolder;
+        ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseCancel;
         ev->mousePoint = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIPointFromCGPoint([touch locationInView:self]);
+        ev->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(self._ZFP_ownerZFUIView, ev);
     }
 }

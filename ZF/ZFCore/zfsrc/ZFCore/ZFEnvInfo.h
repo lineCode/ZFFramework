@@ -30,7 +30,7 @@ ZF_NAMESPACE_BEGIN(ZFEnvInfo)
 ZFMETHOD_FUNC_DECLARE_1(void, envSummary,
                         ZFMP_IN_OUT(zfstring &, ret))
 /**
- * @brief name of native system, e.g. "iOS", empty if not available
+ * @brief see #envSummary
  */
 ZFMETHOD_FUNC_DECLARE_0(zfstring, envSummary)
 
@@ -48,7 +48,7 @@ extern ZF_ENV_EXPORT void envSummaryCallbackUnregister(ZF_IN const zfchar *name)
 ZFMETHOD_FUNC_DECLARE_1(void, systemName,
                         ZFMP_IN_OUT(zfstring &, ret))
 /**
- * @brief name of native system, e.g. "iOS", empty if not available
+ * @brief see #systemName
  */
 ZFMETHOD_FUNC_DECLARE_0(zfstring, systemName)
 /**
@@ -57,7 +57,7 @@ ZFMETHOD_FUNC_DECLARE_0(zfstring, systemName)
 ZFMETHOD_FUNC_DECLARE_1(void, systemVersion,
                         ZFMP_IN_OUT(zfstring &, ret))
 /**
- * @brief version of native system, e.g. "9.0.1", empty if not available
+ * @brief see #systemVersion
  */
 ZFMETHOD_FUNC_DECLARE_0(zfstring, systemVersion)
 
@@ -68,7 +68,7 @@ ZFMETHOD_FUNC_DECLARE_0(zfstring, systemVersion)
 ZFMETHOD_FUNC_DECLARE_1(void, frameworkName,
                         ZFMP_IN_OUT(zfstring &, ret))
 /**
- * @brief name of native framework, e.g. "Qt", empty if not available
+ * @brief see #frameworkName
  */
 ZFMETHOD_FUNC_DECLARE_0(zfstring, frameworkName)
 /**
@@ -77,7 +77,7 @@ ZFMETHOD_FUNC_DECLARE_0(zfstring, frameworkName)
 ZFMETHOD_FUNC_DECLARE_1(void, frameworkVersion,
                         ZFMP_IN_OUT(zfstring &, ret))
 /**
- * @brief version of native framework, e.g. "9.0.1", empty if not available
+ * @brief see #frameworkVersion
  */
 ZFMETHOD_FUNC_DECLARE_0(zfstring, frameworkVersion)
 

@@ -1,5 +1,6 @@
 # master
 * optimize native window attach impl
+* optimize cache impl
 * optimize list view impl
 
 # 0.4.1

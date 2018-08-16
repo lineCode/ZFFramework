@@ -15,7 +15,7 @@ ZFENUM_DEFINE(ZFUIMouseAction)
 ZFENUM_DEFINE(ZFUIMouseButton)
 
 ZFOBJECT_REGISTER(ZFUIMouseEvent)
-ZFCACHEABLE_DEFINE(ZFUIMouseEvent, ZFUIMouseEvent)
+ZFCACHEHOLDER_DEFINE(ZFUIMouseEvent)
 
 void ZFUIMouseEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
@@ -33,13 +33,6 @@ void ZFUIMouseEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     {
         ret += zfText(" (resolved)");
     }
-}
-
-void ZFUIMouseEvent::cacheableOnReset(void)
-{
-    zfsuper::cacheableOnReset();
-    this->mouseAction = ZFUIMouseAction::e_MouseDown;
-    this->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
 }
 
 void ZFUIMouseEvent::eventOnApplyScale(ZF_IN zffloat scale)

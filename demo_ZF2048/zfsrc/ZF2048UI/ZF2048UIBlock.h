@@ -19,12 +19,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief linear container view that layout children in linear by specified orientation
  */
-zfclass ZF2048UIBlock : zfextends ZFUIImageView, zfimplements ZFCacheable
+zfclass ZF2048UIBlock : zfextends ZFUIImageView
 {
     ZFOBJECT_DECLARE(ZF2048UIBlock, ZFUIImageView)
-    ZFIMPLEMENTS_DECLARE(ZFCacheable)
     ZFSTYLE_DEFAULT_DECLARE(ZF2048UIBlock)
-    ZFCACHEABLE_DECLARE(ZF2048UIBlock)
+    ZFCACHEHOLDER_DECLARE()
 
 public:
     ZFPROPERTY_ASSIGN_WITH_INIT(ZF2048Value, blockValue, 0)
@@ -33,13 +32,6 @@ public:
     ZFPROPERTY_RETAIN_READONLY(ZFUITextView *, blockTitle, zflineAlloc(ZFUITextView))
 
 protected:
-    zfoverride
-    virtual void cacheableOnReset(void)
-    {
-        zfsuperI(ZFCacheable)::cacheableOnReset();
-        this->blockValueSet((ZF2048Value)0);
-    }
-
     zfoverride
     virtual void objectOnInit(void);
 };

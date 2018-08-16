@@ -27,10 +27,6 @@ zffinal zfclass ZF_ENV_EXPORT ZFUIKeyEvent : zfextends ZFUIEvent
 {
     ZFOBJECT_DECLARE(ZFUIKeyEvent, ZFUIEvent)
 
-protected:
-    zfoverride
-    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
-
 public:
     /**
      * @brief a unique value to differ key event from each other
@@ -50,7 +46,11 @@ public:
     zfflags keyCodeRaw;
 
 public:
-    ZFCACHEABLE_DECLARE(ZFUIKeyEvent)
+    ZFCACHEHOLDER_DECLARE()
+
+protected:
+    zfoverride
+    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
 };
 
 ZF_NAMESPACE_GLOBAL_END

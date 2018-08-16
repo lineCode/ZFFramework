@@ -21,19 +21,21 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief base class of all ui event
  */
-zfclass ZF_ENV_EXPORT ZFUIEvent : zfextends ZFEvent
+zfclass ZF_ENV_EXPORT ZFUIEvent : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(ZFUIEvent, ZFEvent)
+    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFUIEvent, ZFObject)
 
 public:
-    inline void _ZFP_ZFUIEvent_eventOnApplyScale(ZF_IN zffloat scale)
-    {
-        this->eventOnApplyScale(scale);
-    }
-    inline void _ZFP_ZFUIEvent_eventOnApplyScaleReversely(ZF_IN zffloat scale)
-    {
-        this->eventOnApplyScaleReversely(scale);
-    }
+    /**
+     * @brief whether the event has been resolved
+     */
+    ZFMETHOD_DECLARE_1(void, eventResolvedSet,
+                       ZFMP_IN(zfbool const &, value))
+    /**
+     * @brief see #eventResolvedSet
+     */
+    ZFMETHOD_DECLARE_0(zfbool, eventResolved)
+
 protected:
     /**
      * @brief see #ZFUIView::scaleOnChange, usually internal use only
@@ -47,6 +49,20 @@ protected:
     virtual void eventOnApplyScaleReversely(ZF_IN zffloat scale)
     {
     }
+
+protected:
+    zfoverride
+    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
+
+private:
+    zfbool _ZFP_ZFUIEvent_eventResolved;
+protected:
+    /** @cond ZFPrivateDoc */
+    ZFUIEvent(void) : _ZFP_ZFUIEvent_eventResolved(zffalse) {}
+    /** @endcond */
+public:
+    inline void _ZFP_ZFUIEvent_eventOnApplyScale(ZF_IN zffloat scale) {this->eventOnApplyScale(scale);}
+    inline void _ZFP_ZFUIEvent_eventOnApplyScaleReversely(ZF_IN zffloat scale) {this->eventOnApplyScaleReversely(scale);}
 };
 
 ZF_NAMESPACE_GLOBAL_END

@@ -18,7 +18,7 @@
 #include "ZFUtility/ZFAnimation.h"
 #include "ZFUtility/ZFAnimationGroup.h"
 #include "ZFUtility/ZFAnimationTimeLine.h"
-#include "ZFUtility/ZFObjectCache.h"
+#include "ZFUtility/ZFCache.h"
 #include "ZFUtility/ZFOperation.h"
 #include "ZFUtility/ZFOperationAsync.h"
 #include "ZFUtility/ZFOperationQueue.h"

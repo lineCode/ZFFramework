@@ -60,19 +60,6 @@ zffinal zfclass ZF_ENV_EXPORT ZFUIMouseEvent : zfextends ZFUIEvent
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFUIMouseEvent, ZFUIEvent)
 
-protected:
-    ZFUIMouseEvent(void)
-    : mouseId(zfidentityInvalid())
-    , mouseAction(ZFUIMouseAction::e_MouseDown)
-    , mousePoint()
-    , mouseButton(ZFUIMouseButton::e_MouseButtonLeft)
-    {
-    }
-
-protected:
-    zfoverride
-    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
-
 public:
     /**
      * @brief a unique value to differ mouse from each other
@@ -98,17 +85,28 @@ public:
     ZFUIMouseButtonEnum mouseButton;
 
 public:
-    ZFCACHEABLE_DECLARE(ZFUIMouseEvent)
+    ZFCACHEHOLDER_DECLARE()
 
 protected:
     zfoverride
-    virtual void cacheableOnReset(void);
+    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
 
 public:
     zfoverride
     virtual void eventOnApplyScale(ZF_IN zffloat scale);
     zfoverride
     virtual void eventOnApplyScaleReversely(ZF_IN zffloat scale);
+
+protected:
+    /** @cond ZFPrivateDoc */
+    ZFUIMouseEvent(void)
+    : mouseId(zfidentityInvalid())
+    , mouseAction(ZFUIMouseAction::e_MouseDown)
+    , mousePoint()
+    , mouseButton(ZFUIMouseButton::e_MouseButtonLeft)
+    {
+    }
+    /** @endcond */
 };
 
 ZF_NAMESPACE_GLOBAL_END

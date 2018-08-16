@@ -14,7 +14,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFSTYLE_DEFAULT_DEFINE(ZF2048UIBlock)
 
 ZFOBJECT_REGISTER(ZF2048UIBlock)
-ZFCACHEABLE_DEFINE_WITH_MAX(ZF2048UIBlock, ZF2048UIBlock, 16)
+ZFCACHEHOLDER_DEFINE(ZF2048UIBlock, {
+        cacheHolder->cacheMaxSizeSet(16);
+        ZFLISTENER_LOCAL(cacheOnAdd, {
+            listenerData.param0->to<ZF2048UIBlock *>()->blockValueSet(0);
+        })
+        cacheHolder->observerAdd(ZFCache::EventCacheOnAdd(), cacheOnAdd);
+    })
 
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048UIBlock, ZF2048Value, blockValue)
 {
