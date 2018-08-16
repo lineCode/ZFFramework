@@ -32,7 +32,6 @@ public:
 };
 
 // ============================================================
-/** @cond ZFPrivateDoc */
 ZFIdentityGenerator::ZFIdentityGenerator(void)
 : d(zfnew(_ZFP_ZFIdentityGeneratorPrivate))
 {
@@ -66,7 +65,6 @@ ZFIdentityGenerator::~ZFIdentityGenerator(void)
         zfdelete(d);
     }
 }
-/** @endcond */
 
 zfidentity ZFIdentityGenerator::idAcquire(void)
 {

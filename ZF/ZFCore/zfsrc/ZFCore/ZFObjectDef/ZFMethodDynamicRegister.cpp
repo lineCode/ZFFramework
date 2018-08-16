@@ -187,7 +187,6 @@ ZFMethodParamDefaultValueCallback ZFMethodDynamicRegisterParam::methodParamDefau
     return (index < d->methodParamCount ? d->methodParamDefaultValueCallback[index] : zfnull);
 }
 
-/** @cond ZFPrivateDoc */
 ZFMethodDynamicRegisterParam::ZFMethodDynamicRegisterParam(void)
 : d(zfnew(_ZFP_ZFMethodDynamicRegisterParamPrivate))
 {
@@ -220,7 +219,6 @@ zfbool ZFMethodDynamicRegisterParam::operator == (ZF_IN ZFMethodDynamicRegisterP
 {
     return (d == ref.d);
 }
-/** @endcond */
 
 ZF_NAMESPACE_GLOBAL_END
 

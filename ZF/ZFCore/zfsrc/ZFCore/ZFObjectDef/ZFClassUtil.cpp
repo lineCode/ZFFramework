@@ -203,7 +203,6 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_NAMESPACE_BEGIN(ZFClassUtil)
-/** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: all uppercase macro not skipped within namespace
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(void, allClassParentT, ZFMP_OUT(ZFCoreArray<const ZFClass *> &, ret), ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFClass *, filter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFCoreArrayPOD<const ZFClass *>, allClassParent, ZFMP_IN(const ZFClass *, cls), ZFMP_IN_OPT(const ZFFilterForZFClass *, filter, zfnull))
@@ -217,7 +216,6 @@ ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfstring, objectPropertyInfo, ZFMP_IN(ZFO
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, objectInfoT, ZFMP_IN_OUT(zfstring &, ret), ZFMP_IN(ZFObject *, obj))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfstring, objectInfo, ZFMP_IN(ZFObject *, obj))
 
-/** @endcond */
 ZF_NAMESPACE_END(ZFClassUtil)
 ZF_NAMESPACE_GLOBAL_END
 #endif

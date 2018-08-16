@@ -672,7 +672,6 @@ ZFMETHOD_DEFINE_0(_ZFP_ZFIOBufferedCallbackUsingTmpFileOutputIOOwner, zfindex, i
     return d->fileSize;
 }
 
-/** @cond ZFPrivateDoc */
 ZFIOBufferedCallbackUsingTmpFile::ZFIOBufferedCallbackUsingTmpFile(void)
 : ZFIOBufferedCallback()
 {
@@ -690,7 +689,6 @@ ZFIOBufferedCallbackUsingTmpFile &ZFIOBufferedCallbackUsingTmpFile::operator = (
     d = ref.d;
     return *this;
 }
-/** @endcond */
 ZFIOBufferedCallbackUsingTmpFile::~ZFIOBufferedCallbackUsingTmpFile(void)
 {
     zfRelease(d);

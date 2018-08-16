@@ -953,7 +953,6 @@ void ZFClass::classTagRemoveAll(void) const
 
 // ============================================================
 // private
-/** @cond ZFPrivateDoc */
 ZFClass::ZFClass(void)
 : d(zfnull)
 {
@@ -972,7 +971,6 @@ ZFClass::~ZFClass(void)
     zfdelete(d);
     d = zfnull;
 }
-/** @endcond */
 
 ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
                                        ZF_IN const zfchar *classNamespace,

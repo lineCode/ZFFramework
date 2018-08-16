@@ -44,7 +44,6 @@ zfbool ZFProperty::propertySerializable(void) const
     return zftrue;
 }
 
-/** @cond ZFPrivateDoc */
 ZFProperty::ZFProperty(void)
 : callbackIsValueAccessed(zfnull)
 , callbackIsInitValue(zfnull)
@@ -84,7 +83,6 @@ ZFProperty::ZFProperty(void)
 ZFProperty::~ZFProperty(void)
 {
 }
-/** @endcond */
 void ZFProperty::_ZFP_ZFPropertyInit(ZF_IN zfbool propertyIsUserRegister,
                                      ZF_IN zfbool propertyIsDynamicRegister,
                                      ZF_IN ZFObject *propertyDynamicRegisterUserData,

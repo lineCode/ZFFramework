@@ -13,7 +13,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-/** @cond ZFPrivateDoc */
 zfautoObject::zfautoObject(ZF_IN zfautoObject const &ref)
 {
     zfCoreMutexLock();
@@ -92,7 +91,6 @@ void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
     }
     zfCoreMutexUnlock();
 }
-/** @endcond */
 
 const zfautoObject _ZFP_zfautoObjectNull;
 

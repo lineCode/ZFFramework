@@ -29,12 +29,10 @@ ZFFilterForZFClass &ZFFilterForZFClass::operator = (ZF_IN const ZFFilterForZFCla
     this->_ZFP_ZFFilterForZFClass_customFilterCallbacks = ref._ZFP_ZFFilterForZFClass_customFilterCallbacks;
     return *this;
 }
-/** @cond ZFPrivateDoc */
 zfbool ZFFilterForZFClass::operator == (ZF_IN const ZFFilterForZFClass &ref) const
 {
     return this->_ZFP_ZFFilterForZFClass_filters == ref._ZFP_ZFFilterForZFClass_filters;
 }
-/** @endcond */
 ZFFilterForZFClass::~ZFFilterForZFClass(void)
 {
 }

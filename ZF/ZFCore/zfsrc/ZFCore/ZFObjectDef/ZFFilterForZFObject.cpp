@@ -37,7 +37,6 @@ ZFFilterForZFObject::~ZFFilterForZFObject(void)
     }
 }
 
-/** @cond ZFPrivateDoc */
 void ZFFilterForZFObject::copyFrom(ZF_IN ZFFilterForZFObject const &ref)
 {
     zfsuper::copyFrom(ref);
@@ -47,9 +46,7 @@ void ZFFilterForZFObject::copyFrom(ZF_IN ZFFilterForZFObject const &ref)
     }
     this->classFilter.copyFrom(ref.classFilter);
 }
-/** @endcond */
 
-/** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: can't auto detect template specialization
 void ZFFilterForZFObject::filterOnStore(ZF_IN_OUT ZFObject * &to,
                                         ZF_IN ZFObject * const &from) const
 {
@@ -72,7 +69,6 @@ zfbool ZFFilterForZFObject::filterOnCheckActive(ZF_IN ZFObject * const &e) const
     }
     return this->classFilter.filterCheckActive(e ? e->classData() : zfnull);
 }
-/** @endcond */
 
 ZF_NAMESPACE_GLOBAL_END
 

@@ -162,7 +162,6 @@ ZFUIAutoLayoutMaker::ZFUIAutoLayoutMaker(ZF_IN ZFUIView *child,
 {
     d->zfal_maker(child, parent);
 }
-/** @cond ZFPrivateDoc */
 ZFUIAutoLayoutMaker::ZFUIAutoLayoutMaker(ZF_IN const ZFUIAutoLayoutMaker &ref)
 : d(ref.d)
 {
@@ -187,7 +186,6 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::operator = (ZF_IN const ZFUIAutoLayout
     d = ref.d;
     return *this;
 }
-/** @endcond */
 
 ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::zfal_maker(ZF_IN ZFUIView *child)
 {

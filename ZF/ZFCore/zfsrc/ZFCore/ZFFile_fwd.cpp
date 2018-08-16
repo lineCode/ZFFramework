@@ -47,7 +47,6 @@ public:
     }
 };
 
-/** @cond ZFPrivateDoc */
 ZFFileFindData::ZFFileFindData(void)
 : d(zfnew(_ZFP_ZFFileFindDataPrivate))
 {
@@ -80,7 +79,6 @@ ZFFileFindData::~ZFFileFindData(void)
         zfdelete(d);
     }
 }
-/** @endcond */
 
 void ZFFileFindData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {

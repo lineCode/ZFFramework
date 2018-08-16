@@ -25,7 +25,6 @@ ZF_GLOBAL_INITIALIZER_END(ZFEnvSummaryDataHolder)
 
 // ============================================================
 ZF_NAMESPACE_BEGIN(ZFEnvInfo)
-/** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: all uppercase macro not skipped within namespace
 
 void envSummaryCallbackRegister(ZF_IN const zfchar *name, ZF_IN ZFEnvSummaryCallback callback)
 {
@@ -129,7 +128,6 @@ ZFMETHOD_FUNC_DEFINE_0(zfstring, frameworkVersion)
     return ret;
 }
 
-/** @endcond */
 ZF_NAMESPACE_END_WITH_REGISTER(ZFEnvInfo, ZF_NAMESPACE_GLOBAL)
 
 // ============================================================

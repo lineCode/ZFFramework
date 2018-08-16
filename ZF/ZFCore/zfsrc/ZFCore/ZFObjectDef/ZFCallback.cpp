@@ -89,7 +89,6 @@ static void _ZFP_ZFCallbackPrivateDataChange(_ZFP_ZFCallbackPrivate *&oldData, _
 
 // ============================================================
 // ZFCallback
-/** @cond ZFPrivateDoc */
 ZFCallback::ZFCallback(void)
 : d(zfnull)
 , _ZFP_ZFCallbackCached_callbackType(_ZFP_ZFCallbackCachedTypeDummy)
@@ -166,7 +165,6 @@ ZFCallback ZFCallback::_ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
     _ZFP_ZFCallbackCachedDataSetup(callback, callback.d);
     return callback;
 }
-/** @endcond */
 
 zfindex ZFCallback::objectRetainCount(void) const
 {

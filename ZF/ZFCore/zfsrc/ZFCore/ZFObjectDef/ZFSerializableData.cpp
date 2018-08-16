@@ -98,14 +98,12 @@ public:
 
 // ============================================================
 // ZFSerializableData
-/** @cond ZFPrivateDoc */
 ZFSerializableData::ZFSerializableData(ZF_IN _ZFP_ZFSerializableDataPrivate *d)
 {
     zfCoreMutexLocker();
     this->d = d;
     ++(d->refCount);
 }
-/** @endcond */
 ZFSerializableData::ZFSerializableData(void)
 {
     zfCoreMutexLocker();

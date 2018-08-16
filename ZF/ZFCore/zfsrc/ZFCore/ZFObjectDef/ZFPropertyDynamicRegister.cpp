@@ -248,7 +248,6 @@ ZFPropertyCallbackProgressUpdate ZFPropertyDynamicRegisterParam::propertyCustomI
 }
 
 // ============================================================
-/** @cond ZFPrivateDoc */
 ZFPropertyDynamicRegisterParam::ZFPropertyDynamicRegisterParam(void)
 : d(zfnew(_ZFP_ZFPropertyDynamicRegisterParamPrivate))
 {
@@ -281,7 +280,6 @@ zfbool ZFPropertyDynamicRegisterParam::operator == (ZF_IN ZFPropertyDynamicRegis
 {
     return (d == ref.d);
 }
-/** @endcond */
 
 ZF_NAMESPACE_GLOBAL_END
 

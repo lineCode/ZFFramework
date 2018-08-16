@@ -64,7 +64,6 @@ void ZFFilterForZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
     zfsuper::objectInfoT(ret);
 }
 
-/** @cond ZFPrivateDoc */ // ZFTAG_DOXYGEN_BUG: can't auto detect template specialization
 zfbool ZFFilterForZFProperty::filterOnCheckActive(ZF_IN const ZFProperty * const &e) const
 {
     if(!zfsuper::filterOnCheckActive(e)
@@ -85,7 +84,6 @@ zfbool ZFFilterForZFProperty::filterOnCheckActive(ZF_IN const ZFProperty * const
 
     return zftrue;
 }
-/** @endcond */
 
 ZF_NAMESPACE_GLOBAL_END
 

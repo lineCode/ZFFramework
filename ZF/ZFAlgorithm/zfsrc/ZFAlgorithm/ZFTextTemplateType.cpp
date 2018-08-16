@@ -191,7 +191,6 @@ public:
     }
 };
 // ============================================================
-/** @cond ZFPrivateDoc */
 ZFTextTemplateParam::ZFTextTemplateParam(void)
 : d(zfnew(_ZFP_ZFTextTemplateParamPrivate))
 {
@@ -226,7 +225,6 @@ ZFTextTemplateParam &ZFTextTemplateParam::operator = (ZF_IN const ZFTextTemplate
     }
     return *this;
 }
-/** @endcond */
 
 // ============================================================
 void ZFTextTemplateParam::replaceDataAdd(ZF_IN const zfchar *key, ZF_IN const zfchar *value)
@@ -535,7 +533,6 @@ void ZFTextTemplateParam::copyFrom(ZF_IN const ZFTextTemplateParam &ref)
     }
 }
 
-/** @cond ZFPrivateDoc */
 zfbool ZFTextTemplateParam::operator == (ZF_IN const ZFTextTemplateParam &ref) const
 {
     if(d == ref.d)
@@ -580,7 +577,6 @@ zfbool ZFTextTemplateParam::operator == (ZF_IN const ZFTextTemplateParam &ref) c
     }
     return zftrue;
 }
-/** @endcond */
 
 void ZFTextTemplateParam::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {

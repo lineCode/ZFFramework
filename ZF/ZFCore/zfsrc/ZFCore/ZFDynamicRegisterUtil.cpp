@@ -151,7 +151,6 @@ ZFDynamic::ZFDynamic(ZF_IN const zfchar *regTag)
 {
     this->regTag(regTag);
 }
-/** @cond ZFPrivateDoc */
 ZFDynamic::ZFDynamic(ZF_IN const ZFDynamic &ref)
 : d(ref.d)
 {
@@ -180,7 +179,6 @@ zfbool ZFDynamic::operator == (ZF_IN const ZFDynamic &ref) const
 {
     return (d == ref.d);
 }
-/** @endcond */
 
 void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
 {

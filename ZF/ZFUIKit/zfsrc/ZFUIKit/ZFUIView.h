@@ -1139,7 +1139,7 @@ protected:
      *
      * default behavior is to dispatch event depends on event type\n
      * you may override without call super's method, to override the event\n
-     * you should update #ZFEvent::eventResolved if resolved
+     * you should update #ZFUIEvent::eventResolved if resolved
      */
     virtual void viewEventOnEvent(ZF_IN ZFUIEvent *event);
 

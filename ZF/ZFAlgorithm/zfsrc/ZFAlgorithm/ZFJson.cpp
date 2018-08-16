@@ -19,7 +19,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFENUM_DEFINE(ZFJsonType)
 
 // ============================================================
-/** @cond ZFPrivateDoc */
 zfbool ZFJsonOutputToken::operator == (ZF_IN ZFJsonOutputToken const &ref) const
 {
     return (zftrue
@@ -50,7 +49,6 @@ zfbool ZFJsonOutputFlags::operator == (ZF_IN ZFJsonOutputFlags const &ref) const
             && this->jsonArrayTagInSameLineIfNoContent == ref.jsonArrayTagInSameLineIfNoContent
         );
 }
-/** @endcond */
 ZFTYPEID_ACCESS_ONLY_DEFINE(ZFJsonOutputFlags, ZFJsonOutputFlags)
 
 // ============================================================
@@ -499,7 +497,6 @@ ZFJsonItem::~ZFJsonItem(void)
     }
 }
 
-/** @cond ZFPrivateDoc */
 ZFJsonItem &ZFJsonItem::operator = (ZF_IN const ZFJsonItem &ref)
 {
     _ZFP_ZFJsonItemPrivate *dTmp = d;
@@ -516,7 +513,6 @@ zfbool ZFJsonItem::operator == (ZF_IN const ZFJsonItem &ref) const
 {
     return (d == ref.d || (d->jsonType == ZFJsonType::e_JsonNull && ref.d->jsonType == ZFJsonType::e_JsonNull));
 }
-/** @endcond */
 
 // ============================================================
 void ZFJsonItem::objectInfoT(ZF_IN_OUT zfstring &ret) const

@@ -166,7 +166,6 @@ ZFMETHOD_DEFINE_0(_ZFP_ZFIOBufferedCallbackUsingBufferOutputIOOwner, zfindex, io
     }
 }
 
-/** @cond ZFPrivateDoc */
 ZFIOBufferedCallbackUsingBuffer::ZFIOBufferedCallbackUsingBuffer(void)
 : ZFIOBufferedCallback()
 {
@@ -185,7 +184,6 @@ ZFIOBufferedCallbackUsingBuffer &ZFIOBufferedCallbackUsingBuffer::operator = (ZF
     d = ref.d;
     return *this;
 }
-/** @endcond */
 ZFIOBufferedCallbackUsingBuffer::~ZFIOBufferedCallbackUsingBuffer(void)
 {
     zfRelease(d);

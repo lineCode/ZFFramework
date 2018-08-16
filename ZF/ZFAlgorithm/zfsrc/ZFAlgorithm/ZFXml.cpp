@@ -22,7 +22,6 @@ ZFTYPEID_ACCESS_ONLY_DEFINE(ZFXmlVisitCallback, ZFXmlVisitCallback)
 ZFEXPORT_VAR_READONLY_DEFINE(ZFXmlVisitCallback, ZFXmlVisitCallbackDefault, ZFXmlVisitCallbackForOutput())
 
 // ============================================================
-/** @cond ZFPrivateDoc */
 zfbool ZFXmlOutputToken::operator == (ZF_IN ZFXmlOutputToken const &ref) const
 {
     return (zftrue
@@ -63,7 +62,6 @@ zfbool ZFXmlOutputFlags::operator == (ZF_IN ZFXmlOutputFlags const &ref) const
             && this->xmlAttributeUseSingleQuote == ref.xmlAttributeUseSingleQuote
         );
 }
-/** @endcond */
 ZFTYPEID_ACCESS_ONLY_DEFINE(ZFXmlOutputFlags, ZFXmlOutputFlags)
 
 // ============================================================
@@ -981,7 +979,6 @@ ZFXmlItem::~ZFXmlItem(void)
     }
 }
 
-/** @cond ZFPrivateDoc */
 ZFXmlItem &ZFXmlItem::operator = (ZF_IN const ZFXmlItem &ref)
 {
     _ZFP_ZFXmlItemPrivate *dTmp = d;
@@ -998,7 +995,6 @@ zfbool ZFXmlItem::operator == (ZF_IN const ZFXmlItem &ref) const
 {
     return (d == ref.d || (d->xmlType == ZFXmlType::e_XmlNull && ref.d->xmlType == ZFXmlType::e_XmlNull));
 }
-/** @endcond */
 
 // ============================================================
 void ZFXmlItem::objectInfoT(ZF_IN_OUT zfstring &ret) const

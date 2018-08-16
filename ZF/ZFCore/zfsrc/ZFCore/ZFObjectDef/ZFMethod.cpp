@@ -110,7 +110,6 @@ void ZFMethod::_ZFP_ZFMethod_initFuncType(ZF_IN const zfchar *methodNamespace)
     this->_ZFP_ZFMethod_privilegeType = ZFMethodPrivilegeTypePublic;
 }
 
-/** @cond ZFPrivateDoc */
 ZFMethod::ZFMethod(void)
 : _ZFP_ZFMethodNeedInit(zftrue)
 , _ZFP_ZFMethod_methodIsUserRegister(zffalse)
@@ -136,7 +135,6 @@ ZFMethod::ZFMethod(void)
 , _ZFP_ZFMethod_methodNamespace()
 {
 }
-/** @endcond */
 ZFMethod::~ZFMethod(void)
 {
     zfRelease(this->_ZFP_ZFMethod_methodDynamicRegisterUserData);

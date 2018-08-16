@@ -75,6 +75,8 @@ INPUT                  += ../../../ZF/ZFUIWidget/zfsrc
 INPUT                  += ../../../ZF/ZFUtility/zfsrc
 INPUT                  += ../../../ZF/ZF_impl/zfsrc
 
+FILE_PATTERNS          = *.h *.hpp
+
 INCLUDE_PATH           =
 INCLUDE_PATH           += ../../../ZF/ZFAlgorithm/zfsrc
 INCLUDE_PATH           += ../../../ZF/ZFAlgorithm_impl/zfsrc
