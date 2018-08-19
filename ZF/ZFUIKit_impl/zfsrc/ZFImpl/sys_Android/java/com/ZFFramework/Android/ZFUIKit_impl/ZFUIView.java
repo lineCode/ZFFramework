@@ -680,10 +680,10 @@ public class ZFUIView extends ViewGroup {
             View child = this.getChildAt(i);
             if(child == this.nativeImplView) {
                 child.layout(
-                    child.nativeImplViewFrame_x,
-                    child.nativeImplViewFrame_y,
-                    child.nativeImplViewFrame_x + child.nativeImplViewFrame_width,
-                    child.nativeImplViewFrame_y + child.nativeImplViewFrame_height);
+                    this.nativeImplViewFrame_x,
+                    this.nativeImplViewFrame_y,
+                    this.nativeImplViewFrame_x + this.nativeImplViewFrame_width,
+                    this.nativeImplViewFrame_y + this.nativeImplViewFrame_height);
             }
             else if (child instanceof ZFUIView) {
                 ZFUIView childTmp = (ZFUIView)child;

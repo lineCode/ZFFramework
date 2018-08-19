@@ -127,7 +127,7 @@ public final class ZFUISysWindow extends Activity {
     private static native void native_notifyMeasureWindow(long zfjniPointerOwnerZFUISysWindow,
                                                           int refWidth,
                                                           int refHeight,
-                                                          Object resultRect);
+                                                          int[] resultRect);
     private static native void native_notifyOnCreate(long zfjniPointerOwnerZFUISysWindow,
                                                      Object nativeWindow);
     private static native void native_notifyOnDestroy(long zfjniPointerOwnerZFUISysWindow);
@@ -149,11 +149,11 @@ public final class ZFUISysWindow extends Activity {
             this.setBackgroundColor(Color.WHITE);
         }
 
-        private static ZFAndroidRect _rectCache = new ZFAndroidRect();
+        private static int[] _rectCache = new int[4];
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             ZFUIOnScreenKeyboardState.keyboardFrameUpdate(((Activity)getContext()).getWindow(), _rectCache);
-            int keyboardHeight = _rectCache.height;
+            int keyboardHeight = _rectCache[3];
 
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.getSize(heightMeasureSpec);
@@ -162,10 +162,10 @@ public final class ZFUISysWindow extends Activity {
 
             if(_owner != null && _owner._zfjniPointerOwnerZFUISysWindow != 0) {
                 ZFUISysWindow.native_notifyMeasureWindow(_owner._zfjniPointerOwnerZFUISysWindow, width, height, _rectCache);
-                _left = _rectCache.x;
-                _top = _rectCache.y;
-                _right = _rectCache.x + _rectCache.width;
-                _bottom = _rectCache.y + _rectCache.height;
+                _left = _rectCache[0];
+                _top = _rectCache[1];
+                _right = _rectCache[0] + _rectCache[2];
+                _bottom = _rectCache[1] + _rectCache[3];
             }
 
             int childWidthSpec = MeasureSpec.makeMeasureSpec(_right - _left, MeasureSpec.EXACTLY);

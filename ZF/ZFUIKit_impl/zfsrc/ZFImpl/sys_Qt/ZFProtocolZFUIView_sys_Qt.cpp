@@ -45,31 +45,6 @@ public:
     : ownerZFUIView(zfnull)
     {
     }
-
-public:
-    virtual void setGeometry(const QRect &rect)
-    {
-        QLayout::setGeometry(rect);
-        if(this->ownerZFUIView == zfnull)
-        {
-            return ;
-        }
-        QWidget *nativeImplView = ZFCastStatic(QWidget *, this->ownerZFUIView->nativeImplView());
-        for(zfindex i = 0; i < this->layoutItemList.count(); ++i)
-        {
-            const ZFImpl_sys_Qt_QLayoutItemHolder &item = this->layoutItemList[i];
-            if(item.widget == nativeImplView)
-            {
-                ZFUIRect nativeImplViewRect;
-                ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutNativeImplView(this->ownerZFUIView, nativeImplViewRect);
-                QRect t = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(nativeImplViewRect);
-                if(item.layoutItem->geometry() != t)
-                {
-                    item.layoutItem->setGeometry(t);
-                }
-            }
-        }
-    }
 };
 
 class _ZFP_ZFUIViewImpl_sys_Qt_ChildChangeObserverHolder : public QObject
@@ -503,7 +478,7 @@ public:
         _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(nativeView->_ZFP_focusProxyToken, view->viewFocusable());
     }
     virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIRect &nativeImplViewFrame)
+                                        ZF_IN const ZFUIRect &rect)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         nativeViewTmp->_ZFP_frameSet(rect);

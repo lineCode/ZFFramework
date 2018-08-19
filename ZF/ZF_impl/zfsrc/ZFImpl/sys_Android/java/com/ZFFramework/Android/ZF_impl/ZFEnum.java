@@ -30,7 +30,7 @@ public class ZFEnum {
         }
         return ret;
     }
-    public static int e(String enumClassName, String enumValueName) {
+    public static int eAssert(String enumClassName, String enumValueName) {
         int ret = native_enumValue(enumClassName, enumValueName);
         if(ret == -1) {
             native_enumInvalid(enumClassName, enumValueName);
