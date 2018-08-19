@@ -502,6 +502,12 @@ public:
             view, nativeView, nativeView->_ZFP_nativeImplView, nativeView->_ZFP_focusProxyToken);
         _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(nativeView->_ZFP_focusProxyToken, view->viewFocusable());
     }
+    virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
+                                        ZF_IN const ZFUIRect &nativeImplViewFrame)
+    {
+        _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
+        nativeViewTmp->_ZFP_frameSet(rect);
+    }
     virtual zffloat nativeViewScaleForImpl(ZF_IN void *nativeView)
     {
         return 1;

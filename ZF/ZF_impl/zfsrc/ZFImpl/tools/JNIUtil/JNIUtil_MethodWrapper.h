@@ -26,13 +26,23 @@ namespace JNIUtil {
 #ifndef JNIUtilWrap_FuncCalled
     #define JNIUtilWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName) NULL
 #endif
+#ifndef JNIUtilWrap_CallbackCalled
+    #define JNIUtilWrap_CallbackCalled(className, actionName)
+#endif
 
 // ============================================================
 #if JNIUtilWrap_Enable
+#undef JNI_METHOD_DECLARE_BEGIN
+#define JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ...) \
+    _JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ##__VA_ARGS__) \
+    { \
+        JNIUtilWrap_CallbackCalled(_JNIUtilMacro_toString(OwnerClassId), _JNIUtilMacro_toString(MethodName))
+#undef JNI_METHOD_DECLARE_END
+#define JNI_METHOD_DECLARE_END() \
+    }
+
 #undef JNIConvertPointerToJNIType
-#define JNIConvertPointerToJNIType(jniEnv, p) JNIUtilWrap_Created(_ZFP_JNIConvertPointerToJNIType(jniEnv, p), __FILE__, __FUNCTION__, __LINE__, "JNIConvertPointerToJNIType")
-#undef JNIConvertPointerFromJNIType
-#define JNIConvertPointerFromJNIType(jniEnv, d) _ZFP_JNIConvertPointerFromJNIType(jniEnv, d)
+#define JNIConvertPointerToJNIType(jniEnv, p) JNIUtilWrap_Created(_JNIConvertPointerToJNIType(jniEnv, p), __FILE__, __FUNCTION__, __LINE__, "JNIConvertPointerToJNIType")
 
 /** @cond ZFPrivateDoc */
 namespace JNIUtilMethodWrapperPrivate {

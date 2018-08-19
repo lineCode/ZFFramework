@@ -194,48 +194,48 @@ ZF_NAMESPACE_GLOBAL_END
 
 // ============================================================
 // native methods for ZFUIScrollView
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDragBegin,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjniPointerOwnerZFUIScrollView,
-                   jint mousePosX,
-                   jint mousePosY,
-                   jlong mouseTime)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDragBegin,
+                         JNIPointer zfjniPointerOwnerZFUIScrollView,
+                         jint mousePosX,
+                         jint mousePosY,
+                         jlong mouseTime)
 {
     ZFPROTOCOL_ACCESS(ZFUIScrollView)->notifyScrollViewDragBegin(
         ZFCastZFObject(ZFUIScrollView *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUIScrollView)),
         ZFUIPointMake(mousePosX, mousePosY), (zftimet)mouseTime);
 }
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDrag,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjniPointerOwnerZFUIScrollView,
-                   jint mousePosX,
-                   jint mousePosY,
-                   jlong mouseTime)
+JNI_METHOD_DECLARE_END()
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDrag,
+                         JNIPointer zfjniPointerOwnerZFUIScrollView,
+                         jint mousePosX,
+                         jint mousePosY,
+                         jlong mouseTime)
 {
     ZFPROTOCOL_ACCESS(ZFUIScrollView)->notifyScrollViewDrag(
         ZFCastZFObject(ZFUIScrollView *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUIScrollView)),
         ZFUIPointMake(mousePosX, mousePosY), (zftimet)mouseTime);
 }
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDragEnd,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjniPointerOwnerZFUIScrollView,
-                   jlong mouseTime,
-                   jboolean needScrollAni)
+JNI_METHOD_DECLARE_END()
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDragEnd,
+                         JNIPointer zfjniPointerOwnerZFUIScrollView,
+                         jlong mouseTime,
+                         jboolean needScrollAni)
 {
     ZFPROTOCOL_ACCESS(ZFUIScrollView)->notifyScrollViewDragEnd(
         ZFCastZFObject(ZFUIScrollView *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUIScrollView)),
         (zftimet)mouseTime,
         (zfbool)needScrollAni);
 }
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewScrollAnimation,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjniPointerOwnerZFUIScrollView,
-                   jlong relativeTimeInMiliseconds)
+JNI_METHOD_DECLARE_END()
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewScrollAnimation,
+                         JNIPointer zfjniPointerOwnerZFUIScrollView,
+                         jlong relativeTimeInMiliseconds)
 {
     ZFPROTOCOL_ACCESS(ZFUIScrollView)->notifyScrollViewScrollAnimation(
         ZFCastZFObject(ZFUIScrollView *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUIScrollView)),
         (zftimet)relativeTimeInMiliseconds);
 }
+JNI_METHOD_DECLARE_END()
 
 #endif // #if ZF_ENV_sys_Android
 

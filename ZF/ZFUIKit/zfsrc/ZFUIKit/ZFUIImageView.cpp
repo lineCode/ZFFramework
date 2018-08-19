@@ -8,6 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFUIImageView.h"
+#include "protocol/ZFProtocolZFUIView.h"
 #include "protocol/ZFProtocolZFUIImageView.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -112,22 +113,20 @@ void ZFUIImageView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     }
 }
 
-void ZFUIImageView::nativeImplViewOnLayout(ZF_OUT ZFUIRect &result,
-                                           ZF_IN const ZFUIRect &bounds)
+void ZFUIImageView::nativeImplViewMarginImplUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin)
 {
-    if(this->image() == zfnull
-        || bounds.size.width == 0
-        || bounds.size.height == 0)
-    {
-        return ;
-    }
-
-    ZFUIContentScaleTypeApply(result, this->imageScaleType(), bounds, this->image()->imageSize());
-}
-void ZFUIImageView::nativeImplViewMarginOnUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin)
-{
-    zfsuper::nativeImplViewMarginOnUpdate(nativeImplViewMargin);
+    zfsuper::nativeImplViewMarginImplUpdate(nativeImplViewMargin);
     ZFUIMarginInc(nativeImplViewMargin, nativeImplViewMargin, this->imageMargin());
+}
+void ZFUIImageView::nativeImplViewOnLayout(ZF_OUT ZFUIRect &ret,
+                                           ZF_IN const ZFUIRect &bounds,
+                                           ZF_IN const ZFUIMargin &nativeImplViewMargin)
+{
+    ZFUIContentScaleTypeApply(
+        ret,
+        this->imageScaleType(),
+        ZFUIRectApplyMargin(bounds, nativeImplViewMargin),
+        this->image() ? this->image()->imageSize() : ZFUISizeZero());
 }
 void ZFUIImageView::layoutOnMeasure(ZF_OUT ZFUISize &ret,
                                     ZF_IN const ZFUISize &sizeHint,

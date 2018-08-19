@@ -11,7 +11,6 @@ package com.ZFFramework.Android.ZFUIKit_impl;
 
 import java.lang.ref.WeakReference;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidLog;
-import com.ZFFramework.Android.NativeUtil.ZFAndroidSize;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidUI;
 import com.ZFFramework.Android.ZF_impl.ZFEnum;
 import com.ZFFramework.Android.ZF_impl.ZFMainEntry;
@@ -204,11 +203,11 @@ public final class ZFUITextEdit extends EditText {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         nativeTextEditTmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
-    private static ZFAndroidSize _native_measureNativeTextEdit_sizeCache = new ZFAndroidSize();
-    public static Object native_measureNativeTextEdit(Object nativeTextEdit,
-                                                      int maxWidthOrNegative,
-                                                      int maxHeightOrNegative,
-                                                      int textSize) {
+    private static int[] _native_measureNativeTextEdit_sizeCache = new int[2]; // width, height
+    public static int[] native_measureNativeTextEdit(Object nativeTextEdit,
+                                                     int maxWidthOrNegative,
+                                                     int maxHeightOrNegative,
+                                                     int textSize) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         float savedTextSize = nativeTextEditTmp.getTextSize();
         nativeTextEditTmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
@@ -225,9 +224,8 @@ public final class ZFUITextEdit extends EditText {
                 : MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
         int padding = (int)(2 * ZFAndroidUI.screenDensity(nativeTextEditTmp.getContext()));
-        _native_measureNativeTextEdit_sizeCache.set(
-            nativeTextEditTmp.getMeasuredWidth() + padding,
-            nativeTextEditTmp.getMeasuredHeight() + padding);
+        _native_measureNativeTextEdit_sizeCache[0] = nativeTextEditTmp.getMeasuredWidth() + padding;
+        _native_measureNativeTextEdit_sizeCache[1] = nativeTextEditTmp.getMeasuredHeight() + padding;
         nativeTextEditTmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
 
         // measured size must be restored, otherwise text's draw step would cause strange error

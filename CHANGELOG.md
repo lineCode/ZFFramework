@@ -1,6 +1,7 @@
 # master
 * optimize native window attach impl
 * optimize cache impl
+* optimize UI module performance
 * optimize list view impl
 
 # 0.4.1

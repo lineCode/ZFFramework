@@ -49,13 +49,15 @@ public:
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_viewPositionOnScreen"),
-            JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
+            JNIGetMethodSig(JNIType::S_array(JNIType::S_int), JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
             ).c_str());
-        jobject tmp = JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
+        jintArray jobjRect = (jintArray)JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
             ZFCastStatic(jobject, view->nativeView()));
-        ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(rect, tmp);
-        JNIUtilDeleteLocalRef(jniEnv, tmp);
+        jint *jarrRect = JNIUtilGetIntArrayElements(jniEnv, jobjRect, NULL);
+        rect = ZFUIRectMake((zfint)jarrRect[0], (zfint)jarrRect[1], (zfint)jarrRect[2], (zfint)jarrRect[3]);
+        JNIUtilReleaseIntArrayElements(jniEnv, jobjRect, jarrRect, JNI_ABORT);
+        JNIUtilDeleteLocalRef(jniEnv, jobjRect);
     }
 
 private:

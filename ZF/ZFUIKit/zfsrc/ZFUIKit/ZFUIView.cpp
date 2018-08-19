@@ -700,7 +700,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewLayoutOnMeasureFinish)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewLayoutOnLayoutPrepare)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewLayoutOnLayout)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewLayoutOnLayoutFinish)
-ZFOBSERVER_EVENT_REGISTER(ZFUIView, NativeImplViewMarginOnChange)
+ZFOBSERVER_EVENT_REGISTER(ZFUIView, NativeImplViewMarginOnUpdate)
 ZFOBSERVER_EVENT_REGISTER(ZFUIView, ViewPropertyOnUpdate)
 
 // ============================================================
@@ -1225,13 +1225,6 @@ void ZFUIView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     }
 }
 
-void ZFUIView::_ZFP_ZFUIView_notifyLayoutNativeImplView(ZF_OUT ZFUIRect &result)
-{
-    ZFUIRect bounds = ZFUIRectGetBounds(this->layoutedFrame());
-    ZFUIRectApplyMargin(bounds, bounds, this->nativeImplViewMargin());
-    result = bounds;
-    this->nativeImplViewOnLayout(result, bounds);
-}
 ZFMETHOD_DEFINE_0(ZFUIView, void *, nativeImplView)
 {
     return d->nativeImplView;
@@ -1251,19 +1244,25 @@ void ZFUIView::nativeImplViewSet(ZF_IN void *nativeImplView,
 }
 void ZFUIView::nativeImplViewMarginUpdate(void)
 {
-    ZFUIMargin old = d->nativeImplViewMargin;
-    d->nativeImplViewMargin = ZFUIMarginZero();
-    this->nativeImplViewMarginOnUpdate(d->nativeImplViewMargin);
-    if(d->nativeImplViewMargin != old)
+    ZFUIMargin newValue = this->nativeImplViewMarginCustom();
+    this->nativeImplViewMarginImplUpdate(newValue);
+    if(d->nativeImplViewMargin != newValue)
     {
-        ZFPROTOCOL_ACCESS(ZFUIView)->nativeImplViewMarginSet(this, d->nativeImplViewMargin);
+        d->nativeImplViewMargin = newValue;
         this->layoutRequest();
-        this->nativeImplViewMarginOnChange();
+        this->nativeImplViewMarginOnUpdate();
     }
 }
 const ZFUIMargin &ZFUIView::nativeImplViewMargin(void)
 {
     return d->nativeImplViewMargin;
+}
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIMargin, nativeImplViewMarginCustom)
+{
+    if(propertyValue != propertyValueOld)
+    {
+        this->nativeImplViewMarginUpdate();
+    }
 }
 
 // ============================================================
@@ -1691,6 +1690,20 @@ ZFMETHOD_DEFINE_2(ZFUIView, const ZFUISize &, layoutMeasure,
         || !ZFUISizeIsEqual(d->measureResult->sizeHint, sizeHint)
         || !ZFUISizeParamIsEqual(d->measureResult->sizeParam, sizeParam))
     {
+        if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
+            && ZFUISizeParamIsEqual(d->measureResult->sizeParam, sizeParam))
+        {
+            if(
+                (d->measureResult->sizeParam.width == sizeParam.width
+                    || (d->measureResult->sizeParam.width == -1 && d->measureResult->measuredSize.width <= sizeParam.width))
+                && (d->measureResult->sizeParam.height == sizeParam.height
+                    || (d->measureResult->sizeParam.height == -1 && d->measureResult->measuredSize.height <= sizeParam.height))
+                )
+            {
+                return d->measureResult->measuredSize;
+            }
+        }
+
         d->measureResult->measuredSize = ZFUISizeInvalid();
         d->measureResult->sizeHint = sizeHint;
         d->measureResult->sizeParam = sizeParam;
@@ -1763,7 +1776,15 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, layout,
         ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag);
         d->layoutedFrame = rect;
         ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
+
         ZFUIRect bounds = ZFUIRectGetBounds(rect);
+
+        if(d->nativeImplView != zfnull)
+        {
+            ZFUIRect nativeImplViewFrame = ZFUIRectZero();
+            this->nativeImplViewOnLayout(nativeImplViewFrame, bounds, this->nativeImplViewMargin());
+            ZFPROTOCOL_ACCESS(ZFUIView)->nativeImplViewFrameSet(this, ZFUIRectApplyScale(nativeImplViewFrame, this->scaleFixed()));
+        }
 
         ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
 
@@ -2400,7 +2421,6 @@ ZFMETHOD_DEFINE_0(ZFUIView, void, viewPropertyUpdateRequest)
 
 void ZFUIView::viewPropertyOnUpdate(void)
 {
-    this->nativeImplViewMarginUpdate();
     if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_viewPropertyOnUpdate)
         || ZFBitTest(_ZFP_ZFUIView_stateFlags, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_viewPropertyOnUpdate))
     {

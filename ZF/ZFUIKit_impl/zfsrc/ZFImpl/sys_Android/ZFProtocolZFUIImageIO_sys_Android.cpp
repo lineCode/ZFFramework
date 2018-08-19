@@ -51,14 +51,14 @@ public:
             JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
                 .add(JNIType::S_float)
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
-                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
-                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                .add(JNIType::S_int).add(JNIType::S_int)
+                .add(JNIType::S_int).add(JNIType::S_int).add(JNIType::S_int).add(JNIType::S_int)
             ).c_str());
         jobject tmp = JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
             imageScale,
             ZFCastStatic(jobject, nativeImage),
-            JNILineDeleteLocalRef(ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(newSize)),
-            JNILineDeleteLocalRef(ZFImpl_sys_Android_ZFUIMarginToZFAndroidMargin(ninePatch)));
+            (jint)newSize.width, (jint)newSize.height,
+            (jint)ninePatch.left, (jint)ninePatch.top, (jint)ninePatch.right, (jint)ninePatch.bottom);
         JNIBlockedDeleteLocalRefWithEnv(tmp, jniEnv);
         return JNIUtilNewGlobalRef(jniEnv, tmp);
     }
@@ -70,11 +70,11 @@ public:
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_imageLoadFromColor"),
             JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
                 .add(JNIType::S_int)
-                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                .add(JNIType::S_int).add(JNIType::S_int)
             ).c_str());
         jobject tmp = JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
             ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(color),
-            JNILineDeleteLocalRef(ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(size)));
+            (jint)size.width, (jint)size.height);
         JNIBlockedDeleteLocalRefWithEnv(tmp, jniEnv);
         return JNIUtilNewGlobalRef(jniEnv, tmp);
     }

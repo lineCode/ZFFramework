@@ -10,7 +10,6 @@
 package com.ZFFramework.Android.ZFUIKit_impl;
 
 import com.ZFFramework.Android.NativeUtil.ZFAndroidBuffer;
-import com.ZFFramework.Android.NativeUtil.ZFAndroidSize;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -41,8 +40,8 @@ public final class ZFUIImage {
         Bitmap dst = src.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
         return new BitmapDrawable(dst);
     }
-    public static Object native_nativeImageSize(Object nativeImage) {
+    public static int[] native_nativeImageSize(Object nativeImage) {
         BitmapDrawable src = (BitmapDrawable)nativeImage;
-        return new ZFAndroidSize(src.getBitmap().getWidth(), src.getBitmap().getHeight());
+        return new int[] {src.getBitmap().getWidth(), src.getBitmap().getHeight()};
     }
 }

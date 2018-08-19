@@ -67,7 +67,7 @@ protected:
 
         zfint contentHeight = 0;
         zfint space = 4;
-        ZFUISize childMeasureSizeHint = ZFUISizeMake(this->scrollArea().size.width - space * 2, -1);
+        ZFUISize childMeasureSizeHint = ZFUISizeMake(this->scrollArea().size.width, -1);
         ZFUISizeParam childMeasureSizeParam = ZFUISizeParamFillWrap();
 
         for(zfindex i = 0; i < this->childCount(); ++i)

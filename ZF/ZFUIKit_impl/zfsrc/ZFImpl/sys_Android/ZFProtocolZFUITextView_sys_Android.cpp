@@ -199,19 +199,22 @@ public:
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_measureNativeTextView"),
-            JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
+            JNIGetMethodSig(JNIType::S_array(JNIType::S_int), JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
                 .add(JNIType::S_int)
                 .add(JNIType::S_int)
             ).c_str());
-        jobject jobjSize = JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
+        jintArray jobjSize = (jintArray)JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId,
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFCastStatic(jint, sizeHint.width),
             ZFCastStatic(jint, sizeHint.height),
             ZFCastStatic(jint, textSize));
-        JNIBlockedDeleteLocalRef(jobjSize);
-        return ZFImpl_sys_Android_ZFUISizeFromZFAndroidSize(jobjSize);
+        jint *jarrSize = JNIUtilGetIntArrayElements(jniEnv, jobjSize, NULL);
+        ZFUISize ret = ZFUISizeMake((zfint)jarrSize[0], (zfint)jarrSize[1]);
+        JNIUtilReleaseIntArrayElements(jniEnv, jobjSize, jarrSize, JNI_ABORT);
+        JNIUtilDeleteLocalRef(jniEnv, jobjSize);
+        return ret;
     }
 
     virtual zfint textSizeCurrent(ZF_IN ZFUITextView *textView)

@@ -55,7 +55,10 @@ public:
                                 ZFUIContentScaleType::EnumDefault())
     ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZFUIContentScaleTypeEnum, imageScaleType)
     {
-        this->layoutRequest();
+        if(propertyValue != propertyValueOld)
+        {
+            this->layoutRequest();
+        }
     }
 
     /**
@@ -64,7 +67,10 @@ public:
     ZFPROPERTY_ASSIGN(ZFUIMargin, imageMargin)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZFUIMargin, imageMargin)
     {
-        this->nativeImplViewMarginUpdate();
+        if(propertyValue != propertyValueOld)
+        {
+            this->nativeImplViewMarginUpdate();
+        }
     }
 
 public:
@@ -93,14 +99,12 @@ protected:
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
 
 protected:
-    /**
-     * @brief for image view, we will update accorrding to #imageScaleType
-     */
     zfoverride
-    virtual void nativeImplViewOnLayout(ZF_OUT ZFUIRect &result,
-                                        ZF_IN const ZFUIRect &bounds);
+    virtual void nativeImplViewMarginImplUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin);
     zfoverride
-    virtual void nativeImplViewMarginOnUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin);
+    virtual void nativeImplViewOnLayout(ZF_OUT ZFUIRect &ret,
+                                        ZF_IN const ZFUIRect &bounds,
+                                        ZF_IN const ZFUIMargin &nativeImplViewMargin);
     /**
      * @brief image view would measure accorrding image size
      */

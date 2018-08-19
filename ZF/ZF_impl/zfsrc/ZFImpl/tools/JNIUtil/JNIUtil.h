@@ -279,11 +279,23 @@ extern _JNI_EXPORT JNIString JNIGetMethodSig(const JNIType &returnType,
                                              const JNIParamTypeContainer &paramTypeList);
 
 /** @cond ZFPrivateDoc */
-#define _JNI_METHOD_DECLARE(ReturnType, OwnerClassId, MethodName, ...) \
-    _JNI_EXTERN_C JNIEXPORT ReturnType JNICALL Java_##OwnerClassId##_##MethodName(__VA_ARGS__)
+#define _JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ...) \
+    _JNI_EXTERN_C JNIEXPORT ReturnType JNICALL Java_##OwnerClassId##_##MethodName( \
+        JNIEnv *jniEnv, jclass jniCls, ##__VA_ARGS__)
 /** @endcond */
 /**
  * @brief macro to declare a JNI method
+ *
+ * usage:
+ * @code
+ *   JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName,
+ *                            Param0, param0,
+ *                            Param1, param1)
+ *   {
+ *       // (JNIEnv *)jniEnv and (jclass)jniCls are predefined
+ *   }
+ *   JNI_METHOD_DECLARE_END()
+ * @endcode
  *
  * class name should be like this:\n
  *   com_package_ClassName\n
@@ -298,8 +310,10 @@ extern _JNI_EXPORT JNIString JNIGetMethodSig(const JNIType &returnType,
  * which stands for "com.some_package.OutterClass$InnerClass"'s
  * method named "method_name"
  */
-#define JNI_METHOD_DECLARE(ReturnType, OwnerClassId, MethodName, ...) \
-    _JNI_METHOD_DECLARE(ReturnType, OwnerClassId, MethodName, ##__VA_ARGS__)
+#define JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ...) \
+    _JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ##__VA_ARGS__)
+/** @brief see #JNI_METHOD_DECLARE_BEGIN */
+#define JNI_METHOD_DECLARE_END()
 
 /**
  * @brief macro that declare JNI_OnLoad
@@ -345,8 +359,18 @@ extern _JNI_EXPORT JNIString JNIGetMethodSig(const JNIType &returnType,
         #define JNIPointerJNIType JNIType::S_array(JNIType::S_byte)
     #endif
 #endif
-jbyteArray _ZFP_JNIConvertPointerToJNIType(JNIEnv *jniEnv, void *p);
-void *_ZFP_JNIConvertPointerFromJNIType(JNIEnv *jniEnv, jbyteArray d);
+
+jbyteArray _JNIConvertPointerToJNITypeAction(JNIEnv *jniEnv, void *p);
+void *_JNIConvertPointerFromJNITypeAction(JNIEnv *jniEnv, jbyteArray d);
+
+#if JNIPointerUseLong
+    #define _JNIConvertPointerToJNIType(jniEnv, p) (JNIPointer)(p)
+    #define _JNIConvertPointerFromJNIType(jniEnv, p) (void *)(p)
+#else
+    #define _JNIConvertPointerToJNIType(jniEnv, p) _JNIConvertPointerToJNITypeAction(jniEnv, p)
+    #define _JNIConvertPointerFromJNIType(jniEnv, d) _JNIConvertPointerFromJNITypeAction(jniEnv, d)
+#endif
+
 /**
  * @brief safely convert a C pointer type to JNI type
  *
@@ -357,21 +381,13 @@ void *_ZFP_JNIConvertPointerFromJNIType(JNIEnv *jniEnv, jbyteArray d);
  *   and always use base class's pointer when access
  */
 #ifndef JNIConvertPointerToJNIType
-    #if JNIPointerUseLong
-        #define JNIConvertPointerToJNIType(jniEnv, p) (JNIPointer)(p)
-    #else
-        #define JNIConvertPointerToJNIType(jniEnv, p) _ZFP_JNIConvertPointerToJNIType(jniEnv, p)
-    #endif
+    #define JNIConvertPointerToJNIType(jniEnv, p) _JNIConvertPointerToJNIType(jniEnv, p)
 #endif
 /**
  * @brief see #JNIConvertPointerToJNIType
  */
 #ifndef JNIConvertPointerFromJNIType
-    #if JNIPointerUseLong
-        #define JNIConvertPointerFromJNIType(jniEnv, p) (void *)(p)
-    #else
-        #define JNIConvertPointerFromJNIType(jniEnv, d) _ZFP_JNIConvertPointerFromJNIType(jniEnv, d)
-    #endif
+    #define JNIConvertPointerFromJNIType(jniEnv, d) _JNIConvertPointerFromJNIType(jniEnv, d)
 #endif
 
 // ============================================================

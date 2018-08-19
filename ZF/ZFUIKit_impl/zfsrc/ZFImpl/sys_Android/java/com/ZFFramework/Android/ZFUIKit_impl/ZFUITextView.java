@@ -10,7 +10,6 @@
 package com.ZFFramework.Android.ZFUIKit_impl;
 
 import com.ZFFramework.Android.NativeUtil.ZFAndroidLog;
-import com.ZFFramework.Android.NativeUtil.ZFAndroidSize;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidUI;
 import com.ZFFramework.Android.ZF_impl.ZFEnum;
 import com.ZFFramework.Android.ZF_impl.ZFMainEntry;
@@ -123,11 +122,11 @@ public final class ZFUITextView extends TextView {
             ZFAndroidLog.shouldNotGoHere();
         }
     }
-    private static ZFAndroidSize _native_measureNativeTextView_sizeCache = new ZFAndroidSize();
-    public static Object native_measureNativeTextView(Object nativeTextView,
-                                                      int maxWidthOrNegative,
-                                                      int maxHeightOrNegative,
-                                                      int textSize) {
+    private static int[] _native_measureNativeTextView_sizeCache = new int[2]; // width, height
+    public static int[] native_measureNativeTextView(Object nativeTextView,
+                                                     int maxWidthOrNegative,
+                                                     int maxHeightOrNegative,
+                                                     int textSize) {
         ZFUITextView nativeTextViewTmp = (ZFUITextView)nativeTextView;
         int widthOld = nativeTextViewTmp.getMeasuredWidth();
         int heightOld = nativeTextViewTmp.getMeasuredHeight();
@@ -151,9 +150,8 @@ public final class ZFUITextView extends TextView {
         }
 
         int padding = (int)(2 * ZFAndroidUI.screenDensity(nativeTextViewTmp.getContext()));
-        _native_measureNativeTextView_sizeCache.set(
-            nativeTextViewTmp.getMeasuredWidth() + padding,
-            nativeTextViewTmp.getMeasuredHeight() + padding);
+        _native_measureNativeTextView_sizeCache[0] = nativeTextViewTmp.getMeasuredWidth() + padding;
+        _native_measureNativeTextView_sizeCache[1] = nativeTextViewTmp.getMeasuredHeight() + padding;
 
         // measured size must be restored, otherwise text's draw step would cause strange error
         nativeTextViewTmp.setMeasuredDimension(widthOld, heightOld);

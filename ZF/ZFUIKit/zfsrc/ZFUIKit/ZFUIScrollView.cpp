@@ -966,10 +966,10 @@ void ZFUIScrollView::viewEventOnWheelEvent(ZF_IN ZFUIWheelEvent *wheelEvent)
     }
 }
 
-void ZFUIScrollView::nativeImplViewMarginOnChange(void)
+void ZFUIScrollView::nativeImplViewMarginOnUpdate(void)
 {
     d->scrollAreaUpdate();
-    zfsuper::nativeImplViewMarginOnChange();
+    zfsuper::nativeImplViewMarginOnUpdate();
 }
 
 static void _ZFP_ZFUIScrollView_scrollChildToVisible(ZF_OUT zfint &offset,

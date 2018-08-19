@@ -76,7 +76,7 @@ protected:
     zfoverride
     virtual void layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds);
     zfoverride
-    virtual void nativeImplViewMarginOnUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin);
+    virtual void nativeImplViewMarginImplUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin);
     zfoverride
     virtual zfbool internalViewShouldLayout(ZF_IN ZFUIView *internalView);
     zfoverride

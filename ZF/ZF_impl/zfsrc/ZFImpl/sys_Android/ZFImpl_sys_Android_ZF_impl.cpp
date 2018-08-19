@@ -13,46 +13,6 @@
 
 #if ZF_ENV_sys_Android
 
-#if _ZFP_ZFImpl_sys_Android_JNI_DEBUG
-void _ZFP_ZFImpl_sys_Android_jniWrap_Created_action(ZF_IN const void *obj,
-                                                    ZF_IN const zfcharA *callerFile,
-                                                    ZF_IN const zfcharA *callerFunction,
-                                                    ZF_IN zfuint callerLine,
-                                                    ZF_IN const zfcharA *actionName)
-{
-#if 0
-    AndroidLog(zfTextA("JNICreated  %08X (%s) %s"),
-        ZFCastReinterpret(zfuint, obj),
-        actionName,
-        ZFCallerInfo(callerFile, callerFunction, callerLine).callerInfoA().cString());
-#endif
-}
-void _ZFP_ZFImpl_sys_Android_jniWrap_Released_action(ZF_IN const void *obj,
-                                                     ZF_IN const zfcharA *callerFile,
-                                                     ZF_IN const zfcharA *callerFunction,
-                                                     ZF_IN zfuint callerLine,
-                                                     ZF_IN const zfcharA *actionName)
-{
-#if 0
-    AndroidLog(zfTextA("JNIRelease  %08X (%s) %s"),
-        ZFCastReinterpret(zfuint, obj),
-        actionName,
-        ZFCallerInfo(callerFile, callerFunction, callerLine).callerInfoA().cString());
-#endif
-}
-void _ZFP_ZFImpl_sys_Android_jniWrap_FuncCalled_action(ZF_IN const zfcharA *callerFile,
-                                                       ZF_IN const zfcharA *callerFunction,
-                                                       ZF_IN zfuint callerLine,
-                                                       ZF_IN const zfcharA *actionName)
-{
-#if 0
-    AndroidLog(zfTextA("JNIFuncCall (%s) %s"),
-        actionName,
-        ZFCallerInfo(callerFile, callerFunction, callerLine).callerInfoA().cString());
-#endif
-}
-#endif
-
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFImpl_sys_Android_jclsHolder, ZFLevelZFFrameworkStatic)
@@ -218,13 +178,13 @@ jobject ZFImpl_sys_Android_ZFAndroidBufferToJava(ZF_IN void *buffer, ZF_IN zfind
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE(jstring, ZFImpl_sys_Android_JNI_ID_ZFAndroidLog, native_1objectInfo,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjnipointerZFObject)
+JNI_METHOD_DECLARE_BEGIN(jstring, ZFImpl_sys_Android_JNI_ID_ZFAndroidLog, native_1objectInfo,
+                         JNIPointer zfjnipointerZFObject)
 {
     ZFObject *obj = ZFCastZFObject(ZFObject *, JNIConvertZFObjectFromJNIType(jniEnv, zfjnipointerZFObject));
     return jniEnv->NewStringUTF(ZFStringZ2A(ZFObjectInfo(obj).cString()));
 }
+JNI_METHOD_DECLARE_END()
 
 #endif
 

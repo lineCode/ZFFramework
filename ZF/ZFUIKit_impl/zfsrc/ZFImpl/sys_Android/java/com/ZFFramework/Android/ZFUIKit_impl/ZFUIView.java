@@ -11,7 +11,6 @@ package com.ZFFramework.Android.ZFUIKit_impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.ZFFramework.Android.NativeUtil.ZFAndroidRect;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidSize;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidUI;
 import com.ZFFramework.Android.ZF_impl.ZFEnum;
@@ -38,10 +37,13 @@ public class ZFUIView extends ViewGroup {
     public int viewFrame_y = 0;
     public int viewFrame_width = 0;
     public int viewFrame_height = 0;
+    public int nativeImplViewFrame_x = 0;
+    public int nativeImplViewFrame_y = 0;
+    public int nativeImplViewFrame_width = 0;
+    public int nativeImplViewFrame_height = 0;
 
     // ============================================================
     private Rect _rectNativeCache = new Rect();
-    private ZFAndroidRect _rectCache = new ZFAndroidRect();
 
     // ============================================================
     public static void native_nativeViewCacheOnSave(Object nativeView) {
@@ -84,6 +86,17 @@ public class ZFUIView extends ViewGroup {
         }
 
         ZFUIViewFocus.ZFUIViewImplChanged(nativeViewTmp, nativeImplViewOld, nativeImplViewNew);
+    }
+    public static void native_nativeImplViewFrameSet(Object nativeView,
+                                                     int nativeImplViewFrame_x,
+                                                     int nativeImplViewFrame_y,
+                                                     int nativeImplViewFrame_width,
+                                                     int nativeImplViewFrame_height) {
+        ZFUIView nativeViewTmp = (ZFUIView)nativeView;
+        nativeViewTmp.nativeImplViewFrame_x = nativeImplViewFrame_x;
+        nativeViewTmp.nativeImplViewFrame_y = nativeImplViewFrame_y;
+        nativeViewTmp.nativeImplViewFrame_width = nativeImplViewFrame_width;
+        nativeViewTmp.nativeImplViewFrame_height = nativeImplViewFrame_height;
     }
     public static float native_nativeViewScaleForImpl(Object nativeView) {
         return ZFUIView.native_nativeViewScaleForPhysicalPixel(nativeView);
@@ -185,9 +198,7 @@ public class ZFUIView extends ViewGroup {
     // ============================================================
     public static native void native_notifyNeedLayout(long zfjniPointerOwnerZFUIView);
     public static native void native_notifyLayoutRootView(long zfjniPointerOwnerZFUIView,
-                                                          ZFAndroidRect rect);
-    public static native void native_notifyLayoutNativeImplView(long zfjniPointerOwnerZFUIView,
-                                                                ZFAndroidRect rect);
+                                                          int rect_x, int rect_y, int rect_width, int rect_height);
     public static native void native_notifyUIEvent_mouse(long zfjniPointerOwnerZFUIView,
                                                          int mouseId,
                                                          int mouseAction,
@@ -643,12 +654,12 @@ public class ZFUIView extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if(this.zfjniPointerOwnerZFUIView != 0
             && (this.getParent() != null && !(this.getParent() instanceof ZFUIView))) {
-            this._rectCache.set(
+            ZFUIView.native_notifyLayoutRootView(
+                this.zfjniPointerOwnerZFUIView,
                 this.getLeft(),
                 this.getTop(),
                 MeasureSpec.getSize(widthMeasureSpec),
                 MeasureSpec.getSize(heightMeasureSpec));
-            ZFUIView.native_notifyLayoutRootView(this.zfjniPointerOwnerZFUIView, this._rectCache);
         }
         widthMeasureSpec = MeasureSpec.makeMeasureSpec(this.viewFrame_width, MeasureSpec.EXACTLY);
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(this.viewFrame_height, MeasureSpec.EXACTLY);
@@ -668,16 +679,16 @@ public class ZFUIView extends ViewGroup {
         for(int i = 0; i < this.getChildCount(); ++i) {
             View child = this.getChildAt(i);
             if(child == this.nativeImplView) {
-                ZFUIView.native_notifyLayoutNativeImplView(this.zfjniPointerOwnerZFUIView, this._rectCache);
                 child.layout(
-                    this._rectCache.x,
-                    this._rectCache.y,
-                    this._rectCache.x + this._rectCache.width,
-                    this._rectCache.y + this._rectCache.height);
+                    child.nativeImplViewFrame_x,
+                    child.nativeImplViewFrame_y,
+                    child.nativeImplViewFrame_x + child.nativeImplViewFrame_width,
+                    child.nativeImplViewFrame_y + child.nativeImplViewFrame_height);
             }
             else if (child instanceof ZFUIView) {
                 ZFUIView childTmp = (ZFUIView)child;
-                childTmp.layout(childTmp.viewFrame_x,
+                childTmp.layout(
+                    childTmp.viewFrame_x,
                     childTmp.viewFrame_y,
                     childTmp.viewFrame_x + childTmp.viewFrame_width,
                     childTmp.viewFrame_y + childTmp.viewFrame_height);

@@ -48,16 +48,15 @@ typedef jint _ZFP_ZFThreadImpl_sys_Android_ExecuteDataIdType;
 typedef zfstlmap<_ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType, ZFThread *> _ZFP_ZFThreadImpl_sys_Android_ThreadMapType;
 typedef zfstlmap<_ZFP_ZFThreadImpl_sys_Android_ExecuteDataIdType, _ZFP_ZFThreadImpl_sys_Android_ExecuteData *> _ZFP_ZFThreadImpl_sys_Android_ExecuteDataMapType;
 
+static jclass _ZFP_ZFThreadImpl_sys_Android_jclsOwner = NULL;
 static _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType _ZFP_ZFThreadImpl_sys_Android_getNativeThreadId(void)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
-    jclass jclsOwner = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFThread).c_str());
-    JNIBlockedDeleteLocalRef(jclsOwner);
-    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jclsOwner, zfTextA("native_currentThread"),
+    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, _ZFP_ZFThreadImpl_sys_Android_jclsOwner, zfTextA("native_currentThread"),
         JNIGetMethodSig(JNIType::S_long, JNIParamTypeContainer()
         ).c_str());
     _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType ret = JNIUtilCallStaticLongMethod(jniEnv,
-        jclsOwner,
+        _ZFP_ZFThreadImpl_sys_Android_jclsOwner,
         jmId);
     return ret;
 }
@@ -109,6 +108,7 @@ public:
         JNIEnv *jniEnv = JNIGetJNIEnv();
         jobject tmp = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFThread).c_str());
         this->jclsOwner = (jclass)JNIUtilNewGlobalRef(jniEnv, tmp);
+        _ZFP_ZFThreadImpl_sys_Android_jclsOwner = this->jclsOwner;
         JNIUtilDeleteLocalRef(jniEnv, tmp);
     }
     zfoverride
@@ -116,6 +116,7 @@ public:
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         JNIUtilDeleteGlobalRef(jniEnv, this->jclsOwner);
+        _ZFP_ZFThreadImpl_sys_Android_jclsOwner = NULL;
         zfsuper::protocolOnDealloc();
     }
 
@@ -309,19 +310,18 @@ static _ZFP_ZFThreadImpl_sys_Android_ExecuteData *_ZFP_ZFThreadImpl_sys_Android_
     _ZFP_ZFThreadImpl_sys_Android_executeDataMap.erase(it);
     return d;
 }
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInMainThread,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   jint executeDataId, jobject nativeThread)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInMainThread,
+                         jint executeDataId, jobject nativeThread)
 {
     _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = _ZFP_ZFThreadImpl_sys_Android_getExecuteData(executeDataId);
 
     d->runnable.execute(ZFListenerData().param0Set(d->param0).param1Set(d->param1));
     zfdelete(d);
 }
+JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInNewThread,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   jint executeDataId, _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType nativeThread)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInNewThread,
+                         jint executeDataId, _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType nativeThread)
 {
     _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = _ZFP_ZFThreadImpl_sys_Android_getExecuteData(executeDataId);
 
@@ -336,21 +336,22 @@ JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteIn
     _ZFP_ZFThreadImpl_sys_Android_threadMap.erase(nativeThread);
     zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 }
+JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInMainThreadAfterDelay,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjniPointerNativeData)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInMainThreadAfterDelay,
+                         JNIPointer zfjniPointerNativeData)
 {
     ZFListenerHolder *nativeDataTmp = ZFCastZFObjectUnchecked(ZFListenerHolder *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerNativeData));
     nativeDataTmp->runnableExecute();
 }
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1executeInMainThreadAfterDelayCleanup,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   JNIPointer zfjniPointerNativeData)
+JNI_METHOD_DECLARE_END()
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1executeInMainThreadAfterDelayCleanup,
+                         JNIPointer zfjniPointerNativeData)
 {
     ZFListenerHolder *nativeDataTmp = ZFCastZFObjectUnchecked(ZFListenerHolder *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerNativeData));
     zfRelease(nativeDataTmp);
 }
+JNI_METHOD_DECLARE_END()
 
 #endif // #if ZF_ENV_sys_Android
 

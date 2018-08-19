@@ -17,20 +17,19 @@
 
 // ============================================================
 // main entry
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFFrameworkInit,
-                   JNIEnv *jniEnv, jclass jniCls)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFFrameworkInit)
 {
     ZFFrameworkInit();
 }
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFFrameworkCleanup,
-                   JNIEnv *jniEnv, jclass jniCls)
+JNI_METHOD_DECLARE_END()
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFFrameworkCleanup)
 {
     ZFFrameworkCleanup();
 }
+JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE(jint, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFMainExecute,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   jobjectArray params)
+JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFMainExecute,
+                         jobjectArray params)
 {
     ZFCoreArray<zfstring> paramsTmp;
     if(params != NULL)
@@ -46,6 +45,7 @@ JNI_METHOD_DECLARE(jint, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFMainEx
     }
     return ZFMainExecute(paramsTmp);
 }
+JNI_METHOD_DECLARE_END()
 
 JNI_ONLOAD_ENTRY(vm, reserved)
 {
@@ -131,9 +131,8 @@ JNIObjectHolder ZFImpl_sys_Android_mainEntryActivity(void)
 ZF_NAMESPACE_GLOBAL_END
 
 #include "ZFCore/ZFLogLevel.h"
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1debugModeSet,
-                   JNIEnv *jniEnv, jclass jniCls,
-                   jboolean value)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1debugModeSet,
+                         jboolean value)
 {
     if(value)
     {
@@ -144,6 +143,7 @@ JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1debugMod
         ZFLogLevelSet(ZFLogLevel::EnumDefault());
     }
 }
+JNI_METHOD_DECLARE_END()
 
 #endif
 

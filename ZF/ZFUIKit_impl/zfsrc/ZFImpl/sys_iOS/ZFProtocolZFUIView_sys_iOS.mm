@@ -19,6 +19,7 @@
 @interface _ZFP_ZFUIViewImpl_sys_iOS_View : UIView
 @property (nonatomic, assign) ZFUIView *_ZFP_ownerZFUIView;
 @property (nonatomic, strong) UIView *_ZFP_nativeImplView;
+@property (nonatomic, assign) CGRect _ZFP_nativeImplViewFrame;
 @property (nonatomic, assign) CGRect _ZFP_frame;
 @property (nonatomic, strong) NSMutableArray *_ZFP_mouseRecords; // UITouch
 @property (nonatomic, assign) BOOL _ZFP_uiEnable;
@@ -105,9 +106,7 @@
         UIView *child = [children objectAtIndex:i];
         if(child == self._ZFP_nativeImplView)
         {
-            ZFUIRect rect;
-            ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutNativeImplView(self._ZFP_ownerZFUIView, rect);
-            child.frame = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(rect);
+            child.frame = self._ZFP_nativeImplViewFrame;
         }
         else if([child isKindOfClass:[_ZFP_ZFUIViewImpl_sys_iOS_View class]])
         {
@@ -417,6 +416,12 @@ public:
         {
             [nativeView insertSubview:nativeView._ZFP_nativeImplView atIndex:virtualIndex];
         }
+    }
+    virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
+                                        ZF_IN const ZFUIRect &rect)
+    {
+        _ZFP_ZFUIViewImpl_sys_iOS_View *nativeView = (__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView();
+        nativeView._ZFP_nativeImplViewFrame = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(rect);
     }
     virtual zffloat nativeViewScaleForImpl(ZF_IN void *nativeView)
     {

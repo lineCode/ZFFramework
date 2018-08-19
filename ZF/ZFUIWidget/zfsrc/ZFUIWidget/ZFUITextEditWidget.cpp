@@ -58,9 +58,9 @@ void ZFUITextEditWidget::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
     zfsuper::layoutOnLayoutPrepare(bounds);
     this->nativeImplViewMarginUpdate();
 }
-void ZFUITextEditWidget::nativeImplViewMarginOnUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin)
+void ZFUITextEditWidget::nativeImplViewMarginImplUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin)
 {
-    zfsuper::nativeImplViewMarginOnUpdate(nativeImplViewMargin);
+    zfsuper::nativeImplViewMarginImplUpdate(nativeImplViewMargin);
 
     ZFUIImageView *textEditBackgroundView = this->textEditBackgroundView()->to<ZFUIImageView *>();
     if(textEditBackgroundView->viewVisible())

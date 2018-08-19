@@ -17,86 +17,57 @@
 
 #define _ZFP_ZFImpl_sys_Android_JNI_DEBUG 0
 #if _ZFP_ZFImpl_sys_Android_JNI_DEBUG
-    template<typename T_JNIType>
-    T_JNIType _ZFP_ZFImpl_sys_Android_jniWrap_Created(ZF_IN T_JNIType obj,
-                                                      ZF_IN const zfcharA *callerFile,
-                                                      ZF_IN const zfcharA *callerFunction,
-                                                      ZF_IN zfuint callerLine,
-                                                      ZF_IN const zfcharA *actionName);
-    template<typename T_JNIType>
-    T_JNIType _ZFP_ZFImpl_sys_Android_jniWrap_Released(ZF_IN T_JNIType obj,
-                                                       ZF_IN const zfcharA *callerFile,
-                                                       ZF_IN const zfcharA *callerFunction,
-                                                       ZF_IN zfuint callerLine,
-                                                       ZF_IN const zfcharA *actionName);
-
-    template<typename T_Type>
-    void _ZFP_ZFImpl_sys_Android_jniWrap_FuncCalled(ZF_IN const T_Type *callerFile,
-                                                    ZF_IN const zfcharA *callerFunction,
-                                                    ZF_IN zfuint callerLine,
-                                                    ZF_IN const zfcharA *actionName);
+    #include <jni.h>
+    #include <android/log.h>
+    #define JNIUtilWrap_Log(fmt, ...) \
+        ((void)__android_log_print(ANDROID_LOG_ERROR, "test", fmt, ##__VA_ARGS__))
 
     #define JNIUtilWrap_Enable 1
+
+    inline const char *_JNIUtilWrap_file(const char *filePath)
+    {
+        const char *ret = filePath;
+        while(*filePath)
+        {
+            if(*filePath == '/' || *filePath == '\\')
+            {
+                ret = filePath + 1;
+            }
+            ++filePath;
+        }
+        return ret;
+    }
+    template<typename T_Obj>
+    T_Obj _JNIUtilWrap_LogAction(T_Obj obj, const char *callerFile, const char *callerFunction, int callerLine,
+                                 const char *actionName, const char *type)
+    {
+        JNIUtilWrap_Log("[%s %s (%d)] %s %s %p",
+            _JNIUtilWrap_file(callerFile), callerFunction, callerLine,
+            type, actionName, (const void *)obj);
+        return obj;
+    }
+
     #if 1
         #define JNIUtilWrap_Created(obj, callerFile, callerFunction, callerLine, actionName) \
-            _ZFP_ZFImpl_sys_Android_jniWrap_Created(obj, callerFile, callerFunction, callerLine, actionName)
+            _JNIUtilWrap_LogAction(obj, callerFile, callerFunction, callerLine, actionName, "Create")
+    #endif
+    #ifndef JNIUtilWrap_Released
         #define JNIUtilWrap_Released(obj, callerFile, callerFunction, callerLine, actionName) \
-            _ZFP_ZFImpl_sys_Android_jniWrap_Released(obj, callerFile, callerFunction, callerLine, actionName)
+            _JNIUtilWrap_LogAction(obj, callerFile, callerFunction, callerLine, actionName, "Release")
     #endif
-    #if 1
-        #define JNIUtilWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName) \
-            _ZFP_ZFImpl_sys_Android_jniWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName)
+    #ifndef JNIUtilWrap_FuncCalled
+        #define JNIUtilWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName)  \
+            _JNIUtilWrap_LogAction(NULL, callerFile, callerFunction, callerLine, actionName, "FuncCall")
     #endif
-#endif
+    #ifndef JNIUtilWrap_CallbackCalled
+        #define JNIUtilWrap_CallbackCalled(className, actionName) \
+            JNIUtilWrap_Log("[%s %s (%d)] Callback %s %s", _JNIUtilWrap_file(__FILE__), __FUNCTION__, __LINE__, className, actionName);
+    #endif
+#endif // #if _ZFP_ZFImpl_sys_Android_JNI_DEBUG
 
 #include "ZFImpl/tools/JNIUtil/AndroidJNIUtil.h"
 using namespace JNIUtil;
 using namespace AndroidJNIUtil;
-
-#if _ZFP_ZFImpl_sys_Android_JNI_DEBUG
-    extern ZF_ENV_EXPORT void _ZFP_ZFImpl_sys_Android_jniWrap_Created_action(ZF_IN const void *obj,
-                                                                             ZF_IN const zfcharA *callerFile,
-                                                                             ZF_IN const zfcharA *callerFunction,
-                                                                             ZF_IN zfuint callerLine,
-                                                                             ZF_IN const zfcharA *actionName);
-    extern ZF_ENV_EXPORT void _ZFP_ZFImpl_sys_Android_jniWrap_Released_action(ZF_IN const void *obj,
-                                                                              ZF_IN const zfcharA *callerFile,
-                                                                              ZF_IN const zfcharA *callerFunction,
-                                                                              ZF_IN zfuint callerLine,
-                                                                              ZF_IN const zfcharA *actionName);
-    extern ZF_ENV_EXPORT void _ZFP_ZFImpl_sys_Android_jniWrap_FuncCalled_action(ZF_IN const zfcharA *callerFile,
-                                                                                ZF_IN const zfcharA *callerFunction,
-                                                                                ZF_IN zfuint callerLine,
-                                                                                ZF_IN const zfcharA *actionName);
-    template<typename T_JNIType>
-    T_JNIType _ZFP_ZFImpl_sys_Android_jniWrap_Created(ZF_IN T_JNIType obj,
-                                                      ZF_IN const zfcharA *callerFile,
-                                                      ZF_IN const zfcharA *callerFunction,
-                                                      ZF_IN zfuint callerLine,
-                                                      ZF_IN const zfcharA *actionName)
-    {
-        _ZFP_ZFImpl_sys_Android_jniWrap_Created_action(ZFCastReinterpret(const void *, obj), callerFile, callerFunction, callerLine, actionName);
-        return obj;
-    }
-    template<typename T_JNIType>
-    T_JNIType _ZFP_ZFImpl_sys_Android_jniWrap_Released(ZF_IN T_JNIType obj,
-                                                       ZF_IN const zfcharA *callerFile,
-                                                       ZF_IN const zfcharA *callerFunction,
-                                                       ZF_IN zfuint callerLine,
-                                                       ZF_IN const zfcharA *actionName)
-    {
-        _ZFP_ZFImpl_sys_Android_jniWrap_Released_action(ZFCastReinterpret(const void *, obj), callerFile, callerFunction, callerLine, actionName);
-        return obj;
-    }
-    template<typename T_Type>
-    void _ZFP_ZFImpl_sys_Android_jniWrap_FuncCalled(ZF_IN const T_Type *callerFile,
-                                                    ZF_IN const zfcharA *callerFunction,
-                                                    ZF_IN zfuint callerLine,
-                                                    ZF_IN const zfcharA *actionName)
-    {
-        _ZFP_ZFImpl_sys_Android_jniWrap_FuncCalled_action(callerFile, callerFunction, callerLine, actionName);
-    }
-#endif
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

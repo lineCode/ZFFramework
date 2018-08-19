@@ -326,7 +326,7 @@ JNIString JNIGetMethodSig(const JNIType &returnType,
     return s;
 }
 
-jbyteArray _ZFP_JNIConvertPointerToJNIType(JNIEnv *jniEnv, void *p)
+jbyteArray _JNIConvertPointerToJNITypeAction(JNIEnv *jniEnv, void *p)
 {
     static unsigned int size = sizeof(void *);
     jbyte jByteBuf[32] = {0};
@@ -335,7 +335,7 @@ jbyteArray _ZFP_JNIConvertPointerToJNIType(JNIEnv *jniEnv, void *p)
     jniEnv->SetByteArrayRegion(ret, 0, size, jByteBuf);
     return ret;
 }
-void *_ZFP_JNIConvertPointerFromJNIType(JNIEnv *jniEnv, jbyteArray d)
+void *_JNIConvertPointerFromJNITypeAction(JNIEnv *jniEnv, jbyteArray d)
 {
     if(d == NULL)
     {

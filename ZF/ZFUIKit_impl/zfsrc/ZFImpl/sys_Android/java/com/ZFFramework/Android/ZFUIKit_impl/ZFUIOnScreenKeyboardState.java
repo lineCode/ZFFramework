@@ -13,7 +13,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import com.ZFFramework.Android.NativeUtil.ZFAndroidRect;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidSize;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidUI;
 import com.ZFFramework.Android.ZF_impl.ZFMainEntry;
@@ -67,7 +66,7 @@ public class ZFUIOnScreenKeyboardState {
 
     private static class _WindowData {
         public boolean keyboardStateDelaying = true;
-        public final ZFAndroidRect keyboardFrame = new ZFAndroidRect();
+        public final int[] keyboardFrame = new int[4];
     }
     private static Map<Window, _WindowData> _keyboardState = new HashMap<Window, _WindowData>();
 
@@ -140,11 +139,11 @@ public class ZFUIOnScreenKeyboardState {
     }
 
     public static boolean native_keyboardShowing() {
-        return (_keyboardFrame.height > 0);
+        return (_keyboardFrame[3] > 0);
     }
 
-    private static ZFAndroidRect _keyboardFrame = new ZFAndroidRect();
-    public static Object native_keyboardFrame() {
+    private static int[] _keyboardFrame = new int[4]; // left, top, width, height
+    public static int[] native_keyboardFrame() {
         return _keyboardFrame;
     }
 
@@ -154,35 +153,40 @@ public class ZFUIOnScreenKeyboardState {
      */
     public static void notifyKeyboardStateOnChange(Window window) {
         if(window == null) {
-            _keyboardFrame.set(0, 0, 0, 0);
+            _keyboardFrame[0] = 0;
+            _keyboardFrame[1] = 0;
+            _keyboardFrame[2] = 0;
+            _keyboardFrame[3] = 0;
             return ;
         }
         _WindowData windowData = _keyboardState.get(window);
         if(windowData == null) {
-            int old = _keyboardFrame.height;
+            int old = _keyboardFrame[3];
             keyboardFrameUpdate(window, _keyboardFrame);
-            if(_keyboardFrame.height != old) {
+            if(_keyboardFrame[3] != old) {
                 ZFUIOnScreenKeyboardState.native_notifyKeyboardStateOnChange();
             }
         }
         else if(windowData.keyboardStateDelaying) {
-            _keyboardFrame.set(windowData.keyboardFrame);
+            System.arraycopy(_keyboardFrame, 0, windowData.keyboardFrame, 0, 4);
         }
         else {
-            int old = windowData.keyboardFrame.height;
+            int old = windowData.keyboardFrame[3];
             keyboardFrameUpdate(window, windowData.keyboardFrame);
-            _keyboardFrame.set(windowData.keyboardFrame);
-            if(_keyboardFrame.height != old) {
+            System.arraycopy(_keyboardFrame, 0, windowData.keyboardFrame, 0, 4);
+            if(_keyboardFrame[3] != old) {
                 ZFUIOnScreenKeyboardState.native_notifyKeyboardStateOnChange();
             }
         }
     }
-    public static void keyboardFrameUpdate(Window window, ZFAndroidRect outKeyboardFrame) {
+    public static void keyboardFrameUpdate(Window window, int[] outKeyboardFrame) {
         Rect rect = new Rect();
         window.getDecorView().getWindowVisibleDisplayFrame(rect);
         ZFAndroidSize screenSize = ZFAndroidUI.screenSize(ZFMainEntry.appContext());
-        outKeyboardFrame.set(0, rect.bottom, screenSize.width,
-            screenSize.height - rect.bottom);
+        outKeyboardFrame[0] = 0;
+        outKeyboardFrame[1] = rect.bottom;
+        outKeyboardFrame[2] = screenSize.width;
+        outKeyboardFrame[3] = screenSize.height - rect.bottom;
     }
     private static native void native_notifyKeyboardStateOnChange();
 }

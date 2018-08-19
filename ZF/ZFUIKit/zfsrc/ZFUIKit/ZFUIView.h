@@ -196,7 +196,7 @@ public:
      *
      * called when #nativeImplViewMarginUpdate and value differs from old
      */
-    ZFOBSERVER_EVENT(NativeImplViewMarginOnChange)
+    ZFOBSERVER_EVENT(NativeImplViewMarginOnUpdate)
     /**
      * @brief see #ZFObject::observerNotify
      *
@@ -386,7 +386,6 @@ protected:
 
     // ============================================================
 public:
-    zffinal void _ZFP_ZFUIView_notifyLayoutNativeImplView(ZF_OUT ZFUIRect &result);
     /**
      * @brief native implementation view
      *
@@ -401,14 +400,27 @@ public:
      */
     ZFMETHOD_DECLARE_0(void *, nativeImplView)
     /**
-     * @brief access the margin without update it, see #nativeImplViewMarginUpdate
+     * @brief inner margin between #ZFUIView and the internal #nativeImplView
      *
-     * this margin is used for impl views only, such as,
-     * leave some extra space for native text view impl,
-     * app level children should not be affected by this margin\n
-     * if not zero, ZFUIView's size would be #nativeImplView + this margin value
+     * use #nativeImplViewMarginUpdate to update this value,
+     * and it's ensured to be called during #ZFObject::objectOnInitFinish\n
+     * subclass should override #nativeImplViewMarginImplUpdate to implement custom margin,
+     * and manually call #nativeImplViewMarginUpdate if necessary\n
+     * this value can also be controlled by app level code by #nativeImplViewMarginCustom
      */
     zffinal const ZFUIMargin &nativeImplViewMargin(void);
+    /**
+     * @brief see #nativeImplViewMargin,
+     *   #layoutRequest if the final value actually changed
+     */
+    zffinal void nativeImplViewMarginUpdate(void);
+
+    /**
+     * @brief see #nativeImplViewMargin, #ZFUIMarginZero by default
+     */
+    ZFPROPERTY_ASSIGN(ZFUIMargin, nativeImplViewMarginCustom)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIMargin, nativeImplViewMarginCustom)
+
 protected:
     /**
      * @brief see #nativeImplView
@@ -416,36 +428,27 @@ protected:
     zffinal void nativeImplViewSet(ZF_IN void *nativeImplView,
                                    ZF_IN ZFUIViewNativeImplViewDeleteCallback nativeImplViewDeleteCallback);
     /**
-     * @brief called to layout native impl view, which would fill parent by default
-     *
-     * you may override default behavior without calling super
+     * @brief see #nativeImplViewMargin,
+     *   subclass must call super and "append" to existing margin
      */
-    virtual inline void nativeImplViewOnLayout(ZF_OUT ZFUIRect &result,
-                                               ZF_IN const ZFUIRect &bounds)
+    virtual inline void nativeImplViewMarginImplUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin)
     {
     }
     /**
-     * @brief update native impl view's margin
-     *
-     * call #nativeImplViewMarginOnUpdate to update the margin value,
-     * for subclass to achieve complex layout logic\n
-     * this method would be called during #viewPropertyOnUpdate,
-     * and won't be update automatically for performance,
-     * subclass should manually call this method or #viewPropertyUpdateRequest if necessary
+     * @brief see #EventNativeImplViewMarginOnUpdate
      */
-    zffinal void nativeImplViewMarginUpdate(void);
-    /**
-     * @brief see #nativeImplViewMarginUpdate
-     */
-    virtual inline void nativeImplViewMarginOnUpdate(ZF_IN_OUT ZFUIMargin &nativeImplViewMargin)
+    virtual inline void nativeImplViewMarginOnUpdate(void)
     {
+        this->observerNotify(ZFUIView::EventNativeImplViewMarginOnUpdate());
     }
     /**
-     * @brief see #nativeImplViewMarginUpdate
+     * @brief called to layout #nativeImplView
      */
-    virtual inline void nativeImplViewMarginOnChange(void)
+    virtual void nativeImplViewOnLayout(ZF_OUT ZFUIRect &ret,
+                                        ZF_IN const ZFUIRect &bounds,
+                                        ZF_IN const ZFUIMargin &nativeImplViewMargin)
     {
-        this->observerNotify(zfself::EventNativeImplViewMarginOnChange());
+        ZFUIRectApplyMargin(ret, bounds, nativeImplViewMargin);
     }
 
     // ============================================================

@@ -83,11 +83,8 @@ public:
     /**
      * @brief see #ZFUIView::nativeImplViewMarginUpdate
      */
-    virtual void nativeImplViewMarginSet(ZF_IN ZFUIView *view,
-                                         ZF_IN const ZFUIMargin &nativeImplViewMargin)
-    {
-        // optional
-    }
+    virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
+                                        ZF_IN const ZFUIRect &rect) zfpurevirtual;
 
     /**
      * @brief get proper scale for the view
@@ -207,15 +204,6 @@ public:
                                       ZF_IN const ZFUIRect &rect)
     {
         view->_ZFP_ZFUIView_notifyLayoutRootView(ZFUIRectApplyScaleReversely(rect, view->scaleFixed()));
-    }
-    /**
-     * @brief implementations must notify just before layout native impl view
-     */
-    zffinal void notifyLayoutNativeImplView(ZF_IN ZFUIView *view,
-                                            ZF_IN_OUT ZFUIRect &result)
-    {
-        view->_ZFP_ZFUIView_notifyLayoutNativeImplView(result);
-        result = ZFUIRectApplyScale(result, view->scaleFixed());
     }
     /**
      * @brief implementation must notify when UI event occurred

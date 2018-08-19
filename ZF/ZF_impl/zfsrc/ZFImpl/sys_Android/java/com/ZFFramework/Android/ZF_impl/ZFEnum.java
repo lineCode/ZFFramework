@@ -23,6 +23,22 @@ public class ZFEnum {
         return native_enumName(enumClassName, enumValue);
     }
 
+    public static int rawAssert(String rawEnumNamespace, String rawEnumValueName) {
+        int ret = native_rawEnumValue(rawEnumNamespace, rawEnumValueName);
+        if(ret == -1) {
+            native_enumInvalid(rawEnumNamespace, rawEnumValueName);
+        }
+        return ret;
+    }
+    public static int e(String enumClassName, String enumValueName) {
+        int ret = native_enumValue(enumClassName, enumValueName);
+        if(ret == -1) {
+            native_enumInvalid(enumClassName, enumValueName);
+        }
+        return ret;
+    }
+
+    private native static void native_enumInvalid(String rawEnumNamespace, String rawEnumValueName);
     private native static int native_rawEnumValue(String rawEnumNamespace, String rawEnumValueName);
     private native static int native_enumValue(String enumClassName, String enumValueName);
     private native static int native_enumDefault(String enumClassName);

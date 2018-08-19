@@ -249,7 +249,7 @@ protected:
     virtual void viewEventOnWheelEvent(ZF_IN ZFUIWheelEvent *wheelEvent);
 
     zfoverride
-    virtual void nativeImplViewMarginOnChange(void);
+    virtual void nativeImplViewMarginOnUpdate(void);
 
     // ============================================================
     // util methods

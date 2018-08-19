@@ -51,11 +51,13 @@ public:
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_keyboardFrame"),
-            JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
+            JNIGetMethodSig(JNIType::S_array(JNIType::S_int), JNIParamTypeContainer()
             ).c_str());
-        jobject jrect = JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId);
-        ZFUIRect ret = ZFImpl_sys_Android_ZFUIRectFromZFAndroidRect(jrect);
-        JNIUtilDeleteLocalRef(jniEnv, jrect);
+        jintArray jobjRect = (jintArray)JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId);
+        jint *jarrRect = JNIUtilGetIntArrayElements(jniEnv, jobjRect, NULL);
+        ZFUIRect ret = ZFUIRectMake((zfint)jarrRect[0], (zfint)jarrRect[1], (zfint)jarrRect[2], (zfint)jarrRect[3]);
+        JNIUtilReleaseIntArrayElements(jniEnv, jobjRect, jarrRect, JNI_ABORT);
+        JNIUtilDeleteLocalRef(jniEnv, jobjRect);
         return ret;
     }
 
@@ -92,8 +94,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFUIOnScreenKeyboardStateImpl_sys_Android_init)
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState, native_1notifyKeyboardStateOnChange,
-                   JNIEnv *jniEnv, jclass jniCls)
+JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState, native_1notifyKeyboardStateOnChange)
 {
     if(ZFFrameworkStateCheck() != ZFFrameworkStateAvailable)
     {
@@ -102,6 +103,7 @@ JNI_METHOD_DECLARE(void, ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState, na
     ZFPROTOCOL_ACCESS(ZFUIOnScreenKeyboardState)->notifyKeyboardStateOnChange(
         ZFUIOnScreenKeyboardState::instanceForSysWindow());
 }
+JNI_METHOD_DECLARE_END()
 
 #endif // #if ZF_ENV_sys_Android
 
