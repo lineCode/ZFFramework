@@ -597,7 +597,7 @@ void ZFOperation::cacheTrim(void)
 
 void ZFOperation::cacheTrimBySize(ZF_IN zfindex size)
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(size >= d->caches->count())
     {
         return ;
@@ -795,7 +795,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
         return zfidentityInvalid();
     }
 
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
 
     ZFOperationTaskData *operationTaskData = startParam->operationTaskData();
     operationTaskData->operationOwnerSet(this);
@@ -1010,7 +1010,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStop,
 {
     if(operationId != zfidentityInvalid())
     {
-        zfsynchronizedObjectLock(this);
+        zfsynchronizeLock(this);
         zfblockedAlloc(ZFArrayEditable, toNotifyTaskObserverDatas);
         d->prepareStopForOperationId(d->tasks, toNotifyTaskObserverDatas, operationId, zftrue);
         if(toNotifyTaskObserverDatas->isEmpty())
@@ -1018,7 +1018,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStop,
             d->prepareStopForOperationId(d->tasksQueued, toNotifyTaskObserverDatas, operationId, zftrue);
         }
         d->doStop(toNotifyTaskObserverDatas, this->createResult(ZFResultType::e_Cancel).to<ZFOperationResult *>());
-        zfsynchronizedObjectUnlock(this);
+        zfsynchronizeUnlock(this);
     }
 }
 ZFMETHOD_DEFINE_1(ZFOperation, zfautoObject, taskStopAndGetResult,
@@ -1026,7 +1026,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfautoObject, taskStopAndGetResult,
 {
     if(operationId != zfidentityInvalid())
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         zfautoObject operationResultTmp = this->createResult(ZFResultType::e_Cancel);
         ZFOperationResult *operationResult = operationResultTmp.to<ZFOperationResult *>();
         zfblockedAlloc(ZFArrayEditable, toNotifyTaskObserverDatas);
@@ -1048,7 +1048,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfautoObject, taskStopAndGetResult,
 ZFMETHOD_DEFINE_1(ZFOperation, void, taskStop,
                   ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(operationParam == zfnull)
     {
         operationParam = d->dummyParamAccess();
@@ -1067,22 +1067,22 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopForCategory,
 {
     if(category != zfnull)
     {
-        zfsynchronizedObjectLock(this);
+        zfsynchronizeLock(this);
         zfblockedAlloc(ZFArrayEditable, toNotifyTaskObserverDatas);
         d->prepareStopForCategory(d->tasks, toNotifyTaskObserverDatas, category);
         d->prepareStopForCategory(d->tasksQueued, toNotifyTaskObserverDatas, category);
         d->doStop(toNotifyTaskObserverDatas, this->createResult(ZFResultType::e_Cancel).to<ZFOperationResult *>());
-        zfsynchronizedObjectUnlock(this);
+        zfsynchronizeUnlock(this);
     }
 }
 ZFMETHOD_DEFINE_0(ZFOperation, void, taskStopAll)
 {
-    zfsynchronizedObjectLock(this);
+    zfsynchronizeLock(this);
     zfblockedAlloc(ZFArrayEditable, toNotifyTaskObserverDatas);
     d->prepareStopAll(d->tasks, toNotifyTaskObserverDatas);
     d->prepareStopAll(d->tasksQueued, toNotifyTaskObserverDatas);
     d->doStop(toNotifyTaskObserverDatas, this->createResult(ZFResultType::e_Cancel).to<ZFOperationResult *>());
-    zfsynchronizedObjectUnlock(this);
+    zfsynchronizeUnlock(this);
 }
 
 ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopObserver,
@@ -1090,7 +1090,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopObserver,
 {
     if(operationId != zfidentityInvalid())
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         _ZFP_I_ZFOperationPrivateTaskObserverData *taskObserverData = d->findTaskObserverDataForOperationId(operationId);
         if(taskObserverData != zfnull)
         {
@@ -1101,7 +1101,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopObserver,
 ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopObserver,
                   ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull))
 {
-    zfsynchronizedObjectLock(this);
+    zfsynchronizeLock(this);
     if(operationParam == zfnull)
     {
         operationParam = d->dummyParamAccess();
@@ -1138,7 +1138,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopObserverForCategory,
 {
     if(category != zfnull)
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
 
         for(zfindex i = 0; i < d->tasks->count(); ++i)
         {
@@ -1169,30 +1169,30 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, taskStopObserverForCategory,
 
 ZFMETHOD_DEFINE_0(ZFOperation, zfindex, taskCount)
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     return d->tasks->count();
 }
 ZFMETHOD_DEFINE_0(ZFOperation, zfindex, taskQueuedCount)
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     return d->tasksQueued->count();
 }
 ZFMETHOD_DEFINE_0(ZFOperation, zfbool, taskRunning)
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     return (!d->tasks->isEmpty() || !d->tasksQueued->isEmpty());
 }
 
 ZFMETHOD_DEFINE_1(ZFOperation, zfbool, taskIsAlive,
                   ZFMP_IN(ZFOperationParam *, operationParam))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     return (d->findTaskDataForOperationParam(operationParam) != zfnull);
 }
 ZFMETHOD_DEFINE_1(ZFOperation, zfbool, taskIsAlive,
                   ZFMP_IN(zfidentity, operationId))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     return (d->findTaskDataForOperationId(operationId) != zfnull);
 }
 
@@ -1205,7 +1205,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyFinish,
                   ZFMP_IN(ZFOperationParam *, operationParam),
                   ZFMP_IN(ZFOperationResult *, operationResult))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
 
     if(operationParam == zfnull)
     {
@@ -1238,7 +1238,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyFinish,
         return ;
     }
 
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
 
     zfblockedAlloc(ZFArrayEditable, toNotifyTaskObserverDatas);
     d->prepareStopForOperationId(d->tasks, toNotifyTaskObserverDatas, operationId, operationResult->resultType() == ZFResultType::e_Cancel);
@@ -1258,7 +1258,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyProgress,
                   ZFMP_IN(ZFOperationParam *, operationParam),
                   ZFMP_IN_OPT(ZFOperationProgress *, operationProgress, zfnull))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(operationParam == zfnull)
     {
         operationParam = d->dummyParamAccess();
@@ -1281,7 +1281,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyProgress,
 {
     if(operationId != zfidentityInvalid())
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         _ZFP_I_ZFOperationPrivateTaskData *taskData = d->findTaskDataForOperationId(operationId, zffalse);
         if(taskData != zfnull)
         {
@@ -1356,7 +1356,7 @@ void ZFOperation::operationTaskOnProgress(ZF_IN ZFOperationTaskData *operationTa
 ZFMETHOD_DEFINE_1(ZFOperation, ZFOperationTaskData *, operationGetTaskData,
                   ZFMP_IN(zfidentity, operationId))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     _ZFP_I_ZFOperationPrivateTaskObserverData *taskObserverData = d->findTaskObserverDataForOperationId(operationId);
     if(taskObserverData != zfnull)
     {
@@ -1370,7 +1370,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, operationGetTaskList,
 {
     if(taskDatas != zfnull)
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         _ZFP_I_ZFOperationPrivateTaskData *taskData = d->findTaskDataForOperationId(operationId);
         if(taskData != zfnull)
         {
@@ -1387,7 +1387,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, operationGetTaskList,
 {
     if(taskDatas != zfnull)
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         for(zfindex iTaskData = d->tasks->count(); iTaskData < d->tasks->count(); ++iTaskData)
         {
             _ZFP_I_ZFOperationPrivateTaskData *taskData = d->tasks->get<_ZFP_I_ZFOperationPrivateTaskData *>(iTaskData);
@@ -1403,7 +1403,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, operationGetTaskListQueued,
 {
     if(taskDatas != zfnull)
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         for(zfindex iTaskData = d->tasksQueued->count(); iTaskData < d->tasksQueued->count(); ++iTaskData)
         {
             _ZFP_I_ZFOperationPrivateTaskData *taskData = d->tasksQueued->get<_ZFP_I_ZFOperationPrivateTaskData *>(iTaskData);
@@ -1456,7 +1456,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, cacheAdd,
 ZFMETHOD_DEFINE_1(ZFOperation, void, cacheRemove,
                   ZFMP_IN(ZFOperationParam *, operationParam))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(operationParam == zfnull)
     {
         operationParam = d->dummyParamAccess();

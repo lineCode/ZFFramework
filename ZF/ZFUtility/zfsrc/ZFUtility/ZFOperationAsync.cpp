@@ -136,10 +136,10 @@ void ZFOperationAsync::objectOnDealloc(void)
 }
 void ZFOperationAsync::objectOnDeallocPrepare(void)
 {
-    zfsynchronizedObjectLock(this);
+    zfsynchronizeLock(this);
     ZFCoreArrayPOD<zfidentity> threadsToWait;
     threadsToWait.addFrom(d->runningThreads);
-    zfsynchronizedObjectUnlock(this);
+    zfsynchronizeUnlock(this);
 
     this->taskStopAll();
 
@@ -159,10 +159,10 @@ void ZFOperationAsync::taskOnStart(ZF_IN ZFOperationTaskData *operationTaskData)
         ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFOperationAsyncPrivate, onStartInNewThread)),
         operationTaskData);
     {
-        zfsynchronizedObjectLock(this);
+        zfsynchronizeLock(this);
         d->runningOperationId.add(operationTaskData->operationId());
         d->runningThreads.add(threadId);
-        zfsynchronizedObjectUnlock(this);
+        zfsynchronizeUnlock(this);
     }
 }
 void ZFOperationAsync::taskOnStop(ZF_IN ZFOperationTaskData *operationTaskData)
@@ -170,7 +170,7 @@ void ZFOperationAsync::taskOnStop(ZF_IN ZFOperationTaskData *operationTaskData)
     zfsuper::taskOnStop(operationTaskData);
     this->taskOnStopAsync(operationTaskData);
     {
-        zfsynchronizedObject(this);
+        zfsynchronize(this);
         for(zfindex i = 0; i < d->runningOperationId.count(); ++i)
         {
             if(d->runningOperationId[i] == operationTaskData->operationId())

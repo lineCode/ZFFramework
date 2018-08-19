@@ -71,13 +71,13 @@ protected:
             zfLogTrim(zfText("sync thread begin"));
             for(zfindex i = 0; i < 5; ++i)
             {
-                zfsynchronizeLock();
+                zfCoreMutexLock();
                 for(zfindex j = 0; j < 10; ++j)
                 {
                     _ZFP_ZFCore_ZFThread_test_outputDetailSteps(zfText("  sync thread: %zi %zi"), i, j);
                     ZFThread::sleep((zftimet)20);
                 }
-                zfsynchronizeUnlock();
+                zfCoreMutexUnlock();
                 ZFThread::sleep((zftimet)200);
             }
             zfLogTrim(zfText("sync thread end"));
@@ -85,13 +85,13 @@ protected:
         taskId = ZFThreadExecuteInNewThread(syncFunc);
         for(zfindex i = 0; i < 5; ++i)
         {
-            zfsynchronizeLock();
+            zfCoreMutexLock();
             for(zfindex j = 0; j < 10; ++j)
             {
                 _ZFP_ZFCore_ZFThread_test_outputDetailSteps(zfText("  main:   %zi %zi"), i, j);
                 ZFThread::sleep((zftimet)20);
             }
-            zfsynchronizeUnlock();
+            zfCoreMutexUnlock();
             ZFThread::sleep((zftimet)190);
         }
         zfLogTrim(zfText("main thread wait sync thread begin"));

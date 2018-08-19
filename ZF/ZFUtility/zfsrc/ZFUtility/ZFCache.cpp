@@ -77,7 +77,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFCache, zfindex, cacheMaxSize)
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFCache, zfbool, cacheTrimWhenReceiveMemoryWarning)
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFCacheDataHolder)->cacheTrimListenerSetup(
         this, this->cacheTrimWhenReceiveMemoryWarning());
 }
@@ -85,7 +85,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFCache, zfbool, cacheTrimWhenReceiveMemory
 ZFMETHOD_DEFINE_1(ZFCache, void, cacheAdd,
                   ZFMP_IN(ZFObject *, cacheValue))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(cacheValue == zfnull
         || (zfindex)d->cacheList.size() >= this->cacheMaxSize()
         || !this->cacheOnCheck(cacheValue))
@@ -98,7 +98,7 @@ ZFMETHOD_DEFINE_1(ZFCache, void, cacheAdd,
 ZFMETHOD_DEFINE_1(ZFCache, zfautoObject, cacheGet,
                   ZFMP_IN_OPT(const ZFClass *, cacheClass, zfnull))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(d->cacheList.empty())
     {
         if(cacheClass != zfnull)
@@ -120,7 +120,7 @@ ZFMETHOD_DEFINE_1(ZFCache, zfautoObject, cacheGet,
 
 ZFMETHOD_DEFINE_0(ZFCache, void, cacheRemoveAll)
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     d->cacheList.clear();
 }
 
@@ -132,7 +132,7 @@ ZFMETHOD_DEFINE_0(ZFCache, void, cacheTrim)
 ZFMETHOD_DEFINE_1(ZFCache, void, cacheTrimBySize,
                   ZFMP_IN(zfindex, size))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     if(size >= (zfindex)(d->cacheList.size()))
     {
         return ;
@@ -152,7 +152,7 @@ ZFMETHOD_DEFINE_0(ZFCache, ZFCoreArray<zfautoObject>, cacheGetAll)
 ZFMETHOD_DEFINE_1(ZFCache, void, cacheGetAllT,
                   ZFMP_IN_OUT(ZFCoreArray<zfautoObject> &, ret))
 {
-    zfsynchronizedObject(this);
+    zfsynchronize(this);
     for(zfstllist<zfautoObject>::iterator it = d->cacheList.begin(); it != d->cacheList.end(); ++it)
     {
         ret.add(*it);

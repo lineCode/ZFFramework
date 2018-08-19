@@ -51,7 +51,7 @@ public:
 public:
     void requestDoPost(ZF_IN ZFObject *owner)
     {
-        zfsynchronizedObject(owner);
+        zfsynchronize(owner);
         if(this->requestBlocked > 0 || this->requestQueue.isEmpty() || this->requestRunning)
         {
             return ;
@@ -69,7 +69,7 @@ private:
     static ZFLISTENER_PROTOTYPE_EXPAND(requestOnResolve)
     {
         ZFUIPageManager *manager = userData->to<ZFUIPageManager *>();
-        zfsynchronizedObject(manager->toObject());
+        zfsynchronize(manager->toObject());
         if(manager->d->requestBlocked > 0 || manager->d->requestQueue.isEmpty())
         {
             manager->d->requestRunning = zffalse;
@@ -594,18 +594,18 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, managerUIBlockedSet,
 {
     zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
 
-    zfsynchronizedObjectLock(this->toObject());
+    zfsynchronizeLock(this->toObject());
     if(value)
     {
         ++(d->managerUIBlocked);
         if(d->managerUIBlocked == 1)
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
             this->managerUIBlockedOnChange();
         }
         else
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
         }
     }
     else
@@ -613,12 +613,12 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, managerUIBlockedSet,
         --(d->managerUIBlocked);
         if(d->managerUIBlocked == 0)
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
             this->managerUIBlockedOnChange();
         }
         else
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
         }
     }
 }
@@ -700,7 +700,7 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPost,
     zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
     if(request != zfnull)
     {
-        zfsynchronizedObject(this->toObject());
+        zfsynchronize(this->toObject());
         this->managerUIBlockedSet(zftrue);
         d->requestQueue.queuePut(zfRetain(request));
         d->requestDoPost(this->toObject());
@@ -710,18 +710,18 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestBlockedSet,
                   ZFMP_IN(zfbool, value))
 {
     zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
-    zfsynchronizedObjectLock(this->toObject());
+    zfsynchronizeLock(this->toObject());
     if(value)
     {
         ++(d->requestBlocked);
         if(d->requestBlocked == 1)
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
             this->requestBlockedOnChange();
         }
         else
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
         }
     }
     else
@@ -729,13 +729,13 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestBlockedSet,
         --(d->requestBlocked);
         if(d->requestBlocked == 0)
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
             this->requestBlockedOnChange();
             d->requestDoPost(this->toObject());
         }
         else
         {
-            zfsynchronizedObjectUnlock(this->toObject());
+            zfsynchronizeUnlock(this->toObject());
         }
     }
 }

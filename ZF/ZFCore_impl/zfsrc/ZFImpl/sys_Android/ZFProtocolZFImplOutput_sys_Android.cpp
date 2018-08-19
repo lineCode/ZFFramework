@@ -50,7 +50,7 @@ public:
     }
     virtual void outputLog(ZF_IN const zfchar *s, ZF_IN_OPT zfindex count = zfindexMax())
     {
-        zfsynchronizedObject(this->syncObj);
+        zfsynchronize(this->syncObj);
         if(count == zfindexMax())
         {
             this->savedString += ZFStringZ2A(s);

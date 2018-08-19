@@ -69,7 +69,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadTaskRequestCallback_action)
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
     if(lockAvailable)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+        zfsynchronizeLock(_ZFP_ZFThread_mutex);
     }
     if(_ZFP_ZFThread_taskDatas != zfnull && !_ZFP_ZFThread_taskDatas->isEmpty())
     {
@@ -81,14 +81,14 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadTaskRequestCallback_action)
         // run
         if(lockAvailable)
         {
-            zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+            zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
         }
         taskData->taskCallback().execute(
             ZFListenerData().param0Set(taskData->taskParam0()).param1Set(taskData->taskParam1()),
             taskData->taskUserData());
         if(lockAvailable)
         {
-            zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+            zfsynchronizeLock(_ZFP_ZFThread_mutex);
         }
 
         // cleanup
@@ -106,7 +106,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadTaskRequestCallback_action)
         }
         if(lockAvailable)
         {
-            zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+            zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
         }
     }
     else
@@ -114,7 +114,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadTaskRequestCallback_action)
         _ZFP_ZFThread_taskRunning = zffalse;
         if(lockAvailable)
         {
-            zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+            zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
         }
     }
 }
@@ -178,7 +178,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfidentity, ZFThreadTaskRequest,
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
     if(lockAvailable)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+        zfsynchronizeLock(_ZFP_ZFThread_mutex);
     }
 
     zfindex oldTaskIndex = zfindexMax();
@@ -229,7 +229,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfidentity, ZFThreadTaskRequest,
     }
     if(lockAvailable)
     {
-        zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+        zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
     }
     return taskId;
 }
@@ -239,7 +239,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancel,
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
     if(lockAvailable)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+        zfsynchronizeLock(_ZFP_ZFThread_mutex);
     }
 
     for(zfindex i = 0; i < _ZFP_ZFThread_taskDatas->count(); ++i)
@@ -254,7 +254,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancel,
     }
     if(lockAvailable)
     {
-        zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+        zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
     }
 }
 ZFMETHOD_FUNC_DEFINE_4(void, ZFThreadTaskCancelExactly,
@@ -271,7 +271,7 @@ ZFMETHOD_FUNC_DEFINE_4(void, ZFThreadTaskCancelExactly,
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
     if(lockAvailable)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+        zfsynchronizeLock(_ZFP_ZFThread_mutex);
     }
 
     for(zfindex i = 0; i < _ZFP_ZFThread_taskDatas->count(); ++i)
@@ -289,7 +289,7 @@ ZFMETHOD_FUNC_DEFINE_4(void, ZFThreadTaskCancelExactly,
     }
     if(lockAvailable)
     {
-        zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+        zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
     }
 }
 ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancel,
@@ -303,7 +303,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancel,
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
     if(lockAvailable)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+        zfsynchronizeLock(_ZFP_ZFThread_mutex);
     }
 
     for(zfindex i = 0; i < _ZFP_ZFThread_taskDatas->count(); ++i)
@@ -318,7 +318,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancel,
     }
     if(lockAvailable)
     {
-        zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+        zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
     }
 }
 ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancelWithOwner,
@@ -332,7 +332,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancelWithOwner,
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
     if(lockAvailable)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThread_mutex);
+        zfsynchronizeLock(_ZFP_ZFThread_mutex);
     }
 
     for(zfindex i = 0; i < _ZFP_ZFThread_taskDatas->count(); ++i)
@@ -347,7 +347,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFThreadTaskCancelWithOwner,
     }
     if(lockAvailable)
     {
-        zfsynchronizedObjectUnlock(_ZFP_ZFThread_mutex);
+        zfsynchronizeUnlock(_ZFP_ZFThread_mutex);
     }
 }
 

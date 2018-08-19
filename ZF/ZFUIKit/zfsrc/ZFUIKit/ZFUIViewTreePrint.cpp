@@ -84,7 +84,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
         return ;
     }
 
-    zfsynchronizedObject(_ZFP_ZFUIViewTreePrintSyncObject);
+    zfsynchronize(_ZFP_ZFUIViewTreePrintSyncObject);
 
     ZFCoreArrayPOD<_ZFP_ZFUIViewTreePrintPrintData> printDatas;
     _ZFP_ZFUIViewTreePrintPrintData rootPrintData;

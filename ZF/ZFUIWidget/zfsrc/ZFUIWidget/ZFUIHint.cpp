@@ -155,7 +155,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(hintAniShowOnStop)
     {
-        zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+        zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
         hint->d->hintDoShowDelay();
     }
@@ -169,7 +169,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(hintShowDelayTimeout)
     {
-        zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+        zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
         hint->d->hintShowDelayTaskId = zfidentityInvalid();
         hint->d->hintDoHide();
@@ -194,7 +194,7 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(hintAniHideOnStop)
     {
-        zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+        zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
         hint->d->hintDoFinish();
     }
@@ -247,7 +247,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIHint, HintOnHide)
 ZFMETHOD_DEFINE_1(ZFUIHint, ZFCoreArrayPOD<ZFUIHint *>, hintList,
                   ZFMP_IN_OPT(ZFUISysWindow *, inSysWindow, zfnull))
 {
-    zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+    zfsynchronize(_ZFP_ZFUIHintSyncObj);
 
     ZFCoreArrayPOD<ZFUIHint *> ret;
 
@@ -301,7 +301,7 @@ ZFMETHOD_DEFINE_0(ZFUIHint, ZFUIWindow *, hintWindow)
 
 ZFMETHOD_DEFINE_0(ZFUIHint, void, hintShow)
 {
-    zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+    zfsynchronize(_ZFP_ZFUIHintSyncObj);
     if(this->hintShowing())
     {
         return ;
@@ -322,7 +322,7 @@ ZFMETHOD_DEFINE_0(ZFUIHint, void, hintShow)
 }
 ZFMETHOD_DEFINE_0(ZFUIHint, void, hintHide)
 {
-    zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+    zfsynchronize(_ZFP_ZFUIHintSyncObj);
     if(d->hintShowing)
     {
         if(d->hintDelaying)
@@ -383,7 +383,7 @@ void ZFUIHint::objectOnInit(void)
     d->hintWindow->viewUIEnableTreeSet(zffalse);
 
     ZFLISTENER_LOCAL(hintWindowChanged, {
-        zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+        zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
         zfCoreAssertWithMessage(!hint->hintShowing(), zfTextA("you must not change ZFUIHint's window while it's showing or delaying"));
         ZFUISysWindow *sysWindowOld = listenerData.param0->to<ZFUISysWindow *>();
@@ -411,7 +411,7 @@ void ZFUIHint::objectOnInit(void)
     d->hintWindow->observerAdd(ZFUIWindow::EventWindowOwnerSysWindowOnChange(), hintWindowChanged, this->objectHolder());
 
     ZFLISTENER_LOCAL(hintWindowOnLayoutPrepare, {
-        zfsynchronizedObject(_ZFP_ZFUIHintSyncObj);
+        zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
         hint->hintOnUpdate();
     })

@@ -209,13 +209,13 @@ zfclassFwd ZFObjectHolder;
  *   @endcode
  * -  ZFObject is synchronizable object, you can make it mutable by:
  *   @code
- *     zfsynchronized(obj)
  *     {
+ *         zfsynchronize(obj)
  *         // mutable operation
  *     }
  *   @endcode
  *   for advanced mutable operation, use ZFMutex instead\n
- *   for global mutable operation, use #zfsynchronize instead
+ *   for global mutable operation, use #zfCoreMutexLock instead
  *
  * \n
  * ADVANCED:\n

@@ -114,15 +114,15 @@ ZF_GLOBAL_INITIALIZER_END(ZFThreadImpl_default_DataHolder)
 void _ZFP_ZFThreadImpl_default_threadCallback(_ZFP_ZFThreadImpl_default_ExecuteData *data)
 {
     _ZFP_ZFThreadImpl_default_NativeThreadIdType nativeCurrentThreadId = _ZFP_ZFThreadImpl_default_getNativeThreadId();
-    zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_default_syncObj);
+    zfsynchronizeLock(_ZFP_ZFThreadImpl_default_syncObj);
     _ZFP_ZFThreadImpl_default_threadMap[nativeCurrentThreadId] = data->ownerZFThread;
-    zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_default_syncObj);
+    zfsynchronizeUnlock(_ZFP_ZFThreadImpl_default_syncObj);
 
     data->runnable.execute(ZFListenerData().param0Set(data->param0).param1Set(data->param1));
 
-    zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_default_syncObj);
+    zfsynchronizeLock(_ZFP_ZFThreadImpl_default_syncObj);
     _ZFP_ZFThreadImpl_default_threadMap.erase(nativeCurrentThreadId);
-    zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_default_syncObj);
+    zfsynchronizeUnlock(_ZFP_ZFThreadImpl_default_syncObj);
 
     zfdelete(data);
 }
@@ -162,7 +162,7 @@ public:
     {
         _ZFP_ZFThreadImpl_default_NativeThreadIdType nativeCurrentThread = _ZFP_ZFThreadImpl_default_getNativeThreadId();
 
-        zfsynchronizedObject(_ZFP_ZFThreadImpl_default_syncObj);
+        zfsynchronize(_ZFP_ZFThreadImpl_default_syncObj);
         _ZFP_ZFThreadImpl_default_ThreadMapType::const_iterator it = _ZFP_ZFThreadImpl_default_threadMap.find(nativeCurrentThread);
         if(it == _ZFP_ZFThreadImpl_default_threadMap.end())
         {

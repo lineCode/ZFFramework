@@ -3,6 +3,7 @@
 * optimize cache impl
 * optimize UI module performance
 * optimize list view impl
+* change zfsynchronize API names
 
 # 0.4.1
 * update project files

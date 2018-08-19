@@ -53,7 +53,7 @@ typedef ZFObjectMutexImpl *(*ZFObjectMutexImplInitCallback)(void);
 typedef void (*ZFObjectMutexImplCleanupCallback)(ZF_IN ZFObjectMutexImpl *mutexImpl);
 
 /**
- * @brief change the implementation for #zfsynchronizedObject
+ * @brief change the implementation for mutex
  *
  * the sync for ZFObject is an optional protocol,
  * each newly allocated object would have #ZFObjectMutexImplCheckCallback been called

@@ -152,7 +152,7 @@ public:
     }
     virtual ZFThread *currentThread(void)
     {
-        zfsynchronizedObject(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+        zfsynchronize(_ZFP_ZFThreadImpl_sys_Android_syncObj);
         _ZFP_ZFThreadImpl_sys_Android_ThreadMapType::const_iterator it =
             _ZFP_ZFThreadImpl_sys_Android_threadMap.find(_ZFP_ZFThreadImpl_sys_Android_getNativeThreadId());
         if(it == _ZFP_ZFThreadImpl_sys_Android_threadMap.end())
@@ -180,7 +180,7 @@ public:
                                       ZF_IN ZFObject *param0,
                                       ZF_IN ZFObject *param1)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+        zfsynchronizeLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
         _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = zfnew(_ZFP_ZFThreadImpl_sys_Android_ExecuteData,
             _ZFP_ZFThreadImpl_sys_Android_mainThreadInstance,
             runnable,
@@ -189,7 +189,7 @@ public:
         _ZFP_ZFThreadImpl_sys_Android_updateExecuteId();
         _ZFP_ZFThreadImpl_sys_Android_ExecuteDataIdType curId = _ZFP_ZFThreadImpl_sys_Android_executeId;
         _ZFP_ZFThreadImpl_sys_Android_executeDataMap[curId] = d;
-        zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+        zfsynchronizeUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_executeInMainThread"),
@@ -215,7 +215,7 @@ public:
                                      ZF_IN ZFObject *param0,
                                      ZF_IN ZFObject *param1)
     {
-        zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+        zfsynchronizeLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
         _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = zfnew(_ZFP_ZFThreadImpl_sys_Android_ExecuteData,
             ownerZFThread,
             runnable,
@@ -224,7 +224,7 @@ public:
         _ZFP_ZFThreadImpl_sys_Android_updateExecuteId();
         _ZFP_ZFThreadImpl_sys_Android_ExecuteDataIdType curId = _ZFP_ZFThreadImpl_sys_Android_executeId;
         _ZFP_ZFThreadImpl_sys_Android_executeDataMap[curId] = d;
-        zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+        zfsynchronizeUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
         static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_executeInNewThread"),
@@ -299,7 +299,7 @@ ZF_NAMESPACE_GLOBAL_END
 // ============================================================
 static _ZFP_ZFThreadImpl_sys_Android_ExecuteData *_ZFP_ZFThreadImpl_sys_Android_getExecuteData(_ZFP_ZFThreadImpl_sys_Android_ExecuteDataIdType executeDataId)
 {
-    zfsynchronizedObject(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+    zfsynchronize(_ZFP_ZFThreadImpl_sys_Android_syncObj);
     _ZFP_ZFThreadImpl_sys_Android_ExecuteDataMapType::iterator it = _ZFP_ZFThreadImpl_sys_Android_executeDataMap.find(executeDataId);
     if(it == _ZFP_ZFThreadImpl_sys_Android_executeDataMap.end())
     {
@@ -325,16 +325,16 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExe
 {
     _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = _ZFP_ZFThreadImpl_sys_Android_getExecuteData(executeDataId);
 
-    zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+    zfsynchronizeLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
     _ZFP_ZFThreadImpl_sys_Android_threadMap[nativeThread] = d->ownerZFThread;
-    zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+    zfsynchronizeUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 
     d->runnable.execute(ZFListenerData().param0Set(d->param0).param1Set(d->param1));
     zfdelete(d);
 
-    zfsynchronizedObjectLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+    zfsynchronizeLock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
     _ZFP_ZFThreadImpl_sys_Android_threadMap.erase(nativeThread);
-    zfsynchronizedObjectUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
+    zfsynchronizeUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 }
 JNI_METHOD_DECLARE_END()
 
