@@ -106,6 +106,7 @@ public:
     zfuint layoutRequestOverrideFlag;
     ZFUIRect layoutedFramePrev;
     ZFUIRect layoutedFrame;
+    ZFUIRect nativeImplViewFrame;
     _ZFP_ZFUIViewLayerData layerInternalImpl;
     _ZFP_ZFUIViewLayerData layerInternalBg;
     _ZFP_ZFUIViewLayerData layerNormal;
@@ -145,6 +146,7 @@ public:
     , layoutRequestOverrideFlag(0)
     , layoutedFramePrev(ZFUIRectZero())
     , layoutedFrame(ZFUIRectZero())
+    , nativeImplViewFrame(ZFUIRectZero())
     , layerInternalImpl()
     , layerInternalBg()
     , layerNormal()
@@ -916,9 +918,9 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfstring, viewDelegateClass)
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfbool, viewVisible)
 {
-    ZFPROTOCOL_ACCESS(ZFUIView)->viewVisibleSet(this, this->viewVisible());
     if(this->viewVisible() != propertyValueOld)
     {
+        ZFPROTOCOL_ACCESS(ZFUIView)->viewVisibleSet(this, this->viewVisible());
         this->layoutRequest();
     }
 }
@@ -928,7 +930,10 @@ ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIView, zffloat, viewAlpha)
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zffloat, viewAlpha)
 {
-    ZFPROTOCOL_ACCESS(ZFUIView)->viewAlphaSet(this, this->viewAlpha());
+    if(propertyValue != propertyValueOld)
+    {
+        ZFPROTOCOL_ACCESS(ZFUIView)->viewAlphaSet(this, this->viewAlpha());
+    }
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfbool, viewFocusable)
 {
@@ -1242,7 +1247,11 @@ void ZFUIView::nativeImplViewSet(ZF_IN void *nativeImplView,
         nativeImplViewDeleteCallbackOld(this, nativeImplViewOld);
     }
 }
-void ZFUIView::nativeImplViewMarginUpdate(void)
+ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIMargin &, nativeImplViewMargin)
+{
+    return d->nativeImplViewMargin;
+}
+ZFMETHOD_DEFINE_0(ZFUIView, void, nativeImplViewMarginUpdate)
 {
     ZFUIMargin newValue = this->nativeImplViewMarginCustom();
     this->nativeImplViewMarginImplUpdate(newValue);
@@ -1253,10 +1262,11 @@ void ZFUIView::nativeImplViewMarginUpdate(void)
         this->nativeImplViewMarginOnUpdate();
     }
 }
-const ZFUIMargin &ZFUIView::nativeImplViewMargin(void)
+ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIRect &, nativeImplViewFrame)
 {
-    return d->nativeImplViewMargin;
+    return d->nativeImplViewFrame;
 }
+
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIMargin, nativeImplViewMarginCustom)
 {
     if(propertyValue != propertyValueOld)
@@ -1774,8 +1784,11 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, layout,
             d->layoutedFramePrev = d->layoutedFrame;
         }
         ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag);
-        d->layoutedFrame = rect;
-        ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
+        if(d->layoutedFrame != rect)
+        {
+            d->layoutedFrame = rect;
+            ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
+        }
 
         ZFUIRect bounds = ZFUIRectGetBounds(rect);
 
@@ -1783,7 +1796,11 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, layout,
         {
             ZFUIRect nativeImplViewFrame = ZFUIRectZero();
             this->nativeImplViewOnLayout(nativeImplViewFrame, bounds, this->nativeImplViewMargin());
-            ZFPROTOCOL_ACCESS(ZFUIView)->nativeImplViewFrameSet(this, ZFUIRectApplyScale(nativeImplViewFrame, this->scaleFixed()));
+            if(d->nativeImplViewFrame != nativeImplViewFrame)
+            {
+                d->nativeImplViewFrame = nativeImplViewFrame;
+                ZFPROTOCOL_ACCESS(ZFUIView)->nativeImplViewFrameSet(this, ZFUIRectApplyScale(nativeImplViewFrame, this->scaleFixed()));
+            }
         }
 
         ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
@@ -1829,8 +1846,11 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, layout,
             d->layoutedFramePrev = d->layoutedFrame;
         }
         ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag);
-        d->layoutedFrame = rect;
-        ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
+        if(d->layoutedFrame != rect)
+        {
+            d->layoutedFrame = rect;
+            ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
+        }
     }
     ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
 }

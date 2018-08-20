@@ -49,6 +49,21 @@ typedef zfstlmap<_ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType, ZFThread *> _
 typedef zfstlmap<_ZFP_ZFThreadImpl_sys_Android_ExecuteDataIdType, _ZFP_ZFThreadImpl_sys_Android_ExecuteData *> _ZFP_ZFThreadImpl_sys_Android_ExecuteDataMapType;
 
 static jclass _ZFP_ZFThreadImpl_sys_Android_jclsOwner = NULL;
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFThreadImpl_sys_Android_jclsHolder, ZFLevelZFFrameworkStatic)
+{
+    JNIEnv *jniEnv = JNIGetJNIEnv();
+    jobject tmp = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFThread).c_str());
+    _ZFP_ZFThreadImpl_sys_Android_jclsOwner = (jclass)JNIUtilNewGlobalRef(jniEnv, tmp);
+    JNIUtilDeleteLocalRef(jniEnv, tmp);
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFThreadImpl_sys_Android_jclsHolder)
+{
+    JNIEnv *jniEnv = JNIGetJNIEnv();
+    JNIUtilDeleteGlobalRef(jniEnv, _ZFP_ZFThreadImpl_sys_Android_jclsOwner);
+    _ZFP_ZFThreadImpl_sys_Android_jclsOwner = NULL;
+}
+ZF_GLOBAL_INITIALIZER_END(ZFThreadImpl_sys_Android_jclsHolder)
+
 static _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType _ZFP_ZFThreadImpl_sys_Android_getNativeThreadId(void)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
@@ -105,19 +120,8 @@ public:
     virtual void protocolOnInit(void)
     {
         zfsuper::protocolOnInit();
-        JNIEnv *jniEnv = JNIGetJNIEnv();
-        jobject tmp = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFThread).c_str());
-        this->jclsOwner = (jclass)JNIUtilNewGlobalRef(jniEnv, tmp);
-        _ZFP_ZFThreadImpl_sys_Android_jclsOwner = this->jclsOwner;
-        JNIUtilDeleteLocalRef(jniEnv, tmp);
-    }
-    zfoverride
-    virtual void protocolOnDealloc(void)
-    {
-        JNIEnv *jniEnv = JNIGetJNIEnv();
-        JNIUtilDeleteGlobalRef(jniEnv, this->jclsOwner);
-        _ZFP_ZFThreadImpl_sys_Android_jclsOwner = NULL;
-        zfsuper::protocolOnDealloc();
+        (void)ZF_GLOBAL_INITIALIZER_INSTANCE(ZFThreadImpl_sys_Android_jclsHolder);
+        this->jclsOwner = _ZFP_ZFThreadImpl_sys_Android_jclsOwner;
     }
 
     virtual void *nativeThreadRegister(ZF_IN ZFThread *ownerZFThread)

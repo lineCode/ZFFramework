@@ -12,7 +12,6 @@
 
 #include "ZFImpl.h"
 
-
 #if ZF_ENV_sys_Android
 
 #define _ZFP_ZFImpl_sys_Android_JNI_DEBUG 0

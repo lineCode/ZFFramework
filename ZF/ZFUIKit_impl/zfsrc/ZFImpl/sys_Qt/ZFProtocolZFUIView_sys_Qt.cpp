@@ -481,7 +481,11 @@ public:
                                         ZF_IN const ZFUIRect &rect)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
-        nativeView->_ZFP_frameSet(rect);
+        QRect frame = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(rect);
+        if(nativeView->_ZFP_nativeImplView->geometry() != frame)
+        {
+            nativeView->_ZFP_nativeImplView->setGeometry(frame);
+        }
     }
     virtual zffloat nativeViewScaleForImpl(ZF_IN void *nativeView)
     {

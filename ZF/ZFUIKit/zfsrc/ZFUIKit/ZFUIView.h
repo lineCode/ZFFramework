@@ -408,12 +408,16 @@ public:
      * and manually call #nativeImplViewMarginUpdate if necessary\n
      * this value can also be controlled by app level code by #nativeImplViewMarginCustom
      */
-    zffinal const ZFUIMargin &nativeImplViewMargin(void);
+    ZFMETHOD_DECLARE_0(const ZFUIMargin &, nativeImplViewMargin)
     /**
      * @brief see #nativeImplViewMargin,
      *   #layoutRequest if the final value actually changed
      */
-    zffinal void nativeImplViewMarginUpdate(void);
+    ZFMETHOD_DECLARE_0(void, nativeImplViewMarginUpdate)
+    /**
+     * @brief frame of #nativeImplView
+     */
+    ZFMETHOD_DECLARE_0(const ZFUIRect &, nativeImplViewFrame)
 
     /**
      * @brief see #nativeImplViewMargin, #ZFUIMarginZero by default
