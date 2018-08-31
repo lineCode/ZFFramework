@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidSize;
 import com.ZFFramework.Android.NativeUtil.ZFAndroidUI;
-import com.ZFFramework.Android.ZF_impl.ZFEnum;
 import com.ZFFramework.Android.ZF_impl.ZFMainEntry;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -232,273 +231,273 @@ public class ZFUIView extends ViewGroup {
     private static int _keyCodeFromKeyCodeRaw(int keyCodeRaw) {
         switch(keyCodeRaw) {
             case KeyEvent.KEYCODE_UNKNOWN:
-                return ZFEnum.e("ZFUIKeyCode", "kUnknown");
+                return ZFUIKeyCode.e_kUnknown;
 
             case KeyEvent.KEYCODE_ESCAPE:
-                return ZFEnum.e("ZFUIKeyCode", "kEsc");
+                return ZFUIKeyCode.e_kEsc;
             case KeyEvent.KEYCODE_TAB:
-                return ZFEnum.e("ZFUIKeyCode", "kTab");
+                return ZFUIKeyCode.e_kTab;
             case KeyEvent.KEYCODE_FORWARD_DEL:
-                return ZFEnum.e("ZFUIKeyCode", "kBackspace");
+                return ZFUIKeyCode.e_kBackspace;
             case KeyEvent.KEYCODE_ENTER:
-                return ZFEnum.e("ZFUIKeyCode", "kEnter");
+                return ZFUIKeyCode.e_kEnter;
             case KeyEvent.KEYCODE_SPACE:
-                return ZFEnum.e("ZFUIKeyCode", "kSpace");
+                return ZFUIKeyCode.e_kSpace;
             case KeyEvent.KEYCODE_CAPS_LOCK:
-                return ZFEnum.e("ZFUIKeyCode", "kCapsLock");
+                return ZFUIKeyCode.e_kCapsLock;
             case KeyEvent.KEYCODE_SHIFT_LEFT:
             case KeyEvent.KEYCODE_SHIFT_RIGHT:
-                return ZFEnum.e("ZFUIKeyCode", "kShift");
+                return ZFUIKeyCode.e_kShift;
             case KeyEvent.KEYCODE_CTRL_LEFT:
             case KeyEvent.KEYCODE_CTRL_RIGHT:
-                return ZFEnum.e("ZFUIKeyCode", "kCtrl");
+                return ZFUIKeyCode.e_kCtrl;
             case KeyEvent.KEYCODE_ALT_LEFT:
             case KeyEvent.KEYCODE_ALT_RIGHT:
-                return ZFEnum.e("ZFUIKeyCode", "kAlt");
+                return ZFUIKeyCode.e_kAlt;
             case KeyEvent.KEYCODE_META_LEFT:
             case KeyEvent.KEYCODE_META_RIGHT:
-                return ZFEnum.e("ZFUIKeyCode", "kCommand");
+                return ZFUIKeyCode.e_kCommand;
             /* case KeyEvent.KEYCODE_MENU:
-                return ZFEnum.e("ZFUIKeyCode", "kContextMenu"); */ // mapped to kPhoneMenu
+                return ZFUIKeyCode.e_kContextMenu; */ // mapped to kPhoneMenu
 
             case KeyEvent.KEYCODE_F1:
-                return ZFEnum.e("ZFUIKeyCode", "kF1");
+                return ZFUIKeyCode.e_kF1;
             case KeyEvent.KEYCODE_F2:
-                return ZFEnum.e("ZFUIKeyCode", "kF2");
+                return ZFUIKeyCode.e_kF2;
             case KeyEvent.KEYCODE_F3:
-                return ZFEnum.e("ZFUIKeyCode", "kF3");
+                return ZFUIKeyCode.e_kF3;
             case KeyEvent.KEYCODE_F4:
-                return ZFEnum.e("ZFUIKeyCode", "kF4");
+                return ZFUIKeyCode.e_kF4;
             case KeyEvent.KEYCODE_F5:
-                return ZFEnum.e("ZFUIKeyCode", "kF5");
+                return ZFUIKeyCode.e_kF5;
             case KeyEvent.KEYCODE_F6:
-                return ZFEnum.e("ZFUIKeyCode", "kF6");
+                return ZFUIKeyCode.e_kF6;
             case KeyEvent.KEYCODE_F7:
-                return ZFEnum.e("ZFUIKeyCode", "kF7");
+                return ZFUIKeyCode.e_kF7;
             case KeyEvent.KEYCODE_F8:
-                return ZFEnum.e("ZFUIKeyCode", "kF8");
+                return ZFUIKeyCode.e_kF8;
             case KeyEvent.KEYCODE_F9:
-                return ZFEnum.e("ZFUIKeyCode", "kF9");
+                return ZFUIKeyCode.e_kF9;
             case KeyEvent.KEYCODE_F10:
-                return ZFEnum.e("ZFUIKeyCode", "kF10");
+                return ZFUIKeyCode.e_kF10;
             case KeyEvent.KEYCODE_F11:
-                return ZFEnum.e("ZFUIKeyCode", "kF11");
+                return ZFUIKeyCode.e_kF11;
             case KeyEvent.KEYCODE_F12:
-                return ZFEnum.e("ZFUIKeyCode", "kF12");
+                return ZFUIKeyCode.e_kF12;
 
             case KeyEvent.KEYCODE_0:
-                return ZFEnum.e("ZFUIKeyCode", "k0");
+                return ZFUIKeyCode.e_k0;
             case KeyEvent.KEYCODE_1:
-                return ZFEnum.e("ZFUIKeyCode", "k1");
+                return ZFUIKeyCode.e_k1;
             case KeyEvent.KEYCODE_2:
-                return ZFEnum.e("ZFUIKeyCode", "k2");
+                return ZFUIKeyCode.e_k2;
             case KeyEvent.KEYCODE_3:
-                return ZFEnum.e("ZFUIKeyCode", "k3");
+                return ZFUIKeyCode.e_k3;
             case KeyEvent.KEYCODE_4:
-                return ZFEnum.e("ZFUIKeyCode", "k4");
+                return ZFUIKeyCode.e_k4;
             case KeyEvent.KEYCODE_5:
-                return ZFEnum.e("ZFUIKeyCode", "k5");
+                return ZFUIKeyCode.e_k5;
             case KeyEvent.KEYCODE_6:
-                return ZFEnum.e("ZFUIKeyCode", "k6");
+                return ZFUIKeyCode.e_k6;
             case KeyEvent.KEYCODE_7:
-                return ZFEnum.e("ZFUIKeyCode", "k7");
+                return ZFUIKeyCode.e_k7;
             case KeyEvent.KEYCODE_8:
-                return ZFEnum.e("ZFUIKeyCode", "k8");
+                return ZFUIKeyCode.e_k8;
             case KeyEvent.KEYCODE_9:
-                return ZFEnum.e("ZFUIKeyCode", "k9");
+                return ZFUIKeyCode.e_k9;
 
             case KeyEvent.KEYCODE_A:
-                return ZFEnum.e("ZFUIKeyCode", "kA");
+                return ZFUIKeyCode.e_kA;
             case KeyEvent.KEYCODE_B:
-                return ZFEnum.e("ZFUIKeyCode", "kB");
+                return ZFUIKeyCode.e_kB;
             case KeyEvent.KEYCODE_C:
-                return ZFEnum.e("ZFUIKeyCode", "kC");
+                return ZFUIKeyCode.e_kC;
             case KeyEvent.KEYCODE_D:
-                return ZFEnum.e("ZFUIKeyCode", "kD");
+                return ZFUIKeyCode.e_kD;
             case KeyEvent.KEYCODE_E:
-                return ZFEnum.e("ZFUIKeyCode", "kE");
+                return ZFUIKeyCode.e_kE;
             case KeyEvent.KEYCODE_F:
-                return ZFEnum.e("ZFUIKeyCode", "kF");
+                return ZFUIKeyCode.e_kF;
             case KeyEvent.KEYCODE_G:
-                return ZFEnum.e("ZFUIKeyCode", "kG");
+                return ZFUIKeyCode.e_kG;
             case KeyEvent.KEYCODE_H:
-                return ZFEnum.e("ZFUIKeyCode", "kH");
+                return ZFUIKeyCode.e_kH;
             case KeyEvent.KEYCODE_I:
-                return ZFEnum.e("ZFUIKeyCode", "kI");
+                return ZFUIKeyCode.e_kI;
             case KeyEvent.KEYCODE_J:
-                return ZFEnum.e("ZFUIKeyCode", "kJ");
+                return ZFUIKeyCode.e_kJ;
             case KeyEvent.KEYCODE_K:
-                return ZFEnum.e("ZFUIKeyCode", "kK");
+                return ZFUIKeyCode.e_kK;
             case KeyEvent.KEYCODE_L:
-                return ZFEnum.e("ZFUIKeyCode", "kL");
+                return ZFUIKeyCode.e_kL;
             case KeyEvent.KEYCODE_M:
-                return ZFEnum.e("ZFUIKeyCode", "kM");
+                return ZFUIKeyCode.e_kM;
             case KeyEvent.KEYCODE_N:
-                return ZFEnum.e("ZFUIKeyCode", "kN");
+                return ZFUIKeyCode.e_kN;
             case KeyEvent.KEYCODE_O:
-                return ZFEnum.e("ZFUIKeyCode", "kO");
+                return ZFUIKeyCode.e_kO;
             case KeyEvent.KEYCODE_P:
-                return ZFEnum.e("ZFUIKeyCode", "kP");
+                return ZFUIKeyCode.e_kP;
             case KeyEvent.KEYCODE_Q:
-                return ZFEnum.e("ZFUIKeyCode", "kQ");
+                return ZFUIKeyCode.e_kQ;
             case KeyEvent.KEYCODE_R:
-                return ZFEnum.e("ZFUIKeyCode", "kR");
+                return ZFUIKeyCode.e_kR;
             case KeyEvent.KEYCODE_S:
-                return ZFEnum.e("ZFUIKeyCode", "kS");
+                return ZFUIKeyCode.e_kS;
             case KeyEvent.KEYCODE_T:
-                return ZFEnum.e("ZFUIKeyCode", "kT");
+                return ZFUIKeyCode.e_kT;
             case KeyEvent.KEYCODE_U:
-                return ZFEnum.e("ZFUIKeyCode", "kU");
+                return ZFUIKeyCode.e_kU;
             case KeyEvent.KEYCODE_V:
-                return ZFEnum.e("ZFUIKeyCode", "kV");
+                return ZFUIKeyCode.e_kV;
             case KeyEvent.KEYCODE_W:
-                return ZFEnum.e("ZFUIKeyCode", "kW");
+                return ZFUIKeyCode.e_kW;
             case KeyEvent.KEYCODE_X:
-                return ZFEnum.e("ZFUIKeyCode", "kX");
+                return ZFUIKeyCode.e_kX;
             case KeyEvent.KEYCODE_Y:
-                return ZFEnum.e("ZFUIKeyCode", "kY");
+                return ZFUIKeyCode.e_kY;
             case KeyEvent.KEYCODE_Z:
-                return ZFEnum.e("ZFUIKeyCode", "kZ");
+                return ZFUIKeyCode.e_kZ;
 
             case KeyEvent.KEYCODE_GRAVE:
-                return ZFEnum.e("ZFUIKeyCode", "kGrave");
+                return ZFUIKeyCode.e_kGrave;
             case KeyEvent.KEYCODE_MINUS:
-                return ZFEnum.e("ZFUIKeyCode", "kMinus");
+                return ZFUIKeyCode.e_kMinus;
             case KeyEvent.KEYCODE_EQUALS:
-                return ZFEnum.e("ZFUIKeyCode", "kEquals");
+                return ZFUIKeyCode.e_kEquals;
             case KeyEvent.KEYCODE_LEFT_BRACKET:
-                return ZFEnum.e("ZFUIKeyCode", "kBracketLeft");
+                return ZFUIKeyCode.e_kBracketLeft;
             case KeyEvent.KEYCODE_RIGHT_BRACKET:
-                return ZFEnum.e("ZFUIKeyCode", "kBracketRight");
+                return ZFUIKeyCode.e_kBracketRight;
             case KeyEvent.KEYCODE_BACKSLASH:
-                return ZFEnum.e("ZFUIKeyCode", "kBackSlash");
+                return ZFUIKeyCode.e_kBackSlash;
             case KeyEvent.KEYCODE_SEMICOLON:
-                return ZFEnum.e("ZFUIKeyCode", "kSemiColon");
+                return ZFUIKeyCode.e_kSemiColon;
             case KeyEvent.KEYCODE_APOSTROPHE:
-                return ZFEnum.e("ZFUIKeyCode", "kApostrophe");
+                return ZFUIKeyCode.e_kApostrophe;
             case KeyEvent.KEYCODE_COMMA:
-                return ZFEnum.e("ZFUIKeyCode", "kComma");
+                return ZFUIKeyCode.e_kComma;
             case KeyEvent.KEYCODE_PERIOD:
-                return ZFEnum.e("ZFUIKeyCode", "kPeriod");
+                return ZFUIKeyCode.e_kPeriod;
             case KeyEvent.KEYCODE_SLASH:
-                return ZFEnum.e("ZFUIKeyCode", "kSlash");
+                return ZFUIKeyCode.e_kSlash;
 
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                return ZFEnum.e("ZFUIKeyCode", "kLeft");
+                return ZFUIKeyCode.e_kLeft;
             case KeyEvent.KEYCODE_DPAD_UP:
-                return ZFEnum.e("ZFUIKeyCode", "kUp");
+                return ZFUIKeyCode.e_kUp;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                return ZFEnum.e("ZFUIKeyCode", "kRight");
+                return ZFUIKeyCode.e_kRight;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                return ZFEnum.e("ZFUIKeyCode", "kDown");
+                return ZFUIKeyCode.e_kDown;
             case KeyEvent.KEYCODE_MOVE_HOME:
-                return ZFEnum.e("ZFUIKeyCode", "kHome");
+                return ZFUIKeyCode.e_kHome;
             case KeyEvent.KEYCODE_MOVE_END:
-                return ZFEnum.e("ZFUIKeyCode", "kEnd");
+                return ZFUIKeyCode.e_kEnd;
             case KeyEvent.KEYCODE_PAGE_UP:
-                return ZFEnum.e("ZFUIKeyCode", "kPageUp");
+                return ZFUIKeyCode.e_kPageUp;
             case KeyEvent.KEYCODE_PAGE_DOWN:
-                return ZFEnum.e("ZFUIKeyCode", "kPageDown");
+                return ZFUIKeyCode.e_kPageDown;
             case KeyEvent.KEYCODE_INSERT:
-                return ZFEnum.e("ZFUIKeyCode", "kInsert");
+                return ZFUIKeyCode.e_kInsert;
             case KeyEvent.KEYCODE_DEL:
-                return ZFEnum.e("ZFUIKeyCode", "kDelete");
+                return ZFUIKeyCode.e_kDelete;
             case KeyEvent.KEYCODE_SYSRQ:
-                return ZFEnum.e("ZFUIKeyCode", "kPrintScreen");
+                return ZFUIKeyCode.e_kPrintScreen;
             case KeyEvent.KEYCODE_SCROLL_LOCK:
-                return ZFEnum.e("ZFUIKeyCode", "kScrollLock");
+                return ZFUIKeyCode.e_kScrollLock;
             case KeyEvent.KEYCODE_BREAK:
-                return ZFEnum.e("ZFUIKeyCode", "kPauseBreak");
+                return ZFUIKeyCode.e_kPauseBreak;
 
             case KeyEvent.KEYCODE_NUMPAD_0:
-                return ZFEnum.e("ZFUIKeyCode", "kNum0");
+                return ZFUIKeyCode.e_kNum0;
             case KeyEvent.KEYCODE_NUMPAD_1:
-                return ZFEnum.e("ZFUIKeyCode", "kNum1");
+                return ZFUIKeyCode.e_kNum1;
             case KeyEvent.KEYCODE_NUMPAD_2:
-                return ZFEnum.e("ZFUIKeyCode", "kNum2");
+                return ZFUIKeyCode.e_kNum2;
             case KeyEvent.KEYCODE_NUMPAD_3:
-                return ZFEnum.e("ZFUIKeyCode", "kNum3");
+                return ZFUIKeyCode.e_kNum3;
             case KeyEvent.KEYCODE_NUMPAD_4:
-                return ZFEnum.e("ZFUIKeyCode", "kNum4");
+                return ZFUIKeyCode.e_kNum4;
             case KeyEvent.KEYCODE_NUMPAD_5:
-                return ZFEnum.e("ZFUIKeyCode", "kNum5");
+                return ZFUIKeyCode.e_kNum5;
             case KeyEvent.KEYCODE_NUMPAD_6:
-                return ZFEnum.e("ZFUIKeyCode", "kNum6");
+                return ZFUIKeyCode.e_kNum6;
             case KeyEvent.KEYCODE_NUMPAD_7:
-                return ZFEnum.e("ZFUIKeyCode", "kNum7");
+                return ZFUIKeyCode.e_kNum7;
             case KeyEvent.KEYCODE_NUMPAD_8:
-                return ZFEnum.e("ZFUIKeyCode", "kNum8");
+                return ZFUIKeyCode.e_kNum8;
             case KeyEvent.KEYCODE_NUMPAD_9:
-                return ZFEnum.e("ZFUIKeyCode", "kNum9");
+                return ZFUIKeyCode.e_kNum9;
             case KeyEvent.KEYCODE_NUM_LOCK:
-                return ZFEnum.e("ZFUIKeyCode", "kNumLock");
+                return ZFUIKeyCode.e_kNumLock;
             case KeyEvent.KEYCODE_NUMPAD_ADD:
-                return ZFEnum.e("ZFUIKeyCode", "kNumAdd");
+                return ZFUIKeyCode.e_kNumAdd;
             case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
-                return ZFEnum.e("ZFUIKeyCode", "kNumMinus");
+                return ZFUIKeyCode.e_kNumMinus;
             case KeyEvent.KEYCODE_NUMPAD_MULTIPLY:
-                return ZFEnum.e("ZFUIKeyCode", "kNumMultiply");
+                return ZFUIKeyCode.e_kNumMultiply;
             case KeyEvent.KEYCODE_NUMPAD_DIVIDE:
-                return ZFEnum.e("ZFUIKeyCode", "kNumDivide");
+                return ZFUIKeyCode.e_kNumDivide;
             case KeyEvent.KEYCODE_NUMPAD_ENTER:
-                return ZFEnum.e("ZFUIKeyCode", "kNumEnter");
+                return ZFUIKeyCode.e_kNumEnter;
             case KeyEvent.KEYCODE_NUMPAD_DOT:
-                return ZFEnum.e("ZFUIKeyCode", "kNumDot");
+                return ZFUIKeyCode.e_kNumDot;
 
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaPlay");
+                return ZFUIKeyCode.e_kMediaPlay;
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaPause");
+                return ZFUIKeyCode.e_kMediaPause;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaPlayPause");
+                return ZFUIKeyCode.e_kMediaPlayPause;
             case KeyEvent.KEYCODE_MEDIA_STOP:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaStop");
+                return ZFUIKeyCode.e_kMediaStop;
             case KeyEvent.KEYCODE_MEDIA_RECORD:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaRecord");
+                return ZFUIKeyCode.e_kMediaRecord;
             case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaPrev");
+                return ZFUIKeyCode.e_kMediaPrev;
             case KeyEvent.KEYCODE_MEDIA_NEXT:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaNext");
+                return ZFUIKeyCode.e_kMediaNext;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaFastForward");
+                return ZFUIKeyCode.e_kMediaFastForward;
             case KeyEvent.KEYCODE_MEDIA_REWIND:
-                return ZFEnum.e("ZFUIKeyCode", "kMediaFastRewind");
+                return ZFUIKeyCode.e_kMediaFastRewind;
 
             case KeyEvent.KEYCODE_VOLUME_MUTE:
-                return ZFEnum.e("ZFUIKeyCode", "kVolumeMute");
+                return ZFUIKeyCode.e_kVolumeMute;
             case KeyEvent.KEYCODE_VOLUME_UP:
-                return ZFEnum.e("ZFUIKeyCode", "kVolumeUp");
+                return ZFUIKeyCode.e_kVolumeUp;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                return ZFEnum.e("ZFUIKeyCode", "kVolumeDown");
+                return ZFUIKeyCode.e_kVolumeDown;
 
             case KeyEvent.KEYCODE_CALL:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneCall");
+                return ZFUIKeyCode.e_kPhoneCall;
             case KeyEvent.KEYCODE_ENDCALL:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneCallEnd");
+                return ZFUIKeyCode.e_kPhoneCallEnd;
             case KeyEvent.KEYCODE_HOME:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneHome");
+                return ZFUIKeyCode.e_kPhoneHome;
             case KeyEvent.KEYCODE_MENU:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneMenu");
+                return ZFUIKeyCode.e_kPhoneMenu;
             case KeyEvent.KEYCODE_BACK:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneBack");
+                return ZFUIKeyCode.e_kPhoneBack;
             case KeyEvent.KEYCODE_SEARCH:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneSearch");
+                return ZFUIKeyCode.e_kPhoneSearch;
             case KeyEvent.KEYCODE_CAMERA:
-                return ZFEnum.e("ZFUIKeyCode", "kPhoneCamera");
+                return ZFUIKeyCode.e_kPhoneCamera;
             default:
-                return ZFEnum.e("ZFUIKeyCode", "kUnknown");
+                return ZFUIKeyCode.e_kUnknown;
         }
     }
     private static int _keyActionFromKeyActionRaw(int keyActionRaw) {
         switch(keyActionRaw) {
             case KeyEvent.ACTION_DOWN:
-                return ZFEnum.e("ZFUIKeyAction", "KeyDown");
+                return ZFUIKeyAction.e_KeyDown;
             case KeyEvent.ACTION_MULTIPLE:
-                return ZFEnum.e("ZFUIKeyAction", "KeyRepeat");
+                return ZFUIKeyAction.e_KeyRepeat;
             case KeyEvent.ACTION_UP:
-                return ZFEnum.e("ZFUIKeyAction", "KeyUp");
+                return ZFUIKeyAction.e_KeyUp;
             default:
-                return ZFEnum.e("ZFUIKeyAction", "KeyCancel");
+                return ZFUIKeyAction.e_KeyCancel;
         }
     }
     @Override
@@ -560,7 +559,7 @@ public class ZFUIView extends ViewGroup {
             ZFUIView.native_notifyUIEvent_key(
                 this.zfjniPointerOwnerZFUIView,
                 _pressedKeyId.get(i),
-                ZFEnum.e("ZFUIKeyAction", "KeyCancel"),
+                ZFUIKeyAction.e_KeyCancel,
                 _keyCodeFromKeyCodeRaw(_pressedKeyCode.get(i)),
                 _pressedKeyCode.get(i));
         }
@@ -604,21 +603,21 @@ public class ZFUIView extends ViewGroup {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = ZFEnum.e("ZFUIMouseAction", "MouseDown");
+        int action = ZFUIMouseAction.e_MouseDown;
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                action = ZFEnum.e("ZFUIMouseAction", "MouseDown");
+                action = ZFUIMouseAction.e_MouseDown;
                 break;
             case MotionEvent.ACTION_MOVE:
-                action = ZFEnum.e("ZFUIMouseAction", "MouseMove");
+                action = ZFUIMouseAction.e_MouseMove;
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
-                action = ZFEnum.e("ZFUIMouseAction", "MouseUp");
+                action = ZFUIMouseAction.e_MouseUp;
                 break;
             case MotionEvent.ACTION_CANCEL:
-                action = ZFEnum.e("ZFUIMouseAction", "MouseCancel");
+                action = ZFUIMouseAction.e_MouseCancel;
                 break;
             default:
                 return true;
