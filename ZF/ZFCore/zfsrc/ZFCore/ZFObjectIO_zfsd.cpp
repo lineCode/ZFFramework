@@ -14,19 +14,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFOBJECTIO_DEFINE(zfsd, {
         return ZFObjectIOImplCheck(pathInfo, zfText("zfsd"));
     }, {
-        ZFSerializableData data;
-        if(!ZFSerializableDataFromInput(data, input, outErrorHint))
-        {
-            return zffalse;
-        }
-        return ZFObjectFromData(ret, data, outErrorHint);
+        return ZFObjectFromZfsd(ret, input, outErrorHint);
     }, {
-        ZFSerializableData data;
-        if(!ZFObjectToData(data, obj, outErrorHint))
-        {
-            return zffalse;
-        }
-        return ZFSerializableDataToOutput(output, data, outErrorHint);
+        return ZFObjectToZfsd(output, obj, outErrorHint);
     })
 
 ZF_NAMESPACE_GLOBAL_END

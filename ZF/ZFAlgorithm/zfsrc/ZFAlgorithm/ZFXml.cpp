@@ -230,7 +230,8 @@ private:
                 this->add(data.xmlItem.xmlName());
                 break;
             case ZFXmlVisitType::e_Exit:
-                if(!data.xmlItem.xmlAttributeFirst().xmlIsNull())
+                if(!data.xmlItem.xmlAttributeFirst().xmlIsNull()
+                    && _ZFP_ZFXmlOutputElementUseSingleTag(data.xmlItem, flags, data))
                 {
                     this->add(zfText(" "));
                 }

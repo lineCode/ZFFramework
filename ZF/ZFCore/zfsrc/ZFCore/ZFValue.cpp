@@ -322,7 +322,7 @@ zfbool ZFValue::serializableOnSerializeFromData(ZF_IN const ZFSerializableData &
             const zfchar *valueString = ZFSerializableUtil::checkAttribute(serializableData, ZFSerializableKeyword_ZFValue_value);
             if(valueString != zfnull)
             {
-                if(!ZFSerializableDataFromString(v, valueString, zfindexMax(), outErrorHint))
+                if(!ZFSerializableDataFromZfsd(v, valueString, zfindexMax(), outErrorHint))
                 {
                     if(outErrorPos != zfnull)
                     {
@@ -380,7 +380,7 @@ zfbool ZFValue::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &seri
                 || (ref != zfnull && this->serializableDataValue().objectCompare(ref->serializableDataValue()) != ZFCompareTheSame))
             {
                 zfstring valueString;
-                if(!ZFSerializableDataToString(valueString, this->serializableDataValue(), outErrorHint))
+                if(!ZFSerializableDataToZfsd(valueString, this->serializableDataValue(), outErrorHint, zffalse))
                 {
                     return zffalse;
                 }

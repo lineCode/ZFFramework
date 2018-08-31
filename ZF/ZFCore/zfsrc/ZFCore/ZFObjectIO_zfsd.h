@@ -21,8 +21,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief see #ZFObjectIOLoad
  *
- * for "*.zfsd" file, which should contain data converted by
- * #ZFSerializableDataFromInput and #ZFObjectFromData
+ * for "*.zfsd" file, which should contain data converted by #ZFObjectFromZfsd
  */
 #define ZFObjectIO_zfsd zfText("zfsd")
 

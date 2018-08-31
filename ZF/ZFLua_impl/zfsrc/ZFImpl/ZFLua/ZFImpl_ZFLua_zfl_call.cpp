@@ -68,7 +68,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
                 zfl_funcName,
                 i,
                 ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i, zftrue).cString(),
-                ZFObjectToString(type).cString());
+                ZFObjectInfo(type).cString());
             return ZFImpl_ZFLua_luaError(L);
         }
     }

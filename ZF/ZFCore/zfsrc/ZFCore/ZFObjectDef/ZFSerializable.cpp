@@ -9,7 +9,7 @@
  * ====================================================================== */
 #include "ZFSerializable.h"
 #include "ZFObjectImpl.h"
-#include "ZFSerializableDataStringConverter.h"
+#include "ZFSerializableDataSerializableConverter.h"
 #include "ZFPropertyUtil.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
@@ -848,10 +848,10 @@ ZFSerializableData ZFObjectToData(ZF_IN ZFObject *obj,
     return ZFSerializableData();
 }
 
-zfbool ZFObjectFromString(ZF_OUT zfautoObject &result,
-                          ZF_IN const ZFClass *cls,
-                          ZF_IN const zfchar *src,
-                          ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
+zfbool ZFSerializeFromString(ZF_OUT zfautoObject &result,
+                             ZF_IN const ZFClass *cls,
+                             ZF_IN const zfchar *src,
+                             ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
 {
     if(cls == zfnull || !cls->classIsTypeOf(ZFSerializable::ClassData()))
     {
@@ -882,16 +882,16 @@ zfbool ZFObjectFromString(ZF_OUT zfautoObject &result,
         return zftrue;
     }
 }
-zfautoObject ZFObjectFromString(ZF_IN const ZFClass *cls,
-                                ZF_IN const zfchar *src,
-                                ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
+zfautoObject ZFSerializeFromString(ZF_IN const ZFClass *cls,
+                                   ZF_IN const zfchar *src,
+                                   ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
 {
     zfautoObject ret;
-    ZFObjectFromString(ret, cls, src, srcLen);
+    ZFSerializeFromString(ret, cls, src, srcLen);
     return ret;
 }
-zfbool ZFObjectToString(ZF_IN_OUT zfstring &ret,
-                        ZF_IN ZFObject *obj)
+zfbool ZFSerializeToString(ZF_IN_OUT zfstring &ret,
+                           ZF_IN ZFObject *obj)
 {
     if(obj == zfnull)
     {
@@ -904,10 +904,10 @@ zfbool ZFObjectToString(ZF_IN_OUT zfstring &ret,
     }
     return t->serializeToString(ret);
 }
-zfstring ZFObjectToString(ZF_IN ZFObject *obj)
+zfstring ZFSerializeToString(ZF_IN ZFObject *obj)
 {
     zfstring ret;
-    ZFObjectToString(ret, obj);
+    ZFSerializeToString(ret, obj);
     return ret;
 }
 
@@ -936,10 +936,10 @@ ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfautoObject, ZFObjectFromData, ZFMP_IN(c
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(zfbool, ZFObjectFromData, ZFMP_OUT(zfautoObject &, result), ZFMP_IN(const ZFSerializableData &, serializableData), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull), ZFMP_OUT_OPT(ZFSerializableData *, outErrorPos, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(zfbool, ZFObjectToData, ZFMP_OUT(ZFSerializableData &, serializableData), ZFMP_IN(ZFObject *, obj), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull), ZFMP_IN_OPT(ZFSerializable *, referencedOwnerOrNull, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(ZFSerializableData, ZFObjectToData, ZFMP_IN(ZFObject *, obj), ZFMP_OUT_OPT(zfbool *, outSuccess, zfnull), ZFMP_OUT_OPT(zfstring *, outErrorHint, zfnull), ZFMP_IN_OPT(ZFSerializable *, referencedOwnerOrNull, zfnull))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(zfbool, ZFObjectFromString, ZFMP_OUT(zfautoObject &, result), ZFMP_IN(const ZFClass *, cls), ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfautoObject, ZFObjectFromString, ZFMP_IN(const ZFClass *, cls), ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfbool, ZFObjectToString, ZFMP_IN_OUT(zfstring &, ret), ZFMP_IN(ZFObject *, obj))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfstring, ZFObjectToString, ZFMP_IN(ZFObject *, obj))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(zfbool, ZFSerializeFromString, ZFMP_OUT(zfautoObject &, result), ZFMP_IN(const ZFClass *, cls), ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfautoObject, ZFSerializeFromString, ZFMP_IN(const ZFClass *, cls), ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(zfbool, ZFSerializeToString, ZFMP_IN_OUT(zfstring &, ret), ZFMP_IN(ZFObject *, obj))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(zfstring, ZFSerializeToString, ZFMP_IN(ZFObject *, obj))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

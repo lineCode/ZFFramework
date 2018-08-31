@@ -32,7 +32,7 @@ public:
      *
      * the data must store strings that can be converted by:
      * -  #ZFTypeIdWrapper::wrappedValueFromString
-     * -  #ZFObjectFromString
+     * -  #ZFSerializeFromString
      */
     zfstring zfv;
 

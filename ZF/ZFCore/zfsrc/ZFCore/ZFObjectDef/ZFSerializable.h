@@ -488,19 +488,19 @@ extern ZF_ENV_EXPORT ZFSerializableData ZFObjectToData(ZF_IN ZFObject *obj,
 /**
  * @brief convenient method to #ZFSerializable::serializeFromString
  */
-extern ZF_ENV_EXPORT zfbool ZFObjectFromString(ZF_OUT zfautoObject &result,
-                                               ZF_IN const ZFClass *cls,
-                                               ZF_IN const zfchar *src,
-                                               ZF_IN_OPT zfindex srcLen = zfindexMax());
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfautoObject ZFObjectFromString(ZF_IN const ZFClass *cls,
-                                                     ZF_IN const zfchar *src,
-                                                     ZF_IN_OPT zfindex srcLen = zfindexMax());
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfbool ZFObjectToString(ZF_IN_OUT zfstring &ret,
-                                             ZF_IN ZFObject *obj);
-/** @brief see #ZFObjectFromString */
-extern ZF_ENV_EXPORT zfstring ZFObjectToString(ZF_IN ZFObject *obj);
+extern ZF_ENV_EXPORT zfbool ZFSerializeFromString(ZF_OUT zfautoObject &result,
+                                                  ZF_IN const ZFClass *cls,
+                                                  ZF_IN const zfchar *src,
+                                                  ZF_IN_OPT zfindex srcLen = zfindexMax());
+/** @brief see #ZFSerializeFromString */
+extern ZF_ENV_EXPORT zfautoObject ZFSerializeFromString(ZF_IN const ZFClass *cls,
+                                                        ZF_IN const zfchar *src,
+                                                        ZF_IN_OPT zfindex srcLen = zfindexMax());
+/** @brief see #ZFSerializeFromString */
+extern ZF_ENV_EXPORT zfbool ZFSerializeToString(ZF_IN_OUT zfstring &ret,
+                                                ZF_IN ZFObject *obj);
+/** @brief see #ZFSerializeFromString */
+extern ZF_ENV_EXPORT zfstring ZFSerializeToString(ZF_IN ZFObject *obj);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFSerializable_h_

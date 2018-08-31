@@ -10,6 +10,7 @@
 #include "ZFSerializableData.h"
 #include "ZFObjectImpl.h"
 #include "ZFSerializableUtil.h"
+#include "ZFSerializableDataSerializableConverter.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_deque.h"
@@ -810,60 +811,7 @@ void ZFSerializableData::resolveAttributeUnmarkAll(void) const
 // other functions
 void ZFSerializableData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
-    ret += '{';
-
-    if(this->itemClass() == zfnull)
-    {
-        ret += ZFTOKEN_zfnull;
-    }
-    else
-    {
-        ret += this->itemClass();
-    }
-
-    if(this->attributeCount() > 0)
-    {
-        ret += '(';
-        zfbool first = zftrue;
-        for(zfiterator it = this->attributeIterator(); this->attributeIteratorIsValid(it); this->attributeIteratorNext(it))
-        {
-            if(first)
-            {
-                first = zffalse;
-            }
-            else
-            {
-                ret += ' ';
-            }
-            ret += this->attributeIteratorGetKey(it);
-            ret += zfText("=\"");
-            ret += this->attributeIteratorGet(it);
-            ret += zfText("\";");
-        }
-        ret += ')';
-    }
-
-    if(this->elementCount() > 0)
-    {
-        ret += zfText(" [\n");
-        for(zfindex i = 0; i < this->elementCount(); ++i)
-        {
-            zfstring tmpInfo = this->elementAtIndex(i).objectInfo();
-            ret += zfText("    ");
-            for(zfindex i = 0; i < tmpInfo.length(); ++i)
-            {
-                ret += tmpInfo[i];
-                if(tmpInfo[i] == '\n')
-                {
-                    ret += zfText("    ");
-                }
-            }
-            ret += zfText("\n");
-        }
-        ret += ']';
-    }
-
-    ret += '}';
+    ZFSerializableDataToZfsd(ret, *this);
 }
 
 ZFCompareResult ZFSerializableData::objectCompare(ZF_IN const ZFSerializableData &another) const

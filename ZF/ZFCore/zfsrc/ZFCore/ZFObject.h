@@ -74,7 +74,7 @@
 #include "ZFObjectDef/ZFPropertyUtil.h"
 #include "ZFObjectDef/ZFSerializable.h"
 #include "ZFObjectDef/ZFSerializableData.h"
-#include "ZFObjectDef/ZFSerializableDataStringConverter.h"
+#include "ZFObjectDef/ZFSerializableDataSerializableConverter.h"
 #include "ZFObjectDef/ZFSerializableUtil.h"
 #include "ZFObjectDef/ZFStyleable.h"
 #include "ZFObjectDef/ZFSynchronize.h"

@@ -297,7 +297,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
         if(errorHint != zfnull)
         {
             zfstringAppend(errorHint, zfText("no such class \"%s\" in scope \"%s\""),
-                ZFObjectToString(type).cString(), NS);
+                ZFObjectInfo(type).cString(), NS);
         }
         return zffalse;
     }
@@ -425,7 +425,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
     const ZFClass *cls = ZFClass::classForName(typeId);
     if(cls != zfnull)
     {
-        if(!ZFObjectFromString(ret, cls, wrapper->zfv, wrapper->zfv.length()))
+        if(!ZFSerializeFromString(ret, cls, wrapper->zfv, wrapper->zfv.length()))
         {
             if(errorHint != zfnull)
             {
