@@ -1,6 +1,7 @@
 # master
-* optimize native window attach impl
+* optimize serializable output
 * optimize cache impl
+* optimize native window attach impl
 * optimize UI module performance
 * optimize list view impl
 * change zfsynchronize API names

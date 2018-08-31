@@ -21,6 +21,7 @@
 #include "ZFMethodFuncDeclare.h"
 #include "ZFObjectUtil.h"
 #include "ZFSerializableUtil.h"
+#include "ZFSerializableDataSerializableConverter.h"
 #include "ZFPropertyCallbackDefaultImpl.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
