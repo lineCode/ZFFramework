@@ -16,10 +16,11 @@ ZFOBJECT_REGISTER(ZFUIListCellUpdater)
 #define _ZFP_ZFUIListCellUpdater_cacheKey(cacheKey, key) \
     zfchar *cacheKey = zfsConnect(zfText("_ZFP_ZFUIListCellUpdater_cacheKey"), key); \
     zfblockedFree(cacheKey)
-zfautoObject ZFUIListCellUpdater::itemCacheAccess(ZF_IN const zfchar *key)
+ZFMETHOD_DEFINE_1(ZFUIListCellUpdater, zfautoObject, itemCacheAccess,
+                  ZFMP_IN(const zfchar *, key))
 {
     _ZFP_ZFUIListCellUpdater_cacheKey(cacheKey, key);
-    ZFArrayEditable *cacheList = this->tagGet<ZFArrayEditable *>(cacheKey);
+    ZFArrayEditable *cacheList = this->toObject()->tagGet<ZFArrayEditable *>(cacheKey);
     if(cacheList != zfnull && !cacheList->isEmpty())
     {
         zfautoObject ret = cacheList->getLast();
@@ -31,14 +32,16 @@ zfautoObject ZFUIListCellUpdater::itemCacheAccess(ZF_IN const zfchar *key)
         return zfnull;
     }
 }
-void ZFUIListCellUpdater::itemCacheRecycle(ZF_IN const zfchar *key, ZF_IN ZFObject *cache)
+ZFMETHOD_DEFINE_2(ZFUIListCellUpdater, void, itemCacheRecycle,
+                  ZFMP_IN(const zfchar *, key),
+                  ZFMP_IN(ZFObject *, cache))
 {
     _ZFP_ZFUIListCellUpdater_cacheKey(cacheKey, key);
-    ZFArrayEditable *cacheList = this->tagGet<ZFArrayEditable *>(cacheKey);
+    ZFArrayEditable *cacheList = this->toObject()->tagGet<ZFArrayEditable *>(cacheKey);
     if(cacheList == zfnull)
     {
         cacheList = zfAlloc(ZFArrayEditable);
-        this->tagSet(cacheKey, cacheList);
+        this->toObject()->tagSet(cacheKey, cacheList);
         zfRelease(cacheList);
     }
     cacheList->add(cache);

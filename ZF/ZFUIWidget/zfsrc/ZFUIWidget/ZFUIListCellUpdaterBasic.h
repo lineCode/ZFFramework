@@ -8,12 +8,12 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFUIListCellUpdater_common.h
+ * @file ZFUIListCellUpdaterBasic.h
  * @brief common updater of #ZFUIListCellUpdater
  */
 
-#ifndef _ZFI_ZFUIListCellUpdater_common_h_
-#define _ZFI_ZFUIListCellUpdater_common_h_
+#ifndef _ZFI_ZFUIListCellUpdaterBasic_h_
+#define _ZFI_ZFUIListCellUpdaterBasic_h_
 
 #include "ZFUIListCellUpdater.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -22,9 +22,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief basic updater that insert separator to list cell
  */
-zfclass ZF_ENV_EXPORT ZFUIListCellUpdaterBasic : zfextends ZFUIListCellUpdater
+zfclass ZF_ENV_EXPORT ZFUIListCellUpdaterBasic : zfextends ZFStyleableObject, zfimplements ZFUIListCellUpdater
 {
-    ZFOBJECT_DECLARE(ZFUIListCellUpdaterBasic, ZFUIListCellUpdater)
+    ZFOBJECT_DECLARE(ZFUIListCellUpdaterBasic, ZFStyleableObject)
+    ZFIMPLEMENTS_DECLARE(ZFUIListCellUpdater)
 
 public:
     /**
@@ -64,5 +65,5 @@ public:
 };
 
 ZF_NAMESPACE_GLOBAL_END
-#endif // #ifndef _ZFI_ZFUIListCellUpdater_common_h_
+#endif // #ifndef _ZFI_ZFUIListCellUpdaterBasic_h_
 

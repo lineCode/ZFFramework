@@ -139,30 +139,9 @@ public:
      * otherwise, the cell's size is fixed\n
      * return #cellSizeHint accorrding to #cellSizeFill by default
      */
-    ZFMETHOD_INLINE_2(zfint, cellSizeAtIndex,
-                      ZFMP_IN(zfindex, index),
-                      ZFMP_IN(ZFUIListCell *, cell))
-    {
-        if(this->cellSizeFill())
-        {
-            switch(this->listOrientation())
-            {
-                case ZFUIOrientation::e_Left:
-                case ZFUIOrientation::e_Right:
-                    return this->listContainerSize().width;
-                case ZFUIOrientation::e_Top:
-                case ZFUIOrientation::e_Bottom:
-                    return this->listContainerSize().height;
-                default:
-                    zfCoreCriticalShouldNotGoHere();
-                    return -1;
-            }
-        }
-        else
-        {
-            return this->cellSizeHint();
-        }
-    }
+    ZFMETHOD_DECLARE_2(zfint, cellSizeAtIndex,
+                       ZFMP_IN(zfindex, index),
+                       ZFMP_IN(ZFUIListCell *, cell))
 
     // ============================================================
     // list update callback

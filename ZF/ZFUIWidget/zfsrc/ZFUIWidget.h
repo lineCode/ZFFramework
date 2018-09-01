@@ -39,7 +39,7 @@
 #include "ZFUIWidget/ZFUIListAdapterArray.h"
 #include "ZFUIWidget/ZFUIListCell.h"
 #include "ZFUIWidget/ZFUIListCellUpdater.h"
-#include "ZFUIWidget/ZFUIListCellUpdater_common.h"
+#include "ZFUIWidget/ZFUIListCellUpdaterBasic.h"
 #include "ZFUIWidget/ZFUIListCellView.h"
 #include "ZFUIWidget/ZFUIListCellViewBasic.h"
 #include "ZFUIWidget/ZFUIListView.h"

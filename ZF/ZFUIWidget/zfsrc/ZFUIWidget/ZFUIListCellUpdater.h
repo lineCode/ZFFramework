@@ -34,14 +34,16 @@ public:
 };
 
 // ============================================================
+zfclassFwd ZFUIListView;
+zfclassFwd _ZFP_ZFUIListViewPrivate;
 /**
  * @brief abstract list cell updater to update #ZFUIListCell
  */
-zfclass ZF_ENV_EXPORT ZFUIListCellUpdater : zfextends ZFStyleableObject
+zfinterface ZF_ENV_EXPORT ZFUIListCellUpdater : zfextends ZFInterface
 {
-    ZFOBJECT_DECLARE(ZFUIListCellUpdater, ZFStyleableObject)
+    ZFINTERFACE_DECLARE(ZFUIListCellUpdater, ZFInterface)
 
-public:
+protected:
     /**
      * @brief called to update cell style
      */
@@ -59,9 +61,16 @@ public:
     /**
      * @brief util method for impl to achieve cache logic
      */
-    zffinal zfautoObject itemCacheAccess(ZF_IN const zfchar *key);
+    ZFMETHOD_DECLARE_1(zfautoObject, itemCacheAccess,
+                       ZFMP_IN(const zfchar *, key))
     /** @brief see #itemCacheAccess */
-    zffinal void itemCacheRecycle(ZF_IN const zfchar *key, ZF_IN ZFObject *cache);
+    ZFMETHOD_DECLARE_2(void, itemCacheRecycle,
+                       ZFMP_IN(const zfchar *, key),
+                       ZFMP_IN(ZFObject *, cache))
+
+private:
+    friend zfclassFwd _ZFP_ZFUIListViewPrivate;
+    friend zfclassFwd ZFUIListView;
 };
 
 ZF_NAMESPACE_GLOBAL_END

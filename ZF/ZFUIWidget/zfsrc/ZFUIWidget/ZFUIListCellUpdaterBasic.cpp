@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFUIListCellUpdater_common.h"
+#include "ZFUIListCellUpdaterBasic.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

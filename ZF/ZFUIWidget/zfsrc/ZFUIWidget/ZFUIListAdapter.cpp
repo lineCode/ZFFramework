@@ -17,6 +17,33 @@ ZFOBJECT_REGISTER(ZFUIListAdapter)
 ZFOBSERVER_EVENT_REGISTER(ZFUIListAdapter, ListCellOnUpdate)
 ZFOBSERVER_EVENT_REGISTER(ZFUIListAdapter, ListCellCacheOnRecycle)
 
+// ============================================================
+ZFMETHOD_DEFINE_2(ZFUIListAdapter, zfint, cellSizeAtIndex,
+                  ZFMP_IN(zfindex, index),
+                  ZFMP_IN(ZFUIListCell *, cell))
+{
+    if(this->cellSizeFill())
+    {
+        switch(this->listOrientation())
+        {
+            case ZFUIOrientation::e_Left:
+            case ZFUIOrientation::e_Right:
+                return this->listContainerSize().width;
+            case ZFUIOrientation::e_Top:
+            case ZFUIOrientation::e_Bottom:
+                return this->listContainerSize().height;
+            default:
+                zfCoreCriticalShouldNotGoHere();
+                return -1;
+        }
+    }
+    else
+    {
+        return this->cellSizeHint();
+    }
+}
+
+// ============================================================
 #define _ZFP_ZFUIListAdapter_cacheKey(cacheKey, key) \
     zfchar *cacheKey = zfsConnect(zfText("_ZFP_ZFUIListAdapter_cacheKey"), key); \
     zfblockedFree(cacheKey)
