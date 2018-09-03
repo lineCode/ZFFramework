@@ -354,7 +354,7 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
 JNI_METHOD_DECLARE_END()
 JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
                          void, native_1notifyLayoutRootView,
-                         JNIPointer zfjniPointerOwnerZFUIVie,
+                         JNIPointer zfjniPointerOwnerZFUIView,
                          jint rect_x, jint rect_y, jint rect_width, jint rect_height)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(
