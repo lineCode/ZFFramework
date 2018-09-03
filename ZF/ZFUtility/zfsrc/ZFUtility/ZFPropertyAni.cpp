@@ -240,12 +240,12 @@ public:
         {
             return ;
         }
-        const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
+        const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv;
         if(property->propertyOwnerClass() == ZFPropertyAniSetting::ClassData())
         {
             return ;
         }
-        const void *oldValue = listenerData.param1->to<ZFPointerHolder *>()->holdedData;
+        const void *oldValue = listenerData.param1->to<v_VoidPointerConst *>()->zfv;
         if(oldValue == zfnull)
         {
             return ;

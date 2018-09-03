@@ -222,137 +222,6 @@ public:
         return ret;
     }
 
-    // ============================================================
-    // iterator
-private:
-    static void _ZFP_ZFCoreQueuePOD_iteratorDeleteCallback(ZF_IN void *data)
-    {
-    }
-    static void *_ZFP_ZFCoreQueuePOD_iteratorCopyCallback(ZF_IN void *data)
-    {
-        return data;
-    }
-
-public:
-    /** @brief #zfiterator */
-    inline zfiterator iterator(void) const
-    {
-        return zfiterator(_pHead,
-            _ZFP_ZFCoreQueuePOD_iteratorDeleteCallback,
-            _ZFP_ZFCoreQueuePOD_iteratorCopyCallback);
-    }
-
-    /** @brief see #iterator */
-    inline zfbool iteratorIsValid(ZF_IN const zfiterator &it) const
-    {
-        T_POD *data = it.data<T_POD *>();
-        return ((_pTail >= _pHead)
-            ? (data >= _pHead && data < _pTail)
-            : ((data >= _pHead && data < _bufTail) || (data >= _bufHead && data < _pTail)));
-    }
-    /** @brief see #zfiterator */
-    inline zfbool iteratorIsEqual(ZF_IN const zfiterator &it0,
-                                  ZF_IN const zfiterator &it1) const
-    {
-        return zfiterator::iteratorIsEqual<T_POD *>(it0, it1);
-    }
-
-    /** @brief see #iterator */
-    inline T_POD &iteratorGet(ZF_IN_OUT zfiterator &it)
-    {
-        if(this->iteratorIsValid(it))
-        {
-            return *(it.data<T_POD *>());
-        }
-        else
-        {
-            return *_pHead;
-        }
-    }
-    /** @brief see #iterator */
-    inline T_POD const &iteratorGet(ZF_IN_OUT zfiterator &it) const
-    {
-        if(this->iteratorIsValid(it))
-        {
-            return *(it.data<T_POD *>());
-        }
-        else
-        {
-            return *_pHead;
-        }
-    }
-
-    /** @brief see #iterator */
-    inline T_POD &iteratorNext(ZF_IN_OUT zfiterator &it)
-    {
-        if(this->iteratorIsValid(it))
-        {
-            T_POD *ret = it.data<T_POD *>();
-            T_POD *t = ret;
-            _loopNext(t);
-            it.iteratorImplDataChange(t);
-            return *ret;
-        }
-        else
-        {
-            return *_pHead;
-        }
-    }
-    /** @brief see #iterator */
-    inline T_POD const &iteratorNext(ZF_IN_OUT zfiterator &it) const
-    {
-        if(this->iteratorIsValid(it))
-        {
-            T_POD *ret = it.data<T_POD *>();
-            T_POD *t = ret;
-            _loopNext(t);
-            it.iteratorImplDataChange(t);
-            return *ret;
-        }
-        else
-        {
-            return *_pHead;
-        }
-    }
-
-    /** @brief see #iterator */
-    inline void iteratorSet(ZF_IN_OUT zfiterator &it,
-                            ZF_IN T_POD const &e)
-    {
-        if(this->iteratorIsValid(it))
-        {
-            *(it.data<T_POD *>()) = e;
-        }
-    }
-    /** @brief see #iterator */
-    void iteratorRemove(ZF_IN_OUT zfiterator &it)
-    {
-        if(this->iteratorIsValid(it))
-        {
-            T_POD *p = it.data<T_POD *>();
-            T_POD *p2 = p;
-            _loopNext(p2);
-            while(p2 != _pTail)
-            {
-                *p = *p2;
-                p = p2;
-                _loopNext(p2);
-            }
-        }
-    }
-
-    /** @brief see #zfiterator */
-    inline void iteratorAdd(ZF_IN T_POD const &e)
-    {
-        this->queuePut(e);
-    }
-    /** @brief see #zfiterator */
-    inline void iteratorAdd(ZF_IN T_POD const &e,
-                            ZF_IN_OUT zfiterator &it)
-    {
-        this->queuePut(e);
-    }
-
 private:
     T_POD _bufBuiltin[_ZFP_ZFCoreQueuePODBuiltinBufSize];
     T_POD *_bufHead;
@@ -360,7 +229,7 @@ private:
     T_POD *_pHead;
     T_POD *_pTail;
 private:
-    void _loopNext(ZF_IN_OUT T_POD *&p) const
+    inline void _loopNext(ZF_IN_OUT T_POD *&p) const
     {
         ++p;
         if(p >= _bufTail)

@@ -83,6 +83,18 @@ public:
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
 
 public:
+    zfoverride
+    virtual zfbool objectIsPrivate(void)
+    {
+        return zftrue;
+    }
+    zfoverride
+    virtual zfbool objectIsInternal(void)
+    {
+        return zftrue;
+    }
+
+public:
     // override for performance
     /** @cond ZFPrivateDoc */
     zfoverride

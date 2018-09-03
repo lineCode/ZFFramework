@@ -39,7 +39,7 @@ public:
     /**
      * @brief called when output something
      *
-     * param0 is a #ZFPointerHolder holds a (const zfchar *) value,
+     * param0 is a #v_zfstring holds the output,
      * notified when #testCaseOutput called
      */
     ZFOBSERVER_EVENT(TestCaseOnOutput)
@@ -70,10 +70,10 @@ protected:
     /** @brief see #EventTestCaseOnOutput */
     virtual inline void testCaseOnOutput(ZF_IN const zfchar *info)
     {
-        ZFPointerHolder *holder = ZFPointerHolder::cacheGet();
-        holder->holdedData = info;
-        this->observerNotify(ZFTestCase::EventTestCaseOnOutput(), holder);
-        ZFPointerHolder::cacheAdd(holder);
+        if(this->observerHasAdd(ZFTestCase::EventTestCaseOnOutput()))
+        {
+            this->observerNotify(ZFTestCase::EventTestCaseOnOutput(), zflineAlloc(v_zfstring, info));
+        }
     }
     /** @brief see #EventTestCaseOnStart */
     virtual inline void testCaseOnStart(void)

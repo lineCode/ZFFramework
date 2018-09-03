@@ -1121,7 +1121,7 @@ ZFTYPEID_ACCESS_ONLY_DEFINE(ZFFilterForZFObject, ZFFilterForZFObject)
 ZFTYPEID_ACCESS_ONLY_DEFINE(ZFMethodGenericInvoker, ZFMethodGenericInvoker)
 
 ZFTYPEID_ACCESS_ONLY_DEFINE(VoidPointer, void *)
-ZFTYPEID_ALIAS_DEFINE(VoidPointer, void *, VoidPointerConst, const void *)
+ZFTYPEID_ACCESS_ONLY_DEFINE(VoidPointerConst, const void *)
 
 ZF_NAMESPACE_GLOBAL_END
 

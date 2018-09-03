@@ -108,7 +108,7 @@ public:
     #define _ZFP_ZFUIButtonBasic_LISTENER_EXPAND_STYLE_CHANGED(T_Component, T_State) \
         static ZFLISTENER_PROTOTYPE_EXPAND(button##T_Component##Style##T_State##Changed) \
         { \
-            const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>(); \
+            const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv; \
             ZFUIButtonBasic *button = userData->objectHolded(); \
             button->prepareButton##T_Component(); \
             if(button->buttonState() == ZFUIButtonState::e_##T_State) \

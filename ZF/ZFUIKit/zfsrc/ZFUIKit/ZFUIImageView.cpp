@@ -24,7 +24,7 @@ public:
     ZFListener imageNinePatchChangedListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(imageNinePatchChanged)
     {
-        const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
+        const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv;
         if(property == ZFPropertyAccess(ZFUIImage, imageNinePatch))
         {
             ZFUIImageView *imageView = userData->objectHolded();

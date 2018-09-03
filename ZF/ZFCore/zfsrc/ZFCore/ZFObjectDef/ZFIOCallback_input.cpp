@@ -319,9 +319,9 @@ zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
 
 // ============================================================
 // ZFInputForInputInRange
-zfclass _ZFP_ZFInputForInputInRangeOwner : zfextends ZFObject
+zfclass _ZFP_I_ZFInputForInputInRangeOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFInputForInputInRangeOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFInputForInputInRangeOwner, ZFObject)
 public:
     ZFInput src;
     zfindex srcStart;
@@ -409,7 +409,7 @@ ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
         return ZFCallbackNull();
     }
 
-    _ZFP_ZFInputForInputInRangeOwner *owner = zfAlloc(_ZFP_ZFInputForInputInRangeOwner);
+    _ZFP_I_ZFInputForInputInRangeOwner *owner = zfAlloc(_ZFP_I_ZFInputForInputInRangeOwner);
     owner->src = inputCallback;
     owner->srcStart = start;
     owner->srcCount = countFixed;
@@ -417,7 +417,7 @@ ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
     owner->savedPos = savedPos;
     owner->curPos = start;
     ZFInput ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFInputForInputInRangeOwner, onInput));
+        owner, ZFMethodAccess(_ZFP_I_ZFInputForInputInRangeOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
 
@@ -531,9 +531,9 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForInputInRange, ZFCallbackSerial
 
 // ============================================================
 // ZFInputForBuffer
-zfclass _ZFP_ZFInputForBufferOwner : zfextends ZFObject
+zfclass _ZFP_I_ZFInputForBufferOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFInputForBufferOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFInputForBufferOwner, ZFObject)
 
 public:
     const zfbyte *pStart;
@@ -597,12 +597,12 @@ static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
         return ZFCallbackNull();
     }
 
-    _ZFP_ZFInputForBufferOwner *owner = zfAlloc(_ZFP_ZFInputForBufferOwner);
+    _ZFP_I_ZFInputForBufferOwner *owner = zfAlloc(_ZFP_I_ZFInputForBufferOwner);
     owner->pStart = (const zfbyte *)src;
     owner->pEnd = owner->pStart + len;
     owner->p = owner->pStart;
     ZFInput ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFInputForBufferOwner, onInput));
+        owner, ZFMethodAccess(_ZFP_I_ZFInputForBufferOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     if(copy)
     {

@@ -98,8 +98,8 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const zfchar *styleKey)
             ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(
                 this->toObject(),
                 ZFGlobalEvent::EventZFStyleOnInvalid(),
-                zflockfree_zflineAlloc(ZFPointerHolder),
-                zflockfree_zflineAlloc(ZFPointerHolder, styleKey));
+                zflockfree_zflineAlloc(v_ZFProperty),
+                zflockfree_zflineAlloc(v_zfstring, styleKey));
             return zffalse;
         }
         else
@@ -230,8 +230,8 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const ZFProperty *property, ZF_IN const zf
             ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(
                 this->toObject(),
                 ZFGlobalEvent::EventZFStyleOnInvalid(),
-                zflockfree_zflineAlloc(ZFPointerHolder, property),
-                zflockfree_zflineAlloc(ZFPointerHolder, styleKey));
+                zflockfree_zflineAlloc(v_ZFProperty, property),
+                zflockfree_zflineAlloc(v_zfstring, styleKey));
             return zffalse;
         }
     }

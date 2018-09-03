@@ -25,24 +25,24 @@ zfclassFwd _ZFP_ZFCachePrivate;
  */
 zfclass ZF_ENV_EXPORT ZFCache : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(ZFCache, ZFObject)
+    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFCache, ZFObject)
 
 public:
-    /**
-     * @brief see #ZFObject::observerNotify
-     *
-     * called when #cacheAdd, to check whether cache is valid,
-     * param0 is the cached object,
-     * param1 is a #ZFValueEditable holds bool value to show whether the cache is valid
-     */
-    ZFOBSERVER_EVENT(CacheOnCheck)
-    /**
-     * @brief see #ZFObject::observerNotify
-     *
-     * called when #cacheAdd,
-     * param0 is the cached object
-     */
-    ZFOBSERVER_EVENT(CacheOnAdd)
+    /** @brief callback for impl */
+    typedef zfbool (*CacheOnAddImpl)(ZF_IN ZFObject *cache);
+    /** @brief callback for impl */
+    typedef zfbool (*CacheOnCheckImpl)(ZF_IN ZFObject *cache);
+
+public:
+    /** @brief callback for impl */
+    ZFCache::CacheOnAddImpl cacheOnAddImpl;
+    /** @brief callback for impl */
+    ZFCache::CacheOnCheckImpl cacheOnCheckImpl;
+
+protected:
+    /** @cond ZFPrivateDoc */
+    ZFCache(void) : cacheOnAddImpl(zfnull), cacheOnCheckImpl(zfnull) {}
+    /** @endcond */
 
 public:
     /**
@@ -109,31 +109,6 @@ public:
                        ZFMP_IN_OUT(ZFCoreArray<zfautoObject> &, ret))
 
 protected:
-    /**
-     * @brief called to check whether the cache is valid
-     */
-    virtual zfbool cacheOnCheck(ZF_IN ZFObject *cacheValue)
-    {
-        if(this->observerHasAdd(ZFCache::EventCacheOnCheck()))
-        {
-            zfautoObject cacheValid = ZFValueEditable::boolValueCreate(zftrue);
-            this->observerNotify(ZFCache::EventCacheOnCheck(), cacheValue, cacheValid);
-            return cacheValid.to<ZFValue *>()->boolValue();
-        }
-        else
-        {
-            return zftrue;
-        }
-    }
-    /**
-     * @brief called when cache would be added
-     */
-    virtual inline void cacheOnAdd(ZF_IN ZFObject *cacheValue)
-    {
-        this->observerNotify(ZFCache::EventCacheOnAdd(), cacheValue);
-    }
-
-protected:
     zfoverride
     virtual void objectOnInit(void);
     zfoverride
@@ -158,15 +133,15 @@ private:
  *   };
  *
  *   // in cpp file
+ *   static zfbool myCacheOnAdd(ZF_IN ZFObject *cacheValue) {...}
+ *   static zfbool myCacheOnCheck(ZF_IN ZFObject *cacheValue) {...}
  *   ZFCACHEHOLDER_DEFINE(YourClass, {
  *       // cache holder setup
  *       cacheHolder->cacheMaxSizeSet(100);
  *
- *       // setup cache reset action if necessary
- *       ZFLISTENER_LOCAL(cacheOnAdd, {
- *           listenerData.param0->to<YourCacheType *>()->resetYourCache();
- *       })
- *       cacheHolder->observerAdd(ZFCache::EventCacheOnAdd(), cacheOnAdd);
+ *       // setup cache setup action if necessary
+ *       cacheHolder->cacheOnAddImpl = myCacheOnAdd;
+ *       cacheHolder->cacheOnCheckImpl = myCacheOnCheck;
  *   })
  *
  *   // the macro would declare this reflectable #ZFMethod for you

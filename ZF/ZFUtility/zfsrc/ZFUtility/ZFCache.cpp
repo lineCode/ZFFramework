@@ -68,8 +68,7 @@ public:
 };
 
 // ============================================================
-ZFOBSERVER_EVENT_REGISTER(ZFCache, CacheOnCheck)
-ZFOBSERVER_EVENT_REGISTER(ZFCache, CacheOnAdd)
+ZFOBJECT_REGISTER(ZFCache)
 
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFCache, zfindex, cacheMaxSize)
 {
@@ -88,12 +87,11 @@ ZFMETHOD_DEFINE_1(ZFCache, void, cacheAdd,
     zfsynchronize(this);
     if(cacheValue == zfnull
         || (zfindex)d->cacheList.size() >= this->cacheMaxSize()
-        || !this->cacheOnCheck(cacheValue))
+        || (this->cacheOnAddImpl && !this->cacheOnAddImpl(cacheValue)))
     {
         return ;
     }
     d->cacheList.push_back(cacheValue);
-    this->cacheOnAdd(cacheValue);
 }
 ZFMETHOD_DEFINE_1(ZFCache, zfautoObject, cacheGet,
                   ZFMP_IN_OPT(const ZFClass *, cacheClass, zfnull))

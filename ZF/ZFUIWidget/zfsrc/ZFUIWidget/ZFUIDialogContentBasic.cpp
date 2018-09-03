@@ -288,7 +288,7 @@ public:
     ZFListener containerChildChangeListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(textChange)
     {
-        const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
+        const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv;
         if(property != ZFPropertyAccess(ZFUITextView, text))
         {
             return ;

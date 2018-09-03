@@ -14,9 +14,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // ZFOutputForString
-zfclass _ZFP_ZFOutputForStringOwner : zfextends ZFObject
+zfclass _ZFP_I_ZFOutputForStringOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFOutputForStringOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFOutputForStringOwner, ZFObject)
 
 public:
     zfstring *pString;
@@ -56,12 +56,12 @@ public:
 };
 ZFOutput ZFOutputForString(ZF_IN zfstring &s)
 {
-    _ZFP_ZFOutputForStringOwner *owner = zfAlloc(_ZFP_ZFOutputForStringOwner);
+    _ZFP_I_ZFOutputForStringOwner *owner = zfAlloc(_ZFP_I_ZFOutputForStringOwner);
     owner->pString = &s;
     owner->savedLength = s.length();
     owner->curPos = s.length();
     ZFOutput ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFOutputForStringOwner, onOutput));
+        owner, ZFMethodAccess(_ZFP_I_ZFOutputForStringOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;
@@ -69,9 +69,9 @@ ZFOutput ZFOutputForString(ZF_IN zfstring &s)
 
 // ============================================================
 // ZFOutputForBuffer
-zfclass _ZFP_ZFOutputForBufferOwner : zfextends ZFObject
+zfclass _ZFP_I_ZFOutputForBufferOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFOutputForBufferOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFOutputForBufferOwner, ZFObject)
 
 public:
     zfbool autoAppendNullToken;
@@ -139,7 +139,7 @@ ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
     {
         return ZFCallbackNull();
     }
-    _ZFP_ZFOutputForBufferOwner *owner = zfAlloc(_ZFP_ZFOutputForBufferOwner);
+    _ZFP_I_ZFOutputForBufferOwner *owner = zfAlloc(_ZFP_I_ZFOutputForBufferOwner);
     owner->autoAppendNullToken = autoAppendNullToken;
     owner->pStart = (zfbyte *)buf;
     if(maxCount == zfindexMax())
@@ -157,7 +157,7 @@ ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
     }
     owner->p = owner->pStart;
     ZFOutput ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFOutputForBufferOwner, onOutput));
+        owner, ZFMethodAccess(_ZFP_I_ZFOutputForBufferOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;

@@ -18,7 +18,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
         zfLogTrimT()
             << zfLogCurTimeString()
             << zfstringWithFormat(zfText("[%s]"), listenerData.sender->classData()->classNameFull())
-            << listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const zfchar *>();
+            << listenerData.param0->to<v_zfstring *>()->zfv;
     })
     this->testCaseOnOutputListener = testCaseOnOutput;
     ZFObjectGlobalEventObserver().observerAdd(ZFTestCase::EventTestCaseOnOutput(), this->testCaseOnOutputListener);

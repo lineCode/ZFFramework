@@ -340,9 +340,9 @@ static void _ZFP_ZFThreadRunnableCleanup(ZF_IN _ZFP_I_ZFThreadRunnableData *runn
 
 // ============================================================
 // user registered thread
-zfclass _ZFP_ZFThreadUserRegisteredThread : zfextends ZFThread
+zfclass _ZFP_I_ZFThreadUserRegisteredThread : zfextends ZFThread
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFThreadUserRegisteredThread, ZFThread)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFThreadUserRegisteredThread, ZFThread)
 
 public:
     zfoverride
@@ -379,7 +379,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFThread, ThreadOnCancel)
 
 ZFMETHOD_DEFINE_0(ZFThread, void *, nativeThreadRegister)
 {
-    ZFThread *zfThread = zfAlloc(_ZFP_ZFThreadUserRegisteredThread);
+    ZFThread *zfThread = zfAlloc(_ZFP_I_ZFThreadUserRegisteredThread);
     zfThread->_ZFP_ZFThread_d->semaWaitHolder = zfAlloc(ZFSemaphore);
     return _ZFP_ZFThreadImpl->nativeThreadRegister(zfThread);
 }

@@ -151,7 +151,10 @@ protected:
     virtual void objectPropertyValueOnUpdate(ZF_IN const ZFProperty *property, ZF_IN const void *oldValue)
     {
         zfsuper::objectPropertyValueOnUpdate(property, oldValue);
-        this->layoutParamOnChange();
+        if(oldValue != zfnull)
+        {
+            this->layoutParamOnChange();
+        }
     }
 protected:
     /** @brief see #EventLayoutParamOnChange */

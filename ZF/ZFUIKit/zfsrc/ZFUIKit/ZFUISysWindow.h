@@ -83,7 +83,7 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * notified when #sysWindowMargin changed,
-     * param0 is a #ZFPointerHolder that holds the old window margin as #ZFUIMargin
+     * param0 is a #v_ZFUIMargin that holds the old window margin
      */
     ZFOBSERVER_EVENT(SysWindowMarginOnUpdate)
 

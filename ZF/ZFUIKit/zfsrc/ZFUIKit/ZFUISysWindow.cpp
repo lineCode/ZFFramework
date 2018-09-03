@@ -209,10 +209,7 @@ void ZFUISysWindow::sysWindowMarginOnUpdate(ZF_IN const ZFUIMargin &sysWindowMar
 {
     if(this->observerHasAdd(ZFUISysWindow::EventSysWindowMarginOnUpdate()))
     {
-        ZFPointerHolder *param0 = ZFPointerHolder::cacheGet();
-        param0->holdedData = &sysWindowMarginOld;
-        this->observerNotify(ZFUISysWindow::EventSysWindowMarginOnUpdate(), param0);
-        ZFPointerHolder::cacheAdd(param0);
+        this->observerNotify(ZFUISysWindow::EventSysWindowMarginOnUpdate(), zflineAlloc(v_ZFUIMargin, sysWindowMarginOld));
     }
 }
 

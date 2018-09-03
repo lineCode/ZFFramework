@@ -84,14 +84,7 @@ public:
     _ZFP_zfsynchronizeContainer(ZF_IN ZFObject *obj)
     : m_obj(obj)
     {
-        if(obj == zfnull)
-        {
-            zfCoreCriticalMessageTrim(zfTextA("[zfsynchronize] try synchronize a null object"));
-        }
-        else
-        {
-            m_obj->_ZFP_ZFObjectLock();
-        }
+        m_obj->_ZFP_ZFObjectLock();
     }
     ~_ZFP_zfsynchronizeContainer(void)
     {
@@ -103,25 +96,11 @@ private:
 
 inline void _ZFP_zfsynchronizeLock(ZF_IN ZFObject *obj)
 {
-    if(obj == zfnull)
-    {
-        zfCoreCriticalMessageTrim(zfTextA("[zfsynchronize] try lock a null object"));
-    }
-    else
-    {
-        obj->_ZFP_ZFObjectLock();
-    }
+    obj->_ZFP_ZFObjectLock();
 }
 inline void _ZFP_zfsynchronizeUnlock(ZF_IN ZFObject *obj)
 {
-    if(obj == zfnull)
-    {
-        zfCoreCriticalMessageTrim(zfTextA("[zfsynchronize] try unlock a null object"));
-    }
-    else
-    {
-        obj->_ZFP_ZFObjectUnlock();
-    }
+    obj->_ZFP_ZFObjectUnlock();
 }
 
 // ============================================================

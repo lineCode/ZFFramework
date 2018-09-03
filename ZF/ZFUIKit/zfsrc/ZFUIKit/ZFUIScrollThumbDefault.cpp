@@ -113,7 +113,6 @@ void ZFUIScrollThumbDefault::objectOnInit(void)
     d = zfpoolNew(_ZFP_ZFUIScrollThumbDefaultPrivate);
 
     d->thumbView = zfAlloc(ZFUIImageView);
-    d->thumbView->objectIsPrivateSet(zftrue);
 
     if(ZFPROTOCOL_IS_AVAILABLE(ZFAnimationNativeView))
     {

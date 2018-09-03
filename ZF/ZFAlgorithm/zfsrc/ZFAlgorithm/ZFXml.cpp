@@ -167,9 +167,9 @@ static zfbool _ZFP_ZFXmlOutputAttributeNeedNewLine(ZF_IN const ZFXmlItem &xmlAtt
             && data.siblingIndex > 0
             && (data.siblingIndex % flags.xmlElementAttributeCountBeforeAddNewLine) == 0));
 }
-zfclass _ZFP_ZFXmlOutputOwner : zfextends ZFObject
+zfclass _ZFP_I_ZFXmlOutputOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_ZFXmlOutputOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFXmlOutputOwner, ZFObject)
 
 public:
     ZFOutput outputCallback;
@@ -488,11 +488,11 @@ ZFMETHOD_FUNC_DEFINE_2(ZFXmlVisitCallback, ZFXmlVisitCallbackForOutput,
     {
         return ZFCallbackNull();
     }
-    _ZFP_ZFXmlOutputOwner *owner = zfAlloc(_ZFP_ZFXmlOutputOwner);
+    _ZFP_I_ZFXmlOutputOwner *owner = zfAlloc(_ZFP_I_ZFXmlOutputOwner);
     owner->outputCallback = outputCallback;
     owner->flags = flags;
     ZFXmlVisitCallback callback = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_ZFXmlOutputOwner, onVisit));
+        owner, ZFMethodAccess(_ZFP_I_ZFXmlOutputOwner, onVisit));
     callback.callbackOwnerObjectRetain();
     zfRelease(owner);
     return callback;

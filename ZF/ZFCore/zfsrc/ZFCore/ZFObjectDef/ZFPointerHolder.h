@@ -89,6 +89,18 @@ public:
     virtual zfidentity objectHash(void);
     zfoverride
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
+
+public:
+    zfoverride
+    virtual zfbool objectIsPrivate(void)
+    {
+        return zftrue;
+    }
+    zfoverride
+    virtual zfbool objectIsInternal(void)
+    {
+        return zftrue;
+    }
 };
 
 ZF_NAMESPACE_GLOBAL_END

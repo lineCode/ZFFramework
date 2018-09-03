@@ -304,7 +304,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIImageScaleChangeListenerHolder, ZFLeve
 ZFListener globalImageScaleOnChangeListener;
 static ZFLISTENER_PROTOTYPE_EXPAND(globalImageScaleOnChange)
 {
-    const ZFProperty *property = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFProperty *>();
+    const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv;
     if(property == ZFPropertyAccess(ZFUIGlobalStyle, imageScale))
     {
         ZFUIImage *image = userData->objectHolded();

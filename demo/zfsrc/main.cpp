@@ -25,58 +25,6 @@ static void _ZFP_ZFFramework_test_prepareTestCase(ZF_IN ZFUIView *containerView)
 #include "ZFLua.h"
 ZFMAIN_ENTRY(params)
 {
-#if 0 // zfzfzf
-    const zfchar *data =
-    "<ZFUILinearLayout>"
-    "    <ZFUIButtonBasic category=\"child\" >"
-    "        <ZFUITextView name=\"buttonLabelStyleNormal\" >"
-    "            <zfstring name=\"text\" value=\"button 0\" />"
-    "        </ZFUITextView>"
-    "    </ZFUIButtonBasic>"
-    "    <ZFUIButtonBasic category=\"child\" >"
-    "        <ZFUITextView name=\"buttonLabelStyleNormal\" >"
-    "            <zfstring name=\"text\" value=\"button 1\" />"
-    "        </ZFUITextView>"
-    "    </ZFUIButtonBasic>"
-    "    <ZFUIButtonBasic category=\"child\" >"
-    "        <ZFUITextView name=\"buttonLabelStyleNormal\" >"
-    "            <zfstring name=\"text\" value=\"button 2\" />"
-    "        </ZFUITextView>"
-    "    </ZFUIButtonBasic>"
-    "</ZFUILinearLayout>"
-    ;
-
-    ZFLuaExecute(
-                 "local args = {...};"
-                 ""
-                 "local window = ZFUIWindow();"
-                 "window:windowShow();"
-                 "local l = ZFUIAutoLayout();"
-                 "window:childAdd(l, ZFUISizeParamFillFill());"
-                 ""
-                 "local listView = ZFUIListView();"
-                 "zfal_maker(listView, l):left():top():right():toParent():scale(1):height():toWidth(listView):scale(0.5);"
-                 "local listAdapter = ZFUIListAdapterArray();"
-                 "listView:listAdapterSetAutoRetain(listAdapter);"
-                 "listView:scrollAlignToPageHorizontalSet(zftrue);"
-                 "listView:listOrientationSet(ZFUIOrientation.e_Left());"
-                 "listView:listAdapterSerializableSet(zftrue);"
-                 "listAdapter:cellSizeFillSet(zftrue);"
-                 "for i=0,10 do"
-                 "    local cell = ZFUIListCell();"
-                 "    cell:cellViewSet(ZFUIView());"
-                 "    cell:cellView():viewBackgroundColorSet(ZFUIColorRandom());"
-                 "    cell:cellViewLayoutParam():layoutMarginSet('(20,20,20,20)');"
-                 "    listAdapter:cellAdd(cell);"
-                 "end;"
-                 ""
-                 "zfal_maker(ZFObjectFromXml(ZFInputForBuffer(args[1])), l):bottom():toParent();"
-                 ""
-                 "ZFObjectToXml(ZFOutputForConsole(), window);"
-                 , &(ZFCoreArrayCreate(zfautoObject, zflineAlloc(v_zfstring, data))));
-    return 0; // zfzfzf
-#endif
-
     if(_ZFP_ZFFramework_test_protocolCheck())
     {
         zfautoObject containerView = _ZFP_ZFFramework_test_containerViewPrepare();
@@ -270,7 +218,7 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModuleTest(ZF_IN ZFUIView *c
     containerView->childAdd(button);
 
     ZFLISTENER_LOCAL(onClickButton, {
-        const ZFClass *testCase = userData->tagGet<ZFPointerHolder *>(zfText("testCase"))->holdedDataPointer<const ZFClass *>();
+        const ZFClass *testCase = userData->tagGet<v_ZFClass *>(zfText("testCase"))->zfv;
         ZFUIView *containerView = userData->tagGet(zfText("containerView"))->objectHolded();
         ZFTestCase *running = zfnull;
         containerView->viewUIEnableTreeSet(zffalse);
@@ -289,7 +237,7 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModuleTest(ZF_IN ZFUIView *c
         }
     })
     zfblockedAlloc(ZFObject, userData);
-    userData->tagSet(zfText("testCase"), zflineAlloc(ZFPointerHolder, testCase));
+    userData->tagSet(zfText("testCase"), zflineAlloc(v_ZFClass, testCase));
     userData->tagSet(zfText("containerView"), containerView->objectHolder());
     button->observerAdd(ZFUIButton::EventButtonOnClick(), onClickButton, userData);
     button->buttonLabelTextSet(zfstring(testCase->classNameFull() + zfslen(subModuleName) + 1));

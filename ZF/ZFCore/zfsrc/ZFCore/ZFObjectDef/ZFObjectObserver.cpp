@@ -852,8 +852,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, zfidentity, eventId)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, ZFObject *, sender)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, ZFObject *, param0)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, ZFObject *, param1)
+ZFMETHOD_USER_REGISTER_0({return invokerObject->to<v_ZFListenerData *>()->zfv.param0;}, v_ZFListenerData, ZFObject *, param0)
+ZFMETHOD_USER_REGISTER_0({return invokerObject->to<v_ZFListenerData *>()->zfv.param1;}, v_ZFListenerData, ZFObject *, param1)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFListenerData, zfbool, eventFiltered)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFListenerData, void, eventForwardSet, ZFMP_IN(const zfchar *, forwardFlag))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFListenerData, void, eventForwardRemove, ZFMP_IN(const zfchar *, forwardFlag))

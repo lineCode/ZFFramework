@@ -556,7 +556,7 @@ ZFTYPEID_ACCESS_ONLY_DECLARE(ZFMethodGenericInvoker, ZFMethodGenericInvoker)
 // ============================================================
 // void *
 ZFTYPEID_ACCESS_ONLY_DECLARE(VoidPointer, void *)
-ZFTYPEID_ALIAS_DECLARE(VoidPointer, void *, VoidPointerConst, const void *)
+ZFTYPEID_ACCESS_ONLY_DECLARE(VoidPointerConst, const void *)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFTypeId_CoreType_h_

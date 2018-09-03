@@ -483,9 +483,9 @@ ZFOBSERVER_EVENT_GLOBAL(ZFStyleOnChange)
  *
  * notified when setting an invalid style value\n
  * sender is the styleable object that changing the styleKey,
- * param0 is a #ZFPointerHolder to #ZFProperty if chaning property
+ * param0 is a #v_ZFProperty if chaning property
  * or holds null if changing the styleable object itself,
- * param1 is a #ZFPointerHolder to (const zfchar *)
+ * param1 is a #v_zfstring to (const zfchar *)
  * that holds the new styleKey\n
  * \n
  * by default, we would assert fail if invalid style occurred,

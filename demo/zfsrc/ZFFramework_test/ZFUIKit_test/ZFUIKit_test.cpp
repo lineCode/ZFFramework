@@ -136,13 +136,13 @@ void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
 
     zfblockedAlloc(ZFObject, holder);
     holder->tagSet(zfText("obj"), obj->objectHolder());
-    holder->tagSet(zfText("property"), zflineAlloc(ZFPointerHolder, property));
+    holder->tagSet(zfText("property"), zflineAlloc(v_ZFProperty, property));
     holder->tagSet(zfText("nextCallback"), zflineAlloc(ZFTypeHolder, zfnew(ZFListener, nextCallback), ZFTypeHolderTypeObject<ZFListener *>));
     holder->tagSet(zfText("userData"), userData);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
         ZFObject *obj = userData->tagGet(zfText("obj"))->objectHolded();
-        const ZFProperty *property = userData->tagGet<ZFPointerHolder *>(zfText("property"))->holdedDataPointer<const ZFProperty *>();
+        const ZFProperty *property = userData->tagGet<v_ZFProperty *>(zfText("property"))->zfv;
 
         ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
         text->stringValueSet(zfstringWithFormat(zfText("%s : %s"), property->propertyName(), ZFPropertyGetInfo(property, obj).cString()));

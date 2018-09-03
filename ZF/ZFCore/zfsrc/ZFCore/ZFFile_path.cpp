@@ -75,14 +75,15 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForSetting)
 ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForSettingSet,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
-    zfstring old = _ZFP_ZFFilePathImpl->pathForSetting();
-    _ZFP_ZFFilePathImpl->pathForSettingSet(path);
-    if(!old.isEmpty())
+    if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForSettingOnChange()))
     {
-        ZFPointerHolder *t = ZFPointerHolder::cacheGet();
-        t->holdedData = old.cString();
-        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForSettingOnChange(), t);
-        ZFPointerHolder::cacheAdd(t);
+        zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForSetting());
+        _ZFP_ZFFilePathImpl->pathForSettingSet(path);
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForSettingOnChange(), old);
+    }
+    else
+    {
+        _ZFP_ZFFilePathImpl->pathForSettingSet(path);
     }
 }
 
@@ -99,14 +100,15 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForStorage)
 ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageSet,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
-    zfstring old = _ZFP_ZFFilePathImpl->pathForStorage();
-    _ZFP_ZFFilePathImpl->pathForStorageSet(path);
-    if(!old.isEmpty())
+    if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForStorageOnChange()))
     {
-        ZFPointerHolder *t = ZFPointerHolder::cacheGet();
-        t->holdedData = old.cString();
-        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForStorageOnChange(), t);
-        ZFPointerHolder::cacheAdd(t);
+        zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForStorage());
+        _ZFP_ZFFilePathImpl->pathForStorageSet(path);
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForStorageOnChange(), old);
+    }
+    else
+    {
+        _ZFP_ZFFilePathImpl->pathForStorageSet(path);
     }
 }
 
@@ -123,14 +125,15 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForStorageShared)
 ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageSharedSet,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
-    zfstring old = _ZFP_ZFFilePathImpl->pathForStorageShared();
-    _ZFP_ZFFilePathImpl->pathForStorageSharedSet(path);
-    if(!old.isEmpty())
+    if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForStorageSharedOnChange()))
     {
-        ZFPointerHolder *t = ZFPointerHolder::cacheGet();
-        t->holdedData = old.cString();
-        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForStorageSharedOnChange(), t);
-        ZFPointerHolder::cacheAdd(t);
+        zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForStorageShared());
+        _ZFP_ZFFilePathImpl->pathForStorageSharedSet(path);
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForStorageSharedOnChange(), old);
+    }
+    else
+    {
+        _ZFP_ZFFilePathImpl->pathForStorageSharedSet(path);
     }
 }
 
@@ -149,14 +152,15 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForCache)
 ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForCacheSet,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
-    zfstring old = _ZFP_ZFFilePathImpl->pathForCache();
-    _ZFP_ZFFilePathImpl->pathForCacheSet(path);
-    if(!old.isEmpty())
+    if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForCacheOnChange()))
     {
-        ZFPointerHolder *t = ZFPointerHolder::cacheGet();
-        t->holdedData = old.cString();
-        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheOnChange(), t);
-        ZFPointerHolder::cacheAdd(t);
+        zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForCache());
+        _ZFP_ZFFilePathImpl->pathForCacheSet(path);
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheOnChange(), old);
+    }
+    else
+    {
+        _ZFP_ZFFilePathImpl->pathForCacheSet(path);
     }
 }
 

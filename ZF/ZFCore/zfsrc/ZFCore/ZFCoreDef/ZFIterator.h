@@ -129,7 +129,7 @@ public:
      */
     inline void iteratorImplDataChange(ZF_IN void *newData)
     {
-        if(d.data)
+        if(d.data && d.deleteCallback)
         {
             d.deleteCallback(d.data);
         }
@@ -142,7 +142,14 @@ public:
     {
         if(ref.d.data)
         {
-            d.data = ref.d.copyCallback(ref.d.data);
+            if(ref.d.copyCallback)
+            {
+                d.data = ref.d.copyCallback(ref.d.data);
+            }
+            else
+            {
+                d.data = ref.d.data;
+            }
             d.deleteCallback = ref.d.deleteCallback;
             d.copyCallback = ref.d.copyCallback;
         }
@@ -153,7 +160,7 @@ public:
     }
     ~zfiterator(void)
     {
-        if(d.data)
+        if(d.data && d.deleteCallback)
         {
             d.deleteCallback(d.data);
         }
@@ -162,13 +169,20 @@ public:
     {
         if(this != &ref)
         {
-            if(d.data)
+            if(d.data && d.deleteCallback)
             {
                 d.deleteCallback(d.data);
             }
             if(ref.d.data)
             {
-                d.data = ref.d.copyCallback(ref.d.data);
+                if(ref.d.copyCallback)
+                {
+                    d.data = ref.d.copyCallback(ref.d.data);
+                }
+                else
+                {
+                    d.data = ref.d.data;
+                }
                 d.deleteCallback = ref.d.deleteCallback;
                 d.copyCallback = ref.d.copyCallback;
             }
