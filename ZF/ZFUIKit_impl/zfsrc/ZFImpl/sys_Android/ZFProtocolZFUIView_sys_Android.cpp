@@ -344,15 +344,16 @@ ZF_NAMESPACE_GLOBAL_END
 
 // ============================================================
 // native methods for ZFUIView
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notifyNeedLayout,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
+                         void, native_1notifyNeedLayout,
                          JNIPointer zfjniPointerOwnerZFUIView)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->notifyNeedLayout(
         ZFCastZFObject(ZFUIView *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUIView)));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notifyLayoutRootView,
-                         JNIPointer zfjniPointerOwnerZFUIView,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
+                         void, JNIPointer zfjniPointerOwnerZFUIVie,
                          jint rect_x, jint rect_y, jint rect_width, jint rect_height)
 {
     ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(
@@ -360,7 +361,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notif
         ZFUIRectMake((zfint)rect_x, (zfint)rect_y, (zfint)rect_width, (zfint)rect_height));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notifyUIEvent_1mouse,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
+                         void, native_1notifyUIEvent_1mouse,
                          JNIPointer zfjniPointerOwnerZFUIView,
                          jint mouseId,
                          jint mouseAction,
@@ -380,7 +382,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notif
 }
 JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE_BEGIN(jboolean, ZFImpl_sys_Android_JNI_ID_ZFUIView, native_1notifyUIEvent_1key,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
+                         jboolean, native_1notifyUIEvent_1key,
                          JNIPointer zfjniPointerOwnerZFUIView,
                          jint keyId,
                          jint keyAction,

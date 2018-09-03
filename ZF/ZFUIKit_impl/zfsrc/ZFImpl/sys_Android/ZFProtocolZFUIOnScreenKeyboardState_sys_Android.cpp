@@ -94,7 +94,8 @@ ZF_GLOBAL_INITIALIZER_END(ZFUIOnScreenKeyboardStateImpl_sys_Android_init)
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState, native_1notifyKeyboardStateOnChange)
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIOnScreenKeyboardState,
+                         void, native_1notifyKeyboardStateOnChange)
 {
     if(ZFFrameworkStateCheck() != ZFFrameworkStateAvailable)
     {

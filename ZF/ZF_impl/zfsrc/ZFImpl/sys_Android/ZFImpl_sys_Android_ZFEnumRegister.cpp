@@ -18,7 +18,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumInvalid,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
+                         void, native_1enumInvalid,
                          jstring rawEnumNamespace,
                          jstring rawEnumValueName)
 {
@@ -32,7 +33,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumInv
 }
 JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1rawEnumValue,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
+                         jint, native_1rawEnumValue,
                          jstring rawEnumNamespace,
                          jstring rawEnumValueName)
 {
@@ -50,7 +52,8 @@ JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1rawEnum
     return (jint)ret;
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumDefault,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
+                         jint, native_1enumDefault,
                          jstring enumClassName)
 {
     const zfcharA *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
@@ -67,7 +70,8 @@ JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumDef
     return (jint)ret;
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumValue,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
+                         jint, native_1enumValue,
                          jstring enumClassName,
                          jstring enumValueName)
 {
@@ -87,7 +91,8 @@ JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumVal
     return (jint)ret;
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(jstring, ZFImpl_sys_Android_JNI_ID_ZFEnum, native_1enumName,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
+                         jstring, native_1enumName,
                          jstring enumClassName,
                          jint enumValue)
 {

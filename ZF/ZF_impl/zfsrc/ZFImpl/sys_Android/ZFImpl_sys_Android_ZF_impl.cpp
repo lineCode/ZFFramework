@@ -178,7 +178,8 @@ jobject ZFImpl_sys_Android_ZFAndroidBufferToJava(ZF_IN void *buffer, ZF_IN zfind
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(jstring, ZFImpl_sys_Android_JNI_ID_ZFAndroidLog, native_1objectInfo,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFAndroidLog,
+                         jstring, native_1objectInfo,
                          JNIPointer zfjnipointerZFObject)
 {
     ZFObject *obj = ZFCastZFObject(ZFObject *, JNIConvertZFObjectFromJNIType(jniEnv, zfjnipointerZFObject));

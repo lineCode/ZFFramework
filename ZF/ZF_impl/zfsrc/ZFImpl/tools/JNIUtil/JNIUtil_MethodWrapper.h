@@ -33,8 +33,8 @@ namespace JNIUtil {
 // ============================================================
 #if JNIUtilWrap_Enable
 #undef JNI_METHOD_DECLARE_BEGIN
-#define JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ...) \
-    _JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ##__VA_ARGS__) \
+#define JNI_METHOD_DECLARE_BEGIN(OwnerClassId, ReturnType, MethodName, ...) \
+    _JNI_METHOD_DECLARE_BEGIN(OwnerClassId, ReturnType, MethodName, ##__VA_ARGS__) \
     { \
         JNIUtilWrap_CallbackCalled(_JNIUtilMacro_toString(OwnerClassId), _JNIUtilMacro_toString(MethodName))
 #undef JNI_METHOD_DECLARE_END

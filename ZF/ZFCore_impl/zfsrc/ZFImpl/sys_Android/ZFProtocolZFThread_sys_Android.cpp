@@ -314,7 +314,8 @@ static _ZFP_ZFThreadImpl_sys_Android_ExecuteData *_ZFP_ZFThreadImpl_sys_Android_
     _ZFP_ZFThreadImpl_sys_Android_executeDataMap.erase(it);
     return d;
 }
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInMainThread,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFThread,
+                         void, native_1doExecuteInMainThread,
                          jint executeDataId, jobject nativeThread)
 {
     _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = _ZFP_ZFThreadImpl_sys_Android_getExecuteData(executeDataId);
@@ -324,7 +325,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExe
 }
 JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInNewThread,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFThread,
+                         void, native_1doExecuteInNewThread,
                          jint executeDataId, _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType nativeThread)
 {
     _ZFP_ZFThreadImpl_sys_Android_ExecuteData *d = _ZFP_ZFThreadImpl_sys_Android_getExecuteData(executeDataId);
@@ -342,14 +344,16 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExe
 }
 JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1doExecuteInMainThreadAfterDelay,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFThread,
+                         void, native_1doExecuteInMainThreadAfterDelay,
                          JNIPointer zfjniPointerNativeData)
 {
     ZFListenerHolder *nativeDataTmp = ZFCastZFObjectUnchecked(ZFListenerHolder *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerNativeData));
     nativeDataTmp->runnableExecute();
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFThread, native_1executeInMainThreadAfterDelayCleanup,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFThread,
+                         void, native_1executeInMainThreadAfterDelayCleanup,
                          JNIPointer zfjniPointerNativeData)
 {
     ZFListenerHolder *nativeDataTmp = ZFCastZFObjectUnchecked(ZFListenerHolder *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerNativeData));

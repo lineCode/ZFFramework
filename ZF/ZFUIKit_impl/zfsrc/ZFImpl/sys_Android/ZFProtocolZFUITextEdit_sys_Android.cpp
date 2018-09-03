@@ -307,7 +307,8 @@ ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUITextEditImpl_sys_Android)
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(jboolean, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1notifyCheckTextShouldChange,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUITextEdit,
+                         jboolean, native_1notifyCheckTextShouldChange,
                          JNIPointer zfjniPointerOwnerZFUITextEdit,
                          jobject jobjNewString)
 {
@@ -316,7 +317,8 @@ JNI_METHOD_DECLARE_BEGIN(jboolean, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, nativ
         ZFImpl_sys_Android_zfstringFromString(ZFCastStatic(jstring, jobjNewString)));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1notifyTextChange,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUITextEdit,
+                         void, native_1notifyTextChange,
                          JNIPointer zfjniPointerOwnerZFUITextEdit,
                          jobject jobjNewString)
 {
@@ -325,28 +327,32 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1n
         ZFImpl_sys_Android_zfstringFromString(ZFCastStatic(jstring, jobjNewString)));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1notifyTextSelectRangeChange,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUITextEdit,
+                         void, native_1notifyTextSelectRangeChange,
                          JNIPointer zfjniPointerOwnerZFUITextEdit)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->notifyTextSelectRangeChange(
         ZFCastZFObject(ZFUITextEdit *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUITextEdit)));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1notifyTextReturnClicked,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUITextEdit,
+                         void, native_1notifyTextReturnClicked,
                          JNIPointer zfjniPointerOwnerZFUITextEdit)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->notifyTextReturnClicked(
         ZFCastZFObject(ZFUITextEdit *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUITextEdit)));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1notifyTextEditBegin,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUITextEdit,
+                         void, native_1notifyTextEditBegin,
                          JNIPointer zfjniPointerOwnerZFUITextEdit)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->notifyTextEditBegin(
         ZFCastZFObject(ZFUITextEdit *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerOwnerZFUITextEdit)));
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUITextEdit, native_1notifyTextEditEnd,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUITextEdit,
+                         void, native_1notifyTextEditEnd,
                          JNIPointer zfjniPointerOwnerZFUITextEdit)
 {
     ZFPROTOCOL_ACCESS(ZFUITextEdit)->notifyTextEditEnd(

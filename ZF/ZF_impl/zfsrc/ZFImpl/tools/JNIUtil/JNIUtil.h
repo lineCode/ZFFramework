@@ -279,7 +279,7 @@ extern _JNI_EXPORT JNIString JNIGetMethodSig(const JNIType &returnType,
                                              const JNIParamTypeContainer &paramTypeList);
 
 /** @cond ZFPrivateDoc */
-#define _JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ...) \
+#define _JNI_METHOD_DECLARE_BEGIN(OwnerClassId, ReturnType, MethodName, ...) \
     _JNI_EXTERN_C JNIEXPORT ReturnType JNICALL Java_##OwnerClassId##_##MethodName( \
         JNIEnv *jniEnv, jclass jniCls, ##__VA_ARGS__)
 /** @endcond */
@@ -288,7 +288,8 @@ extern _JNI_EXPORT JNIString JNIGetMethodSig(const JNIType &returnType,
  *
  * usage:
  * @code
- *   JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName,
+ *   JNI_METHOD_DECLARE_BEGIN(OwnerClassId,
+ *                            ReturnType, MethodName,
  *                            Param0, param0,
  *                            Param1, param1)
  *   {
@@ -310,8 +311,8 @@ extern _JNI_EXPORT JNIString JNIGetMethodSig(const JNIType &returnType,
  * which stands for "com.some_package.OutterClass$InnerClass"'s
  * method named "method_name"
  */
-#define JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ...) \
-    _JNI_METHOD_DECLARE_BEGIN(ReturnType, OwnerClassId, MethodName, ##__VA_ARGS__)
+#define JNI_METHOD_DECLARE_BEGIN(OwnerClassId, ReturnType, MethodName, ...) \
+    _JNI_METHOD_DECLARE_BEGIN(OwnerClassId, ReturnType, MethodName, ##__VA_ARGS__)
 /** @brief see #JNI_METHOD_DECLARE_BEGIN */
 #define JNI_METHOD_DECLARE_END()
 

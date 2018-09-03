@@ -17,18 +17,21 @@
 
 // ============================================================
 // main entry
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFFrameworkInit)
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFMainEntry,
+                         void, native_1ZFFrameworkInit)
 {
     ZFFrameworkInit();
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFFrameworkCleanup)
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFMainEntry,
+                         void, native_1ZFFrameworkCleanup)
 {
     ZFFrameworkCleanup();
 }
 JNI_METHOD_DECLARE_END()
 
-JNI_METHOD_DECLARE_BEGIN(jint, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1ZFMainExecute,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFMainEntry,
+                         jint, native_1ZFMainExecute,
                          jobjectArray params)
 {
     ZFCoreArray<zfstring> paramsTmp;
@@ -131,7 +134,8 @@ JNIObjectHolder ZFImpl_sys_Android_mainEntryActivity(void)
 ZF_NAMESPACE_GLOBAL_END
 
 #include "ZFCore/ZFLogLevel.h"
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFMainEntry, native_1debugModeSet,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFMainEntry,
+                         void, native_1debugModeSet,
                          jboolean value)
 {
     if(value)

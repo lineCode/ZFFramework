@@ -182,7 +182,8 @@ ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIWebViewImpl_sys_Android)
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIWebView, native_1ZFUIWebView_1notifyWebLoadStateChanged,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIWebView,
+                         void, native_1ZFUIWebView_1notifyWebLoadStateChanged,
                          JNIPointer zfjniPointerOwnerZFUIWebView)
 {
     ZFPROTOCOL_ACCESS(ZFUIWebView)->notifyWebLoadStateChanged(

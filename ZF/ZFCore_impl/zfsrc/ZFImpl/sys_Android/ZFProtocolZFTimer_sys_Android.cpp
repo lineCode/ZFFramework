@@ -92,21 +92,24 @@ ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFTimerImpl_sys_Android)
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFTimer, native_1notifyTimerStart,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFTimer,
+                         void, native_1notifyTimerStart,
                          JNIPointer zfjniPointerToken)
 {
     ZFTimer *timer = ZFCastZFObject(ZFTimer *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerToken));
     ZFPROTOCOL_ACCESS(ZFTimer)->notifyTimerStart(timer);
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFTimer, native_1notifyTimerActivate,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFTimer,
+                         void, native_1notifyTimerActivate,
                          JNIPointer zfjniPointerToken)
 {
     ZFTimer *timer = ZFCastZFObject(ZFTimer *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerToken));
     ZFPROTOCOL_ACCESS(ZFTimer)->notifyTimerActivate(timer);
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFTimer, native_1notifyTimerStop,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFTimer,
+                         void, native_1notifyTimerStop,
                          JNIPointer zfjniPointerToken)
 {
     ZFTimer *timer = ZFCastZFObject(ZFTimer *, JNIConvertZFObjectFromJNIType(jniEnv, zfjniPointerToken));

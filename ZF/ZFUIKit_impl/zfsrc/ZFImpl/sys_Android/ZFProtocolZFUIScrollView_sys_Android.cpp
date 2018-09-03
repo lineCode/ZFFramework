@@ -194,7 +194,8 @@ ZF_NAMESPACE_GLOBAL_END
 
 // ============================================================
 // native methods for ZFUIScrollView
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDragBegin,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIScrollView,
+                         void, native_1notifyScrollViewDragBegin,
                          JNIPointer zfjniPointerOwnerZFUIScrollView,
                          jint mousePosX,
                          jint mousePosY,
@@ -205,7 +206,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_
         ZFUIPointMake(mousePosX, mousePosY), (zftimet)mouseTime);
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDrag,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIScrollView,
+                         void, native_1notifyScrollViewDrag,
                          JNIPointer zfjniPointerOwnerZFUIScrollView,
                          jint mousePosX,
                          jint mousePosY,
@@ -216,7 +218,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_
         ZFUIPointMake(mousePosX, mousePosY), (zftimet)mouseTime);
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewDragEnd,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIScrollView,
+                         void, native_1notifyScrollViewDragEnd,
                          JNIPointer zfjniPointerOwnerZFUIScrollView,
                          jlong mouseTime,
                          jboolean needScrollAni)
@@ -227,7 +230,8 @@ JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_
         (zfbool)needScrollAni);
 }
 JNI_METHOD_DECLARE_END()
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFUIScrollView, native_1notifyScrollViewScrollAnimation,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIScrollView,
+                         void, native_1notifyScrollViewScrollAnimation,
                          JNIPointer zfjniPointerOwnerZFUIScrollView,
                          jlong relativeTimeInMiliseconds)
 {

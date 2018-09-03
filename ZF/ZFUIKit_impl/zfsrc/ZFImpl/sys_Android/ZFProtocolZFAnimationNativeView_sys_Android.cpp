@@ -271,7 +271,8 @@ ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFAnimationNativeViewImpl_sys_Android)
 
 ZF_NAMESPACE_GLOBAL_END
 
-JNI_METHOD_DECLARE_BEGIN(void, ZFImpl_sys_Android_JNI_ID_ZFAnimationNativeView, native_1notifyAniStop,
+JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFAnimationNativeView,
+                         void, native_1notifyAniStop,
                          JNIPointer zfjniPointerOwnerZFAnimationNativeView)
 {
     ZFPROTOCOL_ACCESS(ZFAnimationNativeView)->notifyAniStop(
