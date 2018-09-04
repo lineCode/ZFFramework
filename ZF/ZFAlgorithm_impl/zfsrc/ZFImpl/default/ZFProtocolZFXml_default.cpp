@@ -169,7 +169,7 @@ private:
                 }
                 case pugi::node_doctype:
                 {
-                    ZFXmlItem zfXmlChild(ZFXmlType::e_XmlDOCTYPE);
+                    ZFXmlItem zfXmlChild(ZFXmlType::e_XmlDocType);
 
                     ++(docHolder->docRefCount);
                     this->xmlMemoryPool_xmlNameSet(zfXmlChild, implXmlChild.name(), docHolder);
@@ -180,7 +180,7 @@ private:
                 }
                 case pugi::node_pi:
                 {
-                    ZFXmlItem zfXmlChild(ZFXmlType::e_XmlProcessingInstruction);
+                    ZFXmlItem zfXmlChild(ZFXmlType::e_XmlPI);
 
                     ++(docHolder->docRefCount);
                     this->xmlMemoryPool_xmlNameSet(zfXmlChild, implXmlChild.name(), docHolder);

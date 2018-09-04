@@ -27,8 +27,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     XmlComment
  *     XmlDocument
  *     XmlDeclaration
- *     XmlDOCTYPE
- *     XmlProcessingInstruction
+ *     XmlDocType
+ *     XmlPI
  * has attribute:
  *     XmlElement, XmlDeclaration
  * has child:
@@ -63,8 +63,8 @@ ZFENUM_BEGIN(ZFXmlType)
     ZFENUM_VALUE(XmlComment)
     ZFENUM_VALUE(XmlDocument)
     ZFENUM_VALUE(XmlDeclaration)
-    ZFENUM_VALUE(XmlDOCTYPE)
-    ZFENUM_VALUE(XmlProcessingInstruction)
+    ZFENUM_VALUE(XmlDocType)
+    ZFENUM_VALUE(XmlPI)
 ZFENUM_SEPARATOR(ZFXmlType)
     ZFENUM_VALUE_REGISTER(XmlNull)
     ZFENUM_VALUE_REGISTER(XmlElement)
@@ -73,8 +73,8 @@ ZFENUM_SEPARATOR(ZFXmlType)
     ZFENUM_VALUE_REGISTER(XmlComment)
     ZFENUM_VALUE_REGISTER(XmlDocument)
     ZFENUM_VALUE_REGISTER(XmlDeclaration)
-    ZFENUM_VALUE_REGISTER(XmlDOCTYPE)
-    ZFENUM_VALUE_REGISTER(XmlProcessingInstruction)
+    ZFENUM_VALUE_REGISTER(XmlDocType)
+    ZFENUM_VALUE_REGISTER(XmlPI)
 ZFENUM_END(ZFXmlType)
 
 zfclassFwd ZFXmlVisitData;
@@ -473,8 +473,8 @@ public:
 
     zfstring xmlDeclarationTagLeft; /**< @brief "<?xml" by default */
     zfstring xmlDeclarationTagRight; /**< @brief "?>" by default */
-    zfstring xmlDOCTYPETagLeft; /**< @brief "<!DOCTYPE" by default */
-    zfstring xmlDOCTYPETagRight; /**< @brief ">" by default */
+    zfstring xmlDocTypeTagLeft; /**< @brief "<!DOCTYPE" by default */
+    zfstring xmlDocTypeTagRight; /**< @brief ">" by default */
     zfstring xmlPITagLeft; /**< @brief "<?" by default */
     zfstring xmlPITagRight; /**< @brief "?>" by default */
     zfstring xmlElementBeginTagLeft; /**< @brief "<" by default */
@@ -500,8 +500,8 @@ public:
     , xmlIndentToken(zfText("    "))
     , xmlDeclarationTagLeft(zfText("<?xml"))
     , xmlDeclarationTagRight(zfText("?>"))
-    , xmlDOCTYPETagLeft(zfText("<!DOCTYPE"))
-    , xmlDOCTYPETagRight(zfText(">"))
+    , xmlDocTypeTagLeft(zfText("<!DOCTYPE"))
+    , xmlDocTypeTagRight(zfText(">"))
     , xmlPITagLeft(zfText("<?"))
     , xmlPITagRight(zfText("?>"))
     , xmlElementBeginTagLeft(zfText("<"))
