@@ -32,6 +32,8 @@ public:
     ZFUISize listContainerSize; /**< @brief owner list container's size */
     zfint cellSizeHint; /**< @brief list cell's size hint */
 };
+ZFTYPEID_ACCESS_ONLY_DECLARE(ZFUIListCellUpdaterParam, ZFUIListCellUpdaterParam)
+ZFCORE_POD_COMPARER_DECLARE(ZFUIListCellUpdaterParam)
 
 // ============================================================
 zfclassFwd ZFUIListView;
@@ -42,6 +44,24 @@ zfclassFwd _ZFP_ZFUIListViewPrivate;
 zfinterface ZF_ENV_EXPORT ZFUIListCellUpdater : zfextends ZFInterface
 {
     ZFINTERFACE_DECLARE(ZFUIListCellUpdater, ZFInterface)
+
+public:
+    // ============================================================
+    // events
+    /**
+     * @brief see #ZFObject::observerNotify
+     *
+     * called when #cellOnUpdate,
+     * param0 is #v_ZFUIListCellUpdaterParam
+     */
+    ZFOBSERVER_EVENT(CellOnUpdate)
+    /**
+     * @brief see #ZFObject::observerNotify
+     *
+     * called when #cellOnRecycle,
+     * param0 is #ZFUIListCell
+     */
+    ZFOBSERVER_EVENT(CellOnRecycle)
 
 protected:
     /**

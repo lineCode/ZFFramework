@@ -13,6 +13,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIListCellUpdater)
 
+ZFOBSERVER_EVENT_REGISTER(ZFUIListCellUpdater, CellOnUpdate)
+ZFOBSERVER_EVENT_REGISTER(ZFUIListCellUpdater, CellOnRecycle)
+
 #define _ZFP_ZFUIListCellUpdater_cacheKey(cacheKey, key) \
     zfchar *cacheKey = zfsConnect(zfText("_ZFP_ZFUIListCellUpdater_cacheKey"), key); \
     zfblockedFree(cacheKey)
@@ -46,6 +49,16 @@ ZFMETHOD_DEFINE_2(ZFUIListCellUpdater, void, itemCacheRecycle,
     }
     cacheList->add(cache);
 }
+
+// ============================================================
+ZFTYPEID_ACCESS_ONLY_DEFINE(ZFUIListCellUpdaterParam, ZFUIListCellUpdaterParam)
+
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFUIListCellUpdaterParam, ZFUIListCell *, cell)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFUIListCellUpdaterParam, zfindex, cellIndex)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFUIListCellUpdaterParam, zfindex, cellCount)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFUIListCellUpdaterParam, ZFUIOrientationEnum, listOrientation)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFUIListCellUpdaterParam, ZFUISize, listContainerSize)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFUIListCellUpdaterParam, zfint, cellSizeHint)
 
 ZF_NAMESPACE_GLOBAL_END
 

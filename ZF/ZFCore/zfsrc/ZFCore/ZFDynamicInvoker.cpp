@@ -203,6 +203,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
     // try to invoke each method
     zfstring _errorHintTmp;
     zfstring *errorHintTmp = errorHint ? &_errorHintTmp : zfnull;
+    const ZFMethod *methodLast = zfnull;
     for(zfindex iMethod = 0; iMethod < methodList.count(); ++iMethod)
     {
         const ZFMethod *method = methodList[iMethod];
@@ -242,11 +243,13 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         {
             return zftrue;
         }
+        methodLast = method;
     }
     if(errorHint != zfnull)
     {
-        zfstringAppend(errorHint, zfText("no matching method to call, last error reason: %s"),
-            errorHintTmp->cString());
+        zfstringAppend(errorHint, zfText("no matching method to call, last error reason: %s, for method: %s"),
+            errorHintTmp->cString(),
+            methodLast ? methodLast->objectInfo().cString() : ZFTOKEN_zfnull);
     }
     return zffalse;
 }

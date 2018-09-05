@@ -175,9 +175,10 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
     ZFCoreArrayPOD<const ZFMethod *> methodList = this->classData()->methodForNameGetAll(methodName);
     zfstring errorHintTmp;
     zfautoObject ret;
+    const ZFMethod *m = zfnull;
     for(zfindex i = 0; i < methodList.count(); ++i)
     {
-        const ZFMethod *m = methodList[i];
+        m = methodList[i];
         zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
             param0,
             param1,
@@ -210,9 +211,10 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
     else
     {
         zfstringAppend(errorHint,
-            zfText("no matching method to call, methodName: %s, last error reason: %s"),
+            zfText("no matching method to call, last error reason: %s, for method: %s"),
             methodName,
-            errorHintTmp.cString());
+            errorHintTmp.cString(),
+            m ? m->objectInfo().cString() : ZFTOKEN_zfnull);
     }
     return zfautoObjectNull();
 }

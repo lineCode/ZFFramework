@@ -185,13 +185,19 @@ public:
             ZFUIListCellUpdaterParam updateParam;
             updateParam.cell = cell;
             updateParam.cellIndex = index;
-            updateParam.cellCount = this->listAdapter->cellCount();
+            updateParam.cellCount = this->cellCount;
             updateParam.listOrientation = this->listAdapter->listOrientation();
             updateParam.listContainerSize = this->listAdapter->listContainerSize();
             updateParam.cellSizeHint = this->listAdapter->cellSizeHint();
             for(zfindex i = 0; i < this->pimplOwner->cellUpdater()->count(); ++i)
             {
-                this->pimplOwner->cellUpdater()->get<ZFUIListCellUpdater *>(i)->cellOnUpdate(updateParam);
+                ZFObject *cellUpdater = this->pimplOwner->cellUpdater()->get(i);
+                cellUpdater->to<ZFUIListCellUpdater *>()->cellOnUpdate(updateParam);
+                if(cellUpdater->observerHasAdd(ZFUIListCellUpdater::EventCellOnUpdate()))
+                {
+                    zfblockedAlloc(v_ZFUIListCellUpdaterParam, param0, updateParam);
+                    cellUpdater->observerNotify(ZFUIListCellUpdater::EventCellOnUpdate(), param0);
+                }
             }
         }
         this->listAdapter->cellOnUpdate(index, cell);
@@ -202,7 +208,9 @@ public:
         {
             for(zfindex i = 0; i < this->pimplOwner->cellUpdater()->count(); ++i)
             {
-                this->pimplOwner->cellUpdater()->get<ZFUIListCellUpdater *>(i)->cellOnRecycle(cell);
+                ZFObject *cellUpdater = this->pimplOwner->cellUpdater()->get(i);
+                cellUpdater->to<ZFUIListCellUpdater *>()->cellOnRecycle(cell);
+                cellUpdater->observerNotify(ZFUIListCellUpdater::EventCellOnRecycle(), cell);
             }
         }
         this->listAdapter->cellCacheOnRecycle(cell);

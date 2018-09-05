@@ -172,9 +172,9 @@ protected:
      *
      * see #cellCacheOnRecycle for more info
      */
-    virtual zfautoObject cellCacheOnAccess(ZF_IN zfindex index)
+    virtual inline zfautoObject cellCacheOnAccess(ZF_IN zfindex index)
     {
-        return zfnull;
+        return zfautoObjectNull();
     }
     zffinal inline void _ZFP_ZFUIListAdapter_cellCacheOnRecycle(ZF_IN ZFUIListCell *cell)
     {
@@ -194,10 +194,15 @@ protected:
     virtual inline void cellCacheOnRecycle(ZF_IN ZFUIListCell *cell)
     {
     }
+
+public:
     /** @brief see #cellCacheOnRecycle */
-    zffinal zfautoObject cellCacheDefaultAccess(ZF_IN const zfchar *key);
+    ZFMETHOD_DECLARE_1(zfautoObject, cellCacheDefaultAccess,
+                       ZFMP_IN(const zfchar *, key))
     /** @brief see #cellCacheOnRecycle */
-    zffinal void cellCacheDefaultRecycle(ZF_IN const zfchar *key, ZF_IN ZFUIListCell *cell);
+    ZFMETHOD_DECLARE_2(void, cellCacheDefaultRecycle,
+                       ZFMP_IN(const zfchar *, key),
+                       ZFMP_IN(ZFUIListCell *, cell))
 
 private:
     friend zfclassFwd _ZFP_ZFUIListViewPrivate;

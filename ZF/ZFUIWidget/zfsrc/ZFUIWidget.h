@@ -37,6 +37,7 @@
 #include "ZFUIWidget/ZFUILinearLayout.h"
 #include "ZFUIWidget/ZFUIListAdapter.h"
 #include "ZFUIWidget/ZFUIListAdapterArray.h"
+#include "ZFUIWidget/ZFUIListAdapterBasic.h"
 #include "ZFUIWidget/ZFUIListCell.h"
 #include "ZFUIWidget/ZFUIListCellUpdater.h"
 #include "ZFUIWidget/ZFUIListCellUpdaterBasic.h"
