@@ -8,12 +8,12 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 /**
- * @file ZFSynchronize.h
+ * @file zfsynchronize.h
  * @brief type define for synchronize logic in ZFFramework
  */
 
-#ifndef _ZFI_ZFSynchronize_h_
-#define _ZFI_ZFSynchronize_h_
+#ifndef _ZFI_zfsynchronize_h_
+#define _ZFI_zfsynchronize_h_
 
 #include "ZFObjectCore.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
@@ -124,5 +124,5 @@ extern ZF_ENV_EXPORT void _ZFP_zfsynchronizeUnlockWithLog(ZF_IN ZFObject *obj,
 #endif // #if _ZFP_ZFSYNCHRONIZE_LOG_ENABLE
 
 ZF_NAMESPACE_GLOBAL_END
-#endif // #ifndef _ZFI_ZFSynchronize_h_
+#endif // #ifndef _ZFI_zfsynchronize_h_
 

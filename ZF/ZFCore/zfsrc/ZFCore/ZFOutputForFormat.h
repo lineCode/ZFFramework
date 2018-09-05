@@ -32,10 +32,15 @@ ZFENUM_BEGIN(ZFOutputFormatStep)
     /**
      * @brief called only once just before finish/destroy the output
      */
+    ZFENUM_VALUE(OnOutputEnd)
+    /**
+     * @brief called only once just before finish/destroy the output
+     */
     ZFENUM_VALUE(OnDealloc)
 ZFENUM_SEPARATOR(ZFOutputFormatStep)
     ZFENUM_VALUE_REGISTER(OnInit)
     ZFENUM_VALUE_REGISTER(OnOutput)
+    ZFENUM_VALUE_REGISTER(OnOutputEnd)
     ZFENUM_VALUE_REGISTER(OnDealloc)
 ZFENUM_END(ZFOutputFormatStep)
 

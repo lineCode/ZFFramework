@@ -77,6 +77,8 @@ public:
 
     zfint scrollOverrideFlag;
 
+    ZFUIRect scrollContentFrameCache;
+
 protected:
     _ZFP_ZFUIScrollViewPrivate(void)
     : pimplOwner(zfnull)
@@ -106,6 +108,7 @@ protected:
     , autoScrollSpeedY(0)
     , autoScrollStartFlag(zffalse)
     , scrollOverrideFlag(0)
+    , scrollContentFrameCache(ZFUIRectZero())
     {
     }
 
@@ -329,9 +332,12 @@ public:
         ZFUIRect frame = this->pimplOwner->scrollContentFrame();
         frame.point.x += this->pimplOwner->scrollAreaMargin().left;
         frame.point.y += this->pimplOwner->scrollAreaMargin().top;
-        ZFPROTOCOL_ACCESS(ZFUIScrollView)->scrollViewScrollContentFrameSet(
-            this->pimplOwner,
-            ZFUIRectApplyScale(frame, this->pimplOwner->scaleFixed()));
+        ZFUIRectApplyScale(frame, frame, this->pimplOwner->scaleFixed());
+        if(frame != this->scrollContentFrameCache)
+        {
+            this->scrollContentFrameCache = frame;
+            ZFPROTOCOL_ACCESS(ZFUIScrollView)->scrollViewScrollContentFrameSet(this->pimplOwner, frame);
+        }
     }
 private:
     void scrollContentFrameUpdate(void)

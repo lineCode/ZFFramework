@@ -16,150 +16,158 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_Windows_MutexImpl : zfextendsNotPOD ZFObjectMutexImpl
+zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_Windows
 {
 public:
-    _ZFP_ZFObjectMutexImpl_sys_Windows_MutexImpl(void)
-    : ZFObjectMutexImpl()
+    zfclassNotPOD _Mutex
     {
-        this->INVALID_THREAD_ID = (DWORD)INVALID_HANDLE_VALUE;
-        InitializeCriticalSection(&(this->mutex));
-        InitializeCriticalSection(&(this->mutexParamLocker));
-        this->runningThreadId = this->INVALID_THREAD_ID;
-    }
-    virtual ~_ZFP_ZFObjectMutexImpl_sys_Windows_MutexImpl(void)
-    {
-        DeleteCriticalSection(&(this->mutex));
-        DeleteCriticalSection(&(this->mutexParamLocker));
-    }
+    public:
+        CRITICAL_SECTION mutex;
+        CRITICAL_SECTION mutexParamLocker;
+        zfstlmap<DWORD, zfindex> lockedThreadCountMap;
+        DWORD runningThreadId;
+        DWORD INVALID_THREAD_ID;
+    };
+
 public:
-    virtual void mutexImplLock(void)
+    static void *implInit(void)
     {
-        EnterCriticalSection(&(this->mutexParamLocker));
+        _Mutex *mutex = zfnew(_Mutex);
+        mutex->INVALID_THREAD_ID = (DWORD)INVALID_HANDLE_VALUE;
+        InitializeCriticalSection(&(mutex->mutex));
+        InitializeCriticalSection(&(mutex->mutexParamLocker));
+        mutex->runningThreadId = mutex->INVALID_THREAD_ID;
+        return mutex;
+    }
+    static void implDealloc(ZF_IN void *implObject)
+    {
+        _Mutex *mutex = (_Mutex *)implObject;
+        DeleteCriticalSection(&(mutex->mutex));
+        DeleteCriticalSection(&(mutex->mutexParamLocker));
+        zfdelete(mutex);
+    }
+    static void implLock(ZF_IN void *implObject)
+    {
+        _Mutex *mutex = (_Mutex *)implObject;
+
+        EnterCriticalSection(&(mutex->mutexParamLocker));
         DWORD curThreadId = GetCurrentThreadId();
-        if(this->runningThreadId == this->INVALID_THREAD_ID)
+        if(mutex->runningThreadId == mutex->INVALID_THREAD_ID)
         {
-            this->lockedThreadCountMap[curThreadId] = 1;
-            LeaveCriticalSection(&(this->mutexParamLocker));
+            mutex->lockedThreadCountMap[curThreadId] = 1;
+            LeaveCriticalSection(&(mutex->mutexParamLocker));
             // first time to lock the object
-            EnterCriticalSection(&(this->mutex));
+            EnterCriticalSection(&(mutex->mutex));
 
             // now we owned the lock
-            this->runningThreadId = curThreadId;
+            mutex->runningThreadId = curThreadId;
         }
         else
         {
-            zfstlmap<DWORD, zfindex>::iterator it = this->lockedThreadCountMap.find(curThreadId);
-            if(curThreadId == this->runningThreadId)
+            zfstlmap<DWORD, zfindex>::iterator it = mutex->lockedThreadCountMap.find(curThreadId);
+            if(curThreadId == mutex->runningThreadId)
             {
                 ++(it->second);
-                LeaveCriticalSection(&(this->mutexParamLocker));
+                LeaveCriticalSection(&(mutex->mutexParamLocker));
                 // lock the same thread more than one time, no need to lock again
             }
             else
             {
-                if(it == this->lockedThreadCountMap.end())
+                if(it == mutex->lockedThreadCountMap.end())
                 {
-                    this->lockedThreadCountMap[curThreadId] = 1;
+                    mutex->lockedThreadCountMap[curThreadId] = 1;
                 }
                 else
                 {
                     ++(it->second);
                 }
-                LeaveCriticalSection(&(this->mutexParamLocker));
+                LeaveCriticalSection(&(mutex->mutexParamLocker));
                 // lock while another thread acquiring the lock,
                 // should be locked here until another thread release the lock
-                EnterCriticalSection(&(this->mutex));
+                EnterCriticalSection(&(mutex->mutex));
 
                 // now we owned the lock
-                this->runningThreadId = curThreadId;
+                mutex->runningThreadId = curThreadId;
             }
         }
     }
-    virtual void mutexImplUnlock(void)
+    static void implUnlock(ZF_IN void *implObject)
     {
-        EnterCriticalSection(&(this->mutexParamLocker));
+        _Mutex *mutex = (_Mutex *)implObject;
+
+        EnterCriticalSection(&(mutex->mutexParamLocker));
         DWORD curThreadId = GetCurrentThreadId();
-        zfstlmap<DWORD, zfindex>::iterator it = this->lockedThreadCountMap.find(curThreadId);
-        if(curThreadId == this->runningThreadId)
+        zfstlmap<DWORD, zfindex>::iterator it = mutex->lockedThreadCountMap.find(curThreadId);
+        if(curThreadId == mutex->runningThreadId)
         {
             --(it->second);
             if(it->second == 0)
             {
-                this->lockedThreadCountMap.erase(it);
-                this->runningThreadId = this->INVALID_THREAD_ID;
-                LeaveCriticalSection(&(this->mutexParamLocker));
+                mutex->lockedThreadCountMap.erase(it);
+                mutex->runningThreadId = mutex->INVALID_THREAD_ID;
+                LeaveCriticalSection(&(mutex->mutexParamLocker));
                 // all locks locked by current thread are relesed, unlock
-                LeaveCriticalSection(&(this->mutex));
+                LeaveCriticalSection(&(mutex->mutex));
             }
             else
             {
-                LeaveCriticalSection(&(this->mutexParamLocker));
+                LeaveCriticalSection(&(mutex->mutexParamLocker));
                 // current thread still hold some locks, just return
             }
         }
         else
         {
-            LeaveCriticalSection(&(this->mutexParamLocker));
+            LeaveCriticalSection(&(mutex->mutexParamLocker));
 
             // current thread doesn't lock, it's a error state
             zfCoreCriticalShouldNotGoHere();
             return ;
         }
     }
-    virtual zfbool mutexImplTryLock(void)
+    static zfbool implTryLock(ZF_IN void *implObject)
     {
-        EnterCriticalSection(&(this->mutexParamLocker));
+        _Mutex *mutex = (_Mutex *)implObject;
+
+        EnterCriticalSection(&(mutex->mutexParamLocker));
         DWORD curThreadId = GetCurrentThreadId();
-        if(this->runningThreadId == this->INVALID_THREAD_ID)
+        if(mutex->runningThreadId == mutex->INVALID_THREAD_ID)
         {
-            this->runningThreadId = curThreadId;
-            this->lockedThreadCountMap[this->runningThreadId] = 1;
-            LeaveCriticalSection(&(this->mutexParamLocker));
+            mutex->runningThreadId = curThreadId;
+            mutex->lockedThreadCountMap[mutex->runningThreadId] = 1;
+            LeaveCriticalSection(&(mutex->mutexParamLocker));
             // first time to lock the object
-            EnterCriticalSection(&(this->mutex));
+            EnterCriticalSection(&(mutex->mutex));
             return zftrue;
         }
         else
         {
-            zfstlmap<DWORD, zfindex>::iterator it = this->lockedThreadCountMap.find(curThreadId);
-            if(curThreadId == this->runningThreadId)
+            zfstlmap<DWORD, zfindex>::iterator it = mutex->lockedThreadCountMap.find(curThreadId);
+            if(curThreadId == mutex->runningThreadId)
             {
                 ++(it->second);
-                LeaveCriticalSection(&(this->mutexParamLocker));
+                LeaveCriticalSection(&(mutex->mutexParamLocker));
                 // lock the same thread more than one time, no need to lock again
                 return zftrue;
             }
             else
             {
-                LeaveCriticalSection(&(this->mutexParamLocker));
+                LeaveCriticalSection(&(mutex->mutexParamLocker));
                 // lock while another thread acquiring the lock,
                 // just return false for mutexTryLock
                 return zffalse;
             }
         }
     }
-
-private:
-    CRITICAL_SECTION mutex;
-    CRITICAL_SECTION mutexParamLocker;
-    zfstlmap<DWORD, zfindex> lockedThreadCountMap;
-    DWORD runningThreadId;
-    DWORD INVALID_THREAD_ID;
 };
-
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFObjectMutexImpl_sys_Windows, ZFObjectMutex, ZFProtocolLevel::e_SystemLow)
-public:
-    virtual ZFObjectMutexImpl *nativeMutexCreate(void)
-    {
-        return zfnew(_ZFP_ZFObjectMutexImpl_sys_Windows_MutexImpl);
-    }
-    virtual void nativeMutexDestroy(ZF_IN ZFObjectMutexImpl *nativeMutex)
-    {
-        zfdelete(nativeMutex);
-    }
-ZFPROTOCOL_IMPLEMENTATION_END(ZFObjectMutexImpl_sys_Windows)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFObjectMutexImpl_sys_Windows)
+ZFOBJECT_MUTEX_IMPL_DEFINE(ZFObjectMutexImpl_sys_Windows, ZFProtocolLevel::e_SystemLow, {
+        ZFObjectMutexImplSet(
+                _ZFP_ZFObjectMutexImpl_sys_Windows::implInit,
+                _ZFP_ZFObjectMutexImpl_sys_Windows::implDealloc,
+                _ZFP_ZFObjectMutexImpl_sys_Windows::implLock,
+                _ZFP_ZFObjectMutexImpl_sys_Windows::implUnlock,
+                _ZFP_ZFObjectMutexImpl_sys_Windows::implTryLock
+            );
+    })
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #if ZF_ENV_sys_Windows

@@ -85,7 +85,7 @@ public:
     {
         zfstring buf;
         this->format->_ZFP_format(
-            buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
+            buf, ZFOutputFormatStep::e_OnOutputEnd, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
         if(!buf.isEmpty())
         {
             if(this->output.callbackIsValid())
@@ -93,6 +93,8 @@ public:
                 this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
             }
         }
+        this->format->_ZFP_format(
+            buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
     }
     ZFMETHOD_INLINE_2(zfindex, onOutput,
                       ZFMP_IN(const void *, s),

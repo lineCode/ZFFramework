@@ -55,8 +55,33 @@
             _JNIUtilWrap_LogAction(obj, callerFile, callerFunction, callerLine, actionName, "Release")
     #endif
     #ifndef JNIUtilWrap_FuncCalled
-        #define JNIUtilWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName)  \
-            _JNIUtilWrap_LogAction(NULL, callerFile, callerFunction, callerLine, actionName, "FuncCall")
+        #if 1
+            #include <time.h>
+            class _JNIUtilWrap_FuncCalledTimeLog
+            {
+            public:
+                _JNIUtilWrap_FuncCalledTimeLog(const char *callerFunction)
+                : _callerFunction(callerFunction)
+                , _startTime(clock())
+                {
+                }
+                ~_JNIUtilWrap_FuncCalledTimeLog(void)
+                {
+                    JNIUtilWrap_Log("[%s] %lf",
+                        _callerFunction,
+                        (double)((double)(clock() - _startTime) / CLOCKS_PER_SEC));
+                }
+            private:
+                const char *_callerFunction;
+                clock_t _startTime;
+            };
+            #define JNIUtilWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName)  \
+                _JNIUtilWrap_FuncCalledTimeLog(callerFunction), \
+                _JNIUtilWrap_LogAction(NULL, callerFile, callerFunction, callerLine, actionName, "FuncCall")
+        #else
+            #define JNIUtilWrap_FuncCalled(callerFile, callerFunction, callerLine, actionName)  \
+                _JNIUtilWrap_LogAction(NULL, callerFile, callerFunction, callerLine, actionName, "FuncCall")
+        #endif
     #endif
     #ifndef JNIUtilWrap_CallbackCalled
         #define JNIUtilWrap_CallbackCalled(className, actionName) \

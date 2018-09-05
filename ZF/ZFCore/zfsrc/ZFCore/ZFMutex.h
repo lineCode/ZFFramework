@@ -23,19 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 zfclass ZF_ENV_EXPORT ZFMutex : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFMutex, ZFObject)
-protected:
-    /** @cond ZFPrivateDoc */
-    ZFMutex(void) : noWarningIfImplNotAvailable(zffalse) {}
-    /** @endcond */
-
-protected:
-    /**
-     * @brief whether to warning if no implementation available
-     */
-    ZFOBJECT_ON_INIT_DECLARE_1(ZFMP_IN(zfbool, noWarningIfImplNotAvailable))
-    zfoverride
-    virtual void objectOnInit(void) {zfsuper::objectOnInit();}
+    ZFOBJECT_DECLARE(ZFMutex, ZFObject)
 
 public:
     /**
@@ -46,58 +34,29 @@ public:
      * and mutexLock and mutexUnlock must be paired
      * @see mutexTryLock, mutexUnlock
      */
-    virtual void mutexLock(void);
+    virtual inline void mutexLock(void)
+    {
+        this->_ZFP_ZFObjectLock();
+    }
     /**
      * @brief try to lock, or return false immediately if failed
      * @note if mutexTryLock success, you should unlock it somewhere,
      *   otherwise, there's no need to unlock
      * @see mutexLock, mutexUnlock
      */
-    virtual zfbool mutexTryLock(void);
+    virtual inline zfbool mutexTryLock(void)
+    {
+        return this->_ZFP_ZFObjectTryLock();
+    }
     /**
      * @brief release the lock, must be paired with mutexLock or mutexTryLock,
      *   and must be called in the same thread where mutexLock or mutexTryLock called
      */
-    virtual void mutexUnlock(void);
-
-private:
-    zfbool noWarningIfImplNotAvailable;
-};
-
-zffinal zfclassNotPOD ZF_ENV_EXPORT _ZFP_ZFMutexLocker
-{
-    ZFCLASS_DISALLOW_COPY_CONSTRUCTOR(_ZFP_ZFMutexLocker)
-public:
-    _ZFP_ZFMutexLocker(ZFMutex *mutex)
-    : m_mutex(mutex)
+    virtual inline void mutexUnlock(void)
     {
-        zfCoreAssertWithMessage(mutex != zfnull, zfTextA("null mutex"));
-        mutex->mutexLock();
+        this->_ZFP_ZFObjectUnlock();
     }
-    ~_ZFP_ZFMutexLocker(void)
-    {
-        m_mutex->mutexUnlock();
-    }
-private:
-    ZFMutex *m_mutex;
 };
-
-/**
- * @brief convient mutex locker
- *
- * typical usage:
- * @code
- *   ZFMutex *mutex = ...;
- *   ...
- *   { // code block
- *     ZFMutexLocker(mutex);
- *     // code that protected by mutex
- *   } // mutex would be unlocked after brace
- * @endcode
- * @note never use "new" to create a ZFMutexLocker
- */
-#define ZFMutexLocker(mutex) \
-    _ZFP_ZFMutexLocker _ZFP_ZFMutexLocker_hold(mutex)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFMutex_h_

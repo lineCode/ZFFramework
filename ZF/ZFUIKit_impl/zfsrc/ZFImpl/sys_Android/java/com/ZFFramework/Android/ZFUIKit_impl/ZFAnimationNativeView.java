@@ -32,6 +32,8 @@ public class ZFAnimationNativeView {
     protected static class NativeAnimation extends Animation {
         public NativeAnimation(long zfjniPointerOwnerZFAnimationNativeView) {
             this.setFillEnabled(true);
+            this.setFillBefore(true);
+            this.setFillAfter(true);
             this.zfjniPointerOwnerZFAnimationNativeView = zfjniPointerOwnerZFAnimationNativeView;
         }
 

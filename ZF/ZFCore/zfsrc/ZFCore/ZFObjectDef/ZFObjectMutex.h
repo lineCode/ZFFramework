@@ -19,57 +19,57 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-/**
- * @brief lock object for mutex's implementation
- */
-zfclassNotPOD ZF_ENV_EXPORT ZFObjectMutexImpl : zfextendsNotPOD ZFCoreMutexImpl
-{
-public:
-    /**
-     * @brief lock (must be reentrant)
-     */
-    virtual void mutexImplLock(void) zfpurevirtual;
-    /**
-     * @brief unlock
-     */
-    virtual void mutexImplUnlock(void) zfpurevirtual;
-    /**
-     * @brief try lock
-     */
-    virtual zfbool mutexImplTryLock(void) zfpurevirtual;
-};
+/** @brief see #ZFObjectMutexImplSet */
+typedef void *(*ZFObjectMutexImplCallbackInit)(void);
+/** @brief see #ZFObjectMutexImplSet */
+typedef void (*ZFObjectMutexImplCallbackDealloc)(ZF_IN void *implObject);
+/** @brief see #ZFObjectMutexImplSet */
+typedef ZFCoreMutexImplCallbackLock ZFObjectMutexImplCallbackLock;
+/** @brief see #ZFObjectMutexImplSet */
+typedef ZFCoreMutexImplCallbackUnlock ZFObjectMutexImplCallbackUnlock;
+/** @brief see #ZFObjectMutexImplSet */
+typedef zfbool (*ZFObjectMutexImplCallbackTryLock)(ZF_IN void *implObject);
 
-/**
- * @brief see #ZFObjectMutexImplSet
- */
-typedef zfbool (*ZFObjectMutexImplCheckCallback)(void);
-/**
- * @brief see #ZFObjectMutexImplSet
- */
-typedef ZFObjectMutexImpl *(*ZFObjectMutexImplInitCallback)(void);
-/**
- * @brief see #ZFObjectMutexImplSet
- */
-typedef void (*ZFObjectMutexImplCleanupCallback)(ZF_IN ZFObjectMutexImpl *mutexImpl);
+extern ZF_ENV_EXPORT ZFObjectMutexImplCallbackInit _ZFP_ZFObjectMutexImplInit;
+extern ZF_ENV_EXPORT ZFObjectMutexImplCallbackDealloc _ZFP_ZFObjectMutexImplDealloc;
+extern ZF_ENV_EXPORT ZFObjectMutexImplCallbackLock _ZFP_ZFObjectMutexImplLock;
+extern ZF_ENV_EXPORT ZFObjectMutexImplCallbackUnlock _ZFP_ZFObjectMutexImplUnlock;
+extern ZF_ENV_EXPORT ZFObjectMutexImplCallbackTryLock _ZFP_ZFObjectMutexImplTryLock;
 
+// ============================================================
 /**
  * @brief change the implementation for mutex
  *
- * the sync for ZFObject is an optional protocol,
- * each newly allocated object would have #ZFObjectMutexImplCheckCallback been called
- * to check whether the protocol is available,
- * if not, any other sync function to this object is disabled automatically,
- * otherwise, a mutex impl would be created by #ZFObjectMutexImplInitCallback when you
- * request to the sync logic,
- * and would be cleaned up during object's deallocation
+ * mutex is an optional module for ZFFramework,
+ * however you should only setup the impl once during init setup,
+ * and should not change it anymore
+ * (it's safe to change impl during runtime if no object holds mutex,
+ * but that's fairly impossible for most case)\n
+ * the impl can be attached at any time,
+ * but must not be detached until all mutex has been unlocked,
+ * typically you should register by #ZFOBJECT_MUTEX_IMPL_DEFINE\n
+ * \n
+ * note, changing this impl would also change #ZFCoreMutexImplSet
  */
-extern ZF_ENV_EXPORT void ZFObjectMutexImplSet(ZF_IN_OPT ZFObjectMutexImplCheckCallback checkCallback = zfnull,
-                                               ZF_IN_OPT ZFObjectMutexImplInitCallback initCallback = zfnull,
-                                               ZF_IN_OPT ZFObjectMutexImplCleanupCallback cleanupCallback = zfnull);
+extern ZF_ENV_EXPORT void ZFObjectMutexImplSet(ZF_IN_OPT ZFObjectMutexImplCallbackInit implInit = zfnull,
+                                               ZF_IN_OPT ZFObjectMutexImplCallbackDealloc implDealloc = zfnull,
+                                               ZF_IN_OPT ZFObjectMutexImplCallbackLock implLock = zfnull,
+                                               ZF_IN_OPT ZFObjectMutexImplCallbackUnlock implUnlock = zfnull,
+                                               ZF_IN_OPT ZFObjectMutexImplCallbackTryLock implTryLock = zfnull);
 
-extern ZF_ENV_EXPORT ZFObjectMutexImplCheckCallback _ZFP_ZFObjectMutexImplCheckCallbackRef;
-extern ZF_ENV_EXPORT ZFObjectMutexImplInitCallback _ZFP_ZFObjectMutexImplInitCallbackRef;
-extern ZF_ENV_EXPORT ZFObjectMutexImplCleanupCallback _ZFP_ZFObjectMutexImplCleanupCallbackRef;
+/** @brief see #ZFObjectMutexImplSet */
+inline ZFObjectMutexImplCallbackInit ZFObjectMutexImplGetInit(void) {return _ZFP_ZFObjectMutexImplInit;}
+/** @brief see #ZFObjectMutexImplSet */
+inline ZFObjectMutexImplCallbackDealloc ZFObjectMutexImplGetDealloc(void) {return _ZFP_ZFObjectMutexImplDealloc;}
+/** @brief see #ZFObjectMutexImplSet */
+inline ZFObjectMutexImplCallbackLock ZFObjectMutexImplGetLock(void) {return _ZFP_ZFObjectMutexImplLock;}
+/** @brief see #ZFObjectMutexImplSet */
+inline ZFObjectMutexImplCallbackUnlock ZFObjectMutexImplGetUnlock(void) {return _ZFP_ZFObjectMutexImplUnlock;}
+/** @brief see #ZFObjectMutexImplSet */
+inline ZFObjectMutexImplCallbackTryLock ZFObjectMutexImplGetTryLock(void) {return _ZFP_ZFObjectMutexImplTryLock;}
+
+/** @brief see #ZFObjectMutexImplSet */
+inline zfbool ZFObjectMutexImplAvailable(void) {return _ZFP_ZFObjectMutexImplInit;}
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectMutex_h_

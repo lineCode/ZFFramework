@@ -282,7 +282,6 @@ public:
 public:
     static _ZFP_I_ZFEnum_stringConverterDataHolder *setup(ZF_IN const ZFClass *enumClass)
     {
-        zfCoreMutexLocker();
         _ZFP_I_ZFEnum_stringConverterDataHolder *ret = enumClass->classTagGet<_ZFP_I_ZFEnum_stringConverterDataHolder *>(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->classNameFull());
         if(ret == zfnull)
         {

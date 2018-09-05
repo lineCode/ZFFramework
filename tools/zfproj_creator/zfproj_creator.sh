@@ -136,8 +136,7 @@ if ! test -e "$CONFIG_FILE_PATH" ; then
 fi
 _CONFIG_FILE_PATH=$ZF_ROOT_PATH/_tmp/zfproj_creator.tmp
 mkdir -p "${_CONFIG_FILE_PATH%[/\\]*}" >/dev/null 2>&1
-cp "$CONFIG_FILE_PATH" "$_CONFIG_FILE_PATH"
-cat "$_CONFIG_FILE_PATH" \
+cat "$CONFIG_FILE_PATH" \
     | sed -E 's/^#.*//g' \
     | sed -E 's#^ +##g' \
     | sed -E 's# +$##g' \

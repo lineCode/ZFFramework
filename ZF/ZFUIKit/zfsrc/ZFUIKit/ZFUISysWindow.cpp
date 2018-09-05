@@ -403,12 +403,11 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUIRootView *, rootView)
 
 ZFUIRect ZFUISysWindow::_ZFP_ZFUISysWindow_measureWindow(ZF_IN const ZFUIRect &rootRefRect)
 {
-    ZFUIRect ret = ZFUIRectApplyScale(ZFUIViewLayoutParam::layoutParamApply(
+    return ZFUIRectApplyScale(ZFUIViewLayoutParam::layoutParamApply(
             ZFUIRectApplyScaleReversely(rootRefRect, this->rootView()->scaleFixed()),
             this->rootView(),
             this->sysWindowLayoutParam()),
         this->rootView()->scaleFixed());
-    return ret;
 }
 void ZFUISysWindow::_ZFP_ZFUISysWindow_onCreate(ZF_IN void *nativeWindow)
 {

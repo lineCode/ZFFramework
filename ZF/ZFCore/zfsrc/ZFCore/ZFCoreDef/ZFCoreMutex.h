@@ -18,47 +18,58 @@
 #include "ZFCoreTypeDef.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-/**
- * @brief impl object for #zfCoreMutexLock
- */
-zfclassNotPOD ZF_ENV_EXPORT ZFCoreMutexImpl
-{
-public:
-    /** @cond ZFPrivateDoc */
-    ZFCoreMutexImpl(void) {}
-    virtual ~ZFCoreMutexImpl(void) {}
-    /** @endcond */
-public:
-    /**
-     * @brief lock (must be reentrant)
-     */
-    virtual void mutexImplLock(void) zfpurevirtual;
-    /**
-     * @brief unlock
-     */
-    virtual void mutexImplUnlock(void) zfpurevirtual;
-};
-extern ZF_ENV_EXPORT ZFCoreMutexImpl *_ZFP_ZFCoreMutexImplObject;
+/** @brief mutex impl */
+typedef void (*ZFCoreMutexImplCallbackLock)(ZF_IN void *token);
+/** @brief mutex impl */
+typedef void (*ZFCoreMutexImplCallbackUnlock)(ZF_IN void *token);
+
+extern ZF_ENV_EXPORT void *_ZFP_ZFCoreMutexImplObject;
+extern ZF_ENV_EXPORT ZFCoreMutexImplCallbackLock _ZFP_ZFCoreMutexImplLock;
+extern ZF_ENV_EXPORT ZFCoreMutexImplCallbackUnlock _ZFP_ZFCoreMutexImplUnlock;
+
 /**
  * @brief #zfCoreMutexLock's implementation, change with caution
  */
-extern ZF_ENV_EXPORT void ZFCoreMutexImplSet(ZF_IN ZFCoreMutexImpl *impl);
-/**
- * @brief see #ZFCoreMutexImplSet
- */
-extern ZF_ENV_EXPORT ZFCoreMutexImpl *ZFCoreMutexImplGet(void);
+inline void ZFCoreMutexImplSet(ZF_IN void *implObject,
+                               ZF_IN ZFCoreMutexImplCallbackLock implLock,
+                               ZF_IN ZFCoreMutexImplCallbackUnlock implUnlock)
+{
+    _ZFP_ZFCoreMutexImplObject = implObject;
+    _ZFP_ZFCoreMutexImplLock = implLock;
+    _ZFP_ZFCoreMutexImplUnlock = implUnlock;
+}
 
-extern ZF_ENV_EXPORT ZFFuncAddrType _ZFP_ZFCoreMutexImpl_lock;
-extern ZF_ENV_EXPORT ZFFuncAddrType _ZFP_ZFCoreMutexImpl_unlock;
+/** @brief see #ZFCoreMutexImplSet */
+inline void *ZFCoreMutexImplGetObject(void) {return _ZFP_ZFCoreMutexImplObject;}
+/** @brief see #ZFCoreMutexImplSet */
+inline ZFCoreMutexImplCallbackLock ZFCoreMutexImplGetLock(void) {return _ZFP_ZFCoreMutexImplLock;}
+/** @brief see #ZFCoreMutexImplSet */
+inline ZFCoreMutexImplCallbackUnlock ZFCoreMutexImplGetUnlock(void) {return _ZFP_ZFCoreMutexImplUnlock;}
 
+/** @brief see #ZFCoreMutexImplSet */
+inline zfbool ZFCoreMutexImplAvailable(void) {return _ZFP_ZFCoreMutexImplObject;}
+
+// ============================================================
 /**
  * @brief internal use only
  *
  * you may change it at run time by changing #ZFCoreMutexImplSet
  */
-#define zfCoreMutexLock() _ZFP_ZFCoreMutexImpl_lock()
+#define zfCoreMutexLock() \
+    do { \
+        if(_ZFP_ZFCoreMutexImplObject) \
+        { \
+            _ZFP_ZFCoreMutexImplLock(_ZFP_ZFCoreMutexImplObject); \
+        } \
+    } while(zffalse)
 /** @brief see #zfCoreMutexLock */
-#define zfCoreMutexUnlock() _ZFP_ZFCoreMutexImpl_unlock()
+#define zfCoreMutexUnlock() \
+    do { \
+        if(_ZFP_ZFCoreMutexImplObject) \
+        { \
+            _ZFP_ZFCoreMutexImplUnlock(_ZFP_ZFCoreMutexImplObject); \
+        } \
+    } while(zffalse)
 
 /**
  * @brief see #zfCoreMutexLocker
@@ -94,6 +105,15 @@ public:
  * @endcode
  */
 #define zfCoreMutexLocker() zfCoreMutexLockerHolder _ZFP_ZFCoreMutexLocker_hold
+
+#if 0
+    #undef zfCoreMutexLock
+    #define zfCoreMutexLock()
+    #undef zfCoreMutexUnlock
+    #define zfCoreMutexUnlock()
+    #undef zfCoreMutexLocker
+    #define zfCoreMutexLocker()
+#endif
 
 ZF_NAMESPACE_GLOBAL_END
 

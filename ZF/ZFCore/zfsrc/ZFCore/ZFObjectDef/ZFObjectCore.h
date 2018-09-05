@@ -648,7 +648,6 @@ protected:
     }
 
 public:
-    zfbool _ZFP_ZFObjectLockIsAvailable(void);
     void _ZFP_ZFObjectLock(void);
     void _ZFP_ZFObjectUnlock(void);
     zfbool _ZFP_ZFObjectTryLock(void);

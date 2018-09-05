@@ -15,48 +15,43 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl : zfextendsNotPOD ZFObjectMutexImpl
+zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_Qt
 {
 public:
-    QMutex *nativeMutex;
-public:
-    _ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl(void)
-    : ZFObjectMutexImpl()
-    , nativeMutex(zfnew(QMutex, QMutex::Recursive))
+    static void *implInit(void)
     {
+        return zfnew(QMutex, QMutex::Recursive);
     }
-    virtual ~_ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl(void)
+    static void implDealloc(ZF_IN void *implObject)
     {
-        zfdelete(this->nativeMutex);
+        QMutex *mutex = (QMutex *)implObject;
+        zfdelete(mutex);
     }
-public:
-    virtual void mutexImplLock(void)
+    static void implLock(ZF_IN void *implObject)
     {
-        this->nativeMutex->lock();
+        QMutex *mutex = (QMutex *)implObject;
+        mutex->lock();
     }
-    virtual void mutexImplUnlock(void)
+    static void implUnlock(ZF_IN void *implObject)
     {
-        this->nativeMutex->unlock();
+        QMutex *mutex = (QMutex *)implObject;
+        mutex->unlock();
     }
-    virtual zfbool mutexImplTryLock(void)
+    static zfbool implTryLock(ZF_IN void *implObject)
     {
-        return this->nativeMutex->tryLock();
+        QMutex *mutex = (QMutex *)implObject;
+        return mutex->tryLock();
     }
 };
-
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFObjectMutexImpl_sys_Qt, ZFObjectMutex, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QMutex"))
-public:
-    virtual ZFObjectMutexImpl *nativeMutexCreate(void)
-    {
-        return zfnew(_ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl);
-    }
-    virtual void nativeMutexDestroy(ZF_IN ZFObjectMutexImpl *nativeMutex)
-    {
-        zfdelete(nativeMutex);
-    }
-ZFPROTOCOL_IMPLEMENTATION_END(ZFObjectMutexImpl_sys_Qt)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFObjectMutexImpl_sys_Qt)
+ZFOBJECT_MUTEX_IMPL_DEFINE(ZFObjectMutexImpl_sys_Qt, ZFProtocolLevel::e_SystemHigh, {
+        ZFObjectMutexImplSet(
+                _ZFP_ZFObjectMutexImpl_sys_Qt::implInit,
+                _ZFP_ZFObjectMutexImpl_sys_Qt::implDealloc,
+                _ZFP_ZFObjectMutexImpl_sys_Qt::implLock,
+                _ZFP_ZFObjectMutexImpl_sys_Qt::implUnlock,
+                _ZFP_ZFObjectMutexImpl_sys_Qt::implTryLock
+            );
+    })
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #if ZF_ENV_sys_Qt

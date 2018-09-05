@@ -20,22 +20,31 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief protocol for mutex (used in ZFObject)
- * @warning this protocol's implementations must not access any ZFObject types
- * @warning this is an essential module for ZFObject,
- *   must be registered statically by #ZFPROTOCOL_IMPLEMENTATION_REGISTER
+ * @brief register impl for #ZFObjectMutexImplSet
  */
-ZFPROTOCOL_INTERFACE_BEGIN(ZFObjectMutex)
-public:
-    /**
-     * @brief create native mutex
-     */
-    virtual ZFObjectMutexImpl *nativeMutexCreate(void) zfpurevirtual;
-    /**
-     * @brief create native mutex
-     */
-    virtual void nativeMutexDestroy(ZF_IN ZFObjectMutexImpl *nativeMutex) zfpurevirtual;
-ZFPROTOCOL_INTERFACE_END(ZFObjectMutex)
+#define ZFOBJECT_MUTEX_IMPL_DEFINE(registerSig, protocolLevel, setupAction) \
+    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(_ZFP_OMI_##registerSig, ZFLevelZFFrameworkStatic) \
+    { \
+        _protocolLevel = protocolLevel; \
+        if(_ZFP_ZFObjectMutexImplRegistered == zfnull || _protocolLevel > *_ZFP_ZFObjectMutexImplRegistered) \
+        { \
+            _ZFP_ZFObjectMutexImplRegistered = &_protocolLevel; \
+            { \
+                setupAction \
+            } \
+        } \
+    } \
+    ZF_GLOBAL_INITIALIZER_DESTROY(_ZFP_OMI_##registerSig) \
+    { \
+        if(&_protocolLevel == _ZFP_ZFObjectMutexImplRegistered) \
+        { \
+            ZFObjectMutexImplSet(); \
+        } \
+    } \
+    ZFProtocolLevelEnum _protocolLevel; \
+    ZF_GLOBAL_INITIALIZER_END(_ZFP_OMI_##registerSig)
+
+extern ZF_ENV_EXPORT ZFProtocolLevelEnum *_ZFP_ZFObjectMutexImplRegistered;
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFProtocolZFObjectMutex_h_

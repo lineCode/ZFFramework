@@ -12,17 +12,36 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFObjectMutexImplCallbackInit _ZFP_ZFObjectMutexImplInit = zfnull;
+ZFObjectMutexImplCallbackDealloc _ZFP_ZFObjectMutexImplDealloc = zfnull;
+ZFObjectMutexImplCallbackLock _ZFP_ZFObjectMutexImplLock = zfnull;
+ZFObjectMutexImplCallbackUnlock _ZFP_ZFObjectMutexImplUnlock = zfnull;
+ZFObjectMutexImplCallbackTryLock _ZFP_ZFObjectMutexImplTryLock = zfnull;
+
 // ============================================================
-ZFObjectMutexImplCheckCallback _ZFP_ZFObjectMutexImplCheckCallbackRef = zfnull;
-ZFObjectMutexImplInitCallback _ZFP_ZFObjectMutexImplInitCallbackRef = zfnull;
-ZFObjectMutexImplCleanupCallback _ZFP_ZFObjectMutexImplCleanupCallbackRef = zfnull;
-void ZFObjectMutexImplSet(ZF_IN_OPT ZFObjectMutexImplCheckCallback checkCallback /* = zfnull */,
-                          ZF_IN_OPT ZFObjectMutexImplInitCallback initCallback /* = zfnull */,
-                          ZF_IN_OPT ZFObjectMutexImplCleanupCallback cleanupCallback /* = zfnull */)
+void ZFObjectMutexImplSet(ZF_IN_OPT ZFObjectMutexImplCallbackInit implInit /* = zfnull */,
+                          ZF_IN_OPT ZFObjectMutexImplCallbackDealloc implDealloc /* = zfnull */,
+                          ZF_IN_OPT ZFObjectMutexImplCallbackLock implLock /* = zfnull */,
+                          ZF_IN_OPT ZFObjectMutexImplCallbackUnlock implUnlock /* = zfnull */,
+                          ZF_IN_OPT ZFObjectMutexImplCallbackTryLock implTryLock /* = zfnull */)
 {
-    _ZFP_ZFObjectMutexImplCheckCallbackRef = checkCallback;
-    _ZFP_ZFObjectMutexImplInitCallbackRef = initCallback;
-    _ZFP_ZFObjectMutexImplCleanupCallbackRef = cleanupCallback;
+    if(implInit == zfnull && _ZFP_ZFObjectMutexImplInit != zfnull)
+    {
+        _ZFP_ZFObjectMutexImplDealloc(ZFCoreMutexImplGetObject());
+        ZFCoreMutexImplSet(zfnull, zfnull, zfnull);
+     }
+
+    _ZFP_ZFObjectMutexImplInit = implInit;
+    _ZFP_ZFObjectMutexImplDealloc = implDealloc;
+    _ZFP_ZFObjectMutexImplLock = implLock;
+    _ZFP_ZFObjectMutexImplUnlock = implUnlock;
+    _ZFP_ZFObjectMutexImplTryLock = implTryLock;
+
+    if(_ZFP_ZFObjectMutexImplInit != zfnull)
+    {
+        void *implObject = _ZFP_ZFObjectMutexImplInit();
+        ZFCoreMutexImplSet(implObject, implLock, implUnlock);
+    }
 }
 
 ZF_NAMESPACE_GLOBAL_END

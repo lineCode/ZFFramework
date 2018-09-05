@@ -514,12 +514,6 @@ public:
                 zfpoolDelete(this->_ZFP_v); \
                 this->_ZFP_v = zfnull; \
             } \
-            const void *_ZFP_get(ZF_IN ZFObject *owner) \
-            { \
-                zfCoreMutexLocker(); \
-                this->_ZFP_init(owner); \
-                return &(this->_ZFP_v->valueHolder); \
-            } \
         public: \
             _ZFP_PropRVH<zfself::PropVT_##Name> *_ZFP_v; \
         }; \
@@ -529,7 +523,6 @@ public:
                                                ZF_IN ZFObject *ownerObj, \
                                                ZF_OUT_OPT void *outInitValue) \
         { \
-            zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             if(t->Name##_PropV._ZFP_accessed()) \
             { \
@@ -551,7 +544,6 @@ public:
                                                         ZF_IN ZFObject *ownerObj, \
                                                         ZF_IN_OUT void *&valueToken) \
         { \
-            zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             t->Name##_PropV._ZFP_init(ownerObj); \
             return &(t->Name##_PropV._ZFP_v->valueHolder); \
@@ -617,7 +609,6 @@ public:
                                                ZF_IN ZFObject *ownerObj, \
                                                ZF_OUT_OPT void *outInitValue) \
         { \
-            zfCoreMutexLocker(); \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             if(t->Name##_PropV._ZFP_accessed()) \
             { \

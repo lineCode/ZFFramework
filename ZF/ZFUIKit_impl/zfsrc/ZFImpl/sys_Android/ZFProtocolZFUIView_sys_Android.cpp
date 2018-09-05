@@ -139,23 +139,33 @@ public:
     }
     virtual zffloat nativeViewScaleForImpl(ZF_IN void *nativeView)
     {
-        JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewScaleForImpl"),
-            JNIGetMethodSig(JNIType::S_float, JNIParamTypeContainer()
-                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
-            ).c_str());
-        return JNIUtilCallStaticFloatMethod(jniEnv, this->jclsZFUIView, jmId,
-            ZFCastStatic(jobject, nativeView));
+        static zffloat t = -1;
+        if(t <= 0)
+        {
+            JNIEnv *jniEnv = JNIGetJNIEnv();
+            static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewScaleForImpl"),
+                JNIGetMethodSig(JNIType::S_float, JNIParamTypeContainer()
+                    .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                ).c_str());
+            t = (zffloat)JNIUtilCallStaticFloatMethod(jniEnv, this->jclsZFUIView, jmId,
+                ZFCastStatic(jobject, nativeView));
+        }
+        return t;
     }
     virtual zffloat nativeViewScaleForPhysicalPixel(ZF_IN void *nativeView)
     {
-        JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewScaleForPhysicalPixel"),
-            JNIGetMethodSig(JNIType::S_float, JNIParamTypeContainer()
-                .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
-            ).c_str());
-        return JNIUtilCallStaticFloatMethod(jniEnv, this->jclsZFUIView, jmId,
-            ZFCastStatic(jobject, nativeView));
+        static zffloat t = -1;
+        if(t <= 0)
+        {
+            JNIEnv *jniEnv = JNIGetJNIEnv();
+            static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, zfTextA("native_nativeViewScaleForPhysicalPixel"),
+                JNIGetMethodSig(JNIType::S_float, JNIParamTypeContainer()
+                    .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
+                ).c_str());
+            t = (zffloat)JNIUtilCallStaticFloatMethod(jniEnv, this->jclsZFUIView, jmId,
+                ZFCastStatic(jobject, nativeView));
+        }
+        return t;
     }
 
     // ============================================================

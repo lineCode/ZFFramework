@@ -11,7 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFPROTOCOL_INTERFACE_REGISTER(ZFObjectMutex)
+ZFProtocolLevelEnum *_ZFP_ZFObjectMutexImplRegistered = zfnull;
 
 ZF_NAMESPACE_GLOBAL_END
 

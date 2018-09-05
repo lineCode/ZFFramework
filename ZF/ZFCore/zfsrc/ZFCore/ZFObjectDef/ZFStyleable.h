@@ -244,10 +244,10 @@ private:
     }; \
     YourStyle *YourStyle::DefaultStyle(void) \
     { \
-        zfCoreMutexLocker(); \
         static _ZFP_ZFStyleableDefaultPointerHolder *holder = _ZFP_ZFStyleableDefaultRefAccess(ZFM_TOSTRING(YourStyle)); \
         if(holder->d == zfnull) \
         { \
+            zfCoreMutexLocker(); \
             if(ZFFrameworkStateCheck(_ZFP_ZFStyleableDefault_level) == ZFFrameworkStateNotAvailable) \
             { \
                 return zfnull; \

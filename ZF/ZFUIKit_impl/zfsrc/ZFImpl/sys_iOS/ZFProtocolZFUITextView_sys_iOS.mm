@@ -93,12 +93,17 @@ public:
                 nativeImplView.fontName = [UIFont italicSystemFontOfSize:[UIFont systemFontSize]].fontName;
                 break;
             case ZFUITextAppearance::e_BoldItalic:
-                nativeImplView.fontName = @"Helvetica-BoldOblique";
+            {
+                UIFontDescriptor *fontD = [UIFont systemFontOfSize:[UIFont systemFontSize]].fontDescriptor;
+                fontD = [fontD fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic)];
+                nativeImplView.fontName = [UIFont fontWithDescriptor:fontD size:[UIFont systemFontSize]].fontName;
+            }
                 break;
             default:
                 zfCoreCriticalShouldNotGoHere();
                 return ;
         }
+        nativeImplView.font = [UIFont fontWithName:nativeImplView.fontName size:nativeImplView.textSize];
     }
     virtual void textAlignSet(ZF_IN ZFUITextView *textView,
                               ZF_IN ZFUIAlignFlags const &textAlign)

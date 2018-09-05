@@ -20,7 +20,6 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,10 +33,11 @@ android {
             path "CMakeLists.txt"
         }
     }
+    buildToolsVersion '28.0.2'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', includes: ['*.jar']){ZFTT_C_lib_require_0}
+    implementation fileTree(includes: ['*.jar'], dir: 'libs'){ZFTT_C_lib_require_0}
     implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/{ZFTT_R_lib_name_0}/src/main/libs', includes: ['*.jar']){ZFTT_CE}{ZFTT_C_lib_require_1}
     implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/{ZFTT_R_lib_name_1}/src/main/libs', includes: ['*.jar']){ZFTT_CE}{ZFTT_C_lib_require_2}
     implementation fileTree(dir: ZF_ROOT_PATH + '/_release/Android/module/{ZFTT_R_lib_name_2}/src/main/libs', includes: ['*.jar']){ZFTT_CE}{ZFTT_C_lib_require_3}

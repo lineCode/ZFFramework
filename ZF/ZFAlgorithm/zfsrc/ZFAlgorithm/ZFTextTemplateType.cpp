@@ -211,7 +211,6 @@ ZFTextTemplateParam::~ZFTextTemplateParam(void)
 }
 ZFTextTemplateParam &ZFTextTemplateParam::operator = (ZF_IN const ZFTextTemplateParam &ref)
 {
-    zfCoreMutexLocker();
     if(d != ref.d)
     {
         _ZFP_ZFTextTemplateParamPrivate *t = d;

@@ -14,48 +14,40 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl : zfextendsNotPOD ZFObjectMutexImpl
+zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_iOS
 {
 public:
-    NSRecursiveLock *nativeMutex;
-public:
-    _ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl(void)
-    : ZFObjectMutexImpl()
-    , nativeMutex([NSRecursiveLock new])
+    static void *implInit(void)
     {
+        return (__bridge_retained void *)[NSRecursiveLock new];
     }
-    virtual ~_ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl(void)
+    static void implDealloc(ZF_IN void *implObject)
     {
-        this->nativeMutex = nil;
+        NSRecursiveLock *t = (__bridge_transfer NSRecursiveLock *)implObject;
+        t = nil;
     }
-public:
-    virtual void mutexImplLock(void)
+    static void implLock(ZF_IN void *implObject)
     {
-        [this->nativeMutex lock];
+        [(__bridge NSRecursiveLock *)implObject lock];
     }
-    virtual void mutexImplUnlock(void)
+    static void implUnlock(ZF_IN void *implObject)
     {
-        [this->nativeMutex unlock];
+        [(__bridge NSRecursiveLock *)implObject unlock];
     }
-    virtual zfbool mutexImplTryLock(void)
+    static zfbool implTryLock(ZF_IN void *implObject)
     {
-        return [this->nativeMutex tryLock];
+        return (zfbool)[(__bridge NSRecursiveLock *)implObject tryLock];
     }
 };
-
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFObjectMutexImpl_sys_iOS, ZFObjectMutex, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:NSRecursiveLock"))
-public:
-    virtual ZFObjectMutexImpl *nativeMutexCreate(void)
-    {
-        return zfnew(_ZFP_ZFObjectMutexImpl_sys_iOS_MutexImpl);
-    }
-    virtual void nativeMutexDestroy(ZF_IN ZFObjectMutexImpl *nativeMutex)
-    {
-        zfdelete(nativeMutex);
-    }
-ZFPROTOCOL_IMPLEMENTATION_END(ZFObjectMutexImpl_sys_iOS)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFObjectMutexImpl_sys_iOS)
+ZFOBJECT_MUTEX_IMPL_DEFINE(ZFObjectMutexImpl_sys_iOS, ZFProtocolLevel::e_SystemNormal, {
+        ZFObjectMutexImplSet(
+                _ZFP_ZFObjectMutexImpl_sys_iOS::implInit,
+                _ZFP_ZFObjectMutexImpl_sys_iOS::implDealloc,
+                _ZFP_ZFObjectMutexImpl_sys_iOS::implLock,
+                _ZFP_ZFObjectMutexImpl_sys_iOS::implUnlock,
+                _ZFP_ZFObjectMutexImpl_sys_iOS::implTryLock
+            );
+    })
 
 ZF_NAMESPACE_GLOBAL_END
 

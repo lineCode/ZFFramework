@@ -18,51 +18,48 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_Posix_MutexImpl : zfextendsNotPOD ZFObjectMutexImpl
+zfclassNotPOD _ZFP_ZFObjectMutexImpl_sys_Posix
 {
 public:
-    _ZFP_ZFObjectMutexImpl_sys_Posix_MutexImpl(void)
-    : ZFObjectMutexImpl()
+    static void *implInit(void)
     {
+        pthread_mutex_t *mutex = (pthread_mutex_t *)zfmalloc(sizeof(pthread_mutex_t));
         pthread_mutexattr_t Attr;
         pthread_mutexattr_init(&Attr);
         pthread_mutexattr_settype(&Attr, PTHREAD_MUTEX_RECURSIVE);
-        pthread_mutex_init(&(this->mutex), &Attr);
+        pthread_mutex_init(mutex, &Attr);
+        return mutex;
     }
-    virtual ~_ZFP_ZFObjectMutexImpl_sys_Posix_MutexImpl(void)
+    static void implDealloc(ZF_IN void *implObject)
     {
-        pthread_mutex_destroy(&(this->mutex));
+        pthread_mutex_t *mutex = (pthread_mutex_t *)implObject;
+        pthread_mutex_destroy(mutex);
     }
-public:
-    virtual void mutexImplLock(void)
+    static void implLock(ZF_IN void *implObject)
     {
-        pthread_mutex_lock(&(this->mutex));
+        pthread_mutex_t *mutex = (pthread_mutex_t *)implObject;
+        pthread_mutex_lock(mutex);
     }
-    virtual void mutexImplUnlock(void)
+    static void implUnlock(ZF_IN void *implObject)
     {
-        pthread_mutex_unlock(&(this->mutex));
+        pthread_mutex_t *mutex = (pthread_mutex_t *)implObject;
+        pthread_mutex_unlock(mutex);
     }
-    virtual zfbool mutexImplTryLock(void)
+    static zfbool implTryLock(ZF_IN void *implObject)
     {
-        return (pthread_mutex_trylock(&(this->mutex)) == 0);
+        pthread_mutex_t *mutex = (pthread_mutex_t *)implObject;
+        return (pthread_mutex_trylock(mutex) == 0);
     }
-
-private:
-    pthread_mutex_t mutex;
 };
-
-ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFObjectMutexImpl_sys_Posix, ZFObjectMutex, ZFProtocolLevel::e_SystemLow)
-public:
-    virtual ZFObjectMutexImpl *nativeMutexCreate(void)
-    {
-        return zfnew(_ZFP_ZFObjectMutexImpl_sys_Posix_MutexImpl);
-    }
-    virtual void nativeMutexDestroy(ZF_IN ZFObjectMutexImpl *nativeMutex)
-    {
-        zfdelete(nativeMutex);
-    }
-ZFPROTOCOL_IMPLEMENTATION_END(ZFObjectMutexImpl_sys_Posix)
-ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFObjectMutexImpl_sys_Posix)
+ZFOBJECT_MUTEX_IMPL_DEFINE(ZFObjectMutexImpl_sys_Posix, ZFProtocolLevel::e_SystemLow, {
+        ZFObjectMutexImplSet(
+                _ZFP_ZFObjectMutexImpl_sys_Posix::implInit,
+                _ZFP_ZFObjectMutexImpl_sys_Posix::implDealloc,
+                _ZFP_ZFObjectMutexImpl_sys_Posix::implLock,
+                _ZFP_ZFObjectMutexImpl_sys_Posix::implUnlock,
+                _ZFP_ZFObjectMutexImpl_sys_Posix::implTryLock
+            );
+    })
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #if ZF_ENV_sys_Posix || ZF_ENV_sys_unknown

@@ -9,7 +9,7 @@
  * ====================================================================== */
 #include "ZFObjectSmartPointer.h"
 #include "ZFObjectImpl.h"
-#include "ZFSynchronize.h"
+#include "zfsynchronize.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"
@@ -49,16 +49,15 @@ public:
     zfuint objectRetainCount;
     ZFObjectInstanceState objectInstanceState;
     ZFObjectHolder *objectHolder;
-    ZFObjectMutexImpl *mutexImpl;
+    void *mutexImpl;
     _ZFP_ZFObjectTagMapType tagMap;
     zfstlvector<const ZFProperty *> propertyAccessed;
     enum {
-        stateFlag_mutexImplAvailable = 1 << 0,
-        stateFlag_objectIsPrivate = 1 << 1,
-        stateFlag_objectIsInternal = 1 << 2,
-        stateFlag_observerHasAddFlag_objectAfterAlloc = 1 << 3,
-        stateFlag_observerHasAddFlag_objectBeforeDealloc = 1 << 4,
-        stateFlag_observerHasAddFlag_objectPropertyValueOnUpdate = 1 << 5,
+        stateFlag_objectIsPrivate = 1 << 0,
+        stateFlag_objectIsInternal = 1 << 1,
+        stateFlag_observerHasAddFlag_objectAfterAlloc = 1 << 2,
+        stateFlag_observerHasAddFlag_objectBeforeDealloc = 1 << 3,
+        stateFlag_observerHasAddFlag_objectPropertyValueOnUpdate = 1 << 4,
     };
     zfuint stateFlags;
 
@@ -72,10 +71,6 @@ public:
     , propertyAccessed()
     , stateFlags(0)
     {
-        if(_ZFP_ZFObjectMutexImplCheckCallbackRef != zfnull && _ZFP_ZFObjectMutexImplCheckCallbackRef())
-        {
-            ZFBitSet(this->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_mutexImplAvailable);
-        }
         if(cls->classIsPrivate())
         {
             ZFBitSet(this->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_objectIsPrivate);
@@ -224,7 +219,6 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
 
 zfbool ZFObject::tagHasSet(void)
 {
-    zfCoreMutexLocker();
     return !(d->tagMap.empty());
 }
 void ZFObject::tagSet(ZF_IN const zfchar *key,
@@ -358,54 +352,61 @@ void ZFObject::observerOnRemove(ZF_IN zfidentity eventId)
     }
 }
 
-zfbool ZFObject::_ZFP_ZFObjectLockIsAvailable(void)
-{
-    return ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_mutexImplAvailable);
-}
 void ZFObject::_ZFP_ZFObjectLock(void)
 {
     if(d->mutexImpl)
     {
-        d->mutexImpl->mutexImplLock();
+        _ZFP_ZFObjectMutexImplLock(d->mutexImpl);
     }
-    else if(ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_mutexImplAvailable))
+    else
     {
         zfCoreMutexLock();
-        if(d->mutexImpl == zfnull)
+        if(_ZFP_ZFObjectMutexImplInit)
         {
-            d->mutexImpl = _ZFP_ZFObjectMutexImplInitCallbackRef();
+            if(d->mutexImpl == zfnull)
+            {
+                d->mutexImpl = _ZFP_ZFObjectMutexImplInit();
+            }
         }
         zfCoreMutexUnlock();
-        d->mutexImpl->mutexImplLock();
+        if(d->mutexImpl)
+        {
+            _ZFP_ZFObjectMutexImplLock(d->mutexImpl);
+        }
     }
 }
 void ZFObject::_ZFP_ZFObjectUnlock(void)
 {
     if(d->mutexImpl)
     {
-        d->mutexImpl->mutexImplUnlock();
+        _ZFP_ZFObjectMutexImplUnlock(d->mutexImpl);
     }
-    // else should not go here
 }
 zfbool ZFObject::_ZFP_ZFObjectTryLock(void)
 {
     if(d->mutexImpl)
     {
-        return d->mutexImpl->mutexImplTryLock();
-    }
-    else if(ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_mutexImplAvailable))
-    {
-        zfCoreMutexLock();
-        if(d->mutexImpl == zfnull)
-        {
-            d->mutexImpl = _ZFP_ZFObjectMutexImplInitCallbackRef();
-        }
-        zfCoreMutexUnlock();
-        return d->mutexImpl->mutexImplTryLock();
+        return _ZFP_ZFObjectMutexImplTryLock(d->mutexImpl);
     }
     else
     {
-        return zffalse;
+        zfCoreMutexLock();
+        if(_ZFP_ZFObjectMutexImplInit)
+        {
+            if(d->mutexImpl == zfnull)
+            {
+                d->mutexImpl = _ZFP_ZFObjectMutexImplInit();
+            }
+        }
+        zfCoreMutexUnlock();
+        if(d->mutexImpl)
+        {
+            return _ZFP_ZFObjectMutexImplTryLock(d->mutexImpl);
+        }
+        else
+        {
+            return zffalse;
+        }
     }
 }
 
@@ -496,7 +497,7 @@ void ZFObject::objectOnDealloc(void)
 
     if(d->mutexImpl)
     {
-        _ZFP_ZFObjectMutexImplCleanupCallbackRef(d->mutexImpl);
+        _ZFP_ZFObjectMutexImplDealloc(d->mutexImpl);
         d->mutexImpl = zfnull;
     }
 

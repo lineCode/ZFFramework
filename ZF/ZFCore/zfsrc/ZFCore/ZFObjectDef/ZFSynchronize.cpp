@@ -7,7 +7,7 @@
  * Distributed under MIT license:
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
-#include "ZFSynchronize.h"
+#include "zfsynchronize.h"
 #include "ZFObjectImpl.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN

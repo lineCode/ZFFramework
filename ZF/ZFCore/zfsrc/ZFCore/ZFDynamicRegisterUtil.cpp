@@ -572,7 +572,6 @@ ZFDynamic &ZFDynamic::onInit(ZF_IN const ZFListener &onInitCallback,
         d->error(zfText("invalid callback"));
         return *this;
     }
-    zfCoreMutexLocker();
     ZF_GLOBAL_INITIALIZER_CLASS(ZFDynamicOnInit) *g = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFDynamicOnInit);
     if(g->onInitMap.find(d->cls) != g->onInitMap.end())
     {
@@ -607,7 +606,6 @@ ZFDynamic &ZFDynamic::onDealloc(ZF_IN const ZFListener &onDeallocCallback,
         d->error(zfText("invalid callback"));
         return *this;
     }
-    zfCoreMutexLocker();
     ZF_GLOBAL_INITIALIZER_CLASS(ZFDynamicOnInit) *g = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFDynamicOnInit);
     if(g->onDeallocMap.find(d->cls) != g->onDeallocMap.end())
     {

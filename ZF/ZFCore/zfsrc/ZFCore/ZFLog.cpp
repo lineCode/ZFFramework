@@ -56,10 +56,6 @@ protected:
                 }
                 break;
             case ZFOutputFormatStep::e_OnDealloc:
-                if(this->autoEndl)
-                {
-                    ret += zfText("\n");
-                }
                 this->autoSpace = zftrue;
                 this->autoEndl = zftrue;
                 if(_ZFP_ZFLogMutex != zfnull)
@@ -73,6 +69,12 @@ protected:
                     ret += zfText(" ");
                 }
                 ret.append(src, srcLen);
+                break;
+            case ZFOutputFormatStep::e_OnOutputEnd:
+                if(this->autoEndl)
+                {
+                    ret += zfText("\n");
+                }
                 break;
             default:
                 zfCoreCriticalShouldNotGoHere();

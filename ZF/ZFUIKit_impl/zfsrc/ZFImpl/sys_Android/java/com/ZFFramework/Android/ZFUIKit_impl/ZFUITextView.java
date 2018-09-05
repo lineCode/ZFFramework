@@ -148,9 +148,8 @@ public final class ZFUITextView extends TextView {
             nativeTextViewTmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
         }
 
-        int padding = (int)(2 * ZFAndroidUI.screenDensity(nativeTextViewTmp.getContext()));
-        _native_measureNativeTextView_sizeCache[0] = nativeTextViewTmp.getMeasuredWidth() + padding;
-        _native_measureNativeTextView_sizeCache[1] = nativeTextViewTmp.getMeasuredHeight() + padding;
+        _native_measureNativeTextView_sizeCache[0] = nativeTextViewTmp.getMeasuredWidth();
+        _native_measureNativeTextView_sizeCache[1] = nativeTextViewTmp.getMeasuredHeight();
 
         // measured size must be restored, otherwise text's draw step would cause strange error
         nativeTextViewTmp.setMeasuredDimension(widthOld, heightOld);

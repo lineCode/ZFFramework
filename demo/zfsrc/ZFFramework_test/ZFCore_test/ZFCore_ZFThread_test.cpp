@@ -11,13 +11,6 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#if 1
-    #define _ZFP_ZFCore_ZFThread_test_outputDetailSteps(format, ...) \
-        zfLogTrim(format, ##__VA_ARGS__)
-#else
-    #define _ZFP_ZFCore_ZFThread_test_outputDetailSteps(format, ...)
-#endif
-
 // ============================================================
 zfclass ZFCore_ZFThread_test : zfextends ZFFramework_test_TestCase
 {
@@ -42,7 +35,7 @@ protected:
             {
                 for(zfindex j = 0; j < 10; ++j)
                 {
-                    _ZFP_ZFCore_ZFThread_test_outputDetailSteps(zfText("  async thread: %zi %zi"), i, j);
+                    zfLogTrim(zfText("  async thread: %zi %zi"), i, j);
                     ZFThread::sleep((zftimet)20);
                 }
                 ZFThread::sleep((zftimet)300);
@@ -54,7 +47,7 @@ protected:
         {
             for(zfindex j = 0; j < 10; ++j)
             {
-                _ZFP_ZFCore_ZFThread_test_outputDetailSteps(zfText("  main: %zi %zi"), i, j);
+                zfLogTrim(zfText("  main: %zi %zi"), i, j);
                 ZFThread::sleep((zftimet)20);
             }
             ZFThread::sleep((zftimet)190);
@@ -74,7 +67,7 @@ protected:
                 zfCoreMutexLock();
                 for(zfindex j = 0; j < 10; ++j)
                 {
-                    _ZFP_ZFCore_ZFThread_test_outputDetailSteps(zfText("  sync thread: %zi %zi"), i, j);
+                    zfLogTrim(zfText("  sync thread: %zi %zi"), i, j);
                     ZFThread::sleep((zftimet)20);
                 }
                 zfCoreMutexUnlock();
@@ -88,7 +81,7 @@ protected:
             zfCoreMutexLock();
             for(zfindex j = 0; j < 10; ++j)
             {
-                _ZFP_ZFCore_ZFThread_test_outputDetailSteps(zfText("  main:   %zi %zi"), i, j);
+                zfLogTrim(zfText("  main:   %zi %zi"), i, j);
                 ZFThread::sleep((zftimet)20);
             }
             zfCoreMutexUnlock();

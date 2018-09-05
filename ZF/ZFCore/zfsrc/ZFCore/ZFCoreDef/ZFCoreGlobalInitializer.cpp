@@ -307,7 +307,7 @@ public:
 void ZFFrameworkInit(void)
 {
     static _ZFP_ZFFrameworkAutoCleanupHolder _holder;
-    zfbool mutexAvailable = (ZFCoreMutexImplGet() != zfnull);
+    zfbool mutexAvailable = ZFCoreMutexImplAvailable();
     if(mutexAvailable)
     {
         zfCoreMutexLock();

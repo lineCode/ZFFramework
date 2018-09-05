@@ -13,6 +13,7 @@
 #include "ZFUIKit.h"
 #include "ZFUIWidget.h"
 #include "ZFUIWebKit.h"
+#include "ZFLua.h"
 
 #include "ZFCore/protocol/ZFProtocolZFThreadTaskRequest.h"
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
@@ -22,7 +23,6 @@ static zfbool _ZFP_ZFFramework_test_protocolCheck(void);
 static zfautoObject _ZFP_ZFFramework_test_containerViewPrepare(void);
 static void _ZFP_ZFFramework_test_prepareTestCase(ZF_IN ZFUIView *containerView);
 
-#include "ZFLua.h"
 ZFMAIN_ENTRY(params)
 {
     if(_ZFP_ZFFramework_test_protocolCheck())
