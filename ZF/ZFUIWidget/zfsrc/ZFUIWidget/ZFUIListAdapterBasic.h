@@ -24,8 +24,11 @@ zfclass ZF_ENV_EXPORT ZFUIListAdapterBasicParam : zfextends ZFObject
     ZFOBJECT_DECLARE(ZFUIListAdapterBasicParam, ZFObject)
 
 public:
+    /** @brief see #ZFUIListAdapterBasic::EventListCellAtIndex */
     ZFPROPERTY_RETAIN(ZFUIListCell *, cell)
+    /** @brief see #ZFUIListAdapterBasic::EventListCellAtIndex */
     ZFPROPERTY_ASSIGN(zfindex, cellIndex)
+    /** @brief see #ZFUIListAdapterBasic::EventListCellAtIndex */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfint, cellSize, -1)
 };
 

@@ -1,4 +1,4 @@
-# master
+# 0.5.0
 * optimize serializable output
 * optimize cache impl
 * optimize native window attach impl
