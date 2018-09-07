@@ -99,7 +99,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 #define ZFTYPEID_DECLARE(TypeName, Type) \
     ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(TypeName, Type) \
-    _ZFP_ZFTYPEID_ID_DATA_DECLARE(TypeName, Type)
+    _ZFP_ZFTYPEID_DECLARE(TypeName, Type)
 
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(TypeName, Type) \
@@ -153,7 +153,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE(TypeName, Type, serializeFromAction, serializeToAction, convertFromStringAction, convertToStringAction) \
     ZFTYPEID_DEFINE_WITH_CUSTOM_WRAPPER(TypeName, Type, ZFM_EXPAND(serializeFromAction), ZFM_EXPAND(serializeToAction), ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction)) \
-    _ZFP_ZFTYPEID_ID_DATA_DEFINE(TypeName, Type, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction))
+    _ZFP_ZFTYPEID_DEFINE(TypeName, Type)
 
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_WITH_CUSTOM_WRAPPER(TypeName, Type, serializeFromAction, serializeToAction, convertFromStringAction, convertToStringAction) \
@@ -286,7 +286,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_BY_STRING_CONVERTER(TypeName, Type, convertFromStringAction, convertToStringAction) \
     ZFTYPEID_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(TypeName, Type, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction)) \
-    _ZFP_ZFTYPEID_ID_DATA_DEFINE(TypeName, Type, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction))
+    _ZFP_ZFTYPEID_DEFINE(TypeName, Type)
 
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_BY_STRING_CONVERTER_WITH_CUSTOM_WRAPPER(TypeName, Type, convertFromStringAction, convertToStringAction) \
@@ -326,7 +326,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(TypeName, Type, serializeFromAction, serializeToAction) \
     ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER_WITH_CUSTOM_WRAPPER(TypeName, Type, ZFM_EXPAND(serializeFromAction), ZFM_EXPAND(serializeToAction)) \
-    _ZFP_ZFTYPEID_ID_DATA_DEFINE(TypeName, Type, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction))
+    _ZFP_ZFTYPEID_DEFINE(TypeName, Type)
 
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER_WITH_CUSTOM_WRAPPER(TypeName, Type, serializeFromAction, serializeToAction) \
@@ -363,14 +363,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     { \
         return ZFM_TOSTRING_DIRECT(TypeName); \
     } \
-    _ZFP_ZFTYPEID_ID_DATA_ACCESS_ONLY_DECLARE(TypeName, Type)
+    _ZFP_ZFTYPEID_ACCESS_ONLY_DECLARE(TypeName, Type)
 /** @brief see #ZFTYPEID_ACCESS_ONLY_DECLARE */
 #define ZFTYPEID_ACCESS_ONLY_DEFINE(TypeName, Type) \
-    _ZFP_ZFTYPEID_ID_DATA_ACCESS_ONLY_DEFINE(TypeName, Type) \
+    _ZFP_ZFTYPEID_ACCESS_ONLY_DEFINE(TypeName, Type) \
     ZFTYPEID_ID_DATA_REGISTER(TypeName, Type)
 /** @brief see #ZFTYPEID_ACCESS_ONLY_DECLARE */
 #define ZFTYPEID_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
-    _ZFP_ZFTYPEID_ID_DATA_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
+    _ZFP_ZFTYPEID_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
     ZFTYPEID_ID_DATA_REGISTER(TypeName, Type)
 
 // ============================================================
@@ -389,10 +389,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     { \
         return ZFTypeId_##AliasToTypeName(); \
     } \
-    _ZFP_ZFTYPEID_ID_DATA_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type)
+    _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type)
 /** @brief see #ZFTYPEID_ALIAS_DECLARE */
 #define ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type) \
-    _ZFP_ZFTYPEID_ID_DATA_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type)
+    _ZFP_ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type)
 
 // ============================================================
 /**
@@ -406,7 +406,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * see #ZFTYPEID_DECLARE for more info
  */
 #define ZFTYPEID_DISABLE(Type) \
-    _ZFP_ZFTYPEID_ID_DATA_DISABLE(Type)
+    _ZFP_ZFTYPEID_DISABLE(Type)
 
 // ============================================================
 /**

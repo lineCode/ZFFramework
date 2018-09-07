@@ -1,3 +1,6 @@
+# master
+* optimize typeid impl
+
 # 0.5.0
 * optimize serializable output
 * optimize cache impl

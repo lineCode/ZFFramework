@@ -224,7 +224,7 @@ public:
     ZF_STATIC_REGISTER_END(PropTIReg_##TypeName)
 
 // ============================================================
-#define _ZFP_ZFTYPEID_ID_DATA_DECLARE(TypeName, Type) \
+#define _ZFP_ZFTYPEID_WRAPPER_DECLARE(TypeName, Type) \
     typedef Type _ZFP_PropTypeW_##TypeName; \
     /** @brief type wrapper for #ZFTypeId::Value */ \
     zfclass ZF_ENV_EXPORT v_##TypeName : zfextends ZFTypeIdWrapper \
@@ -284,20 +284,128 @@ public:
         zfoverride \
         virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
                                             ZF_OUT_OPT zfstring *outErrorHint = zfnull, \
-                                            ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull) \
-        {return TypeName##FromData(this->zfv, serializableData, outErrorHint, outErrorPos);} \
+                                            ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull); \
         zfoverride \
         virtual zfbool wrappedValueToData(ZF_OUT ZFSerializableData &serializableData, \
-                                          ZF_OUT_OPT zfstring *outErrorHint = zfnull) \
-        {return TypeName##ToData(serializableData, this->zfv, outErrorHint);} \
+                                          ZF_OUT_OPT zfstring *outErrorHint = zfnull); \
         zfoverride \
         virtual zfbool wrappedValueFromString(ZF_IN const zfchar *src, \
-                                              ZF_IN_OPT zfindex srcLen = zfindexMax()) \
-        {return TypeName##FromString(this->zfv, src, srcLen);} \
+                                              ZF_IN_OPT zfindex srcLen = zfindexMax()); \
         zfoverride \
-        virtual zfbool wrappedValueToString(ZF_IN_OUT zfstring &s) \
-        {return TypeName##ToString(s, this->zfv);} \
-    }; \
+        virtual zfbool wrappedValueToString(ZF_IN_OUT zfstring &s); \
+    };
+
+#define _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMMON(TypeName, Type) \
+    ZFOBJECT_REGISTER(v_##TypeName) \
+    void v_##TypeName::objectInfoOnAppend(ZF_IN_OUT zfstring &ret) \
+    { \
+        ZFCoreElementInfoGetter<Type>::elementInfoGetter(ret, this->zfv); \
+    } \
+    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
+    { \
+        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
+        if(refTmp != zfnull) \
+        { \
+            this->zfv = refTmp->zfv; \
+        } \
+    } \
+    const zfchar *v_##TypeName::wrappedValueTypeId(void) \
+    { \
+        return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
+    } \
+    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
+                                           ZF_IN const void *v) \
+    { \
+        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
+    } \
+    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
+                                                    ZF_IN const void *to, \
+                                                    ZF_IN zffloat progress) \
+    { \
+        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
+    } \
+    ZFMETHOD_USER_REGISTER_1({ \
+            invokerObject->to<v_##TypeName *>()->zfv = value; \
+        }, v_##TypeName, void, zfvSet, \
+        ZFMP_IN(_ZFP_PropTypeW_##TypeName const &, value))
+
+#define _ZFP_ZFTYPEID_WRAPPER_DEFINE_SERIALIZABLE(TypeName, Type) \
+    zfbool v_##TypeName::wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
+                                              ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */, \
+                                              ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */) \
+    {return TypeName##FromData(this->zfv, serializableData, outErrorHint, outErrorPos);} \
+    zfbool v_##TypeName::wrappedValueToData(ZF_OUT ZFSerializableData &serializableData, \
+                                            ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */) \
+    {return TypeName##ToData(serializableData, this->zfv, outErrorHint);} \
+    zfbool v_##TypeName::wrappedValueFromString(ZF_IN const zfchar *src, \
+                                                ZF_IN_OPT zfindex srcLen /* = zfindexMax() */) \
+    {return TypeName##FromString(this->zfv, src, srcLen);} \
+    zfbool v_##TypeName::wrappedValueToString(ZF_IN_OUT zfstring &s) \
+    {return TypeName##ToString(s, this->zfv);}
+
+#define _ZFP_ZFTYPEID_WRAPPER_DEFINE_NOT_SERIALIZABLE(TypeName, Type) \
+    zfbool v_##TypeName::wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
+                                              ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */, \
+                                              ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */) \
+    { \
+        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, \
+            zfText("registered type %s is not serializable"), ZFM_TOSTRING_DIRECT(TypeName)); \
+        return zffalse; \
+    } \
+    zfbool v_##TypeName::wrappedValueToData(ZF_OUT ZFSerializableData &serializableData, \
+                                            ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */) \
+    { \
+        ZFSerializableUtil::errorOccurred(outErrorHint, \
+            zfText("registered type %s is not serializable"), ZFM_TOSTRING_DIRECT(TypeName)); \
+        return zffalse; \
+    } \
+    zfbool v_##TypeName::wrappedValueFromString(ZF_IN const zfchar *src, \
+                                                ZF_IN_OPT zfindex srcLen /* = zfindexMax() */) \
+    {return zffalse;} \
+    zfbool v_##TypeName::wrappedValueToString(ZF_IN_OUT zfstring &s) \
+    {return zffalse;}
+
+#define _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMPARABLE(TypeName, Type) \
+    ZFCompareResult v_##TypeName::objectCompare(ZF_IN ZFObject *anotherObj) \
+    { \
+        ZFTypeIdWrapper *t = ZFCastZFObject(ZFTypeIdWrapper *, anotherObj); \
+        if(t == zfnull || !zfscmpTheSame(this->wrappedValueTypeId(), t->wrappedValueTypeId())) \
+        { \
+            return ZFCompareUncomparable; \
+        } \
+        else \
+        { \
+            return ZFComparerDefault(this->zfv, *(_ZFP_PropTypeW_##TypeName *)t->wrappedValue()); \
+        } \
+    } \
+    zfbool v_##TypeName::wrappedValueIsInit(void) \
+    { \
+        return (ZFComparerDefault(this->zfv, zftValue<_ZFP_PropTypeW_##TypeName>().zfv) == ZFCompareTheSame); \
+    } \
+    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
+                                                      ZF_IN const void *v1) \
+    { \
+        return ZFComparerDefault(*(const _ZFP_PropTypeW_##TypeName *)v0, *(const _ZFP_PropTypeW_##TypeName *)v1); \
+    }
+
+#define _ZFP_ZFTYPEID_WRAPPER_DEFINE_UNCOMPARABLE(TypeName, Type) \
+    ZFCompareResult v_##TypeName::objectCompare(ZF_IN ZFObject *anotherObj) \
+    { \
+        return ZFCompareUncomparable; \
+    } \
+    zfbool v_##TypeName::wrappedValueIsInit(void) \
+    { \
+        return zffalse; \
+    } \
+    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
+                                                      ZF_IN const void *v1) \
+    { \
+        return ZFCompareUncomparable; \
+    }
+
+// ============================================================
+#define _ZFP_ZFTYPEID_DECLARE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DECLARE(TypeName, Type) \
     /** @cond ZFPrivateDoc */ \
     template<> \
     zfclassNotPOD ZFTypeId<_ZFP_PropTypeW_##TypeName> : zfextendsNotPOD ZFTypeIdBase \
@@ -379,140 +487,14 @@ public:
     }; \
     /** @endcond */
 
-#define _ZFP_ZFTYPEID_ID_DATA_DEFINE(TypeName, Type, convertFromStringAction, convertToStringAction) \
-    ZFOBJECT_REGISTER(v_##TypeName) \
-    void v_##TypeName::objectInfoOnAppend(ZF_IN_OUT zfstring &ret) \
-    { \
-        ZFCoreElementInfoGetter<Type>::elementInfoGetter(ret, this->zfv); \
-    } \
-    ZFCompareResult v_##TypeName::objectCompare(ZF_IN ZFObject *anotherObj) \
-    { \
-        ZFTypeIdWrapper *t = ZFCastZFObject(ZFTypeIdWrapper *, anotherObj); \
-        if(t == zfnull || !zfscmpTheSame(this->wrappedValueTypeId(), t->wrappedValueTypeId())) \
-        { \
-            return ZFCompareUncomparable; \
-        } \
-        else \
-        { \
-            return ZFComparerDefault(this->zfv, *(_ZFP_PropTypeW_##TypeName *)t->wrappedValue()); \
-        } \
-    } \
-    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
-    { \
-        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
-        if(refTmp != zfnull) \
-        { \
-            this->zfv = refTmp->zfv; \
-        } \
-    } \
-    const zfchar *v_##TypeName::wrappedValueTypeId(void) \
-    { \
-        return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
-    } \
-    zfbool v_##TypeName::wrappedValueIsInit(void) \
-    { \
-        return (ZFComparerDefault(this->zfv, zftValue<_ZFP_PropTypeW_##TypeName>().zfv) == ZFCompareTheSame); \
-    } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
-                                                      ZF_IN const void *v1) \
-    { \
-        return ZFComparerDefault(*(const _ZFP_PropTypeW_##TypeName *)v0, *(const _ZFP_PropTypeW_##TypeName *)v1); \
-    } \
-    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
-                                           ZF_IN const void *v) \
-    { \
-        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
-    } \
-    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
-                                                    ZF_IN const void *to, \
-                                                    ZF_IN zffloat progress) \
-    { \
-        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
-    }
+#define _ZFP_ZFTYPEID_DEFINE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMMON(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_SERIALIZABLE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMPARABLE(TypeName, Type)
 
 // ============================================================
-#define _ZFP_ZFTYPEID_ID_DATA_ACCESS_ONLY_DECLARE(TypeName, Type) \
-    typedef Type _ZFP_PropTypeW_##TypeName; \
-    /** @brief type wrapper for #ZFTypeId::Value */ \
-    zfclass ZF_ENV_EXPORT v_##TypeName : zfextends ZFTypeIdWrapper \
-    { \
-        ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(v_##TypeName, ZFTypeIdWrapper) \
-    public: \
-        /** @brief the value, see #ZFTypeId::Value */ \
-        _ZFP_PropTypeW_##TypeName zfv; \
-    protected: \
-        v_##TypeName(void) : zfv() {} \
-    protected: \
-        /** @brief init with value */ \
-        virtual void objectOnInit(ZF_IN _ZFP_PropTypeW_##TypeName const &value) \
-        { \
-            this->objectOnInit(); \
-            this->zfv = value; \
-        } \
-        zfoverride \
-        virtual void objectOnInit(void) {zfsuper::objectOnInit();} \
-        zfoverride \
-        virtual inline void objectInfoOnAppendTokenLeft(ZF_IN_OUT zfstring &ret) {} \
-        zfoverride \
-        virtual inline void objectInfoOnAppendTokenRight(ZF_IN_OUT zfstring &ret) {} \
-        zfoverride \
-        virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret); \
-    public: \
-        zfoverride \
-        virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj); \
-    public: \
-        zfoverride \
-        virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref); \
-        zfoverride \
-        virtual const zfchar *wrappedValueTypeId(void); \
-        zfoverride \
-        virtual void *wrappedValue(void) {return &(this->zfv);} \
-        zfoverride \
-        virtual void wrappedValueSet(ZF_IN const void *v) {this->zfv = *(const _ZFP_PropTypeW_##TypeName *)v;} \
-        zfoverride \
-        virtual void wrappedValueGet(ZF_IN void *v) {*(_ZFP_PropTypeW_##TypeName *)v = this->zfv;} \
-    public: \
-        zfoverride \
-        virtual void wrappedValueReset(void) \
-        {this->zfv = zftValue<_ZFP_PropTypeW_##TypeName>().zfv;} \
-        zfoverride \
-        virtual zfbool wrappedValueIsInit(void); \
-        zfoverride \
-        virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0, \
-                                                    ZF_IN const void *v1); \
-        zfoverride \
-        virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
-                                         ZF_IN const void *v); \
-        zfoverride \
-        virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from, \
-                                                  ZF_IN const void *to, \
-                                                  ZF_IN zffloat progress); \
-    public: \
-        zfoverride \
-        virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
-                                            ZF_OUT_OPT zfstring *outErrorHint = zfnull, \
-                                            ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull) \
-        { \
-            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, \
-                zfText("registered type %s is not serializable"), ZFM_TOSTRING_DIRECT(TypeName)); \
-            return zffalse; \
-        } \
-        zfoverride \
-        virtual zfbool wrappedValueToData(ZF_OUT ZFSerializableData &serializableData, \
-                                          ZF_OUT_OPT zfstring *outErrorHint = zfnull) \
-        { \
-            ZFSerializableUtil::errorOccurred(outErrorHint, \
-                zfText("registered type %s is not serializable"), ZFM_TOSTRING_DIRECT(TypeName)); \
-            return zffalse; \
-        } \
-        zfoverride \
-        virtual zfbool wrappedValueFromString(ZF_IN const zfchar *src, \
-                                              ZF_IN_OPT zfindex srcLen = zfindexMax()) \
-        {return zffalse;} \
-        zfoverride \
-        virtual zfbool wrappedValueToString(ZF_IN_OUT zfstring &s) \
-        {return zffalse;} \
-    }; \
+#define _ZFP_ZFTYPEID_ACCESS_ONLY_DECLARE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DECLARE(TypeName, Type) \
     /** @cond ZFPrivateDoc */ \
     template<> \
     zfclassNotPOD ZFTypeId<_ZFP_PropTypeW_##TypeName> : zfextendsNotPOD ZFTypeIdBase \
@@ -594,102 +576,18 @@ public:
     }; \
     /** @endcond */
 
-#define _ZFP_ZFTYPEID_ID_DATA_ACCESS_ONLY_DEFINE(TypeName, Type) \
-    ZFOBJECT_REGISTER(v_##TypeName) \
-    void v_##TypeName::objectInfoOnAppend(ZF_IN_OUT zfstring &ret) \
-    { \
-        ZFCoreElementInfoGetter<Type>::elementInfoGetter(ret, this->zfv); \
-    } \
-    ZFCompareResult v_##TypeName::objectCompare(ZF_IN ZFObject *anotherObj) \
-    { \
-        ZFTypeIdWrapper *t = ZFCastZFObject(ZFTypeIdWrapper *, anotherObj); \
-        if(t == zfnull || !zfscmpTheSame(this->wrappedValueTypeId(), t->wrappedValueTypeId())) \
-        { \
-            return ZFCompareUncomparable; \
-        } \
-        else \
-        { \
-            return ZFComparerDefault(this->zfv, *(_ZFP_PropTypeW_##TypeName *)t->wrappedValue()); \
-        } \
-    } \
-    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
-    { \
-        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
-        if(refTmp != zfnull) \
-        { \
-            this->zfv = refTmp->zfv; \
-        } \
-    } \
-    const zfchar *v_##TypeName::wrappedValueTypeId(void) \
-    { \
-        return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
-    } \
-    zfbool v_##TypeName::wrappedValueIsInit(void) \
-    { \
-        return (ZFComparerDefault(this->zfv, zftValue<_ZFP_PropTypeW_##TypeName>().zfv) == ZFCompareTheSame); \
-    } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
-                                                      ZF_IN const void *v1) \
-    { \
-        return ZFComparerDefault(*(const _ZFP_PropTypeW_##TypeName *)v0, *(const _ZFP_PropTypeW_##TypeName *)v1); \
-    } \
-    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
-                                           ZF_IN const void *v) \
-    { \
-        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
-    } \
-    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
-                                                    ZF_IN const void *to, \
-                                                    ZF_IN zffloat progress) \
-    { \
-        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
-    }
+#define _ZFP_ZFTYPEID_ACCESS_ONLY_DEFINE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMMON(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_NOT_SERIALIZABLE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMPARABLE(TypeName, Type)
 
-#define _ZFP_ZFTYPEID_ID_DATA_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
-    ZFOBJECT_REGISTER(v_##TypeName) \
-    void v_##TypeName::objectInfoOnAppend(ZF_IN_OUT zfstring &ret) \
-    { \
-        ZFCoreElementInfoGetter<Type>::elementInfoGetter(ret, this->zfv); \
-    } \
-    ZFCompareResult v_##TypeName::objectCompare(ZF_IN ZFObject *anotherObj) \
-    { \
-        return ZFCompareUncomparable; \
-    } \
-    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
-    { \
-        zfself *refTmp = ZFCastZFObject(zfself *, ref); \
-        if(refTmp != zfnull) \
-        { \
-            this->zfv = refTmp->zfv; \
-        } \
-    } \
-    const zfchar *v_##TypeName::wrappedValueTypeId(void) \
-    { \
-        return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
-    } \
-    zfbool v_##TypeName::wrappedValueIsInit(void) \
-    { \
-        return zffalse; \
-    } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
-                                                      ZF_IN const void *v1) \
-    { \
-        return ZFCompareUncomparable; \
-    } \
-    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
-                                           ZF_IN const void *v) \
-    { \
-        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
-    } \
-    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
-                                                    ZF_IN const void *to, \
-                                                    ZF_IN zffloat progress) \
-    { \
-        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
-    }
+#define _ZFP_ZFTYPEID_ACCESS_ONLY_DEFINE_UNCOMPARABLE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMMON(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_NOT_SERIALIZABLE(TypeName, Type) \
+    _ZFP_ZFTYPEID_WRAPPER_DEFINE_UNCOMPARABLE(TypeName, Type)
 
 // ============================================================
-#define _ZFP_ZFTYPEID_ID_DATA_DISABLE(Type) \
+#define _ZFP_ZFTYPEID_DISABLE(Type) \
     typedef Type _ZFP_PropTypeW_##TypeName; \
     /** @cond ZFPrivateDoc */ \
     template<> \
@@ -728,7 +626,7 @@ public:
     /** @endcond */
 
 // ============================================================
-#define _ZFP_ZFTYPEID_ID_DATA_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type) \
+#define _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type) \
     /** @cond ZFPrivateDoc */ \
     typedef Type _ZFP_PropTypeW_##TypeName; \
     template<> \
@@ -855,7 +753,7 @@ public:
     { \
         ZFOBJECT_DECLARE(v_##TypeName, v_##AliasToTypeName) \
     };
-#define _ZFP_ZFTYPEID_ID_DATA_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type) \
+#define _ZFP_ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type) \
     ZFOBJECT_REGISTER(v_##TypeName)
 
 // ============================================================
