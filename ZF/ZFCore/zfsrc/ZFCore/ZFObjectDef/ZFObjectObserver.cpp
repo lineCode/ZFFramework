@@ -427,6 +427,8 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN zfidentity eventId,
         return zfidentityInvalid();
     }
 
+    d->attachMapAttach(eventId);
+
     zfidentity taskId = d->taskIdGenerator.idAcquire();
     _ZFP_ZFObserverData *t = zfpoolNew(_ZFP_ZFObserverData
             , taskId

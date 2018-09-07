@@ -92,9 +92,18 @@ public:
             {
                 this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
             }
+            buf.removeAll();
         }
+
         this->format->_ZFP_format(
             buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
+        if(!buf.isEmpty())
+        {
+            if(this->output.callbackIsValid())
+            {
+                this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
+            }
+        }
     }
     ZFMETHOD_INLINE_2(zfindex, onOutput,
                       ZFMP_IN(const void *, s),
@@ -293,14 +302,16 @@ void ZFOutputFormatBasic::format(ZF_IN_OUT zfstring &ret,
             state = (void *)zfnew(zfbool, zftrue);
             return ;
         case ZFOutputFormatStep::e_OnDealloc:
-            if(outputCount > 0)
-            {
-                ret += this->outputPostfix();
-            }
             zfdelete((zfbool *)state);
             return ;
         case ZFOutputFormatStep::e_OnOutput:
             break;
+        case ZFOutputFormatStep::e_OnOutputEnd:
+            if(outputCount > 0)
+            {
+                ret += this->outputPostfix();
+            }
+            return;
         default:
             zfCoreCriticalShouldNotGoHere();
             return ;

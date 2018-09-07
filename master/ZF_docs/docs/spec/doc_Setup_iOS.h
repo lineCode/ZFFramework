@@ -13,8 +13,16 @@
  * you may also use ZFFramework as [Cocoapods](https://cocoapods.org) for convenient
  * @code
  *   pod 'ZFFramework'
+ *   // or, if you only want specified sub module
+ *   // pod 'ZFFramework/ZFCore'
  * @endcode
- * then add cpp files as usual\n
+ * if you want to keep update with the development version,
+ * you may clone the [development repo](https://github.com/ZFFramework/ZFFramework)
+ * to the same dir of your project, and use:
+ * @code
+ *   pod 'ZFFramework',:path => '../ZFFramework'
+ * @endcode
+ * \n
  * \n
  * specially, when adding resource files,
  * you must ensure they are placed under `YourApp.app/zfres/`,
