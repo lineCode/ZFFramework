@@ -511,9 +511,9 @@ ZFMETHOD_FUNC_DEFINE_1(ZFUIAlignEnum, ZFUIAlignGetY,
 
 // ============================================================
 // ZFUIColor
-ZFEXPORT_VAR_READONLY_DEFINE(ZFUIColor, ZFUIColorZero, ((ZFUIColor)0x00000000))
+ZFEXPORT_VAR_READONLY_DEFINE(ZFUIColor, ZFUIColorZero, ZFUIColorMake(0, 0, 0, 0))
 ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
-        zft_zfuint32 c = 0;
+        zft_ZFUIColor c = 0;
         do
         {
             if(src == zfnull)
@@ -534,7 +534,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
                 srcLen -= 2;
                 src += 2;
             }
-            if(srcLen != 6 && srcLen != 8)
+            if(srcLen != 3 && srcLen != 4 && srcLen != 6 && srcLen != 8)
             {
                 return zffalse;
             }
@@ -542,27 +542,55 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
             c = 0;
             zfuint tmp = 0;
 
-            tmp = 0;
-            if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            c = ((c << 8) | tmp);
+            if(srcLen <= 4)
+            {
+                tmp = 0;
+                if(!zfsToIntT(tmp, src, 1, 16)) {return zffalse;} src += 1;
+                c = ((c << 8) | (tmp * 16 + tmp));
 
-            tmp = 0;
-            if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            c = ((c << 8) | tmp);
+                tmp = 0;
+                if(!zfsToIntT(tmp, src, 1, 16)) {return zffalse;} src += 1;
+                c = ((c << 8) | (tmp * 16 + tmp));
 
-            tmp = 0;
-            if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
-            c = ((c << 8) | tmp);
+                tmp = 0;
+                if(!zfsToIntT(tmp, src, 1, 16)) {return zffalse;} src += 1;
+                c = ((c << 8) | (tmp * 16 + tmp));
 
-            if(srcLen == 8)
+                if(srcLen == 8)
+                {
+                    tmp = 0;
+                    if(!zfsToIntT(tmp, src, 1, 16)) {return zffalse;} src += 1;
+                    c = ((c << 8) | (tmp * 16 + tmp));
+                }
+                else
+                {
+                    c = ((c << 8) | 0xFF);
+                }
+            }
+            else
             {
                 tmp = 0;
                 if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
                 c = ((c << 8) | tmp);
-            }
-            else
-            {
-                c = ((c << 8) | 0xFF);
+
+                tmp = 0;
+                if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
+                c = ((c << 8) | tmp);
+
+                tmp = 0;
+                if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
+                c = ((c << 8) | tmp);
+
+                if(srcLen == 8)
+                {
+                    tmp = 0;
+                    if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
+                    c = ((c << 8) | tmp);
+                }
+                else
+                {
+                    c = ((c << 8) | 0xFF);
+                }
             }
         } while(zffalse);
 
@@ -570,20 +598,50 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
 
         return zftrue;
     }, {
-        if(ZFUIColorGetA(v) == 0xFF)
+        if(zftrue
+                && ((v >> 28) & 0x0F) == ((v >> 24) & 0x0F)
+                && ((v >> 20) & 0x0F) == ((v >> 16) & 0x0F)
+                && ((v >> 12) & 0x0F) == ((v >> 8) & 0x0F)
+                && ((v >> 4) & 0x0F) == ((v >> 0) & 0x0F)
+            )
         {
-            zfstringAppend(s, zfText("#%02X%02X%02X"),
-                ZFUIColorGetR(v),
-                ZFUIColorGetG(v),
-                ZFUIColorGetB(v));
+            if(((v >> 24) & 0xFF) == 0xFF)
+            {
+                zfstringAppend(s, zfText("#%X%X%X")
+                    , ((v >> 16) & 0x0F)
+                    , ((v >> 8) & 0x0F)
+                    , ((v >> 0) & 0x0F)
+                    );
+            }
+            else
+            {
+                zfstringAppend(s, zfText("#%X%X%X%X")
+                    , ((v >> 24) & 0x0F)
+                    , ((v >> 16) & 0x0F)
+                    , ((v >> 8) & 0x0F)
+                    , ((v >> 0) & 0x0F)
+                    );
+            }
         }
         else
         {
-            zfstringAppend(s, zfText("#%02X%02X%02X%02X"),
-                ZFUIColorGetR(v),
-                ZFUIColorGetG(v),
-                ZFUIColorGetB(v),
-                ZFUIColorGetA(v));
+            if(((v >> 24) & 0xFF) == 0xFF)
+            {
+                zfstringAppend(s, zfText("#%02X%02X%02X")
+                    , ((v >> 16) & 0xFF)
+                    , ((v >> 8) & 0xFF)
+                    , ((v >> 0) & 0xFF)
+                    );
+            }
+            else
+            {
+                zfstringAppend(s, zfText("#%02X%02X%02X%02X")
+                    , ((v >> 24) & 0xFF)
+                    , ((v >> 16) & 0xFF)
+                    , ((v >> 8) & 0xFF)
+                    , ((v >> 0) & 0xFF)
+                    );
+            }
         }
         return zftrue;
     })
@@ -593,48 +651,48 @@ ZFMETHOD_FUNC_DEFINE_INLINE_2(zfbool, ZFUIColorIsEqual,
                               ZFMP_IN(ZFUIColor const &, v1))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_4(ZFUIColor, ZFUIColorMake,
-                              ZFMP_IN(zfuint, r),
-                              ZFMP_IN(zfuint, g),
-                              ZFMP_IN(zfuint, b),
-                              ZFMP_IN_OPT(zfuint, a, 0xFF))
+                              ZFMP_IN(zffloat, r),
+                              ZFMP_IN(zffloat, g),
+                              ZFMP_IN(zffloat, b),
+                              ZFMP_IN_OPT(zffloat, a, 1.0f))
 
-ZFMETHOD_FUNC_DEFINE_INLINE_1(zfuint, ZFUIColorGetA,
+ZFMETHOD_FUNC_DEFINE_INLINE_1(zffloat, ZFUIColorGetA,
                               ZFMP_IN(ZFUIColor const &, c))
-ZFMETHOD_FUNC_DEFINE_INLINE_1(zfuint, ZFUIColorGetR,
+ZFMETHOD_FUNC_DEFINE_INLINE_1(zffloat, ZFUIColorGetR,
                               ZFMP_IN(ZFUIColor const &, c))
-ZFMETHOD_FUNC_DEFINE_INLINE_1(zfuint, ZFUIColorGetG,
+ZFMETHOD_FUNC_DEFINE_INLINE_1(zffloat, ZFUIColorGetG,
                               ZFMP_IN(ZFUIColor const &, c))
-ZFMETHOD_FUNC_DEFINE_INLINE_1(zfuint, ZFUIColorGetB,
+ZFMETHOD_FUNC_DEFINE_INLINE_1(zffloat, ZFUIColorGetB,
                               ZFMP_IN(ZFUIColor const &, c))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor &, ZFUIColorSetA,
                               ZFMP_IN_OUT(ZFUIColor &, c),
-                              ZFMP_IN(zfuint, a))
+                              ZFMP_IN(zffloat, a))
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor &, ZFUIColorSetR,
                               ZFMP_IN_OUT(ZFUIColor &, c),
-                              ZFMP_IN(zfuint, r))
+                              ZFMP_IN(zffloat, r))
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor &, ZFUIColorSetG,
                               ZFMP_IN_OUT(ZFUIColor &, c),
-                              ZFMP_IN(zfuint, g))
+                              ZFMP_IN(zffloat, g))
 ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor &, ZFUIColorSetB,
                               ZFMP_IN_OUT(ZFUIColor &, c),
-                              ZFMP_IN(zfuint, b))
+                              ZFMP_IN(zffloat, b))
 
-ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorChangeA,
+ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorWithA,
                               ZFMP_IN(ZFUIColor const &, c),
-                              ZFMP_IN(zfuint, a))
-ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorChangeR,
+                              ZFMP_IN(zffloat, a))
+ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorWithR,
                               ZFMP_IN(ZFUIColor const &, c),
-                              ZFMP_IN(zfuint, r))
-ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorChangeG,
+                              ZFMP_IN(zffloat, r))
+ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorWithG,
                               ZFMP_IN(ZFUIColor const &, c),
-                              ZFMP_IN(zfuint, g))
-ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorChangeB,
+                              ZFMP_IN(zffloat, g))
+ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUIColor, ZFUIColorWithB,
                               ZFMP_IN(ZFUIColor const &, c),
-                              ZFMP_IN(zfuint, b))
+                              ZFMP_IN(zffloat, b))
 
 ZFMETHOD_FUNC_DEFINE_INLINE_1(ZFUIColor, ZFUIColorRandom,
-                              ZFMP_IN_OPT(zfint, alpha, 0xFF))
+                              ZFMP_IN_OPT(zffloat, alpha, 1.0f))
 
 // ============================================================
 ZFENUM_DEFINE_FLAGS(ZFUIOrientation, ZFUIOrientationFlags)

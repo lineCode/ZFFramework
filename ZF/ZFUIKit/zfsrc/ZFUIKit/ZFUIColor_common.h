@@ -20,312 +20,312 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // common colors
-/** @brief 0x000000FF */
-#define ZFUIColorBlack() ZFUIColor(0x000000FF)
-/** @brief 0x555555FF */
-#define ZFUIColorGrayDark() ZFUIColor(0x555555FF)
-/** @brief 0x808080FF */
-#define ZFUIColorGray() ZFUIColor(0x808080FF)
-/** @brief 0xAAAAAAFF */
-#define ZFUIColorGrayLight() ZFUIColor(0xAAAAAAFF)
-/** @brief 0xFFFFFFFF */
-#define ZFUIColorWhite() ZFUIColor(0xFFFFFFFF)
+/** @brief 0x000000 */
+#define ZFUIColorBlack() ZFUIColorMakeRGB(0x000000)
+/** @brief 0x555555 */
+#define ZFUIColorGrayDark() ZFUIColorMakeRGB(0x555555)
+/** @brief 0x808080 */
+#define ZFUIColorGray() ZFUIColorMakeRGB(0x808080)
+/** @brief 0xAAAAAA */
+#define ZFUIColorGrayLight() ZFUIColorMakeRGB(0xAAAAAA)
+/** @brief 0xFFFFFF */
+#define ZFUIColorWhite() ZFUIColorMakeRGB(0xFFFFFF)
 
-/** @brief 0xFF0000FF */
-#define ZFUIColorRed() ZFUIColor(0xFF0000FF)
-/** @brief 0x00FF00FF */
-#define ZFUIColorGreen() ZFUIColor(0x00FF00FF)
-/** @brief 0x0000FFFF */
-#define ZFUIColorBlue() ZFUIColor(0x0000FFFF)
-/** @brief 0xFFFF00FF */
-#define ZFUIColorYellow() ZFUIColor(0xFFFF00FF)
-/** @brief 0xFF00FFFF */
-#define ZFUIColorMagenta() ZFUIColor(0xFF00FFFF)
-/** @brief 0x00FFFFFF */
-#define ZFUIColorCyan() ZFUIColor(0x00FFFFFF)
+/** @brief 0xFF0000 */
+#define ZFUIColorRed() ZFUIColorMakeRGB(0xFF0000)
+/** @brief 0x00FF00 */
+#define ZFUIColorGreen() ZFUIColorMakeRGB(0x00FF00)
+/** @brief 0x0000FF */
+#define ZFUIColorBlue() ZFUIColorMakeRGB(0x0000FF)
+/** @brief 0xFFFF00 */
+#define ZFUIColorYellow() ZFUIColorMakeRGB(0xFFFF00)
+/** @brief 0xFF00FF */
+#define ZFUIColorMagenta() ZFUIColorMakeRGB(0xFF00FF)
+/** @brief 0x00FFFF */
+#define ZFUIColorCyan() ZFUIColorMakeRGB(0x00FFFF)
 
 // ============================================================
 // web colors
-/** @brief 0xF0F8FFFF */
-#define ZFUIColor_webAliceBlue() ZFUIColorMake(0xF0, 0xF8, 0xFF)
-/** @brief 0xFAEBD7FF */
-#define ZFUIColor_webAntiqueWhite() ZFUIColorMake(0xFA, 0xEB, 0xD7)
-/** @brief 0x00FFFFFF */
-#define ZFUIColor_webAqua() ZFUIColorMake(0x00, 0xFF, 0xFF)
-/** @brief 0x7FFFD4FF */
-#define ZFUIColor_webAquamarine() ZFUIColorMake(0x7F, 0xFF, 0xD4)
-/** @brief 0xF0FFFFFF */
-#define ZFUIColor_webAzure() ZFUIColorMake(0xF0, 0xFF, 0xFF)
-/** @brief 0xF5F5DCFF */
-#define ZFUIColor_webBeige() ZFUIColorMake(0xF5, 0xF5, 0xDC)
-/** @brief 0xFFE4C4FF */
-#define ZFUIColor_webBisque() ZFUIColorMake(0xFF, 0xE4, 0xC4)
-/** @brief 0x000000FF */
-#define ZFUIColor_webBlack() ZFUIColorMake(0x00, 0x00, 0x00)
-/** @brief 0xFFEBCDFF */
-#define ZFUIColor_webBlanchedAlmond() ZFUIColorMake(0xFF, 0xEB, 0xCD)
-/** @brief 0x0000FFFF */
-#define ZFUIColor_webBlue() ZFUIColorMake(0x00, 0x00, 0xFF)
-/** @brief 0x8A2BE2FF */
-#define ZFUIColor_webBlueViolet() ZFUIColorMake(0x8A, 0x2B, 0xE2)
-/** @brief 0xA52A2AFF */
-#define ZFUIColor_webBrown() ZFUIColorMake(0xA5, 0x2A, 0x2A)
-/** @brief 0xDEB887FF */
-#define ZFUIColor_webBurlyWood() ZFUIColorMake(0xDE, 0xB8, 0x87)
-/** @brief 0x5F9EA0FF */
-#define ZFUIColor_webCadetBlue() ZFUIColorMake(0x5F, 0x9E, 0xA0)
-/** @brief 0x7FFF00FF */
-#define ZFUIColor_webChartreuse() ZFUIColorMake(0x7F, 0xFF, 0x00)
-/** @brief 0xD2691EFF */
-#define ZFUIColor_webChocolate() ZFUIColorMake(0xD2, 0x69, 0x1E)
-/** @brief 0xFF7F50FF */
-#define ZFUIColor_webCoral() ZFUIColorMake(0xFF, 0x7F, 0x50)
-/** @brief 0x6495EDFF */
-#define ZFUIColor_webCornflowerBlue() ZFUIColorMake(0x64, 0x95, 0xED)
-/** @brief 0xFFF8DCFF */
-#define ZFUIColor_webCornsilk() ZFUIColorMake(0xFF, 0xF8, 0xDC)
-/** @brief 0xDC143CFF */
-#define ZFUIColor_webCrimson() ZFUIColorMake(0xDC, 0x14, 0x3C)
-/** @brief 0x00FFFFFF */
-#define ZFUIColor_webCyan() ZFUIColorMake(0x00, 0xFF, 0xFF)
-/** @brief 0x00008BFF */
-#define ZFUIColor_webDarkBlue() ZFUIColorMake(0x00, 0x00, 0x8B)
-/** @brief 0x008B8BFF */
-#define ZFUIColor_webDarkCyan() ZFUIColorMake(0x00, 0x8B, 0x8B)
-/** @brief 0xB8860BFF */
-#define ZFUIColor_webDarkGoldenRod() ZFUIColorMake(0xB8, 0x86, 0x0B)
-/** @brief 0xA9A9A9FF */
-#define ZFUIColor_webDarkGray() ZFUIColorMake(0xA9, 0xA9, 0xA9)
-/** @brief 0x006400FF */
-#define ZFUIColor_webDarkGreen() ZFUIColorMake(0x00, 0x64, 0x00)
-/** @brief 0xBDB76BFF */
-#define ZFUIColor_webDarkKhaki() ZFUIColorMake(0xBD, 0xB7, 0x6B)
-/** @brief 0x8B008BFF */
-#define ZFUIColor_webDarkMagenta() ZFUIColorMake(0x8B, 0x00, 0x8B)
-/** @brief 0x556B2FFF */
-#define ZFUIColor_webDarkOliveGreen() ZFUIColorMake(0x55, 0x6B, 0x2F)
-/** @brief 0xFF8C00FF */
-#define ZFUIColor_webDarkOrange() ZFUIColorMake(0xFF, 0x8C, 0x00)
-/** @brief 0x9932CCFF */
-#define ZFUIColor_webDarkOrchid() ZFUIColorMake(0x99, 0x32, 0xCC)
-/** @brief 0x8B0000FF */
-#define ZFUIColor_webDarkRed() ZFUIColorMake(0x8B, 0x00, 0x00)
-/** @brief 0xE9967AFF */
-#define ZFUIColor_webDarkSalmon() ZFUIColorMake(0xE9, 0x96, 0x7A)
-/** @brief 0x8FBC8FFF */
-#define ZFUIColor_webDarkSeaGreen() ZFUIColorMake(0x8F, 0xBC, 0x8F)
-/** @brief 0x483D8BFF */
-#define ZFUIColor_webDarkSlateBlue() ZFUIColorMake(0x48, 0x3D, 0x8B)
-/** @brief 0x2F4F4FFF */
-#define ZFUIColor_webDarkSlateGray() ZFUIColorMake(0x2F, 0x4F, 0x4F)
-/** @brief 0x00CED1FF */
-#define ZFUIColor_webDarkTurquoise() ZFUIColorMake(0x00, 0xCE, 0xD1)
-/** @brief 0x9400D3FF */
-#define ZFUIColor_webDarkViolet() ZFUIColorMake(0x94, 0x00, 0xD3)
-/** @brief 0xFF1493FF */
-#define ZFUIColor_webDeepPink() ZFUIColorMake(0xFF, 0x14, 0x93)
-/** @brief 0x00BFFFFF */
-#define ZFUIColor_webDeepSkyBlue() ZFUIColorMake(0x00, 0xBF, 0xFF)
-/** @brief 0x696969FF */
-#define ZFUIColor_webDimGray() ZFUIColorMake(0x69, 0x69, 0x69)
-/** @brief 0x1E90FFFF */
-#define ZFUIColor_webDodgerBlue() ZFUIColorMake(0x1E, 0x90, 0xFF)
-/** @brief 0xB22222FF */
-#define ZFUIColor_webFireBrick() ZFUIColorMake(0xB2, 0x22, 0x22)
-/** @brief 0xFFFAF0FF */
-#define ZFUIColor_webFloralWhite() ZFUIColorMake(0xFF, 0xFA, 0xF0)
-/** @brief 0x228B22FF */
-#define ZFUIColor_webForestGreen() ZFUIColorMake(0x22, 0x8B, 0x22)
-/** @brief 0xFF00FFFF */
-#define ZFUIColor_webFuchsia() ZFUIColorMake(0xFF, 0x00, 0xFF)
-/** @brief 0xDCDCDCFF */
-#define ZFUIColor_webGainsboro() ZFUIColorMake(0xDC, 0xDC, 0xDC)
-/** @brief 0xF8F8FFFF */
-#define ZFUIColor_webGhostWhite() ZFUIColorMake(0xF8, 0xF8, 0xFF)
-/** @brief 0xFFD700FF */
-#define ZFUIColor_webGold() ZFUIColorMake(0xFF, 0xD7, 0x00)
-/** @brief 0xDAA520FF */
-#define ZFUIColor_webGoldenRod() ZFUIColorMake(0xDA, 0xA5, 0x20)
-/** @brief 0x808080FF */
-#define ZFUIColor_webGray() ZFUIColorMake(0x80, 0x80, 0x80)
-/** @brief 0x008000FF */
-#define ZFUIColor_webGreen() ZFUIColorMake(0x00, 0x80, 0x00)
-/** @brief 0xADFF2FFF */
-#define ZFUIColor_webGreenYellow() ZFUIColorMake(0xAD, 0xFF, 0x2F)
-/** @brief 0xF0FFF0FF */
-#define ZFUIColor_webHoneyDew() ZFUIColorMake(0xF0, 0xFF, 0xF0)
-/** @brief 0xFF69B4FF */
-#define ZFUIColor_webHotPink() ZFUIColorMake(0xFF, 0x69, 0xB4)
-/** @brief 0xCD5C5CFF */
-#define ZFUIColor_webIndianRed() ZFUIColorMake(0xCD, 0x5C, 0x5C)
-/** @brief 0x4B0082FF */
-#define ZFUIColor_webIndigo() ZFUIColorMake(0x4B, 0x00, 0x82)
-/** @brief 0xFFFFF0FF */
-#define ZFUIColor_webIvory() ZFUIColorMake(0xFF, 0xFF, 0xF0)
-/** @brief 0xF0E68CFF */
-#define ZFUIColor_webKhaki() ZFUIColorMake(0xF0, 0xE6, 0x8C)
-/** @brief 0xE6E6FAFF */
-#define ZFUIColor_webLavender() ZFUIColorMake(0xE6, 0xE6, 0xFA)
-/** @brief 0xFFF0F5FF */
-#define ZFUIColor_webLavenderBlush() ZFUIColorMake(0xFF, 0xF0, 0xF5)
-/** @brief 0x7CFC00FF */
-#define ZFUIColor_webLawnGreen() ZFUIColorMake(0x7C, 0xFC, 0x00)
-/** @brief 0xFFFACDFF */
-#define ZFUIColor_webLemonChiffon() ZFUIColorMake(0xFF, 0xFA, 0xCD)
-/** @brief 0xADD8E6FF */
-#define ZFUIColor_webLightBlue() ZFUIColorMake(0xAD, 0xD8, 0xE6)
-/** @brief 0xF08080FF */
-#define ZFUIColor_webLightCoral() ZFUIColorMake(0xF0, 0x80, 0x80)
-/** @brief 0xE0FFFFFF */
-#define ZFUIColor_webLightCyan() ZFUIColorMake(0xE0, 0xFF, 0xFF)
-/** @brief 0xFAFAD2FF */
-#define ZFUIColor_webLightGoldenRodYellow() ZFUIColorMake(0xFA, 0xFA, 0xD2)
-/** @brief 0xD3D3D3FF */
-#define ZFUIColor_webLightGray() ZFUIColorMake(0xD3, 0xD3, 0xD3)
-/** @brief 0x90EE90FF */
-#define ZFUIColor_webLightGreen() ZFUIColorMake(0x90, 0xEE, 0x90)
-/** @brief 0xFFB6C1FF */
-#define ZFUIColor_webLightPink() ZFUIColorMake(0xFF, 0xB6, 0xC1)
-/** @brief 0xFFA07AFF */
-#define ZFUIColor_webLightSalmon() ZFUIColorMake(0xFF, 0xA0, 0x7A)
-/** @brief 0x20B2AAFF */
-#define ZFUIColor_webLightSeaGreen() ZFUIColorMake(0x20, 0xB2, 0xAA)
-/** @brief 0x87CEFAFF */
-#define ZFUIColor_webLightSkyBlue() ZFUIColorMake(0x87, 0xCE, 0xFA)
-/** @brief 0x778899FF */
-#define ZFUIColor_webLightSlateGray() ZFUIColorMake(0x77, 0x88, 0x99)
-/** @brief 0xB0C4DEFF */
-#define ZFUIColor_webLightSteelBlue() ZFUIColorMake(0xB0, 0xC4, 0xDE)
-/** @brief 0xFFFFE0FF */
-#define ZFUIColor_webLightYellow() ZFUIColorMake(0xFF, 0xFF, 0xE0)
-/** @brief 0x00FF00FF */
-#define ZFUIColor_webLime() ZFUIColorMake(0x00, 0xFF, 0x00)
-/** @brief 0x32CD32FF */
-#define ZFUIColor_webLimeGreen() ZFUIColorMake(0x32, 0xCD, 0x32)
-/** @brief 0xFAF0E6FF */
-#define ZFUIColor_webLinen() ZFUIColorMake(0xFA, 0xF0, 0xE6)
-/** @brief 0xFF00FFFF */
-#define ZFUIColor_webMagenta() ZFUIColorMake(0xFF, 0x00, 0xFF)
-/** @brief 0x800000FF */
-#define ZFUIColor_webMaroon() ZFUIColorMake(0x80, 0x00, 0x00)
-/** @brief 0x66CDAAFF */
-#define ZFUIColor_webMediumAquaMarine() ZFUIColorMake(0x66, 0xCD, 0xAA)
-/** @brief 0x0000CDFF */
-#define ZFUIColor_webMediumBlue() ZFUIColorMake(0x00, 0x00, 0xCD)
-/** @brief 0xBA55D3FF */
-#define ZFUIColor_webMediumOrchid() ZFUIColorMake(0xBA, 0x55, 0xD3)
-/** @brief 0x9370DBFF */
-#define ZFUIColor_webMediumPurple() ZFUIColorMake(0x93, 0x70, 0xDB)
-/** @brief 0x3CB371FF */
-#define ZFUIColor_webMediumSeaGreen() ZFUIColorMake(0x3C, 0xB3, 0x71)
-/** @brief 0x7B68EEFF */
-#define ZFUIColor_webMediumSlateBlue() ZFUIColorMake(0x7B, 0x68, 0xEE)
-/** @brief 0x00FA9AFF */
-#define ZFUIColor_webMediumSpringGreen() ZFUIColorMake(0x00, 0xFA, 0x9A)
-/** @brief 0x48D1CCFF */
-#define ZFUIColor_webMediumTurquoise() ZFUIColorMake(0x48, 0xD1, 0xCC)
-/** @brief 0xC71585FF */
-#define ZFUIColor_webMediumVioletRed() ZFUIColorMake(0xC7, 0x15, 0x85)
-/** @brief 0x191970FF */
-#define ZFUIColor_webMidnightBlue() ZFUIColorMake(0x19, 0x19, 0x70)
-/** @brief 0xF5FFFAFF */
-#define ZFUIColor_webMintCream() ZFUIColorMake(0xF5, 0xFF, 0xFA)
-/** @brief 0xFFE4E1FF */
-#define ZFUIColor_webMistyRose() ZFUIColorMake(0xFF, 0xE4, 0xE1)
-/** @brief 0xFFE4B5FF */
-#define ZFUIColor_webMoccasin() ZFUIColorMake(0xFF, 0xE4, 0xB5)
-/** @brief 0xFFDEADFF */
-#define ZFUIColor_webNavajoWhite() ZFUIColorMake(0xFF, 0xDE, 0xAD)
-/** @brief 0x000080FF */
-#define ZFUIColor_webNavy() ZFUIColorMake(0x00, 0x00, 0x80)
-/** @brief 0xFDF5E6FF */
-#define ZFUIColor_webOldLace() ZFUIColorMake(0xFD, 0xF5, 0xE6)
-/** @brief 0x808000FF */
-#define ZFUIColor_webOlive() ZFUIColorMake(0x80, 0x80, 0x00)
-/** @brief 0x6B8E23FF */
-#define ZFUIColor_webOliveDrab() ZFUIColorMake(0x6B, 0x8E, 0x23)
-/** @brief 0xFFA500FF */
-#define ZFUIColor_webOrange() ZFUIColorMake(0xFF, 0xA5, 0x00)
-/** @brief 0xFF4500FF */
-#define ZFUIColor_webOrangeRed() ZFUIColorMake(0xFF, 0x45, 0x00)
-/** @brief 0xDA70D6FF */
-#define ZFUIColor_webOrchid() ZFUIColorMake(0xDA, 0x70, 0xD6)
-/** @brief 0xEEE8AAFF */
-#define ZFUIColor_webPaleGoldenRod() ZFUIColorMake(0xEE, 0xE8, 0xAA)
-/** @brief 0x98FB98FF */
-#define ZFUIColor_webPaleGreen() ZFUIColorMake(0x98, 0xFB, 0x98)
-/** @brief 0xAFEEEEFF */
-#define ZFUIColor_webPaleTurquoise() ZFUIColorMake(0xAF, 0xEE, 0xEE)
-/** @brief 0xDB7093FF */
-#define ZFUIColor_webPaleVioletRed() ZFUIColorMake(0xDB, 0x70, 0x93)
-/** @brief 0xFFEFD5FF */
-#define ZFUIColor_webPapayaWhip() ZFUIColorMake(0xFF, 0xEF, 0xD5)
-/** @brief 0xFFDAB9FF */
-#define ZFUIColor_webPeachPuff() ZFUIColorMake(0xFF, 0xDA, 0xB9)
-/** @brief 0xCD853FFF */
-#define ZFUIColor_webPeru() ZFUIColorMake(0xCD, 0x85, 0x3F)
-/** @brief 0xFFC0CBFF */
-#define ZFUIColor_webPink() ZFUIColorMake(0xFF, 0xC0, 0xCB)
-/** @brief 0xDDA0DDFF */
-#define ZFUIColor_webPlum() ZFUIColorMake(0xDD, 0xA0, 0xDD)
-/** @brief 0xB0E0E6FF */
-#define ZFUIColor_webPowderBlue() ZFUIColorMake(0xB0, 0xE0, 0xE6)
-/** @brief 0x800080FF */
-#define ZFUIColor_webPurple() ZFUIColorMake(0x80, 0x00, 0x80)
-/** @brief 0xFF0000FF */
-#define ZFUIColor_webRed() ZFUIColorMake(0xFF, 0x00, 0x00)
-/** @brief 0xBC8F8FFF */
-#define ZFUIColor_webRosyBrown() ZFUIColorMake(0xBC, 0x8F, 0x8F)
-/** @brief 0x4169E1FF */
-#define ZFUIColor_webRoyalBlue() ZFUIColorMake(0x41, 0x69, 0xE1)
-/** @brief 0x8B4513FF */
-#define ZFUIColor_webSaddleBrown() ZFUIColorMake(0x8B, 0x45, 0x13)
-/** @brief 0xFA8072FF */
-#define ZFUIColor_webSalmon() ZFUIColorMake(0xFA, 0x80, 0x72)
-/** @brief 0xF4A460FF */
-#define ZFUIColor_webSandyBrown() ZFUIColorMake(0xF4, 0xA4, 0x60)
-/** @brief 0x2E8B57FF */
-#define ZFUIColor_webSeaGreen() ZFUIColorMake(0x2E, 0x8B, 0x57)
-/** @brief 0xFFF5EEFF */
-#define ZFUIColor_webSeaShell() ZFUIColorMake(0xFF, 0xF5, 0xEE)
-/** @brief 0xA0522DFF */
-#define ZFUIColor_webSienna() ZFUIColorMake(0xA0, 0x52, 0x2D)
-/** @brief 0xC0C0C0FF */
-#define ZFUIColor_webSilver() ZFUIColorMake(0xC0, 0xC0, 0xC0)
-/** @brief 0x87CEEBFF */
-#define ZFUIColor_webSkyBlue() ZFUIColorMake(0x87, 0xCE, 0xEB)
-/** @brief 0x6A5ACDFF */
-#define ZFUIColor_webSlateBlue() ZFUIColorMake(0x6A, 0x5A, 0xCD)
-/** @brief 0x708090FF */
-#define ZFUIColor_webSlateGray() ZFUIColorMake(0x70, 0x80, 0x90)
-/** @brief 0xFFFAFAFF */
-#define ZFUIColor_webSnow() ZFUIColorMake(0xFF, 0xFA, 0xFA)
-/** @brief 0x00FF7FFF */
-#define ZFUIColor_webSpringGreen() ZFUIColorMake(0x00, 0xFF, 0x7F)
-/** @brief 0x4682B4FF */
-#define ZFUIColor_webSteelBlue() ZFUIColorMake(0x46, 0x82, 0xB4)
-/** @brief 0xD2B48CFF */
-#define ZFUIColor_webTan() ZFUIColorMake(0xD2, 0xB4, 0x8C)
-/** @brief 0x008080FF */
-#define ZFUIColor_webTeal() ZFUIColorMake(0x00, 0x80, 0x80)
-/** @brief 0xD8BFD8FF */
-#define ZFUIColor_webThistle() ZFUIColorMake(0xD8, 0xBF, 0xD8)
-/** @brief 0xFF6347FF */
-#define ZFUIColor_webTomato() ZFUIColorMake(0xFF, 0x63, 0x47)
-/** @brief 0x40E0D0FF */
-#define ZFUIColor_webTurquoise() ZFUIColorMake(0x40, 0xE0, 0xD0)
-/** @brief 0xEE82EEFF */
-#define ZFUIColor_webViolet() ZFUIColorMake(0xEE, 0x82, 0xEE)
-/** @brief 0xF5DEB3FF */
-#define ZFUIColor_webWheat() ZFUIColorMake(0xF5, 0xDE, 0xB3)
-/** @brief 0xFFFFFFFF */
-#define ZFUIColor_webWhite() ZFUIColorMake(0xFF, 0xFF, 0xFF)
-/** @brief 0xF5F5F5FF */
-#define ZFUIColor_webWhiteSmoke() ZFUIColorMake(0xF5, 0xF5, 0xF5)
-/** @brief 0xFFFF00FF */
-#define ZFUIColor_webYellow() ZFUIColorMake(0xFF, 0xFF, 0x00)
-/** @brief 0x9ACD32FF */
-#define ZFUIColor_webYellowGreen() ZFUIColorMake(0x9A, 0xCD, 0x32)
+/** @brief 0xF0F8FF */
+#define ZFUIColor_webAliceBlue() ZFUIColorMakeRGB(0xF0F8FF)
+/** @brief 0xFAEBD7 */
+#define ZFUIColor_webAntiqueWhite() ZFUIColorMakeRGB(0xFAEBD7)
+/** @brief 0x00FFFF */
+#define ZFUIColor_webAqua() ZFUIColorMakeRGB(0x00FFFF)
+/** @brief 0x7FFFD4 */
+#define ZFUIColor_webAquamarine() ZFUIColorMakeRGB(0x7FFFD4)
+/** @brief 0xF0FFFF */
+#define ZFUIColor_webAzure() ZFUIColorMakeRGB(0xF0FFFF)
+/** @brief 0xF5F5DC */
+#define ZFUIColor_webBeige() ZFUIColorMakeRGB(0xF5F5DC)
+/** @brief 0xFFE4C4 */
+#define ZFUIColor_webBisque() ZFUIColorMakeRGB(0xFFE4C4)
+/** @brief 0x000000 */
+#define ZFUIColor_webBlack() ZFUIColorMakeRGB(0x000000)
+/** @brief 0xFFEBCD */
+#define ZFUIColor_webBlanchedAlmond() ZFUIColorMakeRGB(0xFFEBCD)
+/** @brief 0x0000FF */
+#define ZFUIColor_webBlue() ZFUIColorMakeRGB(0x0000FF)
+/** @brief 0x8A2BE2 */
+#define ZFUIColor_webBlueViolet() ZFUIColorMakeRGB(0x8A2BE2)
+/** @brief 0xA52A2A */
+#define ZFUIColor_webBrown() ZFUIColorMakeRGB(0xA52A2A)
+/** @brief 0xDEB887 */
+#define ZFUIColor_webBurlyWood() ZFUIColorMakeRGB(0xDEB887)
+/** @brief 0x5F9EA0 */
+#define ZFUIColor_webCadetBlue() ZFUIColorMakeRGB(0x5F9EA0)
+/** @brief 0x7FFF00 */
+#define ZFUIColor_webChartreuse() ZFUIColorMakeRGB(0x7FFF00)
+/** @brief 0xD2691E */
+#define ZFUIColor_webChocolate() ZFUIColorMakeRGB(0xD2691E)
+/** @brief 0xFF7F50 */
+#define ZFUIColor_webCoral() ZFUIColorMakeRGB(0xFF7F50)
+/** @brief 0x6495ED */
+#define ZFUIColor_webCornflowerBlue() ZFUIColorMakeRGB(0x6495ED)
+/** @brief 0xFFF8DC */
+#define ZFUIColor_webCornsilk() ZFUIColorMakeRGB(0xFFF8DC)
+/** @brief 0xDC143C */
+#define ZFUIColor_webCrimson() ZFUIColorMakeRGB(0xDC143C)
+/** @brief 0x00FFFF */
+#define ZFUIColor_webCyan() ZFUIColorMakeRGB(0x00FFFF)
+/** @brief 0x00008B */
+#define ZFUIColor_webDarkBlue() ZFUIColorMakeRGB(0x00008B)
+/** @brief 0x008B8B */
+#define ZFUIColor_webDarkCyan() ZFUIColorMakeRGB(0x008B8B)
+/** @brief 0xB8860B */
+#define ZFUIColor_webDarkGoldenRod() ZFUIColorMakeRGB(0xB8860B)
+/** @brief 0xA9A9A9 */
+#define ZFUIColor_webDarkGray() ZFUIColorMakeRGB(0xA9A9A9)
+/** @brief 0x006400 */
+#define ZFUIColor_webDarkGreen() ZFUIColorMakeRGB(0x006400)
+/** @brief 0xBDB76B */
+#define ZFUIColor_webDarkKhaki() ZFUIColorMakeRGB(0xBDB76B)
+/** @brief 0x8B008B */
+#define ZFUIColor_webDarkMagenta() ZFUIColorMakeRGB(0x8B008B)
+/** @brief 0x556B2F */
+#define ZFUIColor_webDarkOliveGreen() ZFUIColorMakeRGB(0x556B2F)
+/** @brief 0xFF8C00 */
+#define ZFUIColor_webDarkOrange() ZFUIColorMakeRGB(0xFF8C00)
+/** @brief 0x9932CC */
+#define ZFUIColor_webDarkOrchid() ZFUIColorMakeRGB(0x9932CC)
+/** @brief 0x8B0000 */
+#define ZFUIColor_webDarkRed() ZFUIColorMakeRGB(0x8B0000)
+/** @brief 0xE9967A */
+#define ZFUIColor_webDarkSalmon() ZFUIColorMakeRGB(0xE9967A)
+/** @brief 0x8FBC8F */
+#define ZFUIColor_webDarkSeaGreen() ZFUIColorMakeRGB(0x8FBC8F)
+/** @brief 0x483D8B */
+#define ZFUIColor_webDarkSlateBlue() ZFUIColorMakeRGB(0x483D8B)
+/** @brief 0x2F4F4F */
+#define ZFUIColor_webDarkSlateGray() ZFUIColorMakeRGB(0x2F4F4F)
+/** @brief 0x00CED1 */
+#define ZFUIColor_webDarkTurquoise() ZFUIColorMakeRGB(0x00CED1)
+/** @brief 0x9400D3 */
+#define ZFUIColor_webDarkViolet() ZFUIColorMakeRGB(0x9400D3)
+/** @brief 0xFF1493 */
+#define ZFUIColor_webDeepPink() ZFUIColorMakeRGB(0xFF1493)
+/** @brief 0x00BFFF */
+#define ZFUIColor_webDeepSkyBlue() ZFUIColorMakeRGB(0x00BFFF)
+/** @brief 0x696969 */
+#define ZFUIColor_webDimGray() ZFUIColorMakeRGB(0x696969)
+/** @brief 0x1E90FF */
+#define ZFUIColor_webDodgerBlue() ZFUIColorMakeRGB(0x1E90FF)
+/** @brief 0xB22222 */
+#define ZFUIColor_webFireBrick() ZFUIColorMakeRGB(0xB22222)
+/** @brief 0xFFFAF0 */
+#define ZFUIColor_webFloralWhite() ZFUIColorMakeRGB(0xFFFAF0)
+/** @brief 0x228B22 */
+#define ZFUIColor_webForestGreen() ZFUIColorMakeRGB(0x228B22)
+/** @brief 0xFF00FF */
+#define ZFUIColor_webFuchsia() ZFUIColorMakeRGB(0xFF00FF)
+/** @brief 0xDCDCDC */
+#define ZFUIColor_webGainsboro() ZFUIColorMakeRGB(0xDCDCDC)
+/** @brief 0xF8F8FF */
+#define ZFUIColor_webGhostWhite() ZFUIColorMakeRGB(0xF8F8FF)
+/** @brief 0xFFD700 */
+#define ZFUIColor_webGold() ZFUIColorMakeRGB(0xFFD700)
+/** @brief 0xDAA520 */
+#define ZFUIColor_webGoldenRod() ZFUIColorMakeRGB(0xDAA520)
+/** @brief 0x808080 */
+#define ZFUIColor_webGray() ZFUIColorMakeRGB(0x808080)
+/** @brief 0x008000 */
+#define ZFUIColor_webGreen() ZFUIColorMakeRGB(0x008000)
+/** @brief 0xADFF2F */
+#define ZFUIColor_webGreenYellow() ZFUIColorMakeRGB(0xADFF2F)
+/** @brief 0xF0FFF0 */
+#define ZFUIColor_webHoneyDew() ZFUIColorMakeRGB(0xF0FFF0)
+/** @brief 0xFF69B4 */
+#define ZFUIColor_webHotPink() ZFUIColorMakeRGB(0xFF69B4)
+/** @brief 0xCD5C5C */
+#define ZFUIColor_webIndianRed() ZFUIColorMakeRGB(0xCD5C5C)
+/** @brief 0x4B0082 */
+#define ZFUIColor_webIndigo() ZFUIColorMakeRGB(0x4B0082)
+/** @brief 0xFFFFF0 */
+#define ZFUIColor_webIvory() ZFUIColorMakeRGB(0xFFFFF0)
+/** @brief 0xF0E68C */
+#define ZFUIColor_webKhaki() ZFUIColorMakeRGB(0xF0E68C)
+/** @brief 0xE6E6FA */
+#define ZFUIColor_webLavender() ZFUIColorMakeRGB(0xE6E6FA)
+/** @brief 0xFFF0F5 */
+#define ZFUIColor_webLavenderBlush() ZFUIColorMakeRGB(0xFFF0F5)
+/** @brief 0x7CFC00 */
+#define ZFUIColor_webLawnGreen() ZFUIColorMakeRGB(0x7CFC00)
+/** @brief 0xFFFACD */
+#define ZFUIColor_webLemonChiffon() ZFUIColorMakeRGB(0xFFFACD)
+/** @brief 0xADD8E6 */
+#define ZFUIColor_webLightBlue() ZFUIColorMakeRGB(0xADD8E6)
+/** @brief 0xF08080 */
+#define ZFUIColor_webLightCoral() ZFUIColorMakeRGB(0xF08080)
+/** @brief 0xE0FFFF */
+#define ZFUIColor_webLightCyan() ZFUIColorMakeRGB(0xE0FFFF)
+/** @brief 0xFAFAD2 */
+#define ZFUIColor_webLightGoldenRodYellow() ZFUIColorMakeRGB(0xFAFAD2)
+/** @brief 0xD3D3D3 */
+#define ZFUIColor_webLightGray() ZFUIColorMakeRGB(0xD3D3D3)
+/** @brief 0x90EE90 */
+#define ZFUIColor_webLightGreen() ZFUIColorMakeRGB(0x90EE90)
+/** @brief 0xFFB6C1 */
+#define ZFUIColor_webLightPink() ZFUIColorMakeRGB(0xFFB6C1)
+/** @brief 0xFFA07A */
+#define ZFUIColor_webLightSalmon() ZFUIColorMakeRGB(0xFFA07A)
+/** @brief 0x20B2AA */
+#define ZFUIColor_webLightSeaGreen() ZFUIColorMakeRGB(0x20B2AA)
+/** @brief 0x87CEFA */
+#define ZFUIColor_webLightSkyBlue() ZFUIColorMakeRGB(0x87CEFA)
+/** @brief 0x778899 */
+#define ZFUIColor_webLightSlateGray() ZFUIColorMakeRGB(0x778899)
+/** @brief 0xB0C4DE */
+#define ZFUIColor_webLightSteelBlue() ZFUIColorMakeRGB(0xB0C4DE)
+/** @brief 0xFFFFE0 */
+#define ZFUIColor_webLightYellow() ZFUIColorMakeRGB(0xFFFFE0)
+/** @brief 0x00FF00 */
+#define ZFUIColor_webLime() ZFUIColorMakeRGB(0x00FF00)
+/** @brief 0x32CD32 */
+#define ZFUIColor_webLimeGreen() ZFUIColorMakeRGB(0x32CD32)
+/** @brief 0xFAF0E6 */
+#define ZFUIColor_webLinen() ZFUIColorMakeRGB(0xFAF0E6)
+/** @brief 0xFF00FF */
+#define ZFUIColor_webMagenta() ZFUIColorMakeRGB(0xFF00FF)
+/** @brief 0x800000 */
+#define ZFUIColor_webMaroon() ZFUIColorMakeRGB(0x800000)
+/** @brief 0x66CDAA */
+#define ZFUIColor_webMediumAquaMarine() ZFUIColorMakeRGB(0x66CDAA)
+/** @brief 0x0000CD */
+#define ZFUIColor_webMediumBlue() ZFUIColorMakeRGB(0x0000CD)
+/** @brief 0xBA55D3 */
+#define ZFUIColor_webMediumOrchid() ZFUIColorMakeRGB(0xBA55D3)
+/** @brief 0x9370DB */
+#define ZFUIColor_webMediumPurple() ZFUIColorMakeRGB(0x9370DB)
+/** @brief 0x3CB371 */
+#define ZFUIColor_webMediumSeaGreen() ZFUIColorMakeRGB(0x3CB371)
+/** @brief 0x7B68EE */
+#define ZFUIColor_webMediumSlateBlue() ZFUIColorMakeRGB(0x7B68EE)
+/** @brief 0x00FA9A */
+#define ZFUIColor_webMediumSpringGreen() ZFUIColorMakeRGB(0x00FA9A)
+/** @brief 0x48D1CC */
+#define ZFUIColor_webMediumTurquoise() ZFUIColorMakeRGB(0x48D1CC)
+/** @brief 0xC71585 */
+#define ZFUIColor_webMediumVioletRed() ZFUIColorMakeRGB(0xC71585)
+/** @brief 0x191970 */
+#define ZFUIColor_webMidnightBlue() ZFUIColorMakeRGB(0x191970)
+/** @brief 0xF5FFFA */
+#define ZFUIColor_webMintCream() ZFUIColorMakeRGB(0xF5FFFA)
+/** @brief 0xFFE4E1 */
+#define ZFUIColor_webMistyRose() ZFUIColorMakeRGB(0xFFE4E1)
+/** @brief 0xFFE4B5 */
+#define ZFUIColor_webMoccasin() ZFUIColorMakeRGB(0xFFE4B5)
+/** @brief 0xFFDEAD */
+#define ZFUIColor_webNavajoWhite() ZFUIColorMakeRGB(0xFFDEAD)
+/** @brief 0x000080 */
+#define ZFUIColor_webNavy() ZFUIColorMakeRGB(0x000080)
+/** @brief 0xFDF5E6 */
+#define ZFUIColor_webOldLace() ZFUIColorMakeRGB(0xFDF5E6)
+/** @brief 0x808000 */
+#define ZFUIColor_webOlive() ZFUIColorMakeRGB(0x808000)
+/** @brief 0x6B8E23 */
+#define ZFUIColor_webOliveDrab() ZFUIColorMakeRGB(0x6B8E23)
+/** @brief 0xFFA500 */
+#define ZFUIColor_webOrange() ZFUIColorMakeRGB(0xFFA500)
+/** @brief 0xFF4500 */
+#define ZFUIColor_webOrangeRed() ZFUIColorMakeRGB(0xFF4500)
+/** @brief 0xDA70D6 */
+#define ZFUIColor_webOrchid() ZFUIColorMakeRGB(0xDA70D6)
+/** @brief 0xEEE8AA */
+#define ZFUIColor_webPaleGoldenRod() ZFUIColorMakeRGB(0xEEE8AA)
+/** @brief 0x98FB98 */
+#define ZFUIColor_webPaleGreen() ZFUIColorMakeRGB(0x98FB98)
+/** @brief 0xAFEEEE */
+#define ZFUIColor_webPaleTurquoise() ZFUIColorMakeRGB(0xAFEEEE)
+/** @brief 0xDB7093 */
+#define ZFUIColor_webPaleVioletRed() ZFUIColorMakeRGB(0xDB7093)
+/** @brief 0xFFEFD5 */
+#define ZFUIColor_webPapayaWhip() ZFUIColorMakeRGB(0xFFEFD5)
+/** @brief 0xFFDAB9 */
+#define ZFUIColor_webPeachPuff() ZFUIColorMakeRGB(0xFFDAB9)
+/** @brief 0xCD853F */
+#define ZFUIColor_webPeru() ZFUIColorMakeRGB(0xCD853F)
+/** @brief 0xFFC0CB */
+#define ZFUIColor_webPink() ZFUIColorMakeRGB(0xFFC0CB)
+/** @brief 0xDDA0DD */
+#define ZFUIColor_webPlum() ZFUIColorMakeRGB(0xDDA0DD)
+/** @brief 0xB0E0E6 */
+#define ZFUIColor_webPowderBlue() ZFUIColorMakeRGB(0xB0E0E6)
+/** @brief 0x800080 */
+#define ZFUIColor_webPurple() ZFUIColorMakeRGB(0x800080)
+/** @brief 0xFF0000 */
+#define ZFUIColor_webRed() ZFUIColorMakeRGB(0xFF0000)
+/** @brief 0xBC8F8F */
+#define ZFUIColor_webRosyBrown() ZFUIColorMakeRGB(0xBC8F8F)
+/** @brief 0x4169E1 */
+#define ZFUIColor_webRoyalBlue() ZFUIColorMakeRGB(0x4169E1)
+/** @brief 0x8B4513 */
+#define ZFUIColor_webSaddleBrown() ZFUIColorMakeRGB(0x8B4513)
+/** @brief 0xFA8072 */
+#define ZFUIColor_webSalmon() ZFUIColorMakeRGB(0xFA8072)
+/** @brief 0xF4A460 */
+#define ZFUIColor_webSandyBrown() ZFUIColorMakeRGB(0xF4A460)
+/** @brief 0x2E8B57 */
+#define ZFUIColor_webSeaGreen() ZFUIColorMakeRGB(0x2E8B57)
+/** @brief 0xFFF5EE */
+#define ZFUIColor_webSeaShell() ZFUIColorMakeRGB(0xFFF5EE)
+/** @brief 0xA0522D */
+#define ZFUIColor_webSienna() ZFUIColorMakeRGB(0xA0522D)
+/** @brief 0xC0C0C0 */
+#define ZFUIColor_webSilver() ZFUIColorMakeRGB(0xC0C0C0)
+/** @brief 0x87CEEB */
+#define ZFUIColor_webSkyBlue() ZFUIColorMakeRGB(0x87CEEB)
+/** @brief 0x6A5ACD */
+#define ZFUIColor_webSlateBlue() ZFUIColorMakeRGB(0x6A5ACD)
+/** @brief 0x708090 */
+#define ZFUIColor_webSlateGray() ZFUIColorMakeRGB(0x708090)
+/** @brief 0xFFFAFA */
+#define ZFUIColor_webSnow() ZFUIColorMakeRGB(0xFFFAFA)
+/** @brief 0x00FF7F */
+#define ZFUIColor_webSpringGreen() ZFUIColorMakeRGB(0x00FF7F)
+/** @brief 0x4682B4 */
+#define ZFUIColor_webSteelBlue() ZFUIColorMakeRGB(0x4682B4)
+/** @brief 0xD2B48C */
+#define ZFUIColor_webTan() ZFUIColorMakeRGB(0xD2B48C)
+/** @brief 0x008080 */
+#define ZFUIColor_webTeal() ZFUIColorMakeRGB(0x008080)
+/** @brief 0xD8BFD8 */
+#define ZFUIColor_webThistle() ZFUIColorMakeRGB(0xD8BFD8)
+/** @brief 0xFF6347 */
+#define ZFUIColor_webTomato() ZFUIColorMakeRGB(0xFF6347)
+/** @brief 0x40E0D0 */
+#define ZFUIColor_webTurquoise() ZFUIColorMakeRGB(0x40E0D0)
+/** @brief 0xEE82EE */
+#define ZFUIColor_webViolet() ZFUIColorMakeRGB(0xEE82EE)
+/** @brief 0xF5DEB3 */
+#define ZFUIColor_webWheat() ZFUIColorMakeRGB(0xF5DEB3)
+/** @brief 0xFFFFFF */
+#define ZFUIColor_webWhite() ZFUIColorMakeRGB(0xFFFFFF)
+/** @brief 0xF5F5F5 */
+#define ZFUIColor_webWhiteSmoke() ZFUIColorMakeRGB(0xF5F5F5)
+/** @brief 0xFFFF00 */
+#define ZFUIColor_webYellow() ZFUIColorMakeRGB(0xFFFF00)
+/** @brief 0x9ACD32 */
+#define ZFUIColor_webYellowGreen() ZFUIColorMakeRGB(0x9ACD32)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUIColor_common_h_

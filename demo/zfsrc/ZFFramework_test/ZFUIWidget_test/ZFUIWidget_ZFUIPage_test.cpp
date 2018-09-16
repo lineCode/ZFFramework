@@ -171,10 +171,10 @@ protected:
             userData->tagSet(zfText("pageManager"), this->objectHolder());
             userData->tagSet(zfText("pageGroupId"), pageGroupId);
             button->observerAdd(ZFUIButton::EventButtonOnClick(), buttonOnClick, userData);
-            zfint r = zfmRand(255);
-            zfint g = zfmRand(255);
-            zfint b = zfmRand(255);
-            button->buttonBackgroundStyleNormal()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(r, g, b, 64)));
+            zffloat r = zfmRand(255) / 255.0f;
+            zffloat g = zfmRand(255) / 255.0f;
+            zffloat b = zfmRand(255) / 255.0f;
+            button->buttonBackgroundStyleNormal()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(r, g, b, 0.25f)));
             button->buttonBackgroundStyleHighlighted()->imageSet(ZFUIImageLoadFromColor(ZFUIColorMake(r, g, b)));
         }
         this->pageAniOverrideForOnce(zfnull, zfnull);

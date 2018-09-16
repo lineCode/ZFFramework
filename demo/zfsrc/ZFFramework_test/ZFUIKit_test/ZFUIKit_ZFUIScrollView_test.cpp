@@ -40,7 +40,7 @@ protected:
         embededScrollView->layoutParam()->layoutMarginSet(ZFUIMarginMake(80));
         embededScrollView->layoutParam()->sizeHintSet(ZFUISizeMake(200, 100));
         embededScrollView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        embededScrollView->viewBackgroundColorSet(ZFUIColorMake(0, 0, 255, 192));
+        embededScrollView->viewBackgroundColorSet(ZFUIColorMake(0, 0, 1, 0.75f));
 
         this->setupScrollListener(embededScrollView);
         this->setupScrollContent(embededScrollView, ZFUISizeMake(60), ZFUISizeMake(30), ZFUISizeMake(10));
@@ -109,7 +109,7 @@ private:
                 btn->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
                 btn->layoutParam()->sizeHintSet(itemSize);
                 btn->layoutParam()->layoutMarginSet(ZFUIMarginMake(x, y, 0, 0));
-                btn->viewBackgroundColorSet(ZFUIColorRandom(192));
+                btn->viewBackgroundColorSet(ZFUIColorRandom(0.75f));
 
                 ZFLISTENER_LOCAL(onClick, {
                     zfLogTrimT() << zfText("clicked") << listenerData.sender;

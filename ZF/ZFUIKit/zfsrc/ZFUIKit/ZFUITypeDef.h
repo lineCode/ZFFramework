@@ -1108,11 +1108,14 @@ ZFMETHOD_FUNC_DECLARE_INLINE_1(zfbool, ZFUIOrientationIsHorizontal,
 // ============================================================
 // ZFUIColor
 /**
- * @brief 32 bit color with (RRGGBBAA) format
+ * @brief color with `AARRGGBB` format
+ *
+ * note the actual color type is not ensured,
+ * use float to make and store a/r/g/b element
  */
 ZFT_INT_STRONG(zft_zfuint32, ZFUIColor)
 
-/** @brief 0x00000000 */
+/** @brief zero color */
 ZFEXPORT_VAR_READONLY_DECLARE(ZFUIColor, ZFUIColorZero)
 
 /**
@@ -1126,18 +1129,20 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFUIColor, ZFUIColorZero)
  * @endcode
  *
  * valid value format:
- * -  "RRGGBBAA"
+ * -  "AARRGGBB"
  * -  "RRGGBB"
+ * -  "ARGB"
+ * -  "RGB"
  *
  * valid prefix:
- * -  empty ("RRGGBBAA")
- * -  "#" ("#RRGGBBAA")
- * -  "0x" ("0xRRGGBBAA")
+ * -  empty ("AARRGGBB")
+ * -  "#" ("#AARRGGBB")
+ * -  "0x" ("0xAARRGGBB")
  *
  * when serialize back to string,
- * the output format are ensured
- * "#RRGGBBAA" if the alpha is not 0xFF,
- * and are ensured "#RRGGBB" if the alpha is 0xFF
+ * it's ensured to use "#" as prefix,
+ * and will try to use the shortest form if available
+ * (e.g. "RGB" instead of "AARRGGBB")
  */
 ZFTYPEID_DECLARE(ZFUIColor, ZFUIColor)
 
@@ -1153,49 +1158,75 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(zfbool, ZFUIColorIsEqual,
     return (v0 == v1);
 }
 
+/** @cond ZFPrivateDoc */
+#define _ZFP_ZFUIColorMake(r, g, b, a, ...) \
+    ZFUIColor( \
+          (((zfuint)((a) * 0xFF) & 0xFF) << 24) \
+        | (((zfuint)((r) * 0xFF) & 0xFF) << 16) \
+        | (((zfuint)((g) * 0xFF) & 0xFF) << 8) \
+        | ((zfuint)((b) * 0xFF) & 0xFF))
+#define ZFUIColorMake(r, g, b, ...) _ZFP_ZFUIColorMake(r, g, b, ##__VA_ARGS__, 1.0f)
+
+#define ZFUIColorMakeARGB(argb) ZFUIColor((zft_ZFUIColor)(argb))
+#define ZFUIColorMakeRGB(rgb) ZFUIColor((zft_ZFUIColor)(0xFF000000 | (rgb)))
+
+#define ZFUIColorGetA(c) ((zffloat)((((c) >> 24) & 0xFF) / (zft_zffloat)0xFF))
+#define ZFUIColorGetR(c) ((zffloat)((((c) >> 16) & 0xFF) / (zft_zffloat)0xFF))
+#define ZFUIColorGetG(c) ((zffloat)((((c) >>  8) & 0xFF) / (zft_zffloat)0xFF))
+#define ZFUIColorGetB(c) ((zffloat)((((c) >>  0) & 0xFF) / (zft_zffloat)0xFF))
+#define ZFUIColorWithA(c, v) ((zft_ZFUIColor)(((c) & 0x00FFFFFF) | (((zfuint)((v) * 0xFF) & 0xFF) << 24)))
+#define ZFUIColorWithR(c, v) ((zft_ZFUIColor)(((c) & 0xFF00FFFF) | (((zfuint)((v) * 0xFF) & 0xFF) << 16)))
+#define ZFUIColorWithG(c, v) ((zft_ZFUIColor)(((c) & 0xFFFF00FF) | (((zfuint)((v) * 0xFF) & 0xFF) <<  8)))
+#define ZFUIColorWithB(c, v) ((zft_ZFUIColor)(((c) & 0xFFFFFF00) | (((zfuint)((v) * 0xFF) & 0xFF) <<  0)))
+#define ZFUIColorSetA(c, v) ((c) = ZFUIColorWithA(c, v))
+#define ZFUIColorSetR(c, v) ((c) = ZFUIColorWithR(c, v))
+#define ZFUIColorSetG(c, v) ((c) = ZFUIColorWithG(c, v))
+#define ZFUIColorSetB(c, v) ((c) = ZFUIColorWithB(c, v))
+/** @endcond */
+
 /**
  * @brief make a color
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_4(ZFUIColor, ZFUIColorMake,
-                               ZFMP_IN(zfuint, r),
-                               ZFMP_IN(zfuint, g),
-                               ZFMP_IN(zfuint, b),
-                               ZFMP_IN_OPT(zfuint, a, 0xff))
+                               ZFMP_IN(zffloat, r),
+                               ZFMP_IN(zffloat, g),
+                               ZFMP_IN(zffloat, b),
+                               ZFMP_IN_OPT(zffloat, a, 1.0f))
 {
-    return ZFUIColor(((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | (a & 0xFF));
+    return ZFUIColorMake(r, g, b, a);
 }
 
 /**
- * @brief get alpha from a #ZFUIColor as zfuint
+ * @brief get alpha from a #ZFUIColor as zffloat
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(zfuint, ZFUIColorGetA,
+ZFMETHOD_FUNC_DECLARE_INLINE_1(zffloat, ZFUIColorGetA,
                                ZFMP_IN(ZFUIColor const &, c))
 {
-    return (zfuint)((c) & 0xFF);
+    return ZFUIColorGetA(c);
 }
 /**
- * @brief get red from a #ZFUIColor as zfuint
+ * @brief get red from a #ZFUIColor as zffloat
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(zfuint, ZFUIColorGetR,
+ZFMETHOD_FUNC_DECLARE_INLINE_1(zffloat, ZFUIColorGetR,
                                ZFMP_IN(ZFUIColor const &, c))
 {
-    return (zfuint)((c >> 24) & 0xFF);
+    return ZFUIColorGetR(c);
 }
 /**
- * @brief get green from a #ZFUIColor as zfuint
+ * @brief get green from a #ZFUIColor as zffloat
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(zfuint, ZFUIColorGetG,
+ZFMETHOD_FUNC_DECLARE_INLINE_1(zffloat, ZFUIColorGetG,
                                ZFMP_IN(ZFUIColor const &, c))
 {
-    return (zfuint)((c >> 16) & 0xFF);
+    return ZFUIColorGetG(c);
 }
 /**
- * @brief get blue from a #ZFUIColor as zfuint
+ * @brief get blue from a #ZFUIColor as zffloat
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(zfuint, ZFUIColorGetB,
+ZFMETHOD_FUNC_DECLARE_INLINE_1(zffloat, ZFUIColorGetB,
                                ZFMP_IN(ZFUIColor const &, c))
 {
-    return (zfuint)((c >> 8) & 0xFF);
+    return ZFUIColorGetB(c);
 }
 
 /**
@@ -1203,85 +1234,81 @@ ZFMETHOD_FUNC_DECLARE_INLINE_1(zfuint, ZFUIColorGetB,
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor &, ZFUIColorSetA,
                                ZFMP_IN_OUT(ZFUIColor &, c),
-                               ZFMP_IN(zfuint, a))
+                               ZFMP_IN(zffloat, a))
 {
-    c = (zft_zfuint32)((c & 0xFFFFFF00) | (a & 0xFF));
-    return c;
+    return ZFUIColorSetA(c, a);
 }
 /**
  * @brief set red from a #ZFUIColor
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor &, ZFUIColorSetR,
                                ZFMP_IN_OUT(ZFUIColor &, c),
-                               ZFMP_IN(zfuint, r))
+                               ZFMP_IN(zffloat, r))
 {
-    c = (zft_zfuint32)((c & 0x00FFFFFF) | ((r & 0xFF) << 24));
-    return c;
+    return ZFUIColorSetR(c, r);
 }
 /**
  * @brief set green from a #ZFUIColor
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor &, ZFUIColorSetG,
                                ZFMP_IN_OUT(ZFUIColor &, c),
-                               ZFMP_IN(zfuint, g))
+                               ZFMP_IN(zffloat, g))
 {
-    c = (zft_zfuint32)((c & 0xFF00FFFF) | ((g & 0xFF) << 16));
-    return c;
+    return ZFUIColorSetG(c, g);
 }
 /**
  * @brief set blue from a #ZFUIColor
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor &, ZFUIColorSetB,
                                ZFMP_IN_OUT(ZFUIColor &, c),
-                               ZFMP_IN(zfuint, b))
+                               ZFMP_IN(zffloat, b))
 {
-    c = (zft_zfuint32)((c & 0xFFFF00FF) | ((b & 0xFF) << 8));
-    return c;
+    return ZFUIColorSetB(c, b);
 }
 
 /**
  * @brief return a copy of color with changed alpha
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorChangeA,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorWithA,
                                ZFMP_IN(ZFUIColor const &, c),
-                               ZFMP_IN(zfuint, a))
+                               ZFMP_IN(zffloat, a))
 {
-    return ZFUIColor((c & 0xFFFFFF00) | (a & 0xFF));
+    return ZFUIColorWithA(c, a);
 }
 /**
  * @brief return a copy of color with changed red
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorChangeR,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorWithR,
                                ZFMP_IN(ZFUIColor const &, c),
-                               ZFMP_IN(zfuint, r))
+                               ZFMP_IN(zffloat, r))
 {
-    return ZFUIColor((c & 0x00FFFFFF) | ((r & 0xFF) << 24));
+    return ZFUIColorWithR(c, r);
 }
 /**
  * @brief return a copy of color with changed green
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorChangeG,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorWithG,
                                ZFMP_IN(ZFUIColor const &, c),
-                               ZFMP_IN(zfuint, g))
+                               ZFMP_IN(zffloat, g))
 {
-    return ZFUIColor((c & 0xFF00FFFF) | ((g & 0xFF) << 16));
+    return ZFUIColorWithG(c, g);
 }
 /**
  * @brief return a copy of color with changed blue
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorChangeB,
+ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIColor, ZFUIColorWithB,
                                ZFMP_IN(ZFUIColor const &, c),
-                               ZFMP_IN(zfuint, b))
+                               ZFMP_IN(zffloat, b))
 {
-    return ZFUIColor((c & 0xFFFF00FF) | ((b & 0xFF) << 8));
+    return ZFUIColorWithB(c, b);
 }
 
 ZFTYPEID_PROGRESS_DECLARE(ZFUIColor, {
         ret = ZFUIColorMake(
-            ZFUIColorGetR(from) + (zfint)((ZFUIColorGetR(to) - ZFUIColorGetR(from)) * progress),
-            ZFUIColorGetG(from) + (zfint)((ZFUIColorGetG(to) - ZFUIColorGetG(from)) * progress),
-            ZFUIColorGetB(from) + (zfint)((ZFUIColorGetB(to) - ZFUIColorGetB(from)) * progress),
-            ZFUIColorGetA(from) + (zfint)((ZFUIColorGetA(to) - ZFUIColorGetA(from)) * progress)
+            ZFUIColorGetR(from) + (zffloat)((ZFUIColorGetR(to) - ZFUIColorGetR(from)) * progress),
+            ZFUIColorGetG(from) + (zffloat)((ZFUIColorGetG(to) - ZFUIColorGetG(from)) * progress),
+            ZFUIColorGetB(from) + (zffloat)((ZFUIColorGetB(to) - ZFUIColorGetB(from)) * progress),
+            ZFUIColorGetA(from) + (zffloat)((ZFUIColorGetA(to) - ZFUIColorGetA(from)) * progress)
         );
     })
 
@@ -1289,9 +1316,9 @@ ZFTYPEID_PROGRESS_DECLARE(ZFUIColor, {
  * @brief create a random color with specified alpha
  */
 ZFMETHOD_FUNC_DECLARE_INLINE_1(ZFUIColor, ZFUIColorRandom,
-                               ZFMP_IN_OPT(zfint, alpha, 0xFF))
+                               ZFMP_IN_OPT(zffloat, alpha, 1.0f))
 {
-    return ZFUIColorMake(zfmRand(0xFF), zfmRand(0xFF), zfmRand(0xFF), alpha);
+    return ZFUIColorMake(zfmRand(0xFF) / (zft_zffloat)0xFF, zfmRand(0xFF) / (zft_zffloat)0xFF, zfmRand(0xFF) / (zft_zffloat)0xFF, alpha);
 }
 
 // ============================================================

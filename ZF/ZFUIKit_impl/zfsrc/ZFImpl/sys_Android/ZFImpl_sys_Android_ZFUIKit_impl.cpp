@@ -211,19 +211,19 @@ void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(ZF_OUT ZFUIRect &ret, ZF_IN j
 jint ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(ZF_IN const ZFUIColor &color)
 {
     return (jint)(0
-            | (ZFUIColorGetA(color) << 24)
-            | (ZFUIColorGetR(color) << 16)
-            | (ZFUIColorGetG(color) << 8)
-            | ZFUIColorGetB(color)
+            | ((zfuint)(ZFUIColorGetA(color) * 0xFF) << 24)
+            | ((zfuint)(ZFUIColorGetR(color) * 0xFF) << 16)
+            | ((zfuint)(ZFUIColorGetG(color) * 0xFF) << 8)
+            | ((zfuint)(ZFUIColorGetG(color) * 0xFF) << 0)
         );
 }
 void ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColorT(ZF_OUT ZFUIColor &ret, ZF_IN jint jColor)
 {
     ret = ZFUIColorMake(
-            (zfint)((jColor >> 16) & 0xFF),
-            (zfint)((jColor >> 8) & 0xFF),
-            (zfint)(jColor & 0xFF),
-            (zfint)((jColor >> 24) & 0xFF)
+            (zfuint)((jColor >> 16) & 0xFF) / 255.0f,
+            (zfuint)((jColor >> 8) & 0xFF) / 255.0f,
+            (zfuint)((jColor >> 0) & 0xFF) / 255.0f,
+            (zfuint)((jColor >> 24) & 0xFF) / 255.0f
         );
 }
 

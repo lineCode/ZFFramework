@@ -39,7 +39,7 @@ protected:
             zfblockedAlloc(ZFUIView, child);
             testContainer->childAdd(child);
             child->viewSizePreferedSet(ZFUISizeMake(zfmRand(20, 80), zfmRand(20, 80)));
-            child->viewBackgroundColorSet(ZFUIColorRandom(128));
+            child->viewBackgroundColorSet(ZFUIColorRandom(0.5f));
         }
 
         ZFLISTENER_LOCAL(startOnClick, {

@@ -65,18 +65,18 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIMarginFromUIEdgeInsetsT(ZF_OUT ZFUIMargin &
 
 UIColor *ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorToUIColor(ZF_IN const ZFUIColor &color)
 {
-    return [UIColor colorWithRed:(ZFUIColorGetR(color) / 255.0f) green:(ZFUIColorGetG(color) / 255.0f) blue:(ZFUIColorGetB(color) / 255.0f) alpha:(ZFUIColorGetA(color) / 255.0f)];
+    return [UIColor colorWithRed:ZFUIColorGetR(color) green:ZFUIColorGetG(color) blue:ZFUIColorGetB(color) alpha:ZFUIColorGetA(color)];
 }
 void ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorFromUIColorT(ZF_OUT ZFUIColor &ret, ZF_IN UIColor *uiColor)
 {
-    zfuint argb[4] = {0};
+    zffloat argb[4] = {0};
     ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(argb, uiColor);
     ret = ZFUIColorMake(argb[1], argb[2], argb[3], argb[0]);
 }
 
 // ============================================================
 // util method
-zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zfuint *pARGB, ZF_IN UIColor *color)
+zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zffloat *pARGB, ZF_IN UIColor *color)
 {
     for(zfindex i = 0; i < 4; ++i)
     {
@@ -90,10 +90,10 @@ zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zfuint *pARGB, ZF_IN 
     if(numComponents == 4)
     {
         const CGFloat *buf = CGColorGetComponents([color CGColor]);
-        pARGB[0] = (zfuint)(buf[3] * 255);
+        pARGB[0] = (zffloat)buf[3];
         for(zfindex i = 1; i < 4; ++i)
         {
-            pARGB[i] = (zfuint)(buf[i - 1] * 255);
+            pARGB[i] = (zffloat)buf[i - 1];
         }
     }
     else
@@ -114,7 +114,7 @@ zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zfuint *pARGB, ZF_IN 
         CGColorSpaceRelease(rgbColorSpace);
         for (zfindex i = 0; i < 4; ++i)
         {
-            pARGB[i] = (zfuint)buf[i];
+            pARGB[i] = (zfuint)buf[i] / 255.0f;
         }
     }
 
@@ -122,10 +122,10 @@ zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zfuint *pARGB, ZF_IN 
 }
 void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ZF_OUT zfstring &ret, ZF_IN UIColor *color)
 {
-    zfuint rgba[4] = {0};
-    if(color != nil && ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(rgba, color))
+    if(color != nil)
     {
-        zfstringAppend(ret, zfText("#%02X%02X%02X%02X"), (zfuint)rgba[0], (zfuint)rgba[1], (zfuint)rgba[2], (zfuint)rgba[3]);
+        ZFUIColor t = ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorFromUIColor(color);
+        ZFUIColorToString(ret, t);
     }
 }
 

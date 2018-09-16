@@ -231,7 +231,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkInitSetting, ZFLevelZFFramewo
 {
     (void)ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder);
     #if _ZFP_ZFUIViewBlink_DEBUG_color
-        ZFUIViewBlinkImageDefaultSet(ZFUIImageLoadFromColor(ZFUIColorMake(255, 0, 0)));
+        ZFUIViewBlinkImageDefaultSet(ZFUIImageLoadFromColor(ZFUIColorMake(1, 0, 0)));
     #else
         ZFUIViewBlinkImageDefaultSet(zfRes(zfText("ZFUIKit/ZFUIViewBlinkImage.xml")));
     #endif

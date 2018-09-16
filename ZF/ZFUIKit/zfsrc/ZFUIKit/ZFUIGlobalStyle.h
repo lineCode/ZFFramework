@@ -153,11 +153,11 @@ public:
     /**
      * @brief shadow color
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, colorShadow, ZFUIColorChangeA(ZFUIColorBlack(), 128))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, colorShadow, ZFUIColorWithA(ZFUIColorBlack(), 0.5f))
     /**
      * @brief mask color
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, colorMask, ZFUIColorChangeA(ZFUIColorBlack(), 128))
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUIColor, colorMask, ZFUIColorWithA(ZFUIColorBlack(), 0.5f))
     /**
      * @brief tint color
      */

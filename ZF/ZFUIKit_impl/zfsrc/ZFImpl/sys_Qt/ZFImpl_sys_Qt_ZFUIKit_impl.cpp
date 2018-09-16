@@ -123,11 +123,21 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRectT(ZF_OUT ZFUIRect &ret, ZF_IN c
 
 void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(ZF_OUT QColor &ret, ZF_IN const ZFUIColor &color)
 {
-    ret = QColor(ZFUIColorGetR(color), ZFUIColorGetG(color), ZFUIColorGetB(color), ZFUIColorGetA(color));
+    ret.setRgbF(
+            (qreal)ZFUIColorGetR(color),
+            (qreal)ZFUIColorGetG(color),
+            (qreal)ZFUIColorGetB(color),
+            (qreal)ZFUIColorGetA(color)
+        );
 }
 void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorFromQColorT(ZF_OUT ZFUIColor &ret, ZF_IN const QColor &qColor)
 {
-    ret = ZFUIColorMake(qColor.red(), qColor.green(), qColor.blue(), qColor.alpha());
+    ret = ZFUIColorMake(
+            (zffloat)qColor.redF(),
+            (zffloat)qColor.greenF(),
+            (zffloat)qColor.blueF(),
+            (zffloat)qColor.alphaF()
+        );
 }
 
 void ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignmentT(ZF_OUT Qt::Alignment &ret, ZF_IN const ZFUIAlignFlags &align)
