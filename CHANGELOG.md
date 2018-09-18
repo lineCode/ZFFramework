@@ -1,5 +1,6 @@
 # master
 * optimize typeid impl
+* optimize color impl
 
 # 0.5.0
 * optimize serializable output

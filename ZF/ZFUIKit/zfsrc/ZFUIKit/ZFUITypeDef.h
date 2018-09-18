@@ -1110,8 +1110,12 @@ ZFMETHOD_FUNC_DECLARE_INLINE_1(zfbool, ZFUIOrientationIsHorizontal,
 /**
  * @brief color with `AARRGGBB` format
  *
- * note the actual color type is not ensured,
- * use float to make and store a/r/g/b element
+ * note, color is ensured as POD type,
+ * but the actual color type is not ensured,
+ * use float to make and store a/r/g/b element,
+ * and use string converter (#ZFUIColorToString) if necessary\n
+ * for now, the color is 32bit integer with `AARRGGBB` format,
+ * but may extend to 64bit for future update
  */
 ZFT_INT_STRONG(zft_zfuint32, ZFUIColor)
 
