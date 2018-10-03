@@ -186,9 +186,9 @@ void objectInfoT(ZF_IN_OUT zfstring &ret,
 
     ret += ZFTOKEN_ZFObjectInfoLeft;
     ret += obj->classData()->classNameFull();
-    ret += zfText("(");
+    ret += "(";
     zfsFromPointerT(ret, obj);
-    ret += zfText(")");
+    ret += ")";
 
     ZFClassUtil::objectPropertyInfo(ret, obj);
 

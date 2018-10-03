@@ -42,12 +42,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *       ZFENUM_VALUE_REGISTER(Value1)
  *       ZFENUM_VALUE_REGISTER(Value2)
  *       // you can set a custom name by ZFENUM_VALUE_REGISTER_WITH_NAME
- *       ZFENUM_VALUE_REGISTER_WITH_NAME(Value3, zfText("CustomNameValue3"))
+ *       ZFENUM_VALUE_REGISTER_WITH_NAME(Value3, "CustomNameValue3")
  *       // (here Value4 is equal to Value2)
  *       // when register a new name for a existing value,
  *       // old name would be overrided,
  *       // as well as the value-name map
- *       ZFENUM_VALUE_REGISTER_WITH_NAME(Value4, zfText("Value4 override Value2"))
+ *       ZFENUM_VALUE_REGISTER_WITH_NAME(Value4, "Value4 override Value2")
  *   ZFENUM_END(EnumName)
  *
  *   // ============================================================
@@ -63,7 +63,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     zfuint value;
  *     const zfchar *name;
  *     value = EnumName::e_Value1;
- *     value = EnumName::EnumValueForName(zfText("Value1"));
+ *     value = EnumName::EnumValueForName("Value1");
  *     name = EnumName::EnumNameForValue(value);
  *   @endcode
  * -  use EnumName to store the enum value as a ZFObject
@@ -83,14 +83,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     value = e->enumValue(); // return the value stored as EnumName
  *     zfRelease(e);
  *
- *     zfautoObject tmp = ZFClass::classForName(zfText("EnumName"))->newInstance(); // see #ZFOBJECT_REGISTER for more info
+ *     zfautoObject tmp = ZFClass::classForName("EnumName")->newInstance(); // see #ZFOBJECT_REGISTER for more info
  *     e = tmp.to<ZFEnum *>();
  *     for(zfindex i = 0; i < e->enumCount(); ++i)
  *     { // OK, list all the value and name for e, which is EnumName type
  *         value = e->enumValueAtIndex(i);
  *         name = e->enumNameAtIndex(i);
  *     }
- *     value = e->enumValueForName(zfText("Value1")); // OK, value from EnumName
+ *     value = e->enumValueForName("Value1"); // OK, value from EnumName
  *     name = e->enumNameForValue(value); // OK, name from EnumName
  *     zfRelease(e);
  *   @endcode
@@ -390,7 +390,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFEnumMethodReg(ZF_IN_OUT ZFCoreArrayPOD<const ZF
         { \
             ZFMethodUserRegisterDetail_0(resultMethod, &ivk_e, EnumName::ClassData(), \
                 public, ZFMethodTypeStatic, \
-                EnumName##Enum, zfstringWithFormat(zfText("e_%s"), EnumName::EnumNameAtIndex(i))); \
+                EnumName##Enum, zfstringWithFormat("e_%s", EnumName::EnumNameAtIndex(i))); \
             _m.add(resultMethod); \
         } \
         _ZFP_ZFEnumMethodReg(_m, EnumName::_ZFP_ZFEnumDataRef()); \
@@ -430,7 +430,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFEnumMethodReg(ZF_IN_OUT ZFCoreArrayPOD<const ZF
 #define _ZFP_ZFENUM_CONVERTER_DEFINE(EnumName) \
     zfbool EnumName##ToString(ZF_IN_OUT zfstring &ret, ZF_IN EnumName *const &value) \
     { \
-        ret += ((value == zfnull) ? zfText("") : value->enumName()); \
+        ret += ((value == zfnull) ? "" : value->enumName()); \
         return zftrue; \
     } \
     zfbool EnumName##FromString(ZF_OUT zfautoObject &ret, \

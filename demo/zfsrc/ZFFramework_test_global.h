@@ -43,7 +43,7 @@ private:
     do { \
         if(!ZFProtocolIsAvailable(ZFM_TOSTRING_DIRECT(ProtocolName))) \
         { \
-            this->testCaseOutput(#ProtocolName zfText(" not available, skip test case")); \
+            this->testCaseOutput(#ProtocolName " not available, skip test case"); \
             this->testCaseStop(); \
             return ; \
         } \

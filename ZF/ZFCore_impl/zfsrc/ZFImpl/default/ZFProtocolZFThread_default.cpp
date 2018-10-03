@@ -135,7 +135,7 @@ public:
         _ZFP_ZFThreadImpl_default_NativeThreadIdType *token = zfnew(_ZFP_ZFThreadImpl_default_NativeThreadIdType);
         *token = _ZFP_ZFThreadImpl_default_getNativeThreadId();
         zfCoreAssertWithMessage(_ZFP_ZFThreadImpl_default_threadMap.find(*token) == _ZFP_ZFThreadImpl_default_threadMap.end(),
-            zfTextA("thread already registered: %s"), zfsCoreZ2A(ownerZFThread->objectInfo().cString()));
+            "thread already registered: %s", ownerZFThread->objectInfo().cString());
         _ZFP_ZFThreadImpl_default_threadMap[*token] = ownerZFThread;
         return ZFCastStatic(void *, token);
     }
@@ -166,7 +166,7 @@ public:
         _ZFP_ZFThreadImpl_default_ThreadMapType::const_iterator it = _ZFP_ZFThreadImpl_default_threadMap.find(nativeCurrentThread);
         if(it == _ZFP_ZFThreadImpl_default_threadMap.end())
         {
-            zfCoreLogTrim(zfTextA("current thread is null, make sure the thread is started or registerd by ZFThread"));
+            zfCoreLogTrim("current thread is null, make sure the thread is started or registerd by ZFThread");
             return zfnull;
         }
         return it->second;
@@ -182,7 +182,7 @@ public:
                                       ZF_IN ZFObject *param0,
                                       ZF_IN ZFObject *param1)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFThread] executeInMainThread not available"));
+        zfCoreCriticalMessageTrim("[ZFThread] executeInMainThread not available");
         return zfnull;
     }
     virtual void executeInMainThreadCancel(ZF_IN zfidentity taskId,
@@ -213,13 +213,13 @@ public:
                                                 ZF_IN ZFObject *param0,
                                                 ZF_IN ZFObject *param1)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFThread] executeInMainThreadAfterDelay not available"));
+        zfCoreCriticalMessageTrim("[ZFThread] executeInMainThreadAfterDelay not available");
         return zfnull;
     }
     virtual void executeInMainThreadAfterDelayCancel(ZF_IN zfidentity taskId,
                                                      ZF_IN void *nativeToken)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFThread] executeInMainThreadAfterDelay not available"));
+        zfCoreCriticalMessageTrim("[ZFThread] executeInMainThreadAfterDelay not available");
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFThreadImpl_default)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFThreadImpl_default)

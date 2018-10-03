@@ -464,8 +464,8 @@ void _ZFP_ZFFilePathInfoRegister(ZF_IN const zfchar *pathType,
 {
     zfstlmap<zfstlstringZ, ZFFilePathInfoData> &m = _ZFP_ZFFilePathInfoDataMap();
     zfCoreAssertWithMessage(m.find(pathType) == m.end(),
-        zfTextA("pathType \"%s\" already registered"),
-        zfsCoreZ2A(pathType));
+        "pathType \"%s\" already registered",
+        pathType);
     zfCoreAssert(zftrue
             && data.callbackIsExist != zfnull
             && data.callbackIsDir != zfnull
@@ -734,7 +734,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForPathInfo, ZFCallbackSerializeC
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("failed to open file: %s"), ZFPathInfoToString(pathInfo).cString());
+            "failed to open file: %s", ZFPathInfoToString(pathInfo).cString());
         return zffalse;
     }
     serializableData.resolveMark();
@@ -926,7 +926,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForPathInfo, ZFCallbackSerialize
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("failed to open file: %s"), ZFPathInfoToString(pathInfo).cString());
+            "failed to open file: %s", ZFPathInfoToString(pathInfo).cString());
         return zffalse;
     }
     serializableData.resolveMark();
@@ -1036,7 +1036,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerialize
     if(pathInfo == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("serializableData does not contain path info"));
+            "serializableData does not contain path info");
         return zffalse;
     }
 
@@ -1065,7 +1065,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerialize
     if(!_ZFP_ZFFileCallbackForLocalFileGetAbsPath(pathDataAbs, *pathInfo, localPath))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("failed to get file path: %s, localPath: %s"),
+            "failed to get file path: %s, localPath: %s",
             ZFPathInfoToString(*pathInfo).cString(),
             localPath);
         return zffalse;
@@ -1074,7 +1074,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForLocalFile, ZFCallbackSerialize
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("failed to open file: %s"),
+            "failed to open file: %s",
             ZFPathInfoToString(ZFPathInfo(pathInfo->pathType, pathDataAbs)).cString());
         return zffalse;
     }
@@ -1147,7 +1147,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForLocalFile, ZFCallbackSerializ
     if(pathInfo == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("serializableData does not contain path info"));
+            "serializableData does not contain path info");
         return zffalse;
     }
 
@@ -1176,7 +1176,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForLocalFile, ZFCallbackSerializ
     if(!_ZFP_ZFFileCallbackForLocalFileGetAbsPath(pathDataAbs, *pathInfo, localPath))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("failed to get file path: %s, localPath: %s"),
+            "failed to get file path: %s, localPath: %s",
             ZFPathInfoToString(*pathInfo).cString(),
             localPath);
         return zffalse;
@@ -1185,7 +1185,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForLocalFile, ZFCallbackSerializ
     if(!ret.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("failed to open file: %s"),
+            "failed to open file: %s",
             ZFPathInfoToString(ZFPathInfo(pathInfo->pathType, pathDataAbs)).cString());
         return zffalse;
     }

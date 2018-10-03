@@ -53,33 +53,33 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        zfLogTrimT() << zfText("normal begin");
-        ZFLuaExecute(zfText(
+        zfLogTrimT() << "normal begin";
+        ZFLuaExecute(
                 "local obj = _ZFP_ZFLua_gc_test_Object();\n"
-            ));
-        zfLogTrimT() << zfText("normal gc begin");
+            );
+        zfLogTrimT() << "normal gc begin";
         ZFLuaGC();
-        zfLogTrimT() << zfText("normal gc end");
-        zfLogTrimT() << zfText("normal end");
+        zfLogTrimT() << "normal gc end";
+        zfLogTrimT() << "normal end";
 
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("note:");
-        zfLogTrimT() << zfText("    if compiled without cpp exception,");
-        zfLogTrimT() << zfText("    cpp object would leak when lua exception occurred");
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("lua exception begin");
+        zfLogTrimT() << "============================================================";
+        zfLogTrimT() << "note:";
+        zfLogTrimT() << "    if compiled without cpp exception,";
+        zfLogTrimT() << "    cpp object would leak when lua exception occurred";
+        zfLogTrimT() << "============================================================";
+        zfLogTrimT() << "lua exception begin";
         #if ZF_ENV_ZFLUA_USE_EXCEPTION
-            ZFLuaExecute(zfText(
+            ZFLuaExecute(
                     "local obj = _ZFP_ZFLua_gc_test_Object();\n"
                     "ZFObject.notExistFunc(obj);\n"
-                ));
-            zfLogTrimT() << zfText("lua exception gc begin");
+                );
+            zfLogTrimT() << "lua exception gc begin";
             ZFLuaGC();
-            zfLogTrimT() << zfText("lua exception gc end");
+            zfLogTrimT() << "lua exception gc end";
         #else
-            zfLogTrimT() << zfText("lua exception disabled");
+            zfLogTrimT() << "lua exception disabled";
         #endif
-        zfLogTrimT() << zfText("lua exception end");
+        zfLogTrimT() << "lua exception end";
 
         this->testCaseStop();
     }

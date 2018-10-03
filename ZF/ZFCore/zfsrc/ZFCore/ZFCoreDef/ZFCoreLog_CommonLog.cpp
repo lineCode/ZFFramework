@@ -13,7 +13,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 void _ZFP_zfCoreLogCriticalMessage(ZF_IN const ZFCallerInfo &callerInfo,
-                                   ZF_IN const zfcharA *fmt,
+                                   ZF_IN const zfchar *fmt,
                                    ...)
 {
     va_list vaList;
@@ -22,16 +22,16 @@ void _ZFP_zfCoreLogCriticalMessage(ZF_IN const ZFCallerInfo &callerInfo,
     va_end(vaList);
 }
 void _ZFP_zfCoreLogCriticalMessageV(ZF_IN const ZFCallerInfo &callerInfo,
-                                    ZF_IN const zfcharA *fmt,
+                                    ZF_IN const zfchar *fmt,
                                     ZF_IN va_list vaList)
 {
-    zfCoreLogTrim(zfTextA("============================================================"));
-    zfCoreLogTrimNoEndl(zfTextA("| "));
+    zfCoreLogTrim("============================================================");
+    zfCoreLogTrimNoEndl("| ");
     zfCoreLogDetailV(callerInfo, fmt, vaList);
-    zfCoreLogTrim(zfTextA("============================================================"));
+    zfCoreLogTrim("============================================================");
 }
 void _ZFP_zfCoreCritical(ZF_IN const ZFCallerInfo &callerInfo,
-                         ZF_IN const zfcharA *fmt,
+                         ZF_IN const zfchar *fmt,
                          ...)
 {
     va_list vaList;
@@ -40,7 +40,7 @@ void _ZFP_zfCoreCritical(ZF_IN const ZFCallerInfo &callerInfo,
     va_end(vaList);
 }
 void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerInfo,
-                          ZF_IN const zfcharA *fmt,
+                          ZF_IN const zfchar *fmt,
                           ZF_IN va_list vaList)
 {
     zfCoreCriticalErrorPrepareDetail(callerInfo);

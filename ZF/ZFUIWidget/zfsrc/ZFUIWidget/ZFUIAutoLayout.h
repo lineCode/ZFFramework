@@ -142,23 +142,23 @@ public:
 };
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_rule zfText("rule")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_rule "rule"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_pos zfText("pos")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_pos "pos"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target zfText("target")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target "target"
 /** @brief keyword for serialize */
 #define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_token ':'
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_parent zfText("parent")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_parent "parent"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_self zfText("self")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_self "self"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_prev zfText("prev")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_target_prev "prev"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_scale zfText("scale")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_scale "scale"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIAutoLayoutParam_offset zfText("offset")
+#define ZFSerializableKeyword_ZFUIAutoLayoutParam_offset "offset"
 
 // ============================================================
 // ZFUIAutoLayout

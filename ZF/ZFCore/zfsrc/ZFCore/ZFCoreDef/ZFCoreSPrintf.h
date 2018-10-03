@@ -19,34 +19,19 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-extern ZF_ENV_EXPORT void _ZFP_zfstringAppendV(ZF_OUT ZFCoreStringA &s, ZF_IN const zfcharA *fmt, va_list vaList);
-inline void _ZFP_zfstringAppendV(ZF_OUT_OPT ZFCoreStringA *s, ZF_IN const zfcharA *fmt, va_list vaList)
+// ============================================================
+/** @brief see #zfstringAppend */
+extern ZF_ENV_EXPORT void zfstringAppendV(ZF_OUT zfstring &s, ZF_IN const zfchar *fmt, va_list vaList);
+/** @brief see #zfstringAppend */
+inline void zfstringAppendV(ZF_OUT_OPT zfstring *s, ZF_IN const zfchar *fmt, va_list vaList)
 {
     if(s)
     {
-        _ZFP_zfstringAppendV(*s, fmt, vaList);
-    }
-}
-extern ZF_ENV_EXPORT void _ZFP_zfstringAppendV(ZF_OUT ZFCoreStringW &s, ZF_IN const zfcharW *fmt, va_list vaList);
-inline void _ZFP_zfstringAppendV(ZF_OUT_OPT ZFCoreStringW *s, ZF_IN const zfcharW *fmt, va_list vaList)
-{
-    if(s)
-    {
-        _ZFP_zfstringAppendV(*s, fmt, vaList);
+        zfstringAppendV(*s, fmt, vaList);
     }
 }
 
-template<typename T_Char, typename T_Str>
-void _ZFP_zfstringAppend(ZF_OUT T_Str &s,
-                         ZF_IN const T_Char *fmt,
-                         ...)
-{
-    va_list vaList;
-    va_start(vaList, fmt);
-    _ZFP_zfstringAppendV(s, fmt, vaList);
-    va_end(vaList);
-}
-
+// ============================================================
 /**
  * @brief a light-weight sprintf-like string formatter
  *
@@ -64,8 +49,8 @@ void _ZFP_zfstringAppend(ZF_OUT T_Str &s,
  * -  "X": zfuint, in heximal, uppercase (e.g. 0x1234ABCD)
  * -  "f": zffloat, accuracy is not ensured (e.g. 13.579)
  * -  "p": pointer value (e.g. 0x1234ABCD)
- * -  "c" or "C": zfchar/zfcharA/zfcharW depends on fmt's type
- * -  "s" or "S": zfchar/zfcharA/zfcharW string depends on fmt's type
+ * -  "c" or "C": char
+ * -  "s" or "S": zfchar string
  * -  "%": % itself
  *
  * extra format tokens can be added before any of those listed above (except "%"),
@@ -88,28 +73,45 @@ void _ZFP_zfstringAppend(ZF_OUT T_Str &s,
  *   for example, this may cause trouble:
  *   @code
  *     zfindex n = 1;
- *     const zfchar *s = zfText("1");
+ *     const zfchar *s = "1";
  *     zfstring str;
  *     // since zfuint is usually 32 bit and zfindex may be 64 bit,
  *     // when scanning %u from a zfindex,
  *     // the left 32 bit would be passed and scaned as %s,
  *     // the app may crash at runtime
- *     zfstringAppend(str, zfText("%u %s"), n, s);
+ *     zfstringAppend(str, "%u %s", n, s);
  *   @endcode
  */
-#define zfstringAppend(s, fmt, ...) \
-    _ZFP_zfstringAppend(s, fmt, ##__VA_ARGS__)
+inline void zfstringAppend(ZF_OUT zfstring &s,
+                           ZF_IN const zfchar *fmt,
+                           ...)
+{
+    va_list vaList;
+    va_start(vaList, fmt);
+    zfstringAppendV(s, fmt, vaList);
+    va_end(vaList);
+}
 /** @brief see #zfstringAppend */
-#define zfstringAppendV(s, fmt, vaList) \
-    _ZFP_zfstringAppendV(s, fmt, vaList)
+inline void zfstringAppend(ZF_OUT zfstring *s,
+                           ZF_IN const zfchar *fmt,
+                           ...)
+{
+    if(s)
+    {
+        va_list vaList;
+        va_start(vaList, fmt);
+        zfstringAppendV(*s, fmt, vaList);
+        va_end(vaList);
+    }
+}
 
+// ============================================================
 /**
  * @brief util to create a zfstring from format
  */
-template<typename T_Char>
-typename zfwrapCharToString<T_Char>::StringType zfstringWithFormat(ZF_IN const T_Char *fmt, ...)
+inline zfstring zfstringWithFormat(ZF_IN const zfchar *fmt, ...)
 {
-    typename zfwrapCharToString<T_Char>::StringType ret;
+    zfstring ret;
     va_list vaList;
     va_start(vaList, fmt);
     zfstringAppendV(ret, fmt, vaList);
@@ -119,10 +121,9 @@ typename zfwrapCharToString<T_Char>::StringType zfstringWithFormat(ZF_IN const T
 /**
  * @brief util to create a zfstring from format
  */
-template<typename T_Char>
-typename zfwrapCharToString<T_Char>::StringType zfstringWithFormatV(ZF_IN const T_Char *fmt, ZF_IN va_list vaList)
+inline zfstring zfstringWithFormatV(ZF_IN const zfchar *fmt, ZF_IN va_list vaList)
 {
-    typename zfwrapCharToString<T_Char>::StringType ret;
+    zfstring ret;
     zfstringAppendV(ret, fmt, vaList);
     return ret;
 }

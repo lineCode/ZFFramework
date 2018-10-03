@@ -19,7 +19,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFAnimation_debug_LogEvent)
     ZFLISTENER_LOCAL(aniOnAlloc, {
         if(listenerData.sender->classData()->classIsTypeOf(ZFAnimation::ClassData()))
         {
-            zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << zfText("alloc");
+            zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << "alloc";
         }
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFObject::EventObjectAfterAlloc(), aniOnAlloc);
@@ -27,23 +27,23 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFAnimation_debug_LogEvent)
     ZFLISTENER_LOCAL(aniOnDealloc, {
         if(listenerData.sender->classData()->classIsTypeOf(ZFAnimation::ClassData()))
         {
-            zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << zfText("dealloc");
+            zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << "dealloc";
         }
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFObject::EventObjectBeforeDealloc(), aniOnDealloc);
 
     ZFLISTENER_LOCAL(aniOnInvalid, {
-        zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << zfText("invalid");
+        zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << "invalid";
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFAnimation::EventAniOnInvalid(), aniOnInvalid);
 
     ZFLISTENER_LOCAL(aniOnStart, {
-        zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << zfText("start");
+        zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << "start";
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFAnimation::EventAniOnStart(), aniOnStart);
 
     ZFLISTENER_LOCAL(aniOnStop, {
-        zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << zfText("stop");
+        zfLogTrimT() << zfLogCurTimeString() << listenerData.sender << "stop";
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFAnimation::EventAniOnStop(), aniOnStop);
 }

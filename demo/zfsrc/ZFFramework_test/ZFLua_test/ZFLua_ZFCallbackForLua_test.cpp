@@ -63,8 +63,8 @@ protected:
         zfsuper::testCaseOnStart();
 
         {
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("run lua code"));
-            ZFLuaExecute(zfText(
+            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("run lua code");
+            ZFLuaExecute(
                     "local obj = zfAlloc('_ZFP_ZFLua_ZFCallbackForLua_test_Object')\n"
                     "local callback = function(listenerData, userData)"
                     "        print(listenerData)\n"
@@ -72,11 +72,11 @@ protected:
                     "    end\n"
                     "obj:observerAdd(_ZFP_ZFLua_ZFCallbackForLua_test_Object.EventTest(), callback)\n"
                     "obj:notifyTest()\n"
-                ));
+                );
         }
 
         {
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("lua gc"));
+            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("lua gc");
             ZFLuaGC();
         }
 

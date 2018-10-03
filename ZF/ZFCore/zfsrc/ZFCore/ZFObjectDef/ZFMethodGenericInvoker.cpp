@@ -46,7 +46,7 @@ zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
         || (param == ZFMethodGenericInvokerDefaultParam() && paramIndex < invokerMethod->methodParamDefaultBeginIndex()))
     {
         zfstringAppend(errorHint,
-                zfText("[ZFMethodGenericInvoker] unable to access param%zi as type (%s): %s"),
+                "[ZFMethodGenericInvoker] unable to access param%zi as type (%s): %s",
                 paramIndex,
                 paramType,
                 ZFObjectInfo(param).cString()
@@ -63,7 +63,7 @@ void _ZFP_MtdGIRetError(ZF_OUT_OPT zfstring *errorHint,
                         ZF_IN const zfchar *returnValueInfo)
 {
     zfstringAppend(errorHint,
-        zfText("[ZFMethodGenericInvoker] unable to convert return value as type %s: %s"),
+        "[ZFMethodGenericInvoker] unable to convert return value as type %s: %s",
         returnTypeId,
         returnValueInfo);
 }
@@ -92,22 +92,22 @@ void _ZFP_ZFMethodGenericInvokeError(ZF_IN const ZFMethod *method,
     if(pos >= 0)
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("[ZFMethodDynamicRegister] method %s unable to convert param %d"),
-            zfsCoreZ2A(method->objectInfo().cString()),
+            "[ZFMethodDynamicRegister] method %s unable to convert param %d",
+            method->objectInfo().cString(),
             pos);
     }
     else if(pos == -1)
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("[ZFMethodDynamicRegister] method %s unable to perform generic invoker, reason: %s"),
-            zfsCoreZ2A(method->objectInfo().cString()),
+            "[ZFMethodDynamicRegister] method %s unable to perform generic invoker, reason: %s",
+            method->objectInfo().cString(),
             errorHint);
     }
     else
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("[ZFMethodDynamicRegister] method %s unable to convert return value"),
-            zfsCoreZ2A(method->objectInfo().cString()));
+            "[ZFMethodDynamicRegister] method %s unable to convert return value",
+            method->objectInfo().cString());
     }
 }
 

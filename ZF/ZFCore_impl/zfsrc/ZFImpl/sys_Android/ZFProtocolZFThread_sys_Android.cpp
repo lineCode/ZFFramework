@@ -67,7 +67,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFThreadImpl_sys_Android_jclsHolder)
 static _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType _ZFP_ZFThreadImpl_sys_Android_getNativeThreadId(void)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
-    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, _ZFP_ZFThreadImpl_sys_Android_jclsOwner, zfTextA("native_currentThread"),
+    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, _ZFP_ZFThreadImpl_sys_Android_jclsOwner, "native_currentThread",
         JNIGetMethodSig(JNIType::S_long, JNIParamTypeContainer()
         ).c_str());
     _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType ret = JNIUtilCallStaticLongMethod(jniEnv,
@@ -114,7 +114,7 @@ static void _ZFP_ZFThreadImpl_sys_Android_updateExecuteId(void)
 
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadImpl_sys_Android, ZFThread, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:Thread"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Android:Thread")
 public:
     zfoverride
     virtual void protocolOnInit(void)
@@ -129,7 +129,7 @@ public:
         _ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType *token = zfnew(_ZFP_ZFThreadImpl_sys_Android_NativeThreadIdType);
         *token = _ZFP_ZFThreadImpl_sys_Android_getNativeThreadId();
         zfCoreAssertWithMessage(_ZFP_ZFThreadImpl_sys_Android_threadMap.find(*token) == _ZFP_ZFThreadImpl_sys_Android_threadMap.end(),
-            zfTextA("thread already registered: %s"), zfsCoreZ2A(ownerZFThread->objectInfo().cString()));
+            "thread already registered: %s", ownerZFThread->objectInfo().cString());
         _ZFP_ZFThreadImpl_sys_Android_threadMap[*token] = ownerZFThread;
         return ZFCastStatic(void *, token);
     }
@@ -169,7 +169,7 @@ public:
     virtual void sleep(ZF_IN zftimet miliSecs)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_sleep"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_sleep",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_long)
             ).c_str());
@@ -196,7 +196,7 @@ public:
         zfsynchronizeUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_executeInMainThread"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_executeInMainThread",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_int)
             ).c_str());
@@ -231,7 +231,7 @@ public:
         zfsynchronizeUnlock(_ZFP_ZFThreadImpl_sys_Android_syncObj);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_executeInNewThread"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_executeInNewThread",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_int)
             ).c_str());
@@ -255,7 +255,7 @@ public:
                                                 ZF_IN ZFObject *param1)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_executeInMainThreadAfterDelay"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_executeInMainThreadAfterDelay",
             JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object), JNIParamTypeContainer()
                 .add(JNIType::S_long)
                 .add(JNIPointerJNIType)
@@ -275,7 +275,7 @@ public:
                                                      ZF_IN void *nativeToken)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_executeInMainThreadAfterDelayCancel"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_executeInMainThreadAfterDelayCancel",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
             ).c_str());

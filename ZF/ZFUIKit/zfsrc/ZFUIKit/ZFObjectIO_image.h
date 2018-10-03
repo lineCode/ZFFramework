@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * for "*.png *.jpg *.jpeg" file, raw image files\n
  * additional image extension can be added by #ZFObjectIO_image_imageExtAdd
  */
-#define ZFObjectIO_image zfText("image")
+#define ZFObjectIO_image "image"
 
 // ============================================================
 /**

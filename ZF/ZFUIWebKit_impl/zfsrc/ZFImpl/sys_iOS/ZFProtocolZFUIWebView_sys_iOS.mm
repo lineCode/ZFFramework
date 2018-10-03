@@ -97,7 +97,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIWebViewImpl_sys_iOS, ZFUIWebView, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:WKWebView"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:WKWebView")
 public:
     virtual void *nativeWebViewCreate(ZF_IN ZFUIWebView *webView)
     {
@@ -121,7 +121,7 @@ public:
                             ZF_IN const zfchar *url)
     {
         _ZFP_ZFUIWebViewImpl_sys_iOS_View *nativeWebView = (__bridge _ZFP_ZFUIWebViewImpl_sys_iOS_View *)webView->nativeImplView();
-        [nativeWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithCString:ZFStringZ2A(url) encoding:NSUTF8StringEncoding]]]];
+        [nativeWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithCString:url encoding:NSUTF8StringEncoding]]]];
     }
     virtual void webLoadHtml(ZF_IN ZFUIWebView *webView,
                              ZF_IN const zfchar *html,
@@ -131,9 +131,9 @@ public:
         NSURL *baseUrlTmp = nil;
         if(baseUrl != zfnull)
         {
-            baseUrlTmp = [NSURL URLWithString:[NSString stringWithCString:ZFStringZ2A(baseUrl) encoding:NSUTF8StringEncoding]];
+            baseUrlTmp = [NSURL URLWithString:[NSString stringWithCString:baseUrl encoding:NSUTF8StringEncoding]];
         }
-        [nativeWebView loadHTMLString:[NSString stringWithCString:ZFStringZ2A(html) encoding:NSUTF8StringEncoding] baseURL:baseUrlTmp];
+        [nativeWebView loadHTMLString:[NSString stringWithCString:html encoding:NSUTF8StringEncoding] baseURL:baseUrlTmp];
     }
     virtual void webReload(ZF_IN ZFUIWebView *webView)
     {

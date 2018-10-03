@@ -102,7 +102,7 @@ void ZFAnimation::objectOnDeallocPrepare(void)
 ZFMETHOD_DEFINE_1(ZFAnimation, void, aniTargetSet,
                   ZFMP_IN(ZFObject *, aniTarget))
 {
-    zfCoreAssertWithMessage(!d->aniRunning, zfTextA("change animation's target while animation is running"));
+    zfCoreAssertWithMessage(!d->aniRunning, "change animation's target while animation is running");
     d->aniTarget = aniTarget;
 }
 ZFMETHOD_DEFINE_0(ZFAnimation, ZFObject *, aniTarget)
@@ -249,7 +249,7 @@ void ZFAnimation::aniImplDelayCancel(void)
 }
 void ZFAnimation::aniImplDelayNotifyFinish(void)
 {
-    zfCoreAssertWithMessage(d->aniDelaying, zfTextA("notify delay finish an animation which not delaying"));
+    zfCoreAssertWithMessage(d->aniDelaying, "notify delay finish an animation which not delaying");
     d->aniDelaying = zffalse;
     this->aniImplStart();
 }
@@ -275,7 +275,7 @@ void ZFAnimation::aniImplStop(void)
 
 void ZFAnimation::aniImplNotifyStop(void)
 {
-    zfCoreAssertWithMessage(d->aniRunning, zfTextA("notify stop an animation which not started"));
+    zfCoreAssertWithMessage(d->aniRunning, "notify stop an animation which not started");
     this->_ZFP_ZFAnimation_aniReadyStop();
     ZFObject *aniTargetToRelease = this->aniTarget();
 

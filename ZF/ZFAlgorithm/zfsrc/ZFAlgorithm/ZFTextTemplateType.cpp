@@ -18,21 +18,21 @@ void ZFTextTemplateIndexData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
     ret += ZFTOKEN_ZFObjectInfoLeft;
 
-    zfstringAppend(ret, zfText("%%%zi[%zi%s]"),
+    zfstringAppend(ret, "%%%zi[%zi%s]",
         this->indexWidth,
         this->indexRadix,
-        this->indexUpperCase ? zfText("x") : zfText("X"));
+        this->indexUpperCase ? "x" : "X");
 
     if(this->indexOffset >= 0)
     {
-        zfstringAppend(ret, zfText("[%zi, %d)"), this->indexStart, this->indexOffset);
+        zfstringAppend(ret, "[%zi, %d)", this->indexStart, this->indexOffset);
     }
     else
     {
-        zfstringAppend(ret, zfText("(%d, %zi]"), this->indexOffset, this->indexStart);
+        zfstringAppend(ret, "(%d, %zi]", this->indexOffset, this->indexStart);
     }
 
-    ret += zfText(" ");
+    ret += " ";
     ZFTextTemplateIndexFlagEnumToString(ret, this->indexFlag);
 
     ret += ZFTOKEN_ZFObjectInfoRight;
@@ -585,74 +585,74 @@ void ZFTextTemplateParam::objectInfoT(ZF_IN_OUT zfstring &ret) const
     if(!d->replaceDataList.isEmpty())
     {
         if(first) {first = zffalse;}
-        else {ret += zfText(", ");}
+        else {ret += ", ";}
 
-        ret += zfText("replace: [");
+        ret += "replace: [";
         for(zfindex i = 0; i < d->replaceDataList.count(); ++i)
         {
             if(i > 0)
             {
-                ret += zfText(", ");
+                ret += ", ";
             }
             const _ZFP_ZFTextTemplateReplaceData *replaceData = d->replaceDataList[i];
-            zfstringAppend(ret, zfText("<%s, %s>"), replaceData->key.cString(), replaceData->value.cString());
+            zfstringAppend(ret, "<%s, %s>", replaceData->key.cString(), replaceData->value.cString());
         }
-        ret += zfText("]");
+        ret += "]";
     }
 
     if(!d->enableDataList.isEmpty())
     {
         if(first) {first = zffalse;}
-        else {ret += zfText(", ");}
+        else {ret += ", ";}
 
-        ret += zfText("enable: [");
+        ret += "enable: [";
         for(zfindex i = 0; i < d->enableDataList.count(); ++i)
         {
             if(i > 0)
             {
-                ret += zfText(", ");
+                ret += ", ";
             }
             const _ZFP_ZFTextTemplateEnableData *enableData = d->enableDataList[i];
-            zfstringAppend(ret, zfText("<%s, %b>"), enableData->key.cString(), enableData->value);
+            zfstringAppend(ret, "<%s, %b>", enableData->key.cString(), enableData->value);
         }
-        ret += zfText("]");
+        ret += "]";
     }
 
     {
         if(first) {first = zffalse;}
-        else {ret += zfText(", ");}
+        else {ret += ", ";}
 
-        ret += zfText("enableDataDefault: ");
+        ret += "enableDataDefault: ";
         zfboolToString(ret, this->enableDataDefault());
     }
 
     if(!d->indexDataList.isEmpty())
     {
         if(first) {first = zffalse;}
-        else {ret += zfText(", ");}
+        else {ret += ", ";}
 
-        ret += zfText("index: ");
+        ret += "index: ";
         for(zfindex i = 0; i < d->indexDataList.count(); ++i)
         {
             if(i > 0)
             {
-                ret += zfText(", ");
+                ret += ", ";
             }
             const _ZFP_ZFTextTemplateIndexData *indexData = d->indexDataList[i];
-            ret += zfText("<");
+            ret += "<";
             ret += indexData->key;
-            ret += zfText(", ");
+            ret += ", ";
             indexData->value.objectInfoT(ret);
-            ret += zfText(">");
+            ret += ">";
         }
-        ret += zfText("]");
+        ret += "]";
     }
 
     {
         if(first) {first = zffalse;}
-        else {ret += zfText(", ");}
+        else {ret += ", ";}
 
-        ret += zfText("indexDataDefault: ");
+        ret += "indexDataDefault: ";
         d->indexDataDefault.objectInfoT(ret);
     }
 
@@ -685,7 +685,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemplatePar
                 const zfchar *key = item.propertyName();
                 if(key == zfnull)
                 {
-                    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, item, zfText("missing item name"));
+                    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, item, "missing item name");
                     return zffalse;
                 }
                 item.resolvePropertyNameMark();
@@ -708,7 +708,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemplatePar
                 const zfchar *key = item.propertyName();
                 if(key == zfnull)
                 {
-                    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, item, zfText("missing item name"));
+                    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, item, "missing item name");
                     return zffalse;
                 }
                 item.resolvePropertyNameMark();
@@ -742,7 +742,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTextTemplateParam, ZFTextTemplatePar
                 const zfchar *key = item.propertyName();
                 if(key == zfnull)
                 {
-                    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, item, zfText("missing item name"));
+                    ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, item, "missing item name");
                     return zffalse;
                 }
                 item.resolvePropertyNameMark();

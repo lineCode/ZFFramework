@@ -155,11 +155,11 @@ ZFOUTPUT_TYPE(ZFFileFindData, {output << v.objectInfo();})
 
 // ============================================================
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFFileCallback_pathInfo zfText("pathInfo")
+#define ZFSerializableKeyword_ZFFileCallback_pathInfo "pathInfo"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFFileCallback_flags zfText("flags")
+#define ZFSerializableKeyword_ZFFileCallback_flags "flags"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFFileCallback_filePath zfText("filePath")
+#define ZFSerializableKeyword_ZFFileCallback_filePath "filePath"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFFile_fwd_h_

@@ -164,34 +164,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define ZFM_CAT(a, b) ZFM_CAT_DIRECT(a, b)
 
 /**
- * @brief convert a to zfcharA * without expand
+ * @brief convert macro to string
  */
-#define ZFM_TOSTRING_A_DIRECT(a) #a
+#define ZFM_TOSTRING_DIRECT(a) #a
 /**
- * @brief expand a, then convert to zfcharA *
- */
-#define ZFM_TOSTRING_A(a) ZFM_TOSTRING_A_DIRECT(a)
-
-/**
- * @brief convert a to zfcharW * without expand
- */
-#define ZFM_TOSTRING_W_DIRECT(a) zfTextW(#a)
-/**
- * @brief expand a, then convert to zfcharW *
- */
-#define ZFM_TOSTRING_W(a) ZFM_TOSTRING_W_DIRECT(a)
-
-/**
- * @brief zfchar version of #ZFM_TOSTRING_A_DIRECT
- */
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    #define ZFM_TOSTRING_DIRECT(a) #a
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    #define ZFM_TOSTRING_DIRECT(a) zfTextW(#a)
-#endif
-/**
- * @brief zfchar version of #ZFM_TOSTRING_A
+ * @brief convert macro to string
  */
 #define ZFM_TOSTRING(a) ZFM_TOSTRING_DIRECT(a)
 

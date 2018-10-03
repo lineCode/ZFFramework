@@ -9,17 +9,17 @@
  *   zfblockedAlloc(ZFUIButtonBasic, child);
  *   parent->childAdd(child);
  *   child->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
- *   child->buttonLabelTextSet(zflineAlloc(ZFString, zfText("button")));
+ *   child->buttonLabelTextSet(zflineAlloc(ZFString, "button"));
  *
  *   ZFSerializableData data = ZFObjectToData(parent);
  *   zfstring xmlString;
  *   ZFSerializableDataToXml(ZFOutputForString(xmlString), data);
- *   zfLogTrimT() << zfText("serialized data:");
+ *   zfLogTrimT() << "serialized data:";
  *   zfLogTrimT() << xmlString;
  *
  *   ZFSerializableData dataNew = ZFSerializableDataFromXml(ZFInputForBuffer(xmlString));
  *   zfautoObject objNew = ZFObjectFromData(dataNew);
- *   zfLogTrimT() << zfText("re-serialized object:");
+ *   zfLogTrimT() << "re-serialized object:";
  *   zfLogTrimT() << objNew.toObject();
  * @endcode
  * which would output these:

@@ -16,94 +16,25 @@
 #define _ZFI_ZFString_h_
 
 #include "ZFObject.h"
+#include <wchar.h>
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-/**
- * @brief static assert supported encoding for zfchar
- */
-#define ZFSTRINGENCODING_ASSERT(T_ZFStringEncodingEnum) \
-    ZFASSERT_STATIC(ZFStringEncodingForZFChar == T_ZFStringEncodingEnum, encoding_not_supported)
-
-/**
- * @brief encoding name for zfcharA type, UTF8 for default
- */
-#ifndef ZFStringEncodingNameForZFCharA
-    #define ZFStringEncodingNameForZFCharA UTF8
-#endif
-/**
- * @brief encoding name for zfcharW type, UTF16 for default
- */
-#ifndef ZFStringEncodingNameForZFCharW
-    #define ZFStringEncodingNameForZFCharW UTF16
+// ============================================================
+/** @brief wchar_t wrapper */
+#ifndef _ZFT_zfcharW
+    ZFT_INT_WEAK(wchar_t, zfcharW);
+#else
+    ZFT_INT_WEAK(_ZFT_zfcharW, zfcharW);
 #endif
 
-/**
- * @brief encoding name for zfchar type
- */
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    #define ZFStringEncodingNameForZFChar ZFStringEncodingNameForZFCharA
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    #define ZFStringEncodingNameForZFChar ZFStringEncodingNameForZFCharW
+/** @brief wstring wrapper */
+#ifndef _ZFT_zfstringW
+    ZFT_INT_WEAK(_zfstr<zfcharW>, zfstringW);
+#else
+    ZFT_INT_WEAK(_ZFT_zfstringW, zfstringW);
 #endif
 
-/**
- * @brief encoding used in zfchar, see #ZFStringEncoding
- */
-#define ZFStringEncodingForZFChar ZFM_CAT(ZFStringEncoding::e_, ZFM_EXPAND(ZFStringEncodingNameForZFChar))
-
-/**
- * @brief encoding used in zfcharA, see #ZFStringEncoding
- */
-#define ZFStringEncodingForZFCharA ZFM_CAT(ZFStringEncoding::e_, ZFM_EXPAND(ZFStringEncodingNameForZFCharA))
-
-/**
- * @brief encoding used in zfcharW, see #ZFStringEncoding
- */
-#define ZFStringEncodingForZFCharW ZFM_CAT(ZFStringEncoding::e_, ZFM_EXPAND(ZFStringEncodingNameForZFCharW))
-
-#define _ZFP_ZFStringCodeConv(s, fromType, toName) \
-    (ZFM_CAT(ZFString::to, toName)(s, fromType).cString())
-/**
- * @def ZFStringW2A
- * @brief convert types of: zfchar, zfcharA, zfcharW, TCHAR
- *
- * usually used under Windows, so that it's easy to pass string params to Windows API\n
- * call ZFString::toUTF8, etc, to convert encodings\n
- * the letters stands for:
- * -  Z: zfchar, ZFStringEncodingForZFChar encoded
- * -  A: zfcharA, ZFStringEncodingForZFCharA encoded
- * -  W: zfcharW, UTF16 encoded
- *
- * see #ZFStringEncoding for more info
- * @note the return value would be released automatically after expression's end,
- *   you should not save it as a zfcharA * string, use zfstringA instead
- * @def ZFStringA2W
- * @brief see #ZFStringW2A
- * @def ZFStringZ2A
- * @brief see #ZFStringW2A
- * @def ZFStringA2Z
- * @brief see #ZFStringW2A
- * @def ZFStringZ2W
- * @brief see #ZFStringW2A
- * @def ZFStringW2Z
- * @brief see #ZFStringW2A
- */
-#define ZFStringW2A(s) _ZFP_ZFStringCodeConv(s, ZFStringEncodingForZFCharW, ZFStringEncodingNameForZFCharA)
-#define ZFStringA2W(s) _ZFP_ZFStringCodeConv(s, ZFStringEncodingForZFCharA, ZFStringEncodingNameForZFCharW)
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    #define ZFStringZ2A(s) (s)
-    #define ZFStringA2Z(s) (s)
-    #define ZFStringZ2W(s) ZFStringA2W(s)
-    #define ZFStringW2Z(s) ZFStringW2A(s)
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    #define ZFStringZ2A(s) ZFStringW2A(s)
-    #define ZFStringA2Z(s) ZFStringA2W(s)
-    #define ZFStringZ2W(s) (s)
-    #define ZFStringW2Z(s) (s)
-#endif
-
+// ============================================================
 /**
  * @brief supported string encoding
  *
@@ -111,15 +42,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * and use native string type for string storage\n
  * \n
  * we have these encoding types:
- * -  zfchar: #ZFStringEncodingForZFChar encoded
- * -  zfcharA: usually used in io and net transfer,
- *   ensured 1 byte, #ZFStringEncodingForZFCharA encoded
+ * -  zfchar: UTF8 encoded
  * -  zfcharW: usually used to adapt to Unicode version of Windows API,
- *   ensured no less than 2 bytes, #ZFStringEncodingForZFCharW encoded
+ *   ensured no less than 2 bytes, UTF16 encoded
  *
  * we have these string types:
  * -  cosnt zfchar *: C-style strings, simple and efficient
- * -  zfstring/zfstringA/zfstringW: same as #ZFCoreString, a wrapper for std::string
+ * -  zfstring: wrapper for std::string
  * -  void *: very low level type to native string type,
  *   such as NSString, QString
  * -  ZFString: string as a ZFObject to contain the low level void * types,
@@ -127,17 +56,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * \n
  * keep it in short, use zfchar (or zfstring) to process strings,
- * and use #zfText to wrap strings in source code,
  * and use ZFString as ZFObject:
  * @code
- *   const zfchar *s = zfText("my string");
+ *   const zfchar *s = "my string";
  *   zfstring str = s;
  *
  *   // for Windows API, convert to zfcharW and use WCS versions:
- *   WindowsWAPI(ZFStringZ2W(s));
- *
- *   // for net io, convert to UTF8:
- *   netTransfer(ZFString::toUTF8(s, ZFStringEncodingForZFChar).cString());
+ *   WindowsWAPI(ZFString::toUTF16(s, ZFStringEncoding::e_UTF8));
  * @endcode
  *
  * for more advanced string encoding operation,
@@ -150,9 +75,9 @@ ZFENUM_BEGIN(ZFStringEncoding)
     ZFENUM_VALUE(UTF16 = e_UTF16LE)
 ZFENUM_SEPARATOR_ALLOW_DUPLICATE_VALUE(ZFStringEncoding)
     ZFENUM_VALUE_REGISTER(UTF8)
-    ZFENUM_VALUE_REGISTER_WITH_NAME(UTF16LE, zfText("UTF16"))
-    ZFENUM_VALUE_REGISTER_WITH_NAME(UTF16BE, zfText("UTF16BE"))
-    ZFENUM_VALUE_REGISTER_WITH_NAME(UTF16, zfText("UTF16"))
+    ZFENUM_VALUE_REGISTER_WITH_NAME(UTF16LE, "UTF16")
+    ZFENUM_VALUE_REGISTER_WITH_NAME(UTF16BE, "UTF16BE")
+    ZFENUM_VALUE_REGISTER_WITH_NAME(UTF16, "UTF16")
 ZFENUM_END(ZFStringEncoding)
 
 // ============================================================
@@ -200,14 +125,10 @@ zfclassFwd _ZFP_ZFStringPrivate;
  * readonly string container\n
  * for advanced string operation,
  * you may want to:
- * -  get the string, encoded by ZFStringEncodingForZFChar, then do your work
+ * -  get the string value, encoded as UTF8, then do your work
  * -  write native code, using nativeString
  *   (deprecated, use only for performance)
  *
- * we use internal string encoding for string operation
- * (using zfchar and zfstring),
- * to communicate with UI, use nativeString,
- * to communicate with console, use ZFStringZ2A/ZFStringA2Z\n
  * \n
  * note, #ZFString is serializable,
  * but while serializing to a ZFString object,
@@ -261,111 +182,57 @@ protected:
     // conversion
 public:
     /**
-     * @brief convert to UTF8 encoding, or empty string if failed
+     * @brief convert to deisred encoding, or empty string if failed
      *
-     * result must be appended to result, instead clear and set
+     * result would be appended to tail without clear
      */
-    static zfbool toUTF8(ZF_OUT zfstringA &result,
+    static zfbool toUTF8(ZF_OUT zfstring &result,
                          ZF_IN const void *s,
                          ZF_IN ZFStringEncodingEnum srcEncoding);
-    /**
-     * @brief see #toUTF8
-     */
-    static zfstringA toUTF8(ZF_IN const void *s,
-                            ZF_IN ZFStringEncodingEnum srcEncoding,
-                            ZF_OUT_OPT zfbool *success = zfnull);
-    /**
-     * @brief convert to UTF16 little endian encoding, or empty string if failed
-     *
-     * result must be appended to result, instead clear and set
-     */
+    /** @brief see #toUTF8 */
+    static zfstring toUTF8(ZF_IN const void *s,
+                           ZF_IN ZFStringEncodingEnum srcEncoding,
+                           ZF_OUT_OPT zfbool *success = zfnull)
+    {
+        zfstring ret;
+        zfbool t = ZFString::toUTF8(ret, s, srcEncoding);
+        if(success != zfnull) {*success = t;}
+        return ret;
+    }
+    /** @brief see #toUTF8 */
     static zfbool toUTF16(ZF_OUT zfstringW &result,
                           ZF_IN const void *s,
                           ZF_IN ZFStringEncodingEnum srcEncoding);
-    /**
-     * @brief see #toUTF16
-     */
+    /** @brief see #toUTF8 */
     static zfstringW toUTF16(ZF_IN const void *s,
-                             ZF_IN ZFStringEncodingEnum srcEncoding,
-                             ZF_OUT_OPT zfbool *success = zfnull);
-    /**
-     * @brief convert to UTF16 big endian encoding, or empty string if failed
-     *
-     * result must be appended to result, instead clear and set
-     */
-    static zfbool toUTF16BE(ZF_OUT zfstringW &result,
-                            ZF_IN const void *s,
-                            ZF_IN ZFStringEncodingEnum srcEncoding);
-    /**
-     * @brief see #toUTF16BE
-     */
-    static zfstringW toUTF16BE(ZF_IN const void *s,
-                               ZF_IN ZFStringEncodingEnum srcEncoding,
-                               ZF_OUT_OPT zfbool *success = zfnull);
-    /**
-     * @brief to encoding specified by ZFStringEncodingForZFChar
-     *
-     * result must be appended to result, instead clear and set
-     */
-    static zfbool toZFChar(ZF_OUT zfstring &result,
-                           ZF_IN const void *s,
-                           ZF_IN ZFStringEncodingEnum srcEncoding)
-    {
-        return ZFM_CAT(ZFString::to, ZFStringEncodingNameForZFChar)(result, s, srcEncoding);
-    }
-    /**
-     * @brief see #toZFChar
-     */
-    static zfstring toZFChar(ZF_IN const void *s,
                              ZF_IN ZFStringEncodingEnum srcEncoding,
                              ZF_OUT_OPT zfbool *success = zfnull)
     {
-        return ZFM_CAT(ZFString::to, ZFStringEncodingNameForZFChar)(s, srcEncoding, success);
+        zfstringW ret;
+        zfbool t = ZFString::toUTF16(ret, s, srcEncoding);
+        if(success != zfnull) {*success = t;}
+        return ret;
     }
-    /**
-     * @brief to encoding specified by ZFStringEncodingForZFCharA
-     *
-     * result must be appended to result, instead clear and set
-     */
-    static zfbool toZFCharA(ZF_OUT zfstringA &result,
+    /** @brief see #toUTF8 */
+    static zfbool toUTF16BE(ZF_OUT zfstringW &result,
                             ZF_IN const void *s,
-                            ZF_IN ZFStringEncodingEnum srcEncoding)
-    {
-        return ZFM_CAT(ZFString::to, ZFStringEncodingNameForZFCharA)(result, s, srcEncoding);
-    }
-    /**
-     * @brief see #toZFCharA
-     */
-    static zfstringA toZFCharA(ZF_IN const void *s,
+                            ZF_IN ZFStringEncodingEnum srcEncoding);
+    /** @brief see #toUTF8 */
+    static zfstringW toUTF16BE(ZF_IN const void *s,
                                ZF_IN ZFStringEncodingEnum srcEncoding,
                                ZF_OUT_OPT zfbool *success = zfnull)
     {
-        return ZFM_CAT(ZFString::to, ZFStringEncodingNameForZFCharA)(s, srcEncoding, success);
+        zfstringW ret;
+        zfbool t = ZFString::toUTF16BE(ret, s, srcEncoding);
+        if(success != zfnull) {*success = t;}
+        return ret;
     }
-    /**
-     * @brief to encoding specified by ZFStringEncodingForZFCharW
-     *
-     * result must be appended to result, instead clear and set
-     */
-    static zfbool toZFCharW(ZF_OUT zfstringW &result,
-                            ZF_IN const void *s,
-                            ZF_IN ZFStringEncodingEnum srcEncoding)
-    {
-        return ZFM_CAT(ZFString::to, ZFStringEncodingNameForZFCharW)(result, s, srcEncoding);
-    }
-    /**
-     * @brief see #toZFCharW
-     */
-    static zfstringW toZFCharW(ZF_IN const void *s,
-                               ZF_IN ZFStringEncodingEnum srcEncoding,
-                               ZF_OUT_OPT zfbool *success = zfnull)
-    {
-        return ZFM_CAT(ZFString::to, ZFStringEncodingNameForZFCharW)(s, srcEncoding, success);
-    }
+
+public:
     /**
      * @brief get utf8 string's logical word count or -1 if invalid letter exist
      */
-    static zfindex wordCountOfUTF8(ZF_IN const zfcharA *utf8String);
+    static zfindex wordCountOfUTF8(ZF_IN const zfchar *utf8String);
 
     // ============================================================
     // instance method
@@ -405,12 +272,12 @@ protected:
     zfoverride
     virtual inline void objectInfoOnAppendTokenLeft(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfText("\"");
+        ret += "\"";
     }
     zfoverride
     virtual inline void objectInfoOnAppendTokenRight(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfText("\"");
+        ret += "\"";
     }
     zfoverride
     virtual inline void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
@@ -448,7 +315,7 @@ public:
     /**
      * @brief get the length of the string
      *
-     * note that the length is the size of the zfcharA type,
+     * note that the length is the size of the zfchar type,
      * may be or may not be the logical letter num,
      * the actual byte size can be calculated by
      * "sizeof(zfchar) * length()"

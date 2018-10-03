@@ -135,9 +135,9 @@ void ZFUITextView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 
     if(!this->text().isEmpty())
     {
-        ret += zfText(" \"");
+        ret += " \"";
         ret += this->text();
-        ret += zfText("\"");
+        ret += "\"";
     }
 }
 

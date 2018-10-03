@@ -179,8 +179,8 @@ inline ZFCompareResult _ZFP_ZFComparerDummy(ZF_IN T_Comparable const &v0, ZF_IN 
 
 // ============================================================
 ZFCOMPARER_DEFAULT_DECLARE(const zfchar *, const zfchar *, {
-        const zfchar *v0Tmp = ((v0 == zfnull) ? zfText("") : v0);
-        const zfchar *v1Tmp = ((v1 == zfnull) ? zfText("") : v1);
+        const zfchar *v0Tmp = ((v0 == zfnull) ? "" : v0);
+        const zfchar *v1Tmp = ((v1 == zfnull) ? "" : v1);
         zfint result = zfscmp(v0Tmp, v1Tmp);
         if(result < 0)
         {

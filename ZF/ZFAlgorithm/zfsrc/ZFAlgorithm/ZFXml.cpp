@@ -233,7 +233,7 @@ private:
                 if(!data.xmlItem.xmlAttributeFirst().xmlIsNull()
                     && _ZFP_ZFXmlOutputElementUseSingleTag(data.xmlItem, flags, data))
                 {
-                    this->add(zfText(" "));
+                    this->add(" ");
                 }
                 if(_ZFP_ZFXmlOutputElementUseSingleTag(data.xmlItem, flags, data))
                 {
@@ -279,7 +279,7 @@ private:
                 }
                 else if(data.depth > 0 || data.siblingIndex > 0)
                 {
-                    this->add(zfText(" "));
+                    this->add(" ");
                 }
                 this->add(data.xmlItem.xmlName());
                 this->add(flags.xmlToken.xmlAttributeEqualTag);
@@ -389,7 +389,7 @@ private:
             {
                 if(data.xmlItem.xmlAttributeFirst().xmlIsNull())
                 {
-                    this->add(zfText(" "));
+                    this->add(" ");
                 }
                 this->add(flags.xmlToken.xmlDeclarationTagRight);
             }
@@ -413,7 +413,7 @@ private:
                 this->add(flags.xmlGlobalLineBeginToken);
                 this->addIndent(flags.xmlToken.xmlIndentToken, data.depth);
                 this->add(flags.xmlToken.xmlDocTypeTagLeft);
-                this->add(zfText(" "));
+                this->add(" ");
                 this->add(data.xmlItem.xmlValue());
                 break;
             case ZFXmlVisitType::e_Exit:
@@ -439,7 +439,7 @@ private:
                 this->addIndent(flags.xmlToken.xmlIndentToken, data.depth);
                 this->add(flags.xmlToken.xmlPITagLeft);
                 this->add(data.xmlItem.xmlName());
-                this->add(zfText(" "));
+                this->add(" ");
                 this->add(data.xmlItem.xmlValue());
                 break;
             case ZFXmlVisitType::e_Exit:
@@ -1004,7 +1004,7 @@ void ZFXmlItem::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += ZFXmlType::EnumNameForValue(this->xmlType());
     if(this->xmlName() != zfnull)
     {
-        ret += zfText(", name: ");
+        ret += ", name: ";
         ret += this->xmlName();
     }
     ret += ZFTOKEN_ZFObjectInfoRight;
@@ -1168,7 +1168,7 @@ void ZFXmlItem::xmlAttributeAdd(ZF_IN const ZFXmlItem &addThis,
 {
     _ZFP_ZFXmlAssertCanHaveAttribute(*this);
     _ZFP_ZFXmlAssertCanBeAttribute(addThis);
-    zfCoreAssertWithMessage(addThis.d->xmlParent == zfnull, zfTextA("adding a attribute that already has parent, remove it first"));
+    zfCoreAssertWithMessage(addThis.d->xmlParent == zfnull, "adding a attribute that already has parent, remove it first");
 
     if(beforeThis != zfnull && beforeThis->d->xmlParent == d && beforeThis->xmlType() == ZFXmlType::e_XmlAttribute)
     {
@@ -1286,7 +1286,7 @@ void ZFXmlItem::xmlChildAdd(ZF_IN const ZFXmlItem &addThis,
 {
     _ZFP_ZFXmlAssertCanHaveChild(*this);
     _ZFP_ZFXmlAssertCanBeChild(addThis);
-    zfCoreAssertWithMessage(addThis.d->xmlParent == zfnull, zfTextA("adding a child that already has parent, remove it first"));
+    zfCoreAssertWithMessage(addThis.d->xmlParent == zfnull, "adding a child that already has parent, remove it first");
 
     if(beforeThis != zfnull && beforeThis->d->xmlParent == d && beforeThis->xmlType() != ZFXmlType::e_XmlAttribute)
     {

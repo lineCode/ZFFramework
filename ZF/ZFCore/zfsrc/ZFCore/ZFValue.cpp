@@ -634,9 +634,9 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFValue, zfbool, valueConvertableTo, 
 
 // ============================================================
 #define _ZFP_ZFValueLogUnConvertable(fromType, toType) \
-    zfCoreCriticalMessage(zfTextA("could not convert value type from %s to %s"), \
-        zfsCoreZ2A(ZFValueType::EnumNameForValue(fromType)), \
-        zfsCoreZ2A(ZFValueType::EnumNameForValue(toType)))
+    zfCoreCriticalMessage("could not convert value type from %s to %s", \
+        ZFValueType::EnumNameForValue(fromType), \
+        ZFValueType::EnumNameForValue(toType))
 #define _ZFP_ZFValue_getValue_swith_case(TypeName, Type, originalType) \
     case ZFValueType::e_##TypeName: \
         return (Type)(originalType)d->v.value_##TypeName;

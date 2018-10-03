@@ -450,7 +450,7 @@ static void _ZFP_ZFClassGetInfo(ZF_IN_OUT zfstring &s,
 {
     if(cls->classIsAbstract() && !cls->classIsInterface())
     {
-        s += zfText("(abstract)");
+        s += "(abstract)";
     }
     s += cls->classNameFull();
 }
@@ -464,7 +464,7 @@ void ZFClass::objectInfoT(ZF_IN_OUT zfstring &ret) const
         {
             if(i != 0)
             {
-                ret += zfText(", ");
+                ret += ", ";
             }
             ret += this->implementedInterfaceAtIndex(i)->classNameFull();
         }
@@ -482,7 +482,7 @@ void ZFClass::objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const
             {
                 break;
             }
-            ret += zfText(" : ");
+            ret += " : ";
         }
 
         _ZFP_ZFClassGetInfo(ret, cls);
@@ -503,7 +503,7 @@ void ZFClass::objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const
                 }
                 else
                 {
-                    ret += zfText(", ");
+                    ret += ", ";
                 }
                 cls->implementedInterfaceAtIndex(i)->objectInfoOfInheritTreeT(ret);
             }
@@ -603,7 +603,7 @@ zfautoObject ZFClass::newInstanceGeneric(
     }
 
     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
-    this->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
+    this->methodForNameGetAllT(objectOnInitMethodList, "objectOnInit");
     ZFToken token = this->newInstanceGenericBegin();
     if(token != zfnull)
     {
@@ -640,7 +640,7 @@ zfbool ZFClass::newInstanceGenericCheck(ZF_IN ZFToken token
 {
     if(objectOnInitMethod == zfnull
         || !this->classIsTypeOf(objectOnInitMethod->methodOwnerClass())
-        || !zfscmpTheSame(objectOnInitMethod->methodName(), zfText("objectOnInit"))
+        || !zfscmpTheSame(objectOnInitMethod->methodName(), "objectOnInit")
         )
     {
         return zffalse;
@@ -1000,7 +1000,7 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
         cls = d->pointerValueT<ZFClass *>();
         if(cls->d->isInterface != isInterface || cls->d->classParent != parent)
         {
-            zfCoreCriticalMessageTrim(zfTextA("[ZFClass] register a class that already registered: %s"), zfsCoreZ2A(className));
+            zfCoreCriticalMessageTrim("[ZFClass] register a class that already registered: %s", className);
             return zfnull;
         }
         ++(cls->d->refCount);
@@ -1033,12 +1033,12 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
         cls->d->isInterface = isInterface;
 
         {
-            const zfchar *filter = zfText("_ZFP_");
+            const zfchar *filter = "_ZFP_";
             const zfindex filterLen = zfslen(filter);
             cls->d->isPrivateClass = (zfsncmp(className, filter, filterLen) == 0);
         }
         {
-            const zfchar *filter = zfText("_ZFP_I_");
+            const zfchar *filter = "_ZFP_I_";
             const zfindex filterLen = zfslen(filter);
             cls->d->isInternalClass = (zfsncmp(className, filter, filterLen) == 0);
         }
@@ -1086,7 +1086,7 @@ void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN c
 
     if(!d->internalTypesNeedAutoRegister)
     {
-        ZFMethodUserUnregister(cls->methodForName(zfText("ClassData")));
+        ZFMethodUserUnregister(cls->methodForName("ClassData"));
     }
 
     d->classDynamicRegisterUserData = zfnull;
@@ -1396,7 +1396,7 @@ void ZFClass::_ZFP_ZFClass_methodAndPropertyAutoRegister(void) const
                 public,
                 ZFMethodTypeStatic,
                 const ZFClass *,
-                zfText("ClassData"));
+                "ClassData");
 
             if(!this->classIsTypeOf(ZFTypeIdWrapper::ClassData()))
             {

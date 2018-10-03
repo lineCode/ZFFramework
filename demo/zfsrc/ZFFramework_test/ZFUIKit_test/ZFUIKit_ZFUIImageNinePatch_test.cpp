@@ -28,7 +28,7 @@ protected:
         zfblockedAlloc(ZFUIImageView, imageView);
         container->childAdd(imageView);
         imageView->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        imageView->imageSet(zfRes(zfText("test_normal.png")).to<ZFCopyable *>()->copy());
+        imageView->imageSet(zfRes("test_normal.png").to<ZFCopyable *>()->copy());
         imageView->image()->imageNinePatchSet(ZFUIMarginMake(
             imageView->image()->imageSize().width / 2,
             imageView->image()->imageSize().height / 2));
@@ -46,16 +46,16 @@ private:
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
             setting->userDataSet(zflineAlloc(ZFObject));
-            setting->userData()->tagSet(zfText("imageView"), imageView->objectHolder());
+            setting->userData()->tagSet("imageView", imageView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIImageView *imageView = userData->tagGet(zfText("imageView"))->objectHolded();
+                ZFUIImageView *imageView = userData->tagGet("imageView")->objectHolded();
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 zfbool fill = (imageView->layoutParam()->sizeParam().width == ZFUISizeType::e_Fill);
-                text->stringValueSet(fill ? zfText("fill") : zfText("wrap"));
+                text->stringValueSet(fill ? "fill" : "wrap");
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIImageView *imageView = userData->tagGet(zfText("imageView"))->objectHolded();
+                ZFUIImageView *imageView = userData->tagGet("imageView")->objectHolded();
                 zfbool fill = (imageView->layoutParam()->sizeParam().width == ZFUISizeType::e_Fill);
                 imageView->layoutParam()->sizeParamSet(fill ? ZFUISizeParamWrapWrap() : ZFUISizeParamFillFill());
             })

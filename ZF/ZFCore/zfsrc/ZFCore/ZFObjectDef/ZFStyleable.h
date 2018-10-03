@@ -394,13 +394,13 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  * @code
  *   // register
  *   MyStyleObject *obj = xxx;
- *   obj->styleKeySet(zfText("MyStyle/MyStyleObject"));
+ *   obj->styleKeySet("MyStyle/MyStyleObject");
  *
  *   // change style
  *   ZFStyleChangeBegin();
- *       ZFStyleSet(zfText("MyStyle/MyStyleObject"), xxx);
+ *       ZFStyleSet("MyStyle/MyStyleObject", xxx);
  *       ZFStyleChangeBegin(); // can be embeded, but must be paired
- *           ZFStyleSet(zfText("xxx"), xxx);
+ *           ZFStyleSet("xxx", xxx);
  *       ZFStyleChangeEnd();
  *   ZFStyleChangeEnd();
  *
@@ -434,7 +434,7 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  *       })
  *
  *   // attach style
- *   myObject->styleKeySet(ZFPropertyAccess(MyObject, myStyleProperty), zfText("myStyleKey"));
+ *   myObject->styleKeySet(ZFPropertyAccess(MyObject, myStyleProperty), "myStyleKey");
  * @endcode
  * \n
  * \n

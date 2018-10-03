@@ -19,9 +19,9 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFKeyValueContainer_key zfText("key")
+#define ZFSerializableKeyword_ZFKeyValueContainer_key "key"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFKeyValueContainer_value zfText("value")
+#define ZFSerializableKeyword_ZFKeyValueContainer_value "value"
 
 zfclassFwd _ZFP_ZFKeyValueContainerPrivate;
 /**

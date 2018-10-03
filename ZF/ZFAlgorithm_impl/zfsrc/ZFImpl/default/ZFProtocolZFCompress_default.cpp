@@ -36,7 +36,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   so, it's recommended to use ASCII chars only for file and path names
  */
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFCompressImpl_default, ZFCompress, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("miniz"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("miniz")
 public:
     virtual ZFToken compressBegin(ZF_IN_OUT const ZFOutput &outputZip,
                                   ZF_IN ZFCompressLevelEnum compressLevel)
@@ -113,13 +113,13 @@ public:
         zfindex len = zfslen(filePathInZip);
         if(filePathInZip[len - 1] == ZFFileSeparator())
         {
-            return mz_zip_writer_add_mem(zip, ZFStringZ2A(filePathInZip), NULL, 0, 0);
+            return mz_zip_writer_add_mem(zip, filePathInZip, NULL, 0, 0);
         }
         else
         {
             zfstring tmp = filePathInZip;
             tmp += ZFFileSeparator();
-            return mz_zip_writer_add_mem(zip, ZFStringZ2A(tmp.cString()), NULL, 0, 0);
+            return mz_zip_writer_add_mem(zip, tmp.cString(), NULL, 0, 0);
         }
     }
 
@@ -186,7 +186,7 @@ public:
                                            ZF_IN const zfchar *filePathInZip)
     {
         mz_zip_archive *zip = (mz_zip_archive *)decompressToken;
-        int ret = mz_zip_reader_locate_file(zip, ZFStringZ2A(filePathInZip), NULL, MZ_ZIP_FLAG_CASE_SENSITIVE);
+        int ret = mz_zip_reader_locate_file(zip, filePathInZip, NULL, MZ_ZIP_FLAG_CASE_SENSITIVE);
         if(ret < 0)
         {
             return zfindexMax();
@@ -209,7 +209,7 @@ public:
         ZFBuffer buffer;
         buffer.bufferMalloc((size + 1) * sizeof(char));
         mz_zip_reader_get_filename(zip, (mz_uint)fileIndexInZip, buffer.bufferT<char *>(), (mz_uint)size);
-        filePathInZip += ZFStringA2Z(buffer.bufferT<char *>());
+        filePathInZip += buffer.bufferT<char *>();
         return zftrue;
     }
 
@@ -223,17 +223,11 @@ private:
         if(inputSize == zfindexMax())
         {
             ZFBuffer buffer = ZFInputReadToBuffer(input);
-            return mz_zip_writer_add_mem(&zip, ZFStringZ2A(filePath), buffer.buffer(), buffer.bufferSize(), flags);
+            return mz_zip_writer_add_mem(&zip, filePath, buffer.buffer(), buffer.bufferSize(), flags);
         }
 
         mz_zip_archive *pZip = &zip;
-        #if ZF_ENV_ZFCHAR_USE_CHAR_A
-            const char *pArchive_name = filePath;
-        #endif
-        #if ZF_ENV_ZFCHAR_USE_CHAR_W
-            zfstringA _pArchive_name = ZFStringZ2A(filePath);
-            const char *pArchive_name = _pArchive_name;
-        #endif
+        const char *pArchive_name = filePath;
         const void *pComment = NULL;
         mz_uint16 comment_size = 0;
         mz_uint level_and_flags = flags;
@@ -270,7 +264,7 @@ private:
 
         #ifndef MINIZ_NO_TIME
             time_t cur_time; time(&cur_time);
-            mz_zip_time_to_dos_time(cur_time, &dos_time, &dos_date);
+            mz_zip_time_t_to_dos_time(cur_time, &dos_time, &dos_date);
         #endif
 
         uncomp_size = (mz_uint64)inputSize;

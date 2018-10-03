@@ -38,9 +38,9 @@ extern ZF_ENV_EXPORT zfbool zfCoreDataPairSplitString(ZF_OUT ZFCoreArray<ZFIndex
                                                       ZF_IN zfindex desiredCountOrIndexMax,
                                                       ZF_IN const zfchar *src,
                                                       ZF_IN_OPT zfindex srcLen = zfindexMax(),
-                                                      ZF_IN_OPT const zfchar *separatorTokens = zfText(","),
-                                                      ZF_IN_OPT const zfchar *leftTokens = zfText("("),
-                                                      ZF_IN_OPT const zfchar *rightTokens = zfText(")"),
+                                                      ZF_IN_OPT const zfchar *separatorTokens = ",",
+                                                      ZF_IN_OPT const zfchar *leftTokens = "(",
+                                                      ZF_IN_OPT const zfchar *rightTokens = ")",
                                                       ZF_IN_OPT zfbool allowEmptyItem = zffalse,
                                                       ZF_OUT_OPT const zfchar **outErrorPos = zfnull);
 
@@ -52,9 +52,9 @@ zfbool zfCoreDataPairSplitInt(ZF_OUT ZFCoreArray<T_int> &outData,
                               ZF_IN zfindex desiredCountOrIndexMax,
                               ZF_IN const zfchar *src,
                               ZF_IN_OPT zfindex srcLen = zfindexMax(),
-                              ZF_IN_OPT const zfchar *separatorTokens = zfText(","),
-                              ZF_IN_OPT const zfchar *leftTokens = zfText("("),
-                              ZF_IN_OPT const zfchar *rightTokens = zfText(")"),
+                              ZF_IN_OPT const zfchar *separatorTokens = ",",
+                              ZF_IN_OPT const zfchar *leftTokens = "(",
+                              ZF_IN_OPT const zfchar *rightTokens = ")",
                               ZF_IN_OPT zfbool allowEmptyItem = zffalse,
                               ZF_OUT_OPT const zfchar **outErrorPos = zfnull)
 {
@@ -90,9 +90,9 @@ zfbool zfCoreDataPairSplitFloat(ZF_OUT ZFCoreArray<T_float> &outData,
                                 ZF_IN zfindex desiredCountOrIndexMax,
                                 ZF_IN const zfchar *src,
                                 ZF_IN_OPT zfindex srcLen = zfindexMax(),
-                                ZF_IN_OPT const zfchar *separatorTokens = zfText(","),
-                                ZF_IN_OPT const zfchar *leftTokens = zfText("("),
-                                ZF_IN_OPT const zfchar *rightTokens = zfText(")"),
+                                ZF_IN_OPT const zfchar *separatorTokens = ",",
+                                ZF_IN_OPT const zfchar *leftTokens = "(",
+                                ZF_IN_OPT const zfchar *rightTokens = ")",
                                 ZF_IN_OPT zfbool allowEmptyItem = zffalse,
                                 ZF_OUT_OPT const zfchar **outErrorPos = zfnull)
 {

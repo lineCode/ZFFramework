@@ -17,12 +17,12 @@ ZFCACHEHOLDER_DEFINE(ZFUIKeyEvent)
 void ZFUIKeyEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     ret += ZFUIKeyAction::EnumNameForValue(this->keyAction);
-    ret += zfText(" ");
+    ret += " ";
     ret += ZFUIKeyCode::EnumNameForValue(this->keyCode);
 
     if(this->eventResolved())
     {
-        ret += zfText(" (resolved)");
+        ret += " (resolved)";
     }
 }
 

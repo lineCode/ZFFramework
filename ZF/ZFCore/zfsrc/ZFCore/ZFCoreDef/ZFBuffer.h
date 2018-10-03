@@ -109,12 +109,12 @@ public:
      */
     zffinal zfbool bufferCopy(ZF_IN const void *buffer, ZF_IN zfindex bufferSize)
     {
-        if(!this->bufferMalloc(bufferSize + sizeof(zfcharW)))
+        if(!this->bufferMalloc(bufferSize + sizeof(zfchar)))
         {
             return zffalse;
         }
         zfmemcpy(this->buffer(), buffer, bufferSize);
-        *((zfcharW *)this->buffer() + bufferSize) = '\0';
+        *((zfchar *)this->buffer() + bufferSize) = '\0';
         return zftrue;
     }
     /**

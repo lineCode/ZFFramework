@@ -92,11 +92,11 @@ public:
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFOutputForFormat zfText("ZFOutputForFormat")
+#define ZFCallbackSerializeCustomType_ZFOutputForFormat "ZFOutputForFormat"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFOutputForFormat_output zfText("output")
+#define ZFSerializableKeyword_ZFOutputForFormat_output "output"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFOutputForFormat_format zfText("format")
+#define ZFSerializableKeyword_ZFOutputForFormat_format "format"
 
 // ============================================================
 /** @brief see #ZFOutputForFormat */

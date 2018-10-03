@@ -62,7 +62,7 @@ static zfindex _ZFP_ZFPropertyAniOverrideFlag = 0;
 static zfbool _ZFP_ZFPropertyAniProcessFlag = zffalse;
 #define _ZFP_ZFPropertyAniStateAssert() \
     zfCoreAssertWithMessageTrim(!_ZFP_ZFPropertyAniProcessFlag, \
-        zfTextA("[ZFPropertyAni] re-enter during clean is not allowed"))
+        "[ZFPropertyAni] re-enter during clean is not allowed")
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFPropertyAniDataHolder, ZFLevelZFFrameworkNormal)
 {

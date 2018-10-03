@@ -313,20 +313,20 @@ zfbool ZFAnimationGroup::serializableOnSerializeFromData(ZF_IN const ZFSerializa
             if(element == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("null child"));
+                    "null child");
                 return zffalse;
             }
             if(!element.toObject()->classData()->classIsTypeOf(ZFAnimationGroupChildData::ClassData()))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("object %s not type of %s"), element.toObject()->objectInfoOfInstance().cString(), ZFAnimationGroupChildData::ClassData());
+                    "object %s not type of %s", element.toObject()->objectInfoOfInstance().cString(), ZFAnimationGroupChildData::ClassData());
                 return zffalse;
             }
             ZFAnimationGroupChildData *childData = ZFCastZFObjectUnchecked(ZFAnimationGroupChildData *, element.toObject());
             if(childData->childAni() == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("null child animation"));
+                    "null child animation");
                 return zffalse;
             }
             this->childAniAdd(childData);
@@ -377,7 +377,7 @@ zfbool ZFAnimationGroup::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableD
         if(mismatch)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint,
-                zfText("animation group contents mismatch, this: %s, ref: %s"),
+                "animation group contents mismatch, this: %s, ref: %s",
                 d->childAnis->objectInfoOfContent().cString(), ref->d->childAnis->objectInfoOfContent().cString());
             return zffalse;
         }
@@ -454,7 +454,7 @@ ZFMETHOD_DEFINE_1(ZFAnimationGroup, void, childAniAdd,
 {
     zfCoreAssert(childData != zfnull);
     zfCoreAssert(childData->childAni() != zfnull);
-    zfCoreAssertWithMessage(!this->aniRunning(), zfTextA("you must not modify child animation while group is running"));
+    zfCoreAssertWithMessage(!this->aniRunning(), "you must not modify child animation while group is running");
     d->childAnis->add(childData);
 }
 ZFMETHOD_DEFINE_0(ZFAnimationGroup, zfindex, childAniCount)

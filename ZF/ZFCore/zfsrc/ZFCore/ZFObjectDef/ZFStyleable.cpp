@@ -20,7 +20,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFStyleable *ZFStyleable::defaultStyle(void)
 {
-    const ZFMethod *method = this->classData()->methodForName(zfText("DefaultStyleReflect"));
+    const ZFMethod *method = this->classData()->methodForName("DefaultStyleReflect");
     if(method != zfnull)
     {
         return method->execute<zfautoObject>(zfnull).to<ZFStyleable *>();
@@ -341,7 +341,7 @@ void _ZFP_ZFStyleDecoderRegister(ZF_IN const zfchar *registerSig,
     zfstlmap<zfstlstringZ, _ZFP_ZFStyleDecoder> &m = _ZFP_ZFStyleDecoderMap();
     zfCoreAssert(registerSig != zfnull && decoder != zfnull);
     zfCoreAssertWithMessageTrim(m.find(registerSig) == m.end(),
-        zfTextA("[ZFSTYLE_DECODER_DEFINE] %s already registered"),
+        "[ZFSTYLE_DECODER_DEFINE] %s already registered",
         registerSig);
     m[registerSig] = decoder;
 }
@@ -418,7 +418,7 @@ void ZFStyleChangeBegin()
 void ZFStyleChangeEnd()
 {
     zfCoreAssertWithMessageTrim(_ZFP_ZFStyleChangeBeginFlag != 0,
-        zfTextA("ZFStyleChangeBegin/ZFStyleChangeEnd not paired"));
+        "ZFStyleChangeBegin/ZFStyleChangeEnd not paired");
     --_ZFP_ZFStyleChangeBeginFlag;
     zfbool needNotify = (_ZFP_ZFStyleChangeBeginFlag == 0);
     zfCoreMutexUnlock();
@@ -447,17 +447,17 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFStyleInvalidAssert, ZFLevelZFFrameworkHi
             if(property == zfnull)
             {
                 zfCoreCriticalMessageTrim(
-                    zfTextA("[ZFStyle] %s unable to apply style \"%s\""),
-                    zfsCoreZ2A(listenerData.sender->objectInfoOfInstance().cString()),
-                    zfsCoreZ2A(styleKey));
+                    "[ZFStyle] %s unable to apply style \"%s\"",
+                    listenerData.sender->objectInfoOfInstance().cString(),
+                    styleKey);
             }
             else
             {
                 zfCoreCriticalMessageTrim(
-                    zfTextA("[ZFStyle] %s unable to apply style \"%s\" for property %s"),
-                    zfsCoreZ2A(listenerData.sender->objectInfoOfInstance().cString()),
-                    zfsCoreZ2A(styleKey),
-                    zfsCoreZ2A(property->objectInfo().cString()));
+                    "[ZFStyle] %s unable to apply style \"%s\" for property %s",
+                    listenerData.sender->objectInfoOfInstance().cString(),
+                    styleKey,
+                    property->objectInfo().cString());
             }
         })
     this->taskId = ZFObjectGlobalEventObserver().observerAdd(

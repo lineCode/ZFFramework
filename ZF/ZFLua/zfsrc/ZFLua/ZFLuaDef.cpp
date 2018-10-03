@@ -26,13 +26,13 @@ void _ZFP_ZFLuaErrorOccurred(ZF_IN const ZFCallerInfo &callerInfo,
         zfstring s;
         if(callerInfo.callerInfoT(s))
         {
-            s += zfText(" ");
+            s += " ";
         }
         va_list vaList;
         va_start(vaList, fmt);
         zfstringAppendV(s, fmt, vaList);
         va_end(vaList);
-        s += zfText("\n");
+        s += "\n";
         const ZFCoreArray<ZFOutput> &t = ZFLuaErrorCallbacks;
         for(zfindex i = 0; i < t.count(); ++i)
         {

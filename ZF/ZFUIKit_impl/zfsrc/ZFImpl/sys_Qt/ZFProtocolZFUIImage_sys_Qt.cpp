@@ -19,7 +19,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIImageImpl_sys_Qt, ZFUIImage, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QImage"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QImage")
 
 public:
     virtual void *nativeImageFromInput(ZF_IN const ZFInput &inputCallback)

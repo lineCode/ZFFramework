@@ -21,7 +21,7 @@ ZFCoreArrayPOD<ZFImplOutputCoreLogCallback> &_ZFP_ZFImplOutputCoreLogCallbackLis
     static ZFCoreArrayPOD<ZFImplOutputCoreLogCallback> d;
     return d;
 }
-void ZFImplOutputCoreLog(ZF_IN const zfcharA *src)
+void ZFImplOutputCoreLog(ZF_IN const zfchar *src)
 {
     static ZFCoreArrayPOD<ZFImplOutputCoreLogCallback> &d = ZFImplOutputCoreLogCallbackList;
     for(zfindex i = 0; i < d.count(); ++i)
@@ -33,7 +33,7 @@ void ZFImplOutputCoreLog(ZF_IN const zfcharA *src)
     if(impl == zfnull)
     {
         // try to print to std output
-        fprintf(stderr, zfTextA("%s"), src);
+        fprintf(stderr, "%s", src);
     }
     else
     {
@@ -62,11 +62,11 @@ void ZFImplOutput(ZF_IN const zfchar *src,
     {
         if(srcLen == zfindexMax())
         {
-            printf(zfTextA("%s"), ZFStringZ2A(src));
+            printf("%s", src);
         }
         else
         {
-            printf(zfTextA("%s"), ZFStringZ2A(zfstring(src, srcLen).cString()));
+            printf("%s", zfstring(src, srcLen).cString());
         }
     }
     else

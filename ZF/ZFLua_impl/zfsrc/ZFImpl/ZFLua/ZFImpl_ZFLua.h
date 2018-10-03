@@ -226,7 +226,7 @@ public:
 /**
  * @brief see #ZFImpl_ZFLua_implDispatch_DEFINE
  */
-#define ZFImpl_ZFLua_implDispatchAll zfText("-")
+#define ZFImpl_ZFLua_implDispatchAll "-"
 
 /** @brief see #ZFImpl_ZFLua_implDispatch_DEFINE */
 extern ZF_ENV_EXPORT void ZFImpl_ZFLua_implDispatch(ZF_IN_OUT ZFImpl_ZFLua_ImplDispatchInfo &dispatchInfo);
@@ -317,7 +317,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
         if(dispatchInfo.paramCount != N) \
         { \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s expect %zi param, got %zi"), \
+                "%s::%s expect %zi param, got %zi", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
                 N, dispatchInfo.paramCount); \
         } \
@@ -328,7 +328,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
         if(dispatchInfo.paramCount < N0 || dispatchInfo.paramCount > N1) \
         { \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s expect %zi ~ %zi param, got %zi"), \
+                "%s::%s expect %zi ~ %zi param, got %zi", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
                 N0, N1, dispatchInfo.paramCount); \
         } \
@@ -339,7 +339,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
         if(!dispatchInfo.isStatic) \
         { \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s is static method, called as object instance method"), \
+                "%s::%s is static method, called as object instance method", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName); \
         } \
     } while(zffalse)
@@ -348,7 +348,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     if(dispatchInfo.isStatic) \
     { \
         return dispatchInfo.dispatchError( \
-            zfText("%s::%s is object instance method, called as static method"), \
+            "%s::%s is object instance method, called as static method", \
             dispatchInfo.classOrNamespace, dispatchInfo.methodName); \
     }
 /** @brief util macro for impl */
@@ -357,7 +357,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
         if(dispatchInfo.classOrNull == zfnull) \
         { \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s no such class"), \
+                "%s::%s no such class", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName); \
         } \
     } while(zffalse)
@@ -380,7 +380,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
                 } \
             } \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s param type mismatch, expect %s, got %s"), \
+                "%s::%s param type mismatch, expect %s, got %s", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
                 desiredClass::ClassData()->classNameFull(), \
                 ZFObjectInfo(dispatchInfo.paramList[N]->toObject()).cString()); \
@@ -405,7 +405,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
                 } \
             } \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s param type mismatch, expect %s, got %s"), \
+                "%s::%s param type mismatch, expect %s, got %s", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
                 desiredClass::ClassData()->classNameFull(), \
                 ZFObjectInfo(dispatchInfo.paramList[N]->toObject()).cString()); \
@@ -418,7 +418,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     if(_ZFP_##objName == zfnull) \
     { \
         return dispatchInfo.dispatchError( \
-            zfText("%s::%s owner object type mismatch, expect %s, got %s"), \
+            "%s::%s owner object type mismatch, expect %s, got %s", \
             dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
             WrapperType::ClassData()->classNameFull(), \
             ZFObjectInfo(dispatchInfo.objectOrNull).cString()); \
@@ -432,7 +432,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
         if(objName == zfnull) \
         { \
             return dispatchInfo.dispatchError( \
-                zfText("%s::%s owner object type mismatch, expect %s, got %s"), \
+                "%s::%s owner object type mismatch, expect %s, got %s", \
                 dispatchInfo.classOrNamespace, dispatchInfo.methodName, \
                 OwnerZFObjectType::ClassData()->classNameFull(), \
                 ZFObjectInfo(dispatchInfo.objectOrNull).cString()); \
@@ -608,18 +608,18 @@ inline void ZFImpl_ZFLua_luaClose(ZF_IN lua_State *L)
 template<typename T>
 inline void ZFImpl_ZFLua_luaClassRegister(ZF_IN lua_State *L, ZF_IN const zfchar *name)
 {
-    ELuna::registerClass<T>(L, zfsCoreZ2A(name), ELuna::constructor<zfautoObject>);
+    ELuna::registerClass<T>(L, name, ELuna::constructor<zfautoObject>);
 }
 /** @brief util for impl */
 template<typename F>
 inline void ZFImpl_ZFLua_luaFunctionRegister(ZF_IN lua_State *L, ZF_IN const zfchar *name, ZF_IN F f)
 {
-    ELuna::registerFunction(L, zfsCoreZ2A(name), f);
+    ELuna::registerFunction(L, name, f);
 }
 /** @brief util for impl */
 inline void ZFImpl_ZFLua_luaCFunctionRegister(ZF_IN lua_State *L, ZF_IN const zfchar *name, ZF_IN int (*f)(lua_State *))
 {
-    lua_register(L, zfsCoreZ2A(name), f);
+    lua_register(L, name, f);
 }
 
 /** @brief util for impl */

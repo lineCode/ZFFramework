@@ -77,7 +77,7 @@ const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
 {
     if(zfsIsEmpty(idName))
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFIdMapDynamicRegister] empty name"));
+        zfCoreCriticalMessageTrim("[ZFIdMapDynamicRegister] empty name");
     }
 
     zfCoreMutexLocker();
@@ -95,7 +95,7 @@ const zfidentity *_ZFP_ZFIdMapRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     {
         if(isDynamicRegister)
         {
-            zfCoreCriticalMessageTrim(zfTextA("[ZFIdMapDynamicRegister] already registered: %s"), zfsCoreZ2A(idName));
+            zfCoreCriticalMessageTrim("[ZFIdMapDynamicRegister] already registered: %s", idName);
         }
         ++(data->refCount);
     }
@@ -142,9 +142,9 @@ void _ZFP_ZFIdMapUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     if(!data->isDynamicRegister && isDynamicRegister)
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("[ZFIdMapDynamicUnregister] unregister %s(%s) which is not dynamic registered"),
-            zfsCoreZ2A(zfsFromInt(data->idValue).cString()),
-            zfsCoreZ2A(data->idName.cString()));
+            "[ZFIdMapDynamicUnregister] unregister %s(%s) which is not dynamic registered",
+            zfsFromInt(data->idValue).cString(),
+            data->idName.cString());
     }
     data->ZFCoreLibDestroyFlag.removeElement(ZFCoreLibDestroyFlag);
     --(data->refCount);

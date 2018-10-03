@@ -56,7 +56,7 @@ public:
 };
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFAnimationGroup_child zfText("child")
+#define ZFSerializableKeyword_ZFAnimationGroup_child "child"
 
 // ============================================================
 zfclassFwd _ZFP_ZFAnimationGroupPrivate;

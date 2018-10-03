@@ -40,7 +40,7 @@
  * styleable is useful to achieve advance skin logic,
  * use #ZFStyleable::styleKey to supply your style:
  * @code
- *   yourObj->styleKeySet(zfText("your_skin_key"));
+ *   yourObj->styleKeySet("your_skin_key");
  * @endcode
  * this code register yourObj to #ZFStyleGet,
  * once the skin value associated with "your_skin_key" has changed by #ZFStyleChangeEnd,
@@ -49,7 +49,7 @@
  * for non-ZFStyleable property, you may also attach to style
  * if it's registered by #ZFSTYLE_PROPERTY_COPY_DEFINE
  * @code
- *   yourObj->styleKeySet(ZFPropertyAccess(YourObject, yourProperty), zfText("your_skin_key"));
+ *   yourObj->styleKeySet(ZFPropertyAccess(YourObject, yourProperty), "your_skin_key");
  * @endcode
  * \n
  * also, thanks to ZFClass's instance observer,

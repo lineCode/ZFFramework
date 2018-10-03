@@ -143,14 +143,14 @@ zfbool ZFSerializable::serializeFromData(ZF_IN const ZFSerializableData &seriali
             if(styleable == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                    zfText("styleKey exists but the object is not ZFStyleable: %s"),
+                    "styleKey exists but the object is not ZFStyleable: %s",
                     this->toObject()->objectInfoOfInstance().cString());
                 return zffalse;
             }
             if(!styleable->styleKeySet(styleKey))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                    zfText("unable to apply style from styleKey: %s"),
+                    "unable to apply style from styleKey: %s",
                     styleKey);
                 return zffalse;
             }
@@ -207,7 +207,7 @@ zfbool ZFSerializable::serializeFromData(ZF_IN const ZFSerializableData &seriali
                             if(styleable == zfnull)
                             {
                                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                                    zfText("styleKey exists in property %s but the object is not ZFStyleable: %s"),
+                                    "styleKey exists in property %s but the object is not ZFStyleable: %s",
                                     data->property->objectInfo().cString(),
                                     this->toObject()->objectInfoOfInstance().cString());
                                 return zffalse;
@@ -219,7 +219,7 @@ zfbool ZFSerializable::serializeFromData(ZF_IN const ZFSerializableData &seriali
                             else
                             {
                                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                                    zfText("unable to apply style for property %s from styleKey: %s"),
+                                    "unable to apply style for property %s from styleKey: %s",
                                     data->property->objectInfo().cString(),
                                     styleKey);
                                 return zffalse;
@@ -269,7 +269,7 @@ zfbool ZFSerializable::serializeFromData(ZF_IN const ZFSerializableData &seriali
         if(ZFSerializableUtil::printResolveStatus(serializableData, ZFOutputForString(tmp)))
         {
             #if ZF_ENV_DEBUG
-                zfCoreCriticalMessageTrim(zfTextA("%s"), zfsCoreZ2A(tmp.cString()));
+                zfCoreCriticalMessageTrim("%s", tmp.cString());
             #endif
         }
     }
@@ -299,7 +299,7 @@ zfbool ZFSerializable::serializeToData(ZF_OUT ZFSerializableData &serializableDa
         && !this->classData()->classIsTypeOf(referencedObject->classData()))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("serialize with a reference style object whose type mismatch, self: %s, style: %s"),
+            "serialize with a reference style object whose type mismatch, self: %s, style: %s",
             this->classData()->classNameFull(), referencedObject->classData()->classNameFull());
         return zffalse;
     }
@@ -525,7 +525,7 @@ zfbool ZFSerializable::serializableOnSerializePropertyFromData(ZF_IN const ZFSer
         if(obj != zfnull && !obj.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
-                zfText("object %s not type of %s"),
+                "object %s not type of %s",
                 obj.toObject()->objectInfoOfInstance().cString(), property->propertyClassOfRetainProperty()->classNameFull());
             return zffalse;
         }
@@ -577,7 +577,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
     if(objHolder == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("unable to access property %s's value is null while serializing \"%s\""),
+            "unable to access property %s's value is null while serializing \"%s\"",
             property->propertyName(),
             this->classData()->classNameFull());
         return zffalse;
@@ -586,7 +586,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
     if(obj == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("embeded property %s is null while serializing \"%s\""),
+            "embeded property %s is null while serializing \"%s\"",
             property->propertyName(),
             this->classData()->classNameFull());
         return zffalse;
@@ -594,7 +594,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
     else if(!ZFObjectIsSerializable(obj))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("not serializable object %s while serializing \"%s\""),
+            "not serializable object %s while serializing \"%s\"",
             obj->objectInfoOfInstance().cString(),
             this->classData()->classNameFull());
         return zffalse;
@@ -605,7 +605,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
         if(cls == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint,
-                zfText("no class named %s while serializing \"%s\"'s property %s"),
+                "no class named %s while serializing \"%s\"'s property %s",
                 propertyData.itemClass(),
                 this->classData()->classNameFull(),
                 property->propertyName());
@@ -614,7 +614,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
         else if(!cls->classIsTypeOf(property->propertyClassOfRetainProperty()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint,
-                zfText("node %s is not type of %s while serializing \"%s\"'s property %s"),
+                "node %s is not type of %s while serializing \"%s\"'s property %s",
                 propertyData.itemClass(),
                 property->propertyClassOfRetainProperty()->classNameFull(),
                 this->classData()->classNameFull(),
@@ -683,7 +683,7 @@ void ZFSerializable::serializableGetInfoT(ZF_IN_OUT zfstring &ret)
     {
         ret += ZFTOKEN_ZFObjectInfoLeft;
         this->toObject()->objectInfoOfInstanceT(ret);
-        ret += zfText(": not serializable");
+        ret += ": not serializable";
         ret += ZFTOKEN_ZFObjectInfoRight;
     }
     else
@@ -766,7 +766,7 @@ zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
         if(cls == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                zfText("no class named \"%s\""),
+                "no class named \"%s\"",
                 serializableData.itemClass());
             return zffalse;
         }
@@ -787,7 +787,7 @@ zfbool ZFObjectFromData(ZF_OUT zfautoObject &result,
     if(tmp == zfnull || !tmp->serializable())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("object %s not serializable"),
+            "object %s not serializable",
             ZFObjectInfoOfInstance(obj.toObject()).cString());
         return zffalse;
     }
@@ -824,7 +824,7 @@ zfbool ZFObjectToData(ZF_OUT ZFSerializableData &serializableData,
     if(tmp == zfnull || !tmp->serializable())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("object %s not serializable"),
+            "object %s not serializable",
             obj->objectInfoOfInstance().cString());
         return zffalse;
     }

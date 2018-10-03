@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * for "*.json" file, which should contain data converted by #ZFObjectToJson
  */
-#define ZFObjectIO_json zfText("json")
+#define ZFObjectIO_json "json"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectIO_json_h_

@@ -110,11 +110,11 @@ public:
 };
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRegExpResult_matched zfText("matched")
+#define ZFSerializableKeyword_ZFRegExpResult_matched "matched"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRegExpResult_matchedRange zfText("matchedRange")
+#define ZFSerializableKeyword_ZFRegExpResult_matchedRange "matchedRange"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRegExpResult_namedGroups zfText("namedGroups")
+#define ZFSerializableKeyword_ZFRegExpResult_namedGroups "namedGroups"
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -135,9 +135,9 @@ ZFOUTPUT_TYPE(ZFRegExpResult, {output << v.objectInfo();})
 
 // ============================================================
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRegExp_pattern zfText("pattern")
+#define ZFSerializableKeyword_ZFRegExp_pattern "pattern"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFRegExp_flag zfText("flag")
+#define ZFSerializableKeyword_ZFRegExp_flag "flag"
 
 zfclassFwd _ZFP_ZFRegExpPrivate;
 /**

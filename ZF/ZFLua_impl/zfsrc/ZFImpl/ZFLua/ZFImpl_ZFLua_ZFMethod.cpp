@@ -25,11 +25,11 @@ static void _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(ZF_IN const ZFCoreArray
     }
 
     zfstring code;
-    zfstringAppend(code, zfText(
+    zfstringAppend(code,
             "function %s(...)\n"
             "    return zfl_callStatic2('', '%s', ...)\n"
             "end\n"
-        ), method->methodName(), method->methodName());
+        , method->methodName(), method->methodName());
     for(zfindex i = 0; i < luaStateList.count(); ++i)
     {
         ZFImpl_ZFLua_execute(luaStateList[i], code);

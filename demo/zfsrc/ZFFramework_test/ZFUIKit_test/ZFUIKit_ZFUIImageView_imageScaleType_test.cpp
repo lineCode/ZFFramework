@@ -25,7 +25,7 @@ protected:
         zfsuper::objectOnInit();
         this->viewBackgroundColorSet(ZFUIColorYellow());
 
-        zfautoObject imageSmall = zfRes(zfText("test_normal.png"));
+        zfautoObject imageSmall = zfRes("test_normal.png");
         zfautoObject imageLarge = ZFUIImageScale(imageSmall, ZFUISizeMake(600));
 
         this->childAdd(this->imageViewSmall());

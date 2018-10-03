@@ -19,7 +19,7 @@ ZFOBJECT_REGISTER(ZFFramework_test_TestCase)
 void ZFFramework_test_TestCase::objectOnInit(void)
 {
     zfsuper::objectOnInit();
-    this->_testCaseTmpPath = zfstringWithFormat(zfText("%s%cZFFramework_test%c%s"),
+    this->_testCaseTmpPath = zfstringWithFormat("%s%cZFFramework_test%c%s",
         ZFFilePathForCache(),
         ZFFileSeparator(),
         ZFFileSeparator(),
@@ -46,7 +46,7 @@ void ZFFramework_test_TestCase::testCaseOnStop(ZF_IN ZFResultTypeEnum testCaseRe
 
 void ZFFramework_test_TestCase::testCaseOutputSeparator(void)
 {
-    this->testCaseOutput(zfText("----------------------------------------"));
+    this->testCaseOutput("----------------------------------------");
 }
 const zfchar *ZFFramework_test_TestCase::testCaseTmpPath(void)
 {

@@ -36,7 +36,7 @@ protected:
             zfblockedAlloc(ZFUITextView, t);
             layout->childAdd(t);
             v.add(t);
-            t->textSet(zfstringWithFormat(zfText("text %zi"), i));
+            t->textSet(zfstringWithFormat("text %zi", i));
             t->viewBackgroundColorSet(ZFUIColorRandom());
         }
 

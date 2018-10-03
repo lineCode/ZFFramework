@@ -26,7 +26,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                 if(customData == zfnull)
                 {
                     ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                        zfText("missing %s"), ZFSerializableKeyword_ZFCallback_callbackData);
+                        "missing %s", ZFSerializableKeyword_ZFCallback_callbackData);
                     return zffalse;
                 }
 
@@ -34,7 +34,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                 if(serializeCallback == zfnull)
                 {
                     ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                        zfText("no such callback custom serialize type: %s"), customType);
+                        "no such callback custom serialize type: %s", customType);
                     return zffalse;
                 }
                 if(!serializeCallback(v, *customData, outErrorHint, outErrorPos))
@@ -82,7 +82,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
         else
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                zfText("member method callback is not supported"));
+                "member method callback is not supported");
             return zffalse;
         }
 
@@ -93,13 +93,13 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
         {
             if(v.callbackSerializeCustomDisabled())
             {
-                ZFSerializableUtil::errorOccurred(outErrorHint, zfText("callback was marked as not serializable"));
+                ZFSerializableUtil::errorOccurred(outErrorHint, "callback was marked as not serializable");
                 return zffalse;
             }
 
             if(v.callbackSerializeCustomData() == zfnull)
             {
-                ZFSerializableUtil::errorOccurred(outErrorHint, zfText("missing callback serialize custom data"));
+                ZFSerializableUtil::errorOccurred(outErrorHint, "missing callback serialize custom data");
                 return zffalse;
             }
             serializableData.itemClassSet(ZFTypeId_ZFCallback());
@@ -133,14 +133,14 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
             case ZFCallbackTypeMemberMethod:
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint,
-                    zfText("member method callback is not supported"));
+                    "member method callback is not supported");
                 return zffalse;
             }
                 break;
             case ZFCallbackTypeRawFunction:
                 serializableData.itemClassSet(ZFTypeId_ZFCallback());
                 ZFSerializableUtil::errorOccurred(outErrorHint,
-                    zfText("raw function is not supported"));
+                    "raw function is not supported");
                 return zffalse;
             default:
                 zfCoreCriticalShouldNotGoHere();
@@ -168,7 +168,7 @@ void _ZFP_ZFCallbackSerializeCustomTypeRegister(ZF_IN const zfchar *customType,
 {
     zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback> &m = _ZFP_ZFCallbackSerializeCustomCallbackMap();
     zfCoreAssert(!zfsIsEmpty(customType) && serializeCallback != zfnull);
-    zfCoreAssertWithMessage(m.find(customType) == m.end(), zfTextA("custom callback serialize type \"%s\" already registered"), zfsCoreZ2A(customType));
+    zfCoreAssertWithMessage(m.find(customType) == m.end(), "custom callback serialize type \"%s\" already registered", customType);
 
     m[customType] = serializeCallback;
 }

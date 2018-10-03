@@ -376,7 +376,7 @@ ZFOUTPUT_TYPE(ZFFilterCallbackResult, {output.execute(ZFFilterCallbackResultToSt
 ZFTYPEID_DECLARE(ZFPathInfo, ZFPathInfo)
 ZFOUTPUT_TYPE(ZFPathInfo, {output.execute(ZFPathInfoToString(v));})
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFPathInfo_separator zfText("|")
+#define ZFSerializableKeyword_ZFPathInfo_separator "|"
 
 /**
  * @brief util method to parse path info for performance
@@ -403,17 +403,17 @@ extern ZF_ENV_EXPORT zfbool ZFPathInfoParse(ZF_IN const zfchar *pathInfo,
 ZFTYPEID_DECLARE(ZFTokenForContainer, ZFTokenForContainer)
 ZFOUTPUT_TYPE(ZFTokenForContainer, {output.execute(ZFTokenForContainerToString(v));})
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForContainer_tokenLeft zfText("tokenLeft")
+#define ZFSerializableKeyword_ZFTokenForContainer_tokenLeft "tokenLeft"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForContainer_tokenRight zfText("tokenRight")
+#define ZFSerializableKeyword_ZFTokenForContainer_tokenRight "tokenRight"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForContainer_tokenSeparator zfText("tokenSeparator")
+#define ZFSerializableKeyword_ZFTokenForContainer_tokenSeparator "tokenSeparator"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForContainer_tokenValueLeft zfText("tokenValueLeft")
+#define ZFSerializableKeyword_ZFTokenForContainer_tokenValueLeft "tokenValueLeft"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForContainer_tokenValueRight zfText("tokenValueRight")
+#define ZFSerializableKeyword_ZFTokenForContainer_tokenValueRight "tokenValueRight"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForContainer_tokenEtc zfText("tokenEtc")
+#define ZFSerializableKeyword_ZFTokenForContainer_tokenEtc "tokenEtc"
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -438,27 +438,27 @@ ZFOUTPUT_TYPE(ZFTokenForContainer, {output.execute(ZFTokenForContainerToString(v
 ZFTYPEID_DECLARE(ZFTokenForKeyValueContainer, ZFTokenForKeyValueContainer)
 ZFOUTPUT_TYPE(ZFTokenForKeyValueContainer, {output.execute(ZFTokenForKeyValueContainerToString(v));})
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenLeft zfText("tokenLeft")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenLeft "tokenLeft"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenRight zfText("tokenRight")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenRight "tokenRight"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenSeparator zfText("tokenSeparator")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenSeparator "tokenSeparator"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairLeft zfText("tokenPairLeft")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairLeft "tokenPairLeft"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairRight zfText("tokenPairRight")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairRight "tokenPairRight"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairSeparator zfText("tokenPairSeparator")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairSeparator "tokenPairSeparator"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyLeft zfText("tokenKeyLeft")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyLeft "tokenKeyLeft"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyRight zfText("tokenKeyRight")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyRight "tokenKeyRight"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueLeft zfText("tokenValueLeft")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueLeft "tokenValueLeft"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueRight zfText("tokenValueRight")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueRight "tokenValueRight"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenEtc zfText("tokenEtc")
+#define ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenEtc "tokenEtc"
 
 /**
  * @brief see #ZFTYPEID_DECLARE

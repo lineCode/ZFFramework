@@ -91,14 +91,14 @@
         return ;
     }
 
-    zfstring text = ZFStringA2Z(textField.text.UTF8String);
+    zfstring text = textField.text.UTF8String;
     if(textField.markedTextRange != nil)
     {
         NSInteger start = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.markedTextRange.start];
         NSInteger count = [textField offsetFromPosition:textField.markedTextRange.start toPosition:textField.markedTextRange.end];
         NSMutableString *s = [NSMutableString stringWithString:textField.text];
         [s replaceCharactersInRange:NSMakeRange(start, count) withString:@""];
-        text = ZFStringA2Z(s.UTF8String);
+        text = s.UTF8String;
     }
 
     if(self.lastText.compare(text) == 0)
@@ -109,7 +109,7 @@
     if(!ZFPROTOCOL_ACCESS(ZFUITextEdit)->notifyCheckTextShouldChange(self.ownerZFUITextEdit, text))
     {
         self.textOverrideFlag = zftrue;
-        textField.text = [NSString stringWithUTF8String:ZFStringZ2A(text.cString())];
+        textField.text = [NSString stringWithUTF8String:text.cString()];
         self.textOverrideFlag = zffalse;
         return ;
     }
@@ -122,7 +122,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUITextEditImpl_sys_iOS, ZFUITextEdit, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:UITextField"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:UITextField")
 public:
     virtual void *nativeTextEditCreate(ZF_IN ZFUITextEdit *textEdit)
     {

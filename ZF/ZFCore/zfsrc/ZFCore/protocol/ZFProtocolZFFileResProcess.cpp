@@ -23,7 +23,7 @@ zfbool _ZFP_ZFImpl_ZFFileResProcess_resPathFix(ZF_IN const zfstring &resRootPath
 // ============================================================
 const zfstring &ZFPROTOCOL_INTERFACE_CLASS(ZFFileResProcess)::resRootPath(void)
 {
-    static zfstring d = zfstringWithFormat(zfText(".%cres%c"), ZFFileSeparator(), ZFFileSeparator());
+    static zfstring d = zfstringWithFormat(".%cres%c", ZFFileSeparator(), ZFFileSeparator());
     return d;
 }
 zfbool ZFPROTOCOL_INTERFACE_CLASS(ZFFileResProcess)::resIsExist(ZF_IN const zfchar *resPath)

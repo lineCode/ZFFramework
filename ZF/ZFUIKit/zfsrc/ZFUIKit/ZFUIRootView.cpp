@@ -33,20 +33,20 @@ ZFMETHOD_DEFINE_0(ZFUIRootView, const ZFCoreArrayPOD<ZFUIWindow *> &, windowList
 void ZFUIRootView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
 {
     zfCoreAssertWithMessage(viewDelegate == zfnull,
-        zfTextA("you must not set delegate view from ZFUIRootView, delegate: %s"),
-        zfsCoreZ2A(ZFObjectInfo(viewDelegate).cString()));
+        "you must not set delegate view from ZFUIRootView, delegate: %s",
+        ZFObjectInfo(viewDelegate).cString());
 }
 void ZFUIRootView::viewOnAddToParent(ZF_IN ZFUIView *parent)
 {
     zfCoreCriticalMessage(
-        zfTextA("you must not add ZFUIRootView to another parent, parent: %s"),
-        zfsCoreZ2A(ZFObjectInfo(parent).cString()));
+        "you must not add ZFUIRootView to another parent, parent: %s",
+        ZFObjectInfo(parent).cString());
 }
 void ZFUIRootView::viewOnRemoveFromParent(ZF_IN ZFUIView *parent)
 {
     zfCoreCriticalMessage(
-        zfTextA("you must not add ZFUIRootView to another parent, parent: %s"),
-        zfsCoreZ2A(ZFObjectInfo(parent).cString()));
+        "you must not add ZFUIRootView to another parent, parent: %s",
+        ZFObjectInfo(parent).cString());
 }
 
 void ZFUIRootView::layoutOnMeasure(ZF_OUT ZFUISize &ret,

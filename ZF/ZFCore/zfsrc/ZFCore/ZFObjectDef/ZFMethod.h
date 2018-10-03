@@ -30,11 +30,11 @@ typedef enum
     ZFMethodPrivilegeTypePrivate, /**< @brief private */
 } ZFMethodPrivilegeType;
 /** @brief string tokens */
-#define ZFTOKEN_ZFMethodPrivilegeTypePublic zfText("public")
+#define ZFTOKEN_ZFMethodPrivilegeTypePublic "public"
 /** @brief string tokens */
-#define ZFTOKEN_ZFMethodPrivilegeTypeProtected zfText("protected")
+#define ZFTOKEN_ZFMethodPrivilegeTypeProtected "protected"
 /** @brief string tokens */
-#define ZFTOKEN_ZFMethodPrivilegeTypePrivate zfText("private")
+#define ZFTOKEN_ZFMethodPrivilegeTypePrivate "private"
 
 // ============================================================
 #define _ZFP_ZFMethodTypeText(t) (ZFM_TOSTRING(ZFM_CAT(_, t())) + 1)
@@ -54,11 +54,11 @@ typedef enum {
     ZFMethodTypeVirtual, /**< @brief virtual method */
 } ZFMethodType;
 /** @brief string tokens */
-#define ZFTOKEN_ZFMethodTypeNormal zfText("")
+#define ZFTOKEN_ZFMethodTypeNormal ""
 /** @brief string tokens */
-#define ZFTOKEN_ZFMethodTypeStatic zfText("static")
+#define ZFTOKEN_ZFMethodTypeStatic "static"
 /** @brief string tokens */
-#define ZFTOKEN_ZFMethodTypeVirtual zfText("virtual")
+#define ZFTOKEN_ZFMethodTypeVirtual "virtual"
 
 // ============================================================
 zfclassFwd ZFObject;
@@ -225,7 +225,7 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  * you can execute it without knowing the owner's class type:
  * @code
  *   const ZFClass *cls = ...; // we may not know the actual class type
- *   const ZFMethod *method = cls->methodForName(zfText("someMethod"));
+ *   const ZFMethod *method = cls->methodForName("someMethod");
  *   zfautoObject objTmp = cls->newInstance();
  *   ZFObject *obj = objTmp.toObject();
  *
@@ -243,7 +243,7 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  * \n
  * if you want to reflect overloaded method, use both methodName and param's type id
  * @code
- *   cls->methodForName(zfText("methodName"), ZFTypeId<Param0>::TypeId());
+ *   cls->methodForName("methodName", ZFTypeId<Param0>::TypeId());
  * @endcode
  *
  * @warning in subclass, you may declare a method with the same name of parent's one,

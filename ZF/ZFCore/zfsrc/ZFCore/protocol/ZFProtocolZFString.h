@@ -65,7 +65,7 @@ public:
     /**
      * @brief see #ZFString::toUTF8
      */
-    virtual zfbool toUTF8(ZF_OUT zfstringA &result,
+    virtual zfbool toUTF8(ZF_OUT zfstring &result,
                           ZF_IN const void *s,
                           ZF_IN ZFStringEncodingEnum srcEncoding) zfpurevirtual;
     /**
@@ -84,7 +84,7 @@ public:
     /**
      * @brief see #ZFString::wordCount
      */
-    virtual zfindex wordCountOfUTF8(ZF_IN const zfcharA *utf8String) zfpurevirtual;
+    virtual zfindex wordCountOfUTF8(ZF_IN const zfchar *utf8String) zfpurevirtual;
 ZFPROTOCOL_INTERFACE_END(ZFString)
 
 ZF_NAMESPACE_GLOBAL_END

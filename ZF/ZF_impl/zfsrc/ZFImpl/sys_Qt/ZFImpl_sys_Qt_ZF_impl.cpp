@@ -48,11 +48,11 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 void ZFImpl_sys_Qt_QObjectTagSet(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN QVariant const &tag)
 {
-    obj->setProperty(zfsCoreZ2A(name), tag);
+    obj->setProperty(name, tag);
 }
 QVariant ZFImpl_sys_Qt_QObjectTagGet(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
 {
-    return obj->property(zfsCoreZ2A(name));
+    return obj->property(name);
 }
 
 void ZFImpl_sys_Qt_QObjectTagSetZFObject(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN ZFObject *tag)
@@ -77,11 +77,11 @@ ZFObject *ZFImpl_sys_Qt_QObjectTagGetZFObject(ZF_IN_OUT QObject *obj, ZF_IN cons
 void ZFImpl_sys_Qt_zfstringFromQString(ZF_IN_OUT zfstring &result, ZF_IN QString const &nativeString)
 {
     std::string t = nativeString.toStdString();
-    result += ZFStringA2Z(t.c_str());
+    result += t.c_str();
 }
 QString ZFImpl_sys_Qt_zfstringToQString(ZF_IN const zfchar *s)
 {
-    return QString(ZFStringZ2A(s));
+    return QString(s);
 }
 
 ZF_NAMESPACE_GLOBAL_END

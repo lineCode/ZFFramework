@@ -38,13 +38,13 @@ public:
      * @brief horizontal scroll thumb image, null to hide it
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, scrollThumbImageHorizontal,
-                                zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml")))
+                                zfRes("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml"))
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, scrollThumbImageHorizontal)
     /**
      * @brief vertical scroll thumb image, null to hide it
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, scrollThumbImageVertical,
-                                zfRes(zfText("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml")))
+                                zfRes("ZFUIKit/ZFUIScrollThumbDefault_thumb.xml"))
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, scrollThumbImageVertical)
 
     /**

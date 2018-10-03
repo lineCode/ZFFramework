@@ -46,7 +46,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 static NSMutableArray *_ZFP_ZFThreadTaskRequestImpl_sys_iOS_taskHolders = nil;
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadTaskRequestImpl_sys_iOS, ZFThreadTaskRequest, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:GrandCentralDispatch"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:GrandCentralDispatch")
 
 public:
     zfoverride

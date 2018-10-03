@@ -99,7 +99,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("null methodName or ClassName"));
+            zfstringAppend(errorHint, "null methodName or ClassName");
         }
         return zffalse;
     }
@@ -113,7 +113,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
             {
                 if(errorHint != zfnull)
                 {
-                    zfstringAppend(errorHint, zfText("null class"));
+                    zfstringAppend(errorHint, "null class");
                 }
                 return zffalse;
             }
@@ -157,7 +157,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         {
             if(errorHint != zfnull)
             {
-                zfstringAppend(errorHint, zfText("unable to detect methodName from: \"%s\""),
+                zfstringAppend(errorHint, "unable to detect methodName from: \"%s\"",
                     ZFObjectInfo(type).cString());
             }
             return zffalse;
@@ -187,12 +187,12 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
             {
                 if(obj != zfnull)
                 {
-                    zfstringAppend(errorHint, zfText("no such method \"%s\" for object: %s"),
+                    zfstringAppend(errorHint, "no such method \"%s\" for object: %s",
                         methodName, obj->objectInfoOfInstance().cString());
                 }
                 else
                 {
-                    zfstringAppend(errorHint, zfText("no such method \"%s\" in scope \"%s\""),
+                    zfstringAppend(errorHint, "no such method \"%s\" in scope \"%s\"",
                         methodName, NS);
                 }
             }
@@ -227,7 +227,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
                     if(errorHint != zfnull)
                     {
                         errorHintTmp->insert(0, zfstringWithFormat(
-                            zfText("unable to convert param with type \"%s\" from \"%s\""),
+                            "unable to convert param with type \"%s\" from \"%s\"",
                             method->methodParamTypeIdAtIndex(iParam), wrapper->zfv.cString()));
                         paramConvertSuccess = zffalse;
                         break;
@@ -247,7 +247,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
     }
     if(errorHint != zfnull)
     {
-        zfstringAppend(errorHint, zfText("no matching method to call, last error reason: %s, for method: %s"),
+        zfstringAppend(errorHint, "no matching method to call, last error reason: %s, for method: %s",
             errorHintTmp->cString(),
             methodLast ? methodLast->objectInfo().cString() : ZFTOKEN_zfnull);
     }
@@ -273,7 +273,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("null class name"));
+            zfstringAppend(errorHint, "null class name");
         }
         return zffalse;
     }
@@ -286,7 +286,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
         {
             if(errorHint != zfnull)
             {
-                zfstringAppend(errorHint, zfText("null class"));
+                zfstringAppend(errorHint, "null class");
             }
             return zffalse;
         }
@@ -299,7 +299,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("no such class \"%s\" in scope \"%s\""),
+            zfstringAppend(errorHint, "no such class \"%s\" in scope \"%s\"",
                 ZFObjectInfo(type).cString(), NS);
         }
         return zffalse;
@@ -327,7 +327,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("null class"));
+            zfstringAppend(errorHint, "null class");
         }
         return zffalse;
     }
@@ -338,7 +338,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
         {
             if(errorHint != zfnull)
             {
-                zfstringAppend(errorHint, zfText("unable to alloc class \"%s\""), cls->classNameFull());
+                zfstringAppend(errorHint, "unable to alloc class \"%s\"", cls->classNameFull());
             }
             return zffalse;
         }
@@ -348,12 +348,12 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
         }
     }
     ZFCoreArrayPOD<const ZFMethod *> methodList;
-    cls->methodForNameGetAllT(methodList, zfText("objectOnInit"));
+    cls->methodForNameGetAllT(methodList, "objectOnInit");
     if(methodList.isEmpty())
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("class \"%s\" has no reflectable objectOnInit"), cls->classNameFull());
+            zfstringAppend(errorHint, "class \"%s\" has no reflectable objectOnInit", cls->classNameFull());
         }
         return zffalse;
     }
@@ -363,7 +363,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("unable to alloc class \"%s\""), cls->classNameFull());
+            zfstringAppend(errorHint, "unable to alloc class \"%s\"", cls->classNameFull());
         }
         return zffalse;
     }
@@ -393,7 +393,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
                     if(errorHint != zfnull)
                     {
                         errorHintTmp->insert(0, zfstringWithFormat(
-                            zfText("unable to convert param with type \"%s\" from \"%s\""),
+                            "unable to convert param with type \"%s\" from \"%s\"",
                             method->methodParamTypeIdAtIndex(iParam), wrapper->zfv.cString()));
                         paramConvertSuccess = zffalse;
                         break;
@@ -414,7 +414,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
     cls->newInstanceGenericEnd(token, zffalse);
     if(errorHint != zfnull)
     {
-        zfstringAppend(errorHint, zfText("no matching objectOnInit to call, last error reason: %s"),
+        zfstringAppend(errorHint, "no matching objectOnInit to call, last error reason: %s",
             errorHintTmp->cString());
     }
     return zffalse;
@@ -432,7 +432,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
         {
             if(errorHint != zfnull)
             {
-                zfstringAppend(errorHint, zfText("%s unable to convert from string \"%s\""),
+                zfstringAppend(errorHint, "%s unable to convert from string \"%s\"",
                     typeId, wrapper->zfv.cString());
             }
             return zffalse;
@@ -448,7 +448,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
     {
         if(errorHint != zfnull)
         {
-            zfstringAppend(errorHint, zfText("%s can not be converted from string automatically"), typeId);
+            zfstringAppend(errorHint, "%s can not be converted from string automatically", typeId);
         }
         return zffalse;
     }
@@ -462,7 +462,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
     }
     if(errorHint != zfnull)
     {
-        zfstringAppend(errorHint, zfText("%s can not be converted from string \"%s\""),
+        zfstringAppend(errorHint, "%s can not be converted from string \"%s\"",
                 typeId,
                 wrapper->zfv.cString()
             );

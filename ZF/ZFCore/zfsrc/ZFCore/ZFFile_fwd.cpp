@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 // ZFFileSeparator
 const zfchar _ZFP_ZFFileSeparator = '/';
-const zfchar *_ZFP_ZFFileSeparatorString = zfText("/");
+const zfchar *_ZFP_ZFFileSeparatorString = "/";
 ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(zfchar, ZFFileSeparator, _ZFP_ZFFileSeparator)
 ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(const zfchar *, ZFFileSeparatorString, _ZFP_ZFFileSeparatorString)
 
@@ -42,8 +42,8 @@ public:
     ~_ZFP_ZFFileFindDataPrivate(void)
     {
         zfCoreAssertWithMessage(this->implName.isEmpty(),
-            zfTextA("have you forgot to close find? module: %s"),
-            zfsCoreZ2A(this->implName.cString()));
+            "have you forgot to close find? module: %s",
+            this->implName.cString());
     }
 };
 
@@ -85,7 +85,7 @@ void ZFFileFindData::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += ZFTOKEN_ZFObjectInfoLeft;
     if(this->fileIsDir())
     {
-        ret += zfText("(dir)");
+        ret += "(dir)";
     }
     ret += this->fileName();
     ret += ZFTOKEN_ZFObjectInfoRight;
@@ -107,8 +107,8 @@ void ZFFileFindData::implAttach(ZF_IN const zfchar *implName,
                                 ZF_IN_OPT void *implUserData /* = zfnull */)
 {
     zfCoreAssertWithMessage(d->implName.isEmpty(),
-        zfTextA("have you forgot to close find? current module: %s"),
-        zfsCoreZ2A(d->implName.cString()));
+        "have you forgot to close find? current module: %s",
+        d->implName.cString());
     zfCoreAssert(!zfsIsEmpty(implName));
     d->implName = implName;
     d->implUserData = implUserData;
@@ -120,9 +120,9 @@ void ZFFileFindData::implDetach(void)
 }
 void *ZFFileFindData::implCheck(ZF_IN const zfchar *implName) const
 {
-    zfCoreAssertWithMessage(!d->implName.isEmpty(), zfTextA("find not started"));
+    zfCoreAssertWithMessage(!d->implName.isEmpty(), "find not started");
     zfCoreAssertWithMessage(zfscmpTheSame(d->implName.cString(), implName),
-        zfTextA("have you forgot to close find? desired, %s, got: %s"),
+        "have you forgot to close find? desired, %s, got: %s",
         implName, d->implName.cString());
     return d->implUserData;
 }

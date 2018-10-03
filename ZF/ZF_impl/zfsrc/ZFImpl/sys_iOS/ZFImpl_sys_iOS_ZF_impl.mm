@@ -25,7 +25,7 @@ void ZFImpl_sys_iOS_zfstringFromNSString(ZF_IN_OUT zfstring &result, ZF_IN NSStr
         const char *tmp = nativeString.UTF8String;
         if(tmp != zfnull)
         {
-            result += ZFStringA2Z(tmp);
+            result += tmp;
         }
     }
 }
@@ -37,7 +37,7 @@ NSString *ZFImpl_sys_iOS_zfstringToNSString(ZF_IN const zfchar *s)
     }
     else
     {
-        return [NSString stringWithCString:ZFStringZ2A(s) encoding:NSUTF8StringEncoding];
+        return [NSString stringWithCString:s encoding:NSUTF8StringEncoding];
     }
 }
 

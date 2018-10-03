@@ -59,7 +59,7 @@ public:
      * here's a typical example:
      * @code
      *   ZFLISTENER_LOCAL(eventFilter, {
-     *       static const zfchar *forwardFlag = zfText("MyFlag");
+     *       static const zfchar *forwardFlag = "MyFlag";
      *       if(listenerData.eventForward(forwardFlag))
      *       {
      *           // this was fired by the code below

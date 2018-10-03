@@ -118,7 +118,7 @@ ZFMETHOD_DEFINE_2(ZFArray, zfindex, findReversely,
 void ZFArray::add(ZF_IN zfindex indexAddTo,
                   ZF_IN ZFObject *obj)
 {
-    zfCoreAssertWithMessage(obj != zfnull, zfTextA("insert null object"));
+    zfCoreAssertWithMessage(obj != zfnull, "insert null object");
     zfRetain(obj);
     d->data.insert(d->data.begin() + indexAddTo, obj);
 
@@ -127,7 +127,7 @@ void ZFArray::add(ZF_IN zfindex indexAddTo,
 }
 void ZFArray::add(ZF_IN ZFObject *obj)
 {
-    zfCoreAssertWithMessage(obj != zfnull, zfTextA("insert null object"));
+    zfCoreAssertWithMessage(obj != zfnull, "insert null object");
     zfRetain(obj);
     d->data.push_back(obj);
 
@@ -176,7 +176,7 @@ void ZFArray::addFrom(ZF_IN ZFContainer *another)
 void ZFArray::set(ZF_IN zfindex index,
                   ZF_IN ZFObject *obj)
 {
-    zfCoreAssertWithMessage(obj != zfnull, zfTextA("set null object"));
+    zfCoreAssertWithMessage(obj != zfnull, "set null object");
     zfRetain(obj);
 
     ZFObject *old = d->data[index];

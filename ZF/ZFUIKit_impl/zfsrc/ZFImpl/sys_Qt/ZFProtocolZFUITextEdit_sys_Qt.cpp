@@ -207,7 +207,7 @@ public slots:
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUITextEditImpl_sys_Qt, ZFUITextEdit, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QLineEdit"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QLineEdit")
 public:
     virtual void *nativeTextEditCreate(ZF_IN ZFUITextEdit *textEdit)
     {

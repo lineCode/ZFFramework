@@ -15,9 +15,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define _ZFP_ZFUIButton_DEBUG 0
 #if _ZFP_ZFUIButton_DEBUG
     #define _ZFP_ZFUIButton_DEBUG_LOG(fmt, ...) \
-        zfLogTrimT() << zfText("[ZFUIButton]") << zfstringWithFormat(fmt, ##__VA_ARGS__) << ZFLOG_HEADER_STRING;
+        zfLogTrimT() << "[ZFUIButton]" << zfstringWithFormat(fmt, ##__VA_ARGS__) << ZFLOG_HEADER_STRING;
     #define _ZFP_ZFUIButton_DEBUG_EVENT(actionName) \
-        zfLogTrimT() << zfText("[ZFUIButton]") << ZFM_TOSTRING(actionName) << ZFLOG_HEADER_STRING;
+        zfLogTrimT() << "[ZFUIButton]" << ZFM_TOSTRING(actionName) << ZFLOG_HEADER_STRING;
 #else
     #define _ZFP_ZFUIButton_DEBUG_LOG(fmt, ...)
     #define _ZFP_ZFUIButton_DEBUG_EVENT(actionName)
@@ -144,7 +144,7 @@ public:
     }
     void viewEventOnMouseEvent(ZF_IN ZFUIMouseEvent *mouseEvent)
     {
-        _ZFP_ZFUIButton_DEBUG_LOG(zfText("begin %s"), ZFObjectInfo(mouseEvent).cString())
+        _ZFP_ZFUIButton_DEBUG_LOG("begin %s", ZFObjectInfo(mouseEvent).cString())
         ZFUIMouseActionEnum mouseAction = mouseEvent->mouseAction;
         switch(mouseAction)
         {
@@ -152,14 +152,14 @@ public:
             {
                 if(!this->buttonEnableCache)
                 {
-                    _ZFP_ZFUIButton_DEBUG_LOG(zfText("      %s disabled"), ZFObjectInfo(mouseEvent).cString())
+                    _ZFP_ZFUIButton_DEBUG_LOG("      %s disabled", ZFObjectInfo(mouseEvent).cString())
                     this->ignoredMouses.add(mouseEvent->mouseId);
                     break;
                 }
 
                 if(this->processingMouseId != zfidentityInvalid())
                 {
-                    _ZFP_ZFUIButton_DEBUG_LOG(zfText("      %s ignored"), ZFObjectInfo(mouseEvent).cString())
+                    _ZFP_ZFUIButton_DEBUG_LOG("      %s ignored", ZFObjectInfo(mouseEvent).cString())
                     this->ignoredMouses.add(mouseEvent->mouseId);
                 }
                 else
@@ -213,13 +213,13 @@ public:
                 return ;
         }
         mouseEvent->eventResolvedSet(zftrue);
-        _ZFP_ZFUIButton_DEBUG_LOG(zfText(" end  %s"), ZFObjectInfo(mouseEvent).cString())
+        _ZFP_ZFUIButton_DEBUG_LOG(" end  %s", ZFObjectInfo(mouseEvent).cString())
     }
 
 private:
     void processMouse(ZF_IN ZFUIMouseEvent *mouseEvent)
     {
-        _ZFP_ZFUIButton_DEBUG_LOG(zfText("process begin %s"), ZFObjectInfo(mouseEvent).cString())
+        _ZFP_ZFUIButton_DEBUG_LOG("process begin %s", ZFObjectInfo(mouseEvent).cString())
         switch(mouseEvent->mouseAction)
         {
             case ZFUIMouseAction::e_MouseDown:
@@ -340,7 +340,7 @@ private:
                 zfCoreCriticalShouldNotGoHere();
                 return ;
         }
-        _ZFP_ZFUIButton_DEBUG_LOG(zfText("process  end  %s"), ZFObjectInfo(mouseEvent).cString())
+        _ZFP_ZFUIButton_DEBUG_LOG("process  end  %s", ZFObjectInfo(mouseEvent).cString())
     }
     zfbool buttonClickedInside(ZF_IN const ZFUIRect &bounds,
                                ZF_IN const ZFUIPoint &mousePoint)
@@ -360,7 +360,7 @@ public:
         }
         else
         {
-            _ZFP_ZFUIButton_DEBUG_LOG(zfText("click ignored %s"), ZFObjectInfo(event).cString())
+            _ZFP_ZFUIButton_DEBUG_LOG("click ignored %s", ZFObjectInfo(event).cString())
         }
     }
 

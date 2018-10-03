@@ -15,7 +15,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadTaskRequestImpl_default, ZFThreadTaskRequest, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("ZFFramework:ZFThread"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("ZFFramework:ZFThread")
 
 public:
     virtual void taskRequest(ZF_IN const ZFListener &task,

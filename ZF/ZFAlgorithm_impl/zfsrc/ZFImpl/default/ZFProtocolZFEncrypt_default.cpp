@@ -15,7 +15,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFEncryptImpl_default, ZFEncrypt, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("ZFEncrypt"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("ZFEncrypt")
 public:
     virtual zfbool encrypt(ZF_IN_OUT const ZFOutput &output,
                            ZF_IN const ZFInput &input,
@@ -24,7 +24,7 @@ public:
         zfindex inputSize = input.ioSize();
         if(inputSize != zfindexMax())
         {
-            zfstring sizeCheck = zfstringWithFormat(zfText("%s+"), zfsFromInt(inputSize, 16).cString());
+            zfstring sizeCheck = zfstringWithFormat("%s+", zfsFromInt(inputSize, 16).cString());
             output.execute(sizeCheck.cString(), sizeCheck.length() * sizeof(zfchar));
             return ZFBase64Encode(output, input, zfnull, this->tableForKey(key));
         }
@@ -35,7 +35,7 @@ public:
             {
                 return zffalse;
             }
-            zfstring sizeCheck = zfstringWithFormat(zfText("%s+"), zfsFromInt(inputBuf.bufferSize(), 16).cString());
+            zfstring sizeCheck = zfstringWithFormat("%s+", zfsFromInt(inputBuf.bufferSize(), 16).cString());
             output.execute(sizeCheck.cString(), sizeCheck.length() * sizeof(zfchar));
             return ZFBase64Encode(output, ZFInputForBuffer(inputBuf.buffer(), inputBuf.bufferSize()), zfnull, this->tableForKey(key));
         }
@@ -73,7 +73,7 @@ private:
     zfstring tableForKey(ZF_IN const zfchar *key)
     {
         zfstring table = ZFBase64TableDefault();
-        zfstring keyTmp = zfstringWithFormat(zfText("%s%zi"), key, zfslen(key));
+        zfstring keyTmp = zfstringWithFormat("%s%zi", key, zfslen(key));
         keyTmp = zfMd5Calc(keyTmp.cString(), keyTmp.length());
         const zfbyte *p = (const zfbyte *)keyTmp.cString();
         const zfbyte *pEnd = p + keyTmp.length();

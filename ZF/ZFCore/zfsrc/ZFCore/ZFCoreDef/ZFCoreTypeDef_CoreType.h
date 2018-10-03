@@ -56,15 +56,15 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief bool type
  */
-ZFT_INT_WEAK(_ZFT_zfbool, zfbool);
+ZFT_INT_WEAK(_ZFT_t_zfbool, zfbool);
 /**
  * @brief bool true type
  */
-#define zftrue _ZFT_zftrue
+#define zftrue _ZFT_t_zftrue
 /**
  * @brief bool false type
  */
-#define zffalse _ZFT_zffalse
+#define zffalse _ZFT_t_zffalse
 
 // ============================================================
 /**
@@ -106,7 +106,7 @@ ZFT_INT_WEAK(_ZFT_zfbool, zfbool);
  *   for types wrapped by #ZFT_INT_STRONG,
  *   you may use zft_XXX to access original primitive type
  */
-ZFT_INT_WEAK(_ZFT_zfindex, zfindex)
+ZFT_INT_WEAK(_ZFT_t_zfindex, zfindex)
 /**
  * @brief (zfindex)-1, indicate a max index value, see #zfindex
  * @see zfuint
@@ -119,13 +119,13 @@ ZFT_INT_WEAK(_ZFT_zfindex, zfindex)
 /**
  * @brief same as int, see #zfindex
  */
-ZFT_INT_WEAK(_ZFT_zfint, zfint);
+ZFT_INT_WEAK(_ZFT_t_zfint, zfint);
 /** @brief zero value */
 #define zfintZero() ((zfint)0)
 /**
  * @brief same as unsigned int, see #zfindex
  */
-ZFT_INT_WEAK(_ZFT_zfuint, zfuint);
+ZFT_INT_WEAK(_ZFT_t_zfuint, zfuint);
 /** @brief zero value */
 #define zfuintZero() ((zfuint)0)
 
@@ -133,7 +133,7 @@ ZFT_INT_WEAK(_ZFT_zfuint, zfuint);
 /**
  * @brief same as float, see #zfindex
  */
-ZFT_INT_WEAK(_ZFT_zffloat, zffloat);
+ZFT_INT_WEAK(_ZFT_t_zffloat, zffloat);
 /** @brief zero value */
 #define zffloatZero() ((zffloat)0)
 
@@ -155,7 +155,7 @@ ZFT_INT_STRONG(long double, zflongdouble)
 /**
  * @brief 8-bit unsigned value, see #zfindex
  */
-ZFT_INT_WEAK(_ZFT_zfbyte, zfbyte);
+ZFT_INT_WEAK(_ZFT_t_zfbyte, zfbyte);
 /** @brief zero value */
 #define zfbyteZero() ((zfbyte)0)
 
@@ -198,7 +198,7 @@ ZFT_INT_STRONG(zft_zfuint32, zfidentity)
  */
 #define zfidentityInvalid() ((zfidentity)-1)
 /** @brief string tokens */
-#define ZFTOKEN_zfidentityInvalid zfText("zfidentityInvalid")
+#define ZFTOKEN_zfidentityInvalid "zfidentityInvalid"
 
 ZF_NAMESPACE_GLOBAL_END
 

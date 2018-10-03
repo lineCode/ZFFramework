@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief callback to extend the native log output
  */
-typedef void (*ZFImplOutputCoreLogCallback)(ZF_IN const zfcharA *src);
+typedef void (*ZFImplOutputCoreLogCallback)(ZF_IN const zfchar *src);
 /**
  * @brief callback to extend the native log output
  */
@@ -33,7 +33,7 @@ extern ZF_ENV_EXPORT ZFCoreArrayPOD<ZFImplOutputCoreLogCallback> &_ZFP_ZFImplOut
 /**
  * @brief used to output log to native env
  */
-extern ZF_ENV_EXPORT void ZFImplOutputCoreLog(ZF_IN const zfcharA *src);
+extern ZF_ENV_EXPORT void ZFImplOutputCoreLog(ZF_IN const zfchar *src);
 
 // ============================================================
 // normal log

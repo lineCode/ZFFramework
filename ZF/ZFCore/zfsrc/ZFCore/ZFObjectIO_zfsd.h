@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * for "*.zfsd" file, which should contain data converted by #ZFObjectFromZfsd
  */
-#define ZFObjectIO_zfsd zfText("zfsd")
+#define ZFObjectIO_zfsd "zfsd"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectIO_zfsd_h_

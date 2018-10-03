@@ -409,7 +409,7 @@ protected:
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIViewImpl_sys_Qt, ZFUIView, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QWidget"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QWidget")
 
 public:
     zfoverride
@@ -632,9 +632,9 @@ ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIViewImpl_sys_Qt)
 // ============================================================
 // ZFUIViewFocus
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIViewFocusImpl_sys_Qt, ZFUIViewFocus, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QWidget"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QWidget")
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_BEGIN()
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_ITEM(ZFUIView, zfText("Qt:QWidget"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_ITEM(ZFUIView, "Qt:QWidget")
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_END()
 public:
     virtual void viewFocusableSet(ZF_IN ZFUIView *view,
@@ -659,8 +659,8 @@ ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIViewFocusImpl_sys_Qt)
 
 ZF_NAMESPACE_GLOBAL_END
 
-const zfchar *_ZFP_ZFImpl_ZFUIView_mouseTrackingCount = zfText("_ZFP_ZFImpl_ZFUIView_mouseTrackingCount");
-const zfchar *_ZFP_ZFImpl_ZFUIView_mouseTrackingSaved = zfText("_ZFP_ZFImpl_ZFUIView_mouseTrackingSaved");
+const zfchar *_ZFP_ZFImpl_ZFUIView_mouseTrackingCount = "_ZFP_ZFImpl_ZFUIView_mouseTrackingCount";
+const zfchar *_ZFP_ZFImpl_ZFUIView_mouseTrackingSaved = "_ZFP_ZFImpl_ZFUIView_mouseTrackingSaved";
 static zfbool _ZFP_ZFImpl_sys_Qt_mouseTracking(ZF_IN QWidget *view)
 {
     return ZFImpl_sys_Qt_QObjectTagGet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount).isValid();

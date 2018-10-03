@@ -34,11 +34,11 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048UIBlock, ZF2048Value, blockValue)
         return ;
     }
 
-    zfstring skinKey = zfstringWithFormat(zfText("ZF2048/block/block_%d"), (zfint)this->blockValue());
+    zfstring skinKey = zfstringWithFormat("ZF2048/block/block_%d", (zfint)this->blockValue());
     this->imageSet(ZFStyleGet(skinKey));
     if(this->image() == zfnull)
     {
-        this->imageSet(ZFStyleGet(zfText("ZF2048/block/block_na")));
+        this->imageSet(ZFStyleGet("ZF2048/block/block_na"));
         this->blockTitle()->viewVisibleSet(zftrue);
     }
     else

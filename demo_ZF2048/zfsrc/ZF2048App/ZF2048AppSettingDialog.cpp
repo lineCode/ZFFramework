@@ -70,19 +70,19 @@ protected:
         this->loadContent();
         this->prepareLogic();
 
-        this->owner->styleKeySet(zfText("dialogTitle"), zfText("ZF2048SettingDialog_title"));
+        this->owner->styleKeySet("dialogTitle", "ZF2048SettingDialog_title");
 
-        this->dataWidthHint->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_widthHint"));
-        this->dataHeightHint->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_heightHint"));
+        this->dataWidthHint->styleKeySet("text", "ZF2048SettingDialog_widthHint");
+        this->dataHeightHint->styleKeySet("text", "ZF2048SettingDialog_heightHint");
 
-        this->dataWidthIncrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataIncrease"));
-        this->dataWidthDecrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataDecrease"));
+        this->dataWidthIncrease->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048SettingDialog_dataIncrease");
+        this->dataWidthDecrease->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048SettingDialog_dataDecrease");
 
-        this->dataHeightIncrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataIncrease"));
-        this->dataHeightDecrease->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_dataDecrease"));
+        this->dataHeightIncrease->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048SettingDialog_dataIncrease");
+        this->dataHeightDecrease->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048SettingDialog_dataDecrease");
 
-        this->confirmButton->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_confirm"));
-        this->cancelButton->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048SettingDialog_cancel"));
+        this->confirmButton->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048SettingDialog_confirm");
+        this->cancelButton->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048SettingDialog_cancel");
     }
 
 private:
@@ -90,9 +90,9 @@ private:
     {
         if(zftrue)
         { // load from xml
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("ZF2048_serializePerformanceTest"));
+            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("ZF2048_serializePerformanceTest");
 
-            ZFInput input = ZFInputForResFile(zfText("ZF2048/app/settingdialog.xml"));
+            ZFInput input = ZFInputForResFile("ZF2048/app/settingdialog.xml");
             ZFSerializableData data = ZFSerializableDataFromXml(input);
             zfautoObject obj = ZFObjectFromData(data);
             this->contentViewSet(obj);
@@ -113,7 +113,7 @@ private:
             {
                 zfblockedAlloc(ZFUITextView, dataWidthHintTmp);
                 settingContainer->childAdd(dataWidthHintTmp);
-                dataWidthHintTmp->viewIdSet(zfText("dataWidthHint"));
+                dataWidthHintTmp->viewIdSet("dataWidthHint");
 
                 zfblockedAlloc(ZFUILinearLayout, dataWidthContainerTmp);
                 settingContainer->childAdd(dataWidthContainerTmp);
@@ -121,20 +121,20 @@ private:
 
                 zfblockedAlloc(ZF2048AppButton, dataWidthIncreaseTmp);
                 dataWidthContainerTmp->childAdd(dataWidthIncreaseTmp);
-                dataWidthIncreaseTmp->viewIdSet(zfText("dataWidthIncrease"));
+                dataWidthIncreaseTmp->viewIdSet("dataWidthIncrease");
 
                 zfblockedAlloc(ZFUITextEditWidget, dataWidthEditTmp);
                 dataWidthContainerTmp->childAdd(dataWidthEditTmp);
-                dataWidthEditTmp->viewIdSet(zfText("dataWidthEdit"));
+                dataWidthEditTmp->viewIdSet("dataWidthEdit");
 
                 zfblockedAlloc(ZF2048AppButton, dataWidthDecreaseTmp);
                 dataWidthContainerTmp->childAdd(dataWidthDecreaseTmp);
-                dataWidthDecreaseTmp->viewIdSet(zfText("dataWidthDecrease"));
+                dataWidthDecreaseTmp->viewIdSet("dataWidthDecrease");
             }
             {
                 zfblockedAlloc(ZFUITextView, dataHeightHintTmp);
                 settingContainer->childAdd(dataHeightHintTmp);
-                dataHeightHintTmp->viewIdSet(zfText("dataHeightHint"));
+                dataHeightHintTmp->viewIdSet("dataHeightHint");
 
                 zfblockedAlloc(ZFUILinearLayout, dataHeightContainerTmp);
                 settingContainer->childAdd(dataHeightContainerTmp);
@@ -142,15 +142,15 @@ private:
 
                 zfblockedAlloc(ZF2048AppButton, dataHeightIncreaseTmp);
                 dataHeightContainerTmp->childAdd(dataHeightIncreaseTmp);
-                dataHeightIncreaseTmp->viewIdSet(zfText("dataHeightIncrease"));
+                dataHeightIncreaseTmp->viewIdSet("dataHeightIncrease");
 
                 zfblockedAlloc(ZFUITextEditWidget, dataHeightEditTmp);
                 dataHeightContainerTmp->childAdd(dataHeightEditTmp);
-                dataHeightEditTmp->viewIdSet(zfText("dataHeightEdit"));
+                dataHeightEditTmp->viewIdSet("dataHeightEdit");
 
                 zfblockedAlloc(ZF2048AppButton, dataHeightDecreaseTmp);
                 dataHeightContainerTmp->childAdd(dataHeightDecreaseTmp);
-                dataHeightDecreaseTmp->viewIdSet(zfText("dataHeightDecrease"));
+                dataHeightDecreaseTmp->viewIdSet("dataHeightDecrease");
             }
 
             zfblockedAlloc(ZFUILinearLayout, buttonLayout);
@@ -159,32 +159,32 @@ private:
 
             zfblockedAlloc(ZF2048AppButton, confirmButtonTmp);
             buttonLayout->childAdd(confirmButtonTmp);
-            confirmButtonTmp->viewIdSet(zfText("confirmButton"));
+            confirmButtonTmp->viewIdSet("confirmButton");
 
             zfblockedAlloc(ZF2048AppButton, cancelButtonTmp);
             buttonLayout->childAdd(cancelButtonTmp);
-            cancelButtonTmp->viewIdSet(zfText("cancelButton"));
+            cancelButtonTmp->viewIdSet("cancelButton");
         }
 
-        this->dataWidthHint = this->contentView()->childFindById(zfText("dataWidthHint"))->toAny();
-        this->dataWidthIncrease = this->contentView()->childFindById(zfText("dataWidthIncrease"))->toAny();
-        this->dataWidthEdit = this->contentView()->childFindById(zfText("dataWidthEdit"))->toAny();
-        this->dataWidthDecrease = this->contentView()->childFindById(zfText("dataWidthDecrease"))->toAny();
+        this->dataWidthHint = this->contentView()->childFindById("dataWidthHint")->toAny();
+        this->dataWidthIncrease = this->contentView()->childFindById("dataWidthIncrease")->toAny();
+        this->dataWidthEdit = this->contentView()->childFindById("dataWidthEdit")->toAny();
+        this->dataWidthDecrease = this->contentView()->childFindById("dataWidthDecrease")->toAny();
 
-        this->dataHeightHint = this->contentView()->childFindById(zfText("dataHeightHint"))->toAny();
-        this->dataHeightIncrease = this->contentView()->childFindById(zfText("dataHeightIncrease"))->toAny();
-        this->dataHeightEdit = this->contentView()->childFindById(zfText("dataHeightEdit"))->toAny();
-        this->dataHeightDecrease = this->contentView()->childFindById(zfText("dataHeightDecrease"))->toAny();
+        this->dataHeightHint = this->contentView()->childFindById("dataHeightHint")->toAny();
+        this->dataHeightIncrease = this->contentView()->childFindById("dataHeightIncrease")->toAny();
+        this->dataHeightEdit = this->contentView()->childFindById("dataHeightEdit")->toAny();
+        this->dataHeightDecrease = this->contentView()->childFindById("dataHeightDecrease")->toAny();
 
-        this->confirmButton = this->contentView()->childFindById(zfText("confirmButton"))->toAny();
-        this->cancelButton = this->contentView()->childFindById(zfText("cancelButton"))->toAny();
+        this->confirmButton = this->contentView()->childFindById("confirmButton")->toAny();
+        this->cancelButton = this->contentView()->childFindById("cancelButton")->toAny();
     }
     void prepareLogic(void)
     {
         ZFLISTENER_LOCAL(increaseOnClick, {
-            ZFUIButtonBasic *increase = userData->tagGet(zfText("increase"))->objectHolded();
-            ZFUITextEdit *edit = userData->tagGet(zfText("edit"))->objectHolded();
-            ZFUIButtonBasic *decrease = userData->tagGet(zfText("decrease"))->objectHolded();
+            ZFUIButtonBasic *increase = userData->tagGet("increase")->objectHolded();
+            ZFUITextEdit *edit = userData->tagGet("edit")->objectHolded();
+            ZFUIButtonBasic *decrease = userData->tagGet("decrease")->objectHolded();
             zfindex value = _ZFP_ZF2048AppSettingDialogPrivate::readData(edit);
             ++value;
             value = zfmApplyRange<zfindex>(value, _ZFP_ZF2048AppDataWidthMin, _ZFP_ZF2048AppDataWidthMax);
@@ -193,9 +193,9 @@ private:
             decrease->buttonEnableSet(value != _ZFP_ZF2048AppDataWidthMin);
         })
         ZFLISTENER_LOCAL(decreaseOnClick, {
-            ZFUIButtonBasic *increase = userData->tagGet(zfText("increase"))->objectHolded();
-            ZFUITextEdit *edit = userData->tagGet(zfText("edit"))->objectHolded();
-            ZFUIButtonBasic *decrease = userData->tagGet(zfText("decrease"))->objectHolded();
+            ZFUIButtonBasic *increase = userData->tagGet("increase")->objectHolded();
+            ZFUITextEdit *edit = userData->tagGet("edit")->objectHolded();
+            ZFUIButtonBasic *decrease = userData->tagGet("decrease")->objectHolded();
             zfindex value = _ZFP_ZF2048AppSettingDialogPrivate::readData(edit);
             --value;
             value = zfmApplyRange<zfindex>(value, _ZFP_ZF2048AppDataWidthMin, _ZFP_ZF2048AppDataWidthMax);
@@ -204,9 +204,9 @@ private:
             decrease->buttonEnableSet(value != _ZFP_ZF2048AppDataWidthMin);
         })
         ZFLISTENER_LOCAL(editOnChange, {
-            ZFUIButtonBasic *increase = userData->tagGet(zfText("increase"))->objectHolded();
-            ZFUITextEdit *edit = userData->tagGet(zfText("edit"))->objectHolded();
-            ZFUIButtonBasic *decrease = userData->tagGet(zfText("decrease"))->objectHolded();
+            ZFUIButtonBasic *increase = userData->tagGet("increase")->objectHolded();
+            ZFUITextEdit *edit = userData->tagGet("edit")->objectHolded();
+            ZFUIButtonBasic *decrease = userData->tagGet("decrease")->objectHolded();
             zfindex value = _ZFP_ZF2048AppSettingDialogPrivate::readData(edit);
             value = zfmApplyRange<zfindex>(value, _ZFP_ZF2048AppDataWidthMin, _ZFP_ZF2048AppDataWidthMax);
             increase->buttonEnableSet(value != _ZFP_ZF2048AppDataWidthMax);
@@ -218,17 +218,17 @@ private:
         })
 
         zfblockedAlloc(ZFObject, userDataForWidth);
-        userDataForWidth->tagSet(zfText("increase"), this->dataWidthIncrease->objectHolder());
-        userDataForWidth->tagSet(zfText("edit"), this->dataWidthEdit->objectHolder());
-        userDataForWidth->tagSet(zfText("decrease"), this->dataWidthDecrease->objectHolder());
+        userDataForWidth->tagSet("increase", this->dataWidthIncrease->objectHolder());
+        userDataForWidth->tagSet("edit", this->dataWidthEdit->objectHolder());
+        userDataForWidth->tagSet("decrease", this->dataWidthDecrease->objectHolder());
 
         zfblockedAlloc(ZFObject, userDataForHeight);
-        userDataForHeight->tagSet(zfText("increase"), this->dataHeightIncrease->objectHolder());
-        userDataForHeight->tagSet(zfText("edit"), this->dataHeightEdit->objectHolder());
-        userDataForHeight->tagSet(zfText("decrease"), this->dataHeightDecrease->objectHolder());
+        userDataForHeight->tagSet("increase", this->dataHeightIncrease->objectHolder());
+        userDataForHeight->tagSet("edit", this->dataHeightEdit->objectHolder());
+        userDataForHeight->tagSet("decrease", this->dataHeightDecrease->objectHolder());
 
         zfblockedAlloc(ZFRegExp, textFilter);
-        textFilter->regExpCompile(zfstringWithFormat(zfText("\\d{1,2}")));
+        textFilter->regExpCompile(zfstringWithFormat("\\d{1,2}"));
         this->dataWidthEdit->textEditFilterSet(textFilter);
         this->dataHeightEdit->textEditFilterSet(textFilter);
 

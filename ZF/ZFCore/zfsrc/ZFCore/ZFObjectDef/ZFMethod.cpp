@@ -148,11 +148,11 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
             break;
         case ZFMethodPrivilegeTypeProtected:
             ret += ZFTOKEN_ZFMethodPrivilegeTypeProtected;
-            ret += zfText(": ");
+            ret += ": ";
             break;
         case ZFMethodPrivilegeTypePrivate:
             ret += ZFTOKEN_ZFMethodPrivilegeTypePrivate;
-            ret += zfText(": ");
+            ret += ": ";
             break;
         default:
             zfCoreCriticalShouldNotGoHere();
@@ -161,43 +161,43 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
 
     if(this->methodType() == ZFMethodTypeStatic)
     {
-        ret += zfText("static ");
+        ret += "static ";
     }
     else if(this->methodType() == ZFMethodTypeVirtual)
     {
-        ret += zfText("virtual ");
+        ret += "virtual ";
     }
 
     ret += this->methodReturnTypeName();
-    ret += zfText(" ");
+    ret += " ";
 
     if(this->methodIsFunctionType())
     {
         ret += this->methodNamespace();
-        ret += zfText("::");
+        ret += "::";
     }
     else
     {
         ret += this->methodOwnerClass()->classNameFull();
-        ret += zfText("::");
+        ret += "::";
     }
 
     ret += this->methodName();
 
     if(this->methodParamCount() > 0)
     {
-        ret += zfText("(");
+        ret += "(";
         for(zfindex i = 0; i < this->methodParamCount(); ++i)
         {
             if(i != 0)
             {
-                ret += zfText(", ");
+                ret += ", ";
             }
             ret += this->methodParamTypeNameAtIndex(i);
-            zfstringAppend(ret, zfText(" p%zi"), i);
+            zfstringAppend(ret, " p%zi", i);
             if(i >= this->methodParamDefaultBeginIndex())
             {
-                ret += zfText(" = ");
+                ret += " = ";
                 zfautoObject v = this->methodParamDefaultValueAtIndex(i);
                 if(v == zfnull)
                 {
@@ -209,11 +209,11 @@ void ZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
                 }
             }
         }
-        ret += zfText(")");
+        ret += ")";
     }
     else
     {
-        ret += zfText("(void)");
+        ret += "(void)";
     }
 }
 
@@ -476,18 +476,18 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
             if(methodOwnerClass != zfnull)
             {
                 zfCoreCriticalMessageTrim(
-                    zfTextA("[ZFMethodUserRegister] registering a method that already registered, class: %s, methodName: %s, methodInternalId: %s"),
-                    zfsCoreZ2A(methodOwnerClass->classNameFull()),
-                    zfsCoreZ2A(methodName),
-                    zfsCoreZ2A(methodInternalId.cString()));
+                    "[ZFMethodUserRegister] registering a method that already registered, class: %s, methodName: %s, methodInternalId: %s",
+                    methodOwnerClass->classNameFull(),
+                    methodName,
+                    methodInternalId.cString());
             }
             else
             {
                 zfCoreCriticalMessageTrim(
-                    zfTextA("[ZFMethodFuncUserRegister] registering a method that already registered, namespace: %s, methodName: %s, methodInternalId: %s"),
-                    zfsCoreZ2A(methodNamespace),
-                    zfsCoreZ2A(methodName),
-                    zfsCoreZ2A(methodInternalId.cString()));
+                    "[ZFMethodFuncUserRegister] registering a method that already registered, namespace: %s, methodName: %s, methodInternalId: %s",
+                    methodNamespace,
+                    methodName,
+                    methodInternalId.cString());
             }
         }
         else if(method->methodIsDynamicRegister())
@@ -495,18 +495,18 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
             if(methodOwnerClass != zfnull)
             {
                 zfCoreCriticalMessageTrim(
-                    zfTextA("[ZFMethodDynamicRegister] registering a method that already registered, class: %s, methodName: %s, methodInternalId: %s"),
-                    zfsCoreZ2A(methodOwnerClass->classNameFull()),
-                    zfsCoreZ2A(methodName),
-                    zfsCoreZ2A(methodInternalId.cString()));
+                    "[ZFMethodDynamicRegister] registering a method that already registered, class: %s, methodName: %s, methodInternalId: %s",
+                    methodOwnerClass->classNameFull(),
+                    methodName,
+                    methodInternalId.cString());
             }
             else
             {
                 zfCoreCriticalMessageTrim(
-                    zfTextA("[ZFMethodDynamicRegister] registering a method that already registered, namespace: %s, methodName: %s, methodInternalId: %s"),
-                    zfsCoreZ2A(methodNamespace),
-                    zfsCoreZ2A(methodName),
-                    zfsCoreZ2A(methodInternalId.cString()));
+                    "[ZFMethodDynamicRegister] registering a method that already registered, namespace: %s, methodName: %s, methodInternalId: %s",
+                    methodNamespace,
+                    methodName,
+                    methodInternalId.cString());
             }
         }
 
@@ -525,9 +525,9 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
             }
         }
         zfCoreAssertWithMessageTrim(!isRedefine,
-            zfTextA("[ZFMethod] redefine of method: %s, existing: %s"),
-            zfsCoreZ2A(methodInternalId.cString()),
-            zfsCoreZ2A(method->objectInfo().cString()));
+            "[ZFMethod] redefine of method: %s, existing: %s",
+            methodInternalId.cString(),
+            method->objectInfo().cString());
     }
     else
     {

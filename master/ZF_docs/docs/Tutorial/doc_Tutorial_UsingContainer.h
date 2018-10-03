@@ -11,7 +11,7 @@
  *   use only if necessary
  *   @code
  *     ZFCoreArray<zfstring> array;
- *     array.add(zfText("element"));
+ *     array.add("element");
  *     const zfstring &e = array[0];
  *
  *     // or use POD version for performance, can hold POD types only
@@ -21,7 +21,7 @@
  *     // can hold string as key type and any type as value type,
  *     // while value type can only be wrapped by ZFCorePointer
  *     zfstring *p = zfnew(zfstring);
- *     map.set(zfText("key"), ZFCorePointerForObject<zfstring *>(p));
+ *     map.set("key", ZFCorePointerForObject<zfstring *>(p));
  *     // see #ZFCorePointerBase and #ZFCoreMap for more info
  *   @endcode
  * -  ZFContainer/ZFKeyValueContainer\n

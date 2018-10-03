@@ -21,23 +21,23 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // zflineFree
-template<typename T_Char>
+template<typename T_POD>
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_zflineFreeContainer
 {
 public:
     _ZFP_zflineFreeContainer(ZF_IN const _ZFP_zflineFreeContainer &ref) : p(ref.p) {}
-    _ZFP_zflineFreeContainer(ZF_IN T_Char *p) : p(p) {}
+    _ZFP_zflineFreeContainer(ZF_IN T_POD *p) : p(p) {}
     ~_ZFP_zflineFreeContainer(void)
     {
         zffree(p);
     }
 public:
-    T_Char *p;
+    T_POD *p;
 };
-template<typename T_Char>
-_ZFP_zflineFreeContainer<T_Char> _ZFP_zflineFreeWrapper(ZF_IN T_Char *p)
+template<typename T_POD>
+_ZFP_zflineFreeContainer<T_POD> _ZFP_zflineFreeWrapper(ZF_IN T_POD *p)
 {
-    return _ZFP_zflineFreeContainer<T_Char>(p);
+    return _ZFP_zflineFreeContainer<T_POD>(p);
 }
 /**
  * @brief util macro to free a POD after line end
@@ -79,23 +79,23 @@ private:
 
 // ============================================================
 // zflineDelete
-template<typename T_Char>
+template<typename T_Object>
 zfclassLikePOD ZF_ENV_EXPORT _ZFP_zflineDeleteContainer
 {
 public:
     _ZFP_zflineDeleteContainer(ZF_IN const _ZFP_zflineDeleteContainer &ref) : p(ref.p) {}
-    _ZFP_zflineDeleteContainer(ZF_IN T_Char *p) : p(p) {}
+    _ZFP_zflineDeleteContainer(ZF_IN T_Object *p) : p(p) {}
     ~_ZFP_zflineDeleteContainer(void)
     {
         zfdelete(p);
     }
 public:
-    T_Char *p;
+    T_Object *p;
 };
-template<typename T_Char>
-_ZFP_zflineDeleteContainer<T_Char> _ZFP_zflineDeleteWrapper(ZF_IN T_Char *p)
+template<typename T_Object>
+_ZFP_zflineDeleteContainer<T_Object> _ZFP_zflineDeleteWrapper(ZF_IN T_Object *p)
 {
-    return _ZFP_zflineDeleteContainer<T_Char>(p);
+    return _ZFP_zflineDeleteContainer<T_Object>(p);
 }
 /**
  * @brief util macro to delete a object after line end

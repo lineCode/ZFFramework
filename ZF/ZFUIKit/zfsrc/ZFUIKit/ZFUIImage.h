@@ -84,11 +84,11 @@ inline ZFCoreArrayPOD<const zfchar *> ZFUIImageSerializeTypeGetAll(void)
 }
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIImage_imageType zfText("imageType")
+#define ZFSerializableKeyword_ZFUIImage_imageType "imageType"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIImage_imageData zfText("imageData")
+#define ZFSerializableKeyword_ZFUIImage_imageData "imageData"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIImage_imageBin zfText("imageBin")
+#define ZFSerializableKeyword_ZFUIImage_imageBin "imageBin"
 
 // ============================================================
 // ZFUIImage

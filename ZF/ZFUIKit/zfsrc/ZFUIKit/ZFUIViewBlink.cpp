@@ -25,11 +25,11 @@ ZF_NAMESPACE_END(ZFGlobalEvent)
 #define _ZFP_ZFUIViewBlink_DEBUG_duration 0
 #define _ZFP_ZFUIViewBlink_DEBUG_color 0
 
-#define _ZFP_ZFUIViewBlink_tag_ani zfText("_ZFP_ZFUIViewBlink_tag_ani")
-#define _ZFP_ZFUIViewBlink_tag_blinkView zfText("_ZFP_ZFUIViewBlink_tag_blinkView")
-#define _ZFP_ZFUIViewBlink_tag_delayTaskId zfText("_ZFP_ZFUIViewBlink_tag_delayTaskId")
-#define _ZFP_ZFUIViewBlink_tag_delayId zfText("_ZFP_ZFUIViewBlink_tag_delayId")
-#define _ZFP_ZFUIViewBlink_tag_blinkCountLeft zfText("_ZFP_ZFUIViewBlink_tag_blinkCountLeft")
+#define _ZFP_ZFUIViewBlink_tag_ani "_ZFP_ZFUIViewBlink_tag_ani"
+#define _ZFP_ZFUIViewBlink_tag_blinkView "_ZFP_ZFUIViewBlink_tag_blinkView"
+#define _ZFP_ZFUIViewBlink_tag_delayTaskId "_ZFP_ZFUIViewBlink_tag_delayTaskId"
+#define _ZFP_ZFUIViewBlink_tag_delayId "_ZFP_ZFUIViewBlink_tag_delayId"
+#define _ZFP_ZFUIViewBlink_tag_blinkCountLeft "_ZFP_ZFUIViewBlink_tag_blinkCountLeft"
 
 zfclass _ZFP_ZFUIViewBlinkView : zfextends ZFUIImageView
 {
@@ -233,7 +233,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewBlinkInitSetting, ZFLevelZFFramewo
     #if _ZFP_ZFUIViewBlink_DEBUG_color
         ZFUIViewBlinkImageDefaultSet(ZFUIImageLoadFromColor(ZFUIColorMake(1, 0, 0)));
     #else
-        ZFUIViewBlinkImageDefaultSet(zfRes(zfText("ZFUIKit/ZFUIViewBlinkImage.xml")));
+        ZFUIViewBlinkImageDefaultSet(zfRes("ZFUIKit/ZFUIViewBlinkImage.xml"));
     #endif
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewBlinkInitSetting)

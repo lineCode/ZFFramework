@@ -36,13 +36,13 @@ zfbool ZFUIListAdapterArray::serializableOnSerializeFromData(ZF_IN const ZFSeria
         if(element == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                zfText("null cell"));
+                "null cell");
             return zffalse;
         }
         if(!element.toObject()->classData()->classIsTypeOf(ZFUIListCell::ClassData()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                zfText("%s not type of %s"),
+                "%s not type of %s",
                 element.toObject()->objectInfoOfInstance().cString(), ZFUIListCell::ClassData()->classNameFull());
             return zffalse;
         }
@@ -92,7 +92,7 @@ zfbool ZFUIListAdapterArray::serializableOnSerializeToData(ZF_IN_OUT ZFSerializa
         if(!cellAllSame)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint,
-                zfText("cell list mismatch, this: %s, ref: %s"),
+                "cell list mismatch, this: %s, ref: %s",
                 this->objectInfoOfInstance().cString(), ref->objectInfoOfInstance().cString());
             return zffalse;
         }

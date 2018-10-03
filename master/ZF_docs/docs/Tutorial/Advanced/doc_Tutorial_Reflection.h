@@ -11,7 +11,7 @@
  * you may reflect the class's meta data:
  * @code
  *   // find the class meta data, null if not found
- *   const ZFClass *cls = ZFClass::classForName(zfText("MyObject"));
+ *   const ZFClass *cls = ZFClass::classForName("MyObject");
  *
  *   // you may create the object's instance by the meta data
  *   zfautoObject objTmp = cls->newInstance();
@@ -21,7 +21,7 @@
  *   MyObject *myObj = ZFCastZFObject(MyObject *, obj);
  *
  *   // also, you may access class's info by ZFClass's method
- *   zfLogT() << zfText("class name:") << cls->className();
+ *   zfLogT() << "class name:" << cls->className();
  * @endcode
  *
  * @section DocTag_Tutorial_Reflection_Method Reflect method
@@ -31,7 +31,7 @@
  * @code
  *   // find the method info by its owner ZFClass's method,
  *   // return null if not found
- *   const ZFMethod *method = cls->methodForName(zfText("myFunc"));
+ *   const ZFMethod *method = cls->methodForName("myFunc");
  *
  *   // invoke the method, note that you must:
  *   // -  explicitly specify the return type and each param type
@@ -47,7 +47,7 @@
  * @code
  *   // find the property info by its owner ZFClass's method,
  *   // return null if not found
- *   const ZFProperty *property = cls->propertyForName(zfText("myProperty"));
+ *   const ZFProperty *property = cls->propertyForName("myProperty");
  *
  *   // change the property's value by setter method,
  *   // also, must ensure all the type matches the original type

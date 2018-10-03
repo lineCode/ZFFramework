@@ -243,15 +243,15 @@ ZFTYPEID_DEFINE(ZFBezier, ZFBezier, {
         v.controlPointSet(tmp[0], tmp[1], tmp[2], tmp[3]);
         return zftrue;
     }, {
-        s += zfText("(");
+        s += "(";
         zfsFromFloatT(s, v.p0x);
-        s += zfText(", ");
+        s += ", ";
         zfsFromFloatT(s, v.p0y);
-        s += zfText(", ");
+        s += ", ";
         zfsFromFloatT(s, v.p1x);
-        s += zfText(", ");
+        s += ", ";
         zfsFromFloatT(s, v.p1y);
-        s += zfText(")");
+        s += ")";
         return zftrue;
     })
 

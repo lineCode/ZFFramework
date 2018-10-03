@@ -16,73 +16,21 @@
 #define _ZFI_ZFCoreTypeDef_CharType_h_
 
 #include "ZFCoreTypeDef_CoreType.h"
-#include <wchar.h>
 #include <string.h>
 #include <stdlib.h>
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-// zfcharA types
 /** @brief char wrapper */
-ZFT_INT_WEAK(_ZFT_zfcharA, zfcharA);
-/** @brief char string wrapper */
-#define zfTextA(s) s
+ZFT_INT_WEAK(_ZFT_t_zfchar, zfchar);
 
 // ============================================================
-// zfcharW types
-/** @brief wchar_t wrapper */
-ZFT_INT_WEAK(_ZFT_zfcharW, zfcharW);
-/** @brief wchar_t string wrapper */
-#define zfTextW(s) L##s
-
-// ============================================================
-/**
- * @brief true if zfchar is same as zfcharA (ignore encoding)
- */
-#define ZF_ENV_ZFCHAR_USE_CHAR_A 1
-/**
- * @brief true if zfchar is same as zfcharW (ignore encoding)
- */
-#define ZF_ENV_ZFCHAR_USE_CHAR_W 0
-
-/**
- * @brief char wrapper
- *
- * remarks:
- * if you want to change the type of zfchar,
- * you must also change:
- * -  zfchar, zfText, etc
- * -  zfsCoreZ2A
- */
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    ZFT_INT_WEAK(zft_zfcharA, zfchar);
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    ZFT_INT_WEAK(zft_zfcharW, zfchar);
-#endif
-
-/** @brief char string wrapper */
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    #define zfText(s) zfTextA(s)
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    #define zfText(s) zfTextW(s)
-#endif
-
 /**
  * @brief get logical char's size,
  *   see #zfcharMoveNext
  */
-extern ZF_ENV_EXPORT zfindex zfcharGetSize(const zfcharA *p);
-/**
- * @brief get logical char's size,
- *   see #zfcharMoveNext
- */
-inline zfindex zfcharGetSize(const zfcharW *p)
-{
-    return 1;
-}
+extern ZF_ENV_EXPORT zfindex zfcharGetSize(const zfchar *p);
 
 /**
  * @brief move to next logical char
@@ -203,217 +151,31 @@ void zfcharAppendAndMoveNext(T_Str &s, T_CharString &p)
     while(p < end && (zfcharIsSpace(*p) || zfcharIsEndl(*p))) ++p
 
 // ============================================================
-// zfcharA types
-/** @brief strlen wrapper as zfcharA type */
-#define zfslenA(s) _ZFP_zfslenA(s)
-/** @brief strcpy wrapper as zfcharA type */
-#define zfscpyA(dst, src) _ZFP_zfscpyA(dst, src)
-/** @brief strcmp wrapper as zfcharA type */
-#define zfscmpA(s1, s2) _ZFP_zfscmpA(s1, s2)
-/** @brief stricmp wrapper as zfcharA type, no locale supported */
-#define zfsicmpA(s1, s2) _ZFP_zfsicmpA(s1, s2)
-/** @brief strncmp wrapper as zfcharA type */
-#define zfsncmpA(s1, s2, count) _ZFP_zfsncmpA(s1, s2, count)
-/** @brief strnicmp wrapper as zfcharA type, no locale supported */
-#define zfsnicmpA(s1, s2, count) _ZFP_zfsnicmpA(s1, s2, count)
-
-// ============================================================
-// zfcharW types
-/** @brief wcslen wrapper as zfcharW type */
-#define zfslenW(s) _ZFP_zfslenW(s)
-/** @brief wcscpy wrapper as zfcharW type */
-#define zfscpyW(dst, src) _ZFP_zfscpyW(dst, src)
-/** @brief wcscmp wrapper as zfcharW type */
-#define zfscmpW(s1, s2) _ZFP_zfscmpW(s1, s2)
-/** @brief wcsicmp wrapper as zfcharW type, no locale supported */
-#define zfsicmpW(s1, s2) _ZFP_zfsicmpW(s1, s2)
-/** @brief wcsncmp wrapper as zfcharW type */
-#define zfsncmpW(s1, s2, count) _ZFP_zfsncmpW(s1, s2, count)
-/** @brief wcsnicmp wrapper as zfcharW type, no locale supported */
-#define zfsnicmpW(s1, s2, count) _ZFP_zfsnicmpW(s1, s2, count)
-
-// ============================================================
-/**
- * @def zfslen
- * @brief strlen wrapper
- * @def zfscpy
- * @brief strcpy wrapper
- * @def zfscmp
- * @brief strcmp wrapper
- * @def zfsicmp
- * @brief stricmp wrapper, no locale supported
- * @def zfsncmp
- * @brief strncmp wrapper
- * @def zfsnicmp
- * @brief strnicmp wrapper, no locale supported
- */
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    #define zfslen(s) zfslenA(s)
-    #define zfscpy(dst, src) zfscpyA(dst, src)
-    #define zfscmp(s1, s2) zfscmpA(s1, s2)
-    #define zfsicmp(s1, s2) zfsicmpA(s1, s2)
-    #define zfsncmp(s1, s2, count) zfsncmpA(s1, s2, count)
-    #define zfsnicmp(s1, s2, count) zfsnicmpA(s1, s2, count)
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    #define zfslen(s) zfslenW(s)
-    #define zfscpy(dst, src) zfscpyW(dst, src)
-    #define zfscmp(s1, s2) zfscmpW(s1, s2)
-    #define zfsicmp(s1, s2) zfsicmpW(s1, s2)
-    #define zfsncmp(s1, s2, count) zfsncmpW(s1, s2, count)
-    #define zfsnicmp(s1, s2, count) zfsnicmpW(s1, s2, count)
-#endif
-
-// ============================================================
-inline zfindex _ZFP_zfslenA(const zfcharA *s)
+// zfchar types
+/** @brief strlen wrapper as zfchar type */
+inline zfindex zfslen(const zfchar *s)
 {
     return (zfindex)strlen(s);
 }
-inline zfcharA *_ZFP_zfscpyA(zfcharA *dst, const zfcharA *src)
+/** @brief strcpy wrapper as zfchar type */
+inline zfchar *zfscpy(zfchar *dst, const zfchar *src)
 {
     return strcpy(dst, src);
 }
-inline zfint _ZFP_zfscmpA(const zfcharA *s1, const zfcharA *s2)
+/** @brief strcmp wrapper as zfchar type */
+inline zfint zfscmp(const zfchar *s1, const zfchar *s2)
 {
     return (zfint)strcmp(s1, s2);
 }
-extern ZF_ENV_EXPORT zfint _ZFP_zfsicmpA(const zfcharA *s1, const zfcharA *s2);
-inline zfint _ZFP_zfsncmpA(const zfcharA *s1, const zfcharA *s2, zfindex count)
+/** @brief stricmp wrapper as zfchar type, no locale supported */
+extern ZF_ENV_EXPORT zfint zfsicmp(const zfchar *s1, const zfchar *s2);
+/** @brief strncmp wrapper as zfchar type */
+inline zfint zfsncmp(const zfchar *s1, const zfchar *s2, zfindex count)
 {
     return ((count == zfindexMax()) ? strcmp(s1, s2) : strncmp(s1, s2, (size_t)count));
 }
-extern ZF_ENV_EXPORT zfint _ZFP_zfsnicmpA(const zfcharA *s1, const zfcharA *s2, zfindex count);
-
-extern ZF_ENV_EXPORT zfindex _ZFP_zfslenW(const zfcharW *s);
-extern ZF_ENV_EXPORT zfcharW *_ZFP_zfscpyW(zfcharW *dst, const zfcharW *src);
-extern ZF_ENV_EXPORT zfint _ZFP_zfscmpW(const zfcharW *s1, const zfcharW *s2);
-extern ZF_ENV_EXPORT zfint _ZFP_zfsicmpW(const zfcharW *s1, const zfcharW *s2);
-extern ZF_ENV_EXPORT zfint _ZFP_zfsncmpW(const zfcharW *s1, const zfcharW *s2, zfindex count);
-extern ZF_ENV_EXPORT zfint _ZFP_zfsnicmpW(const zfcharW *s1, const zfcharW *s2, zfindex count);
-
-/** @cond ZFPrivateDoc */
-template<typename T_Char>
-zfindex zfslenT(const T_Char *s)
-{
-    const T_Char *p = s;
-    while(*p) {++p;}
-    return (p - s);
-}
-inline zfindex zfslenT(const zfcharA *s)
-{
-    return zfslenA(s);
-}
-inline zfindex zfslenT(const zfcharW *s)
-{
-    return zfslenW(s);
-}
-
-template<typename T_Char>
-T_Char *zfscpyT(T_Char *dst, const T_Char *src)
-{
-    T_Char *saved = dst;
-    while(*src) {*dst++ = *src++;}
-    return saved;
-}
-inline zfcharA *zfscpyT(zfcharA *dst, const zfcharA *src)
-{
-    return zfscpyA(dst, src);
-}
-inline zfcharW *zfscpyT(zfcharW *dst, const zfcharW *src)
-{
-    return zfscpyW(dst, src);
-}
-
-template<typename T_Char>
-zfint zfscmpT(const T_Char *s1, const T_Char *s2)
-{
-    while(*s1 && *s2 && (*s1 == *s2))
-    {
-        ++s1;
-        ++s2;
-    }
-    return (((zfint)(*s1)) - ((zfint)(*s2)));
-}
-inline zfint zfscmpT(const zfcharA *s1, const zfcharA *s2)
-{
-    return zfscmpA(s1, s2);
-}
-inline zfint zfscmpT(const zfcharW *s1, const zfcharW *s2)
-{
-    return zfscmpW(s1, s2);
-}
-
-template<typename T_Char>
-zfint zfsicmpT(const T_Char *s1, const T_Char *s2)
-{
-    while(*s1 && *s2 && (
-        (*s1 == *s2)
-        || (*s1 >= 'A' && *s1 <= 'Z' && *s1 + 32 == *s2)
-        || (*s1 >= 'a' && *s1 <= 'a' && *s1 - 32 == *s2)))
-    {
-        ++s1;
-        ++s2;
-    }
-    return (((zfint)(*s1)) - ((zfint)(*s2)));
-}
-inline zfint zfsicmpT(const zfcharA *s1, const zfcharA *s2)
-{
-    return zfsicmpA(s1, s2);
-}
-inline zfint zfsicmpT(const zfcharW *s1, const zfcharW *s2)
-{
-    return zfsicmpW(s1, s2);
-}
-
-template<typename T_Char>
-zfint zfsncmpT(const T_Char *s1, const T_Char *s2, zfindex count)
-{
-    if(count == 0)
-    {
-        return 0;
-    }
-    while(--count && *s1 && *s2 && (*s1 == *s2))
-    {
-        ++s1;
-        ++s2;
-    }
-    return (((zfint)(*s1)) - ((zfint)(*s2)));
-}
-inline zfint zfsncmpT(const zfcharA *s1, const zfcharA *s2, zfindex count)
-{
-    return zfsncmpA(s1, s2, count);
-}
-inline zfint zfsncmpT(const zfcharW *s1, const zfcharW *s2, zfindex count)
-{
-    return zfsncmpW(s1, s2, count);
-}
-
-template<typename T_Char>
-zfint zfsnicmpT(const T_Char *s1, const T_Char *s2, zfindex count)
-{
-    if(count == 0)
-    {
-        return 0;
-    }
-    while(--count && *s1 && *s2 && (
-        (*s1 == *s2)
-        || (*s1 >= 'A' && *s1 <= 'Z' && *s1 + 32 == *s2)
-        || (*s1 >= 'a' && *s1 <= 'a' && *s1 - 32 == *s2)))
-    {
-        ++s1;
-        ++s2;
-    }
-    return (((zfint)(*s1)) - ((zfint)(*s2)));
-}
-inline zfint zfsnicmpT(const zfcharA *s1, const zfcharA *s2, zfindex count)
-{
-    return zfsnicmpA(s1, s2, count);
-}
-inline zfint zfsnicmpT(const zfcharW *s1, const zfcharW *s2, zfindex count)
-{
-    return zfsnicmpW(s1, s2, count);
-}
-/** @endcond */
+/** @brief strnicmp wrapper as zfchar type, no locale supported */
+extern ZF_ENV_EXPORT zfint zfsnicmp(const zfchar *s1, const zfchar *s2, zfindex count);
 
 ZF_NAMESPACE_GLOBAL_END
 

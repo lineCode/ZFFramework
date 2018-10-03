@@ -50,14 +50,14 @@ void zfMd5Calc(ZF_IN_OUT zfstring &ret,
     {
         for(zfindex i = 0; i < 16; ++i)
         {
-            zfstringAppend(ret, zfText("%02X"), result[i]);
+            zfstringAppend(ret, "%02X", result[i]);
         }
     }
     else
     {
         for(zfindex i = 0; i < 16; ++i)
         {
-            zfstringAppend(ret, zfText("%02x"), result[i]);
+            zfstringAppend(ret, "%02x", result[i]);
         }
     }
 }
@@ -98,14 +98,14 @@ ZFMETHOD_FUNC_DEFINE_3(void, zfMd5Calc,
     {
         for(zfindex i = 0; i < 16; ++i)
         {
-            zfstringAppend(ret, zfText("%02X"), result[i]);
+            zfstringAppend(ret, "%02X", result[i]);
         }
     }
     else
     {
         for(zfindex i = 0; i < 16; ++i)
         {
-            zfstringAppend(ret, zfText("%02x"), result[i]);
+            zfstringAppend(ret, "%02x", result[i]);
         }
     }
 }

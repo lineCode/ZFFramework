@@ -62,14 +62,14 @@ inline zfuint zfVersionGetInt(ZF_IN const zfchar *version,
 extern ZF_ENV_EXPORT void zfVersionSet(ZF_IN_OUT zfstring &version,
                                        ZF_IN zfindex subVersionIndex,
                                        ZF_IN const zfchar *subVersion,
-                                       ZF_IN_OPT const zfchar *emptySubVersion = zfText("0"));
+                                       ZF_IN_OPT const zfchar *emptySubVersion = "0");
 /**
  * @brief util method to set int version value of #zfVersionSet
  */
 extern ZF_ENV_EXPORT void zfVersionSetInt(ZF_IN_OUT zfstring &version,
                                           ZF_IN zfindex subVersionIndex,
                                           ZF_IN zfuint subVersion,
-                                          ZF_IN_OPT const zfchar *emptySubVersion = zfText("0"));
+                                          ZF_IN_OPT const zfchar *emptySubVersion = "0");
 
 // ============================================================
 extern ZF_ENV_EXPORT ZFCompareResult _ZFP_ZFComparerForVersion(ZF_IN const zfchar *const &v0, ZF_IN const zfchar *const &v1);

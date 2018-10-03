@@ -76,7 +76,7 @@ public:
             }
             this->autoFitMargin = ZFUIMarginZero();
             #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG
-                zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardAutoFitLayout] margin changed to") << this->autoFitMargin;
+                zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] margin changed to" << this->autoFitMargin;
             #endif
             this->scrollView->layoutParam()->layoutMarginSet(this->autoFitMargin);
         }
@@ -96,7 +96,7 @@ public:
                 ZFUIView::EventViewFocusOnChange(),
                 this->viewFocusOnChangeListener);
             #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG
-                zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardAutoFitLayout] focused view changed to") << (void *)zfnull;
+                zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] focused view changed to" << (void *)zfnull;
             #endif
             this->autoFitFocusedView = zfnull;
         }
@@ -118,7 +118,7 @@ public:
 
         this->autoFitMarginCalc(this->autoFitMargin, orgRect, ZFUIOnScreenKeyboardState::instanceForView(this->pimplOwner));
         #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG
-            zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardAutoFitLayout] margin changed to") << this->autoFitMargin;
+            zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] margin changed to" << this->autoFitMargin;
         #endif
         this->scrollView->layoutParam()->layoutMarginSet(this->autoFitMargin);
     }
@@ -169,7 +169,7 @@ public:
             layout->d->scrollEnableFlag = zffalse;
             layout->d->scrollView->scrollEnableSet(layout->d->scrollEnableFlag && layout->autoFitScrollEnable());
             #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG
-                zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardAutoFitLayout] margin changed to") << ZFUIMarginZero();
+                zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] margin changed to" << ZFUIMarginZero();
             #endif
             layout->d->scrollView->layoutParam()->layoutMarginSet(ZFUIMarginZero());
             layout->d->scrollView->scrollContentFrameSet(ZFUIRectGetBounds(layout->layoutedFrame()));
@@ -201,7 +201,7 @@ public:
         }
 
         #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG
-            zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardAutoFitLayout] focused view changed to") << view;
+            zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] focused view changed to" << view;
         #endif
         layout->d->autoFitFocusedView = view;
         layout->d->autoFitFocusedViewNeedUpdate = zftrue;
@@ -213,7 +213,7 @@ public:
         if(layout->autoFitFocusedView() != zfnull)
         {
             #if _ZFP_ZFUIOnScreenKeyboardAutoFitLayout_DEBUG
-                zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardAutoFitLayout] scrollFocusedViewToVisible") << layout->autoFitFocusedView();
+                zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] scrollFocusedViewToVisible" << layout->autoFitFocusedView();
             #endif
             layout->d->scrollView->scrollChildToVisible(layout->autoFitFocusedView());
         }
@@ -339,7 +339,7 @@ ZFMETHOD_FUNC_DEFINE_1(ZFUIOnScreenKeyboardAutoFitLayout *, ZFUIOnScreenKeyboard
     if(window != zfnull)
     {
         zfCoreAssertWithMessageTrim(window->viewDelegate() == zfnull,
-            zfTextA("[ZFUIOnScreenKeyboardAutoFitStart] you must not set window's viewDelegate when using auto fit"));
+            "[ZFUIOnScreenKeyboardAutoFitStart] you must not set window's viewDelegate when using auto fit");
         window->viewDelegateClassSet(ZFUIOnScreenKeyboardAutoFitLayout::ClassData()->classNameFull());
         return window->viewDelegate<ZFUIOnScreenKeyboardAutoFitLayout *>();
     }
@@ -353,9 +353,9 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFUIOnScreenKeyboardAutoFitStop,
         zfCoreAssertWithMessageTrim(
             window->viewDelegate() == zfnull
             || ZFCastZFObject(ZFUIOnScreenKeyboardAutoFitLayout *, window->viewDelegate()) != zfnull,
-            zfTextA("[ZFUIOnScreenKeyboardAutoFitStop] stopped with unknown viewDelegate: %s"),
-            zfsCoreZ2A(window->viewDelegate()->objectInfoOfInstance().cString()));
-        window->viewDelegateClassSet(zfText(""));
+            "[ZFUIOnScreenKeyboardAutoFitStop] stopped with unknown viewDelegate: %s",
+            window->viewDelegate()->objectInfoOfInstance().cString());
+        window->viewDelegateClassSet("");
     }
 }
 

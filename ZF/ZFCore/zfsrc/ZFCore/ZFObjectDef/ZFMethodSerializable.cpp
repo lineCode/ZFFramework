@@ -45,7 +45,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFMethod, const ZFMethod *, {
 
         for(zfindex i = 0; i < v->methodParamCount(); ++i)
         {
-            s += zfText(":");
+            s += ":";
             s += v->methodParamTypeIdAtIndex(i);
         }
 
@@ -167,7 +167,7 @@ zfbool ZFMethodSigSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &ret,
         ret,
         zfHint("desiredCountOrIndexMax")zfindexMax(),
         src, srcLen,
-        zfHint("separatorTokens")zfText(":"),
+        zfHint("separatorTokens")":",
         zfHint("leftToken")zfnull, zfHint("rightToken")zfnull,
         zfHint("allowEmptyItem")zftrue)
         || ret.count() > 1 + ZFMETHOD_MAX_PARAM

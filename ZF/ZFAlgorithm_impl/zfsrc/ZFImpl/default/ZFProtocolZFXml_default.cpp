@@ -13,7 +13,6 @@
 #include "../_repo/pugixml/pugixml.hpp"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
-ZFSTRINGENCODING_ASSERT(ZFStringEncoding::e_UTF8)
 
 zfclassNotPOD _ZFP_ZFXmlImpl_default_MemoryPoolHolder
 {
@@ -35,7 +34,7 @@ public:
 };
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFXmlImpl_default, ZFXml, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("pugixml"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("pugixml")
 public:
     virtual ZFXmlItem xmlParse(ZF_IN const zfchar *src,
                                ZF_IN_OPT zfindex size = zfindexMax())

@@ -63,18 +63,18 @@ void ZFAutoReleasePool::objectOnDeallocPrepare(void)
 void ZFAutoReleasePool::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
-    ret += zfText(", count: ");
+    ret += ", count: ";
     zfsFromIntT(ret, d->array.count());
 }
 void ZFAutoReleasePool::poolAdd(ZF_IN ZFObject *obj)
 {
-    zfCoreAssertWithMessage(obj != this, zfTextA("add autorelease pool to itself isn't allowed"));
+    zfCoreAssertWithMessage(obj != this, "add autorelease pool to itself isn't allowed");
 
     if(obj != zfnull)
     {
         if(d->array.count() >= d->maxSize)
         {
-            zfCoreLogTrim(zfTextA("warning, auto release pool full, trying to release old object"));
+            zfCoreLogTrim("warning, auto release pool full, trying to release old object");
             _ZFP_ZFAutoReleasePoolData data = d->array.get(0);
             d->array.remove(0);
             zfRelease(data.obj);

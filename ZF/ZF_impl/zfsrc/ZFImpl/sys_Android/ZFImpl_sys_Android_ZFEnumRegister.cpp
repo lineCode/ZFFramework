@@ -23,9 +23,9 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
                          jstring rawEnumNamespace,
                          jstring rawEnumValueName)
 {
-    const zfcharA *rawEnumNamespaceT = JNIUtilGetStringUTFChars(jniEnv, rawEnumNamespace, zfnull);
-    const zfcharA *rawEnumValueNameT = JNIUtilGetStringUTFChars(jniEnv, rawEnumValueName, zfnull);
-    zfCoreCriticalMessageTrim(zfTextA("[ZFEnum] invalid enum: %s::%s"),
+    const zfchar *rawEnumNamespaceT = JNIUtilGetStringUTFChars(jniEnv, rawEnumNamespace, zfnull);
+    const zfchar *rawEnumValueNameT = JNIUtilGetStringUTFChars(jniEnv, rawEnumValueName, zfnull);
+    zfCoreCriticalMessageTrim("[ZFEnum] invalid enum: %s::%s",
         rawEnumNamespaceT,
         rawEnumValueNameT);
     JNIUtilReleaseStringUTFChars(jniEnv, rawEnumNamespace, rawEnumNamespaceT);
@@ -38,12 +38,12 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
                          jstring rawEnumNamespace,
                          jstring rawEnumValueName)
 {
-    const zfcharA *rawEnumNamespaceT = JNIUtilGetStringUTFChars(jniEnv, rawEnumNamespace, zfnull);
-    const zfcharA *rawEnumValueNameT = JNIUtilGetStringUTFChars(jniEnv, rawEnumValueName, zfnull);
+    const zfchar *rawEnumNamespaceT = JNIUtilGetStringUTFChars(jniEnv, rawEnumNamespace, zfnull);
+    const zfchar *rawEnumValueNameT = JNIUtilGetStringUTFChars(jniEnv, rawEnumValueName, zfnull);
     zfuint ret = ZFEnumInvalid();
     do
     {
-        const ZFMethod *method = ZFMethodFuncGet(ZFStringA2Z(rawEnumNamespaceT), ZFStringA2Z(rawEnumValueNameT));
+        const ZFMethod *method = ZFMethodFuncGet(rawEnumNamespaceT, rawEnumValueNameT);
         if(method == zfnull) {break;}
         ret = method->execute<zfuint>(zfnull);
     } while(zffalse);
@@ -56,13 +56,13 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
                          jint, native_1enumDefault,
                          jstring enumClassName)
 {
-    const zfcharA *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
+    const zfchar *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
     zfuint ret = ZFEnumInvalid();
     do
     {
-        const ZFClass *cls = ZFClass::classForName(ZFStringA2Z(enumClassNameT));
+        const ZFClass *cls = ZFClass::classForName(enumClassNameT);
         if(cls == zfnull || !cls->classIsTypeOf(ZFEnum::ClassData())) {break;}
-        const ZFMethod *method = cls->methodForName(zfText("EnumDefault"));
+        const ZFMethod *method = cls->methodForName("EnumDefault");
         if(method == zfnull) {break;}
         ret = method->execute<zfuint>(zfnull);
     } while(zffalse);
@@ -75,16 +75,16 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
                          jstring enumClassName,
                          jstring enumValueName)
 {
-    const zfcharA *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
-    const zfcharA *enumValueNameT = JNIUtilGetStringUTFChars(jniEnv, enumValueName, zfnull);
+    const zfchar *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
+    const zfchar *enumValueNameT = JNIUtilGetStringUTFChars(jniEnv, enumValueName, zfnull);
     zfuint ret = ZFEnumInvalid();
     do
     {
-        const ZFClass *cls = ZFClass::classForName(ZFStringA2Z(enumClassNameT));
+        const ZFClass *cls = ZFClass::classForName(enumClassNameT);
         if(cls == zfnull || !cls->classIsTypeOf(ZFEnum::ClassData())) {break;}
-        const ZFMethod *method = cls->methodForName(zfText("EnumValueForName"));
+        const ZFMethod *method = cls->methodForName("EnumValueForName");
         if(method == zfnull) {break;}
-        ret = method->execute<zfuint, const zfchar *>(zfnull, ZFStringA2Z(enumValueNameT));
+        ret = method->execute<zfuint, const zfchar *>(zfnull, enumValueNameT);
     } while(zffalse);
     JNIUtilReleaseStringUTFChars(jniEnv, enumClassName, enumClassNameT);
     JNIUtilReleaseStringUTFChars(jniEnv, enumValueName, enumValueNameT);
@@ -96,18 +96,18 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
                          jstring enumClassName,
                          jint enumValue)
 {
-    const zfcharA *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
+    const zfchar *enumClassNameT = JNIUtilGetStringUTFChars(jniEnv, enumClassName, zfnull);
     const zfchar *ret = ZFEnumNameInvalid();
     do
     {
-        const ZFClass *cls = ZFClass::classForName(ZFStringA2Z(enumClassNameT));
+        const ZFClass *cls = ZFClass::classForName(enumClassNameT);
         if(cls == zfnull || !cls->classIsTypeOf(ZFEnum::ClassData())) {break;}
-        const ZFMethod *method = cls->methodForName(zfText("EnumNameForValue"));
+        const ZFMethod *method = cls->methodForName("EnumNameForValue");
         if(method == zfnull) {break;}
         ret = method->execute<const zfchar *, zfuint>(zfnull, (zfuint)enumValue);
     } while(zffalse);
     JNIUtilReleaseStringUTFChars(jniEnv, enumClassName, enumClassNameT);
-    return JNIUtilNewStringUTF(jniEnv, ZFStringZ2A(ret));
+    return JNIUtilNewStringUTF(jniEnv, ret);
 }
 JNI_METHOD_DECLARE_END()
 

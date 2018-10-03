@@ -13,7 +13,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECTIO_DEFINE(json, {
-        return ZFObjectIOImplCheck(pathInfo, zfText("json"));
+        return ZFObjectIOImplCheck(pathInfo, "json");
     }, {
         return ZFObjectFromJson(ret, input, outErrorHint);
     }, {

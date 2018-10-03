@@ -22,9 +22,9 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        this->testCaseOutput(zfText("stack trace:\n%s"), zfLogStackTrace().cString());
+        this->testCaseOutput("stack trace:\n%s", zfLogStackTrace().cString());
 
-        this->testCaseOutput(zfText("caller info: %s"), zfLogCallerInfo().cString());
+        this->testCaseOutput("caller info: %s", zfLogCallerInfo().cString());
 
         this->testCaseStop();
     }

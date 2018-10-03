@@ -164,7 +164,7 @@ public:
      */
     inline T_POD queueTake(void)
     {
-        zfCoreAssertWithMessage(_pHead != _pTail, zfTextA("take from an empty queue"));
+        zfCoreAssertWithMessage(_pHead != _pTail, "take from an empty queue");
         T_POD *ret = _pHead;
         _loopNext(_pHead);
         return *ret;

@@ -20,12 +20,12 @@ void ZFMethodFuncUserUnregister(ZF_IN const ZFMethod *method)
     }
     zfCoreMutexLocker();
     zfCoreAssertWithMessageTrim(method->methodIsUserRegister(),
-            zfTextA("[ZFMethodFuncUserUnregister] method %s is not user registered"),
-            zfsCoreZ2A(method->objectInfo().cString())
+            "[ZFMethodFuncUserUnregister] method %s is not user registered",
+            method->objectInfo().cString()
         );
     zfCoreAssertWithMessageTrim(method->methodIsFunctionType(),
-            zfTextA("[ZFMethodFuncUserUnregister] method %s is not function type"),
-            zfsCoreZ2A(method->objectInfo().cString())
+            "[ZFMethodFuncUserUnregister] method %s is not function type",
+            method->objectInfo().cString()
         );
 
     _ZFP_ZFMethodUnregister(method);

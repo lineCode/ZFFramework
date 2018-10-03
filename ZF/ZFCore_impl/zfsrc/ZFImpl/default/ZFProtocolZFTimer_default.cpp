@@ -108,7 +108,7 @@ public:
 };
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFTimerImpl_default, ZFTimer, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("ZFFramework:ZFThread"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("ZFFramework:ZFThread")
 public:
     virtual void *nativeTimerCreate(ZF_IN ZFTimer *timer)
     {

@@ -74,7 +74,7 @@ ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIDialogBasic, ZFUIDialogContent *, dialo
 {
     if(propertyValueOld == zfnull)
     {
-        zfCoreCriticalMessage(zfTextA("change dialogContent to null is not allowed"));
+        zfCoreCriticalMessage("change dialogContent to null is not allowed");
         return ;
     }
     else if(!propertyValueOld.toObject()->classData()->classIsTypeOf(ZFUIDialogContent::ClassData()))

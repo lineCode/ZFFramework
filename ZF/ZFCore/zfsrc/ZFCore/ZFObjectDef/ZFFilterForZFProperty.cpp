@@ -20,32 +20,32 @@ static void _ZFP_ZFFilterForZFPropertyGetSettingInfo(ZF_OUT zfstring &ret,
     if(filter->ignorePublicSetter())
     {
         ++flagsCount;
-        ret += zfText("ignorePublicSetter, ");
+        ret += "ignorePublicSetter, ";
     }
     if(filter->ignoreProtectedSetter())
     {
         ++flagsCount;
-        ret += zfText("ignoreProtectedSetter, ");
+        ret += "ignoreProtectedSetter, ";
     }
     if(filter->ignorePrivateSetter())
     {
         ++flagsCount;
-        ret += zfText("ignorePrivateSetter, ");
+        ret += "ignorePrivateSetter, ";
     }
     if(filter->ignorePublicGetter())
     {
         ++flagsCount;
-        ret += zfText("ignorePublicGetter, ");
+        ret += "ignorePublicGetter, ";
     }
     if(filter->ignoreProtectedGetter())
     {
         ++flagsCount;
-        ret += zfText("ignoreProtectedGetter, ");
+        ret += "ignoreProtectedGetter, ";
     }
     if(filter->ignorePrivateGetter())
     {
         ++flagsCount;
-        ret += zfText("ignorePrivateGetter, ");
+        ret += "ignorePrivateGetter, ";
     }
 
     if(flagsCount == 0)

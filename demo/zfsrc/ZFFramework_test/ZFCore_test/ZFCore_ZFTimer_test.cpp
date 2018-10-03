@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFCore_ZFTimer_test_timerEvent)
 {
     ZFTimer *timer = ZFCastZFObject(ZFTimer *, listenerData.sender);
-    zfLogTrim(zfText("timer event, current thread: %s"), ZFThread::currentThread()->objectInfo().cString());
+    zfLogTrim("timer event, current thread: %s", ZFThread::currentThread()->objectInfo().cString());
     if(timer->timerActivatedCount() >= 3)
     {
         timer->timerStop();
@@ -37,8 +37,8 @@ protected:
         ZFFramework_test_protocolCheck(ZFTimer);
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFTimer"));
-        this->testCaseOutput(zfText("current thread: %s"), ZFThread::currentThread()->objectInfo().cString());
+        this->testCaseOutput("ZFTimer");
+        this->testCaseOutput("current thread: %s", ZFThread::currentThread()->objectInfo().cString());
 
         zfblockedAlloc(ZFTimer, timer);
 #if 0

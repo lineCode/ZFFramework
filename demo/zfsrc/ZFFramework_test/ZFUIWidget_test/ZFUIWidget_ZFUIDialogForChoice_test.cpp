@@ -28,24 +28,24 @@ protected:
         ZFUIKit_test_prepareTestWindow(window, container, this);
 
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonCancel());
-        this->dialog()->dialogButtonCancelTextSet(zfText("cancel"));
+        this->dialog()->dialogButtonCancelTextSet("cancel");
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonYes());
-        this->dialog()->dialogButtonYesTextSet(zfText("confirm"));
+        this->dialog()->dialogButtonYesTextSet("confirm");
         ZFLISTENER_LOCAL(choiceOnConfirm, {
             ZFUIDialogForChoice *dialog = userData->objectHolded();
-            zfLogT() << zfText("onConfirm") << dialog->choiceSelectedNameList();
+            zfLogT() << "onConfirm" << dialog->choiceSelectedNameList();
         })
         ZFLISTENER_LOCAL(choiceOnChange, {
             ZFUIDialogForChoice *dialog = userData->objectHolded();
-            zfLogT() << zfText("onChange") << dialog->choiceSelectedNameList();
+            zfLogT() << "onChange" << dialog->choiceSelectedNameList();
         })
         this->dialog()->observerAdd(ZFUIDialogForChoice::EventChoiceOnConfirm(), choiceOnConfirm, this->dialog()->objectHolder());
         this->dialog()->observerAdd(ZFUIDialogForChoice::EventChoiceOnChange(), choiceOnChange, this->dialog()->objectHolder());
-        this->dialog()->dialogTitleTextSet(zfText("i'm title"));
+        this->dialog()->dialogTitleTextSet("i'm title");
 
-        this->dialog()->choiceAdd(zfText("id 0"), zfText("choice 0"));
-        this->dialog()->choiceAdd(zfText("id 1"), zfText("choice 1"));
-        this->dialog()->choiceAdd(zfText("id 2"), zfText("choice 2"));
+        this->dialog()->choiceAdd("id 0", "choice 0");
+        this->dialog()->choiceAdd("id 1", "choice 1");
+        this->dialog()->choiceAdd("id 2", "choice 2");
 
         zfblockedAlloc(ZFUIKit_test_Button, showButton);
         container->childAdd(showButton);

@@ -31,7 +31,7 @@ public:
     {
         zfsuper::protocolOnInit();
         NSString *resRootDirTmp = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"zfres"];
-        this->_resRootPath = ZFStringA2Z(resRootDirTmp.UTF8String);
+        this->_resRootPath = resRootDirTmp.UTF8String;
         this->_resRootPath += ZFFileSeparator();
     }
 

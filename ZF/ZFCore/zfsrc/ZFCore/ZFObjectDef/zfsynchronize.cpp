@@ -15,12 +15,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 #if _ZFP_ZFSYNCHRONIZE_LOG_ENABLE
 static void _ZFP_zfsynchronizeLog(ZF_IN const ZFCallerInfo &callerInfo,
-                                  ZF_IN const zfcharA *fmt,
+                                  ZF_IN const zfchar *fmt,
                                   ...)
 {
     va_list vaList;
     va_start(vaList, fmt);
-    zfstringA text;
+    zfstring text;
     zfstringAppendV(text, fmt, vaList);
     va_end(vaList);
     printf("%s %s\n", callerInfo.callerInfoA().cString(), text.cString());
@@ -35,27 +35,27 @@ _ZFP_zfsynchronizeContainerWithLog::_ZFP_zfsynchronizeContainerWithLog(ZF_IN ZFO
     {
         zfCoreCriticalErrorPrepare();
         _ZFP_zfsynchronizeLog(callerInfo,
-            zfTextA("try synchronize a null object"));
+            "try synchronize a null object");
         zfCoreCriticalError();
         return ;
     }
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("lock object %s"),
-        zfsCoreZ2A(m_obj->objectInfoOfInstance().cString()));
+        "lock object %s",
+        m_obj->objectInfoOfInstance().cString());
     m_obj->_ZFP_ZFObjectLock();
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("lock object %s success"),
-        zfsCoreZ2A(m_obj->objectInfoOfInstance().cString()));
+        "lock object %s success",
+        m_obj->objectInfoOfInstance().cString());
 }
 _ZFP_zfsynchronizeContainerWithLog::~_ZFP_zfsynchronizeContainerWithLog(void)
 {
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("unlock object %s"),
-        zfsCoreZ2A(m_obj->objectInfoOfInstance().cString()));
+        "unlock object %s",
+        m_obj->objectInfoOfInstance().cString());
     m_obj->_ZFP_ZFObjectUnlock();
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("unlock object %s success"),
-        zfsCoreZ2A(m_obj->objectInfoOfInstance().cString()));
+        "unlock object %s success",
+        m_obj->objectInfoOfInstance().cString());
 }
 
 // ============================================================
@@ -66,19 +66,19 @@ void _ZFP_zfsynchronizeLockWithLog(ZF_IN ZFObject *obj,
     {
         zfCoreCriticalErrorPrepare();
         _ZFP_zfsynchronizeLog(callerInfo,
-            zfTextA("try lock a null object"));
+            "try lock a null object");
         zfCoreCriticalError();
         return ;
     }
 
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("lock object %s"),
-        zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+        "lock object %s",
+        obj->objectInfoOfInstance().cString());
     obj->_ZFP_ZFObjectLock();
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("lock object %s success"),
+        "lock object %s success",
         callerInfo.callerInfoA().cString(),
-        zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+        obj->objectInfoOfInstance().cString());
 }
 void _ZFP_zfsynchronizeUnlockWithLog(ZF_IN ZFObject *obj,
                                      ZF_IN const ZFCallerInfo &callerInfo)
@@ -87,18 +87,18 @@ void _ZFP_zfsynchronizeUnlockWithLog(ZF_IN ZFObject *obj,
     {
         zfCoreCriticalErrorPrepare();
         _ZFP_zfsynchronizeLog(callerInfo,
-            zfTextA("try unlock a null object"));
+            "try unlock a null object");
         zfCoreCriticalError();
         return ;
     }
 
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("unlock object %s"),
-        zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+        "unlock object %s",
+        obj->objectInfoOfInstance().cString());
     obj->_ZFP_ZFObjectUnlock();
     _ZFP_zfsynchronizeLog(callerInfo,
-        zfTextA("unlock object %s success"),
-        zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+        "unlock object %s success",
+        obj->objectInfoOfInstance().cString());
 }
 #endif // #if _ZFP_ZFSYNCHRONIZE_LOG_ENABLE
 

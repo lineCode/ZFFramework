@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * pathData is plain text that holds the lua code
  */
-#define ZFPathType_lua zfText("lua")
+#define ZFPathType_lua "lua"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPathType_lua_h_

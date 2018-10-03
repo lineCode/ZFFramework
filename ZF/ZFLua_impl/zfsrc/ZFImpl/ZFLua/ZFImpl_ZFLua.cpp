@@ -89,12 +89,12 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
         = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_luaStateGlobalHolder);
 
     zfCoreAssertWithMessageTrim(d->attachedState.find(L) == d->attachedState.end(),
-        zfTextA("[ZFImpl_ZFLua_luaStateAttach] lua state %p already attached"),
+        "[ZFImpl_ZFLua_luaStateAttach] lua state %p already attached",
         L);
     d->attachedState[L] = zftrue;
     d->attachedStateList.add(L);
 
-    ZFImpl_ZFLua_luaClassRegister<zfautoObject>(L, zfText("zfautoObject"));
+    ZFImpl_ZFLua_luaClassRegister<zfautoObject>(L, "zfautoObject");
 
     // zfnull
     zfclassNotPOD _ZFP_ZFImpl_ZFLua_zfnullHolder
@@ -105,10 +105,10 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
             return zfnull;
         }
     };
-    ZFImpl_ZFLua_luaFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_zfnull"), _ZFP_ZFImpl_ZFLua_zfnullHolder::get_zfnull);
-    ZFImpl_ZFLua_execute(L, zfText(
+    ZFImpl_ZFLua_luaFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_zfnull", _ZFP_ZFImpl_ZFLua_zfnullHolder::get_zfnull);
+    ZFImpl_ZFLua_execute(L,
             "zfnull = _ZFP_ZFImpl_ZFLua_zfnull()\n"
-        ));
+        );
 
     // zftrue, zffalse
     zfclassNotPOD _ZFP_ZFImpl_ZFLua_zfboolHolder
@@ -123,12 +123,12 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
             return zflineAlloc(v_zfbool, zffalse);
         }
     };
-    ZFImpl_ZFLua_luaFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_zftrue"), _ZFP_ZFImpl_ZFLua_zfboolHolder::get_zftrue);
-    ZFImpl_ZFLua_luaFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_zffalse"), _ZFP_ZFImpl_ZFLua_zfboolHolder::get_zffalse);
-    ZFImpl_ZFLua_execute(L, zfText(
+    ZFImpl_ZFLua_luaFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_zftrue", _ZFP_ZFImpl_ZFLua_zfboolHolder::get_zftrue);
+    ZFImpl_ZFLua_luaFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_zffalse", _ZFP_ZFImpl_ZFLua_zfboolHolder::get_zffalse);
+    ZFImpl_ZFLua_execute(L,
             "zftrue = _ZFP_ZFImpl_ZFLua_zftrue()\n"
             "zffalse = _ZFP_ZFImpl_ZFLua_zffalse()\n"
-        ));
+        );
 
     // zfl_L
     zfclassNotPOD _ZFP_ZFImpl_ZFLua_LHolder
@@ -142,10 +142,10 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
             return 1;
         }
     };
-    ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfl_L"), _ZFP_ZFImpl_ZFLua_LHolder::f);
+    ZFImpl_ZFLua_luaCFunctionRegister(L, "zfl_L", _ZFP_ZFImpl_ZFLua_LHolder::f);
 
     // zfl_call metatable
-    ZFImpl_ZFLua_execute(L, zfText(
+    ZFImpl_ZFLua_execute(L,
             "_ZFP_zfl_index = function(tbl, k)\n"
             "    local t = tbl .. '.' .. k\n" // ZFNamespaceSeparator
             "    local d = debug.getmetatable(t)\n"
@@ -157,7 +157,7 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
             "_ZFP_zfl_call = function(tbl, ...)\n"
             "    return zfl_callStatic(tbl, ...)\n"
             "end\n"
-        ));
+        );
 
     // each impl setup callback
     for(zfindex i = 0; i < d->setupAttach.count(); ++i)
@@ -173,7 +173,7 @@ void ZFImpl_ZFLua_luaStateDetach(ZF_IN lua_State *L)
         = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_luaStateGlobalHolder);
 
     zfCoreAssertWithMessageTrim(d->attachedState.find(L) != d->attachedState.end(),
-        zfTextA("[ZFImpl_ZFLua_luaStateDetach] lua state %p not attached"),
+        "[ZFImpl_ZFLua_luaStateDetach] lua state %p not attached",
         L);
 
     // each impl setup callback
@@ -225,13 +225,13 @@ void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF_IN const zfchar *sco
 static void _ZFP_ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT zfstring &code,
                                              ZF_IN const zfchar *scopeName)
 {
-    zfstringAppend(code, zfText(
+    zfstringAppend(code,
             "%s = '%s'\n"
             "local tbl = debug.getmetatable(%s)\n"
             "tbl.__index = _ZFP_zfl_index\n"
             "tbl.__call = _ZFP_zfl_call\n"
             "debug.setmetatable(%s, tbl)\n"
-        ), scopeName, scopeName, scopeName, scopeName);
+        , scopeName, scopeName, scopeName, scopeName);
 }
 void ZFImpl_ZFLua_implSetupScope(ZF_IN_OUT lua_State *L, ZF_IN const zfchar **scopeNameList)
 {
@@ -295,11 +295,11 @@ void _ZFP_ZFImpl_ZFLua_implDispatchRegister(ZF_IN _ZFP_ZFImpl_ZFLua_ImplDispatch
         || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_NAME)
         || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
-        classOrNamespace = zfText("");
+        classOrNamespace = "";
     }
     if(methodName == zfnull)
     {
-        methodName = zfText("");
+        methodName = "";
     }
     _ZFP_ZFImpl_ZFLua_implDispatchData[classOrNamespace][methodName].push_back(invokerCallback);
 }
@@ -313,11 +313,11 @@ void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZFImpl_ZFLua_ImplDispat
         || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_NAME)
         || zfscmpTheSame(classOrNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
-        classOrNamespace = zfText("");
+        classOrNamespace = "";
     }
     if(methodName == zfnull)
     {
-        methodName = zfText("");
+        methodName = "";
     }
 
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<_ZFP_ZFImpl_ZFLua_ImplDispatchCallback> > >::iterator methodIt = _ZFP_ZFImpl_ZFLua_implDispatchData.find(classOrNamespace);
@@ -351,11 +351,11 @@ void ZFImpl_ZFLua_implDispatch(ZF_IN_OUT ZFImpl_ZFLua_ImplDispatchInfo &dispatch
         || zfscmpTheSame(dispatchInfo.classOrNamespace, ZF_NAMESPACE_GLOBAL_NAME)
         || zfscmpTheSame(dispatchInfo.classOrNamespace, ZF_NAMESPACE_GLOBAL_ABBR_NAME))
     {
-        dispatchInfo.classOrNamespace = zfText("");
+        dispatchInfo.classOrNamespace = "";
     }
     if(dispatchInfo.methodName == zfnull)
     {
-        dispatchInfo.methodName = zfText("");
+        dispatchInfo.methodName = "";
     }
 
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<_ZFP_ZFImpl_ZFLua_ImplDispatchCallback> > >::iterator methodIt = _ZFP_ZFImpl_ZFLua_implDispatchData.find(dispatchInfo.classOrNamespace);
@@ -376,7 +376,7 @@ void ZFImpl_ZFLua_implDispatch(ZF_IN_OUT ZFImpl_ZFLua_ImplDispatchInfo &dispatch
         }
 
         // Scope::*
-        methodNameIt = methodIt->second.find(zfText(""));
+        methodNameIt = methodIt->second.find("");
         if(methodNameIt != methodIt->second.end())
         {
             for(zfstlsize i = 0; i < methodNameIt->second.size(); ++i)
@@ -408,7 +408,7 @@ void ZFImpl_ZFLua_implDispatch(ZF_IN_OUT ZFImpl_ZFLua_ImplDispatchInfo &dispatch
         }
 
         // *::*
-        methodNameIt = methodIt->second.find(zfText(""));
+        methodNameIt = methodIt->second.find("");
         if(methodNameIt != methodIt->second.end())
         {
             for(zfstlsize i = 0; i < methodNameIt->second.size(); ++i)
@@ -438,23 +438,12 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
     {
         if(errHint != zfnull)
         {
-            zfstringAppend(*errHint, zfText("lua_State %p not attached"), L);
+            zfstringAppend(*errHint, "lua_State %p not attached", L);
         }
         return zffalse;
     }
 
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
-    int error = luaL_loadbuffer(L, buf, (bufLen == zfindexMax()) ? zfslen(buf) : bufLen, zfsCoreZ2A(chunkInfo));
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    zfstringA _buf;
-    ZFString::toUTF8(
-        _buf,
-        (bufLen == zfindexMax()) ? buf : zfstring(buf, bufLen).cString(),
-        ZFStringEncodingForZFChar);
-    int error = luaL_loadbuffer(L, _buf, _buf.length(), zfsCoreZ2A(chunkInfo));
-#endif
-
+    int error = luaL_loadbuffer(L, buf, (bufLen == zfindexMax()) ? zfslen(buf) : bufLen, chunkInfo);
     if(error == 0)
     {
         if(luaParams != zfnull && !luaParams->isEmpty())
@@ -478,7 +467,7 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         zfbool isBuiltinError = (zfstringFind(nativeError, ZFImpl_ZFLua_dummyError) != zfindexMax());
         if(!isBuiltinError)
         {
-            errHintTmp += ZFStringA2Z(nativeError);
+            errHintTmp += nativeError;
             if(errHint != zfnull)
             {
                 *errHint += errHintTmp;
@@ -486,19 +475,19 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         }
 
 #if !ZF_ENV_ZFLUA_USE_EXCEPTION
-        zfstringA _errorMsg;
+        zfstring _errorMsg;
         if(!errHintTmp.isEmpty())
         {
-            zfstringAppend(_errorMsg, zfTextA("%s\n"), ZFStringZ2A(errHintTmp.cString()));
+            zfstringAppend(_errorMsg, "%s\n", errHintTmp.cString());
         }
-        _errorMsg += zfTextA(
+        _errorMsg +=
                 "| [ZFLua]\n"
                 "|     native lua error occurred with no exception support\n"
                 "|     (which would cause unrecoverable C++ memory leak or logic error)\n"
                 "|     to enable exception support\n"
                 "|     add ZF_ENV_ZFLUA_USE_EXCEPTION to your compiler"
-            );
-        zfCoreCriticalMessageTrim(zfTextA("%s"), _errorMsg.cString());
+            ;
+        zfCoreCriticalMessageTrim("%s", _errorMsg.cString());
 #endif
 
         lua_pop(L, 1);
@@ -541,15 +530,15 @@ void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
 {
     if(printLuaType)
     {
-        ret += zfText("(");
-        ret += zfsCoreA2Z(luaL_typename(L, luaStackOffset));
-        ret += zfText(")");
+        ret += "(";
+        ret += luaL_typename(L, luaStackOffset);
+        ret += ")";
     }
 
     switch(lua_type(L, luaStackOffset))
     {
         case LUA_TNIL:
-            ret += zfText("<nil>");
+            ret += "<nil>";
             break;
         case LUA_TBOOLEAN:
             zfboolToString(ret, (lua_toboolean(L, luaStackOffset) != 0));
@@ -572,7 +561,7 @@ void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
             zfdoubleToString(ret, (zfdouble)lua_tonumber(L, luaStackOffset));
             break;
         case LUA_TSTRING:
-            ret += ZFStringA2Z(lua_tostring(L, luaStackOffset));
+            ret += lua_tostring(L, luaStackOffset);
             break;
         case LUA_TTABLE:
             lua_getglobal(L, "zfl_tableInfo");
@@ -592,7 +581,7 @@ void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
                     lua_pushvalue(L, luaStackOffset);
                 }
                 lua_call(L, 1, 1);
-                ret += ZFStringA2Z(lua_tostring(L, -1));
+                ret += lua_tostring(L, -1);
                 lua_pop(L, 1);
             }
             break;
@@ -603,7 +592,7 @@ void ZFImpl_ZFLua_luaObjectInfoT(ZF_OUT zfstring &ret,
             zfsFromPointerT(ret, lua_topointer(L, luaStackOffset));
             break;
         default:
-            ret += zfText("<Unknown>");
+            ret += "<Unknown>";
             break;
     }
 }
@@ -707,11 +696,11 @@ zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
 
         #if _ZFP_ZFCallbackForLua_DEBUG
         {
-            const zfcharA *buf = zfTextA(
+            const zfchar *buf =
                     "local arg={...}\n"
                     "local info=debug.getinfo(arg[1])\n"
                     "return info['source'] .. ':' .. info['linedefined']\n"
-                );
+                ;
             int error = luaL_loadbuffer(L, buf, zfslen(buf), "[ZFLuaDebug]");
             if(error == 0)
             {
@@ -728,7 +717,7 @@ zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
             {
                 zfstring errHintTmp;
                 const char *nativeError = lua_tostring(L, -1);
-                zfCoreCriticalMessageTrim(zfTextA("[ZFLuaDebug] %s"), nativeError);
+                zfCoreCriticalMessageTrim("[ZFLuaDebug] %s", nativeError);
                 lua_pop(L, 1);
             }
         }
@@ -750,7 +739,7 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
     if(holderCls != zfnull) {*holderCls = zfnull;}
     if(lua_isstring(L, luaStackOffset))
     {
-        s += ZFStringA2Z(lua_tostring(L, luaStackOffset));
+        s += lua_tostring(L, luaStackOffset);
         return zftrue;
     }
     if(lua_isboolean(L, luaStackOffset))
@@ -983,7 +972,7 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
                 return 1;
             case ZFValueType::e_serializableData:
             default:
-                ZFLuaErrorOccurredTrim(zfText("[zfl_luaValue] unknown param type, got %s"),
+                ZFLuaErrorOccurredTrim("[zfl_luaValue] unknown param type, got %s",
                     t->objectInfo().cString());
                 ZFImpl_ZFLua_luaError(L);
                 return zffalse;
@@ -993,11 +982,11 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
     zfstring s;
     if(ZFImpl_ZFLua_toString(s, obj, allowEmpty))
     {
-        lua_pushstring(L, ZFStringZ2A(s.cString()));
+        lua_pushstring(L, s.cString());
         return 1;
     }
 
-    ZFLuaErrorOccurredTrim(zfText("[zfl_luaValue] unknown param type, got %s"),
+    ZFLuaErrorOccurredTrim("[zfl_luaValue] unknown param type, got %s",
         obj->objectInfo().cString());
     ZFImpl_ZFLua_luaError(L);
     return zffalse;
@@ -1055,7 +1044,7 @@ zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
 int ZFImpl_ZFLua_luaError(ZF_IN lua_State *L)
 {
 #if ZF_ENV_DEBUG
-    zfCoreCriticalMessage(zfText("native lua error"));
+    zfCoreCriticalMessage("native lua error");
 #endif
     return luaL_error(L, ZFImpl_ZFLua_dummyError);
 }

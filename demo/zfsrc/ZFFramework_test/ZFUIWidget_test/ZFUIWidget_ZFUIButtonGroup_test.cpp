@@ -39,7 +39,7 @@ protected:
             zfLogTrimT()
                 << listenerData.sender
                 << ZFIdMapGetName(listenerData.eventId)
-                << zfText(", checked:") << listenerData.param1;
+                << ", checked:" << listenerData.param1;
         })
         layout->observerAdd(ZFUIButtonGroup::EventButtonTabOnClickChecked(), buttonGroupAction);
         layout->observerAdd(ZFUIButtonGroup::EventButtonTabOnChange(), buttonGroupAction);
@@ -52,7 +52,7 @@ private:
         {
             zfblockedAlloc(ZFUIButtonRatio, child);
             layout->buttonAdd(child);
-            child->buttonLabelTextSet(zfstringWithFormat(zfText("btn %zi"), i));
+            child->buttonLabelTextSet(zfstringWithFormat("btn %zi", i));
         }
     }
     void prepareSettingButton(ZF_IN ZFUIWindow *window,

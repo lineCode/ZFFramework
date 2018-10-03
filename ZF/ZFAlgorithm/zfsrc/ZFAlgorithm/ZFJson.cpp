@@ -59,8 +59,8 @@ static const ZFJsonOutputFlags &_ZFP_ZFJsonOutputFlagsTrimInit(void)
     static ZFJsonOutputFlags d;
     d.jsonToken.jsonNewLineToken.removeAll();
     d.jsonToken.jsonIndentToken.removeAll();
-    d.jsonToken.jsonValueSeparatorToken = zfText(":");
-    d.jsonToken.jsonSeparatorInSameLineToken = zfText(",");
+    d.jsonToken.jsonValueSeparatorToken = ":";
+    d.jsonToken.jsonSeparatorInSameLineToken = ",";
     d.jsonObjectAddNewLineForContent = zffalse;
     d.jsonArrayAddNewLineForContent = zffalse;
     return d;
@@ -524,18 +524,18 @@ void ZFJsonItem::objectInfoT(ZF_IN_OUT zfstring &ret) const
         case ZFJsonType::e_JsonNull:
             break;
         case ZFJsonType::e_JsonValue:
-            zfstringAppend(ret, zfText("\"%s\""), this->jsonValue());
+            zfstringAppend(ret, "\"%s\"", this->jsonValue());
             break;
         case ZFJsonType::e_JsonObject:
             if(this->jsonItemCount() > 0)
             {
-                zfstringAppend(ret, zfText(" %zi elements"), this->jsonItemCount());
+                zfstringAppend(ret, " %zi elements", this->jsonItemCount());
             }
             break;
         case ZFJsonType::e_JsonArray:
             if(this->jsonObjectCount() > 0)
             {
-                zfstringAppend(ret, zfText(" %zi elements"), this->jsonObjectCount());
+                zfstringAppend(ret, " %zi elements", this->jsonObjectCount());
             }
             break;
         default:
@@ -839,9 +839,9 @@ void ZFJsonItem::jsonObjectAdd(ZF_IN const ZFJsonItem &jsonObject,
         zfCoreCriticalIndexOutOfRange(atIndex, (zfindex)(d->jsonObjectArray.size() + 1));
         return ;
     }
-    zfCoreAssertWithMessage(!jsonObject.jsonIsNull(), zfTextA("add null object"));
-    zfCoreAssertWithMessage(jsonObject.jsonType() == ZFJsonType::e_JsonObject, zfTextA("object not type of %s"),
-        zfsCoreZ2A(ZFJsonType::EnumNameForValue(ZFJsonType::e_JsonObject)));
+    zfCoreAssertWithMessage(!jsonObject.jsonIsNull(), "add null object");
+    zfCoreAssertWithMessage(jsonObject.jsonType() == ZFJsonType::e_JsonObject, "object not type of %s",
+        ZFJsonType::EnumNameForValue(ZFJsonType::e_JsonObject));
     d->jsonObjectArray.insert(d->jsonObjectArray.begin() + atIndex, jsonObject);
     jsonObject.d->jsonParent = d;
 }

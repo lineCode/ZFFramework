@@ -27,7 +27,7 @@ protected:
 
         zfblockedAlloc(ZFUITextView, view);
         container->childAdd(view);
-        view->textSet(zfText("test text"));
+        view->textSet("test text");
         view->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
 
         this->prepareSettingButton(window);
@@ -44,7 +44,7 @@ private:
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
                 text->stringValueSet(zfstringWithFormat(
-                    zfText("scale: %d"),
+                    "scale: %d",
                     (zfint)ZFUISysWindow::mainWindow()->rootView()->scaleForApp()));
             })
             setting->buttonTextGetterSet(buttonTextGetter);

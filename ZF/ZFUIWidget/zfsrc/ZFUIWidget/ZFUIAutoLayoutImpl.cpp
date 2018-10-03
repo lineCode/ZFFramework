@@ -147,9 +147,9 @@ void ZFUIAutoLayout::viewChildOnAdd(ZF_IN ZFUIView *child,
         ZFUIAutoLayoutParam *layoutParam = child->layoutParam<ZFUIAutoLayoutParam *>();
         zfCoreAssertWithMessageTrim(
             layoutParam->_ZFP_al_d.owner == zfnull,
-            zfTextA("[ZFUIAutoLayout] layout param %s already attached to %s"),
-            zfsCoreZ2A(child->layoutParam()->objectInfo().cString()),
-            zfsCoreZ2A(layoutParam->_ZFP_al_d.owner->objectInfo().cString()));
+            "[ZFUIAutoLayout] layout param %s already attached to %s",
+            child->layoutParam()->objectInfo().cString(),
+            layoutParam->_ZFP_al_d.owner->objectInfo().cString());
         layoutParam->_ZFP_al_d.owner = this;
     }
 }
@@ -231,9 +231,9 @@ void _ZFP_ZFUIAutoLayoutPrivate::layoutChild(ZF_IN ZFUIView *parent,
     zfbool *&_layouting = (xAxis ? _layoutingX : _layoutingY);
     zfbool *&_layoutFinish = (xAxis ? _layoutFinishX : _layoutFinishY);
     zfCoreAssertWithMessageTrim(!_layouting[childIndex],
-        zfTextA("[ZFUIAutoLayout] recursive rule detected, first on: %s, at index: %s"),
-        zfsCoreZ2A(parent->childAtIndex(childIndex)->objectInfoOfInstance().cString()),
-        zfsFromInt<zfstringA, zfindex>(childIndex).cString());
+        "[ZFUIAutoLayout] recursive rule detected, first on: %s, at index: %s",
+        parent->childAtIndex(childIndex)->objectInfoOfInstance().cString(),
+        zfsFromInt(childIndex).cString());
     if(_layoutFinish[childIndex])
     {
         return ;
@@ -286,9 +286,9 @@ void _ZFP_ZFUIAutoLayoutPrivate::updateChildSize(ZF_IN ZFUIView *parent,
     zfbool *&_layouting = xAxis ? _layoutingWidth : _layoutingHeight;
     zfbool *&_layoutFinish = xAxis ? _layoutFinishWidth : _layoutFinishHeight;
     zfCoreAssertWithMessageTrim(!_layouting[childIndex],
-        zfTextA("[ZFUIAutoLayout] recursive rule detected, first on: %s, at index: %s"),
-        zfsCoreZ2A(parent->childAtIndex(childIndex)->objectInfoOfInstance().cString()),
-        zfsFromInt<zfstringA, zfindex>(childIndex).cString());
+        "[ZFUIAutoLayout] recursive rule detected, first on: %s, at index: %s",
+        parent->childAtIndex(childIndex)->objectInfoOfInstance().cString(),
+        zfsFromInt(childIndex).cString());
     if(_layoutFinish[childIndex])
     {
         return ;

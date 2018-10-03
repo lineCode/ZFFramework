@@ -122,7 +122,7 @@ void invokeTimeGetSummary(ZF_OUT zfstring &ret, ZF_IN const zfchar *key)
     if(invokeCount > 1)
     {
         zftimet invokeAverageTime = ((invokeCount == 0) ? zftimetZero() : (zftimet)(invokeTotalTime / invokeCount));
-        zfstringAppend(ret, zfText("[%s] invoke count: %s, total: %s, average: %s"),
+        zfstringAppend(ret, "[%s] invoke count: %s, total: %s, average: %s",
             (key == zfnull) ? ZFTOKEN_zfnull : key,
             zfsFromInt(invokeCount).cString(),
             zfsFromInt(invokeTotalTime).cString(),
@@ -130,7 +130,7 @@ void invokeTimeGetSummary(ZF_OUT zfstring &ret, ZF_IN const zfchar *key)
     }
     else
     {
-        zfstringAppend(ret, zfText("[%s] invoke time: %s"),
+        zfstringAppend(ret, "[%s] invoke time: %s",
             (key == zfnull) ? ZFTOKEN_zfnull : key,
             zfsFromInt(invokeTotalTime).cString());
     }
@@ -235,7 +235,7 @@ void invokeTimeAccurateGetSummary(ZF_OUT zfstring &ret, ZF_IN const zfchar *key)
     if(invokeCount > 1)
     {
         ZFTimeValue invokeAverageTime = ((invokeCount == 0) ? ZFTimeValueZero() : invokeTotalTime / invokeCount);
-        zfstringAppend(ret, zfText("[%s] invoke count: %s, total: %s, average: %s"),
+        zfstringAppend(ret, "[%s] invoke count: %s, total: %s, average: %s",
             (key == zfnull) ? ZFTOKEN_zfnull : key,
             zfsFromInt(invokeCount).cString(),
             ZFTimeValueToStringFriendly(invokeTotalTime).cString(),
@@ -243,7 +243,7 @@ void invokeTimeAccurateGetSummary(ZF_OUT zfstring &ret, ZF_IN const zfchar *key)
     }
     else
     {
-        zfstringAppend(ret, zfText("[%s] invoke time: %s"),
+        zfstringAppend(ret, "[%s] invoke time: %s",
             (key == zfnull) ? ZFTOKEN_zfnull : key,
             ZFTimeValueToStringFriendly(invokeTotalTime).cString());
     }

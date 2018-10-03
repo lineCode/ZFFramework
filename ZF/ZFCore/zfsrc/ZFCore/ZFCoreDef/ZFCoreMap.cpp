@@ -182,7 +182,7 @@ zfbool ZFCoreMap::isContain(ZF_IN const zfchar *key) const
 {
     if(key == zfnull)
     {
-        key = zfText("");
+        key = "";
     }
     return (d->m.find(key) != d->m.end());
 }
@@ -203,7 +203,7 @@ void ZFCoreMap::set(ZF_IN const zfchar *key,
 {
     if(key == zfnull)
     {
-        key = zfText("");
+        key = "";
     }
 
     _ZFP_ZFCoreMapPrivate::MapType::iterator it = d->m.find(key);
@@ -222,7 +222,7 @@ ZFCorePointerBase *ZFCoreMap::get(ZF_IN const zfchar *key) const
 {
     if(key == zfnull)
     {
-        key = zfText("");
+        key = "";
     }
     _ZFP_ZFCoreMapPrivate::MapType::iterator it = d->m.find(key);
     if(it == d->m.end())
@@ -270,7 +270,7 @@ void ZFCoreMap::remove(ZF_IN const zfchar *key)
 {
     if(key == zfnull)
     {
-        key = zfText("");
+        key = "";
     }
     _ZFP_ZFCoreMapPrivate::MapType::iterator it = d->m.find(key);
     if(it != d->m.end())
@@ -309,7 +309,7 @@ zfiterator ZFCoreMap::iteratorForKey(ZF_IN const zfchar *key) const
 {
     if(key == zfnull)
     {
-        key = zfText("");
+        key = "";
     }
     return zfiterator(
         zfnew(_ZFP_ZFCoreMapPrivate::MapType::iterator, d->m.find(key)),

@@ -20,11 +20,11 @@ ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFEnvInfo_systemInfoImpl_sys_iOS, ZFEnvInfo_syst
 public:
     virtual void systemName(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfsCoreA2Z([[UIDevice currentDevice] systemName].UTF8String);
+        ret += [[UIDevice currentDevice] systemName].UTF8String;
     }
     virtual void systemVersion(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfsCoreA2Z([[UIDevice currentDevice] systemVersion].UTF8String);
+        ret += [[UIDevice currentDevice] systemVersion].UTF8String;
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFEnvInfo_systemInfoImpl_sys_iOS)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFEnvInfo_systemInfoImpl_sys_iOS)
@@ -33,11 +33,11 @@ ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFEnvInfo_frameworkInfoImpl_sys_iOS, ZFEnvInfo_f
 public:
     virtual void frameworkName(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfsCoreA2Z([[UIDevice currentDevice] systemName].UTF8String);
+        ret += [[UIDevice currentDevice] systemName].UTF8String;
     }
     virtual void frameworkVersion(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfsCoreA2Z([[UIDevice currentDevice] systemVersion].UTF8String);
+        ret += [[UIDevice currentDevice] systemVersion].UTF8String;
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFEnvInfo_frameworkInfoImpl_sys_iOS)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFEnvInfo_frameworkInfoImpl_sys_iOS)

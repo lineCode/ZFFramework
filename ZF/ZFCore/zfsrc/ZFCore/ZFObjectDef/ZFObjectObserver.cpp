@@ -107,31 +107,31 @@ zfbool ZFListenerData::operator == (ZF_IN const ZFListenerData &ref) const
 void ZFListenerData::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
     ret += ZFTOKEN_ZFObjectInfoLeft;
-    zfstringAppend(ret, zfText("ZFListenerData(%p)"), this);
+    zfstringAppend(ret, "ZFListenerData(%p)", this);
     const zfchar *eventName = ZFIdMapGetName(this->eventId);
     if(eventName != zfnull)
     {
-        ret += zfText(", event: ");
+        ret += ", event: ";
         ret += eventName;
     }
     if(this->sender != zfnull)
     {
-        ret += zfText(", sender: ");
+        ret += ", sender: ";
         ZFObjectInfoT(ret, this->sender);
     }
     if(this->param0 != zfnull)
     {
-        ret += zfText(", param0: ");
+        ret += ", param0: ";
         ZFObjectInfoT(ret, this->param0);
     }
     if(this->param1 != zfnull)
     {
-        ret += zfText(", param1: ");
+        ret += ", param1: ";
         ZFObjectInfoT(ret, this->param1);
     }
     if(this->eventFiltered)
     {
-        ret += zfText(", filtered: ");
+        ret += ", filtered: ";
         ret += ZFTOKEN_zfbool_zftrue;
     }
     if(this->eventForwardMap != zfnull)
@@ -139,16 +139,16 @@ void ZFListenerData::objectInfoT(ZF_IN_OUT zfstring &ret) const
         _ZFP_ZFListenerForwardMapType &m = *(_ZFP_ZFListenerForwardMapType *)this->eventForwardMap;
         if(!m.empty())
         {
-            ret += zfText(" (");
+            ret += " (";
             for(_ZFP_ZFListenerForwardMapType::iterator it = m.begin(); it != m.end(); ++it)
             {
                 if(it != m.begin())
                 {
-                    ret += zfText(", ");
+                    ret += ", ";
                 }
                 ret += it->first.c_str();
             }
-            ret += zfText(")");
+            ret += ")";
         }
     }
     ret += ZFTOKEN_ZFObjectInfoRight;
@@ -421,8 +421,8 @@ zfidentity ZFObserverHolder::observerAdd(ZF_IN zfidentity eventId,
     }
     if(this->observerOwner() && ZFBitTest(this->observerOwner()->objectInstanceState(), ZFObjectInstanceStateOnDealloc))
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFObject] you must not add observer while object is deallocating, class: %s, event: %s"),
-            zfsCoreZ2A(this->observerOwner()->classData()->classNameFull()),
+        zfCoreCriticalMessageTrim("[ZFObject] you must not add observer while object is deallocating, class: %s, event: %s",
+            this->observerOwner()->classData()->classNameFull(),
             ZFIdMapGetName(eventId));
         return zfidentityInvalid();
     }
@@ -791,17 +791,17 @@ void ZFObserverHolder::observerHasAddStateDetach(ZF_IN zfidentity eventId,
 void ZFObserverHolder::objectInfoT(ZF_OUT zfstring &ret) const
 {
     zfCoreMutexLocker();
-    ret += zfText("<ZFObserverHolder");
+    ret += "<ZFObserverHolder";
 
     if(this->observerOwner() != zfnull)
     {
-        ret += zfText(" ");
+        ret += " ";
         this->observerOwner()->objectInfoT(ret);
     }
 
     if(d->observerMap.empty())
     {
-        ret += zfText(">");
+        ret += ">";
     }
     else
     {
@@ -809,20 +809,20 @@ void ZFObserverHolder::objectInfoT(ZF_OUT zfstring &ret) const
             it != d->observerMap.end();
             ++it)
         {
-            ret += zfText("\n  ");
+            ret += "\n  ";
             ret += ZFIdMapGetName(it->first);
-            ret += zfText(":");
+            ret += ":";
 
             _ZFP_ZFObserverData *p = it->second;
             do
             {
-                ret += zfText("\n    ");
+                ret += "\n    ";
                 ret += p->observer.objectInfo();
                 p = p->pNext;
             } while(p != zfnull);
         }
 
-        ret += zfText("\n  >");
+        ret += "\n  >";
     }
 }
 

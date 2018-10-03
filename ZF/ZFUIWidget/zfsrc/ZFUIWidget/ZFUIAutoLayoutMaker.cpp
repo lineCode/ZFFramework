@@ -42,14 +42,14 @@ public:
         }
 
         zfCoreAssertWithMessageTrim(child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] null child"));
+            "[ZFUIAutoLayoutMaker] null child");
         zfCoreAssertWithMessageTrim(child->viewParentVirtual() != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] child must be added to %s"),
-            zfsCoreZ2A(ZFUIAutoLayout::ClassData()->className()));
+            "[ZFUIAutoLayoutMaker] child must be added to %s",
+            ZFUIAutoLayout::ClassData()->className());
         zfCoreAssertWithMessageTrim(child->viewParentVirtual() != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] child's parent must be %s, got: %s"),
-            zfsCoreZ2A(ZFUIAutoLayout::ClassData()->className()),
-            zfsCoreZ2A(child->viewParentVirtual()->objectInfoOfInstance().cString()));
+            "[ZFUIAutoLayoutMaker] child's parent must be %s, got: %s",
+            ZFUIAutoLayout::ClassData()->className(),
+            child->viewParentVirtual()->objectInfoOfInstance().cString());
         this->done();
         this->child = child;
     }
@@ -61,7 +61,7 @@ public:
         }
         zfCoreAssertWithMessageTrim(
             this->ruleAttached[0]->target() != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] target rule not set (toLeft/toWidth etc)"));
+            "[ZFUIAutoLayoutMaker] target rule not set (toLeft/toWidth etc)");
         ZFUIAutoLayout *parent = ZFCastZFObject(ZFUIAutoLayout *, this->child->viewParentVirtual());
         for(zfindex i = 0; i < this->ruleAttached.count(); ++i)
         {
@@ -75,28 +75,28 @@ public:
     {
         zfCoreAssertWithMessageTrim(
             this->child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] zfal_maker not called"));
+            "[ZFUIAutoLayoutMaker] zfal_maker not called");
     }
     void requirePos(void)
     {
         zfCoreAssertWithMessageTrim(
             this->child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] zfal_maker not called"));
+            "[ZFUIAutoLayoutMaker] zfal_maker not called");
         zfCoreAssertWithMessageTrim(
             !this->ruleAttached.isEmpty(),
-            zfTextA("[ZFUIAutoLayoutMaker] pos rule not set (left/width etc)"));
+            "[ZFUIAutoLayoutMaker] pos rule not set (left/width etc)");
     }
     void requireTarget(void)
     {
         zfCoreAssertWithMessageTrim(
             this->child != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] zfal_maker not called"));
+            "[ZFUIAutoLayoutMaker] zfal_maker not called");
         zfCoreAssertWithMessageTrim(
             !this->ruleAttached.isEmpty(),
-            zfTextA("[ZFUIAutoLayoutMaker] pos rule not set (left/width etc)"));
+            "[ZFUIAutoLayoutMaker] pos rule not set (left/width etc)");
         zfCoreAssertWithMessageTrim(
             this->ruleAttached[0]->target() != zfnull,
-            zfTextA("[ZFUIAutoLayoutMaker] target rule not set (toLeft/toWidth etc)"));
+            "[ZFUIAutoLayoutMaker] target rule not set (toLeft/toWidth etc)");
     }
 
     void posAttach(ZF_IN ZFUIAutoLayoutPosEnum pos)
@@ -114,8 +114,8 @@ public:
         else
         {
             zfCoreCriticalMessageTrim(
-                zfTextA("pos rule specified twice: %s"),
-                zfsCoreZ2A(ZFUIAutoLayoutPosEnumToString(pos).cString()));
+                "pos rule specified twice: %s",
+                ZFUIAutoLayoutPosEnumToString(pos).cString());
         }
     }
     void targetAttach(ZF_IN ZFUIView *target, ZFUIAutoLayoutPosEnum targetPos)

@@ -74,7 +74,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFThreadTaskRequestImpl_sys_Qt_TaskHolderInstance)
 
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadTaskRequestImpl_sys_Qt, ZFThreadTaskRequest, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QueuedConnection"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QueuedConnection")
 
 public:
     virtual void taskRequest(ZF_IN const ZFListener &task,

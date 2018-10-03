@@ -34,11 +34,11 @@ protected:
         this->prepareSettingButton(window, testView);
 
         ZFLISTENER_LOCAL(loadStateOnChange, {
-            zfLogTrimT() << zfText("webLoadingOnChange") << listenerData.sender->to<ZFUIWebView *>()->webLoading();
+            zfLogTrimT() << "webLoadingOnChange" << listenerData.sender->to<ZFUIWebView *>()->webLoading();
         })
         testView->observerAdd(ZFUIWebView::EventWebLoadStateOnChange(), loadStateOnChange);
 
-        testView->webLoadUrl(zfText("http://www.baidu.com"));
+        testView->webLoadUrl("http://www.baidu.com");
     }
 
 private:

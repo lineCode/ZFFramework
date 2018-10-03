@@ -27,9 +27,9 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L);
 static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L);
 
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_call, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfl_call"), _ZFP_ZFImpl_ZFLua_zfl_call);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfl_callStatic"), _ZFP_ZFImpl_ZFLua_zfl_callStatic);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfl_callStatic2"), _ZFP_ZFImpl_ZFLua_zfl_callStatic2);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfl_call", _ZFP_ZFImpl_ZFLua_zfl_call);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfl_callStatic", _ZFP_ZFImpl_ZFLua_zfl_callStatic);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfl_callStatic2", _ZFP_ZFImpl_ZFLua_zfl_callStatic2);
     }, {
     })
 
@@ -64,7 +64,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
     {
         if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
         {
-            ZFLuaErrorOccurredTrim(zfText("[%s] failed to get param%d, got %s, while executing: %s"),
+            ZFLuaErrorOccurredTrim("[%s] failed to get param%d, got %s, while executing: %s",
                 zfl_funcName,
                 i,
                 ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i, zftrue).cString(),
@@ -103,7 +103,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
                     }
                 }
             case ZFImpl_ZFLua_ImplDispatchResultError:
-                ZFLuaErrorOccurredTrim(zfText("[ImplDispatch] %s"), dispatchInfo.errorHint.cString());
+                ZFLuaErrorOccurredTrim("[ImplDispatch] %s", dispatchInfo.errorHint.cString());
                 return ZFImpl_ZFLua_luaError(L);
             case ZFImpl_ZFLua_ImplDispatchResultForward:
             default:
@@ -127,7 +127,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
-    ZFLuaErrorOccurredTrim(zfText("[%s] %s"),
+    ZFLuaErrorOccurredTrim("[%s] %s",
         zfl_funcName,
         errorHint.cString());
     return ZFImpl_ZFLua_luaError(L);
@@ -140,12 +140,12 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
 static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
 {
     static const int luaParamOffset = 3;
-    static const zfchar *zfl_funcName = zfText("zfl_call");
+    static const zfchar *zfl_funcName = "zfl_call";
     int count = (int)lua_gettop(L);
     if(count < luaParamOffset - 1 || count > ZFMETHOD_MAX_PARAM + luaParamOffset - 1)
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[%s] invalid param, expect zfl_call(obj, \"methodName\", param0, param1, ...), got %zi param"),
+            "[%s] invalid param, expect zfl_call(obj, \"methodName\", param0, param1, ...), got %zi param",
             zfl_funcName,
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
@@ -155,7 +155,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
     zfautoObject obj;
     if(!ZFImpl_ZFLua_toObject(obj, L, 1))
     {
-        ZFLuaErrorOccurredTrim(zfText("[%s] failed to access caller object, expect zfautoObject, got %s, while executing: %s"),
+        ZFLuaErrorOccurredTrim("[%s] failed to access caller object, expect zfautoObject, got %s, while executing: %s",
             zfl_funcName,
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString(),
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
@@ -163,7 +163,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
     }
     if(obj == zfnull)
     {
-        ZFLuaErrorOccurredTrim(zfText("[%s] caller object must not be null, while executing: %s"),
+        ZFLuaErrorOccurredTrim("[%s] caller object must not be null, while executing: %s",
             zfl_funcName,
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
         return ZFImpl_ZFLua_luaError(L);
@@ -171,7 +171,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
     zfautoObject type;
     if(!ZFImpl_ZFLua_toGeneric(type, L, 2))
     {
-        ZFLuaErrorOccurredTrim(zfText("[%s] unable to access method, got: %s"),
+        ZFLuaErrorOccurredTrim("[%s] unable to access method, got: %s",
             zfl_funcName,
             ZFImpl_ZFLua_luaObjectInfo(L, 2).cString());
         return ZFImpl_ZFLua_luaError(L);
@@ -193,12 +193,12 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call(ZF_IN lua_State *L)
 static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
 {
     static const int luaParamOffset = 2;
-    static const zfchar *zfl_funcName = zfText("zfl_callStatic");
+    static const zfchar *zfl_funcName = "zfl_callStatic";
     int count = (int)lua_gettop(L);
     if(count < luaParamOffset - 1 || count > ZFMETHOD_MAX_PARAM + luaParamOffset - 1)
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[%s] invalid param, expect zfl_callStatic(\"Scope1.Scope2.methodName\", param0, param1, ...), got %zi param"),
+            "[%s] invalid param, expect zfl_callStatic(\"Scope1.Scope2.methodName\", param0, param1, ...), got %zi param",
             zfl_funcName,
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
@@ -208,7 +208,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
     zfautoObject type;
     if(!ZFImpl_ZFLua_toGeneric(type, L, 1))
     {
-        ZFLuaErrorOccurredTrim(zfText("[%s] unable to access method, got: %s"),
+        ZFLuaErrorOccurredTrim("[%s] unable to access method, got: %s",
             zfl_funcName,
             ZFImpl_ZFLua_luaObjectInfo(L, 1).cString());
         return ZFImpl_ZFLua_luaError(L);
@@ -230,12 +230,12 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic(ZF_IN lua_State *L)
 static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
 {
     static int luaParamOffset = 3;
-    static const zfchar *zfl_funcName = zfText("zfl_callStatic2");
+    static const zfchar *zfl_funcName = "zfl_callStatic2";
     int count = (int)lua_gettop(L);
     if(count < luaParamOffset - 1 || count > ZFMETHOD_MAX_PARAM + luaParamOffset - 1)
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[%s] invalid param, expect zfl_callStatic2(\"Scope\", \"methodName\", param0, param1, ...), got %zi param"),
+            "[%s] invalid param, expect zfl_callStatic2(\"Scope\", \"methodName\", param0, param1, ...), got %zi param",
             zfl_funcName,
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
@@ -245,7 +245,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
     zfstring classOrNamespace;
     if(!ZFImpl_ZFLua_toString(classOrNamespace, L, 1, zfHint("allowEmpty")zftrue))
     {
-        ZFLuaErrorOccurredTrim(zfText("[%s] failed to access method scope, expect string type, got %s"),
+        ZFLuaErrorOccurredTrim("[%s] failed to access method scope, expect string type, got %s",
             zfl_funcName,
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
@@ -253,7 +253,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
     zfautoObject type;
     if(!ZFImpl_ZFLua_toGeneric(type, L, 2))
     {
-        ZFLuaErrorOccurredTrim(zfText("[%s] failed to access method name, expect string type, got %s"),
+        ZFLuaErrorOccurredTrim("[%s] failed to access method name, expect string type, got %s",
             zfl_funcName,
             ZFImpl_ZFLua_luaObjectInfo(L, 2, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);

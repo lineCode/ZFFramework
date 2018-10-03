@@ -237,18 +237,18 @@ void ZFProtocolImplInfoDataPrint(ZF_IN const ZFProtocolImplInfoData &data,
     callback.execute(data.protocolName.cString());
     if(data.protocolOptional)
     {
-        callback.execute(zfText(" (optional)"));
+        callback.execute(" (optional)");
     }
     if(data.protocolImpl != zfnull)
     {
-        callback.execute(zfText(" "));
+        callback.execute(" ");
         callback.execute(data.protocolImpl->protocolImplementationName());
-        callback.execute(zfText("("));
+        callback.execute("(");
         callback.execute(ZFProtocolLevelEnumToString(data.protocolImpl->protocolImplementationLevel()).cString());
-        callback.execute(zfText(")"));
+        callback.execute(")");
         if(!zfsIsEmpty(data.protocolImpl->protocolImplementationPlatformHint()))
         {
-            callback.execute(zfText(" "));
+            callback.execute(" ");
             callback.execute(data.protocolImpl->protocolImplementationPlatformHint());
         }
     }
@@ -267,26 +267,26 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFProtocolImplInfoDataPrint,
     {
         notImplemented.sort(_ZFP_ZFProtocolImplInfoDataPrint_sortComparer);
 
-        callback.execute(zfText("not implemented:\n"));
+        callback.execute("not implemented:\n");
         for(zfindex i = 0; i < notImplemented.count(); ++i)
         {
             const ZFProtocolImplInfoData &data = notImplemented[i];
-            callback.execute(zfText("  "));
+            callback.execute("  ");
             ZFProtocolImplInfoDataPrint(data, callback);
-            callback.execute(zfText("\n"));
+            callback.execute("\n");
         }
     }
     if(!implemented.isEmpty())
     {
         implemented.sort(_ZFP_ZFProtocolImplInfoDataPrint_sortComparer);
 
-        callback.execute(zfText("implemented:\n"));
+        callback.execute("implemented:\n");
         for(zfindex i = 0; i < implemented.count(); ++i)
         {
             const ZFProtocolImplInfoData &data = implemented[i];
-            callback.execute(zfText("  "));
+            callback.execute("  ");
             ZFProtocolImplInfoDataPrint(data, callback);
-            callback.execute(zfText("\n"));
+            callback.execute("\n");
         }
     }
 }

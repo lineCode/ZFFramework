@@ -71,7 +71,7 @@ public:
             this->nativeString = zfnull;
         }
         this->storageType = ZFStringStorageType::e_CharBufferRef;
-        this->refBuf = zfText("");
+        this->refBuf = "";
     }
 
 public:
@@ -84,7 +84,7 @@ public:
     , nativeStringBuf(zfnull)
     , nativeStringBufToken(zfnull)
     , copyBuf(zfnull)
-    , refBuf(zfText(""))
+    , refBuf("")
     {
     }
 };
@@ -110,7 +110,7 @@ static void _ZFP_ZFString_cleanup(_ZFP_ZFStringPrivate *old)
         --old->refCount;
         if(old->refCount == 0)
         {
-            zfCoreAssertWithMessage(old != _ZFP_ZFStringEmptyData, zfTextA("over release ZFStringEmpty"));
+            zfCoreAssertWithMessage(old != _ZFP_ZFStringEmptyData, "over release ZFStringEmpty");
             old->clear();
             zfpoolDelete(old);
         }
@@ -158,28 +158,19 @@ zfbool ZFString::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
     zfself *ref = ZFCastZFObject(zfself *, referencedOwnerOrNull);
 
     ZFSerializableUtilSerializeAttributeToData(serializableData, outErrorHint, ref,
-        ZFSerializableKeyword_value, zfstring, this->stringValue(), ref->stringValue(), zfText(""));
+        ZFSerializableKeyword_value, zfstring, this->stringValue(), ref->stringValue(), "");
 
     return zftrue;
 }
 
 // ============================================================
 // conversion
-zfbool ZFString::toUTF8(ZF_OUT zfstringA &result,
+zfbool ZFString::toUTF8(ZF_OUT zfstring &result,
                         ZF_IN const void *s,
                         ZF_IN ZFStringEncodingEnum srcEncoding)
 {
     if(s == zfnull) {return zftrue;}
     return _ZFP_ZFStringImpl->toUTF8(result, s, srcEncoding);
-}
-zfstringA ZFString::toUTF8(ZF_IN const void *s,
-                           ZF_IN ZFStringEncodingEnum srcEncoding,
-                           ZF_OUT_OPT zfbool *success /* = zfnull */)
-{
-    zfstringA result;
-    zfbool ret = zfself::toUTF8(result, s, srcEncoding);
-    if(success != zfnull) {*success = ret;}
-    return result;
 }
 zfbool ZFString::toUTF16(ZF_OUT zfstringW &result,
                          ZF_IN const void *s,
@@ -188,15 +179,6 @@ zfbool ZFString::toUTF16(ZF_OUT zfstringW &result,
     if(s == zfnull) {return zftrue;}
     return _ZFP_ZFStringImpl->toUTF16(result, s, srcEncoding);
 }
-zfstringW ZFString::toUTF16(ZF_IN const void *s,
-                            ZF_IN ZFStringEncodingEnum srcEncoding,
-                            ZF_OUT_OPT zfbool *success /* = zfnull */)
-{
-    zfstringW result;
-    zfbool ret = zfself::toUTF16(result, s, srcEncoding);
-    if(success != zfnull) {*success = ret;}
-    return result;
-}
 zfbool ZFString::toUTF16BE(ZF_OUT zfstringW &result,
                            ZF_IN const void *s,
                            ZF_IN ZFStringEncodingEnum srcEncoding)
@@ -204,16 +186,8 @@ zfbool ZFString::toUTF16BE(ZF_OUT zfstringW &result,
     if(s == zfnull) {return zftrue;}
     return _ZFP_ZFStringImpl->toUTF16BE(result, s, srcEncoding);
 }
-zfstringW ZFString::toUTF16BE(ZF_IN const void *s,
-                              ZF_IN ZFStringEncodingEnum srcEncoding,
-                              ZF_OUT_OPT zfbool *success /* = zfnull */)
-{
-    zfstringW result;
-    zfbool ret = zfself::toUTF16BE(result, s, srcEncoding);
-    if(success != zfnull) {*success = ret;}
-    return result;
-}
-zfindex ZFString::wordCountOfUTF8(ZF_IN const zfcharA *utf8String)
+
+zfindex ZFString::wordCountOfUTF8(ZF_IN const zfchar *utf8String)
 {
     if(utf8String == zfnull) {return 0;}
     return _ZFP_ZFStringImpl->wordCountOfUTF8(utf8String);
@@ -287,12 +261,7 @@ ZFMETHOD_DEFINE_0(ZFString, zfindex, wordCount)
 {
     if(d->cachedWordCount == zfindexMax())
     {
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
         d->cachedWordCount = _ZFP_ZFStringImpl->wordCountOfUTF8(this->stringValue());
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-        d->cachedWordCount = zfslen(this->stringValue());
-#endif
     }
     return d->cachedWordCount;
 }
@@ -322,7 +291,7 @@ ZFMETHOD_DEFINE_0(ZFString, void *, nativeString)
         if(d == _ZFP_ZFStringEmptyData)
         {
             _ZFP_ZFString_readyUpdate(d);
-            d->nativeString = _ZFP_ZFStringImpl->nativeStringCreate(zfText(""));
+            d->nativeString = _ZFP_ZFStringImpl->nativeStringCreate("");
         }
         else
         {

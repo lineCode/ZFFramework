@@ -132,7 +132,7 @@ public:
     {
         if(s)
         {
-            zfindex len = zfslenT(s);
+            zfindex len = _len(s);
             T_Char *buf = _capacityRequire(len);
             d.length = (zfuint)len;
             zfmemcpy(buf, s, d.length * sizeof(T_Char));
@@ -147,7 +147,7 @@ public:
         {
             if(len == zfindexMax())
             {
-                len = zfslenT(s);
+                len = _len(s);
             }
             T_Char *buf = _capacityRequire(len);
             d.length = (zfuint)len;
@@ -266,7 +266,7 @@ public:
         {
             if(len == zfindexMax())
             {
-                len = zfslenT(s);
+                len = _len(s);
             }
             T_Char *buf = _capacityRequire(d.length + len);
             _safeCheck(buf, s);
@@ -294,7 +294,7 @@ public:
         {
             if(len == zfindexMax())
             {
-                len = zfslenT(s);
+                len = _len(s);
             }
             T_Char *buf = _capacityRequire(len);;
             _safeCheck(buf, s);
@@ -331,7 +331,7 @@ public:
         {
             if(len == zfindexMax())
             {
-                len = zfslenT(s);
+                len = _len(s);
             }
             T_Char *buf = _capacityRequire(d.length + len);
             _safeCheck(buf, s);
@@ -368,7 +368,7 @@ public:
             }
             if(len == zfindexMax())
             {
-                len = zfslenT(s);
+                len = _len(s);
             }
             T_Char *buf = _capacityRequire(d.length + len - replaceLen);
             _safeCheck(buf, s);
@@ -433,7 +433,7 @@ public:
 
 public:
     /** @brief compare with another string */
-    inline zfint compare(ZF_IN const _zfstr &s) const {return zfscmpT(this->cString(), s.cString());}
+    inline zfint compare(ZF_IN const _zfstr &s) const {return _cmp(this->cString(), s.cString());}
     /** @brief compare with another string */
     zfint compare(ZF_IN const T_Char *s, ZF_IN zfindex len = zfindexMax()) const
     {
@@ -442,15 +442,15 @@ public:
         {
             if(len == zfindexMax())
             {
-                len = zfslenT(s);
+                len = _len(s);
             }
             if(len > d.length)
             {
-                return zfsncmpT(buf, s, d.length + 1);
+                return _ncmp(buf, s, d.length + 1);
             }
             else
             {
-                zfint t = zfsncmpT(buf, s, len);
+                zfint t = _ncmp(buf, s, len);
                 if(t)
                 {
                     return t;
@@ -511,36 +511,30 @@ private:
             abort();
         }
     }
+    static zfindex _len(ZF_IN const T_Char *s)
+    {
+        const T_Char *p = s;
+        while(*p) {++p;}
+        return p - s;
+    }
+    static zfint _cmp(ZF_IN const T_Char *s1, ZF_IN const T_Char *s2)
+    {
+        while(*s1 && *s2 && *s1 == *s2) {++s1, ++s2;}
+        return *s1 - *s2;
+    }
+    static zfint _ncmp(ZF_IN const T_Char *s1, ZF_IN const T_Char *s2, ZF_IN zfindex len)
+    {
+        if(len == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            while(--len && *s1 && *s2 && *s1 == *s2) {++s1, ++s2;}
+            return *s1 - *s2;
+        }
+    }
 };
-
-// ============================================================
-/** @brief see #_zfstr */
-#ifndef _ZFT_ZFCoreStringA
-    typedef _zfstr<zfcharA> ZFCoreStringA;
-#else
-    typedef _ZFT_ZFCoreStringA ZFCoreStringA;
-#endif
-
-/** @brief see #_zfstr */
-#ifndef _ZFT_ZFCoreStringW
-    typedef _zfstr<zfcharW> ZFCoreStringW;
-#else
-    typedef _ZFT_ZFCoreStringW ZFCoreStringW;
-#endif
-
-/**
- * @brief string types used in ZFFramework
- */
-#ifndef _ZFT_ZFCoreString
-    #if ZF_ENV_ZFCHAR_USE_CHAR_A
-        typedef ZFCoreStringA ZFCoreString;
-    #endif
-    #if ZF_ENV_ZFCHAR_USE_CHAR_W
-        typedef ZFCoreStringW ZFCoreString;
-    #endif
-#else
-    typedef _ZFT_ZFCoreString ZFCoreString;
-#endif
 
 ZF_NAMESPACE_GLOBAL_END
 

@@ -45,29 +45,29 @@ protected:
                 .methodOwnerClassSet(cls)
                 .methodGenericInvokerSet(_setterGI)
                 .methodTypeSet(ZFMethodTypeNormal)
-                .methodNameSet(zfText("myPropSet"))
-                .methodParamAdd(ZFTypeId_zfint(), zfText("zfint const &"))
+                .methodNameSet("myPropSet")
+                .methodParamAdd(ZFTypeId_zfint(), "zfint const &")
             );
         const ZFMethod *getterMethod = ZFMethodDynamicRegister(ZFMethodDynamicRegisterParam()
                 .methodOwnerClassSet(cls)
                 .methodGenericInvokerSet(_getterGI)
                 .methodTypeSet(ZFMethodTypeNormal)
-                .methodNameSet(zfText("myProp"))
+                .methodNameSet("myProp")
                 .methodReturnTypeIdSet(ZFTypeId_zfint())
             );
 
         const ZFProperty *property = ZFPropertyDynamicRegister(ZFPropertyDynamicRegisterParam()
                 .propertyOwnerClassSet(cls)
                 .propertyTypeIdSet(ZFTypeId_zfint())
-                .propertyNameSet(zfText("myProp"))
+                .propertyNameSet("myProp")
                 .propertyCustomImplSet(setterMethod, getterMethod, _callbackIsValueAccessed, _callbackIsInitValue, _callbackValueReset)
             );
 
-        this->testCaseOutput(zfText("property: %s"), property->objectInfo().cString());
+        this->testCaseOutput("property: %s", property->objectInfo().cString());
 
         zfblockedAlloc(_ZFP_ZFCore_ZFPropertyDynamic_test_Object, obj);
         obj->myPropSet(123);
-        this->testCaseOutput(zfText("obj: %s"), ZFClassUtil::objectInfo(obj).cString());
+        this->testCaseOutput("obj: %s", ZFClassUtil::objectInfo(obj).cString());
 
         ZFPropertyDynamicUnregister(property);
         ZFMethodDynamicUnregister(setterMethod);
@@ -77,7 +77,7 @@ protected:
 private:
     static const zfchar *_valueKey(void)
     {
-        return zfText("ZFCore_ZFPropertyDynamic_test_myProp");
+        return "ZFCore_ZFPropertyDynamic_test_myProp";
     }
     static zfbool _setterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
     {

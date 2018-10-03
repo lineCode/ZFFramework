@@ -99,7 +99,7 @@ public:
             if(holder->zfv != zfnull && !holder->zfv.toObject()->classData()->classIsTypeOf(property->propertyClassOfRetainProperty()))
             {
                 zfstringAppend(errorHint,
-                    zfText("invalid init value %s, desired: %s"),
+                    "invalid init value %s, desired: %s",
                     ZFObjectInfo(holder->zfv.toObject()).cString(),
                     property->propertyClassOfRetainProperty()->classNameFull());
                 return zffalse;
@@ -126,7 +126,7 @@ public:
             if(wrapper == zfnull)
             {
                 zfstringAppend(errorHint,
-                    zfText("invalid init value %s, desired: %s"),
+                    "invalid init value %s, desired: %s",
                     ZFObjectInfo(ret.toObject()).cString(),
                     property->propertyTypeId());
                 return zffalse;
@@ -199,7 +199,7 @@ static zfbool _ZFP_PropDynReg_setterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
     } while(zffalse);
     if(value == zfnull)
     {
-        zfstringAppend(errorHint, zfText("invalid value: %s, desired: %s"),
+        zfstringAppend(errorHint, "invalid value: %s, desired: %s",
             ZFObjectInfo(valueNew).cString(),
             property->propertyIsRetainProperty()
                 ? property->propertyClassOfRetainProperty()->classNameFull()
@@ -337,17 +337,17 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
 {
     if(param.propertyOwnerClass() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyOwnerClass not set"));
+        zfstringAppend(errorHint, "propertyOwnerClass not set");
         return zfnull;
     }
     if(param.propertyTypeId() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyTypeId not set"));
+        zfstringAppend(errorHint, "propertyTypeId not set");
         return zfnull;
     }
     if(param.propertyName() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyName not set"));
+        zfstringAppend(errorHint, "propertyName not set");
         return zfnull;
     }
     if(param.propertyClassOfRetainProperty() == zfnull)
@@ -355,7 +355,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
         if(ZFClass::classForName(param.propertyTypeId()) != zfnull)
         {
             zfstringAppend(errorHint,
-                zfText("propertyTypeId %s is ZFObject type but propertyClassOfRetainProperty not set, weak property not supported"),
+                "propertyTypeId %s is ZFObject type but propertyClassOfRetainProperty not set, weak property not supported",
                 param.propertyTypeId());
             return zfnull;
         }
@@ -365,7 +365,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
         if(!zfscmpTheSame(param.propertyTypeId(), param.propertyClassOfRetainProperty()->classNameFull()))
         {
             zfstringAppend(errorHint,
-                zfText("propertyTypeId must be same as propertyClassOfRetainProperty for retain property"));
+                "propertyTypeId must be same as propertyClassOfRetainProperty for retain property");
             return zfnull;
         }
     }
@@ -377,7 +377,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
         if(d == zfnull)
         {
             zfstringAppend(errorHint,
-                zfText("propertyTypeId %s not registered"),
+                "propertyTypeId %s not registered",
                 param.propertyTypeId());
             return zfnull;
         }
@@ -387,7 +387,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
     if(existProperty != zfnull)
     {
         zfstringAppend(errorHint,
-            zfText("property with same name already exists: %s"),
+            "property with same name already exists: %s",
             existProperty->objectInfo().cString());
         return zfnull;
     }
@@ -395,8 +395,8 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
     zfblockedAlloc(_ZFP_I_PropDynRegData, userDataWrapper);
     userDataWrapper->d = d;
     userDataWrapper->initValueCallback = param.propertyInitValueCallback();
-    zfstringAppend(userDataWrapper->tagKey, zfText("PropDyn_%s"), param.propertyName());
-    zfstringAppend(userDataWrapper->valueStoreKey, zfText("PropDynV_%s"), param.propertyName());
+    zfstringAppend(userDataWrapper->tagKey, "PropDyn_%s", param.propertyName());
+    zfstringAppend(userDataWrapper->valueStoreKey, "PropDynV_%s", param.propertyName());
     const ZFProperty *property = zfnull;
 
     if(param.propertyCustomImplSetterMethod() != zfnull
@@ -443,18 +443,18 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
                 .methodGenericInvokerSet(_ZFP_PropDynReg_setterGI)
                 .methodTypeSet(ZFMethodTypeVirtual)
                 .methodPrivilegeTypeSet(param.propertySetterType())
-                .methodNameSet(zfstringWithFormat(zfText("%sSet"), param.propertyName()))
+                .methodNameSet(zfstringWithFormat("%sSet", param.propertyName()))
                 .methodReturnTypeIdSet(ZFTypeId_void())
-                .methodReturnTypeNameSet(zfText("void"))
+                .methodReturnTypeNameSet("void")
                 .methodParamAdd(
                     param.propertyTypeId(),
-                    zfstringWithFormat(zfText("%s const &"), param.propertyTypeName()),
+                    zfstringWithFormat("%s const &", param.propertyTypeName()),
                     zfnull)
             , &errorHintTmp);
         if(setterMethod == zfnull)
         {
             zfstringAppend(errorHint,
-                zfText("failed to register setter method, reason: %s"),
+                "failed to register setter method, reason: %s",
                 errorHintTmp.cString());
             return zfnull;
         }
@@ -466,12 +466,12 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
                 .methodPrivilegeTypeSet(param.propertyGetterType())
                 .methodNameSet(param.propertyName())
                 .methodReturnTypeIdSet(param.propertyTypeId())
-                .methodReturnTypeNameSet(zfstringWithFormat(zfText("%s const &"), param.propertyTypeName()))
+                .methodReturnTypeNameSet(zfstringWithFormat("%s const &", param.propertyTypeName()))
             , &errorHintTmp);
         if(getterMethod == zfnull)
         {
             zfstringAppend(errorHint,
-                zfText("failed to register getter method, reason: %s"),
+                "failed to register getter method, reason: %s",
                 errorHintTmp.cString());
             ZFMethodDynamicUnregister(setterMethod);
             return zfnull;
@@ -528,19 +528,19 @@ static zfbool _ZFP_ZFPropertyDynamicRegisterCustomImplCheck(ZF_IN const ZFProper
 {
     if(param.propertyCustomImplSetterMethod() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyCustomImplSetterMethod not set"));
+        zfstringAppend(errorHint, "propertyCustomImplSetterMethod not set");
         return zffalse;
     }
     if(param.propertyCustomImplGetterMethod() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyCustomImplGetterMethod not set"));
+        zfstringAppend(errorHint, "propertyCustomImplGetterMethod not set");
         return zffalse;
     }
 
     if(zfsncmp(param.propertyCustomImplSetterMethod()->methodName(), param.propertyName(), zfslen(param.propertyName())) != 0)
     {
         zfstringAppend(errorHint,
-            zfText("setter method name \"%s\" does not match property name \"%s\""),
+            "setter method name \"%s\" does not match property name \"%s\"",
             param.propertyCustomImplSetterMethod()->methodName(),
             param.propertyName());
         return zffalse;
@@ -551,7 +551,7 @@ static zfbool _ZFP_ZFPropertyDynamicRegisterCustomImplCheck(ZF_IN const ZFProper
         )
     {
         zfstringAppend(errorHint,
-            zfText("setter method signature mismatch: %s, desired: void setter(%s const &)"),
+            "setter method signature mismatch: %s, desired: void setter(%s const &)",
             param.propertyCustomImplSetterMethod()->objectInfo().cString(),
             param.propertyTypeId());
         return zffalse;
@@ -560,7 +560,7 @@ static zfbool _ZFP_ZFPropertyDynamicRegisterCustomImplCheck(ZF_IN const ZFProper
     if(!zfscmpTheSame(param.propertyCustomImplGetterMethod()->methodName(), param.propertyName()))
     {
         zfstringAppend(errorHint,
-            zfText("getter method name \"%s\" does not match property name \"%s\""),
+            "getter method name \"%s\" does not match property name \"%s\"",
             param.propertyCustomImplGetterMethod()->methodName(),
             param.propertyName());
         return zffalse;
@@ -570,7 +570,7 @@ static zfbool _ZFP_ZFPropertyDynamicRegisterCustomImplCheck(ZF_IN const ZFProper
         )
     {
         zfstringAppend(errorHint,
-            zfText("getter method signature mismatch: %s, desired: %s const &getter(void)"),
+            "getter method signature mismatch: %s, desired: %s const &getter(void)",
             param.propertyCustomImplGetterMethod()->objectInfo().cString(),
             param.propertyTypeId());
         return zffalse;
@@ -578,19 +578,19 @@ static zfbool _ZFP_ZFPropertyDynamicRegisterCustomImplCheck(ZF_IN const ZFProper
 
     if(param.propertyCustomImplCallbackIsValueAccessed() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyCustomImplCallbackIsValueAccessed not set"));
+        zfstringAppend(errorHint, "propertyCustomImplCallbackIsValueAccessed not set");
         return zffalse;
     }
 
     if(param.propertyCustomImplCallbackIsInitValue() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyCustomImplCallbackIsInitValue not set"));
+        zfstringAppend(errorHint, "propertyCustomImplCallbackIsInitValue not set");
         return zffalse;
     }
 
     if(param.propertyCustomImplCallbackValueReset() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("propertyCustomImplCallbackValueReset not set"));
+        zfstringAppend(errorHint, "propertyCustomImplCallbackValueReset not set");
         return zffalse;
     }
 

@@ -89,8 +89,8 @@ private:
         }
         manager->managerUIBlockedSet(zffalse);
         zfCoreAssertWithMessageTrim(request->requestResolved(),
-            zfTextA("[ZFUIPageManager] unresolved request: %s"),
-            zfsCoreZ2A(request->objectInfo().cString()));
+            "[ZFUIPageManager] unresolved request: %s",
+            request->objectInfo().cString());
         manager->requestOnResolveFinish(request);
         zfRelease(request);
         manager->requestBlockedSet(zffalse);
@@ -115,8 +115,8 @@ private:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(pageAniOnStopOrOnInvalid)
     {
-        ZFUIPage *page = userData->tagGet<ZFUIPage *>(zfText("page"));
-        ZFEnum *reason = userData->tagGet<ZFEnum *>(zfText("reason"));
+        ZFUIPage *page = userData->tagGet<ZFUIPage *>("page");
+        ZFEnum *reason = userData->tagGet<ZFEnum *>("reason");
         ZFUIPageManager *pageManager = page->pageManager();
 
         zfRetain(userData);
@@ -143,8 +143,8 @@ private:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(pageAniOnStart)
     {
-        ZFUIPage *page = userData->tagGet<ZFUIPage *>(zfText("page"));
-        ZFEnum *reason = userData->tagGet<ZFEnum *>(zfText("reason"));
+        ZFUIPage *page = userData->tagGet<ZFUIPage *>("page");
+        ZFEnum *reason = userData->tagGet<ZFEnum *>("reason");
 
         page->pageManager()->managerUIBlockedSet(zftrue);
         ZFAnimation *pageAni = listenerData.sender->to<ZFAnimation *>();
@@ -152,8 +152,8 @@ private:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(pageAniOnStop)
     {
-        ZFUIPage *page = userData->tagGet<ZFUIPage *>(zfText("page"));
-        ZFEnum *reason = userData->tagGet<ZFEnum *>(zfText("reason"));
+        ZFUIPage *page = userData->tagGet<ZFUIPage *>("page");
+        ZFEnum *reason = userData->tagGet<ZFEnum *>("reason");
 
         ZFAnimation *pageAni = listenerData.sender->to<ZFAnimation *>();
         page->pageAniOnStop(pageAni, reason);
@@ -407,8 +407,8 @@ public:
                                ZF_IN ZFEnum *reason)
     {
         zfblockedAlloc(ZFObject, userData);
-        userData->tagSet(zfText("page"), page->toObject());
-        userData->tagSet(zfText("reason"), reason);
+        userData->tagSet("page", page->toObject());
+        userData->tagSet("reason", reason);
         page->pageAni()->observerAdd(ZFAnimation::EventAniOnStopOrOnInvalid(), this->pageAniOnStopOrOnInvalidListener, userData);
         page->pageAni()->observerAdd(ZFAnimation::EventAniOnStart(), this->pageAniOnStartListener, userData);
         page->pageAni()->observerAdd(ZFAnimation::EventAniOnStop(), this->pageAniOnStopListener, userData);
@@ -475,7 +475,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIPageManager, PageAniOnUpdatePriority)
 // embeded logic
 ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededCreate)
 {
-    zfCoreAssertWithMessageTrim(!this->managerCreated(), zfTextA("[ZFUIPageManager] already created"));
+    zfCoreAssertWithMessageTrim(!this->managerCreated(), "[ZFUIPageManager] already created");
 
     zfCoreMutexLock();
     d = zfpoolNew(_ZFP_ZFUIPageManagerPrivate);
@@ -490,8 +490,8 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededCreate)
 }
 ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededResume)
 {
-    zfCoreAssertWithMessageTrim(this->managerCreated(), zfTextA("[ZFUIPageManager] resume called before create"));
-    zfCoreAssertWithMessageTrim(!this->managerResumed(), zfTextA("[ZFUIPageManager] already resumed"));
+    zfCoreAssertWithMessageTrim(this->managerCreated(), "[ZFUIPageManager] resume called before create");
+    zfCoreAssertWithMessageTrim(!this->managerResumed(), "[ZFUIPageManager] already resumed");
     d->managerResumed = zftrue;
 
     ZFUIPage *foregroundPage = this->pageForeground();
@@ -515,7 +515,7 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededResume)
 }
 ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededPause)
 {
-    zfCoreAssertWithMessageTrim(this->managerResumed(), zfTextA("[ZFUIPageManager] already paused"));
+    zfCoreAssertWithMessageTrim(this->managerResumed(), "[ZFUIPageManager] already paused");
     d->managerResumed = zffalse;
 
     this->managerBeforePause();
@@ -532,9 +532,9 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededPause)
 }
 ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededDestroy)
 {
-    zfCoreAssertWithMessageTrim(this->managerCreated(), zfTextA("[ZFUIPageManager] already destroyed"));
-    zfCoreAssertWithMessageTrim(!this->managerResumed(), zfTextA("[ZFUIPageManager] destroy called before pause"));
-    zfCoreAssertWithMessageTrim(d->pageDelayDestroyList.isEmpty(), zfTextA("[ZFUIPageManager] you must not destroy the manager if there are pages delaying detach or destroy"));
+    zfCoreAssertWithMessageTrim(this->managerCreated(), "[ZFUIPageManager] already destroyed");
+    zfCoreAssertWithMessageTrim(!this->managerResumed(), "[ZFUIPageManager] destroy called before pause");
+    zfCoreAssertWithMessageTrim(d->pageDelayDestroyList.isEmpty(), "[ZFUIPageManager] you must not destroy the manager if there are pages delaying detach or destroy");
     d->managerCreated = zffalse;
 
     this->managerBeforeDestroy();
@@ -592,7 +592,7 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, zfbool, managerResumed)
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, managerUIBlockedSet,
                   ZFMP_IN(zfbool, value))
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
 
     zfsynchronizeLock(this->toObject());
     if(value)
@@ -631,12 +631,12 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, zfindex, managerUIBlocked)
 // page access
 ZFMETHOD_DEFINE_0(ZFUIPageManager, zfindex, pageCount)
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     return d->pageList.count();
 }
 ZFMETHOD_DEFINE_0(ZFUIPageManager, ZFCoreArrayPOD<ZFUIPage *> &, pageList)
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     return d->pageList;
 }
 
@@ -697,7 +697,7 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPageDestroy,
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPost,
                   ZFMP_IN(ZFUIPageRequest *, request))
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     if(request != zfnull)
     {
         zfsynchronize(this->toObject());
@@ -709,7 +709,7 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPost,
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestBlockedSet,
                   ZFMP_IN(zfbool, value))
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     zfsynchronizeLock(this->toObject());
     if(value)
     {
@@ -785,8 +785,8 @@ void ZFUIPageManager::requestOnResolvePageCreate(ZF_IN ZFUIPageRequestPageCreate
 void ZFUIPageManager::resolvePageCreate(ZF_IN ZFUIPageRequestPageCreate *request)
 {
     const ZFUIPageRequestPageCreateParam &createParam = request->createParam;
-    zfCoreAssertWithMessageTrim(createParam.page() != zfnull, zfTextA("[ZFUIPageManager] page is nil when requestPageCreate"));
-    zfCoreAssertWithMessageTrim(!createParam.page()->pageCreated(), zfTextA("[ZFUIPageManager] page already created when requestPageCreate"));
+    zfCoreAssertWithMessageTrim(createParam.page() != zfnull, "[ZFUIPageManager] page is nil when requestPageCreate");
+    zfCoreAssertWithMessageTrim(!createParam.page()->pageCreated(), "[ZFUIPageManager] page already created when requestPageCreate");
 
     ZFUIPage *page = createParam.page();
     page->_ZFP_ZFUIPage_pageManager = this;
@@ -942,7 +942,7 @@ void ZFUIPageManager::pageDelayDetachOnCheck(ZF_IN ZFUIPage *page,
 }
 void ZFUIPageManager::pageDelayDetachEnable(ZF_IN ZFUIPage *page)
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     ++(page->_ZFP_ZFUIPage_pageDelayDetachByManagerFlag);
     this->pageDelayDestroyEnable(page);
 }
@@ -966,7 +966,7 @@ void ZFUIPageManager::pageDelayDestroyOnCheck(ZF_IN ZFUIPage *page)
 }
 void ZFUIPageManager::pageDelayDestroyEnable(ZF_IN ZFUIPage *page)
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     ++(page->_ZFP_ZFUIPage_pageDelayDestroyByManagerFlag);
 }
 void ZFUIPageManager::pageDelayDestroyNotifyFinish(ZF_IN ZFUIPage *page)
@@ -983,13 +983,13 @@ void ZFUIPageManager::_ZFP_ZFUIPageManager_pageDelayDestroyNotifyFinish(ZF_IN ZF
 // page move
 void ZFUIPageManager::movePageBegin(void)
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
-    zfCoreAssertWithMessageTrim(!d->movePageFlag, zfTextA("[ZFUIPageManager] move page not paired, have you forgot movePageEnd?"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
+    zfCoreAssertWithMessageTrim(!d->movePageFlag, "[ZFUIPageManager] move page not paired, have you forgot movePageEnd?");
     d->movePageFlag = zftrue;
 }
 void ZFUIPageManager::movePageEnd(void)
 {
-    zfCoreAssertWithMessageTrim(d->movePageFlag, zfTextA("[ZFUIPageManager] move page not paired, have you forgot movePageBegin?"));
+    zfCoreAssertWithMessageTrim(d->movePageFlag, "[ZFUIPageManager] move page not paired, have you forgot movePageBegin?");
     d->movePageFlag = zffalse;
 
     ZFUIPage *pageToPause = zfnull;
@@ -1028,7 +1028,7 @@ ZFMETHOD_DEFINE_3(ZFUIPageManager, void, pageAniOverrideForOnce,
                   ZFMP_IN(ZFAnimation *, pageAniPause),
                   ZFMP_IN_OPT(zfbool, pageAniPauseHasHigherPriority, zffalse))
 {
-    zfCoreAssertWithMessage(d != zfnull, zfTextA("[ZFUIPageManager] manager not created"));
+    zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
     d->pageAniOverrideForOnce = zftrue;
     zfRetainChange(d->pageAniOverrideForOnceResumeAni, pageAniResume);
     zfRetainChange(d->pageAniOverrideForOncePauseAni, pageAniPause);

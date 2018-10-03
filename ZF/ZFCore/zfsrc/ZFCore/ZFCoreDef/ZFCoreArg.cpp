@@ -128,11 +128,11 @@ void zfCoreArgMerge(ZF_OUT zfstring &result,
         {
             if(*p == '\\')
             {
-                result += zfText("\\\\");
+                result += "\\\\";
             }
             else if(*p == '\"')
             {
-                result += zfText("\\\"");
+                result += "\\\"";
             }
             else
             {

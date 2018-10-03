@@ -21,22 +21,22 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        this->testCaseOutput(zfText("ZFFilePathForModule:"));
+        this->testCaseOutput("ZFFilePathForModule:");
         this->testCaseOutput(ZFFilePathForModule());
 
-        this->testCaseOutput(zfText("ZFFilePathForModuleFile:"));
+        this->testCaseOutput("ZFFilePathForModuleFile:");
         this->testCaseOutput(ZFFilePathForModuleFile());
 
-        this->testCaseOutput(zfText("ZFFilePathForSetting:"));
+        this->testCaseOutput("ZFFilePathForSetting:");
         this->testCaseOutput(ZFFilePathForSetting());
 
-        this->testCaseOutput(zfText("ZFFilePathForStorage:"));
+        this->testCaseOutput("ZFFilePathForStorage:");
         this->testCaseOutput(ZFFilePathForStorage());
 
-        this->testCaseOutput(zfText("ZFFilePathForStorageShared:"));
+        this->testCaseOutput("ZFFilePathForStorageShared:");
         this->testCaseOutput(ZFFilePathForStorageShared());
 
-        this->testCaseOutput(zfText("ZFFilePathForCache:"));
+        this->testCaseOutput("ZFFilePathForCache:");
         this->testCaseOutput(ZFFilePathForCache());
 
         this->testCaseStop();

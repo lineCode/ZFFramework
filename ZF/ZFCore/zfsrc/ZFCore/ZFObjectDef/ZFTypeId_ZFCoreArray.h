@@ -70,7 +70,7 @@ public:
  *   [e0_encoded_string_data, e1_encoded_string_data, ...]
  * @endcode
  */
-#define ZFTypeId_ZFCoreArray() zfText("ZFCoreArray")
+#define ZFTypeId_ZFCoreArray() "ZFCoreArray"
 
 /** @brief type wrapper for #ZFTypeId::Value */
 zfclass ZF_ENV_EXPORT v_ZFCoreArray : zfextends ZFTypeIdWrapper
@@ -222,7 +222,7 @@ public:
                                         ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("not available for plain array type"));
+            "not available for plain array type");
         return zffalse;
     }
     zfoverride
@@ -230,7 +230,7 @@ public:
                                       ZF_OUT_OPT zfstring *outErrorHint = zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("not available for plain array type"));
+            "not available for plain array type");
         return zffalse;
     }
     zfoverride
@@ -490,7 +490,7 @@ T_ZFCoreArray *_ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::access(ZF_IN_OUT zfautoOb
     v_ZFCoreArray *holder = ZFCastZFObjectUnchecked(v_ZFCoreArray *, obj);
     T_ZFCoreArray *tmp = zfnew(T_ZFCoreArray);
     _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::template to<T_Type>(holder->zfv, *tmp);
-    _ZFP_PropAliasAttach(obj, tmp, zfText("ZFCoreArray"), detachCallback);
+    _ZFP_PropAliasAttach(obj, tmp, "ZFCoreArray", detachCallback);
     return tmp;
 }
 
@@ -498,7 +498,7 @@ template<typename T_ZFCoreArray>
 template<typename T_Type>
 void _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::accessFinish(ZF_IN_OUT zfautoObject &obj)
 {
-    _ZFP_PropAliasDetach(obj, zfText("ZFCoreArray"));
+    _ZFP_PropAliasDetach(obj, "ZFCoreArray");
 }
 
 // ============================================================
@@ -547,7 +547,7 @@ zfbool ZFCoreArrayFromString(ZF_OUT ZFCoreArray<T_Type> &v,
                              ZF_IN_OPT zfindex srcLen = zfindexMax())
 {
     ZFCoreArrayPOD<ZFIndexRange> pos;
-    if(!zfCoreDataPairSplitString(pos, zfindexMax(), src, srcLen, zfText(","), zfText("["), zfText("]"), zftrue))
+    if(!zfCoreDataPairSplitString(pos, zfindexMax(), src, srcLen, ",", "[", "]", zftrue))
     {
         return zffalse;
     }
@@ -572,12 +572,12 @@ zfbool ZFCoreArrayToString(ZF_OUT zfstring &s,
                                ZF_IN T_Type const &),
                            ZF_IN ZFCoreArray<T_Type> const &v)
 {
-    s += zfText("[");
+    s += "[";
     for(zfindex i = 0; i < v.count(); ++i)
     {
         if(i != 0)
         {
-            s += zfText(", ");
+            s += ", ";
         }
 
         zfstring elementString;
@@ -587,7 +587,7 @@ zfbool ZFCoreArrayToString(ZF_OUT zfstring &s,
         }
         zfCoreDataEncode(s, elementString.cString(), elementString.length());
     }
-    s += zfText("]");
+    s += "]";
     return zftrue;
 }
 /** @brief convert array to string */

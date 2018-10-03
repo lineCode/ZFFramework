@@ -45,7 +45,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIWebJSBridge, WebMessageAfterSend)
 ZFOBSERVER_EVENT_REGISTER(ZFUIWebJSBridge, WebMessageBeforeRecv)
 ZFOBSERVER_EVENT_REGISTER(ZFUIWebJSBridge, WebMessageAfterRecv)
 
-#define _ZFP_ZFUIWebJSBridge_tagKey zfText("_ZFP_ZFUIWebJSBridge_tagKey")
+#define _ZFP_ZFUIWebJSBridge_tagKey "_ZFP_ZFUIWebJSBridge_tagKey"
 ZFMETHOD_DEFINE_1(ZFUIWebJSBridge, ZFUIWebJSBridge *, instanceForWebView,
                   ZFMP_IN(ZFUIWebView *, webView))
 {

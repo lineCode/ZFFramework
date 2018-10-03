@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLin
     ZFArrayEditable *params = zfAlloc(ZFArrayEditable);
 
     ZFCoreArray<zfstring> tmpList;
-    zfCoreArgSplit(tmpList, ZFStringW2Z(lpCmdLine));
+    zfCoreArgSplit(tmpList, ZFString::toUTF8(lpCmdLine, ZFStringEncoding::e_UTF16).cString());
     for(zfindex i = 0; i < tmpList.count(); ++i)
     {
         ZFString *s = zfAlloc(ZFString, tmpList.get(i).cString());

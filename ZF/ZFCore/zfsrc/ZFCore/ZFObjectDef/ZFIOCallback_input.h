@@ -88,7 +88,7 @@ extern ZF_ENV_EXPORT ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input
  */
 extern ZF_ENV_EXPORT zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
                                              ZF_IN_OUT const ZFInput &input,
-                                             ZF_IN_OPT const zfchar *charSet = zfText(" \t\r\n"));
+                                             ZF_IN_OPT const zfchar *charSet = " \t\r\n");
 
 /**
  * @brief read until any char in charSet shows up, or reached maxCount,
@@ -101,7 +101,7 @@ extern ZF_ENV_EXPORT zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
  */
 extern ZF_ENV_EXPORT zfindex ZFInputReadUntil(ZF_IN_OUT zfstring &ret,
                                               ZF_IN_OUT const ZFInput &input,
-                                              ZF_IN_OPT const zfchar *charSet = zfText(" \t\r\n"),
+                                              ZF_IN_OPT const zfchar *charSet = " \t\r\n",
                                               ZF_IN_OPT zfindex maxCount = zfindexMax(),
                                               ZF_OUT_OPT zfchar *firstCharMatchedCharSet = zfnull);
 
@@ -131,16 +131,16 @@ extern ZF_ENV_EXPORT zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFInputForInputInRange zfText("ZFInputForInputInRange")
+#define ZFCallbackSerializeCustomType_ZFInputForInputInRange "ZFInputForInputInRange"
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputForInputInRange_input zfText("input")
+#define ZFSerializableKeyword_ZFInputForInputInRange_input "input"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputForInputInRange_start zfText("start")
+#define ZFSerializableKeyword_ZFInputForInputInRange_start "start"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputForInputInRange_count zfText("count")
+#define ZFSerializableKeyword_ZFInputForInputInRange_count "count"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFInputForInputInRange_autoRestorePos zfText("autoRestorePos")
+#define ZFSerializableKeyword_ZFInputForInputInRange_autoRestorePos "autoRestorePos"
 /**
  * @brief create a intput callback from another input callback, specified in range
  *

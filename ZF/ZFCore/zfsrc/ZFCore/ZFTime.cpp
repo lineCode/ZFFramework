@@ -80,7 +80,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFTimeValueDiv,
                        ZFMP_IN(const ZFTimeValue &, tv),
                        ZFMP_IN(zfindex, v))
 {
-    zfCoreAssertWithMessage(v != 0, zfTextA("divided by 0"));
+    zfCoreAssertWithMessage(v != 0, "divided by 0");
     result.usec = tv.usec / v;
     result.sec = tv.sec / v;
     result.usec += (zft_zftimet)(((zft_zflongdouble)tv.sec / v - result.sec) * 1000000LL);
@@ -128,32 +128,32 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFTimeValueToStringFriendly,
     {
         if(ti.year != 0)
         {
-            zfstringAppend(s, zfText("%02d-"), ti.year);
+            zfstringAppend(s, "%02d-", ti.year);
         }
         if(!s.isEmpty() || ti.month != 0 || ti.day != 0)
         {
-            zfstringAppend(s, zfText("%02u-%02u "), ti.month + 1, ti.day + 1);
+            zfstringAppend(s, "%02u-%02u ", ti.month + 1, ti.day + 1);
         }
 
         if(!s.isEmpty() || ti.hour != 0 || ti.minute != 0)
         {
-            zfstringAppend(s, zfText("%02u:%02u:"), ti.hour, ti.minute);
+            zfstringAppend(s, "%02u:%02u:", ti.hour, ti.minute);
         }
 
         if(!s.isEmpty())
         {
-            zfstringAppend(s, zfText("%02u."), ti.second);
+            zfstringAppend(s, "%02u.", ti.second);
         }
         else
         {
-            zfstringAppend(s, zfText("%u."), ti.second);
+            zfstringAppend(s, "%u.", ti.second);
         }
 
-        zfstringAppend(s, zfText("%03u%03u"), ti.miliSecond, ti.microSecond);
+        zfstringAppend(s, "%03u%03u", ti.miliSecond, ti.microSecond);
     }
     else
     {
-        zfstringAppend(s, zfText("%s.%06s"), zfsFromInt(v.sec).cString(), zfsFromInt(v.usec).cString());
+        zfstringAppend(s, "%s.%06s", zfsFromInt(v.sec).cString(), zfsFromInt(v.usec).cString());
     }
     return zftrue;
 }
@@ -220,11 +220,11 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFTimeValue, ZFTimeValue, {
         v.usec = tmp[1];
         return zftrue;
     }, {
-        s += zfText("(");
+        s += "(";
         zfsFromIntT(s, v.sec);
-        s += zfText(", ");
+        s += ", ";
         zfsFromIntT(s, v.usec);
-        s += zfText(")");
+        s += ")";
         return zftrue;
     })
 
@@ -247,7 +247,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFTimeInfoToString,
                        ZFMP_IN_OUT(zfstring &, s),
                        ZFMP_IN(ZFTimeInfo const &, v))
 {
-    zfstringAppend(s, zfText("%d-%02u-%02u %02u:%02u:%02u.%03u %03u"),
+    zfstringAppend(s, "%d-%02u-%02u %02u:%02u:%02u.%03u %03u",
         v.year, v.month + 1, v.day + 1,
         v.hour, v.minute, v.second,
         v.miliSecond, v.microSecond);
@@ -449,7 +449,7 @@ void ZFTime::objectOnDealloc(void)
 
 void ZFTime::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
-    zfstringAppend(ret, zfText("%04d-%02d-%02d %02d:%02d:%02d.%03d %03d"),
+    zfstringAppend(ret, "%04d-%02d-%02d %02d:%02d:%02d.%03d %03d",
         this->timeInfoYear(),
         this->timeInfoMonth() + 1,
         this->timeInfoDay() + 1,

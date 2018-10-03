@@ -85,13 +85,13 @@ zfbool ZFSerializableDataFromZfsd(ZF_OUT ZFSerializableData &serializableData,
 {
     if(!input.callbackIsValid())
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, zfText("invalid input callback"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, "invalid input callback");
         return zffalse;
     }
     ZFBuffer buf = ZFInputReadToBuffer(input);
     if(buf.buffer() == zfnull)
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, zfText("unable to load data from input"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, "unable to load data from input");
         return zffalse;
     }
     zfbool ret = ZFSerializableDataFromZfsd(serializableData, buf.bufferAsString(), buf.bufferAsStringLength(), outErrorHint);
@@ -121,7 +121,7 @@ zfbool ZFSerializableDataToZfsd(ZF_IN_OUT const ZFOutput &output,
 {
     if(!output.callbackIsValid())
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, zfText("invalid output callback"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, "invalid output callback");
         return zffalse;
     }
     zfstring tmp;
@@ -129,7 +129,7 @@ zfbool ZFSerializableDataToZfsd(ZF_IN_OUT const ZFOutput &output,
     {
         return zffalse;
     }
-    tmp += zfText("\n");
+    tmp += "\n";
     output.execute(tmp.cString(), tmp.length());
     return zftrue;
 }
@@ -267,7 +267,7 @@ zfbool _ZFP_ZFSerializableDataFromZfsd(ZF_OUT ZFSerializableData &serializableDa
     if(encodedData == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("invalid param"));
+            "invalid param");
         return zffalse;
     }
     const zfchar *srcEnd = (encodedData + ((encodedDataLen == zfindexMax()) ? zfslen(encodedData) : encodedDataLen));
@@ -398,7 +398,7 @@ zfbool _ZFP_ZFSerializableDataFromZfsd(ZF_OUT ZFSerializableData &serializableDa
     if(!ret)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("wrong serializable string format at position: \"%s\""),
+            "wrong serializable string format at position: \"%s\"",
             zfstring(encodedData, srcEnd - encodedData).cString());
     }
     return ret;
@@ -499,7 +499,7 @@ static void _ZFP_ZFSerializableDataToZfsdPrettyIndent(ZF_OUT zfstring &result,
 {
     for(zfindex i = 0; i < indentLevel; ++i)
     {
-        result += zfText("    ");
+        result += "    ";
     }
 }
 static zfbool _ZFP_ZFSerializableDataToZfsdPretty(ZF_OUT zfstring &result,

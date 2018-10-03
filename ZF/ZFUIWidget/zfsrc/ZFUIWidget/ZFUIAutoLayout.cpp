@@ -66,7 +66,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeFromData(ZF_IN const ZFSerial
         if(pos == ZFUIAutoLayoutPos::e_None)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, element,
-                zfText("\"%s\" does not support \"%s\""),
+                "\"%s\" does not support \"%s\"",
                 ZFSerializableKeyword_ZFUIAutoLayoutParam_pos,
                 ZFUIAutoLayoutPosEnumToString(pos).cString());
             return zffalse;
@@ -74,7 +74,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeFromData(ZF_IN const ZFSerial
         if(_ZFP_al_d.ruleList[pos].pos() != ZFUIAutoLayoutPos::e_None)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, element,
-                zfText("\"%s\" rule already has been set"),
+                "\"%s\" rule already has been set",
                 ZFUIAutoLayoutPosEnumToString(pos).cString());
             return zffalse;
         }
@@ -95,7 +95,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeFromData(ZF_IN const ZFSerial
                 || !ZFUIAutoLayoutPosEnumFromString(rule.targetPos(), value, valueTmp - value))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, element,
-                    zfText("invalid target value: %s"),
+                    "invalid target value: %s",
                     value);
                 return zffalse;
             }
@@ -252,7 +252,7 @@ zfbool ZFUIAutoLayout::serializableOnSerializeFromData(ZF_IN const ZFSerializabl
             if(!this->_ZFP_updateTarget(child, layoutParam->_ZFP_al_d.ruleList[ruleIndex]))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                    zfText("%s invalid target \"%s\" for %s"),
+                    "%s invalid target \"%s\" for %s",
                     this->objectInfo().cString(),
                     layoutParam->_ZFP_al_d.ruleList[ruleIndex].targetId().cString(),
                     this->childAtIndex(childIndex)->objectInfo().cString());

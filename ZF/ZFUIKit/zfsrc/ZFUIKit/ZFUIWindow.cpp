@@ -94,7 +94,7 @@ void ZFUIWindow::objectOnDealloc(void)
 // properties
 ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIWindow, ZFUIWindowLevelEnum, windowLevel)
 {
-    zfCoreAssertWithMessage(!this->windowShowing(), zfTextA("you must not change window level while it's showing"));
+    zfCoreAssertWithMessage(!this->windowShowing(), "you must not change window level while it's showing");
 }
 
 ZFMETHOD_DEFINE_1(ZFUIWindow, void, windowOwnerSysWindowSet,
@@ -102,8 +102,8 @@ ZFMETHOD_DEFINE_1(ZFUIWindow, void, windowOwnerSysWindowSet,
 {
     if(d->windowOwnerSysWindow != windowOwnerSysWindow)
     {
-        zfCoreAssertWithMessage(!this->windowShowing(), zfTextA("you must not change window's owner while it's showing"));
-        zfCoreAssertWithMessage(windowOwnerSysWindow != zfnull, zfTextA("null owner sys window"));
+        zfCoreAssertWithMessage(!this->windowShowing(), "you must not change window's owner while it's showing");
+        zfCoreAssertWithMessage(windowOwnerSysWindow != zfnull, "null owner sys window");
 
         ZFUISysWindow *oldSysWindow = d->windowOwnerSysWindow;
         d->windowOwnerSysWindow = windowOwnerSysWindow;
@@ -237,7 +237,7 @@ ZFMETHOD_DEFINE_0(ZFUIWindow, ZFUIViewLayoutParam *, windowLayoutParam)
 
 void ZFUIWindow::viewOnAddToParent(ZF_IN ZFUIView *parent)
 {
-    zfCoreAssertWithMessage(parent->classData()->classIsTypeOf(ZFUIRootView::ClassData()), zfTextA("you must not add a window to another view"));
+    zfCoreAssertWithMessage(parent->classData()->classIsTypeOf(ZFUIRootView::ClassData()), "you must not add a window to another view");
     zfsuper::viewOnAddToParent(parent);
 
     this->windowOnShow();

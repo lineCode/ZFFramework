@@ -64,7 +64,7 @@ ZFMETHOD_FUNC_DEFINE_0(ZFCoreArray<zfstring>, ZFFileResAdditionalPathList)
 ZFMETHOD_FUNC_DEFINE_1(const zfchar *, ZFFileResAdditionalPathCheck,
                        ZFMP_IN(const zfchar *, resPath))
 {
-    if(zfsIsEmpty(resPath) || zfscmpTheSame(resPath, zfText(".")))
+    if(zfsIsEmpty(resPath) || zfscmpTheSame(resPath, "."))
     {
         return zfnull;
     }
@@ -148,7 +148,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfbool, ZFFileResCopy,
     }
 }
 
-#define _ZFP_ZFFileFindType_res zfText("ZFFileResFindFirst")
+#define _ZFP_ZFFileFindType_res "ZFFileResFindFirst"
 
 zfclassNotPOD _ZFP_ZFFileResFindData
 {

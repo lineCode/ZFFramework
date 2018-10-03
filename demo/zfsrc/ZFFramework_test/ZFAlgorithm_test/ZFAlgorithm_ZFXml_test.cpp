@@ -22,9 +22,9 @@ protected:
         zfsuper::testCaseOnStart();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFXml"));
+        this->testCaseOutput("ZFXml");
 
-        const zfchar *src = zfText(
+        const zfchar *src =
             "<?xml type=\"declaration\"?>"
             "<!DOCTYPE TYPE \"DOCTYPE\">"
             "<?pi ProcessingInstruction?>"
@@ -36,21 +36,21 @@ protected:
             "<element4><![CDATA[cdata text]]></element4>"
             "<element5>text with escaped chars: &lt; &gt; &amp; &apos; &quot;</element5>"
             "</element0>"
-            );
+            ;
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFXml parse from string:"));
+        this->testCaseOutput("ZFXml parse from string:");
         ZFXmlItem doc = ZFXmlItemFromString(src);
 
-        this->testCaseOutput(zfText("ZFXml parse from string, result:"));
+        this->testCaseOutput("ZFXml parse from string, result:");
         zfLogTrimT() << ZFXmlItemToString(doc);
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFXml add element"));
+        this->testCaseOutput("ZFXml add element");
         ZFXmlItem element(ZFXmlType::e_XmlElement);
-        element.xmlNameSet(zfText("testElement"));
+        element.xmlNameSet("testElement");
         doc.xmlChildAdd(element);
-        this->testCaseOutput(zfText("ZFXml add element, result:"));
+        this->testCaseOutput("ZFXml add element, result:");
         zfLogTrimT() << ZFXmlItemToString(doc);
 
         this->performanceTest(doc);
@@ -61,45 +61,45 @@ private:
     void performanceTest(ZF_IN const ZFXmlItem &xmlItem)
     {
         zfindex toDataTimes = 10000;
-        ZFCoreStatistic::invokeTimeAccurateLogBegin(zfText("ZFXmlPerformance_test_toData"));
+        ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFXmlPerformance_test_toData");
         for(zfindex i = 0; i < toDataTimes; ++i)
         {
             zfstring tmp;
             ZFXmlItemToOutput(ZFOutputForString(tmp), xmlItem);
         }
-        ZFCoreStatistic::invokeTimeAccurateLogEnd(zfText("ZFXmlPerformance_test_toData"));
+        ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFXmlPerformance_test_toData");
 
         zfindex fromDataTimes = toDataTimes;
         zfstring xmlString;
         ZFXmlItemToOutput(ZFOutputForString(xmlString), xmlItem);
-        ZFCoreStatistic::invokeTimeAccurateLogBegin(zfText("ZFXmlPerformance_test_fromData"));
+        ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFXmlPerformance_test_fromData");
         for(zfindex i = 0; i < fromDataTimes; ++i)
         {
             ZFXmlItemFromInput(ZFInputForBuffer(xmlString.cString()));
         }
-        ZFCoreStatistic::invokeTimeAccurateLogEnd(zfText("ZFXmlPerformance_test_fromData"));
+        ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFXmlPerformance_test_fromData");
         ZFXmlItem xmlItemNew = ZFXmlItemFromInput(ZFInputForBuffer(xmlString.cString()));
 
         this->testCaseOutputSeparator();
 
-        ZFTimeValue toDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime(zfText("ZFXmlPerformance_test_toData"));
-        this->testCaseOutput(zfText("serialize to data %zi times cost %s seconds"),
+        ZFTimeValue toDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFXmlPerformance_test_toData");
+        this->testCaseOutput("serialize to data %zi times cost %s seconds",
             toDataTimes,
             ZFTimeValueToStringFriendly(toDataUsedTime).cString());
 
-        ZFTimeValue fromDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime(zfText("ZFXmlPerformance_test_fromData"));
-        this->testCaseOutput(zfText("serialize from data %zi times cost %s seconds"),
+        ZFTimeValue fromDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFXmlPerformance_test_fromData");
+        this->testCaseOutput("serialize from data %zi times cost %s seconds",
             fromDataTimes,
             ZFTimeValueToStringFriendly(fromDataUsedTime).cString());
 
         #if 0
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("content: %s"), xmlString.cString());
-            this->testCaseOutput(zfText("newly: %s"), ZFXmlItemToString(xmlItemNew).cString());
+            this->testCaseOutput("content: %s", xmlString.cString());
+            this->testCaseOutput("newly: %s", ZFXmlItemToString(xmlItemNew).cString());
         #endif
 
-        ZFCoreStatistic::invokeTimeAccurateRemove(zfText("ZFXmlPerformance_test_toData"));
-        ZFCoreStatistic::invokeTimeAccurateRemove(zfText("ZFXmlPerformance_test_fromData"));
+        ZFCoreStatistic::invokeTimeAccurateRemove("ZFXmlPerformance_test_toData");
+        ZFCoreStatistic::invokeTimeAccurateRemove("ZFXmlPerformance_test_fromData");
     }
 };
 ZFOBJECT_REGISTER(ZFAlgorithm_ZFXml_test)

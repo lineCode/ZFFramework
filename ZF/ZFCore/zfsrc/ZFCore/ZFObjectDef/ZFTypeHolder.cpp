@@ -19,7 +19,7 @@ ZFOBJECT_REGISTER(ZFTypeHolder)
 void ZFTypeHolder::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
-    ret += zfText(" ");
+    ret += " ";
     zfsFromPointerT(ret, this->holdedData);
 }
 zfidentity ZFTypeHolder::objectHash(void)

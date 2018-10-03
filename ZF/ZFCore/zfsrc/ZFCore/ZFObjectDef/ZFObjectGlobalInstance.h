@@ -185,7 +185,7 @@ public:
  */
 #define ZFCLASS_SINGLETON_DEFINE_DETAIL(OwnerClass, AccessTypeName, ObjectTypeName, accessMethodName, ZFLevel_) \
     _ZFP_ZFCLASS_SINGLETON_DEFINE(OwnerClass, AccessTypeName, ObjectTypeName, \
-                                  zfsConnectLineFree(zfText("_ZFP_ZFClass_"), #AccessTypeName, zfText("_"), #accessMethodName), \
+                                  zfsConnectLineFree("_ZFP_ZFClass_", #AccessTypeName, "_", #accessMethodName), \
                                   accessMethodName, ZFLevel_, \
                                   zfnew, zfdelete, ZFM_EXPAND, ZFUNUSED)
 
@@ -305,7 +305,7 @@ public:
                                          ZFLevel_) \
     _ZFP_ZFOBJECT_SINGLETON_DEFINE(OwnerClass, \
                                    AccessTypeName, ObjectTypeName, \
-                                   zfsConnectLineFree(zfText("_ZFP_ZFObject_"), zfself::ClassData()->classNameFull(), zfText("_"), #AccessTypeName, #accessMethodName), \
+                                   zfsConnectLineFree("_ZFP_ZFObject_", zfself::ClassData()->classNameFull(), "_", #AccessTypeName, #accessMethodName), \
                                    accessMethodName, \
                                    ZFLevel_)
 

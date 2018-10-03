@@ -162,7 +162,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFThreadImpl_sys_Qt_DataHolder)
 
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadImpl_sys_Qt, ZFThread, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QThread"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QThread")
 public:
     virtual void *nativeThreadRegister(ZF_IN ZFThread *ownerZFThread)
     {
@@ -173,7 +173,7 @@ public:
             QMutexLocker _syncObjLocker(&(this->_syncObj));
             exist = (_ZFP_ZFThreadImpl_sys_Qt_threadMap.find(*token) != _ZFP_ZFThreadImpl_sys_Qt_threadMap.end());
         }
-        zfCoreAssertWithMessage(!exist, zfTextA("thread already registered: %s"), zfsCoreZ2A(ownerZFThread->objectInfo().cString()));
+        zfCoreAssertWithMessage(!exist, "thread already registered: %s", ownerZFThread->objectInfo().cString());
 
         {
             QMutexLocker _syncObjLocker(&(this->_syncObj));

@@ -201,7 +201,7 @@ extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &s
             if(!TypeName##FromString(value, valueString)) \
             { \
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, \
-                    zfText("failed to convert from \"%s\""), valueString); \
+                    "failed to convert from \"%s\"", valueString); \
                 return zffalse; \
             } \
         } \
@@ -218,7 +218,7 @@ extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &s
             if(!TypeName##ToString(valueString, thisValue)) \
             { \
                 ZFSerializableUtil::errorOccurred(outErrorHint, \
-                    zfText("failed to convert %s to string"), key); \
+                    "failed to convert %s to string", key); \
                 return zffalse; \
             } \
             serializableData.attributeSet(key, valueString); \

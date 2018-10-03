@@ -11,7 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFEXPORT_VAR_READONLY_DEFINE(const zfchar *, ZFBase64TableDefault, zfText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"))
+ZFEXPORT_VAR_READONLY_DEFINE(const zfchar *, ZFBase64TableDefault, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
 ZFEXPORT_VAR_READONLY_DEFINE(zfchar, ZFBase64PadDefault, '=')
 ZFEXPORT_VAR_READONLY_DEFINE(zfindex, ZFBase64LineBreakPosStandard, 76)
 ZFEXPORT_VAR_READONLY_DEFINE(zfindex, ZFBase64LineBreakPosNone, zfindexMax())

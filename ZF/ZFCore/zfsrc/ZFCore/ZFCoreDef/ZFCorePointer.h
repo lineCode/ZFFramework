@@ -69,7 +69,7 @@ public:
     /** @brief see #objectInfo */
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
-        zfstringAppend(ret, zfText("<%p (%zi), content: %s>"),
+        zfstringAppend(ret, "<%p (%zi), content: %s>",
             this->pointerValueGet(),
             this->objectRetainCount(),
             this->objectInfoOfContent().cString());

@@ -101,7 +101,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // usually used when declare JNI method
 #define ZFImpl_sys_Android_JNI_ID(clsId) ZFM_CAT(ZFM_CAT(ZFImpl_sys_Android_ROOT_JNI_ID, _), clsId)
 // usually used when find class
-#define ZFImpl_sys_Android_JNI_NAME(clsName) ZFImpl_sys_Android_ROOT_JNI_NAME "." ZFM_TOSTRING_A(clsName)
+#define ZFImpl_sys_Android_JNI_NAME(clsName) ZFImpl_sys_Android_ROOT_JNI_NAME "." ZFM_TOSTRING(clsName)
 
 // ============================================================
 // Object

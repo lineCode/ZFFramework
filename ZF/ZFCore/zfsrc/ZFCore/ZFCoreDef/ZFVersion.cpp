@@ -18,7 +18,7 @@ void zfVersionGet(ZF_OUT zfstring &ret,
                   ZF_IN zfindex subVersionIndex)
 {
     ZFCoreArrayPOD<ZFIndexRange> pos;
-    if(*version != '\0' && !zfCoreDataPairSplitString(pos, zfindexMax(), version, zfindexMax(), zfText("."), zfnull, zfnull))
+    if(*version != '\0' && !zfCoreDataPairSplitString(pos, zfindexMax(), version, zfindexMax(), ".", zfnull, zfnull))
     {
         return ;
     }
@@ -37,10 +37,10 @@ void zfVersionGetInt(ZF_OUT zfuint &ret,
 void zfVersionSet(ZF_IN_OUT zfstring &version,
                   ZF_IN zfindex subVersionIndex,
                   ZF_IN const zfchar *subVersion,
-                  ZF_IN_OPT const zfchar *emptySubVersion /* = zfText("0") */)
+                  ZF_IN_OPT const zfchar *emptySubVersion /* = "0" */)
 {
     ZFCoreArrayPOD<ZFIndexRange> pos;
-    if(!version.isEmpty() && !zfCoreDataPairSplitString(pos, zfindexMax(), version, zfindexMax(), zfText("."), zfnull, zfnull))
+    if(!version.isEmpty() && !zfCoreDataPairSplitString(pos, zfindexMax(), version, zfindexMax(), ".", zfnull, zfnull))
     {
         return ;
     }
@@ -66,7 +66,7 @@ void zfVersionSet(ZF_IN_OUT zfstring &version,
 void zfVersionSetInt(ZF_IN_OUT zfstring &version,
                      ZF_IN zfindex subVersionIndex,
                      ZF_IN zfuint subVersion,
-                     ZF_IN_OPT const zfchar *emptySubVersion /* = zfText("0") */)
+                     ZF_IN_OPT const zfchar *emptySubVersion /* = "0" */)
 {
     zfVersionSet(version, subVersionIndex, zfsFromInt(subVersion), emptySubVersion);
 }
@@ -88,8 +88,8 @@ ZFCompareResult zfVersionCompare(ZF_IN const zfchar *version0,
 {
     ZFCoreArrayPOD<ZFIndexRange> pos0;
     ZFCoreArrayPOD<ZFIndexRange> pos1;
-    if(!zfCoreDataPairSplitString(pos0, zfindexMax(), version0, zfindexMax(), zfText("."), zfnull, zfnull)
-       || !zfCoreDataPairSplitString(pos1, zfindexMax(), version1, zfindexMax(), zfText("."), zfnull, zfnull))
+    if(!zfCoreDataPairSplitString(pos0, zfindexMax(), version0, zfindexMax(), ".", zfnull, zfnull)
+       || !zfCoreDataPairSplitString(pos1, zfindexMax(), version1, zfindexMax(), ".", zfnull, zfnull))
     {
         return ZFCompareUncomparable;
     }

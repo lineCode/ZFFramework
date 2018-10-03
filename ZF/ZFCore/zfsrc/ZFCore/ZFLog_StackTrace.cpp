@@ -29,18 +29,18 @@ ZFMETHOD_FUNC_DEFINE_4(void, zfLogStackTrace,
     }
     else
     {
-        const zfchar *fixedPrefix = ((prefix == zfnull) ? zfText("") : prefix);
+        const zfchar *fixedPrefix = ((prefix == zfnull) ? "" : prefix);
 
         ret += fixedPrefix;
-        ret += zfText("======================== stack begin =======================");
+        ret += "======================== stack begin =======================";
         ret += '\n';
 
         ret += fixedPrefix;
-        ret += zfText("| zfLogStackTrace is currently unsupported");
+        ret += "| zfLogStackTrace is currently unsupported";
         ret += '\n';
 
         ret += fixedPrefix;
-        ret += zfText("========================  stack end  =======================");
+        ret += "========================  stack end  =======================";
         ret += '\n';
     }
 }
@@ -56,18 +56,18 @@ ZFMETHOD_FUNC_DEFINE_3(zfstring, zfLogStackTrace,
     }
     else
     {
-        const zfchar *fixedPrefix = ((prefix == zfnull) ? zfText("") : prefix);
+        const zfchar *fixedPrefix = ((prefix == zfnull) ? "" : prefix);
 
         ret += fixedPrefix;
-        ret += zfText("======================== stack begin =======================");
+        ret += "======================== stack begin =======================";
         ret += '\n';
 
         ret += fixedPrefix;
-        ret += zfText("| zfLogStackTrace is currently unsupported");
+        ret += "| zfLogStackTrace is currently unsupported";
         ret += '\n';
 
         ret += fixedPrefix;
-        ret += zfText("========================  stack end  =======================");
+        ret += "========================  stack end  =======================";
         ret += '\n';
     }
     return ret;
@@ -83,7 +83,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, zfLogCallerInfo,
     }
     else
     {
-        ret += zfText("<zfLogCallerInfo is currently unsupported>");
+        ret += "<zfLogCallerInfo is currently unsupported>";
     }
 }
 ZFMETHOD_FUNC_DEFINE_1(zfstring, zfLogCallerInfo,
@@ -96,7 +96,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfstring, zfLogCallerInfo,
     }
     else
     {
-        ret += zfText("<zfLogCallerInfo is currently unsupported>");
+        ret += "<zfLogCallerInfo is currently unsupported>";
     }
     return ret;
 }

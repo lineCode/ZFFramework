@@ -30,7 +30,7 @@ protected:
         view->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
 
         // encode image to binary and load it again to test
-        zfautoObject imageHolder = zfRes(zfText("test_normal.png"));
+        zfautoObject imageHolder = zfRes("test_normal.png");
         ZFIOBufferedCallbackUsingBuffer io;
         ZFUIImageEncodeToFile(io, imageHolder);
         zfautoObject imageNew = ZFUIImageEncodeFromFile(io);

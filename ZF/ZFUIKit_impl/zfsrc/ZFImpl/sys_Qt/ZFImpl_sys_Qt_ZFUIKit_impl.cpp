@@ -20,15 +20,15 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_IN_OUT zfstring &s, ZF_IN QWidget *view)
 {
     // class name
-    s += ZFStringA2Z(view->metaObject()->className());
+    s += view->metaObject()->className();
 
     // instance
-    zfstringAppend(s, zfText(" %p"), view);
+    zfstringAppend(s, " %p", view);
 
     // frame
     {
         const QRect &frame = view->geometry();
-        zfstringAppend(s, zfText(" (%d, %d, %d, %d)"), (zfint)frame.x(), (zfint)frame.y(), (zfint)frame.width(), (zfint)frame.height());
+        zfstringAppend(s, " (%d, %d, %d, %d)", (zfint)frame.x(), (zfint)frame.y(), (zfint)frame.width(), (zfint)frame.height());
     }
 
     // text
@@ -36,14 +36,14 @@ void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_IN_OUT zfstring &s, 
         QLabel *tmp = qobject_cast<QLabel *>(view);
         if(tmp != NULL)
         {
-            zfstringAppend(s, zfText(" %s"), ZFStringA2Z(tmp->text().toStdString().c_str()));
+            zfstringAppend(s, " %s", tmp->text().toStdString().c_str());
         }
     }
     {
         QTextEdit *tmp = qobject_cast<QTextEdit *>(view);
         if(tmp != NULL)
         {
-            zfstringAppend(s, zfText(" %s"), ZFStringA2Z(tmp->toPlainText().toStdString().c_str()));
+            zfstringAppend(s, " %s", tmp->toPlainText().toStdString().c_str());
         }
     }
 }
@@ -62,15 +62,15 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_OUT zfstring &ret, ZF_IN 
 
 static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_OUT zfstring &s, QWidget *view, zfindex depth, zfindex siblingIndex)
 {
-    zfstringAppend(s, zfText("|%2d "), siblingIndex);
+    zfstringAppend(s, "|%2d ", siblingIndex);
     for(zfindex i = 0; i < depth; ++i)
     {
-        s += zfText("| ");
+        s += "| ";
     }
 
     _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(s, view);
 
-    s += zfText("\n");
+    s += "\n";
 
     if(view->layout() != zfnull)
     {
@@ -82,12 +82,12 @@ static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_O
 }
 void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
 {
-    ret += zfText("==================== QWidget tree begin ====================\n");
+    ret += "==================== QWidget tree begin ====================\n";
     if(view != zfnull)
     {
         _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ret, view, 0, 0);
     }
-    ret += zfText("==================== QWidget tree  end  ====================\n");
+    ret += "==================== QWidget tree  end  ====================\n";
 }
 
 // convert utility

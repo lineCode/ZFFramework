@@ -299,9 +299,9 @@ ZFOUTPUT_TYPE(ZFTimeInfo, {output << ZFTimeInfoToString(v);})
 // ============================================================
 // ZFTime
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTime_timeValue zfText("timeValue")
+#define ZFSerializableKeyword_ZFTime_timeValue "timeValue"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTime_timeZone zfText("timeZone")
+#define ZFSerializableKeyword_ZFTime_timeZone "timeZone"
 
 zfclassFwd _ZFP_ZFTimePrivate;
 /**

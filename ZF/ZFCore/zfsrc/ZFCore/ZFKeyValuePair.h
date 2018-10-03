@@ -71,9 +71,9 @@ public:
 
 // ============================================================
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFKeyValuePair_key zfText("key")
+#define ZFSerializableKeyword_ZFKeyValuePair_key "key"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFKeyValuePair_value zfText("value")
+#define ZFSerializableKeyword_ZFKeyValuePair_value "value"
 
 /**
  * @brief see #ZFTYPEID_DECLARE

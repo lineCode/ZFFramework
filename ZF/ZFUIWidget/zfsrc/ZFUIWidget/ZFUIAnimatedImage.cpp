@@ -106,7 +106,7 @@ public:
         ZFUIAnimatedImage *pimplOwner = userData->objectHolded();
         if(pimplOwner->aniRunning())
         {
-            zfCoreCriticalMessageTrim(zfTextA("[ZFUIAnimatedImage] you must not modify aniFrame while animating"));
+            zfCoreCriticalMessageTrim("[ZFUIAnimatedImage] you must not modify aniFrame while animating");
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(aniFrameDurationOnFinish)
@@ -265,16 +265,16 @@ void ZFUIAnimatedImage::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
 
-    zfstringAppend(ret, zfText(" %zi of %zi"), this->aniFrameIndexCurrent(), this->aniFrameCount());
+    zfstringAppend(ret, " %zi of %zi", this->aniFrameIndexCurrent(), this->aniFrameCount());
     if(this->aniFrameCount() > 0)
     {
         for(zfindex i = 0; i < this->aniFrameCount(); ++i)
         {
             if(i == 0)
             {
-                ret += zfText(" frames:");
+                ret += " frames:";
             }
-            zfstringAppend(ret, zfText(" %s"), zfsFromInt(this->aniFrameDurationFixedAtIndex(i)).cString());
+            zfstringAppend(ret, " %s", zfsFromInt(this->aniFrameDurationFixedAtIndex(i)).cString());
         }
     }
 }

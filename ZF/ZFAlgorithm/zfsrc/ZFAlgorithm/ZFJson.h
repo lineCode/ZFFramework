@@ -94,19 +94,19 @@ public:
 public:
     /** @cond ZFPrivateDoc */
     ZFJsonOutputToken(void)
-    : jsonNewLineToken(zfText("\n"))
-    , jsonIndentToken(zfText("  "))
-    , jsonValueSeparatorToken(zfText(" : "))
-    , jsonSeparatorToken(zfText(","))
-    , jsonSeparatorInSameLineToken(zfText(", "))
-    , jsonKeyTagLeft(zfText("\""))
-    , jsonKeyTagRight(zfText("\""))
-    , jsonValueTagLeft(zfText("\""))
-    , jsonValueTagRight(zfText("\""))
-    , jsonObjectTagLeft(zfText("{"))
-    , jsonObjectTagRight(zfText("}"))
-    , jsonArrayTagLeft(zfText("["))
-    , jsonArrayTagRight(zfText("]"))
+    : jsonNewLineToken("\n")
+    , jsonIndentToken("  ")
+    , jsonValueSeparatorToken(" : ")
+    , jsonSeparatorToken(",")
+    , jsonSeparatorInSameLineToken(", ")
+    , jsonKeyTagLeft("\"")
+    , jsonKeyTagRight("\"")
+    , jsonValueTagLeft("\"")
+    , jsonValueTagRight("\"")
+    , jsonObjectTagLeft("{")
+    , jsonObjectTagRight("}")
+    , jsonArrayTagLeft("[")
+    , jsonArrayTagRight("]")
     {
     }
     zfbool operator == (ZF_IN ZFJsonOutputToken const &ref) const;

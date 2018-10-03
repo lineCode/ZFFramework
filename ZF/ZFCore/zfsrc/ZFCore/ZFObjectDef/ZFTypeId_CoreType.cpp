@@ -16,7 +16,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 // string conversion spec
-#define _ZFP_zfflagsInvalidToken (zfText("0x0"))
+#define _ZFP_zfflagsInvalidToken ("0x0")
 zfbool zfflagsToString(ZF_IN_OUT zfstring &ret,
                        ZF_IN const zfflags *flagList,
                        ZF_IN const zfchar **nameList,
@@ -87,7 +87,7 @@ zfbool zfflagsToString(ZF_IN_OUT zfstring &ret,
     }
     else if(includeNotConverted)
     {
-        ret += zfText("0x");
+        ret += "0x";
         zfsFromIntT(ret, flagsLeft,
             zfHint("radix")16,
             zfHint("upper case?")zftrue);
@@ -187,7 +187,7 @@ zfbool zfstringToData(ZF_OUT ZFSerializableData &serializableData,
     if(v == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
-            zfText("null string"));
+            "null string");
         return zffalse;
     }
 
@@ -206,7 +206,7 @@ zfbool zfstringToData(ZF_OUT ZFSerializableData &serializableData,
         })
 #define _ZFP_ZFTYPEID_DEFINE_int_disallow_negative(TypeName, Type) \
     ZFTYPEID_DEFINE_BY_STRING_CONVERTER(TypeName, Type, { \
-            if(src != zfnull && zfsncmp(src, zfText("-1"), 2) == 0) \
+            if(src != zfnull && zfsncmp(src, "-1", 2) == 0) \
             { \
                 v = (Type)-1; \
                 return zftrue; \
@@ -218,7 +218,7 @@ zfbool zfstringToData(ZF_OUT ZFSerializableData &serializableData,
         }, { \
             if(v == ((Type)-1)) \
             { \
-                s += zfText("-1"); \
+                s += "-1"; \
                 return zftrue; \
             } \
             else \
@@ -323,7 +323,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
         if(!zfidentityFromString(v, valueString))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                zfText("invalid value: \"%s\""), valueString);
+                "invalid value: \"%s\"", valueString);
             return zffalse;
         }
         serializableData.resolveMark();
@@ -334,7 +334,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
         if(!zfidentityToString(s, v))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint,
-                zfText("unable to convert value to string"));
+                "unable to convert value to string");
             return zffalse;
         }
         serializableData.propertyValueSet(s.isEmpty() ? zfnull : s.cString());
@@ -481,7 +481,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFIndexRange, ZFIndexRange, {
         v.count = pair[1];
         return zftrue;
     }, {
-        zfstringAppend(s, zfText("(%zi, %zi)"), v.start, v.count);
+        zfstringAppend(s, "(%zi, %zi)", v.start, v.count);
         return zftrue;
     })
 

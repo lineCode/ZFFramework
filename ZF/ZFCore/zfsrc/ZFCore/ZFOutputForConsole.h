@@ -28,7 +28,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFOutputForConsole zfText("ZFOutputForConsole")
+#define ZFCallbackSerializeCustomType_ZFOutputForConsole "ZFOutputForConsole"
 
 /**
  * @brief default output callback to output to console, source must be zfchar *string

@@ -186,13 +186,13 @@ ZFEXPORT_VAR_READONLY_DECLARE(ZFBezier, ZFBezierBounceInOut)
 ZFTYPEID_DECLARE(ZFBezier, ZFBezier)
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFBezier_p0x zfText("p0x")
+#define ZFSerializableKeyword_ZFBezier_p0x "p0x"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFBezier_p0y zfText("p0y")
+#define ZFSerializableKeyword_ZFBezier_p0y "p0y"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFBezier_p1x zfText("p1x")
+#define ZFSerializableKeyword_ZFBezier_p1x "p1x"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFBezier_p1y zfText("p1y")
+#define ZFSerializableKeyword_ZFBezier_p1y "p1y"
 
 // ============================================================
 ZFOUTPUT_TYPE(ZFBezier, {output << ZFBezierToString(v);})

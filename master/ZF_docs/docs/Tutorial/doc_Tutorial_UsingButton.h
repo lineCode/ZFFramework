@@ -8,7 +8,7 @@
  *
  *   // declare button click listener
  *   ZFLISTENER_LOCAL(onClickListener, {
- *       zfLogT() << listenerData.sender << zfText("clicked");
+ *       zfLogT() << listenerData.sender << "clicked";
  *   })
  *
  *   // add as observer

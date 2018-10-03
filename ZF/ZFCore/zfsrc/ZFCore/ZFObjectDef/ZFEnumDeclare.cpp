@@ -69,11 +69,11 @@ void _ZFP_ZFEnumData::add(ZF_IN zfbool isEnableDuplicateValue,
     if(it != d->valueMap.end())
     {
         zfCoreAssertWithMessageTrim(isEnableDuplicateValue,
-            zfTextA("[ZFEnum] duplicate value %s (new: %s, old: %s) when define %s"),
-            zfsFromInt<zfstringA>(value).cString(),
-            zfsCoreZ2A(name),
-            zfsCoreZ2A(it->second[0]),
-            zfsCoreZ2A(this->ownerClass->classNameFull()));
+            "[ZFEnum] duplicate value %s (new: %s, old: %s) when define %s",
+            zfsFromInt(value).cString(),
+            name,
+            it->second[0],
+            this->ownerClass->classNameFull());
         it->second.add(zfsCopy(name));
     }
     else
@@ -206,67 +206,67 @@ void _ZFP_ZFEnumMethodReg(ZF_IN_OUT ZFCoreArrayPOD<const ZFMethod *> &ret,
     {
         ZFMethodUserRegisterDetail_0(resultMethod, &_ZFP_ZFEnumIvk_EnumIsFlags, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfbool, zfText("EnumIsFlags"));
+            zfbool, "EnumIsFlags");
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_0(resultMethod, &_ZFP_ZFEnumIvk_EnumDefault, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfuint, zfText("EnumDefault"));
+            zfuint, "EnumDefault");
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_0(resultMethod, &_ZFP_ZFEnumIvk_EnumCount, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfindex, zfText("EnumCount"));
+            zfindex, "EnumCount");
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_EnumIndexForValue, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfindex, zfText("EnumIndexForValue"),
+            zfindex, "EnumIndexForValue",
             ZFMP_IN(zfuint, value));
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_EnumValueAtIndex, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfuint, zfText("EnumValueAtIndex"),
+            zfuint, "EnumValueAtIndex",
             ZFMP_IN(zfindex, index));
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_EnumNameAtIndex, d->ownerClass,
             public, ZFMethodTypeStatic,
-            const zfchar *, zfText("EnumNameAtIndex"),
+            const zfchar *, "EnumNameAtIndex",
             ZFMP_IN(zfindex, index));
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_EnumContainValue, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfbool, zfText("EnumContainValue"),
+            zfbool, "EnumContainValue",
             ZFMP_IN(zfuint, value));
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_EnumValueForName, d->ownerClass,
             public, ZFMethodTypeStatic,
-            zfuint, zfText("EnumValueForName"),
+            zfuint, "EnumValueForName",
             ZFMP_IN(const zfchar *, name));
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_EnumNameForValue, d->ownerClass,
             public, ZFMethodTypeStatic,
-            const zfchar *, zfText("EnumNameForValue"),
+            const zfchar *, "EnumNameForValue",
             ZFMP_IN(zfuint, value));
         ret.add(resultMethod);
     }
     {
         ZFMethodUserRegisterDetail_1(resultMethod, &_ZFP_ZFEnumIvk_enumValueSet, d->ownerClass,
             public, ZFMethodTypeVirtual,
-            void, zfText("enumValueSet"),
+            void, "enumValueSet",
             ZFMP_IN(zfuint, value));
         ret.add(resultMethod);
     }

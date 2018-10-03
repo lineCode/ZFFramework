@@ -156,7 +156,7 @@ public:
  *       zfblockedAlloc(
  *           ZFString, // object's type
  *           s, // object's name
- *           zfText("init value") // params passed to object's objectOnInit
+ *           "init value" // params passed to object's objectOnInit
  *       );
  *       s->objectInfo(); // access like normal ZFObject
  *       saved = zfRetain(s); // you may retain it and save it

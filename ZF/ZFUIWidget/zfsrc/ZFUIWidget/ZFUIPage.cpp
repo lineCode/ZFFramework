@@ -92,9 +92,9 @@ ZFMETHOD_DEFINE_1(ZFUIPage, void, pageAniSet,
                   ZFMP_IN(ZFAnimation *, pageAni))
 {
     zfCoreAssertWithMessage(this->_ZFP_ZFUIPage_pageAniCanChange,
-        zfTextA("you can only change pageAni during")
-        zfTextA(" Page::pageAniOnUpdate")
-        zfTextA("or Manager::pageAniOnUpdate"));
+        "you can only change pageAni during"
+        " Page::pageAniOnUpdate"
+        "or Manager::pageAniOnUpdate");
     zfRetainChange(_ZFP_ZFUIPage_pageAni, pageAni);
 }
 
@@ -144,7 +144,7 @@ void ZFUIPage::_ZFP_ZFUIPage_pageCreate(void)
 
     this->_ZFP_ZFUIPage_pageOnCreateCalled = zffalse;
     this->pageOnCreate();
-    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnCreateCalled, zfTextA("[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnCreate"));
+    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnCreateCalled, "[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnCreate");
 }
 void ZFUIPage::_ZFP_ZFUIPage_pageResume(ZF_IN ZFUIPageResumeReasonEnum reason)
 {
@@ -153,7 +153,7 @@ void ZFUIPage::_ZFP_ZFUIPage_pageResume(ZF_IN ZFUIPageResumeReasonEnum reason)
 
     this->_ZFP_ZFUIPage_pageOnResumeCalled = zffalse;
     this->pageOnResume(reason);
-    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnResumeCalled, zfTextA("[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnResume"));
+    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnResumeCalled, "[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnResume");
 }
 void ZFUIPage::_ZFP_ZFUIPage_pageAttach(ZF_IN ZFUIPageResumeReasonEnum reason)
 {
@@ -162,7 +162,7 @@ void ZFUIPage::_ZFP_ZFUIPage_pageAttach(ZF_IN ZFUIPageResumeReasonEnum reason)
 
     this->_ZFP_ZFUIPage_pageOnAttachCalled = zffalse;
     this->pageOnAttach(reason);
-    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnAttachCalled, zfTextA("[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnAttach"));
+    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnAttachCalled, "[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnAttach");
 }
 void ZFUIPage::_ZFP_ZFUIPage_pageDetach(ZF_IN ZFUIPagePauseReasonEnum reason)
 {
@@ -171,7 +171,7 @@ void ZFUIPage::_ZFP_ZFUIPage_pageDetach(ZF_IN ZFUIPagePauseReasonEnum reason)
 
     this->_ZFP_ZFUIPage_pageOnDetachCalled = zffalse;
     this->pageOnDetach(reason);
-    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnDetachCalled, zfTextA("[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnDetach"));
+    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnDetachCalled, "[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnDetach");
 }
 void ZFUIPage::_ZFP_ZFUIPage_pagePause(ZF_IN ZFUIPagePauseReasonEnum reason)
 {
@@ -180,7 +180,7 @@ void ZFUIPage::_ZFP_ZFUIPage_pagePause(ZF_IN ZFUIPagePauseReasonEnum reason)
 
     this->_ZFP_ZFUIPage_pageOnPauseCalled = zffalse;
     this->pageOnPause(reason);
-    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnPauseCalled, zfTextA("[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnPause"));
+    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnPauseCalled, "[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnPause");
 }
 void ZFUIPage::_ZFP_ZFUIPage_pageDestroy(void)
 {
@@ -189,7 +189,7 @@ void ZFUIPage::_ZFP_ZFUIPage_pageDestroy(void)
 
     this->_ZFP_ZFUIPage_pageOnDestroyCalled = zffalse;
     this->pageOnDestroy();
-    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnDestroyCalled, zfTextA("[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnDestroy"));
+    zfCoreAssertWithMessageTrim(this->_ZFP_ZFUIPage_pageOnDestroyCalled, "[ZFUIPage] you must call zfsuperI(ZFUIPage)::pageOnDestroy");
 
     zfRetainChange(this->_ZFP_ZFUIPage_pageCreateParam, zfnull);
 }

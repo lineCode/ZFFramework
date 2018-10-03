@@ -40,27 +40,27 @@ ZFCoreArrayPOD<_ZFP_PropLifeCycleData> &_ZFP_ZFPropertyLifeCycleDataRef(ZF_IN co
     if(zffalse)
     {
     }
-    else if(zfscmpTheSame(lifeCycleName, zfText("OnInit")))
+    else if(zfscmpTheSame(lifeCycleName, "OnInit"))
     {
         return property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFPropertyLifeCycle_OnInit;
     }
-    else if(zfscmpTheSame(lifeCycleName, zfText("OnDealloc")))
+    else if(zfscmpTheSame(lifeCycleName, "OnDealloc"))
     {
         return property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFPropertyLifeCycle_OnDealloc;
     }
-    else if(zfscmpTheSame(lifeCycleName, zfText("OnVerify")))
+    else if(zfscmpTheSame(lifeCycleName, "OnVerify"))
     {
         return property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFPropertyLifeCycle_OnVerify;
     }
-    else if(zfscmpTheSame(lifeCycleName, zfText("OnAttach")))
+    else if(zfscmpTheSame(lifeCycleName, "OnAttach"))
     {
         return property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFPropertyLifeCycle_OnAttach;
     }
-    else if(zfscmpTheSame(lifeCycleName, zfText("OnDetach")))
+    else if(zfscmpTheSame(lifeCycleName, "OnDetach"))
     {
         return property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFPropertyLifeCycle_OnDetach;
     }
-    else if(zfscmpTheSame(lifeCycleName, zfText("OnUpdate")))
+    else if(zfscmpTheSame(lifeCycleName, "OnUpdate"))
     {
         return property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFPropertyLifeCycle_OnUpdate;
     }

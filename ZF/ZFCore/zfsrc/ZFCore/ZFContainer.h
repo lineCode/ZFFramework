@@ -21,7 +21,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFContainer_element zfText("element")
+#define ZFSerializableKeyword_ZFContainer_element "element"
 
 /**
  * @brief container of ZFObject

@@ -223,9 +223,9 @@ public:
                   ZF_IN zfindex atIndex)
     {
         zfCoreAssertWithMessageTrim(!ZFBitTest(owner->objectInstanceState(), ZFObjectInstanceStateOnDealloc),
-            zfTextA("[ZFUIView] add child during parent's dealloc is not allowed"));
-        zfCoreAssertWithMessageTrim(view != zfnull, zfTextA("[ZFUIView] add null child"));
-        zfCoreAssertWithMessageTrim(view->viewParent() == zfnull, zfTextA("[ZFUIView] add child which already has parent, you should remove it first"));
+            "[ZFUIView] add child during parent's dealloc is not allowed");
+        zfCoreAssertWithMessageTrim(view != zfnull, "[ZFUIView] add null child");
+        zfCoreAssertWithMessageTrim(view->viewParent() == zfnull, "[ZFUIView] add child which already has parent, you should remove it first");
         zfRetain(view);
 
         if(this->serializableRefLayoutParamCache == zfnull)
@@ -491,13 +491,13 @@ public:
         if(internalView == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                zfText("null view"));
+                "null view");
             return zffalse;
         }
         if(!internalView.toObject()->classData()->classIsTypeOf(ZFUIView::ClassData()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                zfText("%s not type of %s"),
+                "%s not type of %s",
                 internalView.toObject()->objectInfoOfInstance().cString(), ZFUIView::ClassData()->classNameFull());
             return zffalse;
         }
@@ -505,7 +505,7 @@ public:
         if(internalViewTmp->viewId().isEmpty())
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                zfText("auto serialized internal view %s has no viewId"),
+                "auto serialized internal view %s has no viewId",
                 internalViewTmp->objectInfoOfInstance().cString());
             return zffalse;
         }
@@ -747,13 +747,13 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
             if(element == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("null view"));
+                    "null view");
                 return zffalse;
             }
             if(!element.toObject()->classData()->classIsTypeOf(ZFUIView::ClassData()))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("%s not type of %s"),
+                    "%s not type of %s",
                     element.toObject()->objectInfoOfInstance().cString(), ZFUIView::ClassData()->classNameFull());
                 return zffalse;
             }
@@ -772,13 +772,13 @@ zfbool ZFUIView::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
             if(layoutParam == zfnull)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("null layoutParam"));
+                    "null layoutParam");
                 return zffalse;
             }
             if(!layoutParam.toObject()->classData()->classIsTypeOf(ZFUIViewLayoutParam::ClassData()))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                    zfText("%s not type of %s"),
+                    "%s not type of %s",
                     layoutParam.toObject()->objectInfoOfInstance().cString(), ZFUIViewLayoutParam::ClassData()->classNameFull());
                 return zffalse;
             }
@@ -890,7 +890,7 @@ zfbool ZFUIView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
             if(!d->childArrayIsTheSame(this, ref, ZFUIViewChildLayer::e_Normal))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint,
-                    zfText("child mismatch, this: %s, ref: %s"),
+                    "child mismatch, this: %s, ref: %s",
                     this->objectInfoOfInstance().cString(), ref->objectInfoOfInstance().cString());
                 return zffalse;
             }
@@ -908,7 +908,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, zfstring, viewDelegateClass)
     if(cls != zfnull)
     {
         zfCoreAssertWithMessageTrim(this->viewDelegateSupported(),
-            zfText("[ZFUIView] viewDelegate \"%s\" not supported for view: %s"),
+            "[ZFUIView] viewDelegate \"%s\" not supported for view: %s",
             this->viewDelegateClass().cString(),
             this->objectInfo().cString());
 
@@ -1192,12 +1192,12 @@ static void _ZFP_ZFUIView_objectInfo_viewDelegate(ZF_IN_OUT zfstring &ret, ZF_IN
             parent = parent->viewParent();
         }
     }
-    ret += zfText("\n");
+    ret += "\n";
     for(zfindex i = 0; i < count; ++i)
     {
-        ret += zfText("    ");
+        ret += "    ";
     }
-    ret += zfText("(delegate) ");
+    ret += "(delegate) ";
     view->viewDelegate()->objectInfoT(ret);
 }
 void ZFUIView::objectInfoT(ZF_IN_OUT zfstring &ret)
@@ -1211,24 +1211,24 @@ void ZFUIView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 
     if(!this->viewId().isEmpty())
     {
-        zfstringAppend(ret, zfText(" [%s]"), this->viewId().cString());
+        zfstringAppend(ret, " [%s]", this->viewId().cString());
     }
 
-    ret += zfText(" ");
+    ret += " ";
     ZFUIRectToString(ret, this->layoutedFrame());
 
     if(!this->viewVisible())
     {
-        ret += zfText(" Hidden");
+        ret += " Hidden";
     }
 
     if(!this->viewUIEnableTree())
     {
-        ret += zfText(" UITreeDisabled");
+        ret += " UITreeDisabled";
     }
     else if(!this->viewUIEnable())
     {
-        ret += zfText(" UIDisabled");
+        ret += " UIDisabled";
     }
 }
 
@@ -1363,9 +1363,9 @@ void ZFUIView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
     {
         return ;
     }
-    zfCoreAssertWithMessage(viewDelegate != this, zfTextA("you must not set viewDelegate to self"));
+    zfCoreAssertWithMessage(viewDelegate != this, "you must not set viewDelegate to self");
     zfCoreAssertWithMessage(viewDelegate == zfnull || viewDelegate->viewParent() == zfnull,
-        zfTextA("setting a viewDelegate which already has parent"));
+        "setting a viewDelegate which already has parent");
 
     ZFUIView *viewDelegateOld = d->viewDelegate;
     d->viewDelegate = zfnull;

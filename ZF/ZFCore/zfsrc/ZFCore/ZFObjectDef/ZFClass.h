@@ -89,7 +89,7 @@ public:
      *
      * typical usage:
      * @code
-     *   const ZFClass *cls = ZFClass::classForName(zfText("MyObject"));
+     *   const ZFClass *cls = ZFClass::classForName("MyObject");
      *   zfautoObject objTmp = ((cls != zfnull) ? cls->newInstance() : zfautoObjectNull());
      *   MyObject *obj = objTmp.to<MyObject *>();
      * @endcode
@@ -294,7 +294,7 @@ public:
      *   @code
      *     zfautoObject result;
      *     ZFCoreArrayPOD<const ZFMethod *> objectOnInitMethodList;
-     *     cls->methodForNameGetAllT(objectOnInitMethodList, zfText("objectOnInit"));
+     *     cls->methodForNameGetAllT(objectOnInitMethodList, "objectOnInit");
      *     // you may do your extra method filters before actual alloc the object
      *     ZFToken token = cls->newInstanceGenericBegin();
      *     if(token != zfnull)
@@ -669,15 +669,15 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFClassDataChangeObserverRef(void);
 zfclassNotPOD ZF_ENV_EXPORT _ZFP_ZFCoreCriticalClassNotTypeOf
 {
 public:
-    static zfstringA classInfo(ZF_IN const ZFClass *cls)
+    static zfstring classInfo(ZF_IN const ZFClass *cls)
     {
         if(cls)
         {
-            return zfsCoreZ2A(cls->classNameFull());
+            return cls->classNameFull();
         }
         else
         {
-            return zfsCoreZ2A(ZFTOKEN_zfnull);
+            return ZFTOKEN_zfnull;
         }
     }
 };
@@ -685,14 +685,14 @@ public:
  * @brief log that likes "[file function (line)] class xxx not type of xxx"
  */
 #define zfCoreCriticalClassNotTypeOf(cls, desired) \
-    zfCoreCriticalMessage(zfTextA("class %s not type of %s"), \
+    zfCoreCriticalMessage("class %s not type of %s", \
         _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(cls).cString(), \
         _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(desired).cString())
 /**
  * @brief see #zfCoreCriticalClassNotTypeOf
  */
 #define zfCoreCriticalClassNotTypeOfDetail(callerInfo, cls, desired) \
-    zfCoreCriticalMessageDetail(callerInfo, zfTextA("class %s not type of %s"), \
+    zfCoreCriticalMessageDetail(callerInfo, "class %s not type of %s", \
         _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(cls).cString(), \
         _ZFP_ZFCoreCriticalClassNotTypeOf::classInfo(desired).cString())
 

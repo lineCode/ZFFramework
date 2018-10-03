@@ -99,7 +99,7 @@ public:
     ~_ZFP_ZFCoreStatisticInvokeTimeLoggerOneTime(void)
     {
         ZFCoreStatistic::invokeTimeLogEnd(key);
-        output << ZFCoreStatistic::invokeTimeGetSummary(key) << zfText("\n");
+        output << ZFCoreStatistic::invokeTimeGetSummary(key) << "\n";
         ZFCoreStatistic::invokeTimeRemove(key);
     }
 private:
@@ -170,7 +170,7 @@ public:
     ~_ZFP_ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(void)
     {
         ZFCoreStatistic::invokeTimeAccurateLogEnd(key);
-        output << ZFCoreStatistic::invokeTimeAccurateGetSummary(key) << zfText("\n");
+        output << ZFCoreStatistic::invokeTimeAccurateGetSummary(key) << "\n";
         ZFCoreStatistic::invokeTimeAccurateRemove(key);
     }
 private:

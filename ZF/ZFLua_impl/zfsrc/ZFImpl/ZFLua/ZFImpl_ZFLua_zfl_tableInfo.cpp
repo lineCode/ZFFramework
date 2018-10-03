@@ -12,7 +12,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_tableInfo, {
-        ZFImpl_ZFLua_execute(L, zfText(
+        ZFImpl_ZFLua_execute(L,
                 "function zfl_tableInfo(root)\n"
                 "    if type(root) ~= 'table' then\n"
                 "        return tostring(root)\n"
@@ -39,7 +39,7 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_tableInfo, {
                 "function zfl_tableInfoPrint(root)\n"
                 "    print(zfl_tableInfo(root))\n"
                 "end\n"
-            ));
+            );
     }, {
     })
 

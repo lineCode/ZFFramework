@@ -22,7 +22,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 // ZFUIListView
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIListView_listAdapter zfText("listAdapter")
+#define ZFSerializableKeyword_ZFUIListView_listAdapter "listAdapter"
 
 zfclassFwd _ZFP_ZFUIListViewPrivate;
 /**

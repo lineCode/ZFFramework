@@ -22,31 +22,31 @@ public:
         {
             if(*src == '\"')
             {
-                dst << zfText("\\\"");
+                dst << "\\\"";
             }
             else if(*src == '\\')
             {
-                dst << zfText("\\\\");
+                dst << "\\\\";
             }
             else if(*src == '\n')
             {
-                dst << zfText("\\n");
+                dst << "\\n";
             }
             else if(*src == '\r')
             {
-                dst << zfText("\\r");
+                dst << "\\r";
             }
             else if(*src == '\t')
             {
-                dst << zfText("\\t");
+                dst << "\\t";
             }
             else if(*src == '\f')
             {
-                dst << zfText("\\f");
+                dst << "\\f";
             }
             else if(*src == '\b')
             {
-                dst << zfText("\\b");
+                dst << "\\b";
             }
             else
             {

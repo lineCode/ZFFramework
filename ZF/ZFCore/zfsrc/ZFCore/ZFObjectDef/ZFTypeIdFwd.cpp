@@ -109,7 +109,7 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
                           ZF_IN const zfchar *typeName,
                           ZF_IN _ZFP_PropAliasDetachCallback detachCallback)
 {
-    zfstring key = zfText("_ZFP_PropTypeAlias_");
+    zfstring key = "_ZFP_PropTypeAlias_";
     key += typeName;
     _ZFP_I_PropAliasHolder *d = obj->tagGet<_ZFP_I_PropAliasHolder *>(key);
     if(d == zfnull)
@@ -137,7 +137,7 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
 void _ZFP_PropAliasDetach(ZF_IN ZFObject *obj,
                           ZF_IN const zfchar *typeName)
 {
-    zfstring key = zfText("_ZFP_PropTypeAlias_");
+    zfstring key = "_ZFP_PropTypeAlias_";
     key += typeName;
     obj->tagRemove(key);
 }

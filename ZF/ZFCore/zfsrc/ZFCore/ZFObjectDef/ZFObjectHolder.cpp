@@ -18,7 +18,7 @@ ZFOBJECT_REGISTER(ZFObjectHolder)
 void ZFObjectHolder::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
-    ret += zfText(" ");
+    ret += " ";
     zfsFromPointerT(ret, this->_ZFP_objectHolded.toObject());
 }
 

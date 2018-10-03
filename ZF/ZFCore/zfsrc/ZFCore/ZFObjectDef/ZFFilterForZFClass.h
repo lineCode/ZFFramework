@@ -34,17 +34,17 @@ typedef enum {
     ZFFilterForZFClassTypeExcludeParentOf, /**< @brief !clsToCheck->classIsTypeOf(cls) */
 } ZFFilterForZFClassType;
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterForZFClassTypeInclude zfText("Include")
+#define ZFTOKEN_ZFFilterForZFClassTypeInclude "Include"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterForZFClassTypeExclude zfText("Exclude")
+#define ZFTOKEN_ZFFilterForZFClassTypeExclude "Exclude"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterForZFClassTypeIncludeChildOf zfText("IncludeChildOf")
+#define ZFTOKEN_ZFFilterForZFClassTypeIncludeChildOf "IncludeChildOf"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterForZFClassTypeIncludeParentOf zfText("IncludeParentOf")
+#define ZFTOKEN_ZFFilterForZFClassTypeIncludeParentOf "IncludeParentOf"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterForZFClassTypeExcludeChildOf zfText("ExcludeChildOf")
+#define ZFTOKEN_ZFFilterForZFClassTypeExcludeChildOf "ExcludeChildOf"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterForZFClassTypeExcludeParentOf zfText("ExcludeParentOf")
+#define ZFTOKEN_ZFFilterForZFClassTypeExcludeParentOf "ExcludeParentOf"
 
 // ============================================================
 zfclassPOD ZF_ENV_EXPORT _ZFP_ZFFilterForZFClassData

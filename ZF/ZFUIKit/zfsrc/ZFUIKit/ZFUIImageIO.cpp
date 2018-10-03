@@ -65,13 +65,13 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(input, ZFUIImageSerializeType_input)
     if(!input.callbackIsValid())
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("invalid callback"));
+            "invalid callback");
         return zffalse;
     }
     if(!ZFUIImageEncodeFromFile(ret, input))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-            zfText("load image failed"));
+            "load image failed");
         return zffalse;
     }
     return zftrue;
@@ -128,7 +128,7 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(color, ZFUIImageSerializeType_color)
             if(size.width <= 0 || size.height <= 0)
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *categoryData,
-                    zfText("invalid size: %s"), ZFUISizeToString(size).cString());
+                    "invalid size: %s", ZFUISizeToString(size).cString());
                 return zffalse;
             }
         }

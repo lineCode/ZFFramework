@@ -22,7 +22,7 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        zfautoObject luaResult = ZFLuaExecute(ZFInputForResFile(zfText("test_ZFLua_app.lua")));
+        zfautoObject luaResult = ZFLuaExecute(ZFInputForResFile("test_ZFLua_app.lua"));
         ZFUIWindow *window = luaResult;
         zfCoreAssert(window != zfnull);
         window->observerAdd(

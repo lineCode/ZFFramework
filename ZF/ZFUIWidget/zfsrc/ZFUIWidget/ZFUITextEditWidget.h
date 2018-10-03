@@ -42,7 +42,7 @@ public:
     {
         zfblockedAlloc(ZFUIImageView, textEditBackgroundView);
         propertyValue = textEditBackgroundView;
-        textEditBackgroundView->imageSet(zfRes(zfText("ZFUIWidget/ZFUITextEditWidget_background.xml")));
+        textEditBackgroundView->imageSet(zfRes("ZFUIWidget/ZFUITextEditWidget_background.xml"));
     }
 
     /**
@@ -55,7 +55,7 @@ public:
     {
         zfblockedAlloc(ZFUIButtonBasic, textEditClearButton);
         propertyValue = textEditClearButton;
-        textEditClearButton->buttonIconImageSet(zfRes(zfText("ZFUIWidget/ZFUITextEditWidget_clearButton.xml")));
+        textEditClearButton->buttonIconImageSet(zfRes("ZFUIWidget/ZFUITextEditWidget_clearButton.xml"));
         textEditClearButton->viewSizeMinSet(ZFUISizeZero());
         textEditClearButton->viewVisibleSet(zffalse);
     }

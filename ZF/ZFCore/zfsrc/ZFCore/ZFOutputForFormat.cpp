@@ -75,7 +75,7 @@ public:
     {
         zfstring buf;
         this->format->_ZFP_format(
-            buf, ZFOutputFormatStep::e_OnInit, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
+            buf, ZFOutputFormatStep::e_OnInit, "", 0, this->outputCount, this->writtenLen, this->state);
         if(!buf.isEmpty())
         {
             this->writtenLen += this->output.execute(buf.cString(), buf.length() * sizeof(zfchar));
@@ -85,7 +85,7 @@ public:
     {
         zfstring buf;
         this->format->_ZFP_format(
-            buf, ZFOutputFormatStep::e_OnOutputEnd, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
+            buf, ZFOutputFormatStep::e_OnOutputEnd, "", 0, this->outputCount, this->writtenLen, this->state);
         if(!buf.isEmpty())
         {
             if(this->output.callbackIsValid())
@@ -96,7 +96,7 @@ public:
         }
 
         this->format->_ZFP_format(
-            buf, ZFOutputFormatStep::e_OnDealloc, zfText(""), 0, this->outputCount, this->writtenLen, this->state);
+            buf, ZFOutputFormatStep::e_OnDealloc, "", 0, this->outputCount, this->writtenLen, this->state);
         if(!buf.isEmpty())
         {
             if(this->output.callbackIsValid())
@@ -234,7 +234,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForFormat, ZFCallbackSerializeCu
     if(format == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *formatData,
-            zfText("format object %s not type of %s"),
+            "format object %s not type of %s",
             ZFObjectInfo(formatHolder.toObject()).cString(),
             ZFOutputFormat::ClassData()->classNameFull());
         return zffalse;
@@ -246,7 +246,7 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFOutputForFormat, ZFCallbackSerializeCu
     if(!ZFOutputForFormatT(retTmp, output, format))
     {
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, *formatData,
-            zfText("unable to create from output %s and format %s"),
+            "unable to create from output %s and format %s",
             output.objectInfo().cString(),
             ZFObjectInfo(formatHolder.toObject()).cString());
         return zffalse;

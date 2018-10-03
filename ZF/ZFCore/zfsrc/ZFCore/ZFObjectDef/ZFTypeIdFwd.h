@@ -24,15 +24,15 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief shows that the property has no type and can not be used in advanced property copy operation,
  *   ensured empty string
  */
-#define ZFTypeId_none() zfText("")
+#define ZFTypeId_none() ""
 
 // ============================================================
 /** @brief class prefix for subclass of #ZFTypeIdWrapper */
 #define ZFTypeIdWrapperPrefix v_
 /** @brief see #ZFTypeIdWrapperPrefix */
-#define ZFTypeIdWrapperPrefixName zfText("v_")
+#define ZFTypeIdWrapperPrefixName "v_"
 /** @brief see #ZFTypeIdWrapperPrefix */
-#define ZFTypeIdWrapperPrefixNameLen 2 // zfslen(zfText("v_"))
+#define ZFTypeIdWrapperPrefixNameLen 2 // zfslen("v_")
 
 // ============================================================
 zfclassFwd ZFSerializableData;
@@ -349,14 +349,14 @@ public:
                                               ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */) \
     { \
         ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, \
-            zfText("registered type %s is not serializable"), ZFM_TOSTRING_DIRECT(TypeName)); \
+            "registered type %s is not serializable", ZFM_TOSTRING_DIRECT(TypeName)); \
         return zffalse; \
     } \
     zfbool v_##TypeName::wrappedValueToData(ZF_OUT ZFSerializableData &serializableData, \
                                             ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */) \
     { \
         ZFSerializableUtil::errorOccurred(outErrorHint, \
-            zfText("registered type %s is not serializable"), ZFM_TOSTRING_DIRECT(TypeName)); \
+            "registered type %s is not serializable", ZFM_TOSTRING_DIRECT(TypeName)); \
         return zffalse; \
     } \
     zfbool v_##TypeName::wrappedValueFromString(ZF_IN const zfchar *src, \

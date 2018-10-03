@@ -11,26 +11,26 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-template<typename T_Char>
-zfindex _ZFP_zfstringFind(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+// ============================================================
+zfindex zfstringFind(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
         if(srcLen >= findLen)
         {
-            const T_Char *p = src;
-            const T_Char *pEnd = src + srcLen - findLen;
+            const zfchar *p = src;
+            const zfchar *pEnd = src + srcLen - findLen;
             do
             {
-                if(zfsncmpT(p, find, findLen) == 0)
+                if(zfsncmp(p, find, findLen) == 0)
                 {
                     return (p - src);
                 }
@@ -40,26 +40,25 @@ zfindex _ZFP_zfstringFind(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN c
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindReversely(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindReversely(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
         if(srcLen >= findLen)
         {
-            const T_Char *p = src + srcLen - findLen;
-            const T_Char *pEnd = src;
+            const zfchar *p = src + srcLen - findLen;
+            const zfchar *pEnd = src;
             do
             {
-                if(zfsncmpT(p, find, findLen) == 0)
+                if(zfsncmp(p, find, findLen) == 0)
                 {
                     return (p - src);
                 }
@@ -69,26 +68,25 @@ zfindex _ZFP_zfstringFindReversely(ZF_IN const T_Char *src, ZF_IN zfindex srcLen
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindCaseInsensitive(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindCaseInsensitive(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
         if(srcLen >= findLen)
         {
-            const T_Char *p = src;
-            const T_Char *pEnd = src + srcLen - findLen;
+            const zfchar *p = src;
+            const zfchar *pEnd = src + srcLen - findLen;
             do
             {
-                if(zfsnicmpT(p, find, findLen) == 0)
+                if(zfsnicmp(p, find, findLen) == 0)
                 {
                     return (p - src);
                 }
@@ -98,26 +96,25 @@ zfindex _ZFP_zfstringFindCaseInsensitive(ZF_IN const T_Char *src, ZF_IN zfindex 
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindCaseInsensitiveReversely(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindCaseInsensitiveReversely(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
         if(srcLen >= findLen)
         {
-            const T_Char *p = src + srcLen - findLen;
-            const T_Char *pEnd = src;
+            const zfchar *p = src + srcLen - findLen;
+            const zfchar *pEnd = src;
             do
             {
-                if(zfsnicmpT(p, find, findLen) == 0)
+                if(zfsnicmp(p, find, findLen) == 0)
                 {
                     return (p - src);
                 }
@@ -127,21 +124,20 @@ zfindex _ZFP_zfstringFindCaseInsensitiveReversely(ZF_IN const T_Char *src, ZF_IN
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindFirstOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindFirstOf(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
-        const T_Char *p = src;
-        const T_Char *pEnd = src + srcLen;
+        const zfchar *p = src;
+        const zfchar *pEnd = src + srcLen;
         while(p < pEnd)
         {
             for(zfindex i = 0; i < findLen; ++i)
@@ -156,21 +152,20 @@ zfindex _ZFP_zfstringFindFirstOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, 
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindFirstNotOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindFirstNotOf(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
-        const T_Char *p = src;
-        const T_Char *pEnd = src + srcLen;
+        const zfchar *p = src;
+        const zfchar *pEnd = src + srcLen;
         while(p < pEnd)
         {
             zfindex i = 0;
@@ -190,21 +185,20 @@ zfindex _ZFP_zfstringFindFirstNotOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLe
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindLastOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindLastOf(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
-        const T_Char *p = src + srcLen - 1;
-        const T_Char *pEnd = src - 1;
+        const zfchar *p = src + srcLen - 1;
+        const zfchar *pEnd = src - 1;
         while(p > pEnd)
         {
             for(zfindex i = 0; i < findLen; ++i)
@@ -219,21 +213,20 @@ zfindex _ZFP_zfstringFindLastOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, Z
     }
     return zfindexMax();
 }
-template<typename T_Char>
-zfindex _ZFP_zfstringFindLastNotOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen, ZF_IN const T_Char *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
+zfindex zfstringFindLastNotOf(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_IN const zfchar *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
 {
     if(src && find)
     {
         if(srcLen == zfindexMax())
         {
-            srcLen = zfslenT(src);
+            srcLen = zfslen(src);
         }
         if(findLen == zfindexMax())
         {
-            findLen = zfslenT(find);
+            findLen = zfslen(find);
         }
-        const T_Char *p = src + srcLen - 1;
-        const T_Char *pEnd = src - 1;
+        const zfchar *p = src + srcLen - 1;
+        const zfchar *pEnd = src - 1;
         while(p > pEnd)
         {
             zfindex i = 0;
@@ -252,74 +245,6 @@ zfindex _ZFP_zfstringFindLastNotOf(ZF_IN const T_Char *src, ZF_IN zfindex srcLen
         }
     }
     return zfindexMax();
-}
-
-// ============================================================
-zfindex zfstringFind(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFind(src, srcLen, find, findLen);
-}
-zfindex zfstringFindReversely(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindReversely(src, srcLen, find, findLen);
-}
-zfindex zfstringFindCaseInsensitive(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindCaseInsensitive(src, srcLen, find, findLen);
-}
-zfindex zfstringFindCaseInsensitiveReversely(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindCaseInsensitiveReversely(src, srcLen, find, findLen);
-}
-zfindex zfstringFindFirstOf(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindFirstOf(src, srcLen, find, findLen);
-}
-zfindex zfstringFindFirstNotOf(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindFirstNotOf(src, srcLen, find, findLen);
-}
-zfindex zfstringFindLastOf(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindLastOf(src, srcLen, find, findLen);
-}
-zfindex zfstringFindLastNotOf(ZF_IN const zfcharA *src, ZF_IN zfindex srcLen, ZF_IN const zfcharA *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindLastNotOf(src, srcLen, find, findLen);
-}
-
-// ============================================================
-zfindex zfstringFind(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFind(src, srcLen, find, findLen);
-}
-zfindex zfstringFindReversely(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindReversely(src, srcLen, find, findLen);
-}
-zfindex zfstringFindCaseInsensitive(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindCaseInsensitive(src, srcLen, find, findLen);
-}
-zfindex zfstringFindCaseInsensitiveReversely(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindCaseInsensitiveReversely(src, srcLen, find, findLen);
-}
-zfindex zfstringFindFirstOf(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindFirstOf(src, srcLen, find, findLen);
-}
-zfindex zfstringFindFirstNotOf(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindFirstNotOf(src, srcLen, find, findLen);
-}
-zfindex zfstringFindLastOf(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindLastOf(src, srcLen, find, findLen);
-}
-zfindex zfstringFindLastNotOf(ZF_IN const zfcharW *src, ZF_IN zfindex srcLen, ZF_IN const zfcharW *find, ZF_IN_OPT zfindex findLen /* = zfindexMax() */)
-{
-    return _ZFP_zfstringFindLastNotOf(src, srcLen, find, findLen);
 }
 
 ZF_NAMESPACE_GLOBAL_END

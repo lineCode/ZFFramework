@@ -19,7 +19,7 @@ void ZFUINativeViewWrapper::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     zfsuper::objectInfoOnAppend(ret);
     if(this->wrappedNativeView() != zfnull)
     {
-        ret += zfText(" ");
+        ret += " ";
         zfsFromPointerT(ret, this->wrappedNativeView());
     }
 }

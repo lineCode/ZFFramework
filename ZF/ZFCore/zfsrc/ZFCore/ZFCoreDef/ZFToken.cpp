@@ -14,21 +14,21 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 const ZFTokenForContainer _ZFP_ZFTokenForContainerTrim;
 
 const ZFTokenForContainer _ZFP_ZFTokenForContainerDetail(
-          zfText("[\n    ") // tokenLeft
-        , zfText("\n]")     // tokenRight
-        , zfText(",\n    ") // tokenSeparator
-        , zfText("")        // tokenValueLeft
-        , zfText("")        // tokenValueRight
-        , zfText("...")     // tokenEtc
+          "[\n    " // tokenLeft
+        , "\n]"     // tokenRight
+        , ",\n    " // tokenSeparator
+        , ""        // tokenValueLeft
+        , ""        // tokenValueRight
+        , "..."     // tokenEtc
     );
 
 const ZFTokenForContainer _ZFP_ZFTokenForContainerPlainList(
-          zfText("")        // tokenLeft
-        , zfText("")        // tokenRight
-        , zfText("\n")      // tokenSeparator
-        , zfText("")        // tokenValueLeft
-        , zfText("")        // tokenValueRight
-        , zfText("...")     // tokenEtc
+          ""        // tokenLeft
+        , ""        // tokenRight
+        , "\n"      // tokenSeparator
+        , ""        // tokenValueLeft
+        , ""        // tokenValueRight
+        , "..."     // tokenEtc
     );
 
 ZFTokenForContainer _ZFP_ZFTokenForContainerDefault = ZFTokenForContainerTrim();
@@ -36,17 +36,17 @@ ZFTokenForContainer _ZFP_ZFTokenForContainerDefault = ZFTokenForContainerTrim();
 // ============================================================
 const ZFTokenForKeyValueContainer _ZFP_ZFTokenForKeyValueContainerTrim;
 const ZFTokenForKeyValueContainer _ZFP_ZFTokenForKeyValueContainerDetail(
-          zfText("{\n    ") // tokenLeft
-        , zfText("\n}")     // tokenRight
-        , zfText(",\n    ") // tokenSeparator
-        , zfText("")        // tokenPairLeft
-        , zfText("")        // tokenPairRight
-        , zfText(" = ")     // tokenPairSeparator
-        , zfText("")        // tokenKeyLeft
-        , zfText("")        // tokenKeyRight
-        , zfText("")        // tokenValueLeft
-        , zfText("")        // tokenValueRight
-        , zfText("...")     // tokenEtc
+          "{\n    " // tokenLeft
+        , "\n}"     // tokenRight
+        , ",\n    " // tokenSeparator
+        , ""        // tokenPairLeft
+        , ""        // tokenPairRight
+        , " = "     // tokenPairSeparator
+        , ""        // tokenKeyLeft
+        , ""        // tokenKeyRight
+        , ""        // tokenValueLeft
+        , ""        // tokenValueRight
+        , "..."     // tokenEtc
     );
 ZFTokenForKeyValueContainer _ZFP_ZFTokenForKeyValueContainerDefault = ZFTokenForKeyValueContainerTrim();
 

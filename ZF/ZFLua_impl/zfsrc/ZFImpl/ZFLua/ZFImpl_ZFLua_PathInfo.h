@@ -53,7 +53,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @code
  *   // in cpp code
  *   ZFImpl_ZFLua_implPathInfo_DEFINE(xxx,
- *           zfText("function(...) return xxxAction(zfl_l) end")
+ *           "function(...) return xxxAction(zfl_l) end"
  *       )
  * @endcode
  */

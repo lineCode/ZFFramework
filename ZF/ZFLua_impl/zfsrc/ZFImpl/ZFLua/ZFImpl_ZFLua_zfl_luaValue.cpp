@@ -18,7 +18,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_luaValue(ZF_IN lua_State *L)
     if(count != 1)
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[zfl_luaValue] takes only one param, got %zi"),
+            "[zfl_luaValue] takes only one param, got %zi",
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -33,7 +33,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_luaValue(ZF_IN lua_State *L)
 }
 
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_luaValue, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfl_luaValue"), _ZFP_ZFImpl_ZFLua_zfl_luaValue);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfl_luaValue", _ZFP_ZFImpl_ZFLua_zfl_luaValue);
     }, {
     })
 

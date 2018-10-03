@@ -37,15 +37,15 @@ zfclass ZF2048AppButton : zfextends ZFUIButtonBasic
 
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZF2048/app/button_normal.xml")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZF2048/app/button_normal.xml"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZF2048/app/button_highlighted.xml")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZF2048/app/button_highlighted.xml"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleDisabled)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZF2048/app/button_disabled.xml")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZF2048/app/button_disabled.xml"));
     }
 };
 

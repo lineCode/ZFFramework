@@ -34,11 +34,11 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUISizeParam, ZFUISizeParam, {
 
         return zftrue;
     }, {
-        s += zfText("(");
+        s += "(";
         ZFUISizeTypeEnumToString(s, v.width);
-        s += zfText(", ");
+        s += ", ";
         ZFUISizeTypeEnumToString(s, v.height);
-        s += zfText(")");
+        s += ")";
         return zftrue;
     })
 

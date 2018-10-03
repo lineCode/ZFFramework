@@ -139,13 +139,13 @@ protected:
  * upon assert fail, finish the test case by #ZFTestCase::testCaseStop
  */
 #define ZFTestCaseAssert(cond) \
-    ZFTestCaseAssertWithMessage(cond, zfText("test failed: %s"), ZFM_TOSTRING(cond))
+    ZFTestCaseAssertWithMessage(cond, "test failed: %s", ZFM_TOSTRING(cond))
 /** @brief see #ZFTestCaseAssert */
 #define ZFTestCaseAssertTrim(cond) \
-    ZFTestCaseAssertTrimWithMessage(cond, zfText("test failed: %s"), ZFM_TOSTRING(cond))
+    ZFTestCaseAssertTrimWithMessage(cond, "test failed: %s", ZFM_TOSTRING(cond))
 /** @brief see #ZFTestCaseAssert */
 #define ZFTestCaseAssertDetail(cond, callerInfo) \
-    ZFTestCaseAssertDetailWithMessage(cond, callerInfo, zfText("test failed: %s"), ZFM_TOSTRING(cond))
+    ZFTestCaseAssertDetailWithMessage(cond, callerInfo, "test failed: %s", ZFM_TOSTRING(cond))
 
 /** @brief see #ZFTestCaseAssert */
 #define ZFTestCaseAssertWithMessage(cond, fmt, ...) \
@@ -153,7 +153,7 @@ protected:
     { \
         if(!(cond)) \
         { \
-            this->testCaseOutput(zfText("%s ") fmt, ZFCallerInfoMake().callerInfo().cString(), ##__VA_ARGS__); \
+            this->testCaseOutput("%s " fmt, ZFCallerInfoMake().callerInfo().cString(), ##__VA_ARGS__); \
             this->testCaseStop(ZFResultType::e_Fail); \
             return ; \
         } \
@@ -175,7 +175,7 @@ protected:
     { \
         if(!(cond)) \
         { \
-            this->testCaseOutput(zfText("%s ") fmt, callerInfo.callerInfo().cString(), fmt, ##__VA_ARGS__); \
+            this->testCaseOutput("%s " fmt, callerInfo.callerInfo().cString(), fmt, ##__VA_ARGS__); \
             this->testCaseStop(ZFResultType::e_Fail); \
             return ; \
         } \

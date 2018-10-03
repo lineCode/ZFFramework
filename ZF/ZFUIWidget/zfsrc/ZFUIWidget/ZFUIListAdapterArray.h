@@ -20,7 +20,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIListAdapterArray_cell zfText("ZFSerializableKeyword_ZFUIListAdapterArray_cell")
+#define ZFSerializableKeyword_ZFUIListAdapterArray_cell "ZFSerializableKeyword_ZFUIListAdapterArray_cell"
 
 /**
  * @brief basic list adapter which hold all list cells directly (with no recycle logic)

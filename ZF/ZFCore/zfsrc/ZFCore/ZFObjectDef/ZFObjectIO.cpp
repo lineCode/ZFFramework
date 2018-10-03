@@ -40,8 +40,8 @@ void _ZFP_ZFObjectIORegister(ZF_IN const zfchar *registerSig,
     {
         if(l[i]->registerSig.compare(registerSig) == 0)
         {
-            zfCoreCriticalMessageTrim(zfTextA("[ZFObjectIO] \"%s\" already registered"),
-                zfsCoreZ2A(registerSig));
+            zfCoreCriticalMessageTrim("[ZFObjectIO] \"%s\" already registered",
+                registerSig);
             return ;
         }
     }
@@ -75,7 +75,7 @@ zfbool ZFObjectIOLoadT(ZF_OUT zfautoObject &ret,
 {
     if(input.pathInfo() == zfnull)
     {
-        zfstringAppend(outErrorHint, zfText("callback %s does not have path info"),
+        zfstringAppend(outErrorHint, "callback %s does not have path info",
             input.objectInfo().cString());
         return zffalse;
     }
@@ -102,7 +102,7 @@ zfbool ZFObjectIOLoadT(ZF_OUT zfautoObject &ret,
         zfCoreMutexLock();
     }
     zfCoreMutexUnlock();
-    zfstringAppend(outErrorHint, zfText("no impl for can resolve %s"), 
+    zfstringAppend(outErrorHint, "no impl for can resolve %s", 
         ZFPathInfoToString(*input.pathInfo()).cString());
     return zffalse;
 }
@@ -119,7 +119,7 @@ zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
 {
     if(output.pathInfo() == zfnull)
     {
-        zfstringAppend(outErrorHint, zfText("callback %s does not have path info"),
+        zfstringAppend(outErrorHint, "callback %s does not have path info",
             output.objectInfo().cString());
         return zffalse;
     }
@@ -146,7 +146,7 @@ zfbool ZFObjectIOSave(ZF_IN_OUT const ZFOutput &output,
         zfCoreMutexLock();
     }
     zfCoreMutexUnlock();
-    zfstringAppend(outErrorHint, zfText("no impl for can resolve %s"), 
+    zfstringAppend(outErrorHint, "no impl for can resolve %s", 
         ZFPathInfoToString(*output.pathInfo()).cString());
     return zffalse;
 }

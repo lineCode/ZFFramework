@@ -40,19 +40,19 @@ void ZFImpl_ZFLua_implPathInfoSetup(ZF_IN lua_State *L,
         zfstring cmd;
         if(luaFuncName.isEmpty())
         {
-            cmd += zfText("_ZFP_l=nil;");
+            cmd += "_ZFP_l=nil;";
         }
         else
         {
-            cmd += zfText("function _ZFP_l(zfl_l)");
-            cmd += zfText("    return ");
+            cmd += "function _ZFP_l(zfl_l)";
+            cmd += "    return ";
             for(zfindex i = 0; i < d->luaFuncBody.count(); ++i)
             {
                 cmd += d->luaFuncBody[i];
                 cmd += ',';
             }
-            cmd += zfText("    nil;");
-            cmd += zfText("end;");
+            cmd += "    nil;";
+            cmd += "end;";
         }
         ZFImpl_ZFLua_execute(L, cmd);
     }
@@ -62,20 +62,20 @@ void ZFImpl_ZFLua_implPathInfoSetup(ZF_IN lua_State *L,
     }
 
     // no endl, to prevent native lua error from having wrong line number
-    ret += zfText("local ");
+    ret += "local ";
     for(zfindex i = 0; i < luaFuncName.count(); ++i)
     {
         if(i != 0)
         {
-            ret += zfText(",");
+            ret += ",";
         }
         ret += luaFuncName[i];
     }
-    ret += zfText("=_ZFP_l(ZFPathInfo('");
+    ret += "=_ZFP_l(ZFPathInfo('";
     _ZFP_ZFImpl_ZFLua_implPathInfoSetup_escape(ret, pathInfo->pathType);
     ret += ZFSerializableKeyword_ZFPathInfo_separator;
     _ZFP_ZFImpl_ZFLua_implPathInfoSetup_escape(ret, pathInfo->pathData);
-    ret += zfText("'));");
+    ret += "'));";
 }
 void _ZFP_ZFImpl_ZFLua_implPathInfoRegister(ZF_IN const zfchar *luaFuncName,
                                             ZF_IN const zfchar *luaFuncBody)
@@ -108,7 +108,7 @@ static void _ZFP_ZFImpl_ZFLua_implPathInfoSetup_escape(ZF_OUT zfstring &ret,
         {
             ret.append(pL, p - pL);
             pL = p + 1;
-            ret += zfText("\\'");
+            ret += "\\'";
         }
         ++p;
     }

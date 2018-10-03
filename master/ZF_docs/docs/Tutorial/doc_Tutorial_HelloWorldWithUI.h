@@ -16,7 +16,7 @@
  *
  *       // create a text view and set text content
  *       zfblockedAlloc(ZFUITextView, textView);
- *       textView->textSet(zfText("hello world"));
+ *       textView->textSet("hello world");
  *
  *       // add to window
  *       window->childAdd(textView);

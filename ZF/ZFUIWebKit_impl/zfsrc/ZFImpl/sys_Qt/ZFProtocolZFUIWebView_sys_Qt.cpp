@@ -62,7 +62,7 @@ public slots:
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIWebViewImpl_sys_Qt, ZFUIWebView, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:UIWebView"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:UIWebView")
 public:
     virtual void *nativeWebViewCreate(ZF_IN ZFUIWebView *webView)
     {
@@ -79,7 +79,7 @@ public:
                             ZF_IN const zfchar *url)
     {
         _ZFP_ZFUIWebViewImpl_sys_Qt_View *nativeWebView = ZFCastStatic(_ZFP_ZFUIWebViewImpl_sys_Qt_View *, webView->nativeImplView());
-        nativeWebView->load(QUrl(QString::fromUtf8(ZFStringZ2A(url))));
+        nativeWebView->load(QUrl(QString::fromUtf8(url)));
         nativeWebView->show();
     }
     virtual void webLoadHtml(ZF_IN ZFUIWebView *webView,
@@ -87,10 +87,10 @@ public:
                              ZF_IN_OPT const zfchar *baseUrl = zfnull)
     {
         _ZFP_ZFUIWebViewImpl_sys_Qt_View *nativeWebView = ZFCastStatic(_ZFP_ZFUIWebViewImpl_sys_Qt_View *, webView->nativeImplView());
-        nativeWebView->setHtml(QString::fromUtf8(ZFStringZ2A(html)),
+        nativeWebView->setHtml(QString::fromUtf8(html),
                                (baseUrl == zfnull)
                                ? QUrl()
-                               : QUrl(QString::fromUtf8(ZFStringZ2A(baseUrl)))
+                               : QUrl(QString::fromUtf8(baseUrl))
                                );
         nativeWebView->show();
     }

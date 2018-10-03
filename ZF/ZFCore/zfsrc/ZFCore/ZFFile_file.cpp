@@ -88,7 +88,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFFileFileRemove,
     return _ZFP_ZFFileImpl->fileRemove(path, isRecursive, isForce, errPos);
 }
 
-#define _ZFP_ZFFileFindType_file zfText("ZFFileFileFindFirst")
+#define _ZFP_ZFFileFindType_file "ZFFileFileFindFirst"
 
 ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFileFileFindFirst,
                        ZFMP_IN_OUT(ZFFileFindData &, fd),

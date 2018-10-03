@@ -17,20 +17,20 @@ void ZFRegExpResult::objectInfoT(ZF_IN_OUT zfstring &ret) const
     ret += ZFTOKEN_ZFObjectInfoLeft;
     if(this->matched)
     {
-        ret += zfText("matched");
+        ret += "matched";
         if(this->matchedRange != ZFIndexRangeZero())
         {
-            ret += zfText(" in ");
+            ret += " in ";
             ZFIndexRangeToString(ret, this->matchedRange);
         }
         if(!this->namedGroups.isEmpty())
         {
-            ret += zfText(", named groups: ");
+            ret += ", named groups: ";
             for(zfindex i = 0; i < this->namedGroups.count(); ++i)
             {
                 if(i != 0)
                 {
-                    ret += zfText(", ");
+                    ret += ", ";
                 }
                 ZFIndexRangeToString(ret, this->namedGroups[i]);
             }
@@ -38,7 +38,7 @@ void ZFRegExpResult::objectInfoT(ZF_IN_OUT zfstring &ret) const
     }
     else
     {
-        ret += zfText("no match");
+        ret += "no match";
     }
     ret += ZFTOKEN_ZFObjectInfoRight;
 }
@@ -160,7 +160,7 @@ zfbool ZFRegExp::serializableOnSerializeFromData(ZF_IN const ZFSerializableData 
     ZFSerializableUtilSerializeAttributeFromData(serializableData, outErrorHint, outErrorPos,
         check, ZFSerializableKeyword_ZFRegExp_flag, ZFRegExpOptionFlags, flag);
 
-    this->regExpCompile(pattern ? pattern : zfText(""), flag);
+    this->regExpCompile(pattern ? pattern : "", flag);
 
     return zftrue;
 }
@@ -172,7 +172,7 @@ zfbool ZFRegExp::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &ser
     zfself *ref = ZFCastZFObject(zfself *, referencedOwnerOrNull);
 
     ZFSerializableUtilSerializeAttributeToData(serializableData, outErrorHint, ref,
-        ZFSerializableKeyword_ZFRegExp_pattern, zfstring, this->regExpPattern(), ref->regExpPattern(), zfText(""));
+        ZFSerializableKeyword_ZFRegExp_pattern, zfstring, this->regExpPattern(), ref->regExpPattern(), "");
 
     ZFSerializableUtilSerializeAttributeToData(serializableData, outErrorHint, ref,
         ZFSerializableKeyword_ZFRegExp_flag, ZFRegExpOptionFlags, this->regExpFlag(), ref->regExpFlag(), ZFRegExpOptionFlags::EnumDefault());
@@ -255,7 +255,7 @@ ZFMETHOD_DEFINE_2(ZFRegExp, void, regExpCompile,
 {
     if(pattern == zfnull)
     {
-        pattern = zfText("");
+        pattern = "";
     }
     d->pattern = pattern;
     d->flag = flag;

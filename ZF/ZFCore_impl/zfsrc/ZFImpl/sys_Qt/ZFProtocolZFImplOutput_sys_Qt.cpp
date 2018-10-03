@@ -19,7 +19,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFImplOutputImpl_sys_Qt, ZFImplOutput, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:qDebug"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:qDebug")
 public:
     zfoverride
     virtual void protocolOnDealloc(void)
@@ -33,9 +33,9 @@ public:
     }
 
 public:
-    virtual void outputCoreLog(ZF_IN const zfcharA *s)
+    virtual void outputCoreLog(ZF_IN const zfchar *s)
     {
-        zfstringA tmp = s;
+        zfstring tmp = s;
         this->checkOutput(tmp);
     }
     virtual void outputLog(ZF_IN const zfchar *s, ZF_IN_OPT zfindex count = zfindexMax())
@@ -43,17 +43,17 @@ public:
         QMutexLocker _logMutexLocker(&_logMutex);
         if(count == zfindexMax())
         {
-            this->savedString += ZFStringZ2A(s);
+            this->savedString += s;
         }
         else
         {
-            this->savedString += ZFStringZ2A(zfstring(s, count));
+            this->savedString += zfstring(s, count);
         }
         this->checkOutput(this->savedString);
     }
 private:
-    zfstringA savedString;
-    void checkOutput(ZF_IN_OUT zfstringA &s)
+    zfstring savedString;
+    void checkOutput(ZF_IN_OUT zfstring &s)
     {
         if(s.length() > 0)
         {

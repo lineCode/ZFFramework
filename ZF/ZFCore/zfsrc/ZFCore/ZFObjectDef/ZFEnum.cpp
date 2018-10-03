@@ -43,7 +43,7 @@ zfbool ZFEnum::serializableOnSerializeFromData(ZF_IN const ZFSerializableData &s
             if(enumValue == ZFEnumInvalid())
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                    zfText("invalid value %s for enum %s"), valueString, this->classData()->classNameFull());
+                    "invalid value %s for enum %s", valueString, this->classData()->classNameFull());
                 return zffalse;
             }
         }
@@ -71,7 +71,7 @@ zfbool ZFEnum::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &seria
             if(!zfflagsToString(s, this->classData(), (zfflags)this->enumValue()))
             {
                 ZFSerializableUtil::errorOccurred(outErrorHint,
-                    zfText("unable convert enum value to string: %s"),
+                    "unable convert enum value to string: %s",
                     this->objectInfo().cString());
                 return zffalse;
             }
@@ -116,7 +116,7 @@ void ZFEnum::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     {
         ret += this->classData()->className();
     }
-    ret += zfText("::");
+    ret += "::";
     if(this->enumValue() == ZFEnumInvalid())
     {
         ret += ZFEnumNameInvalid();
@@ -285,9 +285,9 @@ public:
         _ZFP_I_ZFEnum_stringConverterDataHolder *ret = enumClass->classTagGet<_ZFP_I_ZFEnum_stringConverterDataHolder *>(_ZFP_I_ZFEnum_stringConverterDataHolder::ClassData()->classNameFull());
         if(ret == zfnull)
         {
-            const ZFMethod *enumCountMethod = enumClass->methodForName(zfText("EnumCount"));
-            const ZFMethod *enumValueAtIndexMethod = enumClass->methodForName(zfText("EnumValueAtIndex"));
-            const ZFMethod *enumNameAtIndexMethod = enumClass->methodForName(zfText("EnumNameAtIndex"));
+            const ZFMethod *enumCountMethod = enumClass->methodForName("EnumCount");
+            const ZFMethod *enumValueAtIndexMethod = enumClass->methodForName("EnumValueAtIndex");
+            const ZFMethod *enumNameAtIndexMethod = enumClass->methodForName("EnumNameAtIndex");
             zfCoreAssert(enumCountMethod != zfnull && enumValueAtIndexMethod != zfnull && enumNameAtIndexMethod != zfnull);
 
             ret = zfAlloc(_ZFP_I_ZFEnum_stringConverterDataHolder);
@@ -377,12 +377,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfflags, ZFEnum::_ZFP_ZFEnum_objectOnInit_zfflags, ZFEnum::ClassData(),
     protected, ZFMethodTypeVirtual,
-    void, zfText("objectOnInit")
+    void, "objectOnInit"
     , ZFMP_IN(zfflags, value)
     )
 ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_objectOnInit_zfuint, ZFEnum::_ZFP_ZFEnum_objectOnInit_zfuint, ZFEnum::ClassData(),
     protected, ZFMethodTypeVirtual,
-    void, zfText("objectOnInit")
+    void, "objectOnInit"
     , ZFMP_IN(zfuint, value)
     )
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFEnum, zfindex, enumCount)
@@ -400,7 +400,7 @@ static void _ZFP_ZFEnum_enumValueSet_methodInvoker(ZF_IN const ZFMethod *invoker
 {
     invokerObject->to<ZFEnum *>()->_ZFP_ZFEnum_value = value;
 }
-ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_enumValueSet, _ZFP_ZFEnum_enumValueSet_methodInvoker, ZFEnum::ClassData(), protected, ZFMethodTypeVirtual, void, zfText("enumValueSet"), ZFMP_IN(zfuint, value))
+ZFMETHOD_USER_REGISTER_DETAIL_1(ZFEnum_enumValueSet, _ZFP_ZFEnum_enumValueSet_methodInvoker, ZFEnum::ClassData(), protected, ZFMethodTypeVirtual, void, "enumValueSet", ZFMP_IN(zfuint, value))
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_7(zfbool, zfflagsToString, ZFMP_IN_OUT(zfstring &, ret), ZFMP_IN(const ZFClass *, enumClass), ZFMP_IN(zfflags const &, value), ZFMP_IN_OPT(zfbool, includeNotConverted, zftrue), ZFMP_IN_OPT(zfbool, exclusiveMode, zffalse), ZFMP_OUT_OPT(zfflags *, notConverted, zfnull), ZFMP_IN_OPT(zfchar, separatorToken, '|'))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_6(zfstring, zfflagsToString, ZFMP_IN(const ZFClass *, enumClass), ZFMP_IN(zfflags const &, value), ZFMP_IN_OPT(zfbool, includeNotConverted, zftrue), ZFMP_IN_OPT(zfbool, exclusiveMode, zffalse), ZFMP_OUT_OPT(zfflags *, notConverted, zfnull), ZFMP_IN_OPT(zfchar, separatorToken, '|'))

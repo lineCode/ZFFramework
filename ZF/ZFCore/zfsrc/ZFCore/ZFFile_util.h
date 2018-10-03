@@ -187,7 +187,7 @@ ZFMETHOD_FUNC_DECLARE_4(void, ZFFilePathInfoTreePrint,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                         ZFMP_IN_OPT(const zfchar *, headToken, zfnull),
-                        ZFMP_IN_OPT(const zfchar *, indentToken, zfText("  ")))
+                        ZFMP_IN_OPT(const zfchar *, indentToken, "  "))
 
 // ============================================================
 /**

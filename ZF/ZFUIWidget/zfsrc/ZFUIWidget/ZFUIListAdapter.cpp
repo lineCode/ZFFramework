@@ -45,7 +45,7 @@ ZFMETHOD_DEFINE_2(ZFUIListAdapter, zfint, cellSizeAtIndex,
 
 // ============================================================
 #define _ZFP_ZFUIListAdapter_cacheKey(cacheKey, key) \
-    zfchar *cacheKey = zfsConnect(zfText("_ZFP_ZFUIListAdapter_cacheKey"), key); \
+    zfchar *cacheKey = zfsConnect("_ZFP_ZFUIListAdapter_cacheKey", key); \
     zfblockedFree(cacheKey)
 ZFMETHOD_DEFINE_1(ZFUIListAdapter, zfautoObject, cellCacheDefaultAccess,
                   ZFMP_IN(const zfchar *, key))

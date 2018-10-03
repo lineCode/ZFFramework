@@ -56,12 +56,12 @@ ZFTYPEID_DECLARE(ZFCallback, ZFCallback)
 ZFOUTPUT_TYPE(ZFCallback, {output.execute(v.objectInfo());})
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFCallback_method zfText("method")
+#define ZFSerializableKeyword_ZFCallback_method "method"
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFCallback_callbackType zfText("callbackType")
+#define ZFSerializableKeyword_ZFCallback_callbackType "callbackType"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFCallback_callbackData zfText("callbackData")
+#define ZFSerializableKeyword_ZFCallback_callbackData "callbackData"
 
 // ============================================================
 ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, ZFListener, ZFListener)

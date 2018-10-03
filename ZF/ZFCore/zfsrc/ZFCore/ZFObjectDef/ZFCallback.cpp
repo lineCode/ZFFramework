@@ -18,7 +18,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 void _ZFP_ZFCallback_executeNullCallback(void)
 {
-    zfCoreCriticalMessageTrim(zfTextA("try execute a null callback"));
+    zfCoreCriticalMessageTrim("try execute a null callback");
 }
 
 // ============================================================
@@ -130,31 +130,31 @@ ZFCallback ZFCallback::_ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
             callback.d->callbackType = callbackType;
             break;
         case ZFCallbackTypeMethod:
-            zfCoreAssertWithMessageTrim(callbackMethod != zfnull, zfTextA("[ZFCallback] method is null"));
+            zfCoreAssertWithMessageTrim(callbackMethod != zfnull, "[ZFCallback] method is null");
             zfCoreAssertWithMessageTrim(callbackMethod->methodType() == ZFMethodTypeStatic,
-                zfTextA("[ZFCallback] method \"%s\" is not class static member type"),
-                zfsCoreZ2A(callbackMethod->objectInfo().cString()));
+                "[ZFCallback] method \"%s\" is not class static member type",
+                callbackMethod->objectInfo().cString());
             callback.d->callbackType = callbackType;
             callback.d->callbackMethod = callbackMethod;
             break;
         case ZFCallbackTypeMemberMethod:
             zfCoreAssertWithMessageTrim(callbackOwnerObj != zfnull && callbackMethod != zfnull,
-                zfTextA("[ZFCallback] invalid callback, ownerObj: %s, method: %s"),
-                zfsFromPointer<zfstringA>(callbackOwnerObj).cString(),
-                zfsFromPointer<zfstringA>(callbackMethod).cString());
+                "[ZFCallback] invalid callback, ownerObj: %s, method: %s",
+                zfsFromPointer(callbackOwnerObj).cString(),
+                zfsFromPointer(callbackMethod).cString());
             zfCoreAssertWithMessageTrim(callbackMethod->methodType() != ZFMethodTypeStatic,
-                zfTextA("[ZFCallback] method \"%s\" is not class member type"),
-                zfsCoreZ2A(callbackMethod->objectInfo().cString()));
+                "[ZFCallback] method \"%s\" is not class member type",
+                callbackMethod->objectInfo().cString());
             zfCoreAssertWithMessageTrim(callbackOwnerObj->classData()->classIsTypeOf(callbackMethod->methodOwnerClass()),
-                zfTextA("[ZFCallback] object %s has no such method \"%s\""),
-                zfsCoreZ2A(callbackOwnerObj->objectInfoOfInstance().cString()),
-                zfsCoreZ2A(callbackMethod->objectInfo().cString()));
+                "[ZFCallback] object %s has no such method \"%s\"",
+                callbackOwnerObj->objectInfoOfInstance().cString(),
+                callbackMethod->objectInfo().cString());
             callback.d->callbackType = callbackType;
             callback.d->callbackOwnerObj = callbackOwnerObj;
             callback.d->callbackMethod = callbackMethod;
             break;
         case ZFCallbackTypeRawFunction:
-            zfCoreAssertWithMessageTrim(callbackRawFunc != zfnull, zfTextA("[ZFCallback] invalid function address"));
+            zfCoreAssertWithMessageTrim(callbackRawFunc != zfnull, "[ZFCallback] invalid function address");
             callback.d->callbackType = callbackType;
             callback.d->callbackRawFunc = callbackRawFunc;
             break;
@@ -176,7 +176,7 @@ void ZFCallback::objectInfoT(ZF_IN_OUT zfstring &ret) const
     switch(this->callbackType())
     {
         case ZFCallbackTypeDummy:
-            ret += zfText("ZFCallbackNull");
+            ret += "ZFCallbackNull";
             break;
         case ZFCallbackTypeMethod:
         case ZFCallbackTypeMemberMethod:
@@ -184,7 +184,7 @@ void ZFCallback::objectInfoT(ZF_IN_OUT zfstring &ret) const
             break;
         case ZFCallbackTypeRawFunction:
             ret += ZFTOKEN_ZFObjectInfoLeft;
-            ret += zfText("ZFCallback func: ");
+            ret += "ZFCallback func: ";
             zfsFromPointerT(ret, ZFCastReinterpret(const void *, this->callbackFunctionAddr()));
             ret += ZFTOKEN_ZFObjectInfoRight;
             break;
@@ -194,24 +194,24 @@ void ZFCallback::objectInfoT(ZF_IN_OUT zfstring &ret) const
     }
     if(this->callbackOwnerObject() != zfnull)
     {
-        ret += zfText(", owner: ");
+        ret += ", owner: ";
         this->callbackOwnerObject()->objectInfoT(ret);
     }
     if(d != zfnull && !d->callbackTagMap.empty())
     {
-        ret += zfText(", tags: ");
+        ret += ", tags: ";
         _ZFP_ZFCallbackTagMap &m = d->callbackTagMap;
         for(_ZFP_ZFCallbackTagMap::iterator it = m.begin(); it != m.end(); ++it)
         {
             if(it != m.begin())
             {
-                ret += zfText(", ");
+                ret += ", ";
             }
-            ret += zfText("<");
+            ret += "<";
             ret += it->first.c_str();
-            ret += zfText(", ");
+            ret += ", ";
             ZFObjectInfoT(ret, it->second);
-            ret += zfText(">");
+            ret += ">";
         }
     }
 }

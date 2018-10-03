@@ -96,18 +96,18 @@ protected:
         zfsuper::testCaseOnStart();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFProperty"));
+        this->testCaseOutput("ZFProperty");
         {
             zfblockedAlloc(_ZFP_ZFCore_ZFProperty_test_TestChild, p);
 
             // property list
             const ZFClass *clsTmp = p->classData();
-            zfLogT() << ZFLogAutoEndlOff << zfText("list: ");
+            zfLogT() << ZFLogAutoEndlOff << "list: ";
             for(zfindex i = 0; i < clsTmp->propertyCount(); ++i)
             {
                 if(i > 0)
                 {
-                    zfLogTrimT() << ZFLogAutoEndlOff << zfText(", ");
+                    zfLogTrimT() << ZFLogAutoEndlOff << ", ";
                 }
                 zfLogTrimT() << ZFLogAutoSpaceOff << ZFLogAutoEndlOff
                 << clsTmp->propertyAtIndex(i)->propertyName();
@@ -115,15 +115,15 @@ protected:
             zfLogTrimT();
 
             // reflect
-            p->propertyAssignSet(zfText("oldValue"));
-            zfLogT() << zfText("before:") << p->propertyAssign();
-            p->classData()->methodForName(zfText("propertyAssignSet"))->execute<void, zfstring const &>(p, zfText("newValue"));
-            zfLogT() << zfText("after:") << p->propertyAssign();
-            zfLogT() << zfText("access by reflect:") << p->classData()->methodForName(zfText("propertyAssign"))->execute<zfstring const &>(p);
+            p->propertyAssignSet("oldValue");
+            zfLogT() << "before:" << p->propertyAssign();
+            p->classData()->methodForName("propertyAssignSet")->execute<void, zfstring const &>(p, "newValue");
+            zfLogT() << "after:" << p->propertyAssign();
+            zfLogT() << "access by reflect:" << p->classData()->methodForName("propertyAssign")->execute<zfstring const &>(p);
 
             // retain
             zfLogTrimT();
-            zfLogTrimT() << zfText("retain");
+            zfLogTrimT() << "retain";
 
             p->propertyRetainSet(zflineAlloc(ZFObject));
             zfLogT() << p->propertyRetain();
@@ -135,7 +135,7 @@ protected:
 
             // assign
             zfLogTrimT();
-            zfLogTrimT() << zfText("assign");
+            zfLogTrimT() << "assign";
 
             p->propertyAssignSet(zfstring());
             zfLogT() << p->propertyAssign();
@@ -155,19 +155,19 @@ protected:
 
             // copy
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("copy propertis"));
+            this->testCaseOutput("copy propertis");
             zfblockedAlloc(_ZFP_ZFCore_ZFProperty_test_TestBase, pBase);
             zfblockedAlloc(_ZFP_ZFCore_ZFProperty_test_TestChild, pChild);
-            pBase->propertyAssignSet(zfText("string set in another"));
+            pBase->propertyAssignSet("string set in another");
             ZFPropertyCopyAll(pChild, pBase);
             this->testCaseOutputSeparator();
-            zfLogTrimT() << zfText("after copy:") << pChild->propertyAssign();
+            zfLogTrimT() << "after copy:" << pChild->propertyAssign();
 
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("copy by ZFPropertyCopyAll"));
-            pChild->propertyAssignSet(zfText(""));
+            this->testCaseOutput("copy by ZFPropertyCopyAll");
+            pChild->propertyAssignSet("");
             ZFPropertyCopyAll(pChild, pBase);
-            zfLogTrimT() << zfText("after copy:") << pChild->propertyAssign();
+            zfLogTrimT() << "after copy:" << pChild->propertyAssign();
         }
 
         this->testCaseStop();

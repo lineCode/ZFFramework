@@ -62,11 +62,11 @@ public:
     static void setterInvoker(ZF_IN const ZFMethod *method, ZF_IN ZFObject *ownerObj, ZF_IN T_Type const &v)
     {
         zfCoreMutexLocker();
-        zfstring key = zfText("_ZFP_PropURDIRetain_");
+        zfstring key = "_ZFP_PropURDIRetain_";
         key += method->methodName();
-        key.remove(key.length() - 3 /* zfslen(zfText("Set")) */);
+        key.remove(key.length() - 3 /* zfslen("Set") */);
         const ZFProperty *property = method->methodOwnerClass()->propertyForName(
-            key.cString() + zfslen(zfText("_ZFP_PropURDIRetain_")));
+            key.cString() + zfslen("_ZFP_PropURDIRetain_"));
 
         _ZFP_I_PropURDIVH *holder = ownerObj->tagGet<_ZFP_I_PropURDIVH *>(key);
         if(holder == zfnull)
@@ -96,7 +96,7 @@ public:
     static zfbool callbackIsValueAccessed(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
         return (ownerObj->tagGet(
-                zfsConnectLineFree(zfText("_ZFP_PropURDIRetain_"), property->propertyName())
+                zfsConnectLineFree("_ZFP_PropURDIRetain_", property->propertyName())
             ) != zfnull);
     }
     /** @brief default impl for #ZFPropertyUserRegisterRetain */
@@ -135,7 +135,7 @@ public:
     static void callbackValueReset(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
         zfCoreMutexLocker();
-        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        zfstring key = "_ZFP_PropURDIAssign_";
         key += property->propertyName();
         ownerObj->tagRemove(key);
     }
@@ -153,7 +153,7 @@ private:
     static _ZFP_I_PropURDIVH *_ZFP_valueHolderAccess(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
         zfCoreMutexLocker();
-        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        zfstring key = "_ZFP_PropURDIAssign_";
         key += property->propertyName();
         _ZFP_I_PropURDIVH *holder = ownerObj->tagGet<_ZFP_I_PropURDIVH *>(key);
         if(holder == zfnull)
@@ -193,11 +193,11 @@ public:
     static void setterInvoker(ZF_IN const ZFMethod *method, ZF_IN ZFObject *ownerObj, ZF_IN T_Type const &v)
     {
         zfCoreMutexLocker();
-        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        zfstring key = "_ZFP_PropURDIAssign_";
         key += method->methodName();
-        key.remove(key.length() - 3 /* zfslen(zfText("Set")) */);
+        key.remove(key.length() - 3 /* zfslen("Set") */);
         const ZFProperty *property = method->methodOwnerClass()->propertyForName(
-            key.cString() + zfslen(zfText("_ZFP_PropURDIRetain_")));
+            key.cString() + zfslen("_ZFP_PropURDIRetain_"));
 
         _ZFP_I_PropURDIVH *holder = ownerObj->tagGet<_ZFP_I_PropURDIVH *>(key);
         if(holder == zfnull)
@@ -226,7 +226,7 @@ public:
     static zfbool callbackIsValueAccessed(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
         return (ownerObj->tagGet(
-                zfsConnectLineFree(zfText("_ZFP_PropURDIAssign_"), property->propertyName())
+                zfsConnectLineFree("_ZFP_PropURDIAssign_", property->propertyName())
             ) != zfnull);
     }
     /** @brief default impl for #ZFPropertyUserRegisterAssign */
@@ -252,7 +252,7 @@ public:
     static void callbackValueReset(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
         zfCoreMutexLocker();
-        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        zfstring key = "_ZFP_PropURDIAssign_";
         key += property->propertyName();
         ownerObj->tagRemove(key);
     }
@@ -270,7 +270,7 @@ private:
     static _ZFP_I_PropURDIVH *_ZFP_valueHolderAccess(ZF_IN const ZFProperty *property, ZF_IN ZFObject *ownerObj)
     {
         zfCoreMutexLocker();
-        zfstring key = zfText("_ZFP_PropURDIAssign_");
+        zfstring key = "_ZFP_PropURDIAssign_";
         key += property->propertyName();
         _ZFP_I_PropURDIVH *holder = ownerObj->tagGet<_ZFP_I_PropURDIVH *>(key);
         if(holder == zfnull)
@@ -425,7 +425,7 @@ private:
         \
         ZFMethodUserRegisterDetail_1(setterMethod, Func_ZFPropertySetterInvoker, _ownerClass, \
             SetterAccessType, ZFMethodTypeVirtual, \
-            void, zfstringWithFormat(zfText("%sSet"), _propertyName.cString()), \
+            void, zfstringWithFormat("%sSet", _propertyName.cString()), \
             ZFMP_IN(Type const &, value)); \
         ZFMethodUserRegisterDetail_0(getterMethod, Func_ZFPropertyGetterInvoker, _ownerClass, \
             GetterAccessType, ZFMethodTypeVirtual, \
@@ -467,7 +467,7 @@ private:
         { \
             ZFMethodUserRegisterDetail_1(setterMethod, Func_ZFPropertySetterInvoker, ownerClassSig::ClassData(), \
                 SetterAccessType, ZFMethodTypeVirtual, \
-                void, ZFM_TOSTRING(propertyNameSig) zfText("Set"), \
+                void, ZFM_TOSTRING(propertyNameSig) "Set", \
                 ZFMP_IN(Type const &, value)); \
             return setterMethod; \
         } \
@@ -514,7 +514,7 @@ private:
  *   ZF_GLOBAL_INITIALIZER_INIT(MyPropertyRegister)
  *   {
  *       ZFPropertyUserRegisterRetainDetail(resultProperty, MyClassToAttachTheProperty::ClassData(),
- *           Type, zfText("propertyName"), ZFPropertyNoInitValue,
+ *           Type, "propertyName", ZFPropertyNoInitValue,
  *           public, public
  *           , myCallbackSetterInvoker
  *           , myCallbackGetterInvoker
@@ -536,7 +536,7 @@ private:
  *
  *   // or, you may use this macro for short, at cpp files only
  *   ZFPROPERTY_USER_REGISTER_RETAIN_DETAIL(MyClassToAttachTheProperty, MyClassToAttachTheProperty::ClassData(),
- *       Type, zfText("propertyName"), ZFPropertyNoInitValue,
+ *       Type, "propertyName", ZFPropertyNoInitValue,
  *       public, public,
  *       , myCallbackSetterInvoker
  *       , myCallbackGetterInvoker
@@ -550,7 +550,7 @@ private:
  *   // or, if you simply want to register a raw value,
  *   // you may use ZFPropertyUserRegisterDefaultImplRetain or ZFPropertyUserRegisterDefaultImplAssign as default impl
  *   ZFPROPERTY_USER_REGISTER_RETAIN_DETAIL(MyClassToAttachTheProperty, MyClassToAttachTheProperty::ClassData(),
- *       Type, zfText("propertyName"), ZFPropertyNoInitValue,
+ *       Type, "propertyName", ZFPropertyNoInitValue,
  *       public, public
  *       ZFPropertyUserRegisterDefaultImplRetain<Type>::setterInvoker,
  *       ZFPropertyUserRegisterDefaultImplRetain<Type>::getterInvoker,

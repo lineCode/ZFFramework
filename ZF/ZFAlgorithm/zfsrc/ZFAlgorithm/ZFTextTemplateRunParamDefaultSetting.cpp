@@ -39,30 +39,30 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTextTemplateRunParamDefaultSetting, ZFLe
     #if 0
     _ZFP_ZFTextTemplateRunParamDefault_dirNameFilterRule = zfAlloc(ZFRegExp);
     ZFTextTemplateRunParamDefault().dirNameFilter.customFilterCallbackAdd(_ZFP_ZFTextTemplateRunParamDefault_dirNameFilter);
-    _ZFP_ZFTextTemplateRunParamDefault_dirNameFilterRule->regExpCompile(zfText(
+    _ZFP_ZFTextTemplateRunParamDefault_dirNameFilterRule->regExpCompile(
             ""
-        ));
+        );
     #endif
 
     _ZFP_ZFTextTemplateRunParamDefault_dirContentFilterRule = zfAlloc(ZFRegExp);
     ZFTextTemplateRunParamDefault().dirContentFilter.customFilterCallbackAdd(_ZFP_ZFTextTemplateRunParamDefault_dirContentFilter);
-    _ZFP_ZFTextTemplateRunParamDefault_dirContentFilterRule->regExpCompile(zfText(
+    _ZFP_ZFTextTemplateRunParamDefault_dirContentFilterRule->regExpCompile(
             "(^\\.git$)"
             "|(^\\.svn$)"
             "|(^\\.hg$)"
-        ));
+        );
 
     #if 0
     _ZFP_ZFTextTemplateRunParamDefault_fileNameFilterRule = zfAlloc(ZFRegExp);
     ZFTextTemplateRunParamDefault().fileNameFilter.customFilterCallbackAdd(_ZFP_ZFTextTemplateRunParamDefault_fileNameFilter);
-    _ZFP_ZFTextTemplateRunParamDefault_fileNameFilterRule->regExpCompile(zfText(
+    _ZFP_ZFTextTemplateRunParamDefault_fileNameFilterRule->regExpCompile(
             ""
-        ));
+        );
     #endif
 
     _ZFP_ZFTextTemplateRunParamDefault_fileContentFilterRule = zfAlloc(ZFRegExp);
     ZFTextTemplateRunParamDefault().fileContentFilter.customFilterCallbackAdd(_ZFP_ZFTextTemplateRunParamDefault_fileContentFilter);
-    _ZFP_ZFTextTemplateRunParamDefault_fileContentFilterRule->regExpCompile(zfText(
+    _ZFP_ZFTextTemplateRunParamDefault_fileContentFilterRule->regExpCompile(
             "(\\.ico$)"
             "|(\\.icns$)"
 
@@ -87,7 +87,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTextTemplateRunParamDefaultSetting, ZFLe
             "|(\\.so(\\..*)*$)"
             "|(\\.dll(\\..*)*$)"
             "|(\\.dylib(\\..*)*$)"
-        ));
+        );
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFTextTemplateRunParamDefaultSetting)
 {

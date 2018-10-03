@@ -59,23 +59,23 @@ typedef enum {
     zftTraitsModifier_CPCR, /**< @brief see #zftTraits::ModifierName */
 } zftTraitsModifier;
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_N zfText("N")
+#define zftTraitsModifierName_N "N"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_R zfText("R")
+#define zftTraitsModifierName_R "R"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_CR zfText("CR")
+#define zftTraitsModifierName_CR "CR"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_P zfText("P")
+#define zftTraitsModifierName_P "P"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_PR zfText("PR")
+#define zftTraitsModifierName_PR "PR"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_PCR zfText("PCR")
+#define zftTraitsModifierName_PCR "PCR"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_CP zfText("CP")
+#define zftTraitsModifierName_CP "CP"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_CPR zfText("CPR")
+#define zftTraitsModifierName_CPR "CPR"
 /** @brief see #zftTraits::ModifierName */
-#define zftTraitsModifierName_CPCR zfText("CPCR")
+#define zftTraitsModifierName_CPCR "CPCR"
 /**
  * @brief type traits similar to STL's traits
  *

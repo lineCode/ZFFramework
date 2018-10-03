@@ -9,20 +9,20 @@
  * \n
  * example:
  * @code
- *   ZFLuaExecute(zfText(" \
- *       ZFDynamic() \
- *       :classBegin('MyClass', 'ZFUIView') \
- *           :property(ZFTypeId_zfstring(), 'myProp') \
- *       :classEnd() \
- *       "));
+ *   ZFLuaExecute(
+ *       "ZFDynamic()"
+ *       ":classBegin('MyClass', 'ZFUIView')"
+ *       "    :property(ZFTypeId_zfstring(), 'myProp')"
+ *       ":classEnd()"
+ *       );
  * @endcode
  *
  * as you can see, we are able to register class/method/property in script language\n
  * further more, the registered contents can be combined
  * with all other features in C++ world:
  * @code
- *   zfautoObject obj = ZFClass::classForName(zfText("MyClass"))->newInstance();
- *   obj->invoke(zfText("myPropSet"), zflineAlloc(v_zfstring, zfText("myValue")));
+ *   zfautoObject obj = ZFClass::classForName("MyClass")->newInstance();
+ *   obj->invoke("myPropSet", zflineAlloc(v_zfstring, "myValue"));
  *   ZFObjectToXml(ZFOutputForConsole(), obj);
  * @endcode
  */

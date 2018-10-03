@@ -94,7 +94,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
     rootPrintData.layer = ZFUIViewChildLayer::e_Normal;
     printDatas.add(rootPrintData);
 
-    outputCallback.execute(zfText("====================== view tree begin =====================\n"));
+    outputCallback.execute("====================== view tree begin =====================\n");
     do
     {
         _ZFP_ZFUIViewTreePrintPrintData printData = printDatas.getLast();
@@ -148,26 +148,26 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
             printDatas.add(printDataTmp);
         }
 
-        outputCallback.execute(zfText("|"));
-        outputCallback.execute(zfstringWithFormat(zfText("%2zi"), printData.siblingIndex).cString());
+        outputCallback.execute("|");
+        outputCallback.execute(zfstringWithFormat("%2zi", printData.siblingIndex).cString());
         for(zfindex i = printData.depth - 1; i != zfindexMax(); --i)
         {
-            outputCallback.execute(zfText(" |"));
+            outputCallback.execute(" |");
         }
 
         switch(printData.layer)
         {
             case ZFUIViewChildLayer::e_Normal:
-                outputCallback.execute(zfText(" "));
+                outputCallback.execute(" ");
                 break;
             case ZFUIViewChildLayer::e_InternalImpl:
-                outputCallback.execute(zfText(" impl "));
+                outputCallback.execute(" impl ");
                 break;
             case ZFUIViewChildLayer::e_InternalBg:
-                outputCallback.execute(zfText(" bg "));
+                outputCallback.execute(" bg ");
                 break;
             case ZFUIViewChildLayer::e_InternalFg:
-                outputCallback.execute(zfText(" fg "));
+                outputCallback.execute(" fg ");
                 break;
             default:
                 zfCoreCriticalShouldNotGoHere();
@@ -206,9 +206,9 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
             }
             outputCallback.execute(tmp.cString() + startFix, tmp.length() - countFix);
         }
-        outputCallback.execute(zfText("\n"));
+        outputCallback.execute("\n");
     } while(!printDatas.isEmpty());
-    outputCallback.execute(zfText("====================== view tree  end  =====================\n"));
+    outputCallback.execute("====================== view tree  end  =====================\n");
 }
 
 void ZFUIViewTreePrintInfoGetterSet(ZF_IN const ZFClass *viewClass,

@@ -22,9 +22,9 @@ public:
                                ZF_IN ZFObject *obj2) const
     {
         ZFCompareResult cmp = ZFObjectCompare(obj1, obj2);
-        zfCoreAssertWithMessageTrim(cmp != ZFCompareUncomparable, zfTextA("[ZFMap] key must comparable: %s, %s"),
-            zfsCoreZ2A(ZFObjectInfo(obj1).cString()),
-            zfsCoreZ2A(ZFObjectInfo(obj2).cString()));
+        zfCoreAssertWithMessageTrim(cmp != ZFCompareUncomparable, "[ZFMap] key must comparable: %s, %s",
+            ZFObjectInfo(obj1).cString(),
+            ZFObjectInfo(obj2).cString());
         return (cmp == ZFCompareSmaller);
     }
 };

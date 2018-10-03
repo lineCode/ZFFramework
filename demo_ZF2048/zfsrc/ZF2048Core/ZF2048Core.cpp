@@ -133,9 +133,9 @@ public:
 
         for(zfindex i = 0; i < this->dataHeight; ++i)
         {
-            outputCallback << zfText("------");
+            outputCallback << "------";
         }
-        outputCallback << zfText("-\n");
+        outputCallback << "-\n";
 
         for(zfindex y = 0; y < this->dataHeight; ++y)
         {
@@ -144,25 +144,25 @@ public:
                 ZF2048Value value = data_[this->posToIndex(x, y)];
                 if(value == 0)
                 {
-                    outputCallback << zfText("|     ");
+                    outputCallback << "|     ";
                 }
                 else
                 {
-                    outputCallback << zfstringWithFormat(zfText("|%5s"), zfsFromInt(value).cString());
+                    outputCallback << zfstringWithFormat("|%5s", zfsFromInt(value).cString());
                 }
             }
             if(y != this->dataHeight - 1)
             {
-                outputCallback << zfText("|\n");
+                outputCallback << "|\n";
             }
         }
 
-        outputCallback << zfText("|\n");
+        outputCallback << "|\n";
         for(zfindex i = 0; i < this->dataHeight; ++i)
         {
-            outputCallback << zfText("------");
+            outputCallback << "------";
         }
-        outputCallback << zfText("-\n");
+        outputCallback << "-\n";
     }
 };
 

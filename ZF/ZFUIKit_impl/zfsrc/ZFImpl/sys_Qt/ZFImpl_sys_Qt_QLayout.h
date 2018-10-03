@@ -40,14 +40,14 @@ public:
         if(!this->layoutItemList.isEmpty())
         {
             zfstring errHint;
-            errHint += zfText("[ZFUIView] these views has not been removed when parent dealloc:");
+            errHint += "[ZFUIView] these views has not been removed when parent dealloc:";
             for(zfindex i = 0; i < this->layoutItemList.count(); ++i)
             {
                 QWidget *v = this->layoutItemList.get(i).widget;
-                errHint += zfText(" ");
+                errHint += " ";
                 ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(errHint, v);
             }
-            zfCoreCriticalMessageTrim(zfTextA("%s"), ZFStringZ2A(errHint.cString()));
+            zfCoreCriticalMessageTrim("%s", errHint.cString());
         }
     }
 

@@ -36,7 +36,7 @@ protected:
         view->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
         view->viewBackgroundColorSet(ZFUIColorRed());
         view->observerAdd(ZFUITextEdit::EventTextOnReturnClick(), onClickReturn);
-        view->textPlaceHolder()->textSet(zfText("first text edit"));
+        view->textPlaceHolder()->textSet("first text edit");
 
         zfblockedAlloc(ZFUITextEdit, view2);
         container->childAdd(view2);
@@ -44,7 +44,7 @@ protected:
         view2->layoutParam()->layoutMarginSet(ZFUIMarginMake(40, 100, 40, 40));
         view2->viewBackgroundColorSet(ZFUIColorBlue());
         view2->observerAdd(ZFUITextEdit::EventTextOnReturnClick(), onClickReturn);
-        view2->textPlaceHolder()->textSet(zfText("second text edit"));
+        view2->textPlaceHolder()->textSet("second text edit");
 
         this->prepareSettingButton(window, view);
     }

@@ -335,8 +335,8 @@ extern ZF_ENV_EXPORT void ZFMethodFuncUserUnregister(ZF_IN const ZFMethod *metho
  *   ZF_GLOBAL_INITIALIZER_INIT(MyMethodRegister)
  *   {
  *       ZFMethodFuncUserRegisterDetail_2(
- *           resultMethod, myInvoker, zfText("MyMethodNamespace"),
- *           ReturnType, zfText("myMethodName")
+ *           resultMethod, myInvoker, "MyMethodNamespace",
+ *           ReturnType, "myMethodName"
  *           , ZFMP_IN(ParamType0, param0)
  *           , ZFMP_IN(ParamType1, param1));
  *       _method = resultMethod;
@@ -352,7 +352,7 @@ extern ZF_ENV_EXPORT void ZFMethodFuncUserUnregister(ZF_IN const ZFMethod *metho
  *   // or, you may use this macro for short, at cpp files only
  *   ZFMETHOD_FUNC_USER_REGISTER_DETAIL_2(
  *       myMethodRegisterSig, myInvoker,
- *       ReturnType, zfText("myMethodName")
+ *       ReturnType, "myMethodName"
  *       , ZFMP_IN(ParamType0, param0)
  *       , ZFMP_IN(ParamType1, param1))
  *

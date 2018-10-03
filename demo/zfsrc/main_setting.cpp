@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #if ZF_ENV_DEBUG // auto print view tree when app paused
     ZF_GLOBAL_INITIALIZER_INIT(main_setting_autoPrintViewTree)
     {
-        if(!ZFProtocolIsAvailable(zfText("ZFUIView")))
+        if(!ZFProtocolIsAvailable("ZFUIView"))
         {
             return ;
         }

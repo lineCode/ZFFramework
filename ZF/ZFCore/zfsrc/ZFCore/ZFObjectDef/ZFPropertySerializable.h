@@ -36,9 +36,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFTYPEID_DECLARE(ZFProperty, const ZFProperty *)
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFProperty_owner zfText("owner")
+#define ZFSerializableKeyword_ZFProperty_owner "owner"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFProperty_property zfText("property")
+#define ZFSerializableKeyword_ZFProperty_property "property"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPropertySerializable_h_

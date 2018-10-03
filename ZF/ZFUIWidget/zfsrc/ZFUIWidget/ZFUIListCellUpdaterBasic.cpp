@@ -13,9 +13,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIListCellUpdaterBasic)
 
-#define _ZFP_ZFUIListCellUpdaterBasic_cacheKey_separator zfText("_ZFP_ZFUIListCellUpdaterBasic_cacheKey_separator")
-#define _ZFP_ZFUIListCellUpdaterBasic_tag_separator zfText("_ZFP_ZFUIListCellUpdaterBasic_tag_separator")
-#define _ZFP_ZFUIListCellUpdaterBasic_tag_separator_head zfText("_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head")
+#define _ZFP_ZFUIListCellUpdaterBasic_cacheKey_separator "_ZFP_ZFUIListCellUpdaterBasic_cacheKey_separator"
+#define _ZFP_ZFUIListCellUpdaterBasic_tag_separator "_ZFP_ZFUIListCellUpdaterBasic_tag_separator"
+#define _ZFP_ZFUIListCellUpdaterBasic_tag_separator_head "_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head"
 static ZFUIView *_ZFP_ZFUIListCellUpdaterBasic_setupSeparator(ZF_IN ZFUIListCellUpdaterBasic *owner,
                                                               ZF_IN const ZFUIListCellUpdaterParam &updateParam)
 {

@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 // void
 /** @brief see #ZFTYPEID_DECLARE */
-#define ZFTypeId_void() zfText("void")
+#define ZFTypeId_void() "void"
 
 /** @cond ZFPrivateDoc */
 template<>
@@ -313,7 +313,7 @@ public:
             _ZFP_PropAliasAttach(obj, holder,
                 zfsConnectLineFree(
                     zftTraits<T_Type>::TrType::ClassData()->classNameFull(),
-                    zfText("_"),
+                    "_",
                     zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
             return *holder;
@@ -327,7 +327,7 @@ public:
             _ZFP_PropAliasDetach(obj,
                 zfsConnectLineFree(
                     zftTraits<T_Type>::TrType::ClassData()->classNameFull(),
-                    zfText("_"),
+                    "_",
                     zftTraits<T_Access>::ModifierName())
                 );
         }
@@ -361,7 +361,7 @@ public:
             _ZFP_PropAliasAttach(obj, holder,
                 zfsConnectLineFree(
                     typename zftTraits<_TrNoRef>::TrType::ClassData()->classNameFull(),
-                    zfText("_"),
+                    "_",
                     zftTraits<T_Access>::ModifierName()),
                 _ZFP_PropAliasOnDetach);
             return *holder;
@@ -375,7 +375,7 @@ public:
             _ZFP_PropAliasAttach(obj,
                 zfsConnectLineFree(
                     typename zftTraits<_TrNoRef>::TrType::ClassData()->classNameFull(),
-                    zfText("_"),
+                    "_",
                     zftTraits<T_Access>::ModifierName())
                 );
         }

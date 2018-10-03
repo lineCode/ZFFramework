@@ -42,7 +42,7 @@ void _ZFP_zfautoReleaseAction(ZF_IN ZFObject *obj)
             ZFThread *threadCur = ZFThread::currentThread();
             if(threadCur == zfnull)
             {
-                zfCoreCriticalMessageTrim(zfTextA("[zfautoRelease] current thread is null, make sure the thread is started or registered by ZFThread"));
+                zfCoreCriticalMessageTrim("[zfautoRelease] current thread is null, make sure the thread is started or registered by ZFThread");
                 return ;
             }
             threadCur->_ZFP_ZFThreadAutoReleasePoolAdd(obj);
@@ -62,8 +62,8 @@ void _ZFP_zfautoReleaseAction(ZF_IN ZFObject *obj)
             }
             else
             {
-                zfCoreLogTrim(zfTextA("[zfautoRelease] zfautoRelease called while no auto drain logic support, object %s would not be released normally"),
-                    zfsCoreZ2A(obj->objectInfoOfInstance().cString()));
+                zfCoreLogTrim("[zfautoRelease] zfautoRelease called while no auto drain logic support, object %s would not be released normally",
+                    obj->objectInfoOfInstance().cString());
             }
         }
     }

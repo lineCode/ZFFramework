@@ -22,30 +22,30 @@ protected:
         zfsuper::testCaseOnStart();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("compress buffer"));
+        this->testCaseOutput("compress buffer");
         {
             ZFIOBufferedCallbackUsingBuffer io;
-            ZFCompress(io, ZFInputForBuffer(zfText("uncompressed text")));
+            ZFCompress(io, ZFInputForBuffer("uncompressed text"));
             ZFDecompress(ZFOutputDefault(), io);
         }
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("compress tree"));
+        this->testCaseOutput("compress tree");
         {
-            ZFPathInfo pathInfoSrc(ZFPathType_res, zfText("."));
-            ZFPathInfo pathInfoDst(ZFPathType_cachePath, zfText("ZFCompress_test"));
+            ZFPathInfo pathInfoSrc(ZFPathType_res, ".");
+            ZFPathInfo pathInfoDst(ZFPathType_cachePath, "ZFCompress_test");
 
-            this->testCaseOutput(zfText("original src tree:"));
-            ZFFilePathInfoTreePrint(pathInfoSrc, ZFOutputDefault(), zfText("    "));
-            this->testCaseOutput(zfText("original dst tree:"));
-            ZFFilePathInfoTreePrint(pathInfoDst, ZFOutputDefault(), zfText("    "));
+            this->testCaseOutput("original src tree:");
+            ZFFilePathInfoTreePrint(pathInfoSrc, ZFOutputDefault(), "    ");
+            this->testCaseOutput("original dst tree:");
+            ZFFilePathInfoTreePrint(pathInfoDst, ZFOutputDefault(), "    ");
 
             ZFIOBufferedCallbackUsingTmpFile io;
             ZFCompressDir(io, pathInfoSrc);
 
             ZFDecompressDir(pathInfoDst, io);
-            this->testCaseOutput(zfText("decompressed dst tree:"));
-            ZFFilePathInfoTreePrint(pathInfoDst, ZFOutputDefault(), zfText("    "));
+            this->testCaseOutput("decompressed dst tree:");
+            ZFFilePathInfoTreePrint(pathInfoDst, ZFOutputDefault(), "    ");
         }
 
         this->testCaseStop();

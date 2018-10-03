@@ -39,7 +39,7 @@ protected:
             userData->objectHolded<ZFAnimation *>()->aniStart();
         })
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
-        startButton->buttonLabelTextSet(zfText("start"));
+        startButton->buttonLabelTextSet("start");
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, this->ani()->objectHolder());
         container->childAdd(startButton);
         startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);

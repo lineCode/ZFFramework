@@ -24,7 +24,7 @@ public:
         wchar_t *buf = _wgetcwd(NULL, 0);
         if(buf)
         {
-            ZFString::toZFChar(_pathForCwd, buf, ZFStringEncoding::e_UTF16);
+            ZFString::toUTF8(_pathForCwd, buf, ZFStringEncoding::e_UTF16);
             free(buf);
             return _pathForCwd;
         }
@@ -35,7 +35,7 @@ public:
     }
     virtual zfbool pathForCwdChange(ZF_IN const zfchar *pathForCwd)
     {
-        return (_wchdir(ZFStringZ2W(pathForCwd)) == 0);
+        return (_wchdir(ZFString::toUTF16(pathForCwd, ZFStringEncoding::e_UTF8).cString()) == 0);
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFFileCwdImpl_sys_Windows)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFFileCwdImpl_sys_Windows)

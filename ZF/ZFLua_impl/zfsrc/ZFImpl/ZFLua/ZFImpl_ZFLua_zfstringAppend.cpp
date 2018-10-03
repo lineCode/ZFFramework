@@ -16,7 +16,7 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
     zfautoObject obj;
     if(!ZFImpl_ZFLua_toObject(obj, L, 1))
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfstringAppend] unknown string type, got %s"),
+        ZFLuaErrorOccurredTrim("[zfstringAppend] unknown string type, got %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -51,14 +51,14 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
 
     if(!stringValid)
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfstringAppend] unknown string type or not editable, got %s"),
+        ZFLuaErrorOccurredTrim("[zfstringAppend] unknown string type or not editable, got %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
 
     if(!convertSuccess)
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfstringAppend] format string failed, format: %s"),
+        ZFLuaErrorOccurredTrim("[zfstringAppend] format string failed, format: %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 2, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -71,7 +71,7 @@ static int _ZFP_ZFImpl_ZFLua_zfstringWithFormat(ZF_IN lua_State *L)
     zfblockedAlloc(v_zfstring, ret);
     if(!ZFImpl_ZFLua_zfstringAppend(L, ret->zfv))
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfstringWithFormat] format string failed, format: %s"),
+        ZFLuaErrorOccurredTrim("[zfstringWithFormat] format string failed, format: %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -81,8 +81,8 @@ static int _ZFP_ZFImpl_ZFLua_zfstringWithFormat(ZF_IN lua_State *L)
 
 // ============================================================
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfstringAppend, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfstringAppend"), _ZFP_ZFImpl_ZFLua_zfstringAppend);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfstringWithFormat"), _ZFP_ZFImpl_ZFLua_zfstringWithFormat);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfstringAppend", _ZFP_ZFImpl_ZFLua_zfstringAppend);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfstringWithFormat", _ZFP_ZFImpl_ZFLua_zfstringWithFormat);
     }, {
     })
 

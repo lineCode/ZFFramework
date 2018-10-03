@@ -23,7 +23,7 @@ public:
     zfindex width; // zfindexMax() to scan from vaList
     zfindex precision; // zfindexMax() to scan from vaList,
                        // or _ZFP_zfstringAppendPrecisionNone if none
-    zfcharA positiveToken; // "+" or "-" or " ", or '\0' if none
+    zfchar positiveToken; // "+" or "-" or " ", or '\0' if none
     zfbool success;
 
 public:
@@ -47,21 +47,12 @@ public:
             );
     }
 };
-static inline void _ZFP_zfstringAppend_appendToken(ZF_IN_OUT ZFCoreStringA &s, ZF_IN const zfchar *token)
-{
-    s += zfsCoreZ2A(token);
-}
-static inline void _ZFP_zfstringAppend_appendToken(ZF_IN_OUT ZFCoreStringW &s, ZF_IN const zfchar *token)
-{
-    s += zfsCoreZ2W(token);
-}
 #define _ZFP_zfstringAppend_action(ret_, flags_, p_, vaList_) \
     do { \
         switch(*p_) \
         { \
             case 'b': \
-                _ZFP_zfstringAppend_appendToken(ret_, \
-                    (va_arg(vaList_, zft_zfint) != 0) ? ZFTOKEN_zfbool_zftrue : ZFTOKEN_zfbool_zffalse); \
+                ret_ += ((va_arg(vaList_, zft_zfint) != 0) ? ZFTOKEN_zfbool_zftrue : ZFTOKEN_zfbool_zffalse); \
                 break; \
             case 'z': \
                 if(*(p_+1) == 'i') \
@@ -114,17 +105,17 @@ static inline void _ZFP_zfstringAppend_appendToken(ZF_IN_OUT ZFCoreStringW &s, Z
                 break; \
             case 'c': \
             case 'C': \
-                ret_ += (T_Char)va_arg(vaList_, zft_zfint); \
+                ret_ += (zfchar)va_arg(vaList_, zft_zfint); \
                 break; \
             case 's': \
             case 'S': \
             { \
-                const T_Char *v = va_arg(vaList_, const T_Char *); \
+                const zfchar *v = va_arg(vaList_, const zfchar *); \
                 if(v != zfnull) \
                 { \
                     if(flags_.precision != _ZFP_zfstringAppendPrecisionNone) \
                     { \
-                        zfindex len = zfslenT(v); \
+                        zfindex len = zfslen(v); \
                         if(flags_.precision < len) \
                         { \
                             len = flags_.precision; \
@@ -138,7 +129,7 @@ static inline void _ZFP_zfstringAppend_appendToken(ZF_IN_OUT ZFCoreStringW &s, Z
                 } \
                 else \
                 { \
-                    _ZFP_zfstringAppend_appendToken(ret_, ZFTOKEN_zfnull); \
+                    ret_ += ZFTOKEN_zfnull; \
                 } \
             } \
                 break; \
@@ -148,14 +139,14 @@ static inline void _ZFP_zfstringAppend_appendToken(ZF_IN_OUT ZFCoreStringW &s, Z
         } \
         ++p_; \
     } while(zffalse)
-template<typename T_Char, typename T_Str>
-void _ZFP_zfstringAppendT(ZF_OUT T_Str &s,
-                          ZF_IN const T_Char *fmt,
+
+void zfstringAppendV(ZF_OUT zfstring &s,
+                          ZF_IN const zfchar *fmt,
                           ZF_IN va_list vaList)
 {
     if(fmt == zfnull) {return ;}
 
-    const T_Char *p = fmt;
+    const zfchar *p = fmt;
     while(*p != '\0')
     {
         if(*p != '%')
@@ -172,7 +163,7 @@ void _ZFP_zfstringAppendT(ZF_OUT T_Str &s,
             continue;
         }
 
-        const T_Char *savedPos = p;
+        const zfchar *savedPos = p;
         _ZFP_zfstringAppendFlag flags;
         do
         {
@@ -245,7 +236,7 @@ void _ZFP_zfstringAppendT(ZF_OUT T_Str &s,
             _ZFP_zfstringAppend_action(s, flags, p, vaList);
             continue;
         }
-        T_Str tmp;
+        zfstring tmp;
         _ZFP_zfstringAppend_action(tmp, flags, p, vaList);
 
         if(flags.precision != _ZFP_zfstringAppendPrecisionNone)
@@ -333,15 +324,6 @@ void _ZFP_zfstringAppendT(ZF_OUT T_Str &s,
             }
         }
     } // while(*p != '\0')
-}
-
-void _ZFP_zfstringAppendV(ZF_OUT ZFCoreStringA &s, ZF_IN const zfcharA *fmt, va_list vaList)
-{
-    _ZFP_zfstringAppendT(s, fmt, vaList);
-}
-void _ZFP_zfstringAppendV(ZF_OUT ZFCoreStringW &s, ZF_IN const zfcharW *fmt, va_list vaList)
-{
-    _ZFP_zfstringAppendT(s, fmt, vaList);
 }
 
 ZF_NAMESPACE_GLOBAL_END

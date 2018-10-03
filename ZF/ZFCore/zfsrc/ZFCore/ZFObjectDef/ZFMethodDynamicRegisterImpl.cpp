@@ -38,33 +38,33 @@ const ZFMethod *ZFMethodDynamicRegister(ZF_IN const ZFMethodDynamicRegisterParam
     if(param.methodOwnerClass() != zfnull && param.methodNamespace() != zfnull)
     {
         zfstringAppend(errorHint,
-            zfText("methodOwnerClass(%s) and methodNamespace(%s) can not both set"),
+            "methodOwnerClass(%s) and methodNamespace(%s) can not both set",
             param.methodOwnerClass()->objectInfo().cString(),
             param.methodNamespace());
         return zfnull;
     }
     if(param.methodGenericInvoker() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("methodGenericInvoker not set"));
+        zfstringAppend(errorHint, "methodGenericInvoker not set");
         return zfnull;
     }
     if(param.methodOwnerClass() == zfnull
         && (param.methodType() != ZFMethodTypeStatic || param.methodPrivilegeType() != ZFMethodPrivilegeTypePublic))
     {
         zfstringAppend(errorHint,
-            zfText("function type method must specified as public static, but got %s %s"),
+            "function type method must specified as public static, but got %s %s",
             ZFMethodTypeToString(param.methodType()).cString(),
             ZFMethodPrivilegeTypeToString(param.methodPrivilegeType()).cString());
         return zfnull;
     }
     if(param.methodName() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("methodName not set"));
+        zfstringAppend(errorHint, "methodName not set");
         return zfnull;
     }
     if(param.methodReturnTypeId() == zfnull)
     {
-        zfstringAppend(errorHint, zfText("methodReturnTypeId not set"));
+        zfstringAppend(errorHint, "methodReturnTypeId not set");
         return zfnull;
     }
     for(zfindex i = 0; i < param.methodParamCount(); ++i)
@@ -76,7 +76,7 @@ const ZFMethod *ZFMethodDynamicRegister(ZF_IN const ZFMethodDynamicRegisterParam
                 if(param.methodParamDefaultValueCallbackAtIndex(i) == zfnull)
                 {
                     zfstringAppend(errorHint,
-                        zfText("param %zi has no default value by previous param has"),
+                        "param %zi has no default value by previous param has",
                         i);
                 }
             }
@@ -116,12 +116,12 @@ const ZFMethod *ZFMethodDynamicRegister(ZF_IN const ZFMethodDynamicRegisterParam
     if(existMethod != zfnull)
     {
         zfstringAppend(errorHint,
-            zfText("method with same sig already exists: %s"),
+            "method with same sig already exists: %s",
             existMethod->objectInfo().cString());
         return zfnull;
     }
 
-    const zfchar *methodType = zfText("");
+    const zfchar *methodType = "";
     switch(param.methodType())
     {
         case ZFMethodTypeNormal:

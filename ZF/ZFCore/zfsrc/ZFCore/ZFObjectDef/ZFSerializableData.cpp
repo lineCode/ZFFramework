@@ -571,16 +571,16 @@ void ZFSerializableData::attributeIteratorResolveUnmark(ZF_IN const zfiterator &
 // element
 void ZFSerializableData::elementAdd(ZF_IN const ZFSerializableData &element)
 {
-    zfCoreAssertWithMessage(d != element.d, zfTextA("adding self is not allowed"));
-    zfCoreAssertWithMessage(d->serializableDataParent == zfnull, zfTextA("adding a data which already has parent"));
+    zfCoreAssertWithMessage(d != element.d, "adding self is not allowed");
+    zfCoreAssertWithMessage(d->serializableDataParent == zfnull, "adding a data which already has parent");
     d->elements.push_back(element);
     element.d->serializableDataParent = d;
 }
 void ZFSerializableData::elementAdd(ZF_IN const ZFSerializableData &element,
                                     ZF_IN zfindex atIndex)
 {
-    zfCoreAssertWithMessage(d != element.d, zfTextA("adding self is not allowed"));
-    zfCoreAssertWithMessage(d->serializableDataParent == zfnull, zfTextA("adding a data which already has parent"));
+    zfCoreAssertWithMessage(d != element.d, "adding self is not allowed");
+    zfCoreAssertWithMessage(d->serializableDataParent == zfnull, "adding a data which already has parent");
     if(atIndex == zfindexMax())
     {
         atIndex = (zfindex)d->elements.size();

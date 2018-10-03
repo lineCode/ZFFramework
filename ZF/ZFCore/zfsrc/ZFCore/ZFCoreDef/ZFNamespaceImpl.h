@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief separator token for #ZF_NAMESPACE_CURRENT
  */
-#define ZFNamespaceSeparator() zfText(".")
+#define ZFNamespaceSeparator() "."
 /**
  * @brief separator token for #ZF_NAMESPACE_CURRENT
  */
@@ -40,8 +40,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         static _ZFP_ZFNamespaceHolder d(ParentNameSpace::_ZFP_ZF_NAMESPACE_NOT_DECLARED(), #NameSpace); \
         return d.ns.cString(); \
     }
-extern ZF_ENV_EXPORT zfstringA _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
-                                                        ZF_IN const char *child);
+extern ZF_ENV_EXPORT zfstring _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
+                                                       ZF_IN const char *child);
 extern ZF_ENV_EXPORT void _ZFP_ZFNamespaceUnregister(ZF_IN const char *ns);
 class _ZFP_ZFNamespaceHolder
 {
@@ -56,7 +56,7 @@ public:
         _ZFP_ZFNamespaceUnregister(this->ns.cString());
     }
 public:
-    zfstringA ns;
+    zfstring ns;
 };
 
 /**
@@ -70,7 +70,7 @@ public:
  *   the separator token can be accessed by #ZFNamespaceSeparator
  */
 #define ZF_NAMESPACE_CURRENT() \
-    zfsCoreA2Z(_ZFP_ZF_NAMESPACE_NOT_DECLARED())
+    _ZFP_ZF_NAMESPACE_NOT_DECLARED()
 
 // ============================================================
 /**

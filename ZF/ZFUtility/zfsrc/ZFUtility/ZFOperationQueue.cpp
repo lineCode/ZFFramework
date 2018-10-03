@@ -88,23 +88,23 @@ ZFOBJECT_REGISTER(ZFOperationQueueProgress)
 
 // ZFOperationQueueResult, stored in queue's ZFOperationTaskData
 // used to store queue's result, to store necessary state while cancel queue
-#define _ZFP_ZFOperationQueueKey_queueResult zfText("_ZFP_ZFOperationQueueKey_queueResult")
+#define _ZFP_ZFOperationQueueKey_queueResult "_ZFP_ZFOperationQueueKey_queueResult"
 
 // ZFOperationQueueProgress, stored in queue's ZFOperationTaskData
 // used to store queue's progress
-#define _ZFP_ZFOperationQueueKey_queueProgress zfText("_ZFP_ZFOperationQueueKey_queueProgress")
+#define _ZFP_ZFOperationQueueKey_queueProgress "_ZFP_ZFOperationQueueKey_queueProgress"
 
 // _ZFP_ZFOperationQueueTaskState, stored in queue's ZFOperationTaskData
 // used to store child running state
-#define _ZFP_ZFOperationQueueKey_taskState zfText("_ZFP_ZFOperationQueueKey_taskState")
+#define _ZFP_ZFOperationQueueKey_taskState "_ZFP_ZFOperationQueueKey_taskState"
 
 // ZFOperationTaskData, stored in child's ZFOperationTaskData
 // used to store child's owner queue
-#define _ZFP_ZFOperationQueueKey_ownerQueue zfText("_ZFP_ZFOperationQueueKey_ownerQueue")
+#define _ZFP_ZFOperationQueueKey_ownerQueue "_ZFP_ZFOperationQueueKey_ownerQueue"
 
 // ZFValue with index, stored in child's ZFOperationTaskData
 // used to store child's index in it's owner queue
-#define _ZFP_ZFOperationQueueKey_childIndex zfText("_ZFP_ZFOperationQueueKey_childIndex")
+#define _ZFP_ZFOperationQueueKey_childIndex "_ZFP_ZFOperationQueueKey_childIndex"
 
 zfclassFwd _ZFP_ZFOperationQueueTaskState;
 static void _ZFP_ZFOperationQueue_checkRunChild(ZF_IN ZFOperationTaskData *queueTaskData, ZF_IN _ZFP_ZFOperationQueueTaskState *taskState);

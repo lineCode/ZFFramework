@@ -41,9 +41,9 @@ void ZFObjectIO_image_imageExtGetAllT(ZF_OUT ZFCoreArrayPOD<const zfchar *> &ret
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObjectIO_image_imageExtDefault, ZFLevelZFFrameworkStatic)
 {
-    ZFObjectIO_image_imageExtAdd(zfText("png"));
-    ZFObjectIO_image_imageExtAdd(zfText("jpg"));
-    ZFObjectIO_image_imageExtAdd(zfText("jpeg"));
+    ZFObjectIO_image_imageExtAdd("png");
+    ZFObjectIO_image_imageExtAdd("jpg");
+    ZFObjectIO_image_imageExtAdd("jpeg");
 }
 ZF_GLOBAL_INITIALIZER_END(ZFObjectIO_image_imageExtDefault)
 
@@ -57,7 +57,7 @@ ZFOBJECTIO_DEFINE(image, ZFM_EXPAND({
         if(ret == zfnull)
         {
             zfstringAppend(outErrorHint,
-                zfText("unable to load image from %s"),
+                "unable to load image from %s",
                 ZFPathInfoToString(*input.pathInfo()).cString());
             return zffalse;
         }
@@ -70,7 +70,7 @@ ZFOBJECTIO_DEFINE(image, ZFM_EXPAND({
         if(image == zfnull)
         {
             zfstringAppend(outErrorHint,
-                zfText("object %s is not type of %s"),
+                "object %s is not type of %s",
                 ZFObjectInfoOfInstance(obj).cString(),
                 ZFUIImage::ClassData()->classNameFull());
             return zffalse;
@@ -78,7 +78,7 @@ ZFOBJECTIO_DEFINE(image, ZFM_EXPAND({
         if(!ZFUIImageEncodeToFile(output, image))
         {
             zfstringAppend(outErrorHint,
-                zfText("unable to convert image %s to image file"),
+                "unable to convert image %s to image file",
                 ZFObjectInfo(image).cString());
             return zffalse;
         }

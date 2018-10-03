@@ -18,7 +18,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     const ZFClass *param##Cls = zfnull; \
     if(!ZFImpl_ZFLua_toNumberT(_##param, L, luaStackOffset, zftrue, &param##Cls)) \
     { \
-        ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s"), \
+        ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s", \
             ZFImpl_ZFLua_luaObjectInfo(L, luaStackOffset, zftrue).cString()); \
         return ZFImpl_ZFLua_luaError(L); \
     } \
@@ -156,7 +156,7 @@ static zfbool _ZFP_ZFImpl_ZFLua_metatable_concat_action(ZF_IN_OUT zfstring &v, Z
         ZFObjectInfoT(v, param);
         return zftrue;
     }
-    ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s"),
+    ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s",
         ZFImpl_ZFLua_luaObjectInfo(L, luaStackOffset, zftrue).cString());
     return zffalse;
 }
@@ -166,7 +166,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_concat(ZF_IN lua_State *L)
     if(_ZFP_ZFImpl_ZFLua_metatable_concat_action(v, L, 1)
         && _ZFP_ZFImpl_ZFLua_metatable_concat_action(v, L, 2))
     {
-        lua_pushstring(L, ZFStringZ2A(v.cString()));
+        lua_pushstring(L, v.cString());
         return 1;
     }
     else
@@ -179,7 +179,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_len(ZF_IN lua_State *L)
     zfstring v;
     if(!ZFImpl_ZFLua_toString(v, L, 1, zftrue))
     {
-        ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s"),
+        ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -193,14 +193,14 @@ static zfbool _ZFP_ZFImpl_ZFLua_metatable_cmp(ZF_OUT ZFCompareResult &ret, ZF_IN
         zfautoObject v1;
         if(!ZFImpl_ZFLua_toObject(v1, L, 1))
         {
-            ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s"),
+            ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s",
                 ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
             return zffalse;
         }
         zfautoObject v2;
         if(!ZFImpl_ZFLua_toObject(v2, L, 2))
         {
-            ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s"),
+            ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s",
                 ZFImpl_ZFLua_luaObjectInfo(L, 2, zftrue).cString());
             return zffalse;
         }
@@ -233,7 +233,7 @@ static zfbool _ZFP_ZFImpl_ZFLua_metatable_cmp(ZF_OUT ZFCompareResult &ret, ZF_IN
         }
     }
 
-    ZFLuaErrorOccurredTrim(zfText("[LuaMetatable] unknown param type: %s and %s"),
+    ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s and %s",
         ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString(),
         ZFImpl_ZFLua_luaObjectInfo(L, 2, zftrue).cString());
     return zffalse;
@@ -273,45 +273,45 @@ static int _ZFP_ZFImpl_ZFLua_metatable_tostring(ZF_IN lua_State *L)
     zfautoObject obj;
     if(!ZFImpl_ZFLua_toObject(obj, L, 1))
     {
-        ZFLuaErrorOccurredTrim(zfText("[__tostring] unknown object type: %s"),
+        ZFLuaErrorOccurredTrim("[__tostring] unknown object type: %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
 
     zfstring ret;
     ZFObjectInfoT(ret, obj.toObject());
-    lua_pushstring(L, ZFStringZ2A(ret.cString()));
+    lua_pushstring(L, ret.cString());
     return 1;
 }
 
 // ============================================================
 void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT int objIndex /* = -1 */)
 {
-    lua_getglobal(L, zfTextA("_ZFP_ZFImpl_ZFLua_implSetupObject"));
+    lua_getglobal(L, "_ZFP_ZFImpl_ZFLua_implSetupObject");
     if(!lua_isfunction(L, -1))
     {
         lua_pop(L, 1);
 
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_add"), _ZFP_ZFImpl_ZFLua_metatable_add);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_sub"), _ZFP_ZFImpl_ZFLua_metatable_sub);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_mul"), _ZFP_ZFImpl_ZFLua_metatable_mul);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_div"), _ZFP_ZFImpl_ZFLua_metatable_div);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_mod"), _ZFP_ZFImpl_ZFLua_metatable_mod);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_unm"), _ZFP_ZFImpl_ZFLua_metatable_unm);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_band"), _ZFP_ZFImpl_ZFLua_metatable_band);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_bor"), _ZFP_ZFImpl_ZFLua_metatable_bor);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_bxor"), _ZFP_ZFImpl_ZFLua_metatable_bxor);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_bnot"), _ZFP_ZFImpl_ZFLua_metatable_bnot);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_shl"), _ZFP_ZFImpl_ZFLua_metatable_shl);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_shr"), _ZFP_ZFImpl_ZFLua_metatable_shr);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_concat"), _ZFP_ZFImpl_ZFLua_metatable_concat);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_len"), _ZFP_ZFImpl_ZFLua_metatable_len);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_eq"), _ZFP_ZFImpl_ZFLua_metatable_eq);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_lt"), _ZFP_ZFImpl_ZFLua_metatable_lt);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_le"), _ZFP_ZFImpl_ZFLua_metatable_le);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("_ZFP_ZFImpl_ZFLua_metatable_tostring"), _ZFP_ZFImpl_ZFLua_metatable_tostring);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_add", _ZFP_ZFImpl_ZFLua_metatable_add);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_sub", _ZFP_ZFImpl_ZFLua_metatable_sub);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_mul", _ZFP_ZFImpl_ZFLua_metatable_mul);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_div", _ZFP_ZFImpl_ZFLua_metatable_div);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_mod", _ZFP_ZFImpl_ZFLua_metatable_mod);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_unm", _ZFP_ZFImpl_ZFLua_metatable_unm);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_band", _ZFP_ZFImpl_ZFLua_metatable_band);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_bor", _ZFP_ZFImpl_ZFLua_metatable_bor);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_bxor", _ZFP_ZFImpl_ZFLua_metatable_bxor);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_bnot", _ZFP_ZFImpl_ZFLua_metatable_bnot);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_shl", _ZFP_ZFImpl_ZFLua_metatable_shl);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_shr", _ZFP_ZFImpl_ZFLua_metatable_shr);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_concat", _ZFP_ZFImpl_ZFLua_metatable_concat);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_len", _ZFP_ZFImpl_ZFLua_metatable_len);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_eq", _ZFP_ZFImpl_ZFLua_metatable_eq);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_lt", _ZFP_ZFImpl_ZFLua_metatable_lt);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_le", _ZFP_ZFImpl_ZFLua_metatable_le);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_metatable_tostring", _ZFP_ZFImpl_ZFLua_metatable_tostring);
 
-        ZFImpl_ZFLua_execute(L, zfText(
+        ZFImpl_ZFLua_execute(L,
                 "function _ZFP_ZFImpl_ZFLua_implSetupObject_index(obj, k)\n"
                 "    return function(obj, ...)\n"
                 "        return zfl_call(obj, k, ...)\n"
@@ -343,9 +343,9 @@ void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT in
                 "    \n"
                 "    debug.setmetatable(obj, tbl)\n"
                 "end\n"
-            ));
+            );
 
-        lua_getglobal(L, zfTextA("_ZFP_ZFImpl_ZFLua_implSetupObject"));
+        lua_getglobal(L, "_ZFP_ZFImpl_ZFLua_implSetupObject");
     }
 
     lua_pushvalue(L, (objIndex > 0) ? objIndex : (objIndex - 1));
@@ -353,11 +353,11 @@ void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT in
     int error = lua_pcall(L, 1, 0, 0);
     if(error)
     {
-        zfstring errorHint = zfsCoreA2Z(lua_tostring(L, -1));
+        zfstring errorHint = lua_tostring(L, -1);
         lua_pop(L, 1);
 
         ZFLuaErrorOccurredTrim(
-            zfText("[ZFLua] failed to setup object metatable: %s"),
+            "[ZFLua] failed to setup object metatable: %s",
             errorHint.cString());
     }
 }
@@ -430,14 +430,14 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
     if(paramClass0->classIsTypeOf(ZFEnum::ClassData()))
     {
         zfautoObject ret = paramClass0->newInstance();
-        ret.toObject()->classData()->methodForName(zfText("enumValueSet"))->execute<void, zfuint>(ret, (zfuint)n);
+        ret.toObject()->classData()->methodForName("enumValueSet")->execute<void, zfuint>(ret, (zfuint)n);
         ZFImpl_ZFLua_luaPush(L, ret);
         return zftrue;
     }
     if(paramClass1->classIsTypeOf(ZFEnum::ClassData()))
     {
         zfautoObject ret = paramClass1->newInstance();
-        ret.toObject()->classData()->methodForName(zfText("enumValueSet"))->execute<void, zfuint>(ret, (zfuint)n);
+        ret.toObject()->classData()->methodForName("enumValueSet")->execute<void, zfuint>(ret, (zfuint)n);
         ZFImpl_ZFLua_luaPush(L, ret);
         return zftrue;
     }

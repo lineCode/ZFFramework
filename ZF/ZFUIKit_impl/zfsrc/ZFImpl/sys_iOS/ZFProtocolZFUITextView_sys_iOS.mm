@@ -54,7 +54,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUITextViewImpl_sys_iOS, ZFUITextView, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:UILabel"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:UILabel")
 
 public:
     virtual void *nativeTextViewCreate(ZF_IN ZFUITextView *textView)

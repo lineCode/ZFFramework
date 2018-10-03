@@ -14,7 +14,6 @@
 #include "../_repo/rapidjson/reader.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
-ZFSTRINGENCODING_ASSERT(ZFStringEncoding::e_UTF8)
 
 zfclassNotPOD _ZFP_ZFJsonImpl_default_MemoryPoolHolder
 {
@@ -36,7 +35,7 @@ public:
 };
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFJsonImpl_default, ZFJson, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("rapidjson"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("rapidjson")
 public:
     virtual ZFJsonItem jsonParse(ZF_IN const zfchar *src,
                                  ZF_IN_OPT zfindex size = zfindexMax())

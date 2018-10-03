@@ -71,7 +71,7 @@ public:
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUITextViewImpl_sys_Qt, ZFUITextView, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QLabel"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QLabel")
 
 public:
     virtual void *nativeTextViewCreate(ZF_IN ZFUITextView *textView)

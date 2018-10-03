@@ -46,9 +46,9 @@ void _ZFP_ZFStyleKeyHolder::styleOnChange(ZF_IN_OUT ZFListenerData &listenerData
     {
         zfCoreAssertWithMessageTrim(style->classData()->classIsTypeOf(owner->classData())
             || owner->classData()->classIsTypeOf(style->classData()),
-            zfTextA("[ZFStyle] applying style from incorrect type, to object: %s, from style: %s"),
-            zfsCoreZ2A(owner->toObject()->objectInfoOfInstance().cString()),
-            zfsCoreZ2A(style->objectInfoOfInstance().cString()));
+            "[ZFStyle] applying style from incorrect type, to object: %s, from style: %s",
+            owner->toObject()->objectInfoOfInstance().cString(),
+            style->objectInfoOfInstance().cString());
 
         owner->styleableCopyFrom(style);
         if(!owner->styleKeyOnCheckValid())
@@ -268,7 +268,7 @@ void _ZFP_ZFStylePropertyCopyRegister(ZF_IN const zfchar *propertyTypeId,
     zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback> &m = _ZFP_ZFStylePropertyCustomCopyMapMap();
     zfstlmap<zfstlstringZ, _ZFP_ZFStylePropertyCopyCallback>::iterator it = m.find(propertyTypeId);
     zfCoreAssertWithMessageTrim(it == m.end(),
-        zfTextA("[ZFSTYLE_PROPERTY_COPY_DEFINE] %s already registered"),
+        "[ZFSTYLE_PROPERTY_COPY_DEFINE] %s already registered",
         propertyTypeId);
     m[propertyTypeId] = callback;
 }

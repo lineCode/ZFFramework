@@ -13,7 +13,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECTIO_DEFINE(xml, {
-        return ZFObjectIOImplCheck(pathInfo, zfText("xml"));
+        return ZFObjectIOImplCheck(pathInfo, "xml");
     }, {
         return ZFObjectFromXml(ret, input, outErrorHint);
     }, {

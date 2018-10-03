@@ -31,7 +31,7 @@ zfint ZFMainExecute(ZF_IN_OPT ZFCoreArray<zfstring> const &params)
     }
     else
     {
-        zfCoreLog(zfTextA("ZFMAIN_ENTRY not set"));
+        zfCoreLog("ZFMAIN_ENTRY not set");
         return -1;
     }
 }
@@ -42,7 +42,7 @@ int ZFMainCommonEntry(ZF_IN int argc /* = 0 */, char **argv /* = zfnull */)
     ZFCoreArray<zfstring> params;
     for(int i = 0; i < argc; ++i)
     {
-        params.add(ZFStringA2Z(argv[i]));
+        params.add(argv[i]);
     }
     zfint ret = ZFMainExecute(params);
     ZFFrameworkCleanup();

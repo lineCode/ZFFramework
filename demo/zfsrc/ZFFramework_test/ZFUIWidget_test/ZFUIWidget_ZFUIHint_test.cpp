@@ -23,7 +23,7 @@ protected:
         ZFFramework_test_protocolCheck(ZFUIView);
         ZFFramework_test_protocolCheck(ZFUISysWindow);
 
-        zfautoObject hint = ZFUIHintShow(zfText("this is a normal hint"));
+        zfautoObject hint = ZFUIHintShow("this is a normal hint");
 #if 0
         ZFLISTENER_LOCAL(hintOnHide, {
             zfLogT();
@@ -33,12 +33,12 @@ protected:
         ZFLISTENER_LOCAL(hintOnHide, {
             for(zfindex i = 0; i < 3; ++i)
             {
-                ZFUIHintShow(zfstringWithFormat(zfText("this is a stacked hint %zi"), i));
+                ZFUIHintShow(zfstringWithFormat("this is a stacked hint %zi", i));
             }
-            zfautoObject last = ZFUIHintShow(zfText("this is a very")
-                zfText(" long long long long long long long long long long")
-                zfText(" long long long long long long long long long long")
-                zfText(" long long long long long long long long long hint"));
+            zfautoObject last = ZFUIHintShow("this is a very"
+                " long long long long long long long long long long"
+                " long long long long long long long long long long"
+                " long long long long long long long long long hint");
             ZFLISTENER_LOCAL(lastHintOnHide, {
                 userData->objectHolded<ZFTestCase *>()->testCaseStop();
             })

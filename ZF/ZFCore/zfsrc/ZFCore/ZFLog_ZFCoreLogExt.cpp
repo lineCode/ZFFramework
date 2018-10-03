@@ -15,7 +15,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-static void _ZFP_zfCoreLogZFLogWrapper(ZF_IN const zfcharA *s)
+static void _ZFP_zfCoreLogZFLogWrapper(ZF_IN const zfchar *s)
 {
     ZFImplOutputCoreLog(s);
 }
@@ -24,7 +24,7 @@ static void _ZFP_ZFLog_ZFCoreLogExtFunc(ZF_IN const ZFCallerInfo &callerInfo)
 {
     if(zfLogStackTraceAvailable())
     {
-        zfCoreLogTrim(ZFStringZ2A(zfLogStackTrace(zfnull, 2).cString()));
+        zfCoreLogTrim(zfLogStackTrace(zfnull, 2).cString());
     }
 }
 

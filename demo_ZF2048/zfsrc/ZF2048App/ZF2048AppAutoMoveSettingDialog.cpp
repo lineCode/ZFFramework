@@ -19,8 +19,8 @@ zfclass _ZFP_ZF2048AppAutoMoveActionItem : zfextends ZF2048AppButton
     ZFPROPERTY_ASSIGN(ZF2048AppAutoMoveActionEnum, actionValue)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZF2048AppAutoMoveActionEnum, actionValue)
     {
-        this->buttonLabelStyleNormal()->styleKeySet(zfText("text"),
-            zfstringWithFormat(zfText("ZF2048AutoMove_%s"), ZF2048AppAutoMoveAction::EnumNameForValue(propertyValue)));
+        this->buttonLabelStyleNormal()->styleKeySet("text",
+            zfstringWithFormat("ZF2048AutoMove_%s", ZF2048AppAutoMoveAction::EnumNameForValue(propertyValue)));
     }
 };
 
@@ -65,7 +65,7 @@ protected:
 
         this->childAdd(this->hintText());
         this->hintText()->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
-        this->hintText()->styleKeySet(zfText("text"), zfText("ZF2048AutoMoveDialog_hint"));
+        this->hintText()->styleKeySet("text", "ZF2048AutoMoveDialog_hint");
 
         this->childAdd(this->actionList());
         this->actionList()->viewSizeMinSet(ZFUISizeMake(0, 120));
@@ -89,9 +89,9 @@ protected:
         this->buttonLayout()->layoutChildSpaceSet(ZFUIGlobalStyle::DefaultStyle()->itemSpace());
         this->buttonLayout()->layoutOrientationSet(ZFUIOrientation::e_Left);
         this->buttonLayout()->childAdd(this->confirmButton());
-        this->confirmButton()->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048AutoMoveDialog_confirm"));
+        this->confirmButton()->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048AutoMoveDialog_confirm");
         this->buttonLayout()->childAdd(this->cancelButton());
-        this->cancelButton()->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048AutoMoveDialog_cancel"));
+        this->cancelButton()->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048AutoMoveDialog_cancel");
 
         this->addActionButtonSetup();
         this->buttonSetup();
@@ -176,7 +176,7 @@ void ZF2048AppAutoMoveSettingDialog::objectOnInit(void)
     zfsuper::objectOnInit();
     d = zfAlloc(_ZFP_ZF2048AppAutoMoveSettingDialogPrivate, this);
     this->dialogContentSet(d);
-    this->styleKeySet(zfText("dialogTitle"), zfText("ZF2048_autoMove"));
+    this->styleKeySet("dialogTitle", "ZF2048_autoMove");
 
     d->addAction_left()->buttonSimulateClick();
     d->addAction_top()->buttonSimulateClick();

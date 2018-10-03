@@ -19,7 +19,7 @@ static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializ
 {
     if(xmlElement.xmlIsNull())
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, zfText("null xml element"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, "null xml element");
         if(outErrorPos != zfnull)
         {
             *outErrorPos = xmlElement;
@@ -28,7 +28,7 @@ static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializ
     }
     if(xmlElement.xmlType() != ZFXmlType::e_XmlElement)
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, zfText("param not type of xml element"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, "param not type of xml element");
         if(outErrorPos != zfnull)
         {
             *outErrorPos = xmlElement;
@@ -38,7 +38,7 @@ static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializ
 
     if(xmlElement.xmlName() == zfnull)
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, zfText("missing xml node name"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, "missing xml node name");
         if(outErrorPos != zfnull)
         {
             *outErrorPos = xmlElement;
@@ -52,7 +52,7 @@ static zfbool _ZFP_ZFSerializableDataFromXml(ZF_OUT ZFSerializableData &serializ
     {
         if(attribute.xmlName() == zfnull)
         {
-            ZFSerializableUtil::errorOccurred(outErrorHint, zfText("missing xml attribute name"));
+            ZFSerializableUtil::errorOccurred(outErrorHint, "missing xml attribute name");
             if(outErrorPos != zfnull)
             {
                 *outErrorPos = attribute;
@@ -119,7 +119,7 @@ ZFMETHOD_FUNC_DEFINE_3(ZFXmlItem, ZFSerializableDataToXml,
 {
     if(serializableData.itemClass() == zfnull)
     {
-        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, zfText("missing serializable class"));
+        ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData, "missing serializable class");
         return ZFXmlItem();
     }
 
@@ -155,13 +155,13 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFSerializableDataFromXml,
 {
     if(!input.callbackIsValid())
     {
-        zfstringAppend(outErrorHint, zfText("invalid input callback"));
+        zfstringAppend(outErrorHint, "invalid input callback");
         return zffalse;
     }
     ZFXmlItem xmlElement = ZFXmlParseFirstElement(input);
     if(xmlElement.xmlType() == ZFXmlType::e_XmlNull)
     {
-        zfstringAppend(outErrorHint, zfText("unable to parse xml from input"));
+        zfstringAppend(outErrorHint, "unable to parse xml from input");
         return zffalse;
     }
     if(!ZFSerializableDataFromXml(ret, xmlElement, outErrorHint))
@@ -197,10 +197,10 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFSerializableDataToXml,
     {
         xmlElement.xmlAttributeSortRecursively();
         zfbool ret = ZFXmlItemToOutput(outputCallback, xmlElement, flags);
-        outputCallback.execute(zfText("\n"));
+        outputCallback.execute("\n");
         if(!ret)
         {
-            zfstringAppend(outErrorHint, zfText("unable to convert xml to string"));
+            zfstringAppend(outErrorHint, "unable to convert xml to string");
         }
         return ret;
     }

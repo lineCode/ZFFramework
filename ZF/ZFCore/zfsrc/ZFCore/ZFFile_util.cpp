@@ -181,7 +181,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFileNameOf,
                        ZFMP_OUT(zfstring &, ret),
                        ZFMP_IN(const zfchar *, src))
 {
-    if(zfsIsEmpty(src) || zfscmpTheSame(src, zfText(".")))
+    if(zfsIsEmpty(src) || zfscmpTheSame(src, "."))
     {
         return zffalse;
     }
@@ -222,7 +222,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFileNameOfWithoutExt,
                        ZFMP_OUT(zfstring &, ret),
                        ZFMP_IN(const zfchar *, src))
 {
-    if(zfsIsEmpty(src) || zfscmpTheSame(src, zfText(".")))
+    if(zfsIsEmpty(src) || zfscmpTheSame(src, "."))
     {
         return zffalse;
     }
@@ -236,7 +236,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFileNameOfWithoutExt,
     {
         pos = 0;
     }
-    zfindex dotPos = zfstringFindReversely(src + pos, len - pos, zfText("."), 1);
+    zfindex dotPos = zfstringFindReversely(src + pos, len - pos, ".", 1);
     if(dotPos < pos)
     {
         dotPos = zfindexMax();
@@ -278,12 +278,12 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFileExtOf,
                        ZFMP_OUT(zfstring &, ret),
                        ZFMP_IN(const zfchar *, src))
 {
-    if(zfsIsEmpty(src) || zfscmpTheSame(src, zfText(".")))
+    if(zfsIsEmpty(src) || zfscmpTheSame(src, "."))
     {
         return zffalse;
     }
     zfindex pos = zfstringFindReversely(src, zfindexMax(), ZFFileSeparatorString());
-    zfindex dotPos = zfstringFindReversely(src, zfindexMax(), zfText("."), 1);
+    zfindex dotPos = zfstringFindReversely(src, zfindexMax(), ".", 1);
     if(pos != zfindexMax() && dotPos < pos)
     {
         dotPos = zfindexMax();
@@ -365,7 +365,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathParentOf,
                        ZFMP_OUT(zfstring &, ret),
                        ZFMP_IN(const zfchar *, src))
 {
-    if(zfsIsEmpty(src) || zfscmpTheSame(src, zfText(".")))
+    if(zfsIsEmpty(src) || zfscmpTheSame(src, "."))
     {
         return zffalse;
     }
@@ -407,7 +407,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFFilePathComponentsOf,
                        ZFMP_OUT(ZFCoreArray<zfstring> &, ret),
                        ZFMP_IN(const zfchar *, src))
 {
-    if(zfsIsEmpty(src) || zfscmpTheSame(src, zfText(".")))
+    if(zfsIsEmpty(src) || zfscmpTheSame(src, "."))
     {
         return zffalse;
     }
@@ -471,7 +471,7 @@ static void _ZFP_ZFFileTreePrint(ZF_IN const zfchar *pathData,
 
             if(fd.fileIsDir())
             {
-                outputCallback << fd.fileName() << zfText("/\n");
+                outputCallback << fd.fileName() << "/\n";
                 zfstring pathDataChild;
                 if(fileImpl.callbackToChild(pathData, pathDataChild, fd.fileName()))
                 {
@@ -481,7 +481,7 @@ static void _ZFP_ZFFileTreePrint(ZF_IN const zfchar *pathData,
             else
             {
                 outputCallback << fd.fileName();
-                outputCallback << zfText("\n");
+                outputCallback << "\n";
             }
         } while(fileImpl.callbackFindNext(fd));
         fileImpl.callbackFindClose(fd);
@@ -492,7 +492,7 @@ ZFMETHOD_FUNC_DEFINE_4(void, ZFFilePathInfoTreePrint,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()),
                        ZFMP_IN_OPT(const zfchar *, headToken, zfnull),
-                       ZFMP_IN_OPT(const zfchar *, indentToken, zfText("  ")))
+                       ZFMP_IN_OPT(const zfchar *, indentToken, "  "))
 {
     const ZFFilePathInfoData *data = ZFFilePathInfoDataGet(pathInfo.pathType);
     if(data != zfnull
@@ -569,7 +569,7 @@ protected:
     virtual void objectOnInit(void)
     {
         zfsuper::objectOnInit();
-        zfstringAppend(this->tmpFilePath, zfText("%s%cZFIOBufferedCallbackUsingTmpFile_%s"),
+        zfstringAppend(this->tmpFilePath, "%s%cZFIOBufferedCallbackUsingTmpFile_%s",
             ZFFilePathForCache(),
             ZFFileSeparator(),
             zfsFromInt(zfidentityCalcPointer(this)).cString());

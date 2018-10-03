@@ -23,7 +23,7 @@ public:
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     {
-        ret += zfText("zfnullObject");
+        ret += "zfnullObject";
     }
     zfoverride
     virtual zfidentity objectHash(void)
@@ -42,7 +42,7 @@ public:
     zfoverride
     virtual void tagSet(ZF_IN const zfchar *key, ZF_IN ZFObject *tag)
     {
-        zfCoreCriticalMessageTrim(zfTextA("setting tag to zfnullObject is not allowed, key: %s"), key);
+        zfCoreCriticalMessageTrim("setting tag to zfnullObject is not allowed, key: %s", key);
     }
 
 private:

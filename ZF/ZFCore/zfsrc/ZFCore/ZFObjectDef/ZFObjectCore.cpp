@@ -135,9 +135,9 @@ ZFAny ZFObject::objectHolded(void)
 void ZFObject::objectInfoOfInstanceT(ZF_IN_OUT zfstring &ret)
 {
     ret += this->classData()->classNameFull();
-    ret += zfText("(");
+    ret += "(";
     zfsFromPointerT(ret, this);
-    ret += zfText(")");
+    ret += ")";
 }
 void ZFObject::objectInfoT(ZF_IN_OUT zfstring &ret)
 {
@@ -205,13 +205,13 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
     if(methodList.isEmpty())
     {
         zfstringAppend(errorHint,
-            zfText("no such method: %s"),
+            "no such method: %s",
             methodName);
     }
     else
     {
         zfstringAppend(errorHint,
-            zfText("no matching method to call, last error reason: %s, for method: %s"),
+            "no matching method to call, last error reason: %s, for method: %s",
             methodName,
             errorHintTmp.cString(),
             m ? m->objectInfo().cString() : ZFTOKEN_zfnull);
@@ -229,9 +229,9 @@ void ZFObject::tagSet(ZF_IN const zfchar *key,
     zfCoreMutexLocker();
     if(ZFBitTest(d->objectInstanceState, ZFObjectInstanceStateOnDealloc) && tag != zfnull)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFObject] you must not set tag while object is deallocating, class: %s, tag: %s"),
-            zfsCoreZ2A(this->classData()->classNameFull()),
-            zfsCoreZ2A(key));
+        zfCoreCriticalMessageTrim("[ZFObject] you must not set tag while object is deallocating, class: %s, tag: %s",
+            this->classData()->classNameFull(),
+            key);
         return ;
     }
     if(key == zfnull)
@@ -416,7 +416,7 @@ ZFObject *ZFObject::_ZFP_ZFObjectCheckOnInit(void)
 {
     if(d == zfnull)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFObject] ZFObject::objectOnInit() not called"));
+        zfCoreCriticalMessageTrim("[ZFObject] ZFObject::objectOnInit() not called");
         return zfnull;
     }
 
@@ -471,7 +471,7 @@ void ZFObject::_ZFP_ZFObjectCheckRelease(void)
     this->objectOnDealloc();
     if(d != zfnull)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFObject] ZFObject::objectOnDealloc() not called"));
+        zfCoreCriticalMessageTrim("[ZFObject] ZFObject::objectOnDealloc() not called");
         return ;
     }
     this->classData()->_ZFP_ZFClass_objectDesctuct(this);
@@ -481,7 +481,7 @@ void ZFObject::objectOnInit(void)
 {
     if(d != zfnull)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFObject] ZFObject::objectOnInit() called twice"));
+        zfCoreCriticalMessageTrim("[ZFObject] ZFObject::objectOnInit() called twice");
         return ;
     }
 
@@ -493,7 +493,7 @@ void ZFObject::objectOnDealloc(void)
 {
     if(d == zfnull)
     {
-        zfCoreCriticalMessageTrim(zfTextA("[ZFObject] ZFObject::objectOnDealloc() called twice"));
+        zfCoreCriticalMessageTrim("[ZFObject] ZFObject::objectOnDealloc() called twice");
         return ;
     }
 
@@ -532,7 +532,7 @@ void ZFObject::objectOnDeallocPrepare(void)
 void ZFObject::objectOnRetain(void)
 {
     zfCoreAssertWithMessageTrim(d->objectRetainCount > 0,
-        zfTextA("[ZFObject] retain an object while deallocating: %s"), zfsCoreZ2A(this->objectInfoOfInstance().cString()));
+        "[ZFObject] retain an object while deallocating: %s", this->objectInfoOfInstance().cString());
     ++(d->objectRetainCount);
 }
 void ZFObject::objectOnRelease(void)

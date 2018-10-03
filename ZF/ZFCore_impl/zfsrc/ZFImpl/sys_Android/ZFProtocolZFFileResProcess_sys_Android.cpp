@@ -71,7 +71,7 @@ public:
 };
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFileResProcessImpl_sys_Android, ZFFileResProcess, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:AssetsFile"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Android:AssetsFile")
 private:
     const zfchar *zfresPrefix;
     zfindex zfresPrefixLen;
@@ -84,9 +84,9 @@ public:
     {
         zfsuper::protocolOnInit();
 
-        this->zfresPrefix = zfText("zfres");
+        this->zfresPrefix = "zfres";
         this->zfresPrefixLen = zfslen(this->zfresPrefix);
-        this->zfresPostfix = zfText(".mp2");
+        this->zfresPostfix = ".mp2";
         this->zfresPostfixLen = zfslen(this->zfresPostfix);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
@@ -108,11 +108,11 @@ public:
         this->resPathFormat(resPathFixed, resPath);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_resIsExist"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_resIsExist",
             JNIGetMethodSig(JNIType::S_boolean, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String))
             ).c_str());
-        jstring param = JNIUtilNewStringUTF(jniEnv, ZFStringZ2A(resPathFixed.cString()));
+        jstring param = JNIUtilNewStringUTF(jniEnv, resPathFixed.cString());
         JNIBlockedDeleteLocalRef(param);
         return (zfbool)JNIUtilCallStaticBooleanMethod(jniEnv, this->jclsOwner, jmId, param);
     }
@@ -122,11 +122,11 @@ public:
         this->resPathFormat(resPathFixed, resPath);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_resIsDir"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_resIsDir",
             JNIGetMethodSig(JNIType::S_boolean, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String))
             ).c_str());
-        jstring param = JNIUtilNewStringUTF(jniEnv, ZFStringZ2A(resPathFixed.cString()));
+        jstring param = JNIUtilNewStringUTF(jniEnv, resPathFixed.cString());
         JNIBlockedDeleteLocalRef(param);
         return (zfbool)JNIUtilCallStaticBooleanMethod(jniEnv, this->jclsOwner, jmId, param);
     }
@@ -141,7 +141,7 @@ public:
         this->resPathFormat(resPathFixed, resPath);
 
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_resCopy"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_resCopy",
             JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String), JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String))
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String))
@@ -181,13 +181,13 @@ public:
         this->resPathFormat(absPath, resPath);
 
         d->token = AAssetManager_open(d->assetManager,
-            ZFStringZ2A(absPath.cString()),
+            absPath.cString(),
             AASSET_MODE_RANDOM);
         if(d->token == zfnull)
         {
             absPath += this->zfresPostfix;
             d->token = AAssetManager_open(d->assetManager,
-                ZFStringZ2A(absPath.cString()),
+                absPath.cString(),
                 AASSET_MODE_RANDOM);
             if(d->token == zfnull)
             {
@@ -307,13 +307,11 @@ public:
             + ((absPath.length() > this->zfresPrefixLen) ? 1 : 0);
         fd.nativeFd = d;
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_listAssets"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_listAssets",
             JNIGetMethodSig(JNIType::S_array(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String)), JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String))
             ).c_str());
-        jstring param = JNIUtilNewStringUTF(jniEnv, ZFString::toUTF8(
-            ZFStringZ2A(absPath.cString()),
-            ZFStringEncodingForZFChar).cString());
+        jstring param = JNIUtilNewStringUTF(jniEnv, absPath.cString());
         JNIBlockedDeleteLocalRef(param);
         jobjectArray files = (jobjectArray)JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId, param);
         JNIBlockedDeleteLocalRef(files);
@@ -343,8 +341,8 @@ public:
         }
         jstring jsPath = (jstring)JNIUtilGetObjectArrayElement(jniEnv, d->files, d->curFileIndex);
         ++d->curFileIndex;
-        const zfcharA *sName = JNIUtilGetStringUTFChars(jniEnv, jsPath, zfnull);
-        zfstring refName = ZFStringA2Z(sName);
+        const zfchar *sName = JNIUtilGetStringUTFChars(jniEnv, jsPath, zfnull);
+        zfstring refName = sName;
         JNIUtilReleaseStringUTFChars(jniEnv, jsPath, sName);
 
         zfstring absPath = this->zfresPrefix;
@@ -358,7 +356,7 @@ public:
 
         AAsset *asset = AAssetManager_open(
             AAssetManager_fromJava(jniEnv, ZFImpl_sys_Android_assetManager()),
-            ZFStringZ2A(absPath.cString()),
+            absPath.cString(),
             AASSET_MODE_STREAMING);
         if(asset == zfnull)
         {
@@ -410,7 +408,7 @@ private:
     void resPathFormat(ZF_OUT zfstring &ret, ZF_IN const zfchar *s)
     {
         ret = this->zfresPrefix;
-        if(zfscmpTheSame(s, zfText(".")))
+        if(zfscmpTheSame(s, "."))
         {
             return ;
         }
@@ -419,19 +417,19 @@ private:
         zfindex tmp;
 
         // remove "/./"
-        while((tmp = zfstringFind(ret, zfText("/./"))) != zfindexMax())
+        while((tmp = zfstringFind(ret, "/./")) != zfindexMax())
         {
             ret.remove(tmp, 2);
         }
 
         // remove tail "/."
-        while(ret.length() >= 2 && zfsncmp(ret.cString(), zfText("/."), 2) == 0)
+        while(ret.length() >= 2 && zfsncmp(ret.cString(), "/.", 2) == 0)
         {
             ret.remove(ret.length() - 2);
         }
 
         // remove head "./"
-        while(zfsncmp(ret.cString(), zfText("./"), 2) == 0)
+        while(zfsncmp(ret.cString(), "./", 2) == 0)
         {
             ret.remove(0, 2);
         }

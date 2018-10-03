@@ -28,9 +28,9 @@ static void myTestCode(void)
     zfblockedAlloc(ZFUITextView, textView);
     window->childAdd(textView);
     textView->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-    textView->textSet(zfText("hello world\n\nhello ZFFramework"));
+    textView->textSet("hello world\n\nhello ZFFramework");
     textView->textSingleLineSet(zffalse);
 
-    zfLogTrimT() << zfText("welcome to ZFFramework");
+    zfLogTrimT() << "welcome to ZFFramework";
 }
 

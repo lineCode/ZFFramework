@@ -11,7 +11,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-static const zfchar *_ZFP_ZFTextTemplate_tagL = zfText("{ZFTT_");
+static const zfchar *_ZFP_ZFTextTemplate_tagL = "{ZFTT_";
 static const zfindex _ZFP_ZFTextTemplate_tagLSize = zfslen(_ZFP_ZFTextTemplate_tagL);
 static const zfchar _ZFP_ZFTextTemplate_tagR = '}';
 
@@ -316,7 +316,7 @@ static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &
 
     zfstring value;
     {
-        zfstring indexDataStateKey = zfstringWithFormat(zfText("indexData:%s"), key.cString());
+        zfstring indexDataStateKey = zfstringWithFormat("indexData:%s", key.cString());
         _ZFP_ZFTextTemplateIndexDataState *indexDataState = stateMap.get<_ZFP_ZFTextTemplateIndexDataState *>(indexDataStateKey);
         if(indexDataState == zfnull)
         {
@@ -335,20 +335,20 @@ static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &
         zfstring fmt;
         if(indexDataState->indexData->indexWidth == 0)
         {
-            fmt = zfText("%s");
+            fmt = "%s";
         }
         else
         {
             switch(indexDataState->indexData->indexFlag)
             {
                 case ZFTextTemplateIndexFlag::e_LeadingZero:
-                    zfstringAppend(fmt, zfText("%%0%zis"), indexDataState->indexData->indexWidth);
+                    zfstringAppend(fmt, "%%0%zis", indexDataState->indexData->indexWidth);
                     break;
                 case ZFTextTemplateIndexFlag::e_LeadingSpace:
-                    zfstringAppend(fmt, zfText("%%%zis"), indexDataState->indexData->indexWidth);
+                    zfstringAppend(fmt, "%%%zis", indexDataState->indexData->indexWidth);
                     break;
                 case ZFTextTemplateIndexFlag::e_TailSpace:
-                    zfstringAppend(fmt, zfText("%%-%zis"), indexDataState->indexData->indexWidth);
+                    zfstringAppend(fmt, "%%-%zis", indexDataState->indexData->indexWidth);
                     break;
                 default:
                     zfCoreCriticalShouldNotGoHere();
@@ -362,7 +362,7 @@ static void _ZFP_ZFTextTemplateApply_indexData(ZF_IN const ZFTextTemplateParam &
                 indexDataState->indexData->indexUpperCase
             ).cString());
 
-        zfCoreAssertWithMessage(indexDataState->indexData->indexOffset, zfTextA("indexOffset must not be 0"));
+        zfCoreAssertWithMessage(indexDataState->indexData->indexOffset, "indexOffset must not be 0");
         indexDataState->indexCur += indexDataState->indexData->indexOffset;
     }
 
@@ -395,7 +395,7 @@ static void _ZFP_ZFTextTemplateApply_indexData_reset(ZF_IN const ZFTextTemplateP
     p += keySize + 1;
     data = p;
 
-    zfstring indexDataStateKey = zfstringWithFormat(zfText("indexData:%s"), key.cString());
+    zfstring indexDataStateKey = zfstringWithFormat("indexData:%s", key.cString());
     stateMap.remove(indexDataStateKey);
 }
 

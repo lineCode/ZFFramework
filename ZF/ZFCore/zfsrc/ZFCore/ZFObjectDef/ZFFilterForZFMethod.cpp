@@ -20,17 +20,17 @@ static void _ZFP_ZFFilterForZFMethodGetSettingInfo(ZF_OUT zfstring &ret,
     if(filter->ignorePublic())
     {
         ++flagsCount;
-        ret += zfText("ignorePublic, ");
+        ret += "ignorePublic, ";
     }
     if(filter->ignoreProtected())
     {
         ++flagsCount;
-        ret += zfText("ignoreProtected, ");
+        ret += "ignoreProtected, ";
     }
     if(filter->ignorePrivate())
     {
         ++flagsCount;
-        ret += zfText("ignorePrivate, ");
+        ret += "ignorePrivate, ";
     }
 
     if(flagsCount == 0)

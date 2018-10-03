@@ -43,8 +43,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief output callback for zfCoreLog
  */
-typedef void (*ZFCoreLogOutputCallbackType)(ZF_IN const zfcharA *s);
-extern ZF_ENV_EXPORT void _ZFP_ZFCoreLogOutputCallbackDefault(ZF_IN const zfcharA *s);
+typedef void (*ZFCoreLogOutputCallbackType)(ZF_IN const zfchar *s);
+extern ZF_ENV_EXPORT void _ZFP_ZFCoreLogOutputCallbackDefault(ZF_IN const zfchar *s);
 /**
  * @brief default output callback for zfCoreLog
  */
@@ -64,11 +64,11 @@ extern ZF_ENV_EXPORT ZFCoreLogOutputCallbackType zfCoreLogOutputCallbackGet(void
 // ============================================================
 extern ZF_ENV_EXPORT void _ZFP_zfCoreLog(ZF_IN const ZFCallerInfo &callerInfo,
                                          ZF_IN zfbool isAutoEndl,
-                                         ZF_IN const zfcharA *format,
+                                         ZF_IN const zfchar *format,
                                          ...);
 extern ZF_ENV_EXPORT void _ZFP_zfCoreLogV(ZF_IN const ZFCallerInfo &callerInfo,
                                           ZF_IN zfbool isAutoEndl,
-                                          ZF_IN const zfcharA *format,
+                                          ZF_IN const zfchar *format,
                                           ZF_IN va_list vaList);
 /**
  * @brief log utility used internally

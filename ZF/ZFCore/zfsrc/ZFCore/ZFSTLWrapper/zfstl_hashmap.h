@@ -82,31 +82,6 @@
         class _ZFP_zfstlhashmap : public stdext::hash_map<T_Key, T_Value, _ZFP_zfstlhashmap_hashCompare<T_Key, T_Hash, T_EqualTo> >
         {
         };
-    #elif (defined(ANDROID) || defined(__ANDROID__)) && ZF_ENV_ZFCHAR_USE_CHAR_W
-        #define zfstlhashmap std::unordered_map
-
-        #include "zfstl_impl/unordered_map.hpp"
-        #include "zfstl_string.h"
-        #include "../ZFString.h"
-
-        ZF_ENV_SENSITIVE("NDK's unordered_map doesn't support wstring, for compatibility test only")
-        /** @cond ZFPrivateDoc */
-        namespace __gnu_cxx
-        {
-            template<>
-            class hash<zfstlstringZ>
-            {
-            public:
-                typedef size_t result_type;
-                typedef zfstlstringZ argument_type;
-                result_type operator () (argument_type const &v) const
-                {
-                    hash<zfstlstring> t;
-                    return t(ZFStringW2A(v.c_str()));
-                }
-            };
-        }
-        /** @endcond */
     #else
         #define zfstlhashmap std::unordered_map
 

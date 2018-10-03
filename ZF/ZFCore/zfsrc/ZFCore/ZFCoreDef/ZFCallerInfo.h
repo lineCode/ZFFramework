@@ -18,33 +18,10 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-template<typename T_Char>
-ZF_ENV_EXPORT void _ZFP_ZF_CALLER_FILE_TO_NAME(ZF_IN_OUT typename zfwrapCharToString<T_Char>::StringType &ret,
-                                               ZF_IN const T_Char *filePath)
-{
-    if(filePath == zfnull)
-    {
-        return ;
-    }
-    const T_Char *p = filePath + zfslenT(filePath);
-    while(p > filePath)
-    {
-        --p;
-        if(*p == '/' || *p == '\\')
-        {
-            ++p;
-            break;
-        }
-    }
-    ret += p;
-}
-template<typename T_Char>
-ZF_ENV_EXPORT typename zfwrapCharToString<T_Char>::StringType _ZFP_ZF_CALLER_FILE_TO_NAME(ZF_IN const T_Char *filePath)
-{
-    typename zfwrapCharToString<T_Char>::StringType ret;
-    _ZFP_ZF_CALLER_FILE_TO_NAME(ret, filePath);
-    return ret;
-}
+extern ZF_ENV_EXPORT void _ZFP_ZF_CALLER_FILE_TO_NAME(ZF_IN_OUT zfstring &ret,
+                                                      ZF_IN const zfchar *filePath);
+extern ZF_ENV_EXPORT zfstring _ZFP_ZF_CALLER_FILE_TO_NAME(ZF_IN const zfchar *filePath);
+
 /**
  * @brief convert file path to file name
  *
@@ -71,13 +48,13 @@ ZF_ENV_EXPORT typename zfwrapCharToString<T_Char>::StringType _ZFP_ZF_CALLER_FIL
 /**
  * @brief same as __FILE__ in C++ world
  *
- * ensured in zfcharA format, you should convert to zfchar type if necessary
+ * ensured in zfchar format, you should convert to zfchar type if necessary
  */
 #define ZF_CALLER_FILE __FILE__
 /**
  * @brief same as __FUNCTION__ in C++ world
  *
- * ensured in zfcharA format, you should convert to zfchar type if necessary
+ * ensured in zfchar format, you should convert to zfchar type if necessary
  */
 #define ZF_CALLER_FUNCTION __FUNCTION__
 /**
@@ -100,11 +77,11 @@ public:
     /**
      * @brief main constructor
      */
-    ZFCallerInfo(ZF_IN_OPT const zfcharA *callerFile = zfnull,
-                 ZF_IN_OPT const zfcharA *callerFunc = zfnull,
+    ZFCallerInfo(ZF_IN_OPT const zfchar *callerFile = zfnull,
+                 ZF_IN_OPT const zfchar *callerFunc = zfnull,
                  ZF_IN_OPT zfuint callerLine = 0)
-    : _callerFile(zfsCoreA2Z(callerFile))
-    , _callerFunc(zfsCoreA2Z(callerFunc))
+    : _callerFile(callerFile)
+    , _callerFunc(callerFunc)
     , _callerLine(callerLine)
     {
     }
@@ -134,12 +111,12 @@ public:
     /**
      * @brief set the caller info
      */
-    virtual void callerInfoSet(ZF_IN_OPT const zfcharA *callerFile = zfnull,
-                               ZF_IN_OPT const zfcharA *callerFunc = zfnull,
+    virtual void callerInfoSet(ZF_IN_OPT const zfchar *callerFile = zfnull,
+                               ZF_IN_OPT const zfchar *callerFunc = zfnull,
                                ZF_IN_OPT zfuint callerLine = 0)
     {
-        _callerFile = zfsCoreA2Z(callerFile);
-        _callerFunc = zfsCoreA2Z(callerFunc);
+        _callerFile = callerFile;
+        _callerFunc = callerFunc;
         _callerLine = callerLine;
     }
     /** @brief return caller info looks like "[File function (line)]" */
@@ -163,9 +140,9 @@ public:
         return ret;
     }
     /** @brief return caller info looks like "[File function (line)]" */
-    inline zfstringA callerInfoA(void) const
+    inline zfstring callerInfoA(void) const
     {
-        zfstringA ret;
+        zfstring ret;
         this->callerInfoAT(ret);
         return ret;
     }
@@ -185,16 +162,15 @@ public:
 private:
     void _callerInfo(ZF_IN_OUT zfstring &ret) const
     {
-        ret += zfText("[");
+        ret += "[";
         ZF_CALLER_FILE_TO_NAME_REF(ret, this->callerFile());
-        ret += zfText(" ");
+        ret += " ";
         ret += this->callerFunc();
-        ret += zfText(" (");
+        ret += " (";
         zfsFromIntT(ret, this->callerLine());
-        ret += zfText(")]");
+        ret += ")]";
     }
 
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
     protected:
         /** @cond ZFPrivateDoc */
         const zfchar *_callerFile;
@@ -210,7 +186,7 @@ private:
         inline zfuint callerLine(void) const {return _callerLine;}
 
         /** @brief return caller info looks like "[File function (line)]" */
-        inline zfbool callerInfoAT(ZF_IN_OUT zfstringA &ret) const
+        inline zfbool callerInfoAT(ZF_IN_OUT zfstring &ret) const
         {
             if(this->callerFile() != zfnull)
             {
@@ -222,38 +198,6 @@ private:
                 return zffalse;
             }
         }
-#endif // #if ZF_ENV_ZFCHAR_USE_CHAR_A
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    protected:
-        /** @cond ZFPrivateDoc */
-        zfstring _callerFile;
-        zfstring _callerFunc;
-        zfuint _callerLine;
-        /** @endcond */
-    public:
-        /** @brief see #ZF_CALLER_FILE */
-        inline const zfchar *callerFile(void) const {return _callerFile.isEmpty() ? zfnull : _callerFile.cString();}
-        /** @brief see #ZF_CALLER_FUNCTION */
-        inline const zfchar *callerFunc(void) const {return _callerFunc.isEmpty() ? zfnull : _callerFunc.cString();}
-        /** @brief see #ZF_CALLER_LINE */
-        inline zfuint callerLine(void) const {return _callerLine;}
-
-        /** @brief return caller info looks like "[File function (line)]" */
-        inline zfbool callerInfoAT(ZF_IN_OUT zfstringA &ret) const
-        {
-            if(this->callerFile() != zfnull)
-            {
-                zfstring t;
-                _callerInfo(t);
-                ret += zfsCoreZ2A(t);
-                return zftrue;
-            }
-            else
-            {
-                return zffalse;
-            }
-        }
-#endif // #if ZF_ENV_ZFCHAR_USE_CHAR_W
 };
 
 /**
@@ -276,19 +220,18 @@ extern ZF_ENV_EXPORT const ZFCallerInfo &_ZFP_ZFCallerInfoEmpty(void);
 zfclassLikePOD ZF_ENV_EXPORT ZFCallerInfoHolder : zfextendsLikePOD ZFCallerInfo
 {
     /** @cond ZFPrivateDoc */
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
     private:
         zfstring _callerFileHolder;
         zfstring _callerFuncHolder;
     public:
-        ZFCallerInfoHolder(ZF_IN_OPT const zfcharA *callerFile = zfnull,
-                           ZF_IN_OPT const zfcharA *callerFunc = zfnull,
+        ZFCallerInfoHolder(ZF_IN_OPT const zfchar *callerFile = zfnull,
+                           ZF_IN_OPT const zfchar *callerFunc = zfnull,
                            ZF_IN_OPT zfuint callerLine = 0)
         : ZFCallerInfo()
         , _callerFileHolder()
-        , _callerFuncHolder(zfsCoreA2Z(callerFunc))
+        , _callerFuncHolder(callerFunc)
         {
-            ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, zfsCoreA2Z(callerFile));
+            ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, callerFile);
             ZFCallerInfo::callerInfoSet(_callerFileHolder, _callerFuncHolder, callerLine);
         }
         ZFCallerInfoHolder(ZF_IN const ZFCallerInfo &ref)
@@ -296,67 +239,26 @@ zfclassLikePOD ZF_ENV_EXPORT ZFCallerInfoHolder : zfextendsLikePOD ZFCallerInfo
         , _callerFileHolder()
         , _callerFuncHolder(ref.callerFunc())
         {
-            ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, zfsCoreA2Z(ref.callerFile()));
+            ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, ref.callerFile());
             ZFCallerInfo::callerInfoSet(_callerFileHolder, _callerFuncHolder, ref.callerLine());
         }
         virtual ZFCallerInfoHolder &operator = (ZF_IN const ZFCallerInfo &ref)
         {
             _callerFileHolder.removeAll();
-            ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, zfsCoreA2Z(ref.callerFile()));
+            ZF_CALLER_FILE_TO_NAME_REF(_callerFileHolder, ref.callerFile());
             _callerFuncHolder = ref.callerFunc();
             ZFCallerInfo::callerInfoSet(_callerFileHolder, _callerFuncHolder, ref.callerLine());
             return *this;
         }
     public:
-        virtual void callerInfoSet(ZF_IN_OPT const zfcharA *callerFile = zfnull,
-                                   ZF_IN_OPT const zfcharA *callerFunc = zfnull,
+        virtual void callerInfoSet(ZF_IN_OPT const zfchar *callerFile = zfnull,
+                                   ZF_IN_OPT const zfchar *callerFunc = zfnull,
                                    ZF_IN_OPT zfuint callerLine = 0)
         {
             _callerFileHolder = callerFile;
             _callerFuncHolder = callerFunc;
             ZFCallerInfo::callerInfoSet(_callerFileHolder, _callerFuncHolder, callerLine);
         }
-        virtual void callerInfoSet(ZF_IN const zfcharW *callerFile,
-                                   ZF_IN const zfcharW *callerFunc,
-                                   ZF_IN zfuint callerLine)
-        {
-            _callerFileHolder = zfsCoreW2Z(callerFile);
-            _callerFuncHolder = zfsCoreW2Z(callerFunc);
-            ZFCallerInfo::callerInfoSet(_callerFileHolder, _callerFuncHolder, callerLine);
-        }
-#endif // #if ZF_ENV_ZFCHAR_USE_CHAR_A
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-    public:
-        ZFCallerInfoHolder(ZF_IN_OPT const zfcharA *callerFile = zfnull,
-                           ZF_IN_OPT const zfcharA *callerFunc = zfnull,
-                           ZF_IN_OPT zfuint callerLine = 0)
-        : ZFCallerInfo(callerFile, callerFunc, callerLine)
-        {
-        }
-        ZFCallerInfoHolder(ZF_IN const ZFCallerInfo &ref)
-        : ZFCallerInfo(ref)
-        {
-        }
-        virtual ZFCallerInfoHolder &operator = (ZF_IN const ZFCallerInfo &ref)
-        {
-            ZFCallerInfo::operator = (ref);
-            return *this;
-        }
-        virtual void callerInfoSet(ZF_IN_OPT const zfcharA *callerFile = zfnull,
-                                   ZF_IN_OPT const zfcharA *callerFunc = zfnull,
-                                   ZF_IN_OPT zfuint callerLine = 0)
-        {
-            ZFCallerInfo::callerInfoSet(callerFile, callerFunc, callerLine);
-        }
-        virtual void callerInfoSet(ZF_IN const zfcharW *callerFile,
-                                   ZF_IN const zfcharW *callerFunc,
-                                   ZF_IN zfuint callerLine)
-        {
-            _callerFile = callerFile;
-            _callerFunc = callerFunc;
-            _callerLine = callerLine;
-        }
-#endif // #if ZF_ENV_ZFCHAR_USE_CHAR_W
     /** @endcond */
 };
 

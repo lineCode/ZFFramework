@@ -41,7 +41,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   @note for input callbacks, the size shows the current available size, may change after a ioSeek or execute call
  *   @note for ouput callbacks, the size shows the contents outputed to the output callback
  */
-#define ZFCallbackTagKeyword_ioOwner zfText("ZFCallbackTagKeyword_ioOwner")
+#define ZFCallbackTagKeyword_ioOwner "ZFCallbackTagKeyword_ioOwner"
 /**
  * @brief util method for ZFIOCallback::ioSeek's implementations to calculate seek index
  *

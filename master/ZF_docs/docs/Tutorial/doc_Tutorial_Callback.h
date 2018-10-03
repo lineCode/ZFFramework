@@ -11,18 +11,18 @@
  *
  *       ZFMETHOD_INLINE_1(zfstring, myMemberMethod, ZFMP_IN(zfindex, param0))
  *       {
- *           return zfstringWithFormat(zfText("called myMemberMethod, param: %zi"), param0);
+ *           return zfstringWithFormat("called myMemberMethod, param: %zi", param0);
  *       }
  *   };
  *   static zfstring myStaticFunc(ZF_IN zfindex param0)
  *   {
- *       return zfstringWithFormat(zfText("called myStaticFunc, param: %zi"), param0);
+ *       return zfstringWithFormat("called myStaticFunc, param: %zi", param0);
  *   }
  * @endcode
  * @code
  *   // prepare an object and a method
  *   zfblockedAlloc(MyObject, obj);
- *   const ZFMethod *method = ZFMethodGet(zfText("MyObject"), zfText("myMemberMethod"));
+ *   const ZFMethod *method = ZFMethodGet("MyObject", "myMemberMethod");
  *
  *   // create callback from an object's member method
  *   ZFCallback callback1 = ZFCallbackForMemberMethod(obj, method);

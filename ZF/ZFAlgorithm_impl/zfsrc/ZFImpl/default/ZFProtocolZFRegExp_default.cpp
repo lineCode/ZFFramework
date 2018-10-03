@@ -19,7 +19,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFRegExpImpl_default, ZFRegExp, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("deelx"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("deelx")
 public:
     virtual void *nativeRegExpCreate(ZF_IN ZFRegExp *regExp)
     {

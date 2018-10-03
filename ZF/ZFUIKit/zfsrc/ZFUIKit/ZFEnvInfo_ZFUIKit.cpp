@@ -35,11 +35,11 @@ ZF_NAMESPACE_END(ZFEnvInfo)
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEnvSummary_ZFUIKit, ZFLevelZFFrameworkNormal)
 {
-    ZFEnvInfo::envSummaryCallbackRegister(zfText("deviceUIType"), zfself::deviceUITypeSummary);
+    ZFEnvInfo::envSummaryCallbackRegister("deviceUIType", zfself::deviceUITypeSummary);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFEnvSummary_ZFUIKit)
 {
-    ZFEnvInfo::envSummaryCallbackUnregister(zfText("deviceUIType"));
+    ZFEnvInfo::envSummaryCallbackUnregister("deviceUIType");
 }
 public:
     static void deviceUITypeSummary(ZF_IN_OUT zfstring &ret)

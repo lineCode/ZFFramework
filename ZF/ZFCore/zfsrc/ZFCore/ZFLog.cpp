@@ -66,14 +66,14 @@ protected:
             case ZFOutputFormatStep::e_OnOutput:
                 if(this->autoSpace && outputCount > 0)
                 {
-                    ret += zfText(" ");
+                    ret += " ";
                 }
                 ret.append(src, srcLen);
                 break;
             case ZFOutputFormatStep::e_OnOutputEnd:
                 if(this->autoEndl)
                 {
-                    ret += zfText("\n");
+                    ret += "\n";
                 }
                 break;
             default:
@@ -112,7 +112,7 @@ zfstring _ZFP_ZFLogHeaderString(ZF_IN const ZFCallerInfo &callerInfo)
     zfstring ret;
     ZFTimeInfo ti = ZFTime::currentTimeInfo();
     zfstringAppend(ret,
-        zfText("%02d:%02d:%02d.%03d "),
+        "%02d:%02d:%02d.%03d ",
         ti.hour,
         ti.minute,
         ti.second,
@@ -198,7 +198,7 @@ zfstring _ZFP_zfLogCurTimeString(void)
     zfstring s;
     ZFTimeInfo ti = ZFTime::currentTimeInfo();
     zfstringAppend(s,
-        zfText("%02d:%02d:%02d.%03d"),
+        "%02d:%02d:%02d.%03d",
         ti.hour,
         ti.minute,
         ti.second,

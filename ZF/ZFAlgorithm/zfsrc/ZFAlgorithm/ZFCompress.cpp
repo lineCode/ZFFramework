@@ -287,7 +287,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFCompressDir,
     }
 
     zfbool success = zftrue;
-    success &= _ZFP_ZFCompressDir(compressToken, *fileImpl, inputPathInfo.pathType, inputPathInfo.pathData, zfText(""));
+    success &= _ZFP_ZFCompressDir(compressToken, *fileImpl, inputPathInfo.pathType, inputPathInfo.pathData, "");
     success &= ZFCompressEnd(compressToken);
     return success;
 }

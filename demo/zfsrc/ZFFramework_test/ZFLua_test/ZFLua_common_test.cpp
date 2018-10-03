@@ -46,14 +46,14 @@ public:
     {
         zfLogT() << param0;
         zfstring ret = param0;
-        ret += zfText("(modified)");
+        ret += "(modified)";
         return ret;
     }
     ZFMETHOD_INLINE_DETAIL_1(public, ZFMethodTypeStatic,
                              zfstring &, MyMethod, ZFMP_IN(zfstring &, param0))
     {
         zfLogT() << param0;
-        param0 += zfText("(modified)");
+        param0 += "(modified)";
         return param0;
     }
 
@@ -89,8 +89,8 @@ protected:
         zfsuper::testCaseOnStart();
 
         {
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("run lua code"));
-            ZFLuaExecute(zfText(
+            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("run lua code");
+            ZFLuaExecute(
                     "local obj = _ZFP_ZFLua_common_test_Object()\n"
                     "print('========================================')\n"
                     "print('print by print():')\n"
@@ -119,11 +119,11 @@ protected:
                     "print('when not explicitly specified, overload method may dispatch unexpectly:')\n"
                     "obj:myMethodOverload('param')\n"
                     "obj:myMethodOverload('true')\n"
-                ));
+                );
         }
 
         {
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(zfText("lua gc"));
+            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("lua gc");
             ZFLuaGC();
         }
 

@@ -17,7 +17,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIListCellUpdater, CellOnUpdate)
 ZFOBSERVER_EVENT_REGISTER(ZFUIListCellUpdater, CellOnRecycle)
 
 #define _ZFP_ZFUIListCellUpdater_cacheKey(cacheKey, key) \
-    zfchar *cacheKey = zfsConnect(zfText("_ZFP_ZFUIListCellUpdater_cacheKey"), key); \
+    zfchar *cacheKey = zfsConnect("_ZFP_ZFUIListCellUpdater_cacheKey", key); \
     zfblockedFree(cacheKey)
 ZFMETHOD_DEFINE_1(ZFUIListCellUpdater, zfautoObject, itemCacheAccess,
                   ZFMP_IN(const zfchar *, key))

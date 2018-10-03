@@ -16,7 +16,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFilePathImpl_sys_iOS, ZFFilePath, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:SandboxPath"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:SandboxPath")
 public:
     virtual const zfchar *pathForModule(void)
     {
@@ -48,7 +48,7 @@ public:
         {
             this->_pathForSetting = this->nativeDocumentPath();
             this->_pathForSetting += ZFFileSeparator();
-            this->_pathForSetting += zfText("zfsetting");
+            this->_pathForSetting += "zfsetting";
         }
         return this->_pathForSetting;
     }
@@ -63,7 +63,7 @@ public:
         {
             this->_pathForStorage = this->nativeDocumentPath();
             this->_pathForStorage += ZFFileSeparator();
-            this->_pathForStorage += zfText("zfstorage");
+            this->_pathForStorage += "zfstorage";
         }
         return this->_pathForStorage;
     }
@@ -91,7 +91,7 @@ public:
         {
             this->_pathForCache = this->nativeCachePath();
             this->_pathForCache += ZFFileSeparator();
-            this->_pathForCache += zfText("zfcache");
+            this->_pathForCache += "zfcache";
         }
         return this->_pathForCache;
     }

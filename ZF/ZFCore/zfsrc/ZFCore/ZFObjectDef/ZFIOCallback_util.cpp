@@ -58,7 +58,7 @@ zfclass _ZFP_ZFIOBufferedCallbackUsingBufferPrivate : zfextends ZFObject
     ZFOBJECT_DECLARE(_ZFP_ZFIOBufferedCallbackUsingBufferPrivate, ZFObject)
 
 public:
-    zfstringA ioBuf;
+    zfstring ioBuf;
     zfindex inputIndex;
     zfindex outputIndex;
     _ZFP_ZFIOBufferedCallbackUsingBufferOutputIOOwner *outputIOOwner;
@@ -106,7 +106,7 @@ public:
         {
             count = zfslen((const zfchar *)buf) * sizeof(zfchar);
         }
-        this->ioBuf.replace(this->outputIndex, zfmMin(count, this->ioBuf.length() - this->outputIndex), (const zfcharA *)buf, count);
+        this->ioBuf.replace(this->outputIndex, zfmMin(count, this->ioBuf.length() - this->outputIndex), (const zfchar *)buf, count);
         this->outputIndex += count;
         return count;
     }

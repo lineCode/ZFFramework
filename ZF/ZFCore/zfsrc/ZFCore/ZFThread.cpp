@@ -350,7 +350,7 @@ public:
                              ZF_IN_OPT ZFObject *param0 = zfnull,
                              ZF_IN_OPT ZFObject *param1 = zfnull)
     {
-        zfCoreLogTrim(zfTextA("you must not start a user registered thread"));
+        zfCoreLogTrim("you must not start a user registered thread");
     }
     zfoverride
     virtual zfbool threadStarted(void)
@@ -365,7 +365,7 @@ public:
     zfoverride
     virtual void threadStop(void)
     {
-        zfCoreLogTrim(zfTextA("you must not stop a user registered thread"));
+        zfCoreLogTrim("you must not stop a user registered thread");
     }
 };
 
@@ -466,7 +466,7 @@ void ZFThread::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     zfsuper::objectInfoOnAppend(ret);
     if(this->isMainThread())
     {
-        ret += zfText(" MainThread");
+        ret += " MainThread";
     }
 }
 
@@ -981,7 +981,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverAdd,
         && eventId != ZFThread::EventThreadOnStop()
         && eventId != ZFThread::EventThreadOnCancel())
     {
-        zfCoreCriticalMessage(zfTextA("thread task can only add ZFThread's observer event, event: %s"),
+        zfCoreCriticalMessage("thread task can only add ZFThread's observer event, event: %s",
             ZFIdMapGetName(eventId));
         return ;
     }
@@ -1016,7 +1016,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverRemove,
         && eventId != ZFThread::EventThreadOnStop()
         && eventId != ZFThread::EventThreadOnCancel())
     {
-        zfCoreCriticalMessage(zfTextA("thread task can only add ZFThread's observer event, event: %s"),
+        zfCoreCriticalMessage("thread task can only add ZFThread's observer event, event: %s",
             ZFIdMapGetName(eventId));
         return ;
     }

@@ -11,7 +11,7 @@
  *   ZFMAIN_ENTRY(params)
  *   {
  *       // well, hello world to ZFFramework
- *       zfLogT() << zfText("hello world");
+ *       zfLogT() << "hello world";
  *       return 0;
  *   }
  * @endcode

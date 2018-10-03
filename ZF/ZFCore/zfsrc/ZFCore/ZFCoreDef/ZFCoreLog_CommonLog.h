@@ -21,16 +21,16 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 extern ZF_ENV_EXPORT void _ZFP_zfCoreLogCriticalMessage(ZF_IN const ZFCallerInfo &callerInfo,
-                                                        ZF_IN const zfcharA *fmt,
+                                                        ZF_IN const zfchar *fmt,
                                                         ...);
 extern ZF_ENV_EXPORT void _ZFP_zfCoreLogCriticalMessageV(ZF_IN const ZFCallerInfo &callerInfo,
-                                                         ZF_IN const zfcharA *fmt,
+                                                         ZF_IN const zfchar *fmt,
                                                          ZF_IN va_list vaList);
 extern ZF_ENV_EXPORT void _ZFP_zfCoreCritical(ZF_IN const ZFCallerInfo &callerInfo,
-                                              ZF_IN const zfcharA *fmt,
+                                              ZF_IN const zfchar *fmt,
                                               ...);
 extern ZF_ENV_EXPORT void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerInfo,
-                                               ZF_IN const zfcharA *fmt,
+                                               ZF_IN const zfchar *fmt,
                                                ZF_IN va_list vaList);
 
 // ============================================================
@@ -63,13 +63,13 @@ extern ZF_ENV_EXPORT void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerI
  * @note unlike zfassert, this function is always active, even if ZF_ENV_DEBUG is zftrue
  * @see zfassert
  */
-#define zfCoreAssert(exp) zfCoreAssertWithMessage(exp, zfTextA("assert failed for \"%s\""), ZFM_TOSTRING_A(exp))
+#define zfCoreAssert(exp) zfCoreAssertWithMessage(exp, "assert failed for \"%s\"", ZFM_TOSTRING(exp))
 
 /** @brief see #zfCoreAssert */
-#define zfCoreAssertTrim(exp) zfCoreAssertWithMessageTrim(exp, zfTextA("assert failed for \"%s\""), ZFM_TOSTRING_A(exp))
+#define zfCoreAssertTrim(exp) zfCoreAssertWithMessageTrim(exp, "assert failed for \"%s\"", ZFM_TOSTRING(exp))
 
 /** @brief see #zfCoreAssert */
-#define zfCoreAssertDetail(exp, callerInfo) zfCoreAssertWithMessageDetail(exp, callerInfo, zfTextA("assert failed for \"%s\""), ZFM_TOSTRING_A(exp))
+#define zfCoreAssertDetail(exp, callerInfo) zfCoreAssertWithMessageDetail(exp, callerInfo, "assert failed for \"%s\"", ZFM_TOSTRING(exp))
 
 // ============================================================
 /**
@@ -137,7 +137,7 @@ extern ZF_ENV_EXPORT void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerI
  */
 #define zfCoreCriticalIndexOutOfRangeDetail(callerInfo, index, range) \
     zfCoreCriticalMessageDetail(callerInfo, \
-        zfTextA("index %zi out of range [0, %zi)"), \
+        "index %zi out of range [0, %zi)", \
         (zfindex)(index), \
         (zfindex)(range))
 
@@ -151,7 +151,7 @@ extern ZF_ENV_EXPORT void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerI
  * @brief see #zfCoreCriticalShouldNotGoHere
  */
 #define zfCoreCriticalShouldNotGoHereDetail(callerInfo) \
-    zfCoreCriticalMessageDetail(callerInfo, zfTextA("should not go here"))
+    zfCoreCriticalMessageDetail(callerInfo, "should not go here")
 
 // ============================================================
 /**
@@ -163,7 +163,7 @@ extern ZF_ENV_EXPORT void _ZFP_zfCoreCriticalV(ZF_IN const ZFCallerInfo &callerI
  * @brief see #zfCoreCriticalNotSupported
  */
 #define zfCoreCriticalNotSupportedDetail(callerInfo) \
-    zfCoreCriticalMessageDetail(callerInfo, zfTextA("not supported"))
+    zfCoreCriticalMessageDetail(callerInfo, "not supported")
 
 ZF_NAMESPACE_GLOBAL_END
 

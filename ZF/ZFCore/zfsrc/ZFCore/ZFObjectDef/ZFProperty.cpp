@@ -26,7 +26,7 @@ void ZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
     }
     ret += ')';
     ret += this->propertyOwnerClass()->classNameFull();
-    ret += zfText("::");
+    ret += "::";
     ret += this->propertyName();
 }
 
@@ -279,17 +279,17 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
     {
         propertyInfo = _ZFP_ZFPropertyInstanceFind(propertyInternalId);
         zfCoreAssertWithMessageTrim(propertyInfo == zfnull,
-            zfTextA("[ZFPropertyUserRegister] registering a property that already registered, class: %s, propertyName: %s"),
-            zfsCoreZ2A(propertyOwnerClass->classNameFull()),
-            zfsCoreZ2A(name));
+            "[ZFPropertyUserRegister] registering a property that already registered, class: %s, propertyName: %s",
+            propertyOwnerClass->classNameFull(),
+            name);
     }
     else if(propertyIsDynamicRegister)
     {
         propertyInfo = _ZFP_ZFPropertyInstanceFind(propertyInternalId);
         zfCoreAssertWithMessageTrim(propertyInfo == zfnull,
-            zfTextA("[ZFPropertyDynamicRegister] registering a property that already registered, class: %s, propertyName: %s"),
-            zfsCoreZ2A(propertyOwnerClass->classNameFull()),
-            zfsCoreZ2A(name));
+            "[ZFPropertyDynamicRegister] registering a property that already registered, class: %s, propertyName: %s",
+            propertyOwnerClass->classNameFull(),
+            name);
     }
     propertyInfo = _ZFP_ZFPropertyInstanceAccess(propertyInternalId);
 

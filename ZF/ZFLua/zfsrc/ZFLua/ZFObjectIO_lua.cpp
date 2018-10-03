@@ -14,12 +14,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECTIO_DEFINE(lua, {
         return (zfscmpTheSame(pathInfo.pathType.cString(), ZFPathType_lua)
-            || ZFObjectIOImplCheck(pathInfo, zfText("lua")));
+            || ZFObjectIOImplCheck(pathInfo, "lua"));
     }, {
         ret = ZFLuaExecute(input);
         return input.callbackIsValid();
     }, {
-        zfstringAppend(outErrorHint, zfText("not supported"));
+        zfstringAppend(outErrorHint, "not supported");
         return zffalse;
     })
 

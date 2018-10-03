@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * pathData is the res path
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_res zfText("res")
+#define ZFPathType_res "res"
 
 // ============================================================
 // ZFInputForResFile

@@ -23,16 +23,16 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIView_internalImplView zfText("internalImplView")
+#define ZFSerializableKeyword_ZFUIView_internalImplView "internalImplView"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIView_internalBgView zfText("internalBgView")
+#define ZFSerializableKeyword_ZFUIView_internalBgView "internalBgView"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIView_internalFgView zfText("internalFgView")
+#define ZFSerializableKeyword_ZFUIView_internalFgView "internalFgView"
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIView_child zfText("child")
+#define ZFSerializableKeyword_ZFUIView_child "child"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIView_layoutParam zfText("layoutParam")
+#define ZFSerializableKeyword_ZFUIView_layoutParam "layoutParam"
 
 // ============================================================
 zfclassFwd ZFUIView;

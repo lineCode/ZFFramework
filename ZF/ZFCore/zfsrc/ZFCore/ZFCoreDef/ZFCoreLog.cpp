@@ -30,10 +30,10 @@ ZF_STATIC_INITIALIZER_END(ZFCoreLogDataHolder)
 #define _ZFP_ZFCoreCriticalErrorCallbacks (ZF_STATIC_INITIALIZER_INSTANCE(ZFCoreLogDataHolder)->criticalErrorCallbacks)
 #define _ZFP_ZFCoreCriticalErrorPrepareCallbacks (ZF_STATIC_INITIALIZER_INSTANCE(ZFCoreLogDataHolder)->criticalErrorPrepareCallbacks)
 
-void _ZFP_ZFCoreLogOutputCallbackDefault(ZF_IN const zfcharA *s)
+void _ZFP_ZFCoreLogOutputCallbackDefault(ZF_IN const zfchar *s)
 {
     // try to print to std output
-    fprintf(stderr, zfTextA("%s"), s);
+    fprintf(stderr, "%s", s);
 }
 
 void zfCoreLogOutputCallbackSet(ZF_IN_OPT ZFCoreLogOutputCallbackType callback /* = ZFCoreLogOutputCallbackDefault */)
@@ -47,7 +47,7 @@ ZFCoreLogOutputCallbackType zfCoreLogOutputCallbackGet(void)
 
 void _ZFP_zfCoreLog(ZF_IN const ZFCallerInfo &callerInfo,
                     ZF_IN zfbool isAutoEndl,
-                    ZF_IN const zfcharA *format,
+                    ZF_IN const zfchar *format,
                     ...)
 {
     va_list vaList;
@@ -57,7 +57,7 @@ void _ZFP_zfCoreLog(ZF_IN const ZFCallerInfo &callerInfo,
 }
 void _ZFP_zfCoreLogV(ZF_IN const ZFCallerInfo &callerInfo,
                      ZF_IN zfbool isAutoEndl,
-                     ZF_IN const zfcharA *format,
+                     ZF_IN const zfchar *format,
                      ZF_IN va_list vaList)
 {
     if(_ZFP_ZFCoreLogOutputCallback == zfnull)
@@ -65,7 +65,7 @@ void _ZFP_zfCoreLogV(ZF_IN const ZFCallerInfo &callerInfo,
         return ;
     }
 
-    zfstringA s;
+    zfstring s;
 
     if(callerInfo.callerInfoAT(s))
     {
@@ -74,7 +74,7 @@ void _ZFP_zfCoreLogV(ZF_IN const ZFCallerInfo &callerInfo,
     zfstringAppendV(s, format, vaList);
     if(isAutoEndl)
     {
-        zfstringAppend(s, zfTextA("\n"));
+        zfstringAppend(s, "\n");
     }
 
     _ZFP_ZFCoreLogOutputCallback(s.cString());

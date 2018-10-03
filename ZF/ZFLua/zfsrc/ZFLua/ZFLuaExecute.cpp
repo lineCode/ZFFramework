@@ -30,7 +30,7 @@ static zfbool _ZFP_ZFLuaExecute(ZF_IN const ZFPathInfo *pathInfoOrNull,
     {
         if(!errHint.isEmpty())
         {
-            ZFLuaErrorOccurredTrim(zfText("[ZFLua] %s"), errHint.cString());
+            ZFLuaErrorOccurredTrim("[ZFLua] %s", errHint.cString());
         }
         return zffalse;
     }

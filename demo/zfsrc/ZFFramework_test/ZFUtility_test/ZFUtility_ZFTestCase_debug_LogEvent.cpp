@@ -17,7 +17,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnOutput, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat(zfText("[%s]"), listenerData.sender->classData()->classNameFull())
+            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
             << listenerData.param0->to<v_zfstring *>()->zfv;
     })
     this->testCaseOnOutputListener = testCaseOnOutput;
@@ -26,8 +26,8 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnStart, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat(zfText("[%s]"), listenerData.sender->classData()->classNameFull())
-            << zfText("========================== start ===========================");
+            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
+            << "========================== start ===========================";
     })
     this->testCaseOnStartListener = testCaseOnStart;
     ZFObjectGlobalEventObserver().observerAdd(ZFTestCase::EventTestCaseOnStart(), this->testCaseOnStartListener);
@@ -35,8 +35,8 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnProgress, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat(zfText("[%s]"), listenerData.sender->classData()->classNameFull())
-            << zfText("progress updated");
+            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
+            << "progress updated";
     })
     this->testCaseOnProgressListener = testCaseOnProgress;
     ZFObjectGlobalEventObserver().observerAdd(ZFTestCase::EventTestCaseOnProgress(), this->testCaseOnProgressListener);
@@ -44,8 +44,8 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnStop, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat(zfText("[%s]"), listenerData.sender->classData()->classNameFull())
-            << zfText("-------------------------- stop ----------------------------");
+            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
+            << "-------------------------- stop ----------------------------";
     })
     this->testCaseOnStopListener = testCaseOnStop;
     ZFObjectGlobalEventObserver().observerAdd(ZFTestCase::EventTestCaseOnStop(), this->testCaseOnStopListener);

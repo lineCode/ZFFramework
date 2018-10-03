@@ -731,7 +731,7 @@ const ZFClass *ZFOperation::classForOperationParam(void)
 {
     if(d->classForOperationParam == zfnull)
     {
-        d->classForOperationParam = _ZFP_ZFOperation_findTypeClass(this->classData(), zfText("Param"), ZFOperationParam::ClassData());
+        d->classForOperationParam = _ZFP_ZFOperation_findTypeClass(this->classData(), "Param", ZFOperationParam::ClassData());
     }
     return d->classForOperationParam;
 }
@@ -739,7 +739,7 @@ const ZFClass *ZFOperation::classForOperationResult(void)
 {
     if(d->classForOperationResult == zfnull)
     {
-        d->classForOperationResult = _ZFP_ZFOperation_findTypeClass(this->classData(), zfText("Result"), ZFOperationResult::ClassData());
+        d->classForOperationResult = _ZFP_ZFOperation_findTypeClass(this->classData(), "Result", ZFOperationResult::ClassData());
     }
     return d->classForOperationResult;
 }
@@ -747,7 +747,7 @@ const ZFClass *ZFOperation::classForOperationObserver(void)
 {
     if(d->classForOperationObserver == zfnull)
     {
-        d->classForOperationObserver = _ZFP_ZFOperation_findTypeClass(this->classData(), zfText("Observer"), ZFOperationObserver::ClassData());
+        d->classForOperationObserver = _ZFP_ZFOperation_findTypeClass(this->classData(), "Observer", ZFOperationObserver::ClassData());
     }
     return d->classForOperationObserver;
 }
@@ -755,7 +755,7 @@ const ZFClass *ZFOperation::classForOperationCache(void)
 {
     if(d->classForOperationCache == zfnull)
     {
-        d->classForOperationCache = _ZFP_ZFOperation_findTypeClass(this->classData(), zfText("Cache"), ZFOperationCache::ClassData());
+        d->classForOperationCache = _ZFP_ZFOperation_findTypeClass(this->classData(), "Cache", ZFOperationCache::ClassData());
     }
     return d->classForOperationCache;
 }
@@ -763,7 +763,7 @@ const ZFClass *ZFOperation::classForOperationProgress(void)
 {
     if(d->classForOperationProgress == zfnull)
     {
-        d->classForOperationProgress = _ZFP_ZFOperation_findTypeClass(this->classData(), zfText("Progress"), ZFOperationProgress::ClassData());
+        d->classForOperationProgress = _ZFP_ZFOperation_findTypeClass(this->classData(), "Progress", ZFOperationProgress::ClassData());
     }
     return d->classForOperationProgress;
 }
@@ -771,7 +771,7 @@ const ZFClass *ZFOperation::classForOperationTaskData(void)
 {
     if(d->classForOperationTaskData == zfnull)
     {
-        d->classForOperationTaskData = _ZFP_ZFOperation_findTypeClass(this->classData(), zfText("TaskData"), ZFOperationTaskData::ClassData());
+        d->classForOperationTaskData = _ZFP_ZFOperation_findTypeClass(this->classData(), "TaskData", ZFOperationTaskData::ClassData());
     }
     return d->classForOperationTaskData;
 }
@@ -791,7 +791,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
 {
     if(startParam == zfnull || startParam->operationTaskData() == zfnull)
     {
-        zfCoreLog(zfTextA("invalid start param"));
+        zfCoreLog("invalid start param");
         return zfidentityInvalid();
     }
 
@@ -809,7 +809,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
         }
         else
         {
-            zfCoreLog(zfTextA("dummy param is not allowed"));
+            zfCoreLog("dummy param is not allowed");
             return zfidentityInvalid();
         }
     }
@@ -990,7 +990,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
 
     if(d->tasks->count() > 10000 || d->tasksQueued->count() > 10000)
     {
-        zfCoreLog(zfTextA("[%s] too many operations attached, do you forget taskNotifyFinish?"), zfsCoreZ2A(this->objectInfoOfInstance().cString()));
+        zfCoreLog("[%s] too many operations attached, do you forget taskNotifyFinish?", this->objectInfoOfInstance().cString());
     }
 
     if(d->tasks->count() < this->taskToStartMax())
@@ -1211,7 +1211,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyFinish,
     {
         operationParam = d->dummyParamAccess();
     }
-    zfCoreAssertWithMessage(this->paramIsValid(operationParam) && operationResult != zfnull, zfTextA("invalid param or result"));
+    zfCoreAssertWithMessage(this->paramIsValid(operationParam) && operationResult != zfnull, "invalid param or result");
 
     zfblockedAlloc(ZFArrayEditable, toNotifyTaskObserverDatas);
     d->prepareStopForOperationParam(d->tasks, toNotifyTaskObserverDatas, operationParam);
@@ -1231,7 +1231,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyFinish,
                   ZFMP_IN(zfidentity, operationId),
                   ZFMP_IN(ZFOperationResult *, operationResult))
 {
-    zfCoreAssertWithMessage(operationResult != zfnull, zfTextA("result is null"));
+    zfCoreAssertWithMessage(operationResult != zfnull, "result is null");
 
     if(operationId == zfidentityInvalid())
     {
@@ -1263,7 +1263,7 @@ ZFMETHOD_DEFINE_2(ZFOperation, void, taskNotifyProgress,
     {
         operationParam = d->dummyParamAccess();
     }
-    zfCoreAssertWithMessage(this->paramIsValid(operationParam), zfTextA("invalid param"));
+    zfCoreAssertWithMessage(this->paramIsValid(operationParam), "invalid param");
     _ZFP_I_ZFOperationPrivateTaskData *taskData = d->findTaskDataForOperationParam(operationParam, zffalse);
     if(taskData != zfnull)
     {
@@ -1420,7 +1420,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, void, operationGetTaskListQueued,
 ZFMETHOD_DEFINE_1(ZFOperation, void, cacheAdd,
                   ZFMP_IN(ZFOperationCache *, operationCache))
 {
-    zfCoreAssertWithMessage(this->cacheIsValid(operationCache), zfTextA("adding a invalid cache"));
+    zfCoreAssertWithMessage(this->cacheIsValid(operationCache), "adding a invalid cache");
     if(operationCache->cacheIsExpired())
     {
         return ;

@@ -33,16 +33,16 @@ for /f "tokens=*" %%i in ('dir /s/b/ad "%DST_PATH%" 2^>nul') do (
         rmdir /s/q "%%i" >nul 2>&1
     )
 )
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
-for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
+for /d /r "%DST_PATH%" %%a in (*) do dir /b/a "%%a" 2>nul | findstr . >nul || rmdir "%%a"
 
 exit /b 0
 

@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief keyword for #ZFSerializable to hold style,
  *   see #ZFStyleSet
  */
-#define ZFSerializableKeyword_styleKey zfText("styleKey")
+#define ZFSerializableKeyword_styleKey "styleKey"
 
 /**
  * @brief used for #ZFSerializable to override default constructor

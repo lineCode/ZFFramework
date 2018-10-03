@@ -31,10 +31,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * typical usage:
  * @code
  *   // serialize object from xml file
- *   zfautoObject obj = ZFObjectIOLoad(ZFInputForResFile(zfText("data.xml")));
+ *   zfautoObject obj = ZFObjectIOLoad(ZFInputForResFile("data.xml"));
  *
  *   // load image
- *   zfautoObject img = ZFObjectIOLoad(ZFInputForResFile(zfText("image.png")));
+ *   zfautoObject img = ZFObjectIOLoad(ZFInputForResFile("image.png"));
  * @endcode
  * \n
  * how it works:

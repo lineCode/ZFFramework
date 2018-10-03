@@ -87,7 +87,7 @@ protected:
         zfsuperI(ZFUIPageManager)::pageOnAttach(page, reason);
 
         zfCoreAssertWithMessageTrim(this->pageContainer() != zfnull,
-            zfText("pageContainer not set"));
+            "pageContainer not set");
         ZFUIPageBasic *pageTmp = page->toAny();
         this->pageContainer()->childAdd(pageTmp->pageContainer(), ZFUISizeParamFillFill());
     }
@@ -126,7 +126,7 @@ protected:
         if(pageTmp != zfnull)
         {
             zfCoreAssertWithMessageTrim(this->pageContainer() != zfnull,
-                zfText("pageContainer not set"));
+                "pageContainer not set");
             this->pageContainer()->childMove(pageTmp->pageContainer(), zfindexMax());
         }
     }

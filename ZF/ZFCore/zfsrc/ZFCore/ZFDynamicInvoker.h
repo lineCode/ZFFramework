@@ -60,7 +60,7 @@ protected:
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     {
         zfsuper::objectInfoOnAppend(ret);
-        ret += zfText(", zfv: ");
+        ret += ", zfv: ";
         ret += this->zfv;
     }
 };

@@ -141,8 +141,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *     -  any lua type that supports convert to string
  *
  *     note: the va_args support params up to #ZFMETHOD_MAX_PARAM
- *   -  `zfText('lua string')`\n
- *     same as `zfstring('lua string')`
  * -  path info
  *   -  `zfl_L()`\n
  *     lua_State of current chunk, stored as #v_VoidPointer

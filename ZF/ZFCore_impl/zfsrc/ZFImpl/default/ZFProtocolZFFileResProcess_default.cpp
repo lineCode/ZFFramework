@@ -23,12 +23,12 @@ public:
         this->_resRootPath = ZFFilePathForModule();
         this->_resRootPath += ZFFileSeparator();
         #if ZF_ENV_sys_MacOS
-            this->_resRootPath += zfText("..");
+            this->_resRootPath += "..";
             this->_resRootPath += ZFFileSeparator();
-            this->_resRootPath += zfText("Resources");
+            this->_resRootPath += "Resources";
             this->_resRootPath += ZFFileSeparator();
         #endif
-        this->_resRootPath += zfText("zfres");
+        this->_resRootPath += "zfres";
         this->_resRootPath += ZFFileSeparator();
     }
 

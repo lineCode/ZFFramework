@@ -24,13 +24,13 @@ protected:
 
         zfautoObject v;
 
-        zfblockedAlloc(v_zfstring, test_zfstring, zfText("string type"));
+        zfblockedAlloc(v_zfstring, test_zfstring, "string type");
         v = test_zfstring;
 
         // for aliased type, when accessed, a new instance would be created and stored as tag in holder object
         typedef const zfchar * _ZFP_AliasedChar;
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("const zfchar *");
+        zfLogTrimT() << "============================================================";
+        zfLogTrimT() << "const zfchar *";
         zfLogTrimT() << ZFTypeId<_ZFP_AliasedChar>::Value<_ZFP_AliasedChar>::access(v);
         zfLogTrimT() << ZFTypeId<_ZFP_AliasedChar>::Value<const _ZFP_AliasedChar &>::access(v);
         zfLogTrimT() << ZFTypeId<_ZFP_AliasedChar>::Value<_ZFP_AliasedChar &>::access(v);
@@ -42,8 +42,8 @@ protected:
         zfLogTrimT() << ZFTypeId<_ZFP_AliasedChar>::Value<const _ZFP_AliasedChar * const &>::access(v);
 
         // for wrapped type, all should be able to access
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("zfstring");
+        zfLogTrimT() << "============================================================";
+        zfLogTrimT() << "zfstring";
         zfLogTrimT() << ZFTypeId<zfstring>::Value<zfstring>::access(v);
         zfLogTrimT() << ZFTypeId<zfstring>::Value<const zfstring &>::access(v);
         zfLogTrimT() << ZFTypeId<zfstring>::Value<zfstring &>::access(v);
@@ -55,10 +55,10 @@ protected:
         zfLogTrimT() << ZFTypeId<zfstring>::Value<const zfstring * const &>::access(v);
 
         // zfautoObject processed as normal raw type
-        zfblockedAlloc(ZFString, test_String, zfText("zfautoObject"));
+        zfblockedAlloc(ZFString, test_String, "zfautoObject");
         v = test_String;
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("zfautoObject");
+        zfLogTrimT() << "============================================================";
+        zfLogTrimT() << "zfautoObject";
         zfLogTrimT() << ZFTypeId<zfautoObject>::Value<zfautoObject>::access(v);
         zfLogTrimT() << ZFTypeId<zfautoObject>::Value<const zfautoObject &>::access(v);
         zfLogTrimT() << ZFTypeId<zfautoObject>::Value<zfautoObject &>::access(v);
@@ -70,10 +70,10 @@ protected:
         zfLogTrimT() << ZFTypeId<zfautoObject>::Value<const zfautoObject * const &>::access(v);
 
         // ZFAny processed as aligned type
-        zfblockedAlloc(ZFString, test_ZFAny, zfText("ZFAny"));
+        zfblockedAlloc(ZFString, test_ZFAny, "ZFAny");
         v = test_ZFAny;
-        zfLogTrimT() << zfText("============================================================");
-        zfLogTrimT() << zfText("ZFAny");
+        zfLogTrimT() << "============================================================";
+        zfLogTrimT() << "ZFAny";
         zfLogTrimT() << ZFTypeId<ZFAny>::Value<ZFAny>::access(v);
         zfLogTrimT() << ZFTypeId<ZFAny>::Value<const ZFAny &>::access(v);
         zfLogTrimT() << ZFTypeId<ZFAny>::Value<ZFAny &>::access(v);

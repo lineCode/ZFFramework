@@ -33,7 +33,7 @@ public:
      * within this method,
      * you must not access any other ZFFramework's method
      */
-    virtual void outputCoreLog(ZF_IN const zfcharA *s) zfpurevirtual;
+    virtual void outputCoreLog(ZF_IN const zfchar *s) zfpurevirtual;
     /**
      * @brief output callback for ZFLog
      */

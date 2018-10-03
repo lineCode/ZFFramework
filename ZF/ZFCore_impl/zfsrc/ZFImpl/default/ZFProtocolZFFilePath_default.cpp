@@ -20,7 +20,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFilePathImpl_default, ZFFilePath, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("ModuleLocalPath"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("ModuleLocalPath")
 public:
     virtual const zfchar *pathForModule(void)
     {
@@ -37,25 +37,24 @@ public:
     {
         if(this->_pathForModuleFile.isEmpty())
         {
-            zfstring tmp;
             #if ZF_ENV_sys_Windows
+                zfstring tmp;
                 zfcharW buf[1024] = {0};
                 GetModuleFileNameW(zfnull, buf, 1024);
-                ZFString::toZFChar(tmp, buf, ZFStringEncodingForZFCharW);
+                ZFString::toUTF8(tmp, buf, ZFStringEncoding::e_UTF16);
             #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown // #if ZF_ENV_sys_Windows
-                zfcharA buf[1024] = {0};
-                zfint len = (zfint)readlink(zfTextA("/proc/self/exe"), buf, 1024);
+                zfchar tmp[1024] = {0};
+                zfint len = (zfint)readlink("/proc/self/exe", tmp, 1024);
                 if(len > 0)
                 {
-                    buf[len] = '\0';
+                    tmp[len] = '\0';
                 }
                 else
                 {
-                    zfscpyA(buf, zfstringWithFormat(zfTextA("./unknown")).cString());
+                    zfscpy(tmp, zfstringWithFormat("./unknown").cString());
                 }
-                ZFString::toZFChar(tmp, buf, ZFStringEncoding::e_UTF8);
             #endif // #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown
-            zfbool result = ZFFilePathFormat(this->_pathForModuleFile, tmp.cString());
+            zfbool result = ZFFilePathFormat(this->_pathForModuleFile, tmp);
             zfCoreAssert(result);
         }
         return this->_pathForModuleFile;
@@ -67,7 +66,7 @@ public:
         {
             this->_pathForSetting = this->pathForModule();
             this->_pathForSetting += ZFFileSeparator();
-            this->_pathForSetting += zfText("zfsetting");
+            this->_pathForSetting += "zfsetting";
         }
         return this->_pathForSetting;
     }
@@ -82,7 +81,7 @@ public:
         {
             this->_pathForStorage = this->pathForModule();
             this->_pathForStorage += ZFFileSeparator();
-            this->_pathForStorage += zfText("zfstorage");
+            this->_pathForStorage += "zfstorage";
         }
         return this->_pathForStorage;
     }
@@ -97,7 +96,7 @@ public:
         {
             this->_pathForStorageShared = this->pathForModule();
             this->_pathForStorageShared += ZFFileSeparator();
-            this->_pathForStorageShared += zfText("zfstorageshared");
+            this->_pathForStorageShared += "zfstorageshared";
         }
         return this->_pathForStorageShared;
     }
@@ -112,7 +111,7 @@ public:
         {
             this->_pathForCache = this->pathForModule();
             this->_pathForCache += ZFFileSeparator();
-            this->_pathForCache += zfText("zfcache");
+            this->_pathForCache += "zfcache";
         }
         return this->_pathForCache;
     }

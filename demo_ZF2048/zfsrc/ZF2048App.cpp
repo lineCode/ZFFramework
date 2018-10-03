@@ -106,7 +106,7 @@ public:
     void gameOver(void)
     {
         zfblockedAlloc(ZF2048AppDialog, hintDialog);
-        hintDialog->styleKeySet(zfText("dialogTitle"), zfText("ZF2048_gameOver"));
+        hintDialog->styleKeySet("dialogTitle", "ZF2048_gameOver");
 
         zfblockedAlloc(ZFUILinearLayout, container);
         hintDialog->dialogContentSet(container);
@@ -114,15 +114,15 @@ public:
         container->layoutChildSpaceSet(ZFUIGlobalStyle::DefaultStyle()->itemSpace());
 
         zfblockedAlloc(ZFObject, userData);
-        userData->tagSet(zfText("dialog"), hintDialog->objectHolder());
-        userData->tagSet(zfText("game"), this->owner->game()->objectHolder());
+        userData->tagSet("dialog", hintDialog->objectHolder());
+        userData->tagSet("game", this->owner->game()->objectHolder());
 
         zfblockedAlloc(ZF2048AppButton, retryButton);
         container->childAdd(retryButton);
-        retryButton->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048_gameOver_retry"));
+        retryButton->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048_gameOver_retry");
         ZFLISTENER_LOCAL(retryButtonOnClick, {
-            ZF2048AppDialog *dialog = userData->tagGet(zfText("dialog"))->objectHolded();
-            ZF2048Game *game = userData->tagGet(zfText("game"))->objectHolded();
+            ZF2048AppDialog *dialog = userData->tagGet("dialog")->objectHolded();
+            ZF2048Game *game = userData->tagGet("game")->objectHolded();
             dialog->dialogHide();
             game->gameReset(game->gameDataWidth(), game->gameDataHeight());
             game->gameFocus();
@@ -131,12 +131,12 @@ public:
 
         zfblockedAlloc(ZF2048AppButton, cancelButton);
         container->childAdd(cancelButton);
-        cancelButton->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048_gameOver_cancel"));
+        cancelButton->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048_gameOver_cancel");
         ZFLISTENER_LOCAL(cancelButtonOnClick, {
-            ZF2048AppDialog *dialog = userData->tagGet(zfText("dialog"))->objectHolded();
+            ZF2048AppDialog *dialog = userData->tagGet("dialog")->objectHolded();
             dialog->dialogHide();
 
-            ZF2048Game *game = userData->tagGet(zfText("game"))->objectHolded();
+            ZF2048Game *game = userData->tagGet("game")->objectHolded();
             game->gameFocus();
         })
         cancelButton->observerAdd(ZFUIButton::EventButtonOnClick(), cancelButtonOnClick, userData);
@@ -250,8 +250,8 @@ public:
         this->autoMoveRunner()->game = this->owner->game();
         this->autoMoveRunner()->observerAdd(ZF2048AppAutoMoveRunner::EventRunnerOnStop(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, autoMoveOnStop)));
 
-        this->autoMoveButton()->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048_autoMove"));
-        this->autoMoveButton()->buttonLabelStyleChecked()->styleKeySet(zfText("text"), zfText("ZF2048_autoMoveStop"));
+        this->autoMoveButton()->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048_autoMove");
+        this->autoMoveButton()->buttonLabelStyleChecked()->styleKeySet("text", "ZF2048_autoMoveStop");
     }
     void setupSetting_undo(void)
     {
@@ -263,14 +263,14 @@ public:
         this->undoButton()->observerAdd(ZFUIButton::EventButtonOnClick(), undoOnClick, this->owner->objectHolder());
         this->undoButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, autoMoveStop)));
 
-        this->undoButton()->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048_undo"));
+        this->undoButton()->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048_undo");
     }
     void setupSetting_setting(void)
     {
         this->settingButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, settingOnClick)));
         this->settingButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, autoMoveStop)));
 
-        this->settingButton()->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048_setting"));
+        this->settingButton()->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048_setting");
     }
     void setupSetting_about(void)
     {
@@ -283,12 +283,12 @@ public:
         this->aboutButton()->observerAdd(ZFUIButton::EventButtonOnClick(), aboutOnClick, this->owner->objectHolder());
         this->aboutButton()->observerAdd(ZFUIButton::EventButtonOnClick(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, autoMoveStop)));
 
-        this->aboutButton()->buttonLabelStyleNormal()->styleKeySet(zfText("text"), zfText("ZF2048_about"));
+        this->aboutButton()->buttonLabelStyleNormal()->styleKeySet("text", "ZF2048_about");
     }
 public:
     static void showAbout(void)
     {
-        ZFUIHintShow(ZFStyleGet(zfText("ZF2048_aboutContent")).to<ZFString *>()->stringValue());
+        ZFUIHintShow(ZFStyleGet("ZF2048_aboutContent").to<ZFString *>()->stringValue());
     }
 
 protected:
@@ -313,7 +313,7 @@ protected:
         this->setupSetting_undo();
         this->setupSetting_setting();
         this->setupSetting_about();
-        this->scoreHint()->styleKeySet(zfText("text"), zfText("ZF2048_score"));
+        this->scoreHint()->styleKeySet("text", "ZF2048_score");
 
         this->owner->game()->observerAdd(ZF2048Game::EventGameDataOnChange(), ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, dataOnChange)));
 

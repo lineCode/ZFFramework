@@ -46,20 +46,20 @@ const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *classNameFull,
     if(parent->classIsAbstract())
     {
         zfstringAppend(errorHint,
-            zfText("parent must not be abstract: %s"),
+            "parent must not be abstract: %s",
             parent->objectInfo().cString());
         return zfnull;
     }
     if(zfsIsEmpty(classNameFull))
     {
-        zfstringAppend(errorHint, zfText("null classNameFull"));
+        zfstringAppend(errorHint, "null classNameFull");
         return zfnull;
     }
     const ZFClass *cls = ZFClass::classForName(classNameFull);
     if(cls != zfnull)
     {
         zfstringAppend(errorHint,
-            zfText("class %s already exist while registering to parent: %s"),
+            "class %s already exist while registering to parent: %s",
             cls->objectInfo().cString(),
             parent->objectInfo().cString());
         return zfnull;
@@ -88,8 +88,8 @@ void ZFClassDynamicUnregister(ZF_IN const ZFClass *cls)
     if(!cls->classIsDynamicRegister())
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("[ZFClassDynamicRegister] unregistering class %s that is not dyanmiac registered"),
-            zfsCoreZ2A(cls->objectInfo().cString()));
+            "[ZFClassDynamicRegister] unregistering class %s that is not dyanmiac registered",
+            cls->objectInfo().cString());
     }
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterAutoRemove)->m.erase(cls);
     cls->classTagRemoveAll();

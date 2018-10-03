@@ -23,7 +23,7 @@ zfclass _ZFP_I_ZFImplOutputImpl_sys_Android_SyncObject : zfextends ZFObject
 };
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFImplOutputImpl_sys_Android, ZFImplOutput, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Android:Logcat"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Android:Logcat")
 public:
     zfoverride
     virtual void protocolOnInitFinish(void)
@@ -36,16 +36,16 @@ public:
     {
         if(this->savedString.length() > 0)
         {
-            _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA("%s"), this->savedString.cString());
+            _ZFP_ZFImpl_sys_Android_ZFImplOutput_output("%s", this->savedString.cString());
         }
         zfRelease(this->syncObj);
         zfsuper::protocolOnDeallocPrepare();
     }
 
 public:
-    virtual void outputCoreLog(ZF_IN const zfcharA *s)
+    virtual void outputCoreLog(ZF_IN const zfchar *s)
     {
-        zfstringA tmp = s;
+        zfstring tmp = s;
         this->checkOutput(tmp);
     }
     virtual void outputLog(ZF_IN const zfchar *s, ZF_IN_OPT zfindex count = zfindexMax())
@@ -53,18 +53,18 @@ public:
         zfsynchronize(this->syncObj);
         if(count == zfindexMax())
         {
-            this->savedString += ZFStringZ2A(s);
+            this->savedString += s;
         }
         else
         {
-            this->savedString += ZFStringZ2A(zfstring(s, count));
+            this->savedString += zfstring(s, count);
         }
         this->checkOutput(this->savedString);
     }
 private:
     ZFObject *syncObj;
-    zfstringA savedString;
-    void checkOutput(ZF_IN_OUT zfstringA &s)
+    zfstring savedString;
+    void checkOutput(ZF_IN_OUT zfstring &s)
     {
         if(s.length() > 0)
         {
@@ -72,12 +72,12 @@ private:
             {
                 if(s.length() == 1)
                 {
-                    _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA(" "));
+                    _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(" ");
                 }
                 else
                 {
                     s.remove(s.length() - 1);
-                    _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA("%s"), s.cString());
+                    _ZFP_ZFImpl_sys_Android_ZFImplOutput_output("%s", s.cString());
                 }
                 s.removeAll();
             }
@@ -88,12 +88,12 @@ private:
                 {
                     if(index == 0)
                     {
-                        _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA(" "));
+                        _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(" ");
                     }
                     else
                     {
                         s[index] = '\0';
-                        _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(zfTextA("%s"), s.cString());
+                        _ZFP_ZFImpl_sys_Android_ZFImplOutput_output("%s", s.cString());
                     }
                     s.remove(0, index + 1);
                 }

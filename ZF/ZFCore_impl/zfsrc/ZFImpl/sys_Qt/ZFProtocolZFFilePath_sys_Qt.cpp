@@ -18,13 +18,13 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFilePathImpl_sys_Qt, ZFFilePath, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt::applicationDirPath"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt::applicationDirPath")
 public:
     virtual const zfchar *pathForModule(void)
     {
         if(this->_pathForModule.isEmpty())
         {
-            this->_pathForModule = ZFStringA2Z(QCoreApplication::applicationDirPath().toStdString().c_str());
+            this->_pathForModule = QCoreApplication::applicationDirPath().toStdString().c_str();
             zfCoreAssert(!this->_pathForModule.isEmpty());
         }
         return this->_pathForModule;
@@ -33,7 +33,7 @@ public:
     {
         if(this->_pathForModuleFile.isEmpty())
         {
-            this->_pathForModuleFile = ZFStringA2Z(QCoreApplication::applicationFilePath().toStdString().c_str());
+            this->_pathForModuleFile = QCoreApplication::applicationFilePath().toStdString().c_str();
             zfCoreAssert(!this->_pathForModuleFile.isEmpty());
         }
         return this->_pathForModuleFile;
@@ -43,13 +43,13 @@ public:
     {
         if(this->_pathForSetting.isEmpty())
         {
-            ZFFilePathFormat(this->_pathForSetting, ZFStringA2Z(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation).toStdString().c_str()));
+            ZFFilePathFormat(this->_pathForSetting, QStandardPaths::writableLocation(QStandardPaths::ConfigLocation).toStdString().c_str());
             if(this->_pathForSetting.isEmpty())
             {
                 this->_pathForSetting = this->pathForModule();
             }
             this->_pathForSetting += ZFFileSeparator();
-            this->_pathForSetting += zfText("zfsetting");
+            this->_pathForSetting += "zfsetting";
         }
         return this->_pathForSetting;
     }
@@ -62,13 +62,13 @@ public:
     {
         if(this->_pathForStorage.isEmpty())
         {
-            ZFFilePathFormat(this->_pathForStorage, ZFStringA2Z(QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString().c_str()));
+            ZFFilePathFormat(this->_pathForStorage, QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString().c_str());
             if(this->_pathForStorage.isEmpty())
             {
                 this->_pathForStorage = this->pathForModule();
             }
             this->_pathForStorage += ZFFileSeparator();
-            this->_pathForStorage += zfText("zfstorage");
+            this->_pathForStorage += "zfstorage";
         }
         return this->_pathForStorage;
     }
@@ -81,12 +81,12 @@ public:
     {
         if(this->_pathForStorageShared.isEmpty())
         {
-            ZFFilePathFormat(this->_pathForStorageShared, ZFStringA2Z(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString().c_str()));
+            ZFFilePathFormat(this->_pathForStorageShared, QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString().c_str());
             if(this->_pathForStorageShared.isEmpty())
             {
                 this->_pathForStorageShared = this->pathForModule();
                 this->_pathForStorageShared += ZFFileSeparator();
-                this->_pathForStorageShared += zfText("zfstorage");
+                this->_pathForStorageShared += "zfstorage";
             }
         }
         return this->_pathForStorageShared;
@@ -100,13 +100,13 @@ public:
     {
         if(this->_pathForCache.isEmpty())
         {
-            ZFFilePathFormat(this->_pathForCache, ZFStringA2Z(QStandardPaths::writableLocation(QStandardPaths::CacheLocation).toStdString().c_str()));
+            ZFFilePathFormat(this->_pathForCache, QStandardPaths::writableLocation(QStandardPaths::CacheLocation).toStdString().c_str());
             if(this->_pathForCache.isEmpty())
             {
                 this->_pathForCache = this->pathForModule();
             }
             this->_pathForCache += ZFFileSeparator();
-            this->_pathForCache += zfText("zfcache");
+            this->_pathForCache += "zfcache";
         }
         return this->_pathForCache;
     }

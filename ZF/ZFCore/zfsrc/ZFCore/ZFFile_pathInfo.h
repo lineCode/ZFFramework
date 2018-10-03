@@ -369,7 +369,7 @@ ZFMETHOD_FUNC_DECLARE_2(ZFPathInfo, ZFFilePathInfoMake,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFInputForPathInfo zfText("ZFInputForPathInfo")
+#define ZFCallbackSerializeCustomType_ZFInputForPathInfo "ZFInputForPathInfo"
 
 /**
  * @brief util to create a file input callback
@@ -424,7 +424,7 @@ ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFInputForPathInfoT,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFOutputForPathInfo zfText("ZFOutputForPathInfo")
+#define ZFCallbackSerializeCustomType_ZFOutputForPathInfo "ZFOutputForPathInfo"
 
 /**
  * @brief util to create a file output callback
@@ -479,7 +479,7 @@ ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFOutputForPathInfoT,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFInputForLocalFile zfText("ZFInputForLocalFile")
+#define ZFCallbackSerializeCustomType_ZFInputForLocalFile "ZFInputForLocalFile"
 
 /**
  * @brief util to create a file input callback
@@ -519,7 +519,7 @@ ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFInputForLocalFileT,
  *   </node>
  * @endcode
  */
-#define ZFCallbackSerializeCustomType_ZFOutputForLocalFile zfText("ZFOutputForLocalFile")
+#define ZFCallbackSerializeCustomType_ZFOutputForLocalFile "ZFOutputForLocalFile"
 
 /**
  * @brief util to create a file output callback

@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * for "*.lua" file, which should be executed by #ZFLuaExecute
  * and return an object
  */
-#define ZFObjectIO_lua zfText("lua")
+#define ZFObjectIO_lua "lua"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectIO_lua_h_

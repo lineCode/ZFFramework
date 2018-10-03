@@ -16,10 +16,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ZFInput
 zfindex ZFInputReadChar(ZF_OUT zfchar *p, ZF_IN_OUT const ZFInput &input)
 {
-    #if 0 // prevent include ZFString for low level module
-        ZFSTRINGENCODING_ASSERT(ZFStringEncoding::e_UTF8)
-    #endif
-
     if(input.execute(p, 1) != 1)
     {
         p[0] = '\0';
@@ -156,7 +152,7 @@ ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input)
     zfindex totalSize = input.ioSize();
     if(totalSize != zfindexMax())
     {
-        ret.bufferMalloc(totalSize + sizeof(zfcharW));
+        ret.bufferMalloc(totalSize + sizeof(zfchar));
         if(input.execute(ret.buffer(), totalSize) != totalSize)
         {
             ret.bufferFree();
@@ -174,11 +170,11 @@ ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input)
         do
         {
             ret.bufferRealloc(ret.bufferSize() + _ZFP_ZFInputReadToBuffer_blockSize);
-            readCount = input.execute(ret.bufferT<zfbyte *>() + size, _ZFP_ZFInputReadToBuffer_blockSize - sizeof(zfcharW));
+            readCount = input.execute(ret.bufferT<zfbyte *>() + size, _ZFP_ZFInputReadToBuffer_blockSize - sizeof(zfchar));
             size += readCount;
-            if(readCount < _ZFP_ZFInputReadToBuffer_blockSize - sizeof(zfcharW))
+            if(readCount < _ZFP_ZFInputReadToBuffer_blockSize - sizeof(zfchar))
             {
-                ret.bufferRealloc(size + sizeof(zfcharW));
+                ret.bufferRealloc(size + sizeof(zfchar));
                 ret.bufferSizeSet(size);
                 break;
             }
@@ -190,7 +186,7 @@ ZFBuffer ZFInputReadToBuffer(ZF_IN_OUT const ZFInput &input)
 
 zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
                         ZF_IN_OUT const ZFInput &input,
-                        ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */)
+                        ZF_IN_OPT const zfchar *charSet /* = " \t\r\n" */)
 {
     zfindex charSetCount = zfslen(charSet);
     zfbool matched = zffalse;
@@ -223,7 +219,7 @@ zfbool ZFInputSkipChars(ZF_OUT zfchar *buf,
 }
 zfindex ZFInputReadUntil(ZF_IN_OUT zfstring &ret,
                          ZF_IN_OUT const ZFInput &input,
-                         ZF_IN_OPT const zfchar *charSet /* = zfText(" \t\r\n") */,
+                         ZF_IN_OPT const zfchar *charSet /* = " \t\r\n" */,
                          ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
                          ZF_OUT_OPT zfchar *firstCharMatchedCharSet /* = zfnull */)
 {
@@ -423,7 +419,7 @@ ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCallback,
 
     if(inputCallback.callbackId() != zfnull)
     {
-        ret.callbackIdSet(zfstringWithFormat(zfText("ZFInputForInputInRange[%zi, %zi]:%@"), start, count, inputCallback.callbackId()));
+        ret.callbackIdSet(zfstringWithFormat("ZFInputForInputInRange[%zi, %zi]:%@", start, count, inputCallback.callbackId()));
     }
 
     if(!inputCallback.callbackSerializeCustomDisabled())
@@ -607,7 +603,7 @@ static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
     if(copy)
     {
         ret.callbackTagSet(
-            zfText("ZFInputForBufferCopiedBuffer"),
+            "ZFInputForBufferCopiedBuffer",
             zflineAlloc(ZFTypeHolder, srcTmp, ZFTypeHolderTypePOD));
 
     }

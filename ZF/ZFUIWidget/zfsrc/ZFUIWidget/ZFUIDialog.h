@@ -184,7 +184,7 @@ public:
      * note that the #ZFUIImage::imageNinePatch would be used as dialog content's margin
      */
     ZFPROPERTY_RETAIN_WITH_INIT(ZFUIImage *, dialogBackgroundImage,
-                                zfRes(zfText("ZFUIWidget/ZFUIDialog_background.xml")))
+                                zfRes("ZFUIWidget/ZFUIDialog_background.xml"))
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIImage *, dialogBackgroundImage)
 
     /**

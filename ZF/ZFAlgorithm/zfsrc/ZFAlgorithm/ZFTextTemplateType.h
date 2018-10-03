@@ -132,17 +132,17 @@ public:
 ZFTYPEID_DECLARE(ZFTextTemplateIndexData, ZFTextTemplateIndexData)
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexStart zfText("indexStart")
+#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexStart "indexStart"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexOffset zfText("indexOffset")
+#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexOffset "indexOffset"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexRadix zfText("indexRadix")
+#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexRadix "indexRadix"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexUpperCase zfText("indexUpperCase")
+#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexUpperCase "indexUpperCase"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexWidth zfText("indexWidth")
+#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexWidth "indexWidth"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexFlag zfText("indexFlag")
+#define ZFSerializableKeyword_ZFTextTemplateIndexData_indexFlag "indexFlag"
 
 ZFOUTPUT_TYPE(ZFTextTemplateIndexData, {output << v.objectInfo();})
 
@@ -286,15 +286,15 @@ private:
 ZFTYPEID_DECLARE(ZFTextTemplateParam, ZFTextTemplateParam)
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateParam_replace zfText("replace")
+#define ZFSerializableKeyword_ZFTextTemplateParam_replace "replace"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateParam_enable zfText("enable")
+#define ZFSerializableKeyword_ZFTextTemplateParam_enable "enable"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateParam_enableDataDefault zfText("enableDataDefault")
+#define ZFSerializableKeyword_ZFTextTemplateParam_enableDataDefault "enableDataDefault"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateParam_index zfText("index")
+#define ZFSerializableKeyword_ZFTextTemplateParam_index "index"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFTextTemplateParam_indexDataDefault zfText("indexDataDefault")
+#define ZFSerializableKeyword_ZFTextTemplateParam_indexDataDefault "indexDataDefault"
 
 ZFOUTPUT_TYPE(ZFTextTemplateParam, {output << v.objectInfo();})
 

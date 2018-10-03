@@ -24,11 +24,11 @@ ZFMETHOD_DEFINE_1(ZFUIOnScreenKeyboardState, ZFUIOnScreenKeyboardState *, instan
     {
         sysWindow = ZFUISysWindow::mainWindow();
     }
-    ZFUIOnScreenKeyboardState *ret = sysWindow->tagGet<ZFUIOnScreenKeyboardState *>(zfText("_ZFP_ZFUIOnScreenKeyboardState"));
+    ZFUIOnScreenKeyboardState *ret = sysWindow->tagGet<ZFUIOnScreenKeyboardState *>("_ZFP_ZFUIOnScreenKeyboardState");
     if(ret == zfnull)
     {
         zfblockedAlloc(ZFUIOnScreenKeyboardState, tmp);
-        sysWindow->tagSet(zfText("_ZFP_ZFUIOnScreenKeyboardState"), tmp);
+        sysWindow->tagSet("_ZFP_ZFUIOnScreenKeyboardState", tmp);
         tmp->_ZFP_ZFUIOnScreenKeyboardState_keyboardOwnerSysWindow = sysWindow;
         ret = tmp;
     }
@@ -74,12 +74,12 @@ void ZFUIOnScreenKeyboardState::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     zfsFromPointerT(ret, this->keyboardOwnerSysWindow());
     if(this->keyboardShowing())
     {
-        ret += zfText(" keyboardFrame: ");
+        ret += " keyboardFrame: ";
         ZFUIRectToString(ret, this->keyboardFrame());
     }
     else
     {
-        ret += zfText(" keyboardNotShow");
+        ret += " keyboardNotShow";
     }
 }
 

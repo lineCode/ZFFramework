@@ -59,7 +59,7 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
     int count = (int)lua_gettop(L);
     if(count < luaParamOffset - 1)
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfAlloc] takes at least one param"));
+        ZFLuaErrorOccurredTrim("[zfAlloc] takes at least one param");
         return ZFImpl_ZFLua_luaError(L);
     }
     int paramCount = (count - (luaParamOffset - 1));
@@ -67,7 +67,7 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
     zfautoObject clsHolder;
     if(!ZFImpl_ZFLua_toGeneric(clsHolder, L, 1))
     {
-        ZFLuaErrorOccurredTrim(zfText("[zfAlloc] unable to access class"));
+        ZFLuaErrorOccurredTrim("[zfAlloc] unable to access class");
         return ZFImpl_ZFLua_luaError(L);
     }
 
@@ -106,12 +106,12 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
 
 // ============================================================
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfAlloc, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfAlloc"), _ZFP_ZFImpl_ZFLua_zfAlloc);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfAlloc", _ZFP_ZFImpl_ZFLua_zfAlloc);
     }, {
     })
 
 // ============================================================
-ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, zfText("zfAlloc"), {
+ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, "zfAlloc", {
         ZFImpl_ZFLua_implDispatch_AssertClassExist();
         ZFImpl_ZFLua_implDispatch_AssertParamCountRange(0, ZFMETHOD_MAX_PARAM);
         ZFImpl_ZFLua_implDispatch_AssertIsStaticMethod();
@@ -121,7 +121,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, 
             dispatchInfo.returnValue = dispatchInfo.classOrNull->newInstance();
             if(dispatchInfo.returnValue == zfnull)
             {
-                return dispatchInfo.dispatchError(zfText("unable to create %s"),
+                return dispatchInfo.dispatchError("unable to create %s",
                     dispatchInfo.classOrNull->classNameFull());
             }
             return dispatchInfo.dispatchSuccess();
@@ -141,7 +141,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, 
                 ))
             {
                 return dispatchInfo.dispatchError(
-                    zfText("unable to create class %s, reason: %s"),
+                    "unable to create class %s, reason: %s",
                     dispatchInfo.classOrNull->classNameFull(),
                     errorHint.cString());
             }

@@ -15,21 +15,21 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFImplOutputImpl_default, ZFImplOutput, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("C:printf"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("C:printf")
 public:
-    virtual void outputCoreLog(ZF_IN const zfcharA *s)
+    virtual void outputCoreLog(ZF_IN const zfchar *s)
     {
-        printf(zfTextA("%s"), s);
+        printf("%s", s);
     }
     virtual void outputLog(ZF_IN const zfchar *s, ZF_IN_OPT zfindex count = zfindexMax())
     {
         if(count == zfindexMax())
         {
-            printf(zfTextA("%s"), ZFStringZ2A(s));
+            printf("%s", s);
         }
         else
         {
-            printf(zfTextA("%s"), ZFStringZ2A(zfstring(s, count).cString()));
+            printf("%s", zfstring(s, count).cString());
         }
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFImplOutputImpl_default)

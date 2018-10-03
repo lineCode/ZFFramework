@@ -166,7 +166,7 @@ static zftimet _ZFP_ZFUIScrollViewImpl_sys_iOS_timestamp(void)
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIScrollViewImpl_sys_iOS, ZFUIScrollView, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:UIScrollView"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:UIScrollView")
 
 public:
     virtual void *nativeScrollViewCreate(ZF_IN ZFUIScrollView *scrollView)

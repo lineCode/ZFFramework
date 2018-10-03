@@ -108,7 +108,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIPoint, ZFUIPoint, {
         v.y = buf[1];
         return zftrue;
     }, {
-        zfstringAppend(s, zfText("(%d, %d)"), v.x, v.y);
+        zfstringAppend(s, "(%d, %d)", v.x, v.y);
         return zftrue;
     })
 
@@ -169,7 +169,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIMargin, ZFUIMargin, {
         v.bottom = buf[3];
         return zftrue;
     }, {
-        zfstringAppend(s, zfText("(%d, %d, %d, %d)"), v.left, v.top, v.right, v.bottom);
+        zfstringAppend(s, "(%d, %d, %d, %d)", v.left, v.top, v.right, v.bottom);
         return zftrue;
     })
 
@@ -262,7 +262,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUISize, ZFUISize, {
         v.height = buf[1];
         return zftrue;
     }, {
-        zfstringAppend(s, zfText("(%d, %d)"), v.width, v.height);
+        zfstringAppend(s, "(%d, %d)", v.width, v.height);
         return zftrue;
     })
 
@@ -354,7 +354,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIRect, ZFUIRect, {
         v.size.height = buf[3];
         return zftrue;
     }, {
-        zfstringAppend(s, zfText("(%d, %d, %d, %d)"), v.point.x, v.point.y, v.size.width, v.size.height);
+        zfstringAppend(s, "(%d, %d, %d, %d)", v.point.x, v.point.y, v.size.width, v.size.height);
         return zftrue;
     })
 
@@ -607,7 +607,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
         {
             if(((v >> 24) & 0xFF) == 0xFF)
             {
-                zfstringAppend(s, zfText("#%X%X%X")
+                zfstringAppend(s, "#%X%X%X"
                     , ((v >> 16) & 0x0F)
                     , ((v >> 8) & 0x0F)
                     , ((v >> 0) & 0x0F)
@@ -615,7 +615,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
             }
             else
             {
-                zfstringAppend(s, zfText("#%X%X%X%X")
+                zfstringAppend(s, "#%X%X%X%X"
                     , ((v >> 24) & 0x0F)
                     , ((v >> 16) & 0x0F)
                     , ((v >> 8) & 0x0F)
@@ -627,7 +627,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
         {
             if(((v >> 24) & 0xFF) == 0xFF)
             {
-                zfstringAppend(s, zfText("#%02X%02X%02X")
+                zfstringAppend(s, "#%02X%02X%02X"
                     , ((v >> 16) & 0xFF)
                     , ((v >> 8) & 0xFF)
                     , ((v >> 0) & 0xFF)
@@ -635,7 +635,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
             }
             else
             {
-                zfstringAppend(s, zfText("#%02X%02X%02X%02X")
+                zfstringAppend(s, "#%02X%02X%02X%02X"
                     , ((v >> 24) & 0xFF)
                     , ((v >> 16) & 0xFF)
                     , ((v >> 8) & 0xFF)

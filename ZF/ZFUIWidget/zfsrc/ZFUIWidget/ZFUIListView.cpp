@@ -165,17 +165,17 @@ public:
         zfautoObject ret = this->listAdapter->cellCacheOnAccess(index);
         if(ret != zfnull)
         {
-            zfCoreAssertWithMessage(ZFCastZFObject(ZFUIListCell *, ret.toObject()) != zfnull, zfTextA("list cell %s not type of %s"),
-                zfsCoreZ2A(ret.toObject()->classData()->classNameFull()),
-                zfsCoreZ2A(ZFUIListCell::ClassData()->classNameFull()));
+            zfCoreAssertWithMessage(ZFCastZFObject(ZFUIListCell *, ret.toObject()) != zfnull, "list cell %s not type of %s",
+                ret.toObject()->classData()->classNameFull(),
+                ZFUIListCell::ClassData()->classNameFull());
             return ret;
         }
         ret = this->listAdapter->cellAtIndex(index);
-        zfCoreAssertWithMessage(ret != zfnull, zfTextA("cellAtIndex must return a %s"), zfsCoreZ2A(ZFUIListCell::ClassData()->classNameFull()));
+        zfCoreAssertWithMessage(ret != zfnull, "cellAtIndex must return a %s", ZFUIListCell::ClassData()->classNameFull());
         ZFUIListCell *cell = ZFCastZFObject(ZFUIListCell *, ret.toObject());
-        zfCoreAssertWithMessage(cell != zfnull, zfTextA("list cell %s not type of %s"),
-            zfsCoreZ2A(ret.toObject()->classData()->classNameFull()),
-            zfsCoreZ2A(ZFUIListCell::ClassData()->classNameFull()));
+        zfCoreAssertWithMessage(cell != zfnull, "list cell %s not type of %s",
+            ret.toObject()->classData()->classNameFull(),
+            ZFUIListCell::ClassData()->classNameFull());
         return ret;
     }
     void cellOnUpdate(ZF_IN zfindex index, ZF_IN ZFUIListCell *cell)
@@ -1407,7 +1407,7 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIListView, ListCellOnAttach)
 ZFOBSERVER_EVENT_REGISTER(ZFUIListView, ListCellOnDetach)
 ZFOBSERVER_EVENT_REGISTER(ZFUIListView, ListVisibleCellOnChange)
 
-#define _ZFP_ZFUIListView_listAdapterHolderTag zfText("_ZFP_ZFUIListView_listAdapterHolderTag")
+#define _ZFP_ZFUIListView_listAdapterHolderTag "_ZFP_ZFUIListView_listAdapterHolderTag"
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIListView, ZFUIListAdapter *, listAdapter)
 {
     d->listAdapter = this->listAdapter();
@@ -1526,7 +1526,7 @@ zfbool ZFUIListView::serializableOnSerializeFromData(ZF_IN const ZFSerializableD
             && !element.toObject()->classData()->classIsTypeOf(ZFUIListAdapter::ClassData()))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, categoryData,
-                zfText("%s not type of %s"),
+                "%s not type of %s",
                 element.toObject()->objectInfoOfInstance().cString(), ZFUIListAdapter::ClassData()->classNameFull());
             return zffalse;
         }
@@ -1592,7 +1592,7 @@ void ZFUIListView::viewChildOnAdd(ZF_IN ZFUIView *child,
 {
     if(layer == ZFUIViewChildLayer::e_Normal)
     {
-        zfCoreAssertWithMessage(d->childAddOverrideFlag || layer != ZFUIViewChildLayer::e_Normal, zfTextA("you must not add child to a list view"));
+        zfCoreAssertWithMessage(d->childAddOverrideFlag || layer != ZFUIViewChildLayer::e_Normal, "you must not add child to a list view");
     }
     zfsuper::viewChildOnAdd(child, layer);
 }
@@ -1601,7 +1601,7 @@ void ZFUIListView::viewChildOnRemove(ZF_IN ZFUIView *child,
 {
     if(layer == ZFUIViewChildLayer::e_Normal)
     {
-        zfCoreAssertWithMessage(d->childAddOverrideFlag || layer != ZFUIViewChildLayer::e_Normal, zfTextA("you must not remove child from a list view"));
+        zfCoreAssertWithMessage(d->childAddOverrideFlag || layer != ZFUIViewChildLayer::e_Normal, "you must not remove child from a list view");
     }
     zfsuper::viewChildOnRemove(child, layer);
 }

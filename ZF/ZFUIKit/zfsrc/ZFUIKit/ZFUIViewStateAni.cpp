@@ -86,8 +86,8 @@ public:
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniDataHolder);
         d->viewDetach(userData->objectHolded());
         #if _ZFP_ZFUIViewStateAni_DEBUG
-            zfLogTrimT() << zfLogCurTimeString() << zfText("[ZFUIViewStateAni]")
-                << zfText("aniStop") << userData->objectHolded() << listenerData.sender;
+            zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
+                << "aniStop" << userData->objectHolded() << listenerData.sender;
         #endif
     }
 
@@ -115,8 +115,8 @@ public:
     void viewAttach(ZF_IN ZFUIView *view)
     {
         #if _ZFP_ZFUIViewStateAni_DEBUG
-            zfLogTrimT() << zfLogCurTimeString() << zfText("[ZFUIViewStateAni]")
-                << zfText("viewAttach") << view;
+            zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
+                << "viewAttach" << view;
         #endif
         _ZFP_ZFUIViewStateAniTaskData taskData;
         taskData.view = view;
@@ -140,8 +140,8 @@ public:
             return ;
         }
         #if _ZFP_ZFUIViewStateAni_DEBUG
-            zfLogTrimT() << zfLogCurTimeString() << zfText("[ZFUIViewStateAni]")
-                << zfText("viewDetach") << view;
+            zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
+                << "viewDetach" << view;
         #endif
         _ZFP_ZFUIViewStateAniTaskData taskData = it->second;
         this->tasks.erase(it);
@@ -218,8 +218,8 @@ private:
         zfblockedAlloc(ZFArrayEditable, aniList);
         ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(view, ZFUIViewStateAniImpl::EventStateAniViewAniPrepare(), aniList);
         #if _ZFP_ZFUIViewStateAni_DEBUG
-            zfLogTrimT() << zfLogCurTimeString() << zfText("[ZFUIViewStateAni]")
-                << zfText("aniPrepare") << view << view->layoutedFramePrev() << aniList;
+            zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
+                << "aniPrepare" << view << view->layoutedFramePrev() << aniList;
         #endif
 
         if(aniList->isEmpty())
@@ -230,15 +230,15 @@ private:
 
         ZFAnimation *ani = ZFCastZFObject(ZFAnimation *, aniList->getFirst());
         zfCoreAssertWithMessage(ani != zfnull,
-            zfTextA("%s not type of %s"),
-            zfsCoreZ2A(aniList->getFirst()->objectInfoOfInstance().cString()),
-            zfsCoreZ2A(ZFAnimation::ClassData()->classNameFull()));
+            "%s not type of %s",
+            aniList->getFirst()->objectInfoOfInstance().cString(),
+            ZFAnimation::ClassData()->classNameFull());
         taskData.ani = ani;
         ani->observerAdd(ZFAnimation::EventAniOnStopOrOnInvalid(), this->viewAniOnStopListener, view->objectHolder());
 
         #if _ZFP_ZFUIViewStateAni_DEBUG
-            zfLogTrimT() << zfLogCurTimeString() << zfText("[ZFUIViewStateAni]")
-                << zfText("aniStart") << view << ani;
+            zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
+                << "aniStart" << view << ani;
         #endif
         ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(view, ZFUIViewStateAniImpl::EventStateAniViewAniStart(), ani);
         ani->aniStart();

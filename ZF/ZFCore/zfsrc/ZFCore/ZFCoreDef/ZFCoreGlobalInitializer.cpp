@@ -67,7 +67,7 @@ static void _ZFP_GI_keyForName(ZF_OUT zfstring &key,
                                ZF_IN const zfchar *name,
                                ZF_IN ZFLevel level)
 {
-    zfstringAppend(key, zfText("%d_%s"), (zfint)level, name);
+    zfstringAppend(key, "%d_%s", (zfint)level, name);
 }
 
 static void _ZFP_GI_instanceInit(ZFCoreArrayPOD<_ZFP_GI_Data *> &list)
@@ -487,7 +487,7 @@ void ZFFrameworkCleanup(void)
 
 void ZFFrameworkAssertInit(void)
 {
-    zfCoreAssertWithMessage(ZFFrameworkStateCheck() == ZFFrameworkStateAvailable, zfTextA("ZFFramework hasn't been initialized"));
+    zfCoreAssertWithMessage(ZFFrameworkStateCheck() == ZFFrameworkStateAvailable, "ZFFramework hasn't been initialized");
 }
 ZFFrameworkState ZFFrameworkStateCheck(void)
 {
@@ -576,8 +576,8 @@ static void _ZFP_GI_dataRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
             // static register during init processing,
             // may unable to detect dependency
             zfCoreCriticalMessageTrim(
-                zfTextA("ZFGlobalInitializer %s attached during init processing, which is not allowed"),
-                zfsCoreZ2A(name));
+                "ZFGlobalInitializer %s attached during init processing, which is not allowed",
+                name);
             break;
         case ZFFrameworkStateAvailable:
             // registered after init finish, manually load it
@@ -587,8 +587,8 @@ static void _ZFP_GI_dataRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
             // static register during cleanup processing,
             // may cause wrong cleanup order
             zfCoreCriticalMessageTrim(
-                zfTextA("ZFGlobalInitializer %s attached during cleanup processing, which is not allowed"),
-                zfsCoreZ2A(name));
+                "ZFGlobalInitializer %s attached during cleanup processing, which is not allowed",
+                name);
             break;
         default:
             zfCoreCriticalShouldNotGoHere();
@@ -642,9 +642,9 @@ static void **_ZFP_GI_instanceAccess(ZF_IN const zfchar *name,
     if(ZFFrameworkStateCheck(level) == ZFFrameworkStateCleanupProcessing)
     {
         zfCoreCriticalMessageTrim(
-            zfTextA("try to reenter global initializer during ZFFrameworkCleanup, name: %s, ")
-            zfTextA("typically due to invalid global initializer dependency"),
-            zfsCoreZ2A(name));
+            "try to reenter global initializer during ZFFrameworkCleanup, name: %s, "
+            "typically due to invalid global initializer dependency",
+            name);
         return &dummy;
     }
 
@@ -685,8 +685,8 @@ void _ZFP_GI_notifyInstanceCreated(ZF_IN const _ZFP_GI_Data *data)
     if(ZFFrameworkStateCheck(ZFLevelZFFrameworkStatic) == ZFFrameworkStateNotAvailable)
     {
         zfCoreCriticalMessageTrim(
-                zfTextA("ZFGlobalInitializer %s accessed before ZFFrameworkInit")
-            , zfsCoreZ2A(data->name.cString()));
+                "ZFGlobalInitializer %s accessed before ZFFrameworkInit"
+            , data->name.cString());
         return ;
     }
 
@@ -756,10 +756,10 @@ void _ZFP_GI_notifyInstanceCreated(ZF_IN const _ZFP_GI_Data *data)
     {
         // dependency hasn't initialized
         zfCoreCriticalMessageTrim(
-                zfTextA("ZFGlobalInitializer %s depends on or level lower than %s")
-                zfTextA(", while it hasn't been initialized or already deallocated")
-                zfTextA(", typically because of invalid dependency or invalid access")
-            , zfsCoreZ2A(data->name.cString()), zfsCoreZ2A(dependency->name.cString()));
+                "ZFGlobalInitializer %s depends on or level lower than %s"
+                ", while it hasn't been initialized or already deallocated"
+                ", typically because of invalid dependency or invalid access"
+            , data->name.cString(), dependency->name.cString());
         return ;
     }
 

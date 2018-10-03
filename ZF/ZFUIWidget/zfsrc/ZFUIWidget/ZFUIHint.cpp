@@ -26,7 +26,7 @@ static ZFArray *_ZFP_ZFUIHint_hintListForRead(ZF_IN ZFUISysWindow *inSysWindow)
     {
         return zfnull;
     }
-    return inSysWindow->tagGet<ZFArray *>(zfText("_ZFP_ZFUIHint_hintList"));
+    return inSysWindow->tagGet<ZFArray *>("_ZFP_ZFUIHint_hintList");
 }
 static ZFArrayEditable *_ZFP_ZFUIHint_hintListForWrite(ZF_IN ZFUISysWindow *inSysWindow)
 {
@@ -38,12 +38,12 @@ static ZFArrayEditable *_ZFP_ZFUIHint_hintListForWrite(ZF_IN ZFUISysWindow *inSy
     {
         return zfnull;
     }
-    ZFArrayEditable *hintList = inSysWindow->tagGet<ZFArrayEditable *>(zfText("_ZFP_ZFUIHint_hintList"));
+    ZFArrayEditable *hintList = inSysWindow->tagGet<ZFArrayEditable *>("_ZFP_ZFUIHint_hintList");
     if(hintList == zfnull)
     {
         zfblockedAlloc(ZFArrayEditable, hintListTmp);
         hintList = hintListTmp;
-        inSysWindow->tagSet(zfText("_ZFP_ZFUIHint_hintList"), hintList);
+        inSysWindow->tagSet("_ZFP_ZFUIHint_hintList", hintList);
     }
     return hintList;
 }
@@ -385,7 +385,7 @@ void ZFUIHint::objectOnInit(void)
     ZFLISTENER_LOCAL(hintWindowChanged, {
         zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
-        zfCoreAssertWithMessage(!hint->hintShowing(), zfTextA("you must not change ZFUIHint's window while it's showing or delaying"));
+        zfCoreAssertWithMessage(!hint->hintShowing(), "you must not change ZFUIHint's window while it's showing or delaying");
         ZFUISysWindow *sysWindowOld = listenerData.param0->to<ZFUISysWindow *>();
         ZFArrayEditable *hintListOld = _ZFP_ZFUIHint_hintListForWrite(sysWindowOld);
         ZFArrayEditable *hintListNew = _ZFP_ZFUIHint_hintListForWrite(hint->hintWindow()->windowOwnerSysWindow());

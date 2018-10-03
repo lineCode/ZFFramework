@@ -29,9 +29,9 @@ typedef enum {
     ZFFilterTypeExclude = 2,
 } ZFFilterType;
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterTypeInclude zfText("Include")
+#define ZFTOKEN_ZFFilterTypeInclude "Include"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterTypeExclude zfText("Exclude")
+#define ZFTOKEN_ZFFilterTypeExclude "Exclude"
 
 /**
  * @brief filter result for custom filter callback
@@ -42,11 +42,11 @@ typedef enum {
     ZFFilterCallbackResultNotActive,
 } ZFFilterCallbackResult;
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterCallbackResultNotSpecified zfText("NotSpecified")
+#define ZFTOKEN_ZFFilterCallbackResultNotSpecified "NotSpecified"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterCallbackResultActive zfText("Active")
+#define ZFTOKEN_ZFFilterCallbackResultActive "Active"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFilterCallbackResultNotActive zfText("NotActive")
+#define ZFTOKEN_ZFFilterCallbackResultNotActive "NotActive"
 
 /**
  * @brief declare a filter class
@@ -358,16 +358,16 @@ private:
         switch(v.filterType)
         {
             case ZFFilterTypeInclude:
-                ret += zfText("include ");
+                ret += "include ";
                 break;
             case ZFFilterTypeExclude:
-                ret += zfText("exclude ");
+                ret += "exclude ";
                 break;
             default:
                 zfCoreCriticalShouldNotGoHere();
                 return ;
         }
-        zfstringAppend(ret, zfText("%p"), &(v.element));
+        zfstringAppend(ret, "%p", &(v.element));
         ret += ')';
     }
 public:
@@ -600,16 +600,6 @@ protected:
  * @brief string filter with const zfchar * as public type and zfstring as internal storage type
  */
 typedef ZFFilterForStringBase<const zfchar *, zfstring> ZFFilterForString;
-
-/**
- * @brief string filter with const zfcharA * as public type and zfstringA as internal storage type
- */
-typedef ZFFilterForStringBase<const zfcharA *, zfstringA> ZFFilterForStringA;
-
-/**
- * @brief string filter with const zfcharW * as public type and zfstringW as internal storage type
- */
-typedef ZFFilterForStringBase<const zfcharW *, zfstringW> ZFFilterForStringW;
 
 ZF_NAMESPACE_GLOBAL_END
 

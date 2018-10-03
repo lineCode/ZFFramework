@@ -101,7 +101,7 @@ public:
             va_start(vaList, errorHint);
             zfstringAppendV(s, errorHint, vaList);
             va_end(vaList);
-            s += zfText("\n");
+            s += "\n";
 
             for(zfindex i = 0; i < this->errorCallbackList.count(); ++i)
             {
@@ -114,17 +114,17 @@ public:
     {
         if(this->cls != zfnull)
         {
-            this->error(zfText("have you forgot classEnd?"));
+            this->error("have you forgot classEnd?");
             return zffalse;
         }
         else if(!this->methodNamespace.isEmpty())
         {
-            this->error(zfText("have you forgot NSEnd?"));
+            this->error("have you forgot NSEnd?");
             return zffalse;
         }
         else if(!this->enumClassName.isEmpty())
         {
-            this->error(zfText("have you forgot enumEnd?"));
+            this->error("have you forgot enumEnd?");
             return zffalse;
         }
         else
@@ -200,7 +200,7 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
     ZFNamespaceGetAllT(allNamespace);
 
     zfstlmap<zfstlstringZ, zfbool> tags;
-    const zfchar *zfpFix = zfText("_ZFP_");
+    const zfchar *zfpFix = "_ZFP_";
     zfindex zfpFixLen = zfslen(zfpFix);
 
     for(zfindex i = 0; i < allClass.count(); ++i)
@@ -235,7 +235,7 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
 
     for(zfstlmap<zfstlstringZ, zfbool>::iterator it = tags.begin(); it != tags.end(); ++it)
     {
-        output << it->first.c_str() << zfText("\n");
+        output << it->first.c_str() << "\n";
     }
 }
 
@@ -420,7 +420,7 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *classNameFull,
             classNameFull, parentClass, classDynamicRegisterUserData, &errorHint);
         if(dynClass == zfnull)
         {
-            d->error(zfText("unable to register class: %s, reason: %s"),
+            d->error("unable to register class: %s, reason: %s",
                 classNameFull,
                 errorHint.cString());
         }
@@ -447,7 +447,7 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *classNameFull,
         const ZFClass *parentClass = ZFClass::classForName(parentClassNameFull);
         if(parentClass == zfnull)
         {
-            d->error(zfText("no such parentClass: %s"), parentClassNameFull);
+            d->error("no such parentClass: %s", parentClassNameFull);
             return *this;
         }
         else
@@ -463,7 +463,7 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const ZFClass *cls)
     d->cls = cls;
     if(d->cls == zfnull)
     {
-        d->error(zfText("null class"));
+        d->error("null class");
     }
     return *this;
 }
@@ -472,7 +472,7 @@ ZFDynamic &ZFDynamic::classEnd(void)
     if(d->errorOccurred) {return *this;}
     if(d->cls == zfnull)
     {
-        d->error(zfText("no paired classBegin"));
+        d->error("no paired classBegin");
     }
     d->cls = zfnull;
     return *this;
@@ -559,23 +559,23 @@ ZFDynamic &ZFDynamic::onInit(ZF_IN const ZFListener &onInitCallback,
     if(d->errorOccurred) {return *this;}
     if(d->cls == zfnull)
     {
-        d->error(zfText("have you forgot classBegin?"));
+        d->error("have you forgot classBegin?");
         return *this;
     }
     if(!d->cls->classIsDynamicRegister())
     {
-        d->error(zfText("only dynamic registered class can attach custom onInit"));
+        d->error("only dynamic registered class can attach custom onInit");
         return *this;
     }
     if(!onInitCallback.callbackIsValid())
     {
-        d->error(zfText("invalid callback"));
+        d->error("invalid callback");
         return *this;
     }
     ZF_GLOBAL_INITIALIZER_CLASS(ZFDynamicOnInit) *g = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFDynamicOnInit);
     if(g->onInitMap.find(d->cls) != g->onInitMap.end())
     {
-        d->error(zfText("class %s already register a custom onInit"),
+        d->error("class %s already register a custom onInit",
             d->cls->classNameFull());
         return *this;
     }
@@ -593,23 +593,23 @@ ZFDynamic &ZFDynamic::onDealloc(ZF_IN const ZFListener &onDeallocCallback,
     if(d->errorOccurred) {return *this;}
     if(d->cls == zfnull)
     {
-        d->error(zfText("have you forgot classBegin?"));
+        d->error("have you forgot classBegin?");
         return *this;
     }
     if(!d->cls->classIsDynamicRegister())
     {
-        d->error(zfText("only dynamic registered class can attach custom onDealloc"));
+        d->error("only dynamic registered class can attach custom onDealloc");
         return *this;
     }
     if(!onDeallocCallback.callbackIsValid())
     {
-        d->error(zfText("invalid callback"));
+        d->error("invalid callback");
         return *this;
     }
     ZF_GLOBAL_INITIALIZER_CLASS(ZFDynamicOnInit) *g = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFDynamicOnInit);
     if(g->onDeallocMap.find(d->cls) != g->onDeallocMap.end())
     {
-        d->error(zfText("class %s already register a custom onDealloc"),
+        d->error("class %s already register a custom onDealloc",
             d->cls->classNameFull());
         return *this;
     }
@@ -641,7 +641,7 @@ ZFDynamic &ZFDynamic::NSEnd(void)
     if(d->errorOccurred) {return *this;}
     if(d->methodNamespace.isEmpty())
     {
-        d->error(zfText("no paired NSBegin"));
+        d->error("no paired NSBegin");
     }
     d->methodNamespace.removeAll();
     return *this;
@@ -659,7 +659,7 @@ ZFDynamic &ZFDynamic::enumIsFlagsSet(ZF_IN zfbool enumIsFlags)
     if(d->errorOccurred) {return *this;}
     if(d->enumClassName.isEmpty())
     {
-        d->error(zfText("have you forgot enumBegin?"));
+        d->error("have you forgot enumBegin?");
         return *this;
     }
     d->enumIsFlags = enumIsFlags;
@@ -671,7 +671,7 @@ ZFDynamic &ZFDynamic::enumValue(ZF_IN const zfchar *enumName,
     if(d->errorOccurred) {return *this;}
     if(d->enumClassName.isEmpty())
     {
-        d->error(zfText("have you forgot enumBegin?"));
+        d->error("have you forgot enumBegin?");
         return *this;
     }
     if(enumValue == ZFEnumInvalid())
@@ -695,7 +695,7 @@ ZFDynamic &ZFDynamic::enumEnd(ZF_IN_OPT zfuint enumDefault /* = ZFEnumInvalid() 
     if(d->errorOccurred) {return *this;}
     if(d->enumClassName.isEmpty())
     {
-        d->error(zfText("have you forgot enumBegin?"));
+        d->error("have you forgot enumBegin?");
         return *this;
     }
 
@@ -709,7 +709,7 @@ ZFDynamic &ZFDynamic::enumEnd(ZF_IN_OPT zfuint enumDefault /* = ZFEnumInvalid() 
         &errorHint);
     if(enumClass == zfnull)
     {
-        d->error(zfText("unable to register enum, reason: %s"), errorHint.cString());
+        d->error("unable to register enum, reason: %s", errorHint.cString());
         return *this;
     }
     d->allEnum.add(enumClass);
@@ -732,12 +732,12 @@ ZFDynamic &ZFDynamic::event(ZF_IN const zfchar *eventName)
     if(d->errorOccurred) {return *this;}
     if(!d->enumClassName.isEmpty())
     {
-        d->error(zfText("can not be called within enumBegin"));
+        d->error("can not be called within enumBegin");
         return *this;
     }
     if(zfsIsEmpty(eventName))
     {
-        d->error(zfText("empty event name"));
+        d->error("empty event name");
         return *this;
     }
     zfstring idName;
@@ -756,12 +756,12 @@ ZFDynamic &ZFDynamic::event(ZF_IN const zfchar *eventName)
             idName += d->methodNamespace;
         }
     }
-    idName += zfText("::Event");
+    idName += "::Event";
     idName += eventName;
     zfidentity idValue = ZFIdMapGetId(idName);
     if(idValue != zfidentityInvalid())
     {
-        d->error(zfText("%s already exists"), idName.cString());
+        d->error("%s already exists", idName.cString());
         return *this;
     }
     idValue = ZFIdMapDynamicRegister(idName);
@@ -774,7 +774,7 @@ ZFDynamic &ZFDynamic::event(ZF_IN const zfchar *eventName)
             .methodDynamicRegisterUserDataSet(t)
             .methodOwnerClassSet(d->cls)
             .methodNamespaceSet(d->methodNamespace)
-            .methodNameSet(zfstringWithFormat(zfText("Event%s"), eventName))
+            .methodNameSet(zfstringWithFormat("Event%s", eventName))
             .methodReturnTypeIdSet(ZFTypeId_zfidentity())
         );
     zfCoreAssert(method != zfnull);
@@ -841,7 +841,7 @@ ZFDynamic &ZFDynamic::method(ZF_IN const ZFListener &methodCallback
     if(d->errorOccurred) {return *this;}
     if(!methodCallback.callbackIsValid())
     {
-        d->error(zfText("invalid methodCallback"));
+        d->error("invalid methodCallback");
         return *this;
     }
 
@@ -896,14 +896,14 @@ ZFDynamic &ZFDynamic::method(ZF_IN const ZFMethodDynamicRegisterParam &param)
     if(d->errorOccurred) {return *this;}
     if(!d->enumClassName.isEmpty())
     {
-        d->error(zfText("can not be called within enumBegin"));
+        d->error("can not be called within enumBegin");
         return *this;
     }
     zfstring errorHint;
     const ZFMethod *dynMethod = ZFMethodDynamicRegister(param, &errorHint);
     if(dynMethod == zfnull)
     {
-        d->error(zfText("unable to register method, reason: %s"), errorHint.cString());
+        d->error("unable to register method, reason: %s", errorHint.cString());
     }
     else
     {
@@ -947,7 +947,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const zfchar *propertyTypeId,
         ZFTypeIdWrapper *propertyInitValueWrapper = ZFCastZFObject(ZFTypeIdWrapper *, propertyInitValue);
         if(propertyInitValueWrapper == zfnull)
         {
-            d->error(zfText("assign property's type must be %s: %s"),
+            d->error("assign property's type must be %s: %s",
                 ZFTypeIdWrapper::ClassData()->classNameFull(),
                 propertyInitValue->objectInfo().cString());
             return *this;
@@ -966,7 +966,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
     if(d->errorOccurred) {return *this;}
     if(propertyClassOfRetainProperty == zfnull)
     {
-        d->error(zfText("propertyClassOfRetainProperty not set"));
+        d->error("propertyClassOfRetainProperty not set");
         return *this;
     }
     ZFPropertyDynamicRegisterParam param;
@@ -980,7 +980,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
     {
         if(!propertyInitValue->classData()->classIsTypeOf(propertyClassOfRetainProperty))
         {
-            d->error(zfText("init value %s is not type of %s"),
+            d->error("init value %s is not type of %s",
                 propertyInitValue->objectInfo().cString(),
                 propertyClassOfRetainProperty->classNameFull());
             return *this;
@@ -988,7 +988,7 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFClass *propertyClassOfRetainPropert
         if(ZFCastZFObject(ZFCopyable *, propertyInitValue) == zfnull
             && ZFCastZFObject(ZFStyleable *, propertyInitValue) == zfnull)
         {
-            d->error(zfText("init value %s is not type of %s or %s"),
+            d->error("init value %s is not type of %s or %s",
                 propertyInitValue->objectInfo().cString(),
                 ZFCopyable::ClassData()->classNameFull(),
                 ZFStyleable::ClassData()->classNameFull());
@@ -1004,19 +1004,19 @@ ZFDynamic &ZFDynamic::property(ZF_IN const ZFPropertyDynamicRegisterParam &param
     if(d->errorOccurred) {return *this;}
     if(!d->enumClassName.isEmpty())
     {
-        d->error(zfText("can not be called within enumBegin"));
+        d->error("can not be called within enumBegin");
         return *this;
     }
     if(d->cls == zfnull)
     {
-        d->error(zfText("have you forgot classBegin?"));
+        d->error("have you forgot classBegin?");
         return *this;
     }
     zfstring errorHint;
     const ZFProperty *dynProperty = ZFPropertyDynamicRegister(param, &errorHint);
     if(dynProperty == zfnull)
     {
-        d->error(zfText("unable to register property, reason: %s"), errorHint.cString());
+        d->error("unable to register property, reason: %s", errorHint.cString());
     }
     else
     {
@@ -1048,7 +1048,7 @@ const ZFOutput &ZFDynamic::errorCallbackAtIndex(ZF_IN zfindex index) const
 }
 void ZFDynamic::errorCallbackNotify(ZF_IN const zfchar *errorHint) const
 {
-    d->error(zfText("%s"), errorHint);
+    d->error("%s", errorHint);
 }
 
 // ============================================================

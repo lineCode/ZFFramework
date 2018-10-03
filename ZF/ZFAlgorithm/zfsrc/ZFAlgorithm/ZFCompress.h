@@ -62,7 +62,7 @@ ZFENUM_END_WITH_DEFAULT(ZFCompressLevel, ZFCompressLevel::e_DefaultCompress)
  *
  *   // get zip file content info
  *   zfindex fileCountInZip = ZFDecompressContentCount(decompressToken);
- *   zfindex fileIndexInZip = ZFDecompressContentIndex(zfText("filePathInZip"));
+ *   zfindex fileIndexInZip = ZFDecompressContentIndex("filePathInZip");
  *   zfstring filePathInZip = ZFDecompressContentPath(fileIndexInZip);
  * @endcode
  *
@@ -132,7 +132,7 @@ ZFMETHOD_FUNC_DECLARE_2(zfstring, ZFDecompressContentPath,
 
 // ============================================================
 // util
-#define _ZFP_ZFCompressFilePathDefault zfText("content")
+#define _ZFP_ZFCompressFilePathDefault "content"
 
 /** @brief see #ZFCompressBegin */
 ZFMETHOD_FUNC_DECLARE_4(zfbool, ZFCompress,

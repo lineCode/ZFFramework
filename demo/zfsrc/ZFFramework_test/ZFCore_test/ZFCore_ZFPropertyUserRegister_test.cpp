@@ -36,17 +36,17 @@ protected:
             obj->valueNormalSet(1);
 
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("try modify and serialize a dynamically registered property, result"));
+            this->testCaseOutput("try modify and serialize a dynamically registered property, result");
 
             ZFPropertyUserRegisterAssign(propertyInfo, _ZFP_ZFCore_ZFPropertyUserRegister_test_Object::ClassData(),
-                zfstring, zfText("valueDynamic"), ZFPropertyNoInitValue,
+                zfstring, "valueDynamic", ZFPropertyNoInitValue,
                 public, public);
-            obj->classData()->propertyForName(zfText("valueDynamic"))->setterMethod()
-                ->execute<void, zfstring const &>(obj, zfText("value"));
+            obj->classData()->propertyForName("valueDynamic")->setterMethod()
+                ->execute<void, zfstring const &>(obj, "value");
             ZFObjectToXml(ZFOutputDefault(), obj);
-            ZFPropertyUserUnregister(obj->classData()->propertyForName(zfText("valueDynamic")));
+            ZFPropertyUserUnregister(obj->classData()->propertyForName("valueDynamic"));
 
-            this->testCaseOutput(zfText("after unregister:"));
+            this->testCaseOutput("after unregister:");
             ZFObjectToXml(ZFOutputDefault(), obj);
         }
 
@@ -55,10 +55,10 @@ protected:
             obj->valueNormalSet(1);
 
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("try modify and serialize a statically registered property, result"));
+            this->testCaseOutput("try modify and serialize a statically registered property, result");
 
-            obj->classData()->propertyForName(zfText("valueStatic"))->setterMethod()
-                ->execute<void, ZFString * const &>(obj, zflineAlloc(ZFString, zfText("value")));
+            obj->classData()->propertyForName("valueStatic")->setterMethod()
+                ->execute<void, ZFString * const &>(obj, zflineAlloc(ZFString, "value"));
             ZFObjectToXml(ZFOutputDefault(), obj);
         }
 

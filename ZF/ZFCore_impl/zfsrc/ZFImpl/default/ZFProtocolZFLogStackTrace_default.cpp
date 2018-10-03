@@ -29,17 +29,17 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * also note that this may not work for release build
  */
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFLogStackTraceImpl_default, ZFLogStackTrace, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("edd_stacktrace"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("edd_stacktrace")
 public:
     virtual void stackTrace(ZF_IN_OUT zfstring &ret,
                             ZF_IN_OPT const zfchar *prefix = zfnull,
                             ZF_IN_OPT zfindex ignoreLevel = 0,
                             ZF_IN_OPT zfindex maxLevel = 20)
     {
-        const zfchar *fixedPrefix = ((prefix == zfnull) ? zfText("") : prefix);
+        const zfchar *fixedPrefix = ((prefix == zfnull) ? "" : prefix);
 
         ret += fixedPrefix;
-        ret += zfText("======================== stack begin =======================");
+        ret += "======================== stack begin =======================";
         ret += '\n';
 
         dbg::stack s;
@@ -49,17 +49,17 @@ public:
         for(zfindex i = 0; i < maxLevel && it != s.end(); ++i, ++it)
         {
             ret += fixedPrefix;
-            ret += zfText("| ");
+            ret += "| ";
 #if 0
             ZF_CALLER_FILE_TO_NAME_REF(ret, it->module.cString());
-            ret += zfText("::");
+            ret += "::";
 #endif
-            ret += this->trimFunc(zfsCoreA2Z(it->function.c_str()));
+            ret += this->trimFunc(it->function.c_str());
             ret += '\n';
         }
 
         ret += fixedPrefix;
-        ret += zfText("========================  stack end  =======================");
+        ret += "========================  stack end  =======================";
     }
     virtual void callerInfo(ZF_IN_OUT zfstring &ret,
                             ZF_IN_OPT zfindex ignoreLevel = 0)
@@ -70,13 +70,13 @@ public:
         for(zfindex i = 0; i < ignoreLevel && it != s.end(); ++i, ++it);
         if(it != s.end())
         {
-            ret = zfText("[");
+            ret = "[";
 #if 0
-            ZF_CALLER_FILE_TO_NAME_REF(ret, zfsCoreA2Z(it->module.cString()));
-            ret += zfText("::");
+            ZF_CALLER_FILE_TO_NAME_REF(ret, it->module.cString());
+            ret += "::";
 #endif
-            ret += this->trimFunc(zfsCoreA2Z(it->function.c_str()));
-            ret += zfText("]");
+            ret += this->trimFunc(it->function.c_str());
+            ret += "]";
         }
     }
 private:

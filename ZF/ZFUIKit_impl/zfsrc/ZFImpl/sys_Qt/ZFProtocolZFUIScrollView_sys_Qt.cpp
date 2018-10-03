@@ -204,18 +204,18 @@ protected:
         {
             case QEvent::MouseButtonPress:
             case QEvent::MouseButtonDblClick:
-                ZFImpl_sys_Qt_QObjectTagSet(obj, zfText("_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag"), QVariant::fromValue(zftrue));
+                ZFImpl_sys_Qt_QObjectTagSet(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag", QVariant::fromValue(zftrue));
                 mouseAction = ZFUIMouseAction::e_MouseDown;
                 break;
             case QEvent::MouseMove:
-                if(!ZFImpl_sys_Qt_QObjectTagGet(obj, zfText("_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag")).isValid())
+                if(!ZFImpl_sys_Qt_QObjectTagGet(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag").isValid())
                 {
                     return false;
                 }
                 mouseAction = ZFUIMouseAction::e_MouseMove;
                 break;
             case QEvent::MouseButtonRelease:
-                ZFImpl_sys_Qt_QObjectTagSet(obj, zfText("_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag"), QVariant());
+                ZFImpl_sys_Qt_QObjectTagSet(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag", QVariant());
                 mouseAction = ZFUIMouseAction::e_MouseUp;
                 break;
             default:
@@ -509,7 +509,7 @@ public:
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIScrollViewImpl_sys_Qt, ZFUIScrollView, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QWidget"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QWidget")
 
 public:
     virtual void *nativeScrollViewCreate(ZF_IN ZFUIScrollView *scrollView)

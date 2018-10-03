@@ -44,35 +44,35 @@ typedef enum
 } ZFLevel;
 
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkStatic zfText("LevelZFFrameworkStatic")
+#define ZFTOKEN_ZFLevelZFFrameworkStatic "LevelZFFrameworkStatic"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkEssential zfText("LevelZFFrameworkEssential")
+#define ZFTOKEN_ZFLevelZFFrameworkEssential "LevelZFFrameworkEssential"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkHigh zfText("LevelZFFrameworkHigh")
+#define ZFTOKEN_ZFLevelZFFrameworkHigh "LevelZFFrameworkHigh"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkNormal zfText("LevelZFFrameworkNormal")
+#define ZFTOKEN_ZFLevelZFFrameworkNormal "LevelZFFrameworkNormal"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkLow zfText("LevelZFFrameworkLow")
+#define ZFTOKEN_ZFLevelZFFrameworkLow "LevelZFFrameworkLow"
 
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelAppEssential zfText("LevelAppEssential")
+#define ZFTOKEN_ZFLevelAppEssential "LevelAppEssential"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelAppHigh zfText("LevelAppHigh")
+#define ZFTOKEN_ZFLevelAppHigh "LevelAppHigh"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelAppNormal zfText("LevelAppNormal")
+#define ZFTOKEN_ZFLevelAppNormal "LevelAppNormal"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelAppLow zfText("LevelAppLow")
+#define ZFTOKEN_ZFLevelAppLow "LevelAppLow"
 
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkPostLow zfText("LevelZFFrameworkPostLow")
+#define ZFTOKEN_ZFLevelZFFrameworkPostLow "LevelZFFrameworkPostLow"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkPostNormal zfText("LevelZFFrameworkPostNormal")
+#define ZFTOKEN_ZFLevelZFFrameworkPostNormal "LevelZFFrameworkPostNormal"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkPostHigh zfText("LevelZFFrameworkPostHigh")
+#define ZFTOKEN_ZFLevelZFFrameworkPostHigh "LevelZFFrameworkPostHigh"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkPostEssential zfText("LevelZFFrameworkPostEssential")
+#define ZFTOKEN_ZFLevelZFFrameworkPostEssential "LevelZFFrameworkPostEssential"
 /** @brief string tokens */
-#define ZFTOKEN_ZFLevelZFFrameworkPostStatic zfText("LevelZFFrameworkPostStatic")
+#define ZFTOKEN_ZFLevelZFFrameworkPostStatic "LevelZFFrameworkPostStatic"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFLevel_h_

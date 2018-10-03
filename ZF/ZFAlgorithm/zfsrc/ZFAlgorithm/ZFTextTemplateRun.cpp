@@ -54,7 +54,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFTextTemplateRun,
     ZFFilePathFormat(pathTmp, path);
     if(!ZFFileFileIsExist(pathTmp))
     {
-        zfstringAppend(outErrorHint, zfText("path not exist: \"%s\""), path);
+        zfstringAppend(outErrorHint, "path not exist: \"%s\"", path);
         return zffalse;
     }
 
@@ -104,7 +104,7 @@ static zfbool _ZFP_ZFTextTemplateRun_applyName(ZF_IN_OUT zfstring &path,
     if(!ZFFileFileMove(path, pathNew))
     {
         zfstringAppend(outErrorHint,
-            zfText("failed to move from \"%s\" to \"%s\""),
+            "failed to move from \"%s\" to \"%s\"",
             path.cString(), pathNew.cString());
         return zffalse;
     }
@@ -185,7 +185,7 @@ static zfbool _ZFP_ZFTextTemplateRun_applyFile(ZF_IN_OUT zfstring &path,
         ZFToken token = ZFFileFileOpen(path, ZFFileOpenOption::e_Read);
         if(token == ZFTokenInvalid())
         {
-            zfstringAppend(outErrorHint, zfText("failed to open file %s"), path.cString());
+            zfstringAppend(outErrorHint, "failed to open file %s", path.cString());
             return zffalse;
         }
         ZFFileFileCloseHolder(token);
@@ -199,13 +199,13 @@ static zfbool _ZFP_ZFTextTemplateRun_applyFile(ZF_IN_OUT zfstring &path,
         buf = (zfchar *)zfmalloc(fileSize);
         if(buf == zfnull)
         {
-            zfstringAppend(outErrorHint, zfText("failed to malloc buffer for size %zi"), fileSize);
+            zfstringAppend(outErrorHint, "failed to malloc buffer for size %zi", fileSize);
             return zffalse;
         }
 
         if(ZFFileFileRead(token, buf, fileSize) != fileSize)
         {
-            zfstringAppend(outErrorHint, zfText("failed to read file %s"), path.cString());
+            zfstringAppend(outErrorHint, "failed to read file %s", path.cString());
             zffree(buf);
             return zffalse;
         }
@@ -215,7 +215,7 @@ static zfbool _ZFP_ZFTextTemplateRun_applyFile(ZF_IN_OUT zfstring &path,
 
     if(ZFTextTemplateApply(textTemplateParam, ZFOutputForFile(path), buf, bufEnd - buf) == zfindexMax())
     {
-        zfstringAppend(outErrorHint, zfText("failed to update template for %s"), path.cString());
+        zfstringAppend(outErrorHint, "failed to update template for %s", path.cString());
         return zffalse;
     }
     return zftrue;

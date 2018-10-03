@@ -4,7 +4,7 @@
  * ZFClass supply methods to observe event that any of specified class has created:
  * @code
  *   ZFLISTENER_LOCAL(objCreated, {
- *       zfLogT() << zfText("MyClass created:") << listenerData.sender;
+ *       zfLogT() << "MyClass created:" << listenerData.sender;
  *   })
  *   MyClass::ClassData()->instanceObserverAdd(objCreated);
  *

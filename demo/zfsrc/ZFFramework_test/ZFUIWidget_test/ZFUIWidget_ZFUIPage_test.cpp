@@ -34,7 +34,7 @@ protected:
 
         this->_titleView()->childAdd(this->_titleLeftView());
         this->_titleLeftView()->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(1);
-        this->_titleLeftView()->buttonLabelTextSet(zfText("back"));
+        this->_titleLeftView()->buttonLabelTextSet("back");
         this->_titleLeftView()->viewBackgroundColorSet(ZFUIColorRandom());
         {
             ZFLISTENER_LOCAL(_titleLeftViewOnClick, {
@@ -45,13 +45,13 @@ protected:
 
         this->_titleView()->childAdd(this->_titleCenterView());
         this->_titleCenterView()->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(3);
-        this->_titleCenterView()->textSet(zfstringWithFormat(zfText("page %p"), this));
+        this->_titleCenterView()->textSet(zfstringWithFormat("page %p", this));
         this->_titleCenterView()->textAlignSet(ZFUIAlign::e_Center);
 
         this->pageContainer()->childAdd(this->_contentView());
         this->_contentView()->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
         this->_contentView()->viewBackgroundColorSet(ZFUIColorRandom());
-        this->_contentView()->buttonLabelTextSet(zfstringWithFormat(zfText("belong to %s"), this->pageGroupId().cString()));
+        this->_contentView()->buttonLabelTextSet(zfstringWithFormat("belong to %s", this->pageGroupId().cString()));
         {
             ZFLISTENER_LOCAL(_contentViewOnClick, {
                 ZFUIPage *page = userData->objectHolded();
@@ -111,7 +111,7 @@ protected:
 
         for(zfindex i = 0; i < 4; ++i)
         {
-            zfblockedAlloc(ZFString, pageGroupId, zfstringWithFormat(zfText("pageGroup %zi"), i));
+            zfblockedAlloc(ZFString, pageGroupId, zfstringWithFormat("pageGroup %zi", i));
 
             this->requestPageCreate(ZFUIPageRequestPageCreateParam()
                 .pageSet(zflineAlloc(ZFUIWidget_ZFUIPage_test_Page))
@@ -121,11 +121,11 @@ protected:
             zfblockedAlloc(ZFUIButtonBasic, button);
             this->_buttonLayout()->childAdd(button);
             button->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(1);
-            button->buttonLabelTextSet(zfstringWithFormat(zfText("tab %zi"), i));
+            button->buttonLabelTextSet(zfstringWithFormat("tab %zi", i));
             button->buttonCheckableSet(zftrue);
             ZFLISTENER_LOCAL(buttonOnClick, {
-                ZFUIWidget_ZFUIPage_test_PageManager *pageManager = userData->tagGet(zfText("pageManager"))->objectHolded();
-                ZFString *pageGroupId = userData->tagGet<ZFString *>(zfText("pageGroupId"));
+                ZFUIWidget_ZFUIPage_test_PageManager *pageManager = userData->tagGet("pageManager")->objectHolded();
+                ZFString *pageGroupId = userData->tagGet<ZFString *>("pageGroupId");
 
                 if(!listenerData.sender->to<ZFUIButton *>()->buttonChecked())
                 {
@@ -168,8 +168,8 @@ protected:
                 }
             })
             zfblockedAlloc(ZFObject, userData);
-            userData->tagSet(zfText("pageManager"), this->objectHolder());
-            userData->tagSet(zfText("pageGroupId"), pageGroupId);
+            userData->tagSet("pageManager", this->objectHolder());
+            userData->tagSet("pageGroupId", pageGroupId);
             button->observerAdd(ZFUIButton::EventButtonOnClick(), buttonOnClick, userData);
             zffloat r = zfmRand(255) / 255.0f;
             zffloat g = zfmRand(255) / 255.0f;

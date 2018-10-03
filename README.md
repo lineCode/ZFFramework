@@ -51,7 +51,7 @@ Homepage:
     ZFMAIN_ENTRY(params) // app starts from here
     {
         // show a hello world to log output
-        zfLogT() << zfText("hello wolrd");
+        zfLogT() << "hello wolrd";
 
         // show a window (full screen by default)
         zfblockedAlloc(ZFUIWindow, window);
@@ -61,16 +61,16 @@ Homepage:
         zfblockedAlloc(ZFUITextView, textView);
         window->childAdd(textView);
         textView->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
-        textView->textSet(zfText("hello world"));
+        textView->textSet("hello world");
 
         // button and click (as observer)
         zfblockedAlloc(ZFUIButtonBasic, button);
         window->childAdd(button);
         button->layoutParam()->layoutAlignSet(ZFUIAlign::e_RightInner);
-        button->buttonLabelTextSet(zfText("click me"));
+        button->buttonLabelTextSet("click me");
         ZFLISTENER_LOCAL(onClick, {
             ZFUIButtonBasic *button = userData->objectHolded();
-            zfLogTrimT() << zfText("button clicked:") << button;
+            zfLogTrimT() << "button clicked:" << button;
         })
         button->observerAdd(ZFUIButton::EventButtonOnClick(), onClick, button->objectHolder());
 

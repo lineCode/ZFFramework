@@ -69,7 +69,7 @@ void ZFPointerHolder::cacheAdd(ZF_IN ZFPointerHolder *obj)
 void ZFPointerHolder::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
-    ret += zfText(" ");
+    ret += " ";
     zfsFromPointerT(ret, this->holdedData);
 }
 zfidentity ZFPointerHolder::objectHash(void)

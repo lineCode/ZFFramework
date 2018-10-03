@@ -62,13 +62,13 @@ typedef enum {
 } ZFFrameworkState;
 
 /** @brief string tokens */
-#define ZFTOKEN_ZFFrameworkStateNotAvailable zfText("StateNotAvailable")
+#define ZFTOKEN_ZFFrameworkStateNotAvailable "StateNotAvailable"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFrameworkStateInitProcessing zfText("StateInitProcessing")
+#define ZFTOKEN_ZFFrameworkStateInitProcessing "StateInitProcessing"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFrameworkStateAvailable zfText("StateAvailable")
+#define ZFTOKEN_ZFFrameworkStateAvailable "StateAvailable"
 /** @brief string tokens */
-#define ZFTOKEN_ZFFrameworkStateCleanupProcessing zfText("StateCleanupProcessing")
+#define ZFTOKEN_ZFFrameworkStateCleanupProcessing "StateCleanupProcessing"
 
 /**
  * @brief assert fail and output log if ZFFramework not initialized

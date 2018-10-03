@@ -181,7 +181,7 @@ protected:
     {
         if(this->hintContent() != zfnull)
         {
-            ret += zfText(", content: ");
+            ret += ", content: ";
             this->hintContent()->objectInfoT(ret);
         }
     }

@@ -155,7 +155,7 @@ public:
                              ZF_IN_OPT ZFObject *param0 = zfnull,
                              ZF_IN_OPT ZFObject *param1 = zfnull)
     {
-        zfCoreLogTrim(zfTextA("you must not start main thread"));
+        zfCoreLogTrim("you must not start main thread");
     }
     zfoverride
     virtual zfbool threadStarted(void)
@@ -170,17 +170,17 @@ public:
     zfoverride
     virtual void threadStop(void)
     {
-        zfCoreLogTrim(zfTextA("you must not stop main thread"));
+        zfCoreLogTrim("you must not stop main thread");
     }
     zfoverride
     virtual void threadWait(void)
     {
-        zfCoreLogTrim(zfTextA("you must not wait main thread"));
+        zfCoreLogTrim("you must not wait main thread");
     }
     zfoverride
     virtual zfbool threadWait(ZF_IN zftimet miliSecs)
     {
-        zfCoreLogTrim(zfTextA("you must not wait main thread"));
+        zfCoreLogTrim("you must not wait main thread");
         return zffalse;
     }
     zfoverride

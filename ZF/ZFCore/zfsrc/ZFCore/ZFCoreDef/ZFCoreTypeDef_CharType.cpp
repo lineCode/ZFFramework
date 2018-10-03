@@ -12,7 +12,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-zfindex zfcharGetSize(const zfcharA *p)
+zfindex zfcharGetSize(const zfchar *p)
 {
     if((zfbyte)p[0] <= 0x7F)
     {
@@ -53,8 +53,7 @@ zfindex zfcharGetSize(const zfcharA *p)
 }
 
 // ============================================================
-template<typename T_Char>
-zfint _ZFP_zfsicmpTemplate(const T_Char *s1, const T_Char *s2)
+zfint zfsicmp(const zfchar *s1, const zfchar *s2)
 {
     while(*s1 && *s2 && (
         (*s1 == *s2)
@@ -66,8 +65,7 @@ zfint _ZFP_zfsicmpTemplate(const T_Char *s1, const T_Char *s2)
     }
     return (((zfint)(*s1)) - ((zfint)(*s2)));
 }
-template<typename T_Char>
-zfint _ZFP_zfsnicmpTemplate(const T_Char *s1, const T_Char *s2, zfindex count)
+zfint zfsnicmp(const zfchar *s1, const zfchar *s2, zfindex count)
 {
     if(count == 0)
     {
@@ -83,89 +81,6 @@ zfint _ZFP_zfsnicmpTemplate(const T_Char *s1, const T_Char *s2, zfindex count)
     }
     return (((zfint)(*s1)) - ((zfint)(*s2)));
 }
-
-zfint _ZFP_zfsicmpA(const zfcharA *s1, const zfcharA *s2)
-{
-    return _ZFP_zfsicmpTemplate(s1, s2);
-}
-zfint _ZFP_zfsnicmpA(const zfcharA *s1, const zfcharA *s2, zfindex count)
-{
-    return _ZFP_zfsnicmpTemplate(s1, s2, count);
-}
-
-ZF_ENV_SENSITIVE("Android JNI has no wchar_t version support")
-#if (defined(ANDROID) || defined(__ANDROID__))
-    zfindex _ZFP_zfslenW(const zfcharW *s)
-    {
-        const zfcharW *p = s;
-        while(*p)
-        {
-            ++p;
-        }
-        return (p - s);
-    }
-    zfcharW *_ZFP_zfscpyW(zfcharW *dst, const zfcharW *src)
-    {
-        zfcharW *ret = dst;
-        while((*dst++ = *src++) != 0) {}
-        return ret;
-    }
-    zfint _ZFP_zfscmpW(const zfcharW *s1, const zfcharW *s2)
-    {
-        while(*s1 && *s2 && (*s1 == *s2))
-        {
-            ++s1;
-            ++s2;
-        }
-        return (zfint)((zfuint)(*s1) - (zfuint)(*s2));
-    }
-    zfint _ZFP_zfsicmpW(const zfcharW *s1, const zfcharW *s2)
-    {
-        return _ZFP_zfsicmpTemplate(s1, s2);
-    }
-    zfint _ZFP_zfsncmpW(const zfcharW *s1, const zfcharW *s2, zfindex count)
-    {
-        if(count == 0)
-        {
-            return 0;
-        }
-        while(--count && *s1 && *s2 && (*s1 == *s2))
-        {
-            ++s1;
-            ++s2;
-        }
-        return (zfint)((zfuint)(*s1) - (zfuint)(*s2));
-    }
-    zfint _ZFP_zfsnicmpW(const zfcharW *s1, const zfcharW *s2, zfindex count)
-    {
-        return _ZFP_zfsnicmpTemplate(s1, s2, count);
-    }
-#else
-    zfindex _ZFP_zfslenW(const zfcharW *s)
-    {
-        return (zfindex)wcslen(s);
-    }
-    zfcharW *_ZFP_zfscpyW(zfcharW *dst, const zfcharW *src)
-    {
-        return wcscpy(dst, src);
-    }
-    zfint _ZFP_zfscmpW(const zfcharW *s1, const zfcharW *s2)
-    {
-        return wcscmp(s1, s2);
-    }
-    zfint _ZFP_zfsicmpW(const zfcharW *s1, const zfcharW *s2)
-    {
-        return _ZFP_zfsicmpTemplate(s1, s2);
-    }
-    zfint _ZFP_zfsncmpW(const zfcharW *s1, const zfcharW *s2, zfindex count)
-    {
-        return ((count == zfindexMax()) ? wcscmp(s1, s2) : wcsncmp(s1, s2, (size_t)count));
-    }
-    zfint _ZFP_zfsnicmpW(const zfcharW *s1, const zfcharW *s2, zfindex count)
-    {
-        return _ZFP_zfsnicmpTemplate(s1, s2, count);
-    }
-#endif // #if (defined(ANDROID) || defined(__ANDROID__))
 
 ZF_NAMESPACE_GLOBAL_END
 

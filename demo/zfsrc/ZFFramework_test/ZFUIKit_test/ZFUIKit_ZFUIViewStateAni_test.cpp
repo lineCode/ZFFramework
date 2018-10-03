@@ -32,7 +32,7 @@ protected:
 
         // use a view that not in view tree to test whether it would cause wrong ani state
         zfblockedAlloc(ZFUIView, testDummy);
-        testContainer->tagSet(zfText("testDummy"), testDummy);
+        testContainer->tagSet("testDummy", testDummy);
 
         for(zfindex i = 0; i < 4; ++i)
         {
@@ -48,7 +48,7 @@ protected:
             ZFUIView *testContainer = userData->objectHolded();
 
             {
-                ZFUIView *testDummy = testContainer->tagGet<ZFUIView *>(zfText("testDummy"));
+                ZFUIView *testDummy = testContainer->tagGet<ZFUIView *>("testDummy");
                 testDummy->childRemoveAll();
                 zfblockedAlloc(ZFUIView, testDummyChild);
                 testDummy->childAdd(testDummyChild);
@@ -71,7 +71,7 @@ protected:
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
         container->childAdd(startButton);
         startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
-        startButton->buttonLabelTextSet(zfText("start"));
+        startButton->buttonLabelTextSet("start");
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, testContainer->objectHolder());
 
         this->prepareSettingButton(window);
@@ -143,32 +143,32 @@ public:
 public:
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniOnInit)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("onInit");
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "onInit";
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniOnDealloc)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("onDealloc");
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "onDealloc";
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAttach)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("viewAttach") << listenerData.sender;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAttach" << listenerData.sender;
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewDetach)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("viewDetach") << listenerData.sender;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewDetach" << listenerData.sender;
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniPrepare)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("viewAniPrepare") << listenerData.sender
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniPrepare" << listenerData.sender
             << listenerData.sender->to<ZFUIView *>()->layoutedFramePrev();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniStart)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("viewAniStart") << listenerData.sender << listenerData.param0;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniStart" << listenerData.sender << listenerData.param0;
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniStop)
     {
-        zfLogTrimT() << zfText("[ZFUIViewStateAni]") << zfText("viewAniStop") << listenerData.sender << listenerData.param0;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniStop" << listenerData.sender << listenerData.param0;
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewStateAniDebug)
 #endif

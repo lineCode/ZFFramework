@@ -59,27 +59,27 @@ CONFIG(debug, debug|release) {
 
 win32 {
     _ZF_QT_TYPE=Qt_Windows
-    _ZF_SCRIPT_CALL=call
+    _ZF_SCRIPT_CALL=
     _ZF_SCRIPT_EXT=bat
     _ZF_DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
-    _ZF_RES_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/.)
+    _ZF_RES_DEPLOY_PATH=$$system_path($$clean_path($$_ZF_DESTDIR/zfres))
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$clean_path($$_ZF_DESTDIR/.))
 }
 unix:!macx {
     _ZF_QT_TYPE=Qt_Posix
     _ZF_SCRIPT_CALL=sh
     _ZF_SCRIPT_EXT=sh
     _ZF_DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
-    _ZF_RES_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/.)
+    _ZF_RES_DEPLOY_PATH=$$system_path($$clean_path($$_ZF_DESTDIR/zfres))
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$clean_path($$_ZF_DESTDIR/.))
 }
 macx {
     _ZF_QT_TYPE=Qt_MacOS
     _ZF_SCRIPT_CALL=sh
     _ZF_SCRIPT_EXT=sh
     _ZF_DESTDIR = $$ZF_BUILD_PATH/$$ZF_PROJ_NAME/$$_ZF_QT_TYPE/$$_ZF_BUILD_TYPE
-    _ZF_RES_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/"$$TARGET".app/Contents/Resources/zfres)
-    _ZF_LIB_DEPLOY_PATH=$$system_path($$_ZF_DESTDIR/"$$TARGET".app/Contents/Frameworks)
+    _ZF_RES_DEPLOY_PATH=$$system_path($$clean_path($$_ZF_DESTDIR/"$$TARGET".app/Contents/Resources/zfres))
+    _ZF_LIB_DEPLOY_PATH=$$system_path($$clean_path($$_ZF_DESTDIR/"$$TARGET".app/Contents/Frameworks))
 }
 
 defineReplace(ZFAddLib) {
@@ -98,7 +98,11 @@ defineReplace(ZFAddLib) {
     }
     INCLUDEPATH += $$_ZF_MODULE_PATH/ZF/$$_ZF_LIBNAME/zfsrc
     export(INCLUDEPATH)
-    QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT) $$system_path($$_ZF_MODULE_PATH/ZF/$$_ZF_LIBNAME/zfres) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL \
+        $$system_path($$clean_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT)) \
+        $$system_path($$clean_path($$_ZF_MODULE_PATH/ZF/$$_ZF_LIBNAME/zfres)) \
+        $$_ZF_RES_DEPLOY_PATH \
+        $$escape_expand(\\n\\t)
     export(QMAKE_POST_LINK)
     return (true)
 }
@@ -156,7 +160,7 @@ RCC_DIR = $${DESTDIR}/.rcc
 UI_DIR = $${DESTDIR}/.ui
 
 # ======================================================================
-system($${_ZF_SCRIPT_CALL} $$system_path($$_PRO_FILE_PWD_/../../../../zfsetup.$${_ZF_SCRIPT_EXT}))
+system($${_ZF_SCRIPT_CALL} $$system_path($$clean_path($$_PRO_FILE_PWD_/../../../../zfsetup.$${_ZF_SCRIPT_EXT})))
 
 exists(qt_main.cpp) {
     SOURCES += qt_main.cpp
@@ -168,56 +172,65 @@ equals(ZF_UNITY_BUILD, 1) {
         _ZF_COMPILE_MODULE_NAME = $$replace(_ZF_COMPILE_MODULE_NAME,[\\/\.:],_)
         _ZF_COMPILE_MODULE_NAME = $$replace(_ZF_COMPILE_MODULE_NAME,__+,_)
         _ZF_UNITY_BUILD_FILE = $$_PRO_FILE_PWD_/zfgensrc_$${ZF_PROJ_NAME}_$${_ZF_COMPILE_MODULE_NAME}.cpp
-        system($$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/common/unity_build.$$_ZF_SCRIPT_EXT) $$system_path($$_ZF_UNITY_BUILD_FILE) $$system_path($$src_path))
-        SOURCES += $$system_path($$_ZF_UNITY_BUILD_FILE)
+        system($$_ZF_SCRIPT_CALL \
+            $$system_path($$clean_path($$ZF_TOOLS_PATH/common/unity_build.$$_ZF_SCRIPT_EXT)) \
+            $$system_path($$clean_path($$_ZF_UNITY_BUILD_FILE)) \
+            $$system_path($$clean_path($$src_path)))
+        SOURCES += $$system_path($$clean_path($$_ZF_UNITY_BUILD_FILE))
     }
 } else {
     win32 {
         for(path, ZF_PROJ_SRC_PATH) {
-            SOURCES += $$system("dir /s /b $$system_path($$path\\*.c) 2>nul")
-            SOURCES += $$system("dir /s /b $$system_path($$path\\*.cpp) 2>nul")
-            HEADERS += $$system("dir /s /b $$system_path($$path\\*.h) 2>nul")
-            HEADERS += $$system("dir /s /b $$system_path($$path\\*.hh) 2>nul")
-            HEADERS += $$system("dir /s /b $$system_path($$path\\*.hpp) 2>nul")
+            SOURCES += $$system("dir /s /b $$system_path($$clean_path($$path\\*.c)) 2>nul")
+            SOURCES += $$system("dir /s /b $$system_path($$clean_path($$path\\*.cpp)) 2>nul")
+            HEADERS += $$system("dir /s /b $$system_path($$clean_path($$path\\*.h)) 2>nul")
+            HEADERS += $$system("dir /s /b $$system_path($$clean_path($$path\\*.hh)) 2>nul")
+            HEADERS += $$system("dir /s /b $$system_path($$clean_path($$path\\*.hpp)) 2>nul")
         }
     } else {
         for(path, ZF_PROJ_SRC_PATH) {
-            SOURCES += $$system("find $$system_path($$path) -name \*.c 2>/dev/null")
-            SOURCES += $$system("find $$system_path($$path) -name \*.cpp 2>/dev/null")
-            HEADERS += $$system("find $$system_path($$path) -name \*.h 2>/dev/null")
-            HEADERS += $$system("find $$system_path($$path) -name \*.hh 2>/dev/null")
-            HEADERS += $$system("find $$system_path($$path) -name \*.hpp 2>/dev/null")
+            SOURCES += $$system("find $$system_path($$clean_path($$path)) -name \*.c 2>/dev/null")
+            SOURCES += $$system("find $$system_path($$clean_path($$path)) -name \*.cpp 2>/dev/null")
+            HEADERS += $$system("find $$system_path($$clean_path($$path)) -name \*.h 2>/dev/null")
+            HEADERS += $$system("find $$system_path($$clean_path($$path)) -name \*.hh 2>/dev/null")
+            HEADERS += $$system("find $$system_path($$clean_path($$path)) -name \*.hpp 2>/dev/null")
         }
     }
 }
 
 win32 {
     for(path, ZF_PROJ_SRC_EXT_PATH) {
-        SOURCES += $$system("dir /s /b $$system_path($$path\\*.c) 2>nul")
-        SOURCES += $$system("dir /s /b $$system_path($$path\\*.cpp) 2>nul")
-        HEADERS += $$system("dir /s /b $$system_path($$path\\*.h) 2>nul")
-        HEADERS += $$system("dir /s /b $$system_path($$path\\*.hh) 2>nul")
-        HEADERS += $$system("dir /s /b $$system_path($$path\\*.hpp) 2>nul")
+        SOURCES += $$system("dir /s /b $$system_path($$clean_path($$path\\*.c)) 2>nul")
+        SOURCES += $$system("dir /s /b $$system_path($$clean_path($$path\\*.cpp)) 2>nul")
+        HEADERS += $$system("dir /s /b $$system_path($$clean_path($$path\\*.h)) 2>nul")
+        HEADERS += $$system("dir /s /b $$system_path($$clean_path($$path\\*.hh)) 2>nul")
+        HEADERS += $$system("dir /s /b $$system_path($$clean_path($$path\\*.hpp)) 2>nul")
     }
 } else {
     for(path, ZF_PROJ_SRC_EXT_PATH) {
-        SOURCES += $$system("find $$system_path($$path) -name \*.c 2>/dev/null")
-        SOURCES += $$system("find $$system_path($$path) -name \*.cpp 2>/dev/null")
-        HEADERS += $$system("find $$system_path($$path) -name \*.h 2>/dev/null")
-        HEADERS += $$system("find $$system_path($$path) -name \*.hh 2>/dev/null")
-        HEADERS += $$system("find $$system_path($$path) -name \*.hpp 2>/dev/null")
+        SOURCES += $$system("find $$system_path($$clean_path($$path)) -name \*.c 2>/dev/null")
+        SOURCES += $$system("find $$system_path($$clean_path($$path)) -name \*.cpp 2>/dev/null")
+        HEADERS += $$system("find $$system_path($$clean_path($$path)) -name \*.h 2>/dev/null")
+        HEADERS += $$system("find $$system_path($$clean_path($$path)) -name \*.hh 2>/dev/null")
+        HEADERS += $$system("find $$system_path($$clean_path($$path)) -name \*.hpp 2>/dev/null")
     }
 }
 
 # ======================================================================
 for(path, ZF_PROJ_RES_PATH) {
-    QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL $$system_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT) $$system_path($$path) $$_ZF_RES_DEPLOY_PATH $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += $$_ZF_SCRIPT_CALL \
+        $$system_path($$clean_path($$ZF_TOOLS_PATH/util/copy_res.$$_ZF_SCRIPT_EXT)) \
+        $$system_path($$clean_path($$path)) \
+        $$_ZF_RES_DEPLOY_PATH \
+        $$escape_expand(\\n\\t)
 }
 
 unix:!macx {
     QMAKE_LFLAGS += -Wl,--rpath=${ORIGIN}
 }
 macx {
-    QMAKE_POST_LINK += macdeployqt $$system_path($$_ZF_DESTDIR/"$$TARGET".app) >/dev/null 2>&1 $$escape_expand(\\n\\t)
+    QMAKE_POST_LINK += macdeployqt \
+        $$system_path($$clean_path($$_ZF_DESTDIR/"$$TARGET".app)) \
+        >/dev/null 2>&1 $$escape_expand(\\n\\t)
 }
 

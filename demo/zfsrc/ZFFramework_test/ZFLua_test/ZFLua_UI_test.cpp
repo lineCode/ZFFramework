@@ -22,7 +22,7 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        zfautoObject result = ZFLuaExecute(zfText(
+        zfautoObject result = ZFLuaExecute(
                 "local window = ZFUIWindow()\n"
                 "window:windowShow()\n"
                 "window:viewBackgroundColorSet(ZFUIColorRandom())\n"
@@ -35,7 +35,7 @@ protected:
                 "        userData:objectHolded():windowHide()\n"
                 "    end, window:objectHolder())\n"
                 "return window\n"
-            ));
+            );
         zfCoreAssert(result != zfnull);
 
         ZFLISTENER_LOCAL(windowOnHide, {

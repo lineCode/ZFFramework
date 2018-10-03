@@ -548,7 +548,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
  *       ZFMethodUserRegisterDetail_2(
  *           resultMethod, myInvoker, MyClassToAttachTheMethod::ClassData(),
  *           public, ZFMethodTypeStatic,
- *           ReturnType, zfText("myMethodName")
+ *           ReturnType, "myMethodName"
  *           , ZFMP_IN(ParamType0, param0)
  *           , ZFMP_IN(ParamType1, param1));
  *       _method = resultMethod;
@@ -565,7 +565,7 @@ inline T_Wrapper const &_ZFP_MtdUR_zfv(const T_Wrapper *zfv)
  *   ZFMETHOD_USER_REGISTER_DETAIL_2(
  *       myMethodRegisterSig, myInvoker, MyClassToAttachTheMethod::ClassData(),
  *       public, ZFMethodTypeStatic,
- *       ReturnType, zfText("myMethodName")
+ *       ReturnType, "myMethodName"
  *       , ZFMP_IN(ParamType0, param0)
  *       , ZFMP_IN(ParamType1, param1))
  * @endcode

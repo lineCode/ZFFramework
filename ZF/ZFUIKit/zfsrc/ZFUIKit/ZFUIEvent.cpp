@@ -28,7 +28,7 @@ void ZFUIEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     zfsuper::objectInfoOnAppend(ret);
     if(this->eventResolved())
     {
-        ret += zfText(" (resolved)");
+        ret += " (resolved)";
     }
     ZFClassUtil::objectPropertyInfo(ret, this);
 }

@@ -25,7 +25,7 @@ static void _ZFP_ZFStyleLoadImpl(ZF_IN const ZFFilePathInfoData &fileImpl,
         do
         {
             if(*fd.fileName() == '.' || *fd.fileName() == '_'
-                || zfstringFind(fd.fileName(), zfindexMax(), zfText("._.")) != zfindexMax())
+                || zfstringFind(fd.fileName(), zfindexMax(), "._.") != zfindexMax())
             {
                 continue;
             }

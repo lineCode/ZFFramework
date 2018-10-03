@@ -16,14 +16,14 @@ ZFCACHEHOLDER_DEFINE(ZFUIWheelEvent)
 
 void ZFUIWheelEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
-    ret += zfText("wheel ");
+    ret += "wheel ";
     zfsFromIntT(ret, this->wheelX);
-    ret += zfText(", ");
+    ret += ", ";
     zfsFromIntT(ret, this->wheelY);
 
     if(this->eventResolved())
     {
-        ret += zfText(" (resolved)");
+        ret += " (resolved)";
     }
 }
 

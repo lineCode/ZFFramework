@@ -667,7 +667,7 @@ public:
      */
     T_Element removeFirstAndGet(void)
     {
-        zfCoreAssertWithMessage(!this->isEmpty(), zfTextA("removeFirstAndGet an empty array"));
+        zfCoreAssertWithMessage(!this->isEmpty(), "removeFirstAndGet an empty array");
         T_Element t = *(d->buf);
         this->remove(0);
         return t;
@@ -688,7 +688,7 @@ public:
      */
     T_Element removeLastAndGet(void)
     {
-        zfCoreAssertWithMessage(!this->isEmpty(), zfTextA("removeLastAndGet an empty array"));
+        zfCoreAssertWithMessage(!this->isEmpty(), "removeLastAndGet an empty array");
         T_Element t = *(d->contentEnd - 1);
         this->remove(this->count() - 1);
         return t;

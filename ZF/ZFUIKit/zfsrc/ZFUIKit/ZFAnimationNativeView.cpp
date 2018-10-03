@@ -51,7 +51,7 @@ void ZFAnimationNativeView::objectOnDealloc(void)
 void ZFAnimationNativeView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     zfsuper::objectInfoOnAppend(ret);
-    ret += zfText("-");
+    ret += "-";
     zfsFromPointerT(ret, this->nativeAnimation());
     ZFClassUtil::objectPropertyInfo(ret, this);
 }

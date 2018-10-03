@@ -131,10 +131,10 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ZF_OUT zfstring &ret, ZF_IN UIC
 
 static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_OUT zfstring &s, UIView *view, zfindex depth, zfindex siblingIndex)
 {
-    zfstringAppend(s, zfText("|%2d "), siblingIndex);
+    zfstringAppend(s, "|%2d ", siblingIndex);
     for(zfindex i = 0; i < depth; ++i)
     {
-        s += zfText("| ");
+        s += "| ";
     }
 
     NSString *viewInfo = [NSString stringWithFormat:@"<%@ %08X>", [view class], (zfuint)[view hash]];
@@ -148,7 +148,7 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
         id value = [view performSelector:@selector(_TEST_PROPERTY)];
         if(value != nil)
         {
-            viewInfo = [viewInfo stringByAppendingFormat:@" %s:%@", ZFM_TOSTRING_A(_TEST_PROPERTY), value];
+            viewInfo = [viewInfo stringByAppendingFormat:@" %s:%@", ZFM_TOSTRING(_TEST_PROPERTY), value];
         }
     }
 #endif // test
@@ -157,9 +157,9 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
     if([view isKindOfClass:[UIScrollView class]])
     {
         UIScrollView *scrollView = (UIScrollView *)view;
-        zfstring info = zfstringWithFormat(zfText("(%d, %d, %d, %d)"),
+        zfstring info = zfstringWithFormat("(%d, %d, %d, %d)",
             (zfint)scrollView.contentOffset.x, (zfint)scrollView.contentOffset.y, (zfint)scrollView.contentSize.width, (zfint)scrollView.contentSize.height);
-        viewInfo = [viewInfo stringByAppendingFormat:@" scroll:%@", [NSString stringWithUTF8String:zfsCoreZ2A(info)]];
+        viewInfo = [viewInfo stringByAppendingFormat:@" scroll:%@", [NSString stringWithUTF8String:info]];
     }
 #endif // scroll content
 
@@ -167,7 +167,7 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
     if(view.backgroundColor != nil)
     {
         zfstring colorInfo = ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfo(view.backgroundColor);
-        viewInfo = [viewInfo stringByAppendingFormat:@" bg:%@", [NSString stringWithUTF8String:zfsCoreZ2A(colorInfo)]];
+        viewInfo = [viewInfo stringByAppendingFormat:@" bg:%@", [NSString stringWithUTF8String:colorInfo]];
     }
 #endif // bg
 
@@ -215,8 +215,8 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
     }
 #endif // title
 
-    s += ZFStringA2Z([viewInfo UTF8String]);
-    s += zfText("\n");
+    s += [viewInfo UTF8String];
+    s += "\n";
 
     NSArray *subviews = view.subviews;
     for(NSUInteger i = 0; i < [subviews count]; ++i)
@@ -226,20 +226,20 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
 }
 void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN UIView *view)
 {
-    ret += zfText("==================== UIView tree begin ====================\n");
+    ret += "==================== UIView tree begin ====================\n";
     if(view != nil)
     {
         @autoreleasepool {
             _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ret, view, 0, 0);
         }
     }
-    ret += zfText("==================== UIView tree  end  ====================\n");
+    ret += "==================== UIView tree  end  ====================\n";
 }
 
 #if ZF_ENV_DEBUG && 0
     ZF_GLOBAL_INITIALIZER_INIT(ZFImpl_sys_iOS_autoPrintViewTree)
     {
-        if(!ZFProtocolIsAvailable(zfText("ZFUIView")))
+        if(!ZFProtocolIsAvailable("ZFUIView"))
         {
             return ;
         }

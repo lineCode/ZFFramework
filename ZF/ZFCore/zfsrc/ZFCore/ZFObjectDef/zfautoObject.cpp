@@ -97,7 +97,7 @@ const zfautoObject _ZFP_zfautoObjectNull;
 // ============================================================
 void _ZFP_zfautoObjectTError(void)
 {
-    zfCoreCriticalMessageTrim(zfTextA("[zfautoObjectT] cast from incompatible type"));
+    zfCoreCriticalMessageTrim("[zfautoObjectT] cast from incompatible type");
 }
 
 ZF_NAMESPACE_GLOBAL_END

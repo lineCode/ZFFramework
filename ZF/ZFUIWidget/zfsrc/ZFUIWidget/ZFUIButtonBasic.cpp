@@ -275,7 +275,7 @@ void ZFUIButtonBasic::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 
     if(this->buttonLabel() != zfnull && !this->buttonLabel()->text().isEmpty())
     {
-        zfstringAppend(ret, zfText(" \"%s\""), this->buttonLabel()->text().cString());
+        zfstringAppend(ret, " \"%s\"", this->buttonLabel()->text().cString());
     }
 }
 

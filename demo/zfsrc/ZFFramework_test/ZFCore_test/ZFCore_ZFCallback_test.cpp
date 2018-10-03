@@ -42,15 +42,15 @@ protected:
     {
         zfsuper::testCaseOnStart();
 
-        this->testCaseOutput(zfText("try execute %s"), this->callbackClassMember.objectInfo().cString());
+        this->testCaseOutput("try execute %s", this->callbackClassMember.objectInfo().cString());
         this->callbackClassMember.executeExact<void>();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("try execute %s"), this->callbackClassStaticMember.objectInfo().cString());
+        this->testCaseOutput("try execute %s", this->callbackClassStaticMember.objectInfo().cString());
         this->callbackClassStaticMember.executeExact<void>();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("try execute %s"), this->callbackFunction.objectInfo().cString());
+        this->testCaseOutput("try execute %s", this->callbackFunction.objectInfo().cString());
         this->callbackFunction.executeExact<void>();
 
         ZFCALLBACK_LOCAL_BEGIN_1(void, localCallback, const zfstring &, param)
@@ -59,8 +59,8 @@ protected:
         }
         ZFCALLBACK_LOCAL_END(localCallback)
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("try execute %s"), localCallback.objectInfo().cString());
-        localCallback.executeExact<void, const zfstring &>(zfText("param"));
+        this->testCaseOutput("try execute %s", localCallback.objectInfo().cString());
+        localCallback.executeExact<void, const zfstring &>("param");
 
         this->testCaseStop();
     }
@@ -80,10 +80,10 @@ protected:
 
         this->callbackClassMember = ZFCallbackForMemberMethod(
             this->ownerClass,
-            this->ownerClass->classData()->methodForName(zfText("classMember")));
+            this->ownerClass->classData()->methodForName("classMember"));
 
         this->callbackClassStaticMember = ZFCallbackForMethod(
-            _ZFP_ZFCore_ZFCallback_test_Class::ClassData()->methodForName(zfText("classStaticMember")));
+            _ZFP_ZFCore_ZFCallback_test_Class::ClassData()->methodForName("classStaticMember"));
 
         this->callbackFunction = ZFCallbackForFunc(_ZFP_ZFCore_ZFCallback_test_StaticFunction);
     }

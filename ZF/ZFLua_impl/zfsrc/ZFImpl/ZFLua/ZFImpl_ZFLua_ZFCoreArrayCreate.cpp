@@ -34,7 +34,7 @@ static int _ZFP_ZFImpl_ZFLua_ZFCoreArrayCreate(ZF_IN lua_State *L)
             continue;
         }
 
-        ZFLuaErrorOccurredTrim(zfText("[ZFCoreArrayCreate] unknown param type: %s"),
+        ZFLuaErrorOccurredTrim("[ZFCoreArrayCreate] unknown param type: %s",
             ZFImpl_ZFLua_luaObjectInfo(L, i + 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -45,7 +45,7 @@ static int _ZFP_ZFImpl_ZFLua_ZFCoreArrayCreate(ZF_IN lua_State *L)
 
 // ============================================================
 ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFCoreArrayCreate, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("ZFCoreArrayCreate"), _ZFP_ZFImpl_ZFLua_ZFCoreArrayCreate);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "ZFCoreArrayCreate", _ZFP_ZFImpl_ZFLua_ZFCoreArrayCreate);
     }, {
     })
 

@@ -37,7 +37,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
         if(ownerClass == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                zfText("no such class \"%s\""), tmpValue);
+                "no such class \"%s\"", tmpValue);
             return zffalse;
         }
 
@@ -50,7 +50,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
         if(v == zfnull)
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
-                zfText("no such property \"%s\" in class \"%s\""), tmpValue, ownerClass->classNameFull());
+                "no such property \"%s\" in class \"%s\"", tmpValue, ownerClass->classNameFull());
             return zffalse;
         }
 
@@ -71,7 +71,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
         return zftrue;
     }, {
         ZFCoreArrayPOD<ZFIndexRange> pos;
-        if(!zfCoreDataPairSplitString(pos, 3, src, srcLen, zfText(":"), zfnull, zfnull, zftrue)) {return zffalse;}
+        if(!zfCoreDataPairSplitString(pos, 3, src, srcLen, ":", zfnull, zfnull, zftrue)) {return zffalse;}
         const ZFClass *cls = ZFClass::classForName(zfstring(src + pos[0].start, pos[0].count));
         if(cls == zfnull)
         {
@@ -83,7 +83,7 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
         if(v)
         {
             s += v->propertyOwnerClass()->classNameFull();
-            s += zfText("::");
+            s += "::";
             s += v->propertyName();
         }
         return zftrue;

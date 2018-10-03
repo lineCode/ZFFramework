@@ -49,14 +49,14 @@ void ZFUIKeyboardState::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
         {
             if(!tmp.isEmpty())
             {
-                tmp += zfText(", ");
+                tmp += ", ";
             }
             tmp += ZFUIKeyCode::EnumNameAtIndex(i);
         }
     }
     if(!tmp.isEmpty())
     {
-        ret += zfText(", pressed: ");
+        ret += ", pressed: ";
         ret += tmp;
     }
 }

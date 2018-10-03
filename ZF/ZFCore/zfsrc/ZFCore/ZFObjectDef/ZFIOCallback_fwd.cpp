@@ -43,7 +43,7 @@ zfbool ZFIOCallback::ioSeek(ZF_IN zfindex byteSize,
     {
         return zffalse;
     }
-    const ZFMethod *method = owner->classData()->methodForName(zfText("ioSeek"));
+    const ZFMethod *method = owner->classData()->methodForName("ioSeek");
     if(method == zfnull)
     {
         return zffalse;
@@ -57,7 +57,7 @@ zfindex ZFIOCallback::ioTell(void) const
     {
         return zfindexMax();
     }
-    const ZFMethod *method = owner->classData()->methodForName(zfText("ioTell"));
+    const ZFMethod *method = owner->classData()->methodForName("ioTell");
     if(method == zfnull)
     {
         return zfindexMax();
@@ -71,7 +71,7 @@ zfindex ZFIOCallback::ioSize(void) const
     {
         return zfindexMax();
     }
-    const ZFMethod *method = owner->classData()->methodForName(zfText("ioSize"));
+    const ZFMethod *method = owner->classData()->methodForName("ioSize");
     if(method == zfnull)
     {
         return zfindexMax();

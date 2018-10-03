@@ -47,7 +47,7 @@ ZFENUM_END(ZFUIPagePauseReason)
 /**
  * @brief invalid page group id, see #ZFUIPageManager::requestPageGroupResume for more info
  */
-#define ZFUIPageGroupIdInvalid zfText("ZFUIPageGroupIdInvalid")
+#define ZFUIPageGroupIdInvalid "ZFUIPageGroupIdInvalid"
 
 // ============================================================
 zfclassFwd ZFUIPageManager;

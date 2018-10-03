@@ -108,7 +108,7 @@ void ZFUIImageView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     zfsuper::objectInfoOnAppend(ret);
     if(this->image() != zfnull)
     {
-        ret += zfText(" ");
+        ret += " ";
         this->image()->objectInfoT(ret);
     }
 }

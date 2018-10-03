@@ -80,7 +80,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextEdit, ZFRegExp *, textEditFilter)
 {
     if(!this->text().isEmpty() && !this->textShouldChange(this->text()))
     {
-        this->textSet(zfText(""));
+        this->textSet("");
     }
 }
 ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUITextEdit, ZFIndexRange, textSelectRange)
@@ -193,7 +193,7 @@ void ZFUITextEdit::objectOnInit(void)
         }
         else
         {
-            zfCoreCriticalMessage(zfTextA("textPlaceHolder must not be null"));
+            zfCoreCriticalMessage("textPlaceHolder must not be null");
         }
         return ;
     }
@@ -219,21 +219,21 @@ void ZFUITextEdit::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 
     if(!this->textPlaceHolder()->text().isEmpty())
     {
-        zfstringAppend(ret, zfText(" (%s)"), this->textPlaceHolder()->text().cString());
+        zfstringAppend(ret, " (%s)", this->textPlaceHolder()->text().cString());
     }
 
     if(this->textEditSecured())
     {
-        ret += zfText(" EditSecured");
+        ret += " EditSecured";
     }
     else if(!this->text().isEmpty())
     {
-        zfstringAppend(ret, zfText(" \"%s\""), this->text().cString());
+        zfstringAppend(ret, " \"%s\"", this->text().cString());
     }
 
     if(!this->textEditEnable())
     {
-        ret += zfText(" EditDisabled");
+        ret += " EditDisabled";
     }
 }
 

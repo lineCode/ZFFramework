@@ -49,7 +49,7 @@ ZFMETHOD_DEFINE_1(ZFHashSet, zfbool, isContain,
 }
 void ZFHashSet::add(ZF_IN ZFObject *obj)
 {
-    zfCoreAssertWithMessage(obj != zfnull, zfTextA("insert null object"));
+    zfCoreAssertWithMessage(obj != zfnull, "insert null object");
     if(!d->isContain(obj))
     {
         d->set(obj, zfnullObject());

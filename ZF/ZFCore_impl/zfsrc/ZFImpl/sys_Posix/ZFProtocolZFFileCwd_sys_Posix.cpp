@@ -21,7 +21,6 @@ ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFileCwdImpl_sys_Posix, ZFFileCwd, ZFProtocolLe
 public:
     virtual const zfchar *pathForCwd(void)
     {
-#if ZF_ENV_ZFCHAR_USE_CHAR_A
         static zfchar _pathForCwd[PATH_MAX];
         if(getcwd(_pathForCwd, PATH_MAX) != zfnull)
         {
@@ -31,24 +30,10 @@ public:
         {
             return zfnull;
         }
-#endif
-#if ZF_ENV_ZFCHAR_USE_CHAR_W
-        static zfstring _pathForCwd;
-        char buf[PATH_MAX];
-        if(getcwd(buf, PATH_MAX) != zfnull)
-        {
-            ZFString::toZFChar(_pathForCwd, buf, ZFStringEncoding::e_UTF8);
-            return _pathForCwd;
-        }
-        else
-        {
-            return zfnull;
-        }
-#endif
     }
     virtual zfbool pathForCwdChange(ZF_IN const zfchar *pathForCwd)
     {
-        return (chdir(ZFStringZ2A(pathForCwd)) == 0);
+        return (chdir(pathForCwd) == 0);
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFFileCwdImpl_sys_Posix)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFFileCwdImpl_sys_Posix)

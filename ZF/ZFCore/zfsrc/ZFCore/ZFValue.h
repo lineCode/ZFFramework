@@ -52,9 +52,9 @@ ZFENUM_SEPARATOR(ZFValueType)
 ZFENUM_END(ZFValueType)
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFValue_valueType zfText("valueType")
+#define ZFSerializableKeyword_ZFValue_valueType "valueType"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFValue_value zfText("value")
+#define ZFSerializableKeyword_ZFValue_value "value"
 
 zfclassFwd _ZFP_ZFValuePrivate;
 /**

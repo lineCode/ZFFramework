@@ -53,11 +53,11 @@ extern ZF_ENV_EXPORT ZFCoreArray<ZFOutput> ZFLogOutputList;
  * @code
  *   // output anything with ZFLOG_HEADER_STRING
  *   zfLogT() << anything;
- *   zfLog(zfText("formated: %s"), someText);
+ *   zfLog("formated: %s", someText);
  *
  *   // or, trim version without ZFLOG_HEADER_STRING
  *   zfLogTrimT() << anything;
- *   zfLogTrim(zfText("formated: %s"), someText);
+ *   zfLogTrim("formated: %s", someText);
  * @endcode
  *
  * ZFLog is actually an output callback,

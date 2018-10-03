@@ -51,7 +51,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
         ZFUIImageView *value = propertyValue;
-        value->imageSet(zfRes(zfText("ZFUIWidget/ZFUIHintContentBasic_background.xml")));
+        value->imageSet(zfRes("ZFUIWidget/ZFUIHintContentBasic_background.xml"));
     }
 
 protected:
@@ -60,9 +60,9 @@ protected:
     {
         if(this->buttonLabelText() != zfnull)
         {
-            ret += zfText(" \"");
+            ret += " \"";
             ret += this->buttonLabelText();
-            ret += zfText("\"");
+            ret += "\"";
         }
     }
 };

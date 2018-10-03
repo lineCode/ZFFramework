@@ -141,14 +141,14 @@ static _ZFP_ZFNamespaceMapType &_ZFP_ZFNamespaceMap(void)
     static _ZFP_ZFNamespaceMapType d;
     return d;
 }
-zfstringA _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
-                                   ZF_IN const char *child)
+zfstring _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
+                                  ZF_IN const char *child)
 {
     zfCoreMutexLocker();
     zfstring ns;
     if(parent != zfnull)
     {
-        ns += zfsCoreZ2A(parent);
+        ns += parent;
         ns += ZFNamespaceSeparator();
     }
     ns += child;
@@ -171,12 +171,12 @@ zfstringA _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
             t = it->second.pointerValue();
         }
     }
-    return zfsCoreZ2A(ns);
+    return ns;
 }
 void _ZFP_ZFNamespaceUnregister(ZF_IN const char *ns)
 {
     zfCoreMutexLocker();
-    zfstring nsTmp = zfsCoreA2Z(ns);
+    zfstring nsTmp = ns;
     ZFCoreArrayPOD<ZFIndexRange> pos;
     ZFNamespaceSplit(pos, nsTmp.cString(), nsTmp.length());
     if(pos.count() < 1)

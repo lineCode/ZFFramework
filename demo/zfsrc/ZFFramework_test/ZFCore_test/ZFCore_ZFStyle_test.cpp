@@ -33,7 +33,7 @@ protected:
         zfsuper::testCaseOnStart();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("prepare style"));
+        this->testCaseOutput("prepare style");
 
         const zfchar *styleKey = _ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull();
         {
@@ -43,12 +43,12 @@ protected:
         }
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("attach object to style"));
+        this->testCaseOutput("attach object to style");
         zfblockedAlloc(_ZFP_ZFCore_ZFStyle_test_Object, obj);
         obj->styleKeySet(_ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull());
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("notify change style"));
+        this->testCaseOutput("notify change style");
         ZFStyleChangeBegin();
         ZFStyleChangeEnd();
 

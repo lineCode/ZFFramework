@@ -45,7 +45,7 @@ class _ZFP_ZFUISysWindowImpl_sys_Qt_EventWrapper : public QObject
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *event)
     {
-        ZFUISysWindow *owner = ZFImpl_sys_Qt_QObjectTagGetZFObject<ZFObjectHolder *>(obj, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"))->objectHolded();
+        ZFUISysWindow *owner = ZFImpl_sys_Qt_QObjectTagGetZFObject<ZFObjectHolder *>(obj, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow")->objectHolded();
         if(owner == zfnull)
         {
             return QObject::eventFilter(obj, event);
@@ -71,9 +71,9 @@ protected:
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUISysWindowImpl_sys_Qt, ZFUISysWindow, ZFProtocolLevel::e_SystemHigh)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Qt:QWidget"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Qt:QWidget")
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_BEGIN()
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_ITEM(ZFUIView, zfText("Qt:QWidget"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_ITEM(ZFUIView, "Qt:QWidget")
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_END()
 
 public:
@@ -96,7 +96,7 @@ public:
         {
             this->_mainWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
             QWidget *nativeWindow = ZFImpl_sys_Qt_rootWindow();
-            ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeWindow, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"), this->_mainWindow->objectHolder());
+            ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", this->_mainWindow->objectHolder());
             nativeWindow->installEventFilter(&_eventWrapper);
 
             this->notifyOnCreate(this->_mainWindow, nativeWindow);
@@ -117,7 +117,7 @@ public:
             zfblockedRelease(this->_mainWindow);
             QWidget *nativeWindow = ZFImpl_sys_Qt_rootWindow();
             nativeWindow->removeEventFilter(&_eventWrapper);
-            ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeWindow, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"), zfnull);
+            ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", zfnull);
 
             this->notifyOnDestroy(this->_mainWindow);
         }
@@ -140,7 +140,7 @@ public:
 
         QWidget *nativeRootView = ZFCastStatic(QWidget *, sysWindow->rootView()->nativeView());
         zfCoreAssertWithMessageTrim(nativeWindow->layout() != NULL,
-            zfTextA("[ZFUISysWindow] window's QWidget::layout not set"));
+            "[ZFUISysWindow] window's QWidget::layout not set");
         nativeWindow->layout()->addWidget(nativeRootView);
         nativeParentView = (void *)nativeWindow;
     }
@@ -155,7 +155,7 @@ public:
     {
         zfautoObject modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
         ZFImpl_sys_Qt_Window *nativeModalWindow = new ZFImpl_sys_Qt_Window();
-        ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"), modalWindow->objectHolder());
+        ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", modalWindow->objectHolder());
         nativeModalWindow->installEventFilter(&_eventWrapper);
         this->notifyOnCreate(modalWindow, nativeModalWindow);
 
@@ -171,7 +171,7 @@ public:
         nativeModalWindow->hide();
         nativeModalWindow->removeEventFilter(&_eventWrapper);
         this->notifyOnDestroy(sysWindowToFinish);
-        ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, zfText("_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow"), zfnull);
+        ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", zfnull);
         delete nativeModalWindow;
     }
 

@@ -13,7 +13,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIPageManagerBasic)
 
-#define _ZFP_ZFUIPageManagerBasic_window zfText("_ZFP_ZFUIPageManagerBasic_window")
+#define _ZFP_ZFUIPageManagerBasic_window "_ZFP_ZFUIPageManagerBasic_window"
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerResume)
 {
     ZFUIPageManager *pm = userData->objectHolded();

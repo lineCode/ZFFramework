@@ -29,7 +29,7 @@ protected:
         container->childAdd(testContainer);
         testContainer->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
         testContainer->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, 50, 0, 0));
-        testContainer->tagSet(zfText("owner"), this->objectHolder());
+        testContainer->tagSet("owner", this->objectHolder());
 
         for(zfindex i = 0; i < 4; ++i)
         {
@@ -44,7 +44,7 @@ protected:
             ZFPropertyAniBlock(setting);
 
             ZFUIView *testContainer = userData->objectHolded();
-            ZFUIKit_ZFPropertyAni_test *owner = testContainer->tagGet(zfText("owner"))->objectHolded();
+            ZFUIKit_ZFPropertyAni_test *owner = testContainer->tagGet("owner")->objectHolded();
             zfint xMargin = testContainer->layoutedFrame().size.width - 80;
             zfint yMargin = testContainer->layoutedFrame().size.height - 80;
 
@@ -61,7 +61,7 @@ protected:
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
         container->childAdd(startButton);
         startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
-        startButton->buttonLabelTextSet(zfText("start"));
+        startButton->buttonLabelTextSet("start");
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, testContainer->objectHolder());
         startButton->buttonSimulateClick();
 

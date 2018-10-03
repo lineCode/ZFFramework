@@ -50,10 +50,10 @@ ZFMETHOD_FUNC_DEFINE_1(void, envSummary,
         }
         else
         {
-            ret += zfText(", ");
+            ret += ", ";
         }
         ret += it->first.c_str();
-        ret += zfText(": ");
+        ret += ": ";
         it->second(ret);
     }
 }
@@ -133,17 +133,17 @@ ZF_NAMESPACE_END_WITH_REGISTER(ZFEnvInfo, ZF_NAMESPACE_GLOBAL)
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEnvSummary_common, ZFLevelZFFrameworkNormal)
 {
-    ZFEnvInfo::envSummaryCallbackRegister(zfText("systemName"), ZFEnvInfo::systemName);
-    ZFEnvInfo::envSummaryCallbackRegister(zfText("systemVersion"), ZFEnvInfo::systemVersion);
-    ZFEnvInfo::envSummaryCallbackRegister(zfText("frameworkName"), ZFEnvInfo::frameworkName);
-    ZFEnvInfo::envSummaryCallbackRegister(zfText("frameworkVersion"), ZFEnvInfo::frameworkVersion);
+    ZFEnvInfo::envSummaryCallbackRegister("systemName", ZFEnvInfo::systemName);
+    ZFEnvInfo::envSummaryCallbackRegister("systemVersion", ZFEnvInfo::systemVersion);
+    ZFEnvInfo::envSummaryCallbackRegister("frameworkName", ZFEnvInfo::frameworkName);
+    ZFEnvInfo::envSummaryCallbackRegister("frameworkVersion", ZFEnvInfo::frameworkVersion);
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFEnvSummary_common)
 {
-    ZFEnvInfo::envSummaryCallbackUnregister(zfText("systemName"));
-    ZFEnvInfo::envSummaryCallbackUnregister(zfText("systemVersion"));
-    ZFEnvInfo::envSummaryCallbackUnregister(zfText("frameworkName"));
-    ZFEnvInfo::envSummaryCallbackUnregister(zfText("frameworkVersion"));
+    ZFEnvInfo::envSummaryCallbackUnregister("systemName");
+    ZFEnvInfo::envSummaryCallbackUnregister("systemVersion");
+    ZFEnvInfo::envSummaryCallbackUnregister("frameworkName");
+    ZFEnvInfo::envSummaryCallbackUnregister("frameworkVersion");
 }
 ZF_GLOBAL_INITIALIZER_END(ZFEnvSummary_common)
 

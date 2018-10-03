@@ -83,7 +83,7 @@ void ZFBuffer::bufferFree(void)
 
 void ZFBuffer::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
-    zfstringAppend(ret, zfText("<ZFBuffer %p(%zi)>"), this->buffer(), this->bufferSize());
+    zfstringAppend(ret, "<ZFBuffer %p(%zi)>", this->buffer(), this->bufferSize());
 }
 
 ZF_NAMESPACE_GLOBAL_END

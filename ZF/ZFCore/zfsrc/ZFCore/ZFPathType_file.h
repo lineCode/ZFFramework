@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * pathData is the file path
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_file zfText("file")
+#define ZFPathType_file "file"
 
 // ============================================================
 // ZFInputForFile

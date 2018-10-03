@@ -34,7 +34,7 @@ ZFMAIN_ENTRY(params)
         game->debugStatus();
 
         zfblockedAlloc(ZFUIWindow, window);
-        window->tagSet(zfText("game"), game);
+        window->tagSet("game", game);
         window->windowShow();
         zfblockedAlloc(ZFUILinearLayout, ll);
         window->childAdd(ll);
@@ -43,7 +43,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, left);
         ll->childAdd(left);
-        left->buttonLabelTextSet(zfText("left"));
+        left->buttonLabelTextSet("left");
         ZFLISTENER_LOCAL(leftOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveLeft();
@@ -53,7 +53,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, top);
         ll->childAdd(top);
-        top->buttonLabelTextSet(zfText("top"));
+        top->buttonLabelTextSet("top");
         ZFLISTENER_LOCAL(topOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveTop();
@@ -63,7 +63,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, right);
         ll->childAdd(right);
-        right->buttonLabelTextSet(zfText("right"));
+        right->buttonLabelTextSet("right");
         ZFLISTENER_LOCAL(rightOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveRight();
@@ -73,7 +73,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, bottom);
         ll->childAdd(bottom);
-        bottom->buttonLabelTextSet(zfText("bottom"));
+        bottom->buttonLabelTextSet("bottom");
         ZFLISTENER_LOCAL(bottomOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveBottom();
@@ -83,7 +83,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, reset);
         ll->childAdd(reset);
-        reset->buttonLabelTextSet(zfText("reset"));
+        reset->buttonLabelTextSet("reset");
         ZFLISTENER_LOCAL(resetOnClick, {
             ZF2048Core *game = userData->toAny();
             game->reset();
@@ -93,7 +93,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, undo);
         ll->childAdd(undo);
-        undo->buttonLabelTextSet(zfText("undo"));
+        undo->buttonLabelTextSet("undo");
         ZFLISTENER_LOCAL(undoOnClick, {
             ZF2048Core *game = userData->toAny();
             game->undo();
@@ -151,7 +151,7 @@ private:
             {
                 lastCount = 0;
                 langFlag = !langFlag;
-                const zfchar *langFile = langFlag ? zfText("ZF2048/lang/lang_default.xml") : zfText("ZF2048/lang/lang_zh-CN.xml");
+                const zfchar *langFile = langFlag ? "ZF2048/lang/lang_default.xml" : "ZF2048/lang/lang_zh-CN.xml";
                 ZFStyleLoad(ZFSerializableDataFromXml(ZFXmlParseFirstElement(ZFInputForResFile(langFile))));
             }
         }

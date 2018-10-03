@@ -30,12 +30,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief left bracket when output ZFObject's info
  * @see ZFObject::objectInfo
  */
-#define ZFTOKEN_ZFObjectInfoLeft zfText("<")
+#define ZFTOKEN_ZFObjectInfoLeft "<"
 /**
  * @brief right bracket when output ZFObject's info
  * @see ZFObject::objectInfo
  */
-#define ZFTOKEN_ZFObjectInfoRight zfText(">")
+#define ZFTOKEN_ZFObjectInfoRight ">"
 
 // ============================================================
 /**
@@ -49,15 +49,15 @@ typedef enum {
     ZFObjectInstanceStateOnDealloc = 0x10, /**< @brief object is under #ZFObject::objectOnDealloc */
 } ZFObjectInstanceState;
 /** @brief string tokens */
-#define ZFTOKEN_ZFObjectInstanceStateOnInit zfText("ZFObjectInstanceStateOnInit")
+#define ZFTOKEN_ZFObjectInstanceStateOnInit "ZFObjectInstanceStateOnInit"
 /** @brief string tokens */
-#define ZFTOKEN_ZFObjectInstanceStateOnInitFinish zfText("ZFObjectInstanceStateOnInitFinish")
+#define ZFTOKEN_ZFObjectInstanceStateOnInitFinish "ZFObjectInstanceStateOnInitFinish"
 /** @brief string tokens */
-#define ZFTOKEN_ZFObjectInstanceStateIdle zfText("ZFObjectInstanceStateIdle")
+#define ZFTOKEN_ZFObjectInstanceStateIdle "ZFObjectInstanceStateIdle"
 /** @brief string tokens */
-#define ZFTOKEN_ZFObjectInstanceStateOnDeallocPrepare zfText("ZFObjectInstanceStateOnDeallocPrepare")
+#define ZFTOKEN_ZFObjectInstanceStateOnDeallocPrepare "ZFObjectInstanceStateOnDeallocPrepare"
 /** @brief string tokens */
-#define ZFTOKEN_ZFObjectInstanceStateOnDealloc zfText("ZFObjectInstanceStateOnDealloc")
+#define ZFTOKEN_ZFObjectInstanceStateOnDealloc "ZFObjectInstanceStateOnDealloc"
 
 // ============================================================
 zfclassNotPOD ZF_ENV_EXPORT _ZFP_ZFObjectDummyParent

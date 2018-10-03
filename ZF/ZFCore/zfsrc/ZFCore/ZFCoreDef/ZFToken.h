@@ -36,12 +36,12 @@ public:
 public:
     /** @cond ZFPrivateDoc */
     ZFTokenForContainer(void)
-    : tokenLeft(zfText("["))
-    , tokenRight(zfText("]"))
-    , tokenSeparator(zfText(", "))
-    , tokenValueLeft(zfText(""))
-    , tokenValueRight(zfText(""))
-    , tokenEtc(zfText("..."))
+    : tokenLeft("[")
+    , tokenRight("]")
+    , tokenSeparator(", ")
+    , tokenValueLeft("")
+    , tokenValueRight("")
+    , tokenEtc("...")
     {
     }
     ZFTokenForContainer(
@@ -139,17 +139,17 @@ public:
 public:
     /** @cond ZFPrivateDoc */
     ZFTokenForKeyValueContainer(void)
-    : tokenLeft(zfText("{"))
-    , tokenRight(zfText("}"))
-    , tokenSeparator(zfText(", "))
-    , tokenPairLeft(zfText(""))
-    , tokenPairRight(zfText(""))
-    , tokenPairSeparator(zfText(" = "))
-    , tokenKeyLeft(zfText(""))
-    , tokenKeyRight(zfText(""))
-    , tokenValueLeft(zfText(""))
-    , tokenValueRight(zfText(""))
-    , tokenEtc(zfText("..."))
+    : tokenLeft("{")
+    , tokenRight("}")
+    , tokenSeparator(", ")
+    , tokenPairLeft("")
+    , tokenPairRight("")
+    , tokenPairSeparator(" = ")
+    , tokenKeyLeft("")
+    , tokenKeyRight("")
+    , tokenValueLeft("")
+    , tokenValueRight("")
+    , tokenEtc("...")
     {
     }
     ZFTokenForKeyValueContainer(

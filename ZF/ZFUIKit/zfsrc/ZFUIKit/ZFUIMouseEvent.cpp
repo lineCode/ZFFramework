@@ -20,18 +20,18 @@ ZFCACHEHOLDER_DEFINE(ZFUIMouseEvent)
 void ZFUIMouseEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
     ret += ZFUIMouseAction::EnumNameForValue(this->mouseAction);
-    ret += zfText(" ");
+    ret += " ";
     ZFUIPointToString(ret, this->mousePoint);
 
     if(this->mouseButton != ZFUIMouseButton::e_MouseButtonLeft)
     {
-        ret += zfText(" ");
+        ret += " ";
         ret += ZFUIMouseButton::EnumNameForValue(this->mouseButton);
     }
 
     if(this->eventResolved())
     {
-        ret += zfText(" (resolved)");
+        ret += " (resolved)";
     }
 }
 

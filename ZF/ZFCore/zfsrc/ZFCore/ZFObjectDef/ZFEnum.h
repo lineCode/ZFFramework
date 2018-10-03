@@ -26,7 +26,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief invalid value's name for ZFEnum
  */
-#define ZFEnumNameInvalid() zfText("ZFEnumInvalid")
+#define ZFEnumNameInvalid() "ZFEnumInvalid"
 
 // ============================================================
 /**

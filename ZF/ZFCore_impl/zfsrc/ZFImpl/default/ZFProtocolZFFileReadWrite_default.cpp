@@ -19,48 +19,48 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFFileReadWriteImpl_default, ZFFileReadWrite, ZFProtocolLevel::e_Default)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("C:FILE"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("C:FILE")
 public:
     virtual ZFToken fileOpen(ZF_IN const zfchar *filePath,
                              ZF_IN_OPT ZFFileOpenOptionFlags flag = ZFFileOpenOption::e_Read)
     {
-        const zfcharA *sFlag = zfnull;
+        const zfchar *sFlag = zfnull;
         if(ZFBitTest(flag, ZFFileOpenOption::e_Append))
         {
             if(ZFBitTest(flag, ZFFileOpenOption::e_Read))
             {
-                sFlag = zfTextA("a+b");
+                sFlag = "a+b";
             }
             else
             {
-                sFlag = zfTextA("ab");
+                sFlag = "ab";
             }
         }
         else if(ZFBitTest(flag, ZFFileOpenOption::e_Create))
         {
             if(ZFBitTest(flag, ZFFileOpenOption::e_Read))
             {
-                sFlag = zfTextA("w+b");
+                sFlag = "w+b";
             }
             else
             {
-                sFlag = zfTextA("wb");
+                sFlag = "wb";
             }
         }
         else if(ZFBitTest(flag, ZFFileOpenOption::e_Write))
         {
             if(ZFBitTest(flag, ZFFileOpenOption::e_Read))
             {
-                sFlag = zfTextA("r+b");
+                sFlag = "r+b";
             }
             else
             {
-                sFlag = zfTextA("wb");
+                sFlag = "wb";
             }
         }
         else if(ZFBitTest(flag, ZFFileOpenOption::e_Read))
         {
-            sFlag = zfTextA("rb");
+            sFlag = "rb";
         }
         else
         {
@@ -69,12 +69,13 @@ public:
         }
 
         #if ZF_ENV_sys_Windows
-            zfstringW _filePathSaved = ZFStringZ2W(filePath);
+            zfstringW _filePathSaved;
+            ZFString::toUTF16(_filePathSaved, filePath, ZFStringEncoding::e_UTF8);
             DWORD _fileAttrSaved = GetFileAttributesW(_filePathSaved.cString());
             SetFileAttributesW(_filePathSaved.cString(), FILE_ATTRIBUTE_NORMAL);
         #endif
 
-        ZFToken ret = (ZFToken)(fopen(ZFStringZ2A(filePath), sFlag));
+        ZFToken ret = (ZFToken)(fopen(filePath, sFlag));
 
         #if ZF_ENV_sys_Windows
             SetFileAttributesW(_filePathSaved.cString(), _fileAttrSaved);

@@ -147,8 +147,8 @@ public:
 // ============================================================
 static ZFEnum *_ZFP_ZFEnumDynamic_e(ZF_IN const ZFMethod *invokerMethod, ZF_IN ZFObject *invokerObject)
 {
-    const zfchar *enumName = invokerMethod->methodName() + zfslen(zfText("e_"));
-    zfstring tagKey = zfstringWithFormat(zfText("_ZFP_EnumDyn_%s"), enumName);
+    const zfchar *enumName = invokerMethod->methodName() + zfslen("e_");
+    zfstring tagKey = zfstringWithFormat("_ZFP_EnumDyn_%s", enumName);
     ZFEnum *ret = invokerMethod->methodOwnerClass()->classTagGet<ZFEnum *>(tagKey);
     if(ret != zfnull)
     {
@@ -170,12 +170,12 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
 {
     if(enumValues.count() != enumNames.count())
     {
-        zfstringAppend(errorHint, zfText("enum values and names mismatch"));
+        zfstringAppend(errorHint, "enum values and names mismatch");
         return zfnull;
     }
     if(enumValues.isEmpty())
     {
-        zfstringAppend(errorHint, zfText("empty enum value"));
+        zfstringAppend(errorHint, "empty enum value");
         return zfnull;
     }
 
@@ -188,7 +188,7 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
         if(enumValues.find(enumDefault) == zfindexMax())
         {
             zfstringAppend(errorHint,
-                zfText("default enum value %s doesn't exists in enum value list: %s"),
+                "default enum value %s doesn't exists in enum value list: %s",
                 zfuintToString(enumDefault).cString(),
                 enumValues.objectInfoOfContent(ZFCoreElementInfoGetter<zfidentity>::elementInfoGetter).cString());
             return zfnull;
@@ -205,7 +205,7 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
         return zfnull;
     }
     d->enumEditableClass = ZFClassDynamicRegister(
-        zfstringWithFormat(zfText("%sEditable"), enumClassName), enumClass,
+        zfstringWithFormat("%sEditable", enumClassName), enumClass,
         d, errorHint);
     if(d->enumEditableClass == zfnull)
     {
@@ -240,7 +240,7 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
     {
         ZFMethodUserRegisterDetail_0(resultMethod, _ZFP_ZFEnumDynamic_e, enumClass,
             public, ZFMethodTypeStatic,
-            ZFEnum *, zfstringWithFormat(zfText("e_%s"), d->d->enumNameAtIndex(i)));
+            ZFEnum *, zfstringWithFormat("e_%s", d->d->enumNameAtIndex(i)));
         d->userRegMethods.add(resultMethod);
     }
 

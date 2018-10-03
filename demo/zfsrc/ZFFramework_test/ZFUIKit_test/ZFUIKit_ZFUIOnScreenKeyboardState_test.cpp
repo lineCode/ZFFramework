@@ -17,7 +17,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
 
     ZFLISTENER_LOCAL(sysWindowOnCreate, {
         ZFLISTENER_LOCAL(action, {
-            zfLogTrimT() << zfText("[ZFUIOnScreenKeyboardState] state changed:") << listenerData.sender;
+            zfLogTrimT() << "[ZFUIOnScreenKeyboardState] state changed:" << listenerData.sender;
         })
         ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender->toAny());
         state->observerAdd(ZFObserverAddParam()

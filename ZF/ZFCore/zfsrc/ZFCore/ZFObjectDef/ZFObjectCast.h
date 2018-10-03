@@ -172,7 +172,7 @@ template<>
 template<typename T_From>
 inline ZFInterface *_ZFP_ObjCast<ZFInterface *>::c(T_From const &obj)
 {
-    zfCoreCriticalMessageTrim(zfTextA("[ZFCastZFObjectUnchecked] direct cast to ZFInterface is not allowed"));
+    zfCoreCriticalMessageTrim("[ZFCastZFObjectUnchecked] direct cast to ZFInterface is not allowed");
     return zfnull;
 }
 
@@ -269,7 +269,7 @@ template<>
 template<typename T_From>
 inline ZFInterface *_ZFP_ObjCastUnchecked<ZFInterface *>::c(T_From const &obj)
 {
-    zfCoreCriticalMessageTrim(zfTextA("[ZFCastZFObjectUnchecked] direct cast to ZFInterface is not allowed"));
+    zfCoreCriticalMessageTrim("[ZFCastZFObjectUnchecked] direct cast to ZFInterface is not allowed");
     return zfnull;
 }
 

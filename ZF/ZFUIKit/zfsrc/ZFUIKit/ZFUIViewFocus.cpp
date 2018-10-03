@@ -13,8 +13,8 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-#define _ZFP_ZFUIViewFocus_tag_nextFocus zfText("_ZFP_ZFUIViewFocus_tag_nextFocus")
-#define _ZFP_ZFUIViewFocus_tag_nextFocusOwner zfText("_ZFP_ZFUIViewFocus_tag_nextFocusOwner")
+#define _ZFP_ZFUIViewFocus_tag_nextFocus "_ZFP_ZFUIViewFocus_tag_nextFocus"
+#define _ZFP_ZFUIViewFocus_tag_nextFocusOwner "_ZFP_ZFUIViewFocus_tag_nextFocusOwner"
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewFocusNextSetDataHolder, ZFLevelZFFrameworkEssential)
 {
@@ -99,7 +99,7 @@ public:
 ZFOUTPUT_TYPE(_ZFP_ZFUIViewFocusData, {
     output
         << v.center
-        << zfText(" ") << v.view
+        << " " << v.view
     ;
 })
 

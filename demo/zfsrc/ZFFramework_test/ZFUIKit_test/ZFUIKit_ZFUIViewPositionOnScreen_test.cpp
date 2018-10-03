@@ -29,11 +29,11 @@ protected:
         zfblockedAlloc(ZFUIKit_test_Button, button);
         container->childAdd(button);
         button->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        button->buttonLabelTextSet(zfText("click me"));
+        button->buttonLabelTextSet("click me");
 
         ZFLISTENER_LOCAL(buttonOnClick, {
-            zfLogTrimT() << zfText("window size:") << ZFUIViewUtil::viewRoot(listenerData.sender->to<ZFUIView *>())->layoutedFrame().size;
-            zfLogTrimT() << zfText("clicked view's position:") << ZFUIViewPositionOnScreen(listenerData.sender->toAny());
+            zfLogTrimT() << "window size:" << ZFUIViewUtil::viewRoot(listenerData.sender->to<ZFUIView *>())->layoutedFrame().size;
+            zfLogTrimT() << "clicked view's position:" << ZFUIViewPositionOnScreen(listenerData.sender->toAny());
         })
         button->observerAdd(ZFUIButton::EventButtonOnClick(), buttonOnClick);
     }

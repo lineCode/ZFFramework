@@ -64,15 +64,15 @@ protected:
         zfsuper::testCaseOnStart();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFSerializable: normal serializable object"));
+        this->testCaseOutput("ZFSerializable: normal serializable object");
         this->test(this->obj);
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFSerializable: inherit serializable object"));
+        this->testCaseOutput("ZFSerializable: inherit serializable object");
         this->test(this->objChild);
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFSerializable: serializable object that contains another serializable object"));
+        this->testCaseOutput("ZFSerializable: serializable object that contains another serializable object");
         this->test(this->objContainer);
 
         this->testCaseStop();
@@ -95,16 +95,16 @@ private:
     void memberPrepare(void)
     {
         this->obj = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClass);
-        this->obj->stringInParentSet(zfText("base's string, with unicode chars: \"啊哦\""));
+        this->obj->stringInParentSet("base's string, with unicode chars: \"啊哦\"");
 
         this->objChild = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClassChild);
-        this->objChild->stringInParentSet(zfText("child's string"));
-        this->objChild->stringInChildSet(zfText("child's string in child"));
+        this->objChild->stringInParentSet("child's string");
+        this->objChild->stringInChildSet("child's string in child");
 
         this->objContainer = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClassContainer);
         _ZFP_ZFCore_ZFSerializable_test_TestClassChild *objTmp = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClassChild);
-        objTmp->stringInParentSet(zfText("container's string"));
-        objTmp->stringInChildSet(zfText("container's string"));
+        objTmp->stringInParentSet("container's string");
+        objTmp->stringInChildSet("container's string");
         this->objContainer->serializableMemberSet(objTmp);
         zfRelease(objTmp);
     }
@@ -121,26 +121,26 @@ private:
     {
         zfstring encodedData;
 
-        this->testCaseOutput(zfText("object:\n%s\n"), serializableObj->toObject()->objectInfo().cString());
+        this->testCaseOutput("object:\n%s\n", serializableObj->toObject()->objectInfo().cString());
 
         {
             ZFSerializableData serializableData;
             ZFObjectToData(serializableData, serializableObj->toObject());
             ZFSerializableDataToZfsd(encodedData, serializableData);
-            this->testCaseOutput(zfText("encodedData:\n%s\n"), encodedData.cString());
+            this->testCaseOutput("encodedData:\n%s\n", encodedData.cString());
         }
 
         {
             ZFSerializableData serializableData;
             serializableObj->serializeToData(serializableData);
-            this->testCaseOutput(zfText("serializableData:\n%s\n"), serializableData.objectInfo().cString());
+            this->testCaseOutput("serializableData:\n%s\n", serializableData.objectInfo().cString());
         }
 
         {
             ZFSerializableData serializableData;
             ZFSerializableDataFromZfsd(serializableData, encodedData);
             zfautoObject newSerializableObj = ZFObjectFromData(serializableData);
-            this->testCaseOutput(zfText("re-serialize from encodedData, result:\n%s\n"), newSerializableObj.toObject()->objectInfo().cString());
+            this->testCaseOutput("re-serialize from encodedData, result:\n%s\n", newSerializableObj.toObject()->objectInfo().cString());
         }
     }
 };

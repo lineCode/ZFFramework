@@ -58,8 +58,8 @@ jobject ZFImpl_sys_Android_ZFUIPointToZFAndroidPoint(ZF_IN const ZFUIPoint &poin
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsPoint = ZFImpl_sys_Android_jclassZFAndroidPoint();
-    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsPoint, zfTextA("x"), JNIType::S_int.getId());
-    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsPoint, zfTextA("y"), JNIType::S_int.getId());
+    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsPoint, "x", JNIType::S_int.getId());
+    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsPoint, "y", JNIType::S_int.getId());
     JNIUtilSetIntField(jniEnv, jobjPoint, jfIdX, point.x);
     JNIUtilSetIntField(jniEnv, jobjPoint, jfIdY, point.y);
     return jobjPoint;
@@ -78,8 +78,8 @@ void ZFImpl_sys_Android_ZFUIPointFromZFAndroidPointT(ZF_OUT ZFUIPoint &ret, ZF_I
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsPoint = ZFImpl_sys_Android_jclassZFAndroidPoint();
-    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsPoint, zfTextA("x"), JNIType::S_int.getId());
-    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsPoint, zfTextA("y"), JNIType::S_int.getId());
+    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsPoint, "x", JNIType::S_int.getId());
+    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsPoint, "y", JNIType::S_int.getId());
     ret.x = JNIUtilGetIntField(jniEnv, jobjPoint, jfIdX);
     ret.y = JNIUtilGetIntField(jniEnv, jobjPoint, jfIdY);
 }
@@ -94,8 +94,8 @@ jobject ZFImpl_sys_Android_ZFUISizeToZFAndroidSize(ZF_IN const ZFUISize &size, Z
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsSize = ZFImpl_sys_Android_jclassZFAndroidSize();
-    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsSize, zfTextA("width"), JNIType::S_int.getId());
-    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsSize, zfTextA("height"), JNIType::S_int.getId());
+    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsSize, "width", JNIType::S_int.getId());
+    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsSize, "height", JNIType::S_int.getId());
     JNIUtilSetIntField(jniEnv, jobjSize, jfIdWidth, size.width);
     JNIUtilSetIntField(jniEnv, jobjSize, jfIdHeight, size.height);
     return jobjSize;
@@ -114,8 +114,8 @@ void ZFImpl_sys_Android_ZFUISizeFromZFAndroidSizeT(ZF_OUT ZFUISize &ret, ZF_IN j
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsSize = ZFImpl_sys_Android_jclassZFAndroidSize();
-    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsSize, zfTextA("width"), JNIType::S_int.getId());
-    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsSize, zfTextA("height"), JNIType::S_int.getId());
+    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsSize, "width", JNIType::S_int.getId());
+    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsSize, "height", JNIType::S_int.getId());
     ret.width = JNIUtilGetIntField(jniEnv, jobjSize, jfIdWidth);
     ret.height = JNIUtilGetIntField(jniEnv, jobjSize, jfIdHeight);
 }
@@ -130,10 +130,10 @@ jobject ZFImpl_sys_Android_ZFUIMarginToZFAndroidMargin(ZF_IN const ZFUIMargin &m
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsMargin = ZFImpl_sys_Android_jclassZFAndroidMargin();
-    static jfieldID jfIdLeft = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("left"), JNIType::S_int.getId());
-    static jfieldID jfIdTop = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("top"), JNIType::S_int.getId());
-    static jfieldID jfIdRight = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("right"), JNIType::S_int.getId());
-    static jfieldID jfIdBottom = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("bottom"), JNIType::S_int.getId());
+    static jfieldID jfIdLeft = JNIUtilGetFieldID(jniEnv, jclsMargin, "left", JNIType::S_int.getId());
+    static jfieldID jfIdTop = JNIUtilGetFieldID(jniEnv, jclsMargin, "top", JNIType::S_int.getId());
+    static jfieldID jfIdRight = JNIUtilGetFieldID(jniEnv, jclsMargin, "right", JNIType::S_int.getId());
+    static jfieldID jfIdBottom = JNIUtilGetFieldID(jniEnv, jclsMargin, "bottom", JNIType::S_int.getId());
     JNIUtilSetIntField(jniEnv, jobjMargin, jfIdLeft, margin.left);
     JNIUtilSetIntField(jniEnv, jobjMargin, jfIdTop, margin.top);
     JNIUtilSetIntField(jniEnv, jobjMargin, jfIdRight, margin.right);
@@ -154,10 +154,10 @@ void ZFImpl_sys_Android_ZFUIMarginFromZFAndroidMarginT(ZF_OUT ZFUIMargin &ret, Z
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsMargin = ZFImpl_sys_Android_jclassZFAndroidMargin();
-    static jfieldID jfIdLeft = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("left"), JNIType::S_int.getId());
-    static jfieldID jfIdTop = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("top"), JNIType::S_int.getId());
-    static jfieldID jfIdRight = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("right"), JNIType::S_int.getId());
-    static jfieldID jfIdBottom = JNIUtilGetFieldID(jniEnv, jclsMargin, zfTextA("bottom"), JNIType::S_int.getId());
+    static jfieldID jfIdLeft = JNIUtilGetFieldID(jniEnv, jclsMargin, "left", JNIType::S_int.getId());
+    static jfieldID jfIdTop = JNIUtilGetFieldID(jniEnv, jclsMargin, "top", JNIType::S_int.getId());
+    static jfieldID jfIdRight = JNIUtilGetFieldID(jniEnv, jclsMargin, "right", JNIType::S_int.getId());
+    static jfieldID jfIdBottom = JNIUtilGetFieldID(jniEnv, jclsMargin, "bottom", JNIType::S_int.getId());
     ret.left = JNIUtilGetIntField(jniEnv, jobjMargin, jfIdLeft);
     ret.top = JNIUtilGetIntField(jniEnv, jobjMargin, jfIdTop);
     ret.right = JNIUtilGetIntField(jniEnv, jobjMargin, jfIdRight);
@@ -174,10 +174,10 @@ jobject ZFImpl_sys_Android_ZFUIRectToZFAndroidRect(ZF_IN const ZFUIRect &rect, Z
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsRect = ZFImpl_sys_Android_jclassZFAndroidRect();
-    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("x"), JNIType::S_int.getId());
-    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("y"), JNIType::S_int.getId());
-    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("width"), JNIType::S_int.getId());
-    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("height"), JNIType::S_int.getId());
+    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsRect, "x", JNIType::S_int.getId());
+    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsRect, "y", JNIType::S_int.getId());
+    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsRect, "width", JNIType::S_int.getId());
+    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsRect, "height", JNIType::S_int.getId());
     JNIUtilSetIntField(jniEnv, jobjRect, jfIdX, rect.point.x);
     JNIUtilSetIntField(jniEnv, jobjRect, jfIdY, rect.point.y);
     JNIUtilSetIntField(jniEnv, jobjRect, jfIdWidth, rect.size.width);
@@ -198,10 +198,10 @@ void ZFImpl_sys_Android_ZFUIRectFromZFAndroidRectT(ZF_OUT ZFUIRect &ret, ZF_IN j
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jclsRect = ZFImpl_sys_Android_jclassZFAndroidRect();
-    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("x"), JNIType::S_int.getId());
-    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("y"), JNIType::S_int.getId());
-    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("width"), JNIType::S_int.getId());
-    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsRect, zfTextA("height"), JNIType::S_int.getId());
+    static jfieldID jfIdX = JNIUtilGetFieldID(jniEnv, jclsRect, "x", JNIType::S_int.getId());
+    static jfieldID jfIdY = JNIUtilGetFieldID(jniEnv, jclsRect, "y", JNIType::S_int.getId());
+    static jfieldID jfIdWidth = JNIUtilGetFieldID(jniEnv, jclsRect, "width", JNIType::S_int.getId());
+    static jfieldID jfIdHeight = JNIUtilGetFieldID(jniEnv, jclsRect, "height", JNIType::S_int.getId());
     ret.point.x = JNIUtilGetIntField(jniEnv, jobjRect, jfIdX);
     ret.point.y = JNIUtilGetIntField(jniEnv, jobjRect, jfIdY);
     ret.size.width = JNIUtilGetIntField(jniEnv, jobjRect, jfIdWidth);
@@ -232,13 +232,13 @@ void ZFImpl_sys_Android_ViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN jobject nat
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jcls = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFAndroidUI).c_str());
-    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jcls, zfTextA("native_viewTreePrint"),
+    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jcls, "native_viewTreePrint",
         JNIGetMethodSig(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_String), JNIParamTypeContainer()
             .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
         ).c_str());
     jstring tmp = ZFCastStatic(jstring, JNIUtilCallStaticObjectMethod(jniEnv, jcls, jmId, nativeView));
     const char *utf = JNIUtilGetStringUTFChars(jniEnv, tmp, zfnull);
-    ret += ZFStringA2Z(utf);
+    ret += utf;
     JNIUtilReleaseStringUTFChars(jniEnv, tmp, utf);
 }
 

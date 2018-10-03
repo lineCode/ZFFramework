@@ -43,7 +43,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFTypeIdDynamicRegisterAutoRemove)
 // ============================================================
 static zfbool _ZFP_ZFTypeIdGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
 {
-    ret = zflineAlloc(v_zfstring, invokerMethod->methodName() + zfslen(zfText("ZFTypeId_")));
+    ret = zflineAlloc(v_zfstring, invokerMethod->methodName() + zfslen("ZFTypeId_"));
     return zftrue;
 }
 zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
@@ -52,24 +52,24 @@ zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
 {
     if(zfsIsEmpty(typeIdName))
     {
-        zfstringAppend(errorHint, zfText("empty typeIdName"));
+        zfstringAppend(errorHint, "empty typeIdName");
         return zffalse;
     }
     if(typeIdData == zfnull)
     {
-        zfstringAppend(errorHint, zfText("null typeIdData"));
+        zfstringAppend(errorHint, "null typeIdData");
         return zffalse;
     }
     ZF_GLOBAL_INITIALIZER_CLASS(ZFTypeIdDynamic) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic);
     if(d->m.find(typeIdName) != d->m.end())
     {
-        zfstringAppend(errorHint, zfText("type id %s already registered"), typeIdName);
+        zfstringAppend(errorHint, "type id %s already registered", typeIdName);
         return zffalse;
     }
     if(!ZFMethodDynamicRegister(ZFMethodDynamicRegisterParam()
             .methodGenericInvokerSet(_ZFP_ZFTypeIdGI)
             .methodReturnTypeIdSet(ZFTypeId_zfstring())
-            .methodNameSet(zfstringWithFormat(zfText("ZFTypeId_%s"), typeIdName))
+            .methodNameSet(zfstringWithFormat("ZFTypeId_%s", typeIdName))
         , errorHint))
     {
         return zffalse;
@@ -87,7 +87,7 @@ void ZFTypeIdDynamicUnregister(ZF_IN const zfchar *typeIdName)
         if(it != d->m.end())
         {
             ZFMethodDynamicUnregister(ZFMethodFuncGet(ZF_NAMESPACE_GLOBAL_NAME,
-                zfstringWithFormat(zfText("ZFTypeId_%s"), typeIdName)));
+                zfstringWithFormat("ZFTypeId_%s", typeIdName)));
             _ZFP_ZFTypeIdUnregister(typeIdName);
             d->m.erase(it);
         }

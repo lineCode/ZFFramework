@@ -40,7 +40,7 @@ static int _ZFP_ZFImpl_ZFLua_zfLogT(ZF_IN lua_State *L)
     if(count != 0)
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[zfLogT] takes no param, got %zi param"),
+            "[zfLogT] takes no param, got %zi param",
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -57,7 +57,7 @@ static int _ZFP_ZFImpl_ZFLua_zfLogTrimT(ZF_IN lua_State *L)
     if(count != 0)
     {
         ZFLuaErrorOccurredTrim(
-            zfText("[zfLogTrimT] takes no param, got %zi param"),
+            "[zfLogTrimT] takes no param, got %zi param",
             (zfindex)count);
         return ZFImpl_ZFLua_luaError(L);
     }
@@ -70,38 +70,38 @@ static int _ZFP_ZFImpl_ZFLua_zfLogTrimT(ZF_IN lua_State *L)
 
 // ============================================================
 ZFImpl_ZFLua_implSetupCallback_DEFINE(zfLog, {
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLog"), _ZFP_ZFImpl_ZFLua_zfLog);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLogTrim"), _ZFP_ZFImpl_ZFLua_zfLogTrim);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLogT"), _ZFP_ZFImpl_ZFLua_zfLogT);
-        ZFImpl_ZFLua_luaCFunctionRegister(L, zfText("zfLogTrimT"), _ZFP_ZFImpl_ZFLua_zfLogTrimT);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfLog", _ZFP_ZFImpl_ZFLua_zfLog);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfLogTrim", _ZFP_ZFImpl_ZFLua_zfLogTrim);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfLogT", _ZFP_ZFImpl_ZFLua_zfLogT);
+        ZFImpl_ZFLua_luaCFunctionRegister(L, "zfLogTrimT", _ZFP_ZFImpl_ZFLua_zfLogTrimT);
     }, {
     })
 
 #if _ZFP_ZFImpl_ZFLua_zfLog_DEBUG_ENABLE
-    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLog, zfText(
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLog,
             "function (f, ...)"
             "    return _G['zfLog']('[' .. tostring(zfl_l) .. ' (' .. debug.getinfo(2).currentline .. ')] ' .. (f or ''), ...);"
             "end"
-        ))
-    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLogT, zfText(
+        )
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLogT,
             "function ()"
             "    return _G['zfLogT']():log('[%s (%s)]', zfl_l, zfint(debug.getinfo(2).currentline));"
             "end"
-        ))
+        )
 #else
-    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLog, zfText(
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLog,
             "function (f, ...)"
             "    return _G['zfLog']('[' .. tostring(zfl_l) .. '] ' .. (f or ''), ...);"
             "end"
-        ))
-    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLogT, zfText(
+        )
+    ZFImpl_ZFLua_implPathInfo_DEFINE(zfLogT,
             "function ()"
             "    return _G['zfLogT']():log('[%s]', zfl_l);"
             "end"
-        ))
+        )
 #endif
 
-ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNameFull(), zfText("log"), {
+ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNameFull(), "log", {
         ZFImpl_ZFLua_implDispatch_AssertClassExist();
         ZFImpl_ZFLua_implDispatch_AssertParamCountRange(0, ZFMETHOD_MAX_PARAM);
         ZFImpl_ZFLua_implDispatch_AssertNotStaticMethod();
@@ -113,7 +113,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNam
         if(!ZFImpl_ZFLua_toString(fmt, dispatchInfo.paramList[0], zftrue))
         {
             return dispatchInfo.dispatchError(
-                zfText("[zfLogT::log] unable to accss fmt from: %s"),
+                "[zfLogT::log] unable to accss fmt from: %s",
                 ZFObjectInfo(dispatchInfo.paramList[0]).cString());
         }
         ZFOutput output = ZFCastZFObject(v_ZFCallback *, dispatchInfo.objectOrNull)->zfv;

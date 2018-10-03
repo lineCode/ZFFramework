@@ -51,10 +51,10 @@ ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFUIImageLoadFromNativeImage,
  *   <ZFCallback ... />
  * @endcode
  */
-#define ZFUIImageSerializeType_input zfText("input")
+#define ZFUIImageSerializeType_input "input"
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIImageIO_input zfText("input")
+#define ZFSerializableKeyword_ZFUIImageIO_input "input"
 
 /**
  * @brief load image from input, input should contain the image's binary data
@@ -76,12 +76,12 @@ ZFMETHOD_FUNC_DECLARE_1(zfautoObject, ZFUIImageLoadFromInput,
  *   </node>
  * @endcode
  */
-#define ZFUIImageSerializeType_color zfText("color")
+#define ZFUIImageSerializeType_color "color"
 
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIImageIO_color zfText("color")
+#define ZFSerializableKeyword_ZFUIImageIO_color "color"
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFUIImageIO_color_size zfText("size")
+#define ZFSerializableKeyword_ZFUIImageIO_color_size "size"
 
 /**
  * @brief load image from color

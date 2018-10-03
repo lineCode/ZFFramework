@@ -41,19 +41,19 @@ public:
 
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonIconStyleNormal)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZFUIWidget/ZFUIButtonRatio_IconNormal.png")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZFUIWidget/ZFUIButtonRatio_IconNormal.png"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonIconStyleHighlighted)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZFUIWidget/ZFUIButtonRatio_IconHighlighted.png")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZFUIWidget/ZFUIButtonRatio_IconHighlighted.png"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonIconStyleChecked)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZFUIWidget/ZFUIButtonRatio_IconChecked.png")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZFUIWidget/ZFUIButtonRatio_IconChecked.png"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonIconStyleCheckedHighlighted)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes(zfText("ZFUIWidget/ZFUIButtonRatio_IconCheckedHighlighted.png")));
+        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZFUIWidget/ZFUIButtonRatio_IconCheckedHighlighted.png"));
     }
 };
 

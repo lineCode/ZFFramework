@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * for "*.xml" file, which should contain data converted by #ZFObjectToXml
  */
-#define ZFObjectIO_xml zfText("xml")
+#define ZFObjectIO_xml "xml"
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectIO_xml_h_

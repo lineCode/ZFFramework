@@ -1,6 +1,7 @@
 # master
 * optimize typeid impl
 * optimize color impl
+* remove wchar support
 
 # 0.5.0
 * optimize serializable output

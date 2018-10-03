@@ -26,7 +26,7 @@ ZF_STATIC_INITIALIZER_END(ZFMethodFuncDataHolder)
 
 void _ZFP_ZFMethodFuncRegister(ZF_IN const ZFMethod *method)
 {
-    const zfchar *methodNamespace = method->methodNamespace() ? method->methodNamespace() : zfText("");
+    const zfchar *methodNamespace = method->methodNamespace() ? method->methodNamespace() : "";
     _ZFP_ZFMethodFuncMethodMap
         [methodNamespace]
         [method->methodName()]
@@ -34,7 +34,7 @@ void _ZFP_ZFMethodFuncRegister(ZF_IN const ZFMethod *method)
 }
 void _ZFP_ZFMethodFuncUnregister(ZF_IN const ZFMethod *method)
 {
-    const zfchar *methodNamespace = method->methodNamespace() ? method->methodNamespace() : zfText("");
+    const zfchar *methodNamespace = method->methodNamespace() ? method->methodNamespace() : "";
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
     if(itNS == m.end())
@@ -72,7 +72,7 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
     methodNamespace = ZFNamespaceSkipGlobal(methodNamespace);
     if(methodNamespace == zfnull)
     {
-        methodNamespace = zfText("");
+        methodNamespace = "";
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
@@ -106,7 +106,7 @@ const ZFMethod *ZFMethodFuncGet(ZF_IN const zfchar *methodNamespace,
     methodNamespace = ZFNamespaceSkipGlobal(methodNamespace);
     if(methodNamespace == zfnull)
     {
-        methodNamespace = zfText("");
+        methodNamespace = "";
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);
@@ -186,7 +186,7 @@ void ZFMethodFuncGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
     methodNamespace = ZFNamespaceSkipGlobal(methodNamespace);
     if(methodNamespace == zfnull)
     {
-        methodNamespace = zfText("");
+        methodNamespace = "";
     }
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > > &m = _ZFP_ZFMethodFuncMethodMap;
     zfstlmap<zfstlstringZ, zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> > >::iterator itNS = m.find(methodNamespace);

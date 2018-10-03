@@ -133,7 +133,7 @@ ZF_GLOBAL_INITIALIZER_END(ZFThreadImpl_sys_iOS_DataHolder)
 
 // ============================================================
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFThreadImpl_sys_iOS, ZFThread, ZFProtocolLevel::e_SystemNormal)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("iOS:NSThread"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("iOS:NSThread")
 public:
     zfoverride
     virtual void protocolOnInit(void)
@@ -156,7 +156,7 @@ public:
         {
             exist = (_ZFP_ZFThreadImpl_sys_iOS_threadMap.find(*token) != _ZFP_ZFThreadImpl_sys_iOS_threadMap.end());
         }
-        zfCoreAssertWithMessage(!exist, zfTextA("thread already registered: %s"), zfsCoreZ2A(ownerZFThread->objectInfo().cString()));
+        zfCoreAssertWithMessage(!exist, "thread already registered: %s", ownerZFThread->objectInfo().cString());
         @synchronized(this->_syncObj)
         {
             _ZFP_ZFThreadImpl_sys_iOS_threadMap[*token] = ownerZFThread;

@@ -22,9 +22,9 @@ protected:
         zfsuper::testCaseOnStart();
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("ZFTextTemplate"));
+        this->testCaseOutput("ZFTextTemplate");
 
-        const zfchar *src = zfText(
+        const zfchar *src =
             "========== test replace begin ==========\n"
             "<exist>{ZFTT_R_replace_exist}<exist>\n"
             "<not_exist>{ZFTT_R_replace_not_exist}<not_exist>\n"
@@ -52,19 +52,19 @@ protected:
             "this is {ZFTT_I_test_index} item\n"
             "this is {ZFTT_I_test_index} item\n"
             "---------- test index  end  ----------\n"
-            );
+            ;
 
         zfstring buf;
         ZFTextTemplateParam param;
-        param.replaceDataAdd(zfText("replace_exist"), zfText("_replace_exist_"));
-        param.enableDataAdd(zfText("enableif_true"), zftrue);
+        param.replaceDataAdd("replace_exist", "_replace_exist_");
+        param.enableDataAdd("enableif_true", zftrue);
         ZFTextTemplateApply(param, ZFOutputForString(buf), src);
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("src:\n%s"), src);
+        this->testCaseOutput("src:\n%s", src);
 
         this->testCaseOutputSeparator();
-        this->testCaseOutput(zfText("applied:\n%s"), buf.cString());
+        this->testCaseOutput("applied:\n%s", buf.cString());
 
         this->testCaseStop();
     }

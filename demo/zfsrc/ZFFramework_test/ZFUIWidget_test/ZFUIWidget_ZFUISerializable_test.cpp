@@ -26,30 +26,30 @@ protected:
         {
             zfstring s;
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("xml:"));
+            this->testCaseOutput("xml:");
             ZFObjectToXml(ZFOutputForString(s), testObject);
             ZFOutputForConsole() << s;
-            this->testCaseOutput(zfText("xml re-serialized:"));
+            this->testCaseOutput("xml re-serialized:");
             ZFObjectToXml(ZFOutputForConsole(), ZFObjectFromXml(ZFInputForBuffer(s)));
         }
 
         {
             zfstring s;
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("json:"));
+            this->testCaseOutput("json:");
             ZFObjectToJson(ZFOutputForString(s), testObject);
             ZFOutputForConsole() << s;
-            this->testCaseOutput(zfText("json re-serialized:"));
+            this->testCaseOutput("json re-serialized:");
             ZFObjectToJson(ZFOutputForConsole(), ZFObjectFromJson(ZFInputForBuffer(s)));
         }
 
         {
             zfstring s;
             this->testCaseOutputSeparator();
-            this->testCaseOutput(zfText("zfsd:"));
+            this->testCaseOutput("zfsd:");
             ZFObjectToZfsd(ZFOutputForString(s), testObject);
             ZFOutputForConsole() << s;
-            this->testCaseOutput(zfText("zfsd re-serialized:"));
+            this->testCaseOutput("zfsd re-serialized:");
             ZFObjectToZfsd(ZFOutputForConsole(), ZFObjectFromZfsd(ZFInputForBuffer(s)));
         }
 
@@ -67,7 +67,7 @@ private:
         zfal_maker(child0, parent).left().toParentLeft();
 
         zfblockedAlloc(ZFUITextView, child1);
-        child1->textSet(zfText("special chars: \r\n\t\"'-_=+<>()[]{}"));
+        child1->textSet("special chars: \r\n\t\"'-_=+<>()[]{}");
         zfal_maker(child1, parent).right().toParentRight();
 
         return parent;

@@ -22,27 +22,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 /** @brief string tokens */
-#define ZFTOKEN_zfcharA_LOWERCASE zfTextA("0123456789abcdefghijklmnopqrstuvwxyz")
-/** @brief string tokens */
-#define ZFTOKEN_zfcharA_UPPERCASE zfTextA("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+#define ZFTOKEN_zfnull "null"
 
 /** @brief string tokens */
-#define ZFTOKEN_zfcharW_LOWERCASE zfTextW("0123456789abcdefghijklmnopqrstuvwxyz")
+#define ZFTOKEN_zfbool_zftrue "true"
 /** @brief string tokens */
-#define ZFTOKEN_zfcharW_UPPERCASE zfTextW("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-/** @brief string tokens */
-#define ZFTOKEN_zfchar_LOWERCASE zfText("0123456789abcdefghijklmnopqrstuvwxyz")
-/** @brief string tokens */
-#define ZFTOKEN_zfchar_UPPERCASE zfText("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-/** @brief string tokens */
-#define ZFTOKEN_zfnull zfText("null")
-
-/** @brief string tokens */
-#define ZFTOKEN_zfbool_zftrue zfText("true")
-/** @brief string tokens */
-#define ZFTOKEN_zfbool_zffalse zfText("false")
+#define ZFTOKEN_zfbool_zffalse "false"
 
 // ============================================================
 /**
@@ -57,13 +42,13 @@ typedef enum
     ZFCompareGreater = 1, /**< left > right */
 } ZFCompareResult;
 /** @brief string tokens */
-#define ZFTOKEN_ZFCompareUncomparable zfText("CompareUncomparable")
+#define ZFTOKEN_ZFCompareUncomparable "CompareUncomparable"
 /** @brief string tokens */
-#define ZFTOKEN_ZFCompareSmaller zfText("CompareSmaller")
+#define ZFTOKEN_ZFCompareSmaller "CompareSmaller"
 /** @brief string tokens */
-#define ZFTOKEN_ZFCompareTheSame zfText("CompareTheSame")
+#define ZFTOKEN_ZFCompareTheSame "CompareTheSame"
 /** @brief string tokens */
-#define ZFTOKEN_ZFCompareGreater zfText("CompareGreater")
+#define ZFTOKEN_ZFCompareGreater "CompareGreater"
 
 // ============================================================
 /**
@@ -77,13 +62,13 @@ typedef enum
     ZFSeekPosEnd,
 } ZFSeekPos;
 /** @brief string tokens */
-#define ZFTOKEN_ZFSeekPosBegin zfText("SeekBegin")
+#define ZFTOKEN_ZFSeekPosBegin "SeekBegin"
 /** @brief string tokens */
-#define ZFTOKEN_ZFSeekPosCur zfText("SeekCur")
+#define ZFTOKEN_ZFSeekPosCur "SeekCur"
 /** @brief string tokens */
-#define ZFTOKEN_ZFSeekPosCurReversely zfText("SeekCurReversely")
+#define ZFTOKEN_ZFSeekPosCurReversely "SeekCurReversely"
 /** @brief string tokens */
-#define ZFTOKEN_ZFSeekPosEnd zfText("SeekEnd")
+#define ZFTOKEN_ZFSeekPosEnd "SeekEnd"
 
 // ============================================================
 /**
@@ -234,7 +219,7 @@ public:
 /**
  * @brief string if the content info not available
  */
-#define ZFTOKEN_ZFCoreInfoGetterNotAvailable zfText("N/A")
+#define ZFTOKEN_ZFCoreInfoGetterNotAvailable "N/A"
 
 // ============================================================
 /**

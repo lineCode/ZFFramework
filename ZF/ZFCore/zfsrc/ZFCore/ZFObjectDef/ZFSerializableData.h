@@ -42,27 +42,27 @@ extern ZF_ENV_EXPORT zfbool ZFSerializableDataResolveCheckEnable;
  *   <node key="value" />
  * @endcode
  */
-#define ZFSerializableKeyword_node zfText("node")
+#define ZFSerializableKeyword_node "node"
 /**
  * @brief keyword for #ZFSerializable to hold attribute or property's name,
  *   see #ZFSerializableData::propertyName
  */
-#define ZFSerializableKeyword_name zfText("name")
+#define ZFSerializableKeyword_name "name"
 /**
  * @brief keyword for #ZFSerializable to hold attribute or property's value,
  *   see #ZFSerializableData::propertyValue
  */
-#define ZFSerializableKeyword_value zfText("value")
+#define ZFSerializableKeyword_value "value"
 /**
  * @brief keyword for #ZFSerializable's to hold category,
  *   see #ZFSerializableData::category
  */
-#define ZFSerializableKeyword_category zfText("category")
+#define ZFSerializableKeyword_category "category"
 /**
  * @brief keyword for #ZFSerializable's to hold whether it's under editMode,
  *   see #ZFSerializable::editModeData
  */
-#define ZFSerializableKeyword_editMode zfText("editMode")
+#define ZFSerializableKeyword_editMode "editMode"
 /**
  * @brief used to declare a null object
  *
@@ -72,7 +72,7 @@ extern ZF_ENV_EXPORT zfbool ZFSerializableDataResolveCheckEnable;
  * serializing this would result a null with success state\n
  * the actual type for the null is determined by the owner
  */
-#define ZFSerializableKeyword_null zfText("null")
+#define ZFSerializableKeyword_null "null"
 
 // ============================================================
 zfclassFwd ZFSerializable;

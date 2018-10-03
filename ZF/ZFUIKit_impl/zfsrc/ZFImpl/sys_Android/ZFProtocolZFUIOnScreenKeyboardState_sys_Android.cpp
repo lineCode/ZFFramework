@@ -42,7 +42,7 @@ public:
     virtual zfbool keyboardShowing(ZF_IN ZFUIOnScreenKeyboardState *keyboardState)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_keyboardShowing"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_keyboardShowing",
             JNIGetMethodSig(JNIType::S_boolean, JNIParamTypeContainer()
             ).c_str());
         return JNIUtilCallStaticBooleanMethod(jniEnv, this->jclsOwner, jmId);
@@ -50,7 +50,7 @@ public:
     virtual ZFUIRect keyboardFrame(ZF_IN ZFUIOnScreenKeyboardState *keyboardState)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, zfTextA("native_keyboardFrame"),
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_keyboardFrame",
             JNIGetMethodSig(JNIType::S_array(JNIType::S_int), JNIParamTypeContainer()
             ).c_str());
         jintArray jobjRect = (jintArray)JNIUtilCallStaticObjectMethod(jniEnv, this->jclsOwner, jmId);
@@ -73,7 +73,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIOnScreenKeyboardStateImpl_sys_Android_
     jclass jclsOwner = (jclass)JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFUIOnScreenKeyboardState).c_str());
     JNIBlockedDeleteLocalRef((jobject)jclsOwner);
 
-    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jclsOwner, zfTextA("native_keyboardStaticInit"),
+    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jclsOwner, "native_keyboardStaticInit",
         JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
         ).c_str());
     JNIUtilCallStaticVoidMethod(jniEnv, jclsOwner, jmId);
@@ -85,7 +85,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIOnScreenKeyboardStateImpl_sys_Android_init)
     jclass jclsOwner = (jclass)JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFUIOnScreenKeyboardState).c_str());
     JNIBlockedDeleteLocalRef((jobject)jclsOwner);
 
-    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jclsOwner, zfTextA("native_keyboardStaticCleanup"),
+    static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, jclsOwner, "native_keyboardStaticCleanup",
         JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
         ).c_str());
     JNIUtilCallStaticVoidMethod(jniEnv, jclsOwner, jmId);

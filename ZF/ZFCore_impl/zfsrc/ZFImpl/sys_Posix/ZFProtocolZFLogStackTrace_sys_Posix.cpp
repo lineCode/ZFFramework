@@ -20,14 +20,14 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFLogStackTraceImpl_sys_Posix, ZFLogStackTrace, ZFProtocolLevel::e_SystemLow)
-    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT(zfText("Posix:backtrace"))
+    ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("Posix:backtrace")
 public:
     virtual void stackTrace(ZF_IN_OUT zfstring &ret,
                             ZF_IN_OPT const zfchar *prefix = zfnull,
                             ZF_IN_OPT zfindex ignoreLevel = 0,
                             ZF_IN_OPT zfindex maxLevel = 20)
     {
-        const zfchar *fixedPrefix = ((prefix == zfnull) ? zfText("") : prefix);
+        const zfchar *fixedPrefix = ((prefix == zfnull) ? "" : prefix);
         if(maxLevel > 200)
         {
             maxLevel = 200;
@@ -35,19 +35,19 @@ public:
 
         void **array = (void **)zfmalloc(sizeof(void *) * (maxLevel + 1));
         zfindex size = backtrace(array, (int)(maxLevel + 1));
-        zfcharA **strings = backtrace_symbols(array, (int)size);
+        zfchar **strings = backtrace_symbols(array, (int)size);
 
         ret += fixedPrefix;
-        ret += zfText("======================== stack begin =======================");
+        ret += "======================== stack begin =======================";
         ret += '\n';
         for(zfindex i = ignoreLevel; i < size; ++i)
         {
             ret += fixedPrefix;
-            ret += zfsCoreA2Z(strings[i]);
+            ret += strings[i];
             ret += '\n';
         }
         ret += fixedPrefix;
-        ret += zfText("========================  stack end  =======================");
+        ret += "========================  stack end  =======================";
 
         zffree(strings);
         zffree(array);
@@ -58,9 +58,9 @@ public:
         static const zfindex dummyLevel = 0;
         void **array = (void **)zfmalloc(sizeof(void *) * (dummyLevel + ignoreLevel + 1));
         zfindex size = backtrace(array, 3);
-        zfcharA **strings = backtrace_symbols(array, (int)size);
+        zfchar **strings = backtrace_symbols(array, (int)size);
 
-        ret += ZFStringA2Z(strings[dummyLevel + ignoreLevel]);
+        ret += strings[dummyLevel + ignoreLevel];
 
         zffree(strings);
         zffree(array);

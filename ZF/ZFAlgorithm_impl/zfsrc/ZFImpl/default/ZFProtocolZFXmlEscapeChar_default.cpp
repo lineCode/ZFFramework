@@ -26,21 +26,21 @@ public:
             if(zffalse) {}
 
             else if(*p == '<')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&lt;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&lt;"); ++p; pLeft = p;}
             else if(*p == '>')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&gt;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&gt;"); ++p; pLeft = p;}
             else if(*p == '&')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&amp;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&amp;"); ++p; pLeft = p;}
             else if(*p == '\'')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&apos;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&apos;"); ++p; pLeft = p;}
             else if(*p == '\"')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&quot;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&quot;"); ++p; pLeft = p;}
             else if(*p == '\r')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&#x000D;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&#x000D;"); ++p; pLeft = p;}
             else if(*p == '\n')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&#x000A;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&#x000A;"); ++p; pLeft = p;}
             else if(*p == '\t')
-            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&#x0009;")); ++p; pLeft = p;}
+            {if(pLeft != p) {dst.execute(pLeft, p - pLeft);} dst.execute("&#x0009;"); ++p; pLeft = p;}
 
             else {zfcharMoveNext(p);}
         }
@@ -63,19 +63,19 @@ public:
             {
                 // &lt;
                 if(p+3 < pEnd && *(p+1) == 'l' && *(p+2) == 't' && *(p+3) == ';')
-                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("<")); p += 4; pLeft = p;}
+                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute("<"); p += 4; pLeft = p;}
                 // &gt;
                 else if(p+3 < pEnd && *(p+1) == 'g' && *(p+2) == 't' && *(p+3) == ';')
-                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText(">")); p += 4; pLeft = p;}
+                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute(">"); p += 4; pLeft = p;}
                 // &amp;
                 else if(p+4 < pEnd && *(p+1) == 'a' && *(p+2) == 'm' && *(p+3) == 'p' && *(p+4) == ';')
-                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("&")); p += 5; pLeft = p;}
+                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute("&"); p += 5; pLeft = p;}
                 // &apos;
                 else if(p+5 < pEnd && *(p+1) == 'a' && *(p+2) == 'p' && *(p+3) == 'o' && *(p+4) == 's' && *(p+5) == ';')
-                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("\'")); p += 6; pLeft = p;}
+                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute("\'"); p += 6; pLeft = p;}
                 // &quot;
                 else if(p+5 < pEnd && *(p+1) == 'q' && *(p+2) == 'u' && *(p+3) == 'o' && *(p+4) == 't' && *(p+5) == ';')
-                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute(zfText("\"")); p += 6; pLeft = p;}
+                {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} dst.execute("\""); p += 6; pLeft = p;}
                 // &#0; ~ &#65536;
                 else if(p+3 < pEnd && *(p+1) == '#' && (encodedCharLen = this->decimalCharCheck(p+2, pEnd)) != 0)
                 {if(p != pLeft) {dst.execute(pLeft, p - pLeft);} p += 2; this->decimalCharEscape(dst, p, encodedCharLen); pLeft = p;}
@@ -132,13 +132,15 @@ private:
         zfcharW s[4] = {0};
         if(zfsToIntT(*(zft_zfuint16 *)s, p, encodedCharLen, 10))
         {
-            dst.execute(ZFString::toZFChar(s, ZFStringEncoding::e_UTF16).cString());
+            zfstring t;
+            ZFString::toUTF8(t, s, ZFStringEncoding::e_UTF16);
+            dst.execute(t.cString(), t.length());
         }
         else
         {
-            dst.execute(zfText("&#"));
-            dst.execute(zfstring(p, encodedCharLen).cString());
-            dst.execute(zfText(";"));
+            dst.execute("&#");
+            dst.execute(p, encodedCharLen);
+            dst.execute(";");
         }
         p += encodedCharLen + 1;
     }
@@ -178,13 +180,15 @@ private:
         zfcharW s[4] = {0};
         if(zfsToIntT(*(zft_zfuint16 *)s, p, encodedCharLen, 16))
         {
-            dst.execute(ZFString::toZFChar(s, ZFStringEncoding::e_UTF16).cString());
+            zfstring t;
+            ZFString::toUTF8(t, s, ZFStringEncoding::e_UTF16);
+            dst.execute(t.cString(), t.length());
         }
         else
         {
-            dst.execute(zfText("&#x"));
-            dst.execute(zfstring(p, encodedCharLen).cString());
-            dst.execute(zfText(";"));
+            dst.execute("&#x");
+            dst.execute(p, encodedCharLen);
+            dst.execute(";");
         }
         p += encodedCharLen + 1;
     }

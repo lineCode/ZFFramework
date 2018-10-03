@@ -34,13 +34,13 @@ typedef enum
     ZFCallbackTypeRawFunction, /**< @brief static function without #ZFMethod */
 } ZFCallbackType;
 /** @brief string tokens */
-#define ZFTOKEN_ZFCallbackTypeDummy zfText("TypeDummy")
+#define ZFTOKEN_ZFCallbackTypeDummy "TypeDummy"
 /** @brief string tokens */
-#define ZFTOKEN_ZFCallbackTypeMethod zfText("TypeMethod")
+#define ZFTOKEN_ZFCallbackTypeMethod "TypeMethod"
 /** @brief string tokens */
-#define ZFTOKEN_ZFCallbackTypeMemberMethod zfText("TypeMemeberMethod")
+#define ZFTOKEN_ZFCallbackTypeMemberMethod "TypeMemeberMethod"
 /** @brief string tokens */
-#define ZFTOKEN_ZFCallbackTypeRawFunction zfText("TypeRawFunction")
+#define ZFTOKEN_ZFCallbackTypeRawFunction "TypeRawFunction"
 
 // ============================================================
 // callback invoker
@@ -150,7 +150,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
  * serializing would cause additional data storage and processing,
  * explicitly disable serialization may improve performance for some case
  */
-#define ZFCallbackSerializeCustomTypeDisable zfText("-")
+#define ZFCallbackSerializeCustomTypeDisable "-"
 
 zfclassFwd ZFSerializableData;
 zfclassFwd _ZFP_ZFCallbackPrivate;
