@@ -1,4 +1,4 @@
-# master
+# 0.6.0
 * optimize typeid impl
 * optimize color impl
 * remove wchar support
