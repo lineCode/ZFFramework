@@ -539,7 +539,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
                 return zffalse;
             }
 
-            c = 0;
+            c = 0xFFFFFFFF;
             zfuint tmp = 0;
 
             if(srcLen <= 4)
@@ -556,15 +556,11 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
                 if(!zfsToIntT(tmp, src, 1, 16)) {return zffalse;} src += 1;
                 c = ((c << 8) | (tmp * 16 + tmp));
 
-                if(srcLen == 8)
+                if(srcLen == 4)
                 {
                     tmp = 0;
                     if(!zfsToIntT(tmp, src, 1, 16)) {return zffalse;} src += 1;
                     c = ((c << 8) | (tmp * 16 + tmp));
-                }
-                else
-                {
-                    c = ((c << 8) | 0xFF);
                 }
             }
             else
@@ -586,10 +582,6 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
                     tmp = 0;
                     if(!zfsToIntT(tmp, src, 2, 16)) {return zffalse;} src += 2;
                     c = ((c << 8) | tmp);
-                }
-                else
-                {
-                    c = ((c << 8) | 0xFF);
                 }
             }
         } while(zffalse);
