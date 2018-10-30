@@ -782,22 +782,20 @@ ZFMETHOD_DEFINE_2(ZFOperation, zfidentity, taskStart,
                   ZFMP_IN_OPT(ZFOperationParam *, operationParam, zfnull),
                   ZFMP_IN_OPT(ZFOperationObserver *, operationObserver, zfnull))
 {
-    zfblockedAlloc(ZFOperationStartParam, startParam);
-    startParam->operationTaskDataSet(this->createTaskData(operationParam, zfnull, operationObserver).to<ZFOperationTaskData *>());
-    return this->taskStart(startParam);
+    return this->taskStart(this->createTaskData(operationParam, zfnull, operationObserver).to<ZFOperationTaskData *>());
 }
 ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
-                  ZFMP_IN(ZFOperationStartParam *, startParam))
+                  ZFMP_IN(ZFOperationTaskData *, operationTaskData))
 {
-    if(startParam == zfnull || startParam->operationTaskData() == zfnull)
+    if(operationTaskData == zfnull)
     {
-        zfCoreLog("invalid start param");
+        zfCoreLog("invalid param");
         return zfidentityInvalid();
     }
+    zfCoreAssert(operationTaskData->operationOwner() == zfnull);
 
     zfsynchronize(this);
 
-    ZFOperationTaskData *operationTaskData = startParam->operationTaskData();
     operationTaskData->operationOwnerSet(this);
 
     ZFOperationParam *operationParam = operationTaskData->operationParam();
@@ -867,7 +865,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
                 zfRelease(operationTaskData);
             }
 
-            ZFOperationCacheMatchActionEnum cacheMatchAction = startParam->cacheMatchAction();
+            ZFOperationCacheMatchActionEnum cacheMatchAction = operationTaskData->cacheMatchAction();
             if(cacheMatchAction == ZFOperationCacheMatchAction::e_Unspecified)
             {
                 cacheMatchAction = this->cacheMatchAction();
@@ -941,7 +939,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
     }
 
     // find duplicate operation
-    ZFOperationTaskDuplicateActionEnum taskDuplicateAction = startParam->taskDuplicateAction();
+    ZFOperationTaskDuplicateActionEnum taskDuplicateAction = operationTaskData->taskDuplicateAction();
     if(taskDuplicateAction == ZFOperationTaskDuplicateAction::e_Unspecified)
     {
         taskDuplicateAction = this->taskDuplicateAction();
@@ -962,7 +960,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
                 _ZFP_I_ZFOperationPrivateTaskObserverData *taskObserverData = zfAlloc(_ZFP_I_ZFOperationPrivateTaskObserverData);
                 taskObserverData->ownerTaskData = dupTaskData;
                 taskObserverData->operationTaskData = operationTaskData;
-                taskObserverData->cacheExpireTime = startParam->cacheExpireTime();
+                taskObserverData->cacheExpireTime = operationTaskData->cacheExpireTime();
                 dupTaskData->taskObserverDatas->add(taskObserverData);
                 if(!isInQueue)
                 {
@@ -986,7 +984,7 @@ ZFMETHOD_DEFINE_1(ZFOperation, zfidentity, taskStart,
     taskData->taskObserverDatas->add(taskObserverData);
     taskObserverData->ownerTaskData = taskData;
     taskObserverData->operationTaskData = operationTaskData;
-    taskObserverData->cacheExpireTime = startParam->cacheExpireTime();
+    taskObserverData->cacheExpireTime = operationTaskData->cacheExpireTime();
 
     if(d->tasks->count() > 10000 || d->tasksQueued->count() > 10000)
     {

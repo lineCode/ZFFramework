@@ -121,13 +121,13 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, taskAllowDummyParam, zffalse)
     /**
-     * @brief see #ZFOperationTaskDuplicateAction, default value for #ZFOperationStartParam::taskDuplicateActionSet
+     * @brief see #ZFOperationTaskDuplicateAction, default value for #ZFOperationTaskData::taskDuplicateActionSet
      *   when not specified
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationTaskDuplicateActionEnum, taskDuplicateAction,
                                 ZFOperationTaskDuplicateAction::e_Merge)
     /**
-     * @brief see #ZFOperationCacheMatchAction, default value for #ZFOperationStartParam::cacheMatchActionSet
+     * @brief see #ZFOperationCacheMatchAction, default value for #ZFOperationTaskData::cacheMatchActionSet
      *   when not specified
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationCacheMatchActionEnum, cacheMatchAction,
@@ -278,7 +278,7 @@ public:
      * @brief start the operation, see #taskStart
      */
     ZFMETHOD_DECLARE_1(zfidentity, taskStart,
-                       ZFMP_IN(ZFOperationStartParam *, startParam))
+                       ZFMP_IN(ZFOperationTaskData *, operationTaskData))
     /**
      * @brief stop operation by id, do nothing if no such operation
      */
@@ -694,6 +694,21 @@ public:
      * @brief used for storing an operation progress
      */
     ZFPROPERTY_RETAIN(ZFOperationProgress *, operationProgress)
+    /**
+     * @brief override default cache expire time,
+     *   #ZFOperationCacheExpireTimeUnspecified by default
+     */
+    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, cacheExpireTime, ZFOperationCacheExpireTimeUnspecified)
+    /**
+     * @brief do what if cache matched,
+     *   #ZFOperationCacheMatchAction::e_Unspecified by default
+     */
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationCacheMatchActionEnum, cacheMatchAction, ZFOperationCacheMatchAction::e_Unspecified)
+    /**
+     * @brief do what if duplicated task started,
+     *   #ZFOperationTaskDuplicateAction::e_Unspecified by default
+     */
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationTaskDuplicateActionEnum, taskDuplicateAction, ZFOperationTaskDuplicateAction::e_Unspecified)
 };
 
 ZF_NAMESPACE_GLOBAL_END

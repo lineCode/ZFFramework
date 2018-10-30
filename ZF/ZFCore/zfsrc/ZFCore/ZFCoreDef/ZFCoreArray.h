@@ -652,6 +652,19 @@ public:
         this->capacityTrim();
     }
     /**
+     * @brief remove and return the removed value
+     */
+    T_Element removeAndGet(ZF_IN zfindex index)
+    {
+        if(index >= this->count())
+        {
+            zfCoreCriticalIndexOutOfRange(index, this->count());
+        }
+        T_Element t = *(d->buf);
+        this->remove(index);
+        return t;
+    }
+    /**
      * @brief remove first or do nothing if empty
      */
     void removeFirst(void)

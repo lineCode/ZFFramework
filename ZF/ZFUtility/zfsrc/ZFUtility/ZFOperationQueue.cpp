@@ -173,8 +173,7 @@ zfbool ZFOperationQueue::paramIsValid(ZF_IN ZFOperationParam *operationParam)
     {
         ZFOperationQueueChildTaskData *childTaskData = childTaskDatas->get<ZFOperationQueueChildTaskData *>(i);
         if(childTaskData->childOperation() == zfnull
-            || childTaskData->childTaskData() == zfnull
-            || childTaskData->childTaskData()->operationTaskData() == zfnull)
+            || childTaskData->childTaskData() == zfnull)
         {
             return zffalse;
         }
@@ -212,7 +211,7 @@ void ZFOperationQueue::taskOnStart(ZF_IN ZFOperationTaskData *operationTaskData)
     {
         queueResult->childResultsInOrder()->add(zfnullObject());
         queueProgress->childLastProgressDatas()->add(zfnullObject());
-        taskState->childToRun->get<ZFOperationQueueChildTaskData *>(i)->childTaskData()->operationTaskData()->tagSet(
+        taskState->childToRun->get<ZFOperationQueueChildTaskData *>(i)->childTaskData()->tagSet(
             _ZFP_ZFOperationQueueKey_childIndex,
             ZFValue::indexValueCreate(i).toObject());
     }
@@ -243,7 +242,7 @@ void ZFOperationQueue::taskOnStop(ZF_IN ZFOperationTaskData *operationTaskData)
             for(zfindex i = 0; i < childTaskDatasTmp->count(); ++i)
             {
                 ZFOperationQueueChildTaskData *childTaskData = childTaskDatasTmp->get<ZFOperationQueueChildTaskData *>(i);
-                ZFOperationTaskData *childOperationTaskData = childTaskData->childTaskData()->operationTaskData();
+                ZFOperationTaskData *childOperationTaskData = childTaskData->childTaskData();
                 zfblockedRelease(zfRetain(childOperationTaskData));
                 childTaskData->childOperation()->taskStopForCategory(taskState->taskCategory);
 
@@ -267,15 +266,15 @@ static void _ZFP_ZFOperationQueue_checkRunChild(ZF_IN ZFOperationTaskData *queue
         taskState->childRunning->add(childTaskData);
         taskState->childToRun->removeFirst();
 
-        childTaskData->childTaskData()->operationTaskData()->tagSet(_ZFP_ZFOperationQueueKey_ownerQueue, queueTaskData);
-        childTaskData->childTaskData()->operationTaskData()->taskCategory()->add(taskState->taskCategory);
+        childTaskData->childTaskData()->tagSet(_ZFP_ZFOperationQueueKey_ownerQueue, queueTaskData);
+        childTaskData->childTaskData()->taskCategory()->add(taskState->taskCategory);
 
-        ZFOperationObserver *childObserver = childTaskData->childTaskData()->operationTaskData()->operationObserver();
+        ZFOperationObserver *childObserver = childTaskData->childTaskData()->operationObserver();
         if(childObserver == zfnull)
         {
             zfautoObject childObserverTmp = childTaskData->childOperation()->createObserver();
             childObserver = childObserverTmp.to<ZFOperationObserver *>();
-            childTaskData->childTaskData()->operationTaskData()->operationObserverSet(childObserver);
+            childTaskData->childTaskData()->operationObserverSet(childObserver);
         }
 
         childObserver->observerAdd(ZFOperation::EventOperationTaskOnStart(), taskState->observerChildOnStart);

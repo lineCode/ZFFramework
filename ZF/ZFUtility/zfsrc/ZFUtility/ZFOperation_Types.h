@@ -24,7 +24,6 @@ zfclassFwd ZFOperationObserver;
 zfclassFwd ZFOperationCache;
 zfclassFwd ZFOperationProgress;
 zfclassFwd ZFOperationTaskData;
-zfclassFwd ZFOperationStartParam;
 zfclassFwd ZFOperation;
 
 // ============================================================
@@ -305,71 +304,6 @@ ZFENUM_SEPARATOR(ZFOperationTaskDuplicateAction)
     ZFENUM_VALUE_REGISTER(NewTask)
     ZFENUM_VALUE_REGISTER(Ignore)
 ZFENUM_END(ZFOperationTaskDuplicateAction)
-
-// ============================================================
-/**
- * @brief start param for #ZFOperation::taskStart
- */
-zffinal zfclass ZF_ENV_EXPORT ZFOperationStartParam : zfextends ZFObject
-{
-    ZFOBJECT_DECLARE(ZFOperationStartParam, ZFObject)
-
-protected:
-    zfoverride
-    virtual inline void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
-    {
-        zfsuper::objectInfoOnAppend(ret);
-        ZFClassUtil::objectPropertyInfo(ret, this);
-    }
-
-public:
-    zfoverride
-    virtual zfidentity objectHash(void);
-    zfoverride
-    virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
-
-private:
-    ZFOperationTaskData *_operationTaskData;
-public:
-    /**
-     * @brief used to store the operation's task data
-     *
-     * must be created by #ZFOperation::createTaskData,
-     * this object would be stored and used during
-     * the entire operation task's life cycle,
-     * you may use this object to store or pass data
-     * by #ZFObject::tagSet
-     */
-    zffinal void operationTaskDataSet(ZF_IN ZFOperationTaskData *operationTaskData);
-    /**
-     * @brief see #operationTaskData
-     */
-    zffinal ZFOperationTaskData *operationTaskData(void)
-    {
-        return this->_operationTaskData;
-    }
-    /**
-     * @brief override default cache expire time,
-     *   #ZFOperationCacheExpireTimeUnspecified by default
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, cacheExpireTime, ZFOperationCacheExpireTimeUnspecified)
-    /**
-     * @brief do what if cache matched,
-     *   #ZFOperationCacheMatchAction::e_Unspecified by default
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationCacheMatchActionEnum, cacheMatchAction, ZFOperationCacheMatchAction::e_Unspecified)
-    /**
-     * @brief do what if duplicated task started,
-     *   #ZFOperationTaskDuplicateAction::e_Unspecified by default
-     */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFOperationTaskDuplicateActionEnum, taskDuplicateAction, ZFOperationTaskDuplicateAction::e_Unspecified)
-
-protected:
-    zfoverride
-    virtual void objectOnInit(void);
-    zfoverride
-    virtual void objectOnDeallocPrepare(void);
-};
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFOperation_Types_h_

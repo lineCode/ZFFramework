@@ -29,7 +29,7 @@ zfclass ZF_ENV_EXPORT ZFOperationQueueChildTaskData : zfextends ZFObject
 protected:
     /** @brief see #ZFObject::objectOnInit */
     ZFOBJECT_ON_INIT_INLINE_2(ZFMP_IN(ZFOperation *, childOperation),
-                              ZFMP_IN(ZFOperationStartParam *, childTaskData))
+                              ZFMP_IN(ZFOperationTaskData *, childTaskData))
     {
         this->objectOnInit();
         this->childOperationSet(childOperation);
@@ -54,7 +54,7 @@ public:
     /**
      * @brief hold the info of child task
      */
-    ZFPROPERTY_RETAIN(ZFOperationStartParam *, childTaskData)
+    ZFPROPERTY_RETAIN(ZFOperationTaskData *, childTaskData)
 
     /**
      * @brief whether regard queue as cancel if this child task is canceled, true by default

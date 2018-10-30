@@ -113,6 +113,9 @@ zfidentity ZFOperationTaskData::objectHash(void)
             , ZFObjectHash(this->operationObserver())
             , ZFObjectHash(this->operationCache())
             , ZFObjectHash(this->operationProgress())
+            , this->cacheExpireTime()
+            , this->cacheMatchAction()
+            , this->taskDuplicateAction()
         );
 }
 ZFCompareResult ZFOperationTaskData::objectCompare(ZF_IN ZFObject *anotherObj)
@@ -131,6 +134,9 @@ ZFCompareResult ZFOperationTaskData::objectCompare(ZF_IN ZFObject *anotherObj)
        && ZFObjectCompare(this->operationObserver(), another->operationObserver()) == ZFCompareTheSame
        && ZFObjectCompare(this->operationCache(), another->operationCache()) == ZFCompareTheSame
        && ZFObjectCompare(this->operationProgress(), another->operationProgress()) == ZFCompareTheSame
+       && this->cacheExpireTime() == another->cacheExpireTime()
+       && this->cacheMatchAction() == another->cacheMatchAction()
+       && this->taskDuplicateAction() == another->taskDuplicateAction()
         )
     {
         return ZFCompareTheSame;
@@ -142,60 +148,8 @@ ZFCompareResult ZFOperationTaskData::objectCompare(ZF_IN ZFObject *anotherObj)
 }
 
 // ============================================================
-// ZFOperationStartParam
 ZFENUM_DEFINE(ZFOperationCacheMatchAction)
-
 ZFENUM_DEFINE(ZFOperationTaskDuplicateAction)
-
-ZFOBJECT_REGISTER(ZFOperationStartParam)
-
-zfidentity ZFOperationStartParam::objectHash(void)
-{
-    return zfidentityHash(0
-            , ZFObjectHash(this->operationTaskData())
-            , this->cacheExpireTime()
-            , this->cacheMatchAction()
-            , this->taskDuplicateAction()
-        );
-}
-ZFCompareResult ZFOperationStartParam::objectCompare(ZF_IN ZFObject *anotherObj)
-{
-    if(this == anotherObj) {return ZFCompareTheSame;}
-    zfself *another = ZFCastZFObject(zfself *, anotherObj);
-    if(another == zfnull) {return ZFCompareUncomparable;}
-
-    if(zftrue
-       && ZFObjectCompare(this->operationTaskData(), another->operationTaskData())
-       && this->cacheExpireTime() == another->cacheExpireTime()
-       && this->cacheMatchAction() == another->cacheMatchAction()
-       && this->taskDuplicateAction() == another->taskDuplicateAction()
-       )
-    {
-        return ZFCompareTheSame;
-    }
-    else
-    {
-        return ZFCompareUncomparable;
-    }
-}
-
-void ZFOperationStartParam::operationTaskDataSet(ZF_IN ZFOperationTaskData *operationTaskData)
-{
-    zfRetainChange(this->_operationTaskData, operationTaskData);
-}
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFOperationStartParam, void, operationTaskDataSet, ZFMP_IN(ZFOperationTaskData *, operationTaskData))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFOperationStartParam, ZFOperationTaskData *, operationTaskData)
-
-void ZFOperationStartParam::objectOnInit(void)
-{
-    zfsuper::objectOnInit();
-    this->_operationTaskData = zfnull;
-}
-void ZFOperationStartParam::objectOnDeallocPrepare(void)
-{
-    this->operationTaskDataSet(zfnull);
-    zfsuper::objectOnDeallocPrepare();
-}
 
 ZF_NAMESPACE_GLOBAL_END
 
