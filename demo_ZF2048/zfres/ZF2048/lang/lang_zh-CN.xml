@@ -1,4 +1,4 @@
-<node>
+<ZFStyleList>
     <ZFString name="ZF2048_autoMove" value="自动" />
     <ZFString name="ZF2048_autoMoveStop" value="停止" />
     <ZFString name="ZF2048_undo" value="撤销" />
@@ -27,5 +27,5 @@
     <ZFString name="ZF2048AutoMoveDialog_hint" value="添加动作, 或点击删除" />
     <ZFString name="ZF2048AutoMoveDialog_confirm" value="开始" />
     <ZFString name="ZF2048AutoMoveDialog_cancel" value="取消" />
-</node>
+</ZFStyleList>
 

@@ -32,8 +32,8 @@ protected:
         this->testCaseOutputSeparator();
         this->testCaseOutput("compress tree");
         {
-            ZFPathInfo pathInfoSrc(ZFPathType_res, ".");
-            ZFPathInfo pathInfoDst(ZFPathType_cachePath, "ZFCompress_test");
+            ZFPathInfo pathInfoSrc(ZFPathType_res(), ".");
+            ZFPathInfo pathInfoDst(ZFPathType_cachePath(), "ZFCompress_test");
 
             this->testCaseOutput("original src tree:");
             ZFFilePathInfoTreePrint(pathInfoSrc, ZFOutputDefault(), "    ");

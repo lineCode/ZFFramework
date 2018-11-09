@@ -216,7 +216,7 @@ static int _ZFP_ZFLuaImportAll(ZF_IN lua_State *L)
         }
 
         ZFPathInfo localPathInfo;
-        ZFFilePathInfoMakeT(localPathInfo, pathInfo->zfv, localFilePath);
+        ZFPathInfoForLocalFileT(localPathInfo, pathInfo->zfv, localFilePath);
         return _ZFP_ZFLuaImportAllWrap(L, localPathInfo, importCallback, importCallbackUserData, recursive);
     }
 }

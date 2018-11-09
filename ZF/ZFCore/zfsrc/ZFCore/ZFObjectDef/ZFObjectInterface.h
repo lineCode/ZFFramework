@@ -216,7 +216,7 @@ public:
  *   };
  * @endcode
  *
- * due to some limitations of C++ (basically the limitations of diamond inheritance),
+ * (ZFTAG_LIMITATION) due to some limitations of C++ (basically the limitations of diamond inheritance),
  * you should remember these while using interface:
  * -  an interface must inherit from #ZFInterface,
  *   and must not be inherited by another interface,

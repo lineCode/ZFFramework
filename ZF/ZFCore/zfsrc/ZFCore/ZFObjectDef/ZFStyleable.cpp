@@ -315,6 +315,7 @@ void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style)
 
 // ============================================================
 // style holder
+static zfbool _ZFP_ZFStyleChangeFlag = zffalse;
 static zfstlmap<zfstlstringZ, zfautoObject> &_ZFP_ZFStyleHolder(void)
 {
     static zfstlmap<zfstlstringZ, zfautoObject> d;
@@ -357,6 +358,7 @@ void ZFStyleSet(ZF_IN const zfchar *styleKey, ZF_IN ZFStyleable *styleValue)
     if(styleValue)
     {
         zfCoreMutexLock();
+        _ZFP_ZFStyleChangeFlag = zftrue;
         _ZFP_ZFStyleHolder()[styleKey] = styleValue;
         zfCoreMutexUnlock();
     }
@@ -405,6 +407,7 @@ void ZFStyleRemoveAll(void)
 {
     zfCoreMutexLock();
     zfstlmap<zfstlstringZ, zfautoObject> d;
+    _ZFP_ZFStyleChangeFlag = zftrue;
     d.swap(_ZFP_ZFStyleHolder());
     zfCoreMutexUnlock();
 }
@@ -414,14 +417,22 @@ void ZFStyleChangeBegin()
 {
     zfCoreMutexLock();
     ++_ZFP_ZFStyleChangeBeginFlag;
+    if(_ZFP_ZFStyleChangeBeginFlag == 1)
+    {
+        _ZFP_ZFStyleChangeFlag = zffalse;
+    }
+    zfCoreMutexUnlock();
 }
 void ZFStyleChangeEnd()
 {
     zfCoreAssertWithMessageTrim(_ZFP_ZFStyleChangeBeginFlag != 0,
         "ZFStyleChangeBegin/ZFStyleChangeEnd not paired");
+
+    zfCoreMutexLock();
     --_ZFP_ZFStyleChangeBeginFlag;
-    zfbool needNotify = (_ZFP_ZFStyleChangeBeginFlag == 0);
+    zfbool needNotify = (_ZFP_ZFStyleChangeBeginFlag == 0 && _ZFP_ZFStyleChangeFlag);
     zfCoreMutexUnlock();
+
     if(needNotify)
     {
         ZFObjectGlobalEventObserver().observerNotify(ZFGlobalEvent::EventZFStyleOnChange());

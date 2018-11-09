@@ -36,13 +36,13 @@ ZF_GLOBAL_INITIALIZER_END(ZFMethodGenericInvokerDefaultParamInit)
 zfautoObject _ZFP_ZFMethodGenericInvokerDefaultParamHolderRef;
 
 zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
-                            ZF_IN zfbool accessAvailable,
+                            ZF_IN zfbool zfvAccessAvailable,
                             ZF_IN const ZFMethod *invokerMethod,
                             ZF_IN zfindex paramIndex,
                             ZF_IN const zfchar *paramType,
                             ZF_IN ZFObject *param)
 {
-    if((param != ZFMethodGenericInvokerDefaultParam() && !accessAvailable)
+    if((param != ZFMethodGenericInvokerDefaultParam() && !zfvAccessAvailable)
         || (param == ZFMethodGenericInvokerDefaultParam() && paramIndex < invokerMethod->methodParamDefaultBeginIndex()))
     {
         zfstringAppend(errorHint,

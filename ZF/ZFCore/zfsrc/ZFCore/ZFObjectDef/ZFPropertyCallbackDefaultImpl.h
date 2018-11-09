@@ -157,12 +157,12 @@ zfbool _ZFP_propCbDSerializeFrom(ZF_IN const ZFProperty *propertyInfo,
     zfautoObject zfv;
     if(_ZFP_propCbDSerializeFrom_impl(zfv, propertyInfo, serializableData, outErrorHint, outErrorPos))
     {
-        if(ZFTypeId<T_PropVT>::template Value<T_PropVT>::accessAvailable(zfv))
+        if(ZFTypeId<T_PropVT>::template Value<T_PropVT>::zfvAccessAvailable(zfv))
         {
             propertyInfo->setterMethod()->execute<void, T_PropVT const &>(ownerObject,
-                    ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::access(zfv)
+                    ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::zfvAccess(zfv)
                 );
-            ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::accessFinish(zfv);
+            ZFTypeId<T_PropVT>::template Value<T_PropVT const &>::zfvAccessFinish(zfv);
             return zftrue;
         }
         else

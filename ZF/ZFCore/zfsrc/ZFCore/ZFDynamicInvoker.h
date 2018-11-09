@@ -57,10 +57,8 @@ public:
     }
 protected:
     zfoverride
-    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
+    virtual void objectInfoT(ZF_IN_OUT zfstring &ret)
     {
-        zfsuper::objectInfoOnAppend(ret);
-        ret += ", zfv: ";
         ret += this->zfv;
     }
 };
@@ -86,6 +84,19 @@ extern ZF_ENV_EXPORT const zfchar *ZFDI_toString(ZF_IN ZFObject *obj);
  */
 extern ZF_ENV_EXPORT const ZFClass *ZFDI_classForName(ZF_IN const zfchar *className,
                                                       ZF_IN const zfchar *NS);
+/**
+ * @brief util to print param info
+ */
+extern ZF_ENV_EXPORT void ZFDI_paramInfo(ZF_IN_OUT zfstring &ret
+                                         , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
+                                         , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
+                                         );
 
 /**
  * @brief perform advanced dynamic invoke

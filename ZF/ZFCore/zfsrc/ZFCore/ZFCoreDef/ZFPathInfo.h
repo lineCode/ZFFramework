@@ -23,8 +23,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief path related info storage for impl,
  *   actual meaning of the info depends on impl
  *
- * to use, recommend to define a macro named "ZFPathType_xxx" for each of your path type,
- * and use #ZFPATHTYPE_FILEIO_REGISTER to register your own IO type\n
+ * recommend to use #ZFPATHTYPE_DECLARE/#ZFPATHTYPE_DEFINE for each of your path type,
+ * and additionally use #ZFPATHTYPE_FILEIO_REGISTER to register your own IO type\n
  * \n
  * path info may describe any abstract files, including:
  * -  normal file
@@ -57,6 +57,21 @@ public:
     zfbool operator != (ZF_IN const ZFPathInfo &pathInfo) const {return !this->operator == (pathInfo);}
     /** @endcond */
 };
+
+/**
+ * @brief see #ZFPathInfo
+ */
+#define ZFPATHTYPE_DECLARE(pathType) \
+    ZFMETHOD_FUNC_DECLARE_INLINE_0(const zfchar *, ZFPathType_##pathType) \
+    { \
+        return ZFM_TOSTRING_DIRECT(pathType); \
+    }
+
+/**
+ * @brief see #ZFPathInfo
+ */
+#define ZFPATHTYPE_DEFINE(pathType) \
+    ZFMETHOD_FUNC_DEFINE_INLINE_0(const zfchar *, ZFPathType_##pathType)
 
 ZF_NAMESPACE_GLOBAL_END
 

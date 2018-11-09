@@ -22,7 +22,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief get view's position on screen
  *
- * @note result value would be invalid until whole layout step finished,
+ * @note (ZFTAG_LIMITATION) result value would be invalid until whole layout step finished,
  *   due to impl's limitation,
  *   we are unable to be notified which time the layout step would finish,
  *   so the best solution to check valid position is using delay,

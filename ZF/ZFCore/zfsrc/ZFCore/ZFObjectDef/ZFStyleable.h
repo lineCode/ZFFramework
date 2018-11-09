@@ -471,6 +471,23 @@ extern ZF_ENV_EXPORT void ZFStyleChangeBegin();
  */
 extern ZF_ENV_EXPORT void ZFStyleChangeEnd();
 
+/**
+ * @brief util macro to call #ZFStyleChangeBegin/#ZFStyleChangeEnd
+ */
+#define ZFStyleChangeBlock() _ZFP_ZFStyleChangeBlock ZFUniqueName(_ZFP_ZFStyleChangeBlock)
+zfclassLikePOD _ZFP_ZFStyleChangeBlock
+{
+public:
+    _ZFP_ZFStyleChangeBlock(void)
+    {
+        ZFStyleChangeBegin();
+    }
+    ~_ZFP_ZFStyleChangeBlock(void)
+    {
+        ZFStyleChangeEnd();
+    }
+};
+
 ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
 /**
  * @brief see #ZFObject::observerNotify

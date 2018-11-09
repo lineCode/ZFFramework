@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * pathData is binary data encoded with base64
  */
-#define ZFPathType_base64 "base64"
+ZFPATHTYPE_DECLARE(base64)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPathType_base64_h_

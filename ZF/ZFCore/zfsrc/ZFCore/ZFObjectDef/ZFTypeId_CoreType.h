@@ -370,13 +370,13 @@ ZFOUTPUT_TYPE(ZFFilterCallbackResult, {output.execute(ZFFilterCallbackResultToSt
  *
  * serializable data:
  * @code
- *   <ZFPathInfo value="pathType|pathData" />
+ *   <ZFPathInfo value="pathType:pathData" />
  * @endcode
  */
 ZFTYPEID_DECLARE(ZFPathInfo, ZFPathInfo)
 ZFOUTPUT_TYPE(ZFPathInfo, {output.execute(ZFPathInfoToString(v));})
 /** @brief keyword for serialize */
-#define ZFSerializableKeyword_ZFPathInfo_separator "|"
+#define ZFSerializableKeyword_ZFPathInfo_separator ":"
 
 /**
  * @brief util method to parse path info for performance

@@ -1,9 +1,17 @@
+# master
+
+* optimize style load
+* optimize path info impl
+* optimize operation impl
+
 # 0.6.0
+
 * optimize typeid impl
 * optimize color impl
 * remove wchar support
 
 # 0.5.0
+
 * optimize serializable output
 * optimize cache impl
 * optimize native window attach impl
@@ -12,6 +20,7 @@
 * change zfsynchronize API names
 
 # 0.4.1
+
 * update project files
 * fix `all_load` problem for iOS project
 

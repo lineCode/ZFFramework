@@ -13,7 +13,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECTIO_DEFINE(lua, {
-        return (zfscmpTheSame(pathInfo.pathType.cString(), ZFPathType_lua)
+        return (zfscmpTheSame(pathInfo.pathType.cString(), ZFPathType_lua())
             || ZFObjectIOImplCheck(pathInfo, "lua"));
     }, {
         ret = ZFLuaExecute(input);

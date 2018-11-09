@@ -94,7 +94,7 @@ public:
         zfclassNotPOD Value \
         { \
         public: \
-            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
+            static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
@@ -105,12 +105,12 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
+            static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
             { \
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
-            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
             } \
         }; \
@@ -120,7 +120,7 @@ public:
         private: \
              typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
-            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
+            static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
@@ -131,7 +131,7 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
+            static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
             { \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
@@ -142,7 +142,7 @@ public:
                     _ZFP_PropAliasOnDetach); \
                 return *holder; \
             } \
-            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
                 _ZFP_PropAliasDetach(obj, \
                     zfsConnectLineFree(ZFM_TOSTRING(EnumName), "_", zftTraits<_TrNoRef>::ModifierName()) \
@@ -259,7 +259,7 @@ public:
         zfclassNotPOD Value \
         { \
         public: \
-            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
+            static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
@@ -270,12 +270,12 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
+            static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
             { \
                 /* EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
-            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
             } \
         }; \
@@ -285,7 +285,7 @@ public:
         private: \
             typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
         public: \
-            static zfbool accessAvailable(ZF_IN_OUT zfautoObject &obj) \
+            static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
             { \
                 if(_ZFP_ZFEnumCanModify<T_Access>::v) \
                 { \
@@ -296,7 +296,7 @@ public:
                     return (ZFCastZFObject(EnumName *, obj) != zfnull); \
                 } \
             } \
-            static T_Access access(ZF_IN_OUT zfautoObject &obj) \
+            static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
             { \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
@@ -307,7 +307,7 @@ public:
                     _ZFP_PropAliasOnDetach); \
                 return *holder; \
             } \
-            static void accessFinish(ZF_IN_OUT zfautoObject &obj) \
+            static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
                 _ZFP_PropAliasDetach(obj, \
                     zfsConnectLineFree(ZFM_TOSTRING(EnumName), "_", zftTraits<_TrNoRef>::ModifierName()) \

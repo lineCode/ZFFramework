@@ -21,6 +21,18 @@ there are many abbreviations in ZFFramework which keep code style and you should
 * `ZF` and `zf` : short for ZFFramework namespace, also used in script impls
 
 
+## Marks
+
+there are some marks in source code, to make things more clear or correlative,
+most of them has `ZFTAG_` as prefix:
+
+* `@cond ZFPrivateDoc` : Doxygen condition to prevent something to be documented
+* `ZFTAG_DOXYGEN_BUG` : tricks to solve Doxygen issues
+* `ZFTAG_ADD_MODULE` : if you want to add modules for ZFFramework, you should take care of this
+* `ZFTAG_LIMITATION` : limitation of ZFFramework, you should take care during coding
+* `ZFTAG_ZFVALUE_TYPE_TO_ADD` : if you want to add #ZFValue's internal type
+
+
 ## ZFCastZFObject
 
 we use ZFCastZFObject for dynamic type cast, instead of traditional `dynamic_cast`

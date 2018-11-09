@@ -243,6 +243,14 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallerInfo, zfstring, callerInfo)
 
 // ============================================================
 // ZFPathInfo
+ZFMETHOD_USER_REGISTER_2({
+        invokerObject->objectOnInit();
+        ZFPathInfo &zfv = invokerObject->to<v_ZFPathInfo *>()->zfv;
+        zfv.pathType = pathType;
+        zfv.pathData = pathData;
+    }, v_ZFPathInfo, void, objectOnInit,
+    ZFMP_IN(const zfchar *, pathType),
+    ZFMP_IN(const zfchar *, pathData))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFPathInfo, zfstring, pathType)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_ZFPathInfo, zfstring, pathData)
 

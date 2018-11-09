@@ -17,7 +17,7 @@
 // need -landroid
 // all resource files are located under "project_dir/assets/zfres/"
 //
-// due to the limitation of Android asset (non-media file type must not exceeds 1M bytes),
+// (ZFTAG_LIMITATION) due to the limitation of Android asset (non-media file type must not exceeds 1M bytes),
 // we add ".mp2" as dummy extension,
 // which is a media file type's extension
 // all res files with this extension would have its file extension to be removed

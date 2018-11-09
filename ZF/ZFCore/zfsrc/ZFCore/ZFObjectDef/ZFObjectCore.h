@@ -196,7 +196,7 @@ zfclassFwd ZFObjectHolder;
  *         }
  *     };
  *   @endcode
- * -  due to some limitation, you should always use ZFObject as a pointer
+ * -  (ZFTAG_LIMITATION) due to some limitation, you should always use ZFObject as a pointer
  *   but without const qualifier,
  *   for const operations, use the const version objects,
  *   such as ZFArray instead of ZFArrayEditable
@@ -691,7 +691,7 @@ public:
      *   use zfself::func() instead of this->func() if necessary,
      *   or use #objectOnInitFinish/#objectOnDeallocPrepare,
      *   or declare your own constructor with #ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR
-     * @note due to limitations of C++,
+     * @note (ZFTAG_LIMITATION) due to limitations of C++,
      *   if your parent type declared objectOnInit with different params,
      *   and your child type want to override part of those objectOnInit,
      *   then your child type must also override all objectOnInit that parent declared,
@@ -718,10 +718,6 @@ public:
      *         zfautoObject obj = MyObject::instanceForXxx(xxx); // OK
      *     }
      *   @endcode
-     * @note due to some limitations,
-     *   objectOnInit is declared public in ZFObject,
-     *   but you must not call it directly
-     *   except implementing your own objectOnInit
      */
     virtual void objectOnInit(void);
 protected:

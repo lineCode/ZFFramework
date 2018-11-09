@@ -1,4 +1,4 @@
-<node>
+<ZFStyleList>
     <ZFString name="ZF2048_autoMove" value="auto" />
     <ZFString name="ZF2048_autoMoveStop" value="stop" />
     <ZFString name="ZF2048_undo" value="undo" />
@@ -27,5 +27,5 @@
     <ZFString name="ZF2048AutoMoveDialog_hint" value="add action, or click to remove" />
     <ZFString name="ZF2048AutoMoveDialog_confirm" value="start" />
     <ZFString name="ZF2048AutoMoveDialog_cancel" value="cancel" />
-</node>
+</ZFStyleList>
 

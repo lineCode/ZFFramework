@@ -518,7 +518,7 @@ void ZFFilePathInfoDataGetAllT(ZF_OUT ZFCoreArrayPOD<const zfchar *> &ret)
 }
 
 // ============================================================
-ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoMakeT,
+ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFPathInfoForLocalFileT,
                        ZFMP_OUT(ZFPathInfo &, ret),
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, childPath))
@@ -540,12 +540,12 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFFilePathInfoMakeT,
         return impl->callbackToChild(pathInfo.pathData, ret.pathData, childPath);
     }
 }
-ZFMETHOD_FUNC_DEFINE_2(ZFPathInfo, ZFFilePathInfoMake,
+ZFMETHOD_FUNC_DEFINE_2(ZFPathInfo, ZFPathInfoForLocalFile,
                        ZFMP_IN(const ZFPathInfo &, pathInfo),
                        ZFMP_IN(const zfchar *, childPath))
 {
     ZFPathInfo ret;
-    ZFFilePathInfoMakeT(ret, pathInfo, childPath);
+    ZFPathInfoForLocalFileT(ret, pathInfo, childPath);
     return ret;
 }
 

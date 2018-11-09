@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * pathData is file's relative path within #ZFFilePathForModule
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_modulePath "modulePath"
+ZFPATHTYPE_DECLARE(modulePath)
 
 /**
  * @brief see #ZFPathInfo
@@ -32,7 +32,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * pathData is file's relative path within #ZFFilePathForStorage
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_storagePath "storagePath"
+ZFPATHTYPE_DECLARE(storagePath)
 
 /**
  * @brief see #ZFPathInfo
@@ -40,7 +40,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * pathData is file's relative path within #ZFFilePathForStorageShared
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_storageSharedPath "storageSharedPath"
+ZFPATHTYPE_DECLARE(storageSharedPath)
 
 /**
  * @brief see #ZFPathInfo
@@ -50,14 +50,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * note, the cache path's content would be removed accorrding to #ZFFilePathForCacheClear
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_cachePath "cachePath"
+ZFPATHTYPE_DECLARE(cachePath)
 
 /**
  * @brief see #ZFPathInfo
  *
  * pathData is plain text
  */
-#define ZFPathType_text "text"
+ZFPATHTYPE_DECLARE(text)
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFPathType_common_h_

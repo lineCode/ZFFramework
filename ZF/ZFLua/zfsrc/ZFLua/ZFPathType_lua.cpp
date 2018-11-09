@@ -11,6 +11,9 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFPATHTYPE_DEFINE(lua)
+
+// ============================================================
 zfclassNotPOD _ZFP_ZFPathType_lua
 {
 public:
@@ -145,7 +148,7 @@ public:
         return d->bufSize - d->pos;
     }
 };
-ZFPATHTYPE_FILEIO_REGISTER(lua, ZFPathType_lua
+ZFPATHTYPE_FILEIO_REGISTER(lua, ZFPathType_lua()
         , _ZFP_ZFPathType_lua::callbackIsExist
         , _ZFP_ZFPathType_lua::callbackIsDir
         , _ZFP_ZFPathType_lua::callbackGetFileName

@@ -152,7 +152,7 @@ private:
                 lastCount = 0;
                 langFlag = !langFlag;
                 const zfchar *langFile = langFlag ? "ZF2048/lang/lang_default.xml" : "ZF2048/lang/lang_zh-CN.xml";
-                ZFStyleLoad(ZFSerializableDataFromXml(ZFXmlParseFirstElement(ZFInputForResFile(langFile))));
+                ZFStyleLoad(ZFPathInfo(ZFPathType_res(), langFile));
             }
         }
         else

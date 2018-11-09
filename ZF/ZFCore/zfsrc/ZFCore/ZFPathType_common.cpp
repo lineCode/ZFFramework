@@ -11,6 +11,13 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFPATHTYPE_DEFINE(modulePath)
+ZFPATHTYPE_DEFINE(storagePath)
+ZFPATHTYPE_DEFINE(storageSharedPath)
+ZFPATHTYPE_DEFINE(cachePath)
+ZFPATHTYPE_DEFINE(text)
+
+// ============================================================
 #define _ZFP_ZFPathType_common_DEFINE(registerSig, pathType, pathPrefixFunc) \
     zfclassNotPOD _ZFP_ZFPathType_##registerSig \
     { \
@@ -55,10 +62,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackSize \
         )
 
-_ZFP_ZFPathType_common_DEFINE(modulePath, ZFPathType_modulePath, ZFFilePathForModule)
-_ZFP_ZFPathType_common_DEFINE(storagePath, ZFPathType_storagePath, ZFFilePathForStorage)
-_ZFP_ZFPathType_common_DEFINE(storageSharedPath, ZFPathType_storageSharedPath, ZFFilePathForStorageShared)
-_ZFP_ZFPathType_common_DEFINE(cachePath, ZFPathType_cachePath, ZFFilePathForCache)
+_ZFP_ZFPathType_common_DEFINE(modulePath, ZFPathType_modulePath(), ZFFilePathForModule)
+_ZFP_ZFPathType_common_DEFINE(storagePath, ZFPathType_storagePath(), ZFFilePathForStorage)
+_ZFP_ZFPathType_common_DEFINE(storageSharedPath, ZFPathType_storageSharedPath(), ZFFilePathForStorageShared)
+_ZFP_ZFPathType_common_DEFINE(cachePath, ZFPathType_cachePath(), ZFFilePathForCache)
 
 // ============================================================
 // text
@@ -196,7 +203,7 @@ public:
         return d->bufSize - d->pos;
     }
 };
-ZFPATHTYPE_FILEIO_REGISTER(text, ZFPathType_text
+ZFPATHTYPE_FILEIO_REGISTER(text, ZFPathType_text()
         , _ZFP_ZFPathType_text::callbackIsExist
         , _ZFP_ZFPathType_text::callbackIsDir
         , _ZFP_ZFPathType_text::callbackGetFileName

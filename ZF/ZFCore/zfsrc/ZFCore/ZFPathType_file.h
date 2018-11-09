@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * pathData is the file path
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
-#define ZFPathType_file "file"
+ZFPATHTYPE_DECLARE(file)
 
 // ============================================================
 // ZFInputForFile
@@ -43,7 +43,7 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInput, ZFInputForFile,
                                ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
     ZFInput ret;
-    ZFInputForPathInfoT(ret, ZFPathType_file, filePath, flags);
+    ZFInputForPathInfoT(ret, ZFPathType_file(), filePath, flags);
     return ret;
 }
 
@@ -63,7 +63,7 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFOutput, ZFOutputForFile,
                                ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
     ZFOutput ret;
-    ZFOutputForPathInfoT(ret, ZFPathType_file, filePath, flags);
+    ZFOutputForPathInfoT(ret, ZFPathType_file(), filePath, flags);
     return ret;
 }
 

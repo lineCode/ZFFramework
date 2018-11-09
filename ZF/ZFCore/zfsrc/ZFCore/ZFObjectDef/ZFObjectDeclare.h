@@ -218,7 +218,7 @@ public:
 #define ZFOBJECT_REGISTER(T_ZFObject) \
     ZF_STATIC_REGISTER_INIT(ObjR_##T_ZFObject) \
     { \
-        (void)T_ZFObject::ClassData(); \
+        (void)T_ZFObject::ClassData()->_ZFP_ZFClass_methodAndPropertyAutoRegister(); \
     } \
     ZF_STATIC_REGISTER_END(ObjR_##T_ZFObject)
 
@@ -244,7 +244,6 @@ public:
 
 // ============================================================
 /** @brief util macro for subclass to declare #ZFObject::objectOnInit as #ZFMethod */
-/** @brief see #ZFOBJECT_ON_INIT_INLINE_1 */
 #define ZFOBJECT_ON_INIT_INLINE_1( \
       ZFMP_0 \
     ) \

@@ -78,6 +78,59 @@ const ZFClass *ZFDI_classForName(ZF_IN const zfchar *className,
     return cls;
 }
 
+static void _ZFP_ZFDI_paramInfo(ZF_IN_OUT zfstring &ret,
+                                ZF_IN ZFObject *param)
+{
+    if(param == zfnull)
+    {
+        ret += ZFTOKEN_zfnull;
+    }
+    else
+    {
+        ret += "(";
+        ret += param->classData()->className();
+        ret += ")";
+        param->objectInfoT(ret);
+    }
+}
+void ZFDI_paramInfo(ZF_IN_OUT zfstring &ret
+                    , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param1 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param2 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param3 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param4 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param5 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param6 /* = ZFMethodGenericInvokerDefaultParam() */
+                    , ZF_IN_OPT ZFObject *param7 /* = ZFMethodGenericInvokerDefaultParam() */
+                    )
+{
+    if(param0 == zfnull || param0 == ZFMethodGenericInvokerDefaultParam()) {return ;}
+    ret += '[';
+    do
+    {
+        _ZFP_ZFDI_paramInfo(ret, param0);
+
+        #define _ZFP_ZFDI_paramInfo_loop(N) \
+            if(param##N == zfnull || param##N == ZFMethodGenericInvokerDefaultParam()) \
+            { \
+                break; \
+            } \
+            else \
+            { \
+                ret += ", "; \
+                _ZFP_ZFDI_paramInfo(ret, param##N); \
+            }
+        _ZFP_ZFDI_paramInfo_loop(1)
+        _ZFP_ZFDI_paramInfo_loop(2)
+        _ZFP_ZFDI_paramInfo_loop(3)
+        _ZFP_ZFDI_paramInfo_loop(4)
+        _ZFP_ZFDI_paramInfo_loop(5)
+        _ZFP_ZFDI_paramInfo_loop(6)
+        _ZFP_ZFDI_paramInfo_loop(7)
+    } while(zffalse);
+    ret += ']';
+}
+
 // ============================================================
 zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
                    , ZF_OUT_OPT zfstring *errorHint
@@ -211,6 +264,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         {
             continue;
         }
+        methodLast = method;
         _errorHintTmp.removeAll();
         zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
             param0, param1, param2, param3, param4, param5, param6, param7,
@@ -226,9 +280,6 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
                 {
                     if(errorHint != zfnull)
                     {
-                        errorHintTmp->insert(0, zfstringWithFormat(
-                            "unable to convert param with type \"%s\" from \"%s\"",
-                            method->methodParamTypeIdAtIndex(iParam), wrapper->zfv.cString()));
                         paramConvertSuccess = zffalse;
                         break;
                     }
@@ -243,13 +294,27 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         {
             return zftrue;
         }
-        methodLast = method;
     }
     if(errorHint != zfnull)
     {
         zfstringAppend(errorHint, "no matching method to call, last error reason: %s, for method: %s",
             errorHintTmp->cString(),
             methodLast ? methodLast->objectInfo().cString() : ZFTOKEN_zfnull);
+
+        if(param0 != zfnull && param0 != ZFMethodGenericInvokerDefaultParam())
+        {
+            *errorHint += ", with params: ";
+            ZFDI_paramInfo(*errorHint
+                    , param0
+                    , param1
+                    , param2
+                    , param3
+                    , param4
+                    , param5
+                    , param6
+                    , param7
+                );
+        }
     }
     return zffalse;
 }
@@ -392,9 +457,6 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
                 {
                     if(errorHint != zfnull)
                     {
-                        errorHintTmp->insert(0, zfstringWithFormat(
-                            "unable to convert param with type \"%s\" from \"%s\"",
-                            method->methodParamTypeIdAtIndex(iParam), wrapper->zfv.cString()));
                         paramConvertSuccess = zffalse;
                         break;
                     }
@@ -414,8 +476,27 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
     cls->newInstanceGenericEnd(token, zffalse);
     if(errorHint != zfnull)
     {
-        zfstringAppend(errorHint, "no matching objectOnInit to call, last error reason: %s",
-            errorHintTmp->cString());
+        zfstringAppend(errorHint, "no matching objectOnInit to call for class %s",
+            cls->className());
+        if(!errorHintTmp->isEmpty())
+        {
+            zfstringAppend(errorHint, ", last error reason: %s",
+                errorHintTmp->cString());
+        }
+        if(param0 != zfnull && param0 != ZFMethodGenericInvokerDefaultParam())
+        {
+            *errorHint += ", with params: ";
+            ZFDI_paramInfo(*errorHint
+                    , param0
+                    , param1
+                    , param2
+                    , param3
+                    , param4
+                    , param5
+                    , param6
+                    , param7
+                );
+        }
     }
     return zffalse;
 }

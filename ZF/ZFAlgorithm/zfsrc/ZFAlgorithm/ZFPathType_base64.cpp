@@ -11,6 +11,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFPATHTYPE_DEFINE(base64)
+
 // ============================================================
 // base64
 zfclassNotPOD _ZFP_ZFPathType_base64
@@ -148,7 +150,7 @@ public:
         return d->bufSize - d->pos;
     }
 };
-ZFPATHTYPE_FILEIO_REGISTER(base64, ZFPathType_base64
+ZFPATHTYPE_FILEIO_REGISTER(base64, ZFPathType_base64()
         , _ZFP_ZFPathType_base64::callbackIsExist
         , _ZFP_ZFPathType_base64::callbackIsDir
         , _ZFP_ZFPathType_base64::callbackGetFileName

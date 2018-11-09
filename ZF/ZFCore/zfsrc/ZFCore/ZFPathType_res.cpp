@@ -11,6 +11,8 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFPATHTYPE_DEFINE(res)
+
 // ============================================================
 static ZFToken _ZFP_ZFFilePathInfoOpenForRes(ZF_IN const zfchar *filePath,
                                              ZF_IN_OPT ZFFileOpenOptionFlags flag = ZFFileOpenOption::e_Read,
@@ -22,7 +24,7 @@ static ZFToken _ZFP_ZFFilePathInfoOpenForRes(ZF_IN const zfchar *filePath,
     }
     return ZFFileResOpen(filePath);
 }
-ZFPATHTYPE_FILEIO_REGISTER(res, ZFPathType_res
+ZFPATHTYPE_FILEIO_REGISTER(res, ZFPathType_res()
         , ZFFileResIsExist
         , ZFFileResIsDir
         , ZFFilePathInfoCallbackGetFileNameDefault

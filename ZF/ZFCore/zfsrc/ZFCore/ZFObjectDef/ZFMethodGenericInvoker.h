@@ -70,7 +70,7 @@ public:
     typedef int TypeMustRegisterByZFPROPERTY;
 };
 extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
-                                                 ZF_IN zfbool accessAvailable,
+                                                 ZF_IN zfbool zfvAccessAvailable,
                                                  ZF_IN const ZFMethod *invokerMethod,
                                                  ZF_IN zfindex paramIndex,
                                                  ZF_IN const zfchar *paramType,
@@ -85,7 +85,7 @@ extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
 #define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_PREPARE_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
     _ZFP_MtdGIParamCheck( \
         errorHint, \
-        ZFTypeId<_TR##N>::Value<_T##N>::accessAvailable(param), \
+        ZFTypeId<_TR##N>::Value<_T##N>::zfvAccessAvailable(param), \
         invokerMethod, \
         N, \
         ZFM_TOSTRING(ParamType), \
@@ -103,18 +103,18 @@ public:
         {
             this->obj = pDef;
         }
-        return ZFTypeId<T_Type>::template Value<T_Access>::access(this->obj);
+        return ZFTypeId<T_Type>::template Value<T_Access>::zfvAccess(this->obj);
     }
 public:
     ~_ZFP_MtdGIPA(void)
     {
-        ZFTypeId<T_Type>::template Value<T_Access>::accessFinish(this->obj);
+        ZFTypeId<T_Type>::template Value<T_Access>::zfvAccessFinish(this->obj);
     }
 };
 #define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
     _ZFP_MtdGIPA<_TR##N, _T##N>(param).a(DefaultExpandOrEmpty(pDef##N()))
 #define _ZFP_ZFMETHOD_GENERIC_INVOKER_PARAM_ACCESS_FINISH_EXPAND(N, DefaultExpandOrEmpty, ParamType, param) \
-    ZFTypeId<_TR##N>::Value<_T##N>::accessFinish(param);
+    ZFTypeId<_TR##N>::Value<_T##N>::zfvAccessFinish(param);
 #define _ZFP_ZFMETHOD_GENERIC_PARAM_DEFAULT_ACCESS(N, DefaultExpandOrEmpty, ParamType, DefaultValueFix) \
     DefaultExpandOrEmpty( \
         static zfautoObject pDef##N(void) \
@@ -356,8 +356,8 @@ public:
     static void p(ZF_IN_OUT T_ParamType &p, ZF_IN_OUT zfautoObject &h)
     {
         typedef typename zftTraits<T_ParamType &>::TrNoRef _Type;
-        p = ZFTypeId<_Type>::template Value<T_ParamType &>::access(h);
-        ZFTypeId<_Type>::template Value<T_ParamType &>::accessFinish(h);
+        p = ZFTypeId<_Type>::template Value<T_ParamType &>::zfvAccess(h);
+        ZFTypeId<_Type>::template Value<T_ParamType &>::zfvAccessFinish(h);
     }
 };
 template<typename T_ParamType>
@@ -369,8 +369,8 @@ public:
         typedef typename zftTraits<T_ParamType *>::TrNoRef _Type;
         if(p)
         {
-            *p = ZFTypeId<_Type>::template Value<T_ParamType const &>::access(h);
-            ZFTypeId<_Type>::template Value<T_ParamType const &>::accessFinish(h);
+            *p = ZFTypeId<_Type>::template Value<T_ParamType const &>::zfvAccess(h);
+            ZFTypeId<_Type>::template Value<T_ParamType const &>::zfvAccessFinish(h);
         }
     }
 };
@@ -382,11 +382,11 @@ public:
     static T_ReturnType r(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj, ZF_IN_OUT zfautoObject &ret)
     {
         typedef typename zftTraits<T_ReturnType>::TrNoRef _T_ReturnType;
-        if(!ZFTypeId<_T_ReturnType>::template Value<T_ReturnType>::accessAvailable(ret))
+        if(!ZFTypeId<_T_ReturnType>::template Value<T_ReturnType>::zfvAccessAvailable(ret))
         {
             _ZFP_ZFMethodGenericInvokeError(method, obj, -2);
         }
-        return ZFTypeId<_T_ReturnType>::template Value<T_ReturnType>::access(ret);
+        return ZFTypeId<_T_ReturnType>::template Value<T_ReturnType>::zfvAccess(ret);
     }
 };
 template<>

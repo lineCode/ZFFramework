@@ -11,8 +11,10 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZFPATHTYPE_DEFINE(file)
+
 // ============================================================
-ZFPATHTYPE_FILEIO_REGISTER(file, ZFPathType_file
+ZFPATHTYPE_FILEIO_REGISTER(file, ZFPathType_file()
         , ZFFileFileIsExist
         , ZFFileFileIsDir
         , ZFFilePathInfoCallbackGetFileNameDefault

@@ -241,7 +241,7 @@ protected:
     virtual void layoutedFrameFixedOnUpdateForChild(ZF_OUT ZFUIRect &ret, ZF_IN const ZFUIRect &childFrame);
 
     /**
-     * @brief due to implementations limitation, ZFUIScrollView may or may not have mouse event callbacks
+     * @brief (ZFTAG_LIMITATION) due to implementations limitation, ZFUIScrollView may or may not have mouse event callbacks
      */
     zfoverride
     virtual void viewEventOnMouseEvent(ZF_IN ZFUIMouseEvent *mouseEvent);
