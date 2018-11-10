@@ -387,6 +387,10 @@ public:
                                     , ZF_IN_OPT const zfchar *methodParamTypeId7 = zfnull
                                     ) const;
     /**
+     * @brief see #methodParamTypeIdIsMatch
+     */
+    zfbool methodParamTypeIdIsMatch(ZF_IN const ZFMethod *method) const;
+    /**
      * @brief get the method's param type id at index
      */
     inline const zfchar *methodParamTypeIdAtIndex(ZF_IN zfindex index) const

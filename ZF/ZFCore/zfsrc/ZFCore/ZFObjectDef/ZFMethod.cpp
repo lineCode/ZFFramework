@@ -243,6 +243,24 @@ zfbool ZFMethod::methodParamTypeIdIsMatch(
     #undef _ZFP_ZFMethodParamCheck_paramLoop
     return zftrue;
 }
+zfbool ZFMethod::methodParamTypeIdIsMatch(ZF_IN const ZFMethod *method) const
+{
+    if(method->methodParamCount() != this->methodParamCount()
+        || method->methodParamDefaultBeginIndex() != this->methodParamDefaultBeginIndex())
+    {
+        return zffalse;
+    }
+    return this->methodParamTypeIdIsMatch(
+            method->_ZFP_ZFMethod_paramTypeIdList[0]
+            , method->_ZFP_ZFMethod_paramTypeIdList[1]
+            , method->_ZFP_ZFMethod_paramTypeIdList[2]
+            , method->_ZFP_ZFMethod_paramTypeIdList[3]
+            , method->_ZFP_ZFMethod_paramTypeIdList[4]
+            , method->_ZFP_ZFMethod_paramTypeIdList[5]
+            , method->_ZFP_ZFMethod_paramTypeIdList[6]
+            , method->_ZFP_ZFMethod_paramTypeIdList[7]
+        );
+}
 
 zfautoObject ZFMethod::methodGenericInvoke(ZF_IN_OPT ZFObject *ownerObjOrNull /* = zfnull */
                                            , ZF_IN_OPT ZFObject *param0 /* = ZFMethodGenericInvokerDefaultParam() */
@@ -728,6 +746,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFMethod, zfbool, methodParamTypeIdI
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId6, zfnull)
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId7, zfnull)
     )
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, zfbool, methodParamTypeIdIsMatch, ZFMP_IN(const ZFMethod *, method))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, const zfchar *, methodParamTypeIdAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, ZFMethodParamDefaultValueCallback, methodParamDefaultValueCallbackAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, zfautoObject, methodParamDefaultValueAtIndex, ZFMP_IN(zfindex, index))
