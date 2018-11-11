@@ -189,22 +189,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
         {
             zfstring tmp;
             printData.view->objectInfoT(tmp);
-            zfindex startFix = 0;
-            zfindex countFix = 0;
-            zfindex tokenLeftLen = zfslen(ZFTOKEN_ZFObjectInfoLeft);
-            zfindex tokenRightLen = zfslen(ZFTOKEN_ZFObjectInfoRight);
-            if(tmp.length() >= tokenLeftLen
-                && zfsncmp(tmp.cString(), ZFTOKEN_ZFObjectInfoLeft, tokenLeftLen) == 0)
-            {
-                startFix += tokenLeftLen;
-                countFix += tokenLeftLen;
-            }
-            if(tmp.length() >= tokenRightLen
-                && zfsncmp(tmp.cString() - tokenRightLen, ZFTOKEN_ZFObjectInfoRight, tokenRightLen) == 0)
-            {
-                countFix += tokenRightLen;
-            }
-            outputCallback.execute(tmp.cString() + startFix, tmp.length() - countFix);
+            outputCallback.execute(tmp.cString(), tmp.length());
         }
         outputCallback.execute("\n");
     } while(!printDatas.isEmpty());

@@ -1705,11 +1705,20 @@ ZFMETHOD_DEFINE_2(ZFUIView, const ZFUISize &, layoutMeasure,
         if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
             && ZFUISizeParamIsEqual(d->measureResult->sizeParam, sizeParam))
         {
-            if(
-                (d->measureResult->sizeParam.width == sizeParam.width
-                    || (d->measureResult->sizeParam.width == -1 && d->measureResult->measuredSize.width <= sizeParam.width))
-                && (d->measureResult->sizeParam.height == sizeParam.height
-                    || (d->measureResult->sizeParam.height == -1 && d->measureResult->measuredSize.height <= sizeParam.height))
+            // if all these cond matchs, result is ensured not changed
+            // * prev measure with wrap, and result a size less than size hint
+            // * cur measure with a larger size hint than prev
+            if(zftrue
+                && (d->measureResult->sizeHint.width == sizeHint.width
+                    || (sizeParam.width == ZFUISizeType::e_Wrap && (
+                        (d->measureResult->sizeHint.width < 0 && (sizeHint.width < 0 || d->measureResult->measuredSize.width <= sizeHint.width))
+                        || (d->measureResult->measuredSize.width < d->measureResult->sizeHint.width && (sizeHint.width == -1 || sizeHint.width >= d->measureResult->sizeHint.width))
+                    )))
+                && (d->measureResult->sizeHint.height == sizeHint.height
+                    || (sizeParam.height == ZFUISizeType::e_Wrap && (
+                        (d->measureResult->sizeHint.height < 0 && (sizeHint.height < 0 || d->measureResult->measuredSize.height <= sizeHint.height))
+                        || (d->measureResult->measuredSize.height < d->measureResult->sizeHint.height && (sizeHint.height == -1 || sizeHint.height >= d->measureResult->sizeHint.height))
+                    )))
                 )
             {
                 return d->measureResult->measuredSize;

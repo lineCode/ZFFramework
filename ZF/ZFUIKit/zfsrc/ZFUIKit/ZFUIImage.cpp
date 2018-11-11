@@ -378,9 +378,7 @@ ZFCompareResult ZFUIImage::objectCompare(ZF_IN ZFObject *anotherObj)
 }
 void ZFUIImage::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {
-    ret += this->classData()->classNameFull();
-    ret += " ";
-    zfsFromPointerT(ret, this);
+    zfsuper::objectInfoOnAppend(ret);
     ret += " ";
     ZFUISizeToString(ret, this->imageSize());
 }

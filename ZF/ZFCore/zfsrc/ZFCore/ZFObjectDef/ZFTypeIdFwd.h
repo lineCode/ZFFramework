@@ -257,11 +257,7 @@ public:
         zfoverride \
         virtual void objectOnInit(void) {zfsuper::objectOnInit();} \
         zfoverride \
-        virtual inline void objectInfoOnAppendTokenLeft(ZF_IN_OUT zfstring &ret) {} \
-        zfoverride \
-        virtual inline void objectInfoOnAppendTokenRight(ZF_IN_OUT zfstring &ret) {} \
-        zfoverride \
-        virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret); \
+        virtual void objectInfoT(ZF_IN_OUT zfstring &ret); \
     public: \
         zfoverride \
         virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj); \
@@ -309,7 +305,7 @@ public:
 
 #define _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMMON(TypeName, Type) \
     ZFOBJECT_REGISTER(v_##TypeName) \
-    void v_##TypeName::objectInfoOnAppend(ZF_IN_OUT zfstring &ret) \
+    void v_##TypeName::objectInfoT(ZF_IN_OUT zfstring &ret) \
     { \
         ZFCoreElementInfoGetter<Type>::elementInfoGetter(ret, this->zfv); \
     } \

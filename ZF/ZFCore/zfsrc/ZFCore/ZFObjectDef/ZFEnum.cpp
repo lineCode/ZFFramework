@@ -100,7 +100,7 @@ void ZFEnum::objectOnInit(ZF_IN ZFEnum *another)
     }
 }
 
-void ZFEnum::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
+void ZFEnum::objectInfoT(ZF_IN_OUT zfstring &ret)
 {
     if(this->classData()->classNamespace() != zfnull)
     {

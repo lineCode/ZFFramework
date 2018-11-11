@@ -112,15 +112,7 @@ protected:
 
 protected:
     zfoverride
-    virtual inline void objectInfoOnAppendTokenLeft(ZF_IN_OUT zfstring &ret)
-    {
-    }
-    zfoverride
-    virtual inline void objectInfoOnAppendTokenRight(ZF_IN_OUT zfstring &ret)
-    {
-    }
-    zfoverride
-    virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
+    virtual void objectInfoT(ZF_IN_OUT zfstring &ret);
 
 public:
     zfoverride

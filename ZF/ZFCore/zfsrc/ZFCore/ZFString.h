@@ -270,19 +270,11 @@ public:
 
 protected:
     zfoverride
-    virtual inline void objectInfoOnAppendTokenLeft(ZF_IN_OUT zfstring &ret)
+    virtual inline void objectInfoT(ZF_IN_OUT zfstring &ret)
     {
         ret += "\"";
-    }
-    zfoverride
-    virtual inline void objectInfoOnAppendTokenRight(ZF_IN_OUT zfstring &ret)
-    {
-        ret += "\"";
-    }
-    zfoverride
-    virtual inline void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
-    {
         ret += this->stringValue();
+        ret += "\"";
     }
 public:
     zfoverride

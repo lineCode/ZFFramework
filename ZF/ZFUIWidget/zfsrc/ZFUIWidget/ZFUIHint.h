@@ -179,6 +179,7 @@ protected:
     zfoverride
     virtual inline void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     {
+        zfsuper::objectInfoOnAppend(ret);
         if(this->hintContent() != zfnull)
         {
             ret += ", content: ";

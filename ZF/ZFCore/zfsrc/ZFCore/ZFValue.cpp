@@ -408,7 +408,7 @@ void ZFValue::objectOnDealloc(void)
     zfsuper::objectOnDealloc();
 }
 
-void ZFValue::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
+void ZFValue::objectInfoT(ZF_IN_OUT zfstring &ret)
 {
     d->valueStringT(ret);
 }

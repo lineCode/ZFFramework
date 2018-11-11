@@ -12,7 +12,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-void v_ZFCoreArray::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
+void v_ZFCoreArray::objectInfoT(ZF_IN_OUT zfstring &ret)
 {
     this->zfv.objectInfoOfContentT(ret, ZFCoreElementInfoGetter<zfautoObject>::elementInfoGetter);
 }

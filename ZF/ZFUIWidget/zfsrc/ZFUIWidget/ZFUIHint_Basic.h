@@ -53,18 +53,6 @@ public:
         ZFUIImageView *value = propertyValue;
         value->imageSet(zfRes("ZFUIWidget/ZFUIHintContentBasic_background.xml"));
     }
-
-protected:
-    zfoverride
-    virtual inline void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
-    {
-        if(this->buttonLabelText() != zfnull)
-        {
-            ret += " \"";
-            ret += this->buttonLabelText();
-            ret += "\"";
-        }
-    }
 };
 
 /**
