@@ -214,7 +214,7 @@ jint ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(ZF_IN const ZFUIColor &col
             | ((zfuint)(ZFUIColorGetA(color) * 0xFF) << 24)
             | ((zfuint)(ZFUIColorGetR(color) * 0xFF) << 16)
             | ((zfuint)(ZFUIColorGetG(color) * 0xFF) << 8)
-            | ((zfuint)(ZFUIColorGetG(color) * 0xFF) << 0)
+            | ((zfuint)(ZFUIColorGetB(color) * 0xFF) << 0)
         );
 }
 void ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColorT(ZF_OUT ZFUIColor &ret, ZF_IN jint jColor)
