@@ -1,5 +1,6 @@
-# master
+# 0.7.0
 
+* optimize reflection performance
 * optimize style load
 * optimize path info impl
 * optimize operation impl

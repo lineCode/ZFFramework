@@ -29,7 +29,7 @@
  * @brief version of ZFFramework, e.g. '0.1.0'
  */
 #define ZF_ENV_ZFVERSION_MAIN()       0
-#define ZF_ENV_ZFVERSION_SUB()        6
+#define ZF_ENV_ZFVERSION_SUB()        7
 #define ZF_ENV_ZFVERSION_MINOR()      0
 
 #define ZF_ENV_ZFVERSION() _ZFP_ZF_ENV_ZFVERSION(ZF_ENV_ZFVERSION_MAIN(), ZF_ENV_ZFVERSION_SUB(), ZF_ENV_ZFVERSION_MINOR())
