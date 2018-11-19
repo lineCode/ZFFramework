@@ -9,22 +9,17 @@
  * ====================================================================== */
 package com.ZFFramework.Android.ZF_impl;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import com.ZFFramework.Android.NativeUtil.ZFAndroidLog;
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
+
+import java.lang.ref.WeakReference;
 
 /**
  * @brief main entry as a Activity in Android
@@ -89,6 +84,16 @@ public final class ZFMainEntry extends Activity {
     private native static void native_debugModeSet(boolean value);
 
     // ============================================================
+    // whether we need sdcard permission
+    private static boolean _sdcardRW = true;
+    public static void sdcardRWSet(boolean value) {
+        _sdcardRW = value;
+    }
+    public static boolean sdcardRW() {
+        return _sdcardRW;
+    }
+
+    // ============================================================
     // global state
     private static WeakReference<Application> _app = null;
     public static Application app() {
@@ -116,6 +121,7 @@ public final class ZFMainEntry extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this._sdcardRWRequest();
 
         if(!ZFMainEntry.mainEntryAttached()) {
             ZFMainEntry.mainEntryAttach(this);
@@ -126,6 +132,21 @@ public final class ZFMainEntry extends Activity {
         super.onDestroy();
         if(ZFMainEntry.mainEntryAttached() && ZFMainEntry.mainEntryActivity() == this) {
             ZFMainEntry.mainEntryDetach();
+        }
+    }
+
+    // ============================================================
+    // private
+    private void _sdcardRWRequest() {
+        if(ZFMainEntry.sdcardRW()
+            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int permission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                this.requestPermissions(new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                }, 1);
+            }
         }
     }
 
