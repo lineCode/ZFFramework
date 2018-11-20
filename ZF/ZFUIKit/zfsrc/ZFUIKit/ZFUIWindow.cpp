@@ -258,5 +258,17 @@ void ZFUIWindow::viewOnRemoveFromParent(ZF_IN ZFUIView *parent)
     }
 }
 
+// ============================================================
+// util
+ZFMETHOD_FUNC_DEFINE_3(void, ZFUIWindowShow,
+                       ZFMP_IN(ZFUIView *, view),
+                       ZFMP_IN_OPT(const ZFUISizeParam &, sizeParam, ZFUISizeParamFillFill()),
+                       ZFMP_IN_OPT(const ZFUIAlignFlags &, layoutAlign, ZFUIAlign::e_Center))
+{
+    zfblockedAlloc(ZFUIWindow, window);
+    window->childAdd(view, sizeParam, layoutAlign);
+    window->windowShow();
+}
+
 ZF_NAMESPACE_GLOBAL_END
 

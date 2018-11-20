@@ -34,7 +34,8 @@ ZFOUTPUT_TYPE_DEFINE(zfautoObject, {
 // ============================================================
 // ZFCallerInfo
 ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfoHolder, {
-        ZFIndexRange pos[3] = {0};
+        ZFIndexRange pos[3];
+        zfmemset(pos, 0, sizeof(pos));
         const zfchar *p = src;
         const zfchar *pEnd = src + ((srcLen == zfindexMax()) ? zfslen(src) : srcLen);
 

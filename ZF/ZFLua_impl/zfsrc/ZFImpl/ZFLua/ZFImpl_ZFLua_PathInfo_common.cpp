@@ -81,7 +81,7 @@ static int _ZFP_ZFLuaLocalInput(ZF_IN lua_State *L, ZF_IN zfbool requireValid, Z
         if(requireValid)
         {
             ZFLuaErrorOccurredTrim(
-                "unable to access pathInfo, got: %s",
+                "unable to access ZFLuaPathInfo(), got: %s",
                 ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
             return ZFImpl_ZFLua_luaError(L);
         }
@@ -111,6 +111,21 @@ static int _ZFP_ZFLuaLocalInput(ZF_IN lua_State *L, ZF_IN zfbool requireValid, Z
 
     ret->zfv.callbackSerializeCustomDisable(zftrue);
     ZFInputForLocalFileT(ret->zfv, pathInfo->zfv, localFilePath);
+
+    // try to search each location
+    if(!ret->zfv.callbackIsValid())
+    {
+        ZFInputForPathInfoT(ret->zfv, ZFPathType_res(), localFilePath);
+        if(!ret->zfv.callbackIsValid())
+        {
+            ZFInputForPathInfoT(ret->zfv, ZFPathType_file(), localFilePath);
+        }
+        if(!ret->zfv.callbackIsValid())
+        {
+            ZFInputForPathInfoT(ret->zfv, ZFPathType_modulePath(), localFilePath);
+        }
+    }
+
     if(!ret->zfv.callbackIsValid())
     {
         if(requireValid)
@@ -217,6 +232,23 @@ static int _ZFP_ZFLuaImportAll(ZF_IN lua_State *L)
 
         ZFPathInfo localPathInfo;
         ZFPathInfoForLocalFileT(localPathInfo, pathInfo->zfv, localFilePath);
+
+        // try to search each location
+        if(!ZFFilePathInfoIsExist(localPathInfo))
+        {
+            localPathInfo.pathType = ZFPathType_res();
+            localPathInfo.pathData = localFilePath;
+
+            if(!ZFFilePathInfoIsExist(localPathInfo))
+            {
+                localPathInfo.pathType = ZFPathType_file();
+            }
+            if(!ZFFilePathInfoIsExist(localPathInfo))
+            {
+                localPathInfo.pathType = ZFPathType_modulePath();
+            }
+        }
+
         return _ZFP_ZFLuaImportAllWrap(L, localPathInfo, importCallback, importCallbackUserData, recursive);
     }
 }

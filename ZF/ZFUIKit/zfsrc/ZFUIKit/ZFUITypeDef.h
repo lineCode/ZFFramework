@@ -842,12 +842,13 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIRect, ZFUIRectApplyScale,
                                ZFMP_IN(const ZFUIRect &, rect),
                                ZFMP_IN(zffloat, scale))
 {
-    ZFUIRect ret = {
+    ZFUIRect ret = {{
         ZFUISizeApplyScale(rect.point.x, scale),
-        ZFUISizeApplyScale(rect.point.y, scale),
+        ZFUISizeApplyScale(rect.point.y, scale)
+    }, {
         ZFUISizeApplyScale(rect.size.width, scale),
         ZFUISizeApplyScale(rect.size.height, scale)
-    };
+    }};
     return ret;
 }
 /**
@@ -870,12 +871,13 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIRect, ZFUIRectApplyScaleReversely,
                                ZFMP_IN(const ZFUIRect &, rect),
                                ZFMP_IN(zffloat, scale))
 {
-    ZFUIRect ret = {
+    ZFUIRect ret = {{
         ZFUISizeApplyScaleReversely(rect.point.x, scale),
-        ZFUISizeApplyScaleReversely(rect.point.y, scale),
+        ZFUISizeApplyScaleReversely(rect.point.y, scale)
+    }, {
         ZFUISizeApplyScaleReversely(rect.size.width, scale),
         ZFUISizeApplyScaleReversely(rect.size.height, scale)
-    };
+    }};
     return ret;
 }
 /**
@@ -884,7 +886,7 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIRect, ZFUIRectApplyScaleReversely,
 ZFMETHOD_FUNC_DECLARE_INLINE_1(ZFUIRect, ZFUIRectGetBounds,
                                ZFMP_IN(const ZFUIRect &, rect))
 {
-    ZFUIRect ret = {0, 0, rect.size.width, rect.size.height};
+    ZFUIRect ret = {{0, 0}, {rect.size.width, rect.size.height}};
     return ret;
 }
 /**
@@ -949,12 +951,13 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIRect, ZFUIRectApplyMargin,
                                ZFMP_IN(const ZFUIRect &, rect),
                                ZFMP_IN(const ZFUIMargin &, margin))
 {
-    ZFUIRect ret = {
+    ZFUIRect ret = {{
         rect.point.x + margin.left,
-        rect.point.y + margin.top,
+        rect.point.y + margin.top
+    }, {
         rect.size.width - margin.left - margin.right,
         rect.size.height - margin.top - margin.bottom
-    };
+    }};
     return ret;
 }
 /**
@@ -977,12 +980,13 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUIRect, ZFUIRectApplyMarginReversely,
                                ZFMP_IN(const ZFUIRect &, rect),
                                ZFMP_IN(const ZFUIMargin &, margin))
 {
-    ZFUIRect ret = {
+    ZFUIRect ret = {{
         rect.point.x - margin.left,
-        rect.point.y - margin.top,
+        rect.point.y - margin.top
+    }, {
         rect.size.width + margin.left + margin.right,
         rect.size.height + margin.top + margin.bottom
-    };
+    }};
     return ret;
 }
 

@@ -124,6 +124,22 @@ extern ZF_ENV_EXPORT zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
  * serializable data:
  * @code
  *   <node>
+ *       // dummy input has no contents
+ *   </node>
+ * @endcode
+ */
+#define ZFCallbackSerializeCustomType_ZFInputDummy "ZFInputDummy"
+/**
+ * @brief a dummy input that always read zero byte with success state
+ */
+extern ZF_ENV_EXPORT ZFInput ZFInputDummy(void);
+
+/**
+ * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
+ *
+ * serializable data:
+ * @code
+ *   <node>
  *       <something category="input" ... />
  *       <zfindex category="start" ... /> // optional, 0 by default
  *       <zfindex category="count" ... /> // optional, zfindexMax() by default

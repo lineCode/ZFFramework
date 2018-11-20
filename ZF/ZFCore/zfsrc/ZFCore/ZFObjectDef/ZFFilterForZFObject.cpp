@@ -37,14 +37,14 @@ ZFFilterForZFObject::~ZFFilterForZFObject(void)
     }
 }
 
-void ZFFilterForZFObject::copyFrom(ZF_IN ZFFilterForZFObject const &ref)
+void ZFFilterForZFObject::copyFrom(ZF_IN ZFFilterBase<ZFObject *, ZFObject *> const &ref)
 {
     zfsuper::copyFrom(ref);
     for(zfindex i = 0; i < this->filterCount(); ++i)
     {
         zfRetain(this->filterGetInternal(i));
     }
-    this->classFilter.copyFrom(ref.classFilter);
+    this->classFilter.copyFrom(((ZFFilterForZFObject const &)ref).classFilter);
 }
 
 void ZFFilterForZFObject::filterOnStore(ZF_IN_OUT ZFObject * &to,

@@ -314,6 +314,20 @@ zfindex ZFInputCheckMatch(ZF_IN const zfchar **tokens,
 }
 
 // ============================================================
+// ZFInputDummy
+static zfindex _ZFP_ZFInputDummy(ZF_OUT void *buf, ZF_IN zfindex count)
+{
+    return 0;
+}
+ZFInput ZFInputDummy(void)
+{
+    ZFInput ret = ZFCallbackForFunc(_ZFP_ZFInputDummy);
+    ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFInputDummy);
+    ret.callbackSerializeCustomDataSet(ZFSerializableData());
+    return ret;
+}
+
+// ============================================================
 // ZFInputForInputInRange
 zfclass _ZFP_I_ZFInputForInputInRangeOwner : zfextends ZFObject
 {
@@ -641,6 +655,7 @@ ZFMETHOD_USER_REGISTER_2({
     }, v_ZFCallback, zfindex, input, ZFMP_OUT(zfstring &, buf), ZFMP_IN(zfindex, size))
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFBuffer, ZFInputReadToBuffer, ZFMP_IN_OUT(const ZFInput &, input))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFInput, ZFInputDummy)
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(ZFInput, ZFInputForInputInRange, ZFMP_IN(const ZFInput &, inputCallback), ZFMP_IN_OPT(zfindex, start, 0), ZFMP_IN_OPT(zfindex, count, zfindexMax()), ZFMP_IN_OPT(zfbool, autoRestorePos, zftrue))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBuffer, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBufferCopy, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))

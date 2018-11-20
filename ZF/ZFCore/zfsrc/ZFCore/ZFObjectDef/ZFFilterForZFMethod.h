@@ -66,12 +66,12 @@ public:
         this->d = ref.d;
         return *this;
     }
-    virtual void copyFrom(ZF_IN ZFFilterForZFMethod const &ref)
+    virtual void copyFrom(ZF_IN ZFFilterBase<const ZFMethod *, const ZFMethod *> const &ref)
     {
         zfsuper::copyFrom(ref);
-        this->classFilter.copyFrom(ref.classFilter);
+        this->classFilter.copyFrom(((ZFFilterForZFMethod const &)ref).classFilter);
         _ZFP_ZFFilterForZFMethodSetting *setting = zfnew(_ZFP_ZFFilterForZFMethodSetting);
-        zfmemcpy(setting, ref.d, sizeof(_ZFP_ZFFilterForZFMethodSetting));
+        zfmemcpy(setting, ((ZFFilterForZFMethod const &)ref).d, sizeof(_ZFP_ZFFilterForZFMethodSetting));
         d = setting;
     }
     /** @endcond */

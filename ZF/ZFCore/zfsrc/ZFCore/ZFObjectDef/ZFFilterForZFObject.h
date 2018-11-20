@@ -44,7 +44,7 @@ public:
     virtual ~ZFFilterForZFObject(void);
 
     /** @cond ZFPrivateDoc */
-    virtual void copyFrom(ZF_IN ZFFilterForZFObject const &ref);
+    virtual void copyFrom(ZF_IN ZFFilterBase<ZFObject *, ZFObject *> const &ref);
     /** @endcond */
 
 public:

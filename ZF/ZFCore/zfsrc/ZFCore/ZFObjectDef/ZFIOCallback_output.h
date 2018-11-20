@@ -162,6 +162,22 @@ _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFOutput, ZFIOCallback)
 // ============================================================
 // common output callbacks
 /**
+ * @brief see #ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE
+ *
+ * serializable data:
+ * @code
+ *   <node>
+ *       // dummy input has no contents
+ *   </node>
+ * @endcode
+ */
+#define ZFCallbackSerializeCustomType_ZFOutputDummy "ZFOutputDummy"
+/**
+ * @brief a dummy output that always output nothing with success state
+ */
+extern ZF_ENV_EXPORT ZFOutput ZFOutputDummy(void);
+
+/**
  * @brief create a output callback to output to a zfstring
  *
  * params:

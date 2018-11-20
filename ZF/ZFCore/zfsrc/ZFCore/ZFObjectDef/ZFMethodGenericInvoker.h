@@ -87,7 +87,7 @@ extern ZF_ENV_EXPORT zfbool _ZFP_MtdGIParamCheck(ZF_OUT_OPT zfstring *errorHint,
         errorHint, \
         ZFTypeId<_TR##N>::Value<_T##N>::zfvAccessAvailable(param), \
         invokerMethod, \
-        N, \
+        (_Ck##N)N, \
         ZFM_TOSTRING(ParamType), \
         param)
 template<typename T_Type, typename T_Access>

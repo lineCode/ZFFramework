@@ -443,7 +443,7 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         return zffalse;
     }
 
-    int error = luaL_loadbuffer(L, buf, (bufLen == zfindexMax()) ? zfslen(buf) : bufLen, chunkInfo);
+    int error = luaL_loadbuffer(L, buf, (bufLen == zfindexMax()) ? zfslen(buf) : bufLen, zfnull);
     if(error == 0)
     {
         if(luaParams != zfnull && !luaParams->isEmpty())
@@ -463,6 +463,12 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
     if(error != 0)
     {
         zfstring errHintTmp;
+        if(!zfsIsEmpty(chunkInfo))
+        {
+            errHintTmp += "pathInfo: [";
+            errHintTmp += chunkInfo;
+            errHintTmp += "]";
+        }
         const char *nativeError = lua_tostring(L, -1);
         zfbool isBuiltinError = (zfstringFind(nativeError, ZFImpl_ZFLua_dummyError) != zfindexMax());
         if(!isBuiltinError)
@@ -473,21 +479,16 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
                 *errHint += errHintTmp;
             }
         }
+        ZFLuaErrorOccurredTrim("%s", errHintTmp.cString());
 
 #if !ZF_ENV_ZFLUA_USE_EXCEPTION
-        zfstring _errorMsg;
-        if(!errHintTmp.isEmpty())
-        {
-            zfstringAppend(_errorMsg, "%s\n", errHintTmp.cString());
-        }
-        _errorMsg +=
+        zfCoreCriticalMessageTrim(
                 "| [ZFLua]\n"
                 "|     native lua error occurred with no exception support\n"
                 "|     (which would cause unrecoverable C++ memory leak or logic error)\n"
                 "|     to enable exception support\n"
                 "|     add ZF_ENV_ZFLUA_USE_EXCEPTION to your compiler"
-            ;
-        zfCoreCriticalMessageTrim("%s", _errorMsg.cString());
+            );
 #endif
 
         lua_pop(L, 1);
@@ -1043,9 +1044,6 @@ zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
 
 int ZFImpl_ZFLua_luaError(ZF_IN lua_State *L)
 {
-#if ZF_ENV_DEBUG
-    zfCoreCriticalMessage("native lua error");
-#endif
     return luaL_error(L, ZFImpl_ZFLua_dummyError);
 }
 

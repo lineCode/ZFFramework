@@ -13,6 +13,20 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
+// ZFOutputDummy
+static zfindex _ZFP_ZFOutputDummy(ZF_IN const void *s, ZF_IN zfindex count)
+{
+    return count;
+}
+ZFOutput ZFOutputDummy(void)
+{
+    ZFOutput ret = ZFCallbackForFunc(_ZFP_ZFOutputDummy);
+    ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputDummy);
+    ret.callbackSerializeCustomDataSet(ZFSerializableData());
+    return ret;
+}
+
+// ============================================================
 // ZFOutputForString
 zfclass _ZFP_I_ZFOutputForStringOwner : zfextends ZFObject
 {
@@ -182,6 +196,7 @@ ZFMETHOD_USER_REGISTER_2({
         return output.execute(src, size) * sizeof(zfchar);
     }, v_ZFCallback, zfindex, output, ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, size, zfindexMax()))
 
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFOutput, ZFOutputDummy)
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFOutput, ZFOutputForString, ZFMP_IN_OUT(zfstring &, s))
 
 ZF_NAMESPACE_GLOBAL_END

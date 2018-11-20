@@ -49,8 +49,8 @@ public:
 _ZFP_ZFEnumData::_ZFP_ZFEnumData(void)
 : needInitFlag(zftrue)
 , ownerClass(zfnull)
-, enumIsFlags(zffalse)
 , enumDefault(0)
+, enumIsFlags(zffalse)
 , d(zfnew(_ZFP_ZFEnumDataPrivate))
 {
 }
