@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 
 def ZF_ROOT_PATH = this.projectDir.getAbsolutePath() + '/../../../../../../ZFFramework'
 android {
+    signingConfigs {
+        ZFFramework {
+            keyAlias 'ZFFramework'
+            keyPassword 'ZFFramework'
+            storeFile file(ZF_ROOT_PATH + '/tools/spec/Android/ZFFramework.keystore')
+            storePassword 'ZFFramework'
+        }
+    }
     compileSdkVersion 24
     defaultConfig {
         minSdkVersion 18
@@ -21,6 +29,7 @@ android {
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.ZFFramework
         }
     }
     sourceSets {

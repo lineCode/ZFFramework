@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.view.Window;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @brief main entry as a Activity in Android
@@ -121,10 +123,10 @@ public final class ZFMainEntry extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this._sdcardRWRequest();
-
-        if(!ZFMainEntry.mainEntryAttached()) {
-            ZFMainEntry.mainEntryAttach(this);
+        if(this._requestPermission()) {
+            if(!ZFMainEntry.mainEntryAttached()) {
+                ZFMainEntry.mainEntryAttach(this);
+            }
         }
     }
     @Override
@@ -137,16 +139,33 @@ public final class ZFMainEntry extends Activity {
 
     // ============================================================
     // private
-    private void _sdcardRWRequest() {
-        if(ZFMainEntry.sdcardRW()
-            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int permission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                this.requestPermissions(new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                }, 1);
+    private boolean _requestPermission() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        List<String> permissions = new ArrayList<String>();
+
+        if(ZFMainEntry.sdcardRW()) {
+            if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
+        }
+
+        if(permissions.isEmpty()) {
+            return true;
+        }
+        String[] tmp = new String[permissions.size()];
+        permissions.toArray(tmp);
+        this.requestPermissions(tmp, 1);
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(!ZFMainEntry.mainEntryAttached()) {
+            ZFMainEntry.mainEntryAttach(this);
         }
     }
 
