@@ -24,7 +24,6 @@ REPO_PATH="$ZF_ROOT_PATH/_tmp/upload_app"
 REPO_PATH_TMP="$ZF_ROOT_PATH/_tmp/upload_app_tmp"
 
 sh "$ZF_TOOLS_PATH/common/git_check.sh" "https://github.com/ZFFramework/AppArchive" master "$REPO_PATH"
-cp "$APP_PATH" "$REPO_PATH/$REMOTE_FILE"
 
 _OLD_DIR=$(pwd)
 cd "$REPO_PATH"
@@ -37,6 +36,7 @@ git clean -xdf
 git pull
 
 sh "$ZF_TOOLS_PATH/common/copy_check.sh" "$REPO_PATH" "$REPO_PATH_TMP"
+cp "$APP_PATH" "$REPO_PATH_TMP/$REMOTE_FILE"
 git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch *' --prune-empty --tag-name-filter cat -- --all
 sh "$ZF_TOOLS_PATH/common/copy_check.sh" "$REPO_PATH_TMP" "$REPO_PATH"
 
@@ -44,4 +44,7 @@ git add -A
 git commit -a -m "update by CI"
 git push --force "https://ZSaberLv0:$ZFCI_TOKEN@github.com/ZFFramework/AppArchive"
 cd "$_OLD_DIR"
+
+rm -rf "$REPO_PATH"
+rm -rf "$REPO_PATH_TMP"
 
