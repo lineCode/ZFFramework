@@ -8,7 +8,7 @@ if test "x-$PROJ_NAME" = "x-" || test "x-$PROJ_PATH" = "x-" ; then
     exit 1
 fi
 
-ZF_ROOT_PATH=$WORK_DIR/../..
+ZF_ROOT_PATH=$WORK_DIR/../../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 RELEASE_PATH=$ZF_ROOT_PATH/_release/iOS
 
