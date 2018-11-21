@@ -2,6 +2,11 @@ WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 APP_PATH=$1
 REMOTE_FILE=$2
 
+if test "x-$ZFCI_TOKEN" = "x-" ; then
+    echo "ZFCI_TOKEN not set"
+    exit 1
+fi
+
 if test "x-$APP_PATH" = "x-" || test "x-$REMOTE_FILE" = "x-" ; then
     echo "usage:"
     echo "  upload_app.sh APP_PATH REMOTE_FILE"
@@ -37,6 +42,6 @@ sh "$ZF_TOOLS_PATH/common/copy_check.sh" "$REPO_PATH_TMP" "$REPO_PATH"
 
 git add -A
 git commit -a -m "update by CI"
-git push --force "https://ZSaberLv0:$ZFCI_DOC_TOKEN@github.com/ZFFramework/AppArchive"
+git push --force "https://ZSaberLv0:$ZFCI_TOKEN@github.com/ZFFramework/AppArchive"
 cd "$_OLD_DIR"
 

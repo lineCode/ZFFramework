@@ -2,8 +2,8 @@ WORK_DIR=$(cd "$(dirname "$0")"; pwd)
 ZF_ROOT_PATH=$WORK_DIR/../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
 
-if test "x-$ZFCI_DOC_TOKEN" = "x-" ; then
-    echo "ZFCI_DOC_TOKEN not set"
+if test "x-$ZFCI_TOKEN" = "x-" ; then
+    echo "ZFCI_TOKEN not set"
     exit 1
 fi
 
@@ -47,6 +47,6 @@ _OLD_DIR=$(pwd)
 cd "$DOC_REPO_PATH"
 git add -A
 git commit -a -m "update doc"
-git push --force "https://ZSaberLv0:$ZFCI_DOC_TOKEN@github.com/ZFFramework/zfframework.github.com"
+git push --force "https://ZSaberLv0:$ZFCI_TOKEN@github.com/ZFFramework/zfframework.github.com"
 cd "$_OLD_DIR"
 
