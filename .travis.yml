@@ -24,6 +24,8 @@ matrix:
       # build
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh
       - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}
+      - chmod +x ../ZFFramework/master/ZF_CI/upload_app.sh
+      - ../ZFFramework/master/ZF_CI/upload_app.sh "${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}/zfapp/build/outputs/apk/release/zfapp-release.apk" "${ZF_PROJ_NAME}.src.apk"
 
   - language: android
     env:
@@ -48,6 +50,8 @@ matrix:
       # build
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh
       - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}
+      - chmod +x ../ZFFramework/master/ZF_CI/upload_app.sh
+      - ../ZFFramework/master/ZF_CI/upload_app.sh "${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}/zfapp/build/outputs/apk/release/zfapp-release.apk" "${ZF_PROJ_NAME}.apk"
 
   - language: objective-c
     env:
@@ -111,14 +115,31 @@ matrix:
       - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh
       - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Qt_MacOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Qt/${ZF_PROJ_NAME}
 
-  - language: objective-c
+  - language: android
     env:
-      - ZF_BUILD=iOS;
+      - ZF_BUILD=Android;
+        ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo_ZF2048/zfproj;
         ZF_PROJ_NAME=ZF2048;
+    android:
+      components:
+        - tools
+        - build-tools-25.0.2
+        - platform-tools
+        - tools
+        - android-25
     script:
-      - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh
-      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_iOS.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/iOS/${ZF_PROJ_NAME}
+      # Android licenses
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-25" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "ndk-bundle" > /dev/null 2>&1
+      # build
+      - chmod +x ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh
+      - ../ZFFramework/master/ZF_CI/testbuild/testbuild_Android.sh ${ZF_PROJ_NAME} ${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}
+      - chmod +x ../ZFFramework/master/ZF_CI/upload_app.sh
+      - ../ZFFramework/master/ZF_CI/upload_app.sh "${ZF_PROJ_PATH}/Android/${ZF_PROJ_NAME}/zfapp/build/outputs/apk/release/zfapp-release.apk" "${ZF_PROJ_NAME}.apk"
 
   - language: cpp
     env:
