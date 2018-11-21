@@ -10,7 +10,7 @@ if not defined PROJ_PATH goto :usage
 goto :run
 :usage
 echo usage:
-echo   Qt_Windows_release.bat PROJ_NAME PROJ_PATH
+echo   releaselib_Qt_Windows.bat PROJ_NAME PROJ_PATH
 exit /b 1
 :run
 

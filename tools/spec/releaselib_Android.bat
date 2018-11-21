@@ -10,7 +10,7 @@ if not defined PROJ_PATH goto :usage
 goto :run
 :usage
 echo usage:
-echo   Android_release.bat PROJ_NAME PROJ_PATH
+echo   releaselib_Android.bat PROJ_NAME PROJ_PATH
 exit /b 1
 :run
 

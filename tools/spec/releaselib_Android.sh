@@ -3,7 +3,7 @@ PROJ_NAME=$1
 PROJ_PATH=$2
 if test "x-$PROJ_NAME" = "x-" || test "x-$PROJ_PATH" = "x-" ; then
     echo "usage:"
-    echo "  Android_release.sh PROJ_NAME PROJ_PATH"
+    echo "  releaselib_Android.sh PROJ_NAME PROJ_PATH"
     exit 1
 fi
 
