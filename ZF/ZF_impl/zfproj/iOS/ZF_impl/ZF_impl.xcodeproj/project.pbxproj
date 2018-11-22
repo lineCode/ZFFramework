@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 80363F04E8FAB0C126EDC276C7BC8B62 /* Build configuration list for PBXAggregateTarget "ZF_impl_aggregate" */;
 			buildPhases = (
-				EC5561AFD843579B32EE248A447720A7 /* ShellScript */,
+				523D512C00A1383EF0F9139A64DD8785 /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -199,7 +199,7 @@
 			shellPath = /bin/sh;
 			shellScript = "sh ${SRCROOT}/../../../../../../ZFFramework/tools/common/unity_build.sh \"${SRCROOT}/ProjectFiles/zfgensrc_ZF_impl.mm\" \"${SRCROOT}/../../../zfsrc\"";
 		};
-		EC5561AFD843579B32EE248A447720A7 /* ShellScript */ = {
+		523D512C00A1383EF0F9139A64DD8785 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

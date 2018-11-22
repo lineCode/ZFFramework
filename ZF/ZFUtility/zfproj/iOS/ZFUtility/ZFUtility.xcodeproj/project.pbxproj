@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = A1A1E87EBC09A730E6D932AF6BF13CBF /* Build configuration list for PBXAggregateTarget "ZFUtility_aggregate" */;
 			buildPhases = (
-				63AB186201E2A2A92C75146AE64E749E /* ShellScript */,
+				6DC04451E25F8D70C97F72D7F4918FDC /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -159,7 +159,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		63AB186201E2A2A92C75146AE64E749E /* ShellScript */ = {
+		6DC04451E25F8D70C97F72D7F4918FDC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

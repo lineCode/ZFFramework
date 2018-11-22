@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 24A243CE1D2AE6B039F4F045508ADCF7 /* Build configuration list for PBXAggregateTarget "ZFLua_impl_aggregate" */;
 			buildPhases = (
-				BC1F01A65BD8F9C1FC57A4F0B8A833E2 /* ShellScript */,
+				9660E4B7FEC90AD97961DFA5AD35760E /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -187,7 +187,7 @@
 			shellPath = /bin/sh;
 			shellScript = "sh ${SRCROOT}/../../../../../../ZFFramework/tools/common/unity_build.sh \"${SRCROOT}/ProjectFiles/zfgensrc_ZFLua_impl.mm\" \"${SRCROOT}/../../../zfsrc\"";
 		};
-		BC1F01A65BD8F9C1FC57A4F0B8A833E2 /* ShellScript */ = {
+		9660E4B7FEC90AD97961DFA5AD35760E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
