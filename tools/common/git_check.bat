@@ -49,10 +49,9 @@ if "%_GIT_VALID%" == "1" (
         git checkout .
         git reset --hard
         git clean -xdf
-        git fetch
-        git checkout %GIT_BRANCH%
-        git pull
+        git fetch --all && git reset --hard origin/master && git pull
         set _SUCCESS=!errorlevel!
+        git checkout %GIT_BRANCH%
         cd "%_OLD_DIR%"
 
         if "!_SUCCESS!" == "0" (
