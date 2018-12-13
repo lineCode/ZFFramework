@@ -162,7 +162,7 @@ static ZFEnum *_ZFP_ZFEnumDynamic_e(ZF_IN const ZFMethod *invokerMethod, ZF_IN Z
     return ret;
 }
 const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
-                                     ZF_IN const ZFCoreArrayPOD<zfidentity> &enumValues,
+                                     ZF_IN const ZFCoreArrayPOD<zfuint> &enumValues,
                                      ZF_IN const ZFCoreArray<zfstring> &enumNames,
                                      ZF_IN zfuint enumDefault /* = ZFEnumInvalid() */,
                                      ZF_IN zfbool enumIsFlags /* = zffalse */,
@@ -190,7 +190,7 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
             zfstringAppend(errorHint,
                 "default enum value %s doesn't exists in enum value list: %s",
                 zfuintToString(enumDefault).cString(),
-                enumValues.objectInfoOfContent(ZFCoreElementInfoGetter<zfidentity>::elementInfoGetter).cString());
+                enumValues.objectInfoOfContent(ZFCoreElementInfoGetter<zfuint>::elementInfoGetter).cString());
             return zfnull;
         }
     }
@@ -275,7 +275,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_6(const ZFClass *, ZFEnumDynamicRegister, ZFMP_IN(const zfchar *, enumClassName), ZFMP_IN(const ZFCoreArrayPOD<zfidentity> &, enumValues), ZFMP_IN(const ZFCoreArray<zfstring> &, enumNames), ZFMP_IN_OPT(zfuint, enumDefault, ZFEnumInvalid()), ZFMP_IN_OPT(zfbool, enumIsFlags, zffalse), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_6(const ZFClass *, ZFEnumDynamicRegister, ZFMP_IN(const zfchar *, enumClassName), ZFMP_IN(const ZFCoreArrayPOD<zfuint> &, enumValues), ZFMP_IN(const ZFCoreArray<zfstring> &, enumNames), ZFMP_IN_OPT(zfuint, enumDefault, ZFEnumInvalid()), ZFMP_IN_OPT(zfbool, enumIsFlags, zffalse), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFEnumDynamicUnregister, ZFMP_IN(const ZFClass *, enumClass))
 
 ZF_NAMESPACE_GLOBAL_END

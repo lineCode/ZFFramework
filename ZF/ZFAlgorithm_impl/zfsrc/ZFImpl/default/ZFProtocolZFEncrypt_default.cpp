@@ -58,7 +58,7 @@ public:
             }
         }
         zfindex sizeCheck = 0;
-        if(zfsToIntT(sizeCheck, sizeCheckBuf, zfindexMax(), 16))
+        if(!zfsToIntT(sizeCheck, sizeCheckBuf, zfindexMax(), 16))
         {
             return zffalse;
         }

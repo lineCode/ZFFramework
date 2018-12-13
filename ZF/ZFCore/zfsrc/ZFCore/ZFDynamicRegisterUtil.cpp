@@ -58,7 +58,7 @@ public:
     zfuint enumDefault;
     zfbool enumIsFlags;
     zfuint enumValueNext;
-    ZFCoreArrayPOD<zfidentity> enumValues;
+    ZFCoreArrayPOD<zfuint> enumValues;
     ZFCoreArray<zfstring> enumNames;
     ZFCoreArrayPOD<const ZFClass *> allClass;
     ZFCoreArrayPOD<const ZFClass *> allEnum;

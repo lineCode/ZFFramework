@@ -25,7 +25,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
  */
 extern ZF_ENV_EXPORT const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
-                                                          ZF_IN const ZFCoreArrayPOD<zfidentity> &enumValues,
+                                                          ZF_IN const ZFCoreArrayPOD<zfuint> &enumValues,
                                                           ZF_IN const ZFCoreArray<zfstring> &enumNames,
                                                           ZF_IN zfuint enumDefault = ZFEnumInvalid(),
                                                           ZF_IN zfbool enumIsFlags = zffalse,
