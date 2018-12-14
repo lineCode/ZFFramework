@@ -69,7 +69,7 @@ public:
     ZFPROPERTY_ASSIGN_WITH_INIT(zftimet, scrollThumbAutoHideDurationVertical,
                                 ZFAnimationDurationDefault())
 
-public:
+protected:
     zfoverride
     virtual void objectOnInit(void);
     zfoverride

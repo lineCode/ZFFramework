@@ -236,7 +236,7 @@ public:
 
     // ============================================================
     // instance method
-public:
+protected:
     /**
      * @brief init from zfchar string
      */

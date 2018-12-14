@@ -36,7 +36,7 @@ protected:
         this->addFrom(ZFCastZFObjectUnchecked(zfself *, anotherObj));
     }
 
-public:
+protected:
     /**
      * @brief init from a existing container
      */

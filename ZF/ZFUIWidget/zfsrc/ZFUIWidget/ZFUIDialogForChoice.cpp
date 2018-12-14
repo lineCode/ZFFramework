@@ -166,7 +166,7 @@ private:
         }
     }
 
-public:
+protected:
     zfoverride
     virtual void objectOnInit(void)
     {

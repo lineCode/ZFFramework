@@ -52,7 +52,7 @@ zfclass _ZFP_ZFUIScrollThumbDefault_HideThumbAniTypeNativeView : zfextends ZFAni
 {
     ZFOBJECT_DECLARE(_ZFP_ZFUIScrollThumbDefault_HideThumbAniTypeNativeView, ZFAnimationNativeView)
 
-public:
+protected:
     virtual void objectOnInit(ZF_IN ZFUIImageView *thumbView)
     {
         this->objectOnInit();
