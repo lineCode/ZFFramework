@@ -28,9 +28,9 @@ protected:
             this->testCaseOutputSeparator();
             this->testCaseOutput("xml:");
             ZFObjectToXml(ZFOutputForString(s), testObject);
-            ZFOutputForConsole() << s;
+            ZFOutputDefault() << s;
             this->testCaseOutput("xml re-serialized:");
-            ZFObjectToXml(ZFOutputForConsole(), ZFObjectFromXml(ZFInputForBufferUnsafe(s)));
+            ZFObjectToXml(ZFOutputDefault(), ZFObjectFromXml(ZFInputForBufferUnsafe(s)));
         }
 
         {
@@ -38,9 +38,9 @@ protected:
             this->testCaseOutputSeparator();
             this->testCaseOutput("json:");
             ZFObjectToJson(ZFOutputForString(s), testObject);
-            ZFOutputForConsole() << s;
+            ZFOutputDefault() << s;
             this->testCaseOutput("json re-serialized:");
-            ZFObjectToJson(ZFOutputForConsole(), ZFObjectFromJson(ZFInputForBufferUnsafe(s)));
+            ZFObjectToJson(ZFOutputDefault(), ZFObjectFromJson(ZFInputForBufferUnsafe(s)));
         }
 
         {
@@ -48,9 +48,9 @@ protected:
             this->testCaseOutputSeparator();
             this->testCaseOutput("zfsd:");
             ZFObjectToZfsd(ZFOutputForString(s), testObject);
-            ZFOutputForConsole() << s;
+            ZFOutputDefault() << s;
             this->testCaseOutput("zfsd re-serialized:");
-            ZFObjectToZfsd(ZFOutputForConsole(), ZFObjectFromZfsd(ZFInputForBufferUnsafe(s)));
+            ZFObjectToZfsd(ZFOutputDefault(), ZFObjectFromZfsd(ZFInputForBufferUnsafe(s)));
         }
 
         this->testCaseStop();

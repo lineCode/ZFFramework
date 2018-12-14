@@ -13,16 +13,38 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
-ZFOBSERVER_EVENT_GLOBAL_REGISTER(ZFOutputDefaultOnChange)
-ZF_NAMESPACE_END(ZFGlobalEvent)
-
-ZFOutput _ZFP_ZFOutputDefault;
-
-void ZFOutputDefaultSet(ZF_IN const ZFOutput &v)
+static ZFCoreArray<ZFOutput> &_ZFP_ZFOutputDefault_list(void)
 {
-    _ZFP_ZFOutputDefault = v;
-    ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFOutputDefaultOnChange());
+    static ZFCoreArray<ZFOutput> d;
+    return d;
+}
+static zfindex _ZFP_ZFOutputDefault_callback(ZF_IN const void *src, ZF_IN_OPT zfindex count = zfindexMax())
+{
+    ZFCoreArray<ZFOutput> &l = _ZFP_ZFOutputDefault_list();
+    for(zfindex i = 0; i < l.count(); ++i)
+    {
+        if(l[i].callbackIsValid())
+        {
+            l[i].execute(src, count);
+        }
+    }
+    return count;
+}
+const ZFOutput &_ZFP_ZFOutputDefault(void)
+{
+    static ZFOutput d = ZFCallbackForFunc(_ZFP_ZFOutputDefault_callback);
+    return d;
+}
+
+void ZFOutputDefaultAdd(ZF_IN const ZFOutput &v)
+{
+    ZFCoreArray<ZFOutput> &l = _ZFP_ZFOutputDefault_list();
+    l.add(v);
+}
+void ZFOutputDefaultRemove(ZF_IN const ZFOutput &v)
+{
+    ZFCoreArray<ZFOutput> &l = _ZFP_ZFOutputDefault_list();
+    l.removeElement(v);
 }
 
 ZF_NAMESPACE_GLOBAL_END
@@ -32,7 +54,8 @@ ZF_NAMESPACE_GLOBAL_END
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(const ZFOutput &, ZFOutputDefault)
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFOutputDefaultSet, ZFMP_IN(const ZFOutput &, v))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFOutputDefaultAdd, ZFMP_IN(const ZFOutput &, v))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(void, ZFOutputDefaultRemove, ZFMP_IN(const ZFOutput &, v))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

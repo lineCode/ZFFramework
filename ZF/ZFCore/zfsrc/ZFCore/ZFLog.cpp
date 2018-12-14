@@ -10,7 +10,6 @@
 #include "ZFLog.h"
 #include "ZFTime.h"
 #include "ZFOutputForFormat.h"
-#include "ZFOutputForConsole.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -88,13 +87,9 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFLogDataHolder, ZFLevelZFFrameworkEssenti
 {
     _ZFP_ZFLogMutex = zfAlloc(ZFMutex);
     _ZFP_ZFLogFormatHolder = zfAlloc(_ZFP_I_ZFLogFormat);
-
-    ZFExportVarEnsureInit_ZFOutputForConsole();
-    ZFLogOutputList.add(ZFOutputForConsole());
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFLogDataHolder)
 {
-    ZFLogOutputList.removeAll();
     zfRelease(_ZFP_ZFLogFormatHolder);
     _ZFP_ZFLogFormatHolder = zfnull;
     zfRelease(_ZFP_ZFLogMutex);
@@ -121,8 +116,6 @@ zfstring _ZFP_ZFLogHeaderString(ZF_IN const ZFCallerInfo &callerInfo)
     return ret;
 }
 
-ZFCoreArray<ZFOutput> ZFLogOutputList;
-
 // ============================================================
 static zfindex _ZFP_zfLogOnOutput(ZF_IN const void *src, ZF_IN zfindex size)
 {
@@ -130,10 +123,7 @@ static zfindex _ZFP_zfLogOnOutput(ZF_IN const void *src, ZF_IN zfindex size)
     {
         size = zfslen((const zfchar *)src) * sizeof(zfchar);
     }
-    for(zfindex i = 0; i < ZFLogOutputList.count(); ++i)
-    {
-        ZFLogOutputList[i].execute(src, size);
-    }
+    ZFOutputDefault().execute(src, size);
     return size;
 }
 ZFOutput zfLogTrimT(void)

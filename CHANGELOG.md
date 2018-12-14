@@ -1,6 +1,7 @@
 # master
 
 * optimize unsafe method names
+* optimize output chain
 
 # 0.7.0
 

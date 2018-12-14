@@ -37,14 +37,6 @@ extern ZF_ENV_EXPORT zfstring _ZFP_ZFLogHeaderString(ZF_IN const ZFCallerInfo &c
  */
 #define ZFLOG_HEADER_STRING (_ZFP_ZFLogHeaderString(ZFCallerInfoMake()).cString())
 
-/**
- * @brief output callback list for #zfLogTrimT
- *
- * by default, #ZFOutputForConsole would be added
- * during #ZFFrameworkInit as level #ZFLevelZFFrameworkEssential
- */
-extern ZF_ENV_EXPORT ZFCoreArray<ZFOutput> ZFLogOutputList;
-
 // ============================================================
 /**
  * @brief thread-safe log utility
@@ -62,7 +54,7 @@ extern ZF_ENV_EXPORT ZFCoreArray<ZFOutput> ZFLogOutputList;
  *
  * ZFLog is actually an output callback,
  * you can output anything that #ZFOutput supported\n
- * final log content would be written to #ZFLogOutputList,
+ * final log content would be written to #ZFOutputDefault,
  * which can be easily redirected to other output destinations\n
  * ZFLog is thread-safe, implemented by #ZFLogMutex\n
  * \n

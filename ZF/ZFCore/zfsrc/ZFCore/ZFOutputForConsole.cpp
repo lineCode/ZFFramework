@@ -43,16 +43,6 @@ static ZFOutput _ZFP_ZFOutputForConsole_create(void)
 }
 
 ZFEXPORT_VAR_READONLY_DEFINE(ZFOutput, ZFOutputForConsole, _ZFP_ZFOutputForConsole_create())
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFOutputForConsoleInit, ZFLevelZFFrameworkEssential)
-{
-    ZFExportVarEnsureInit_ZFOutputForConsole();
-    ZFOutputDefaultSet(ZFOutputForConsole());
-}
-ZF_GLOBAL_INITIALIZER_DESTROY(ZFOutputForConsoleInit)
-{
-    ZFOutputDefaultSet(ZFCallbackNull());
-}
-ZF_GLOBAL_INITIALIZER_END(ZFOutputForConsoleInit)
 
 ZF_NAMESPACE_GLOBAL_END
 

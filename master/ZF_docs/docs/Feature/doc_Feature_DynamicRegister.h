@@ -23,7 +23,7 @@
  * @code
  *   zfautoObject obj = ZFClass::classForName("MyClass")->newInstance();
  *   obj->invoke("myPropSet", zflineAlloc(v_zfstring, "myValue"));
- *   ZFObjectToXml(ZFOutputForConsole(), obj);
+ *   ZFObjectToXml(ZFOutputDefault(), obj);
  * @endcode
  */
 

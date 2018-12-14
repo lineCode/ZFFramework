@@ -19,28 +19,18 @@
 #include "ZFIOCallback.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
-/**
- * @brief see #ZFObject::observerNotify
- *
- * notified when #ZFOutputDefault changed,
- * params and result has no use and is always null
- */
-ZFOBSERVER_EVENT_GLOBAL(ZFOutputDefaultOnChange)
-ZF_NAMESPACE_END(ZFGlobalEvent)
-
-extern ZF_ENV_EXPORT ZFOutput _ZFP_ZFOutputDefault;
+extern ZF_ENV_EXPORT const ZFOutput &_ZFP_ZFOutputDefault(void);
 /**
  * @brief default output callback, output source must be zfchar *string
  *
- * you may change this at runtime by #ZFOutputDefaultSet,
- * and #ZFGlobalEvent::EventZFOutputDefaultOnChange would be fired
+ * you may change this at runtime by #ZFOutputDefaultAdd/#ZFOutputDefaultRemove
  */
-#define ZFOutputDefault() ((const ZFOutput &)_ZFP_ZFOutputDefault)
-/**
- * @brief see #ZFOutputDefault
- */
-extern ZF_ENV_EXPORT void ZFOutputDefaultSet(ZF_IN const ZFOutput &v);
+#define ZFOutputDefault() _ZFP_ZFOutputDefault()
+
+/** @brief see #ZFOutputDefault  */
+extern ZF_ENV_EXPORT void ZFOutputDefaultAdd(ZF_IN const ZFOutput &v);
+/** @brief see #ZFOutputDefault  */
+extern ZF_ENV_EXPORT void ZFOutputDefaultRemove(ZF_IN const ZFOutput &v);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFOutputDefault_h_
