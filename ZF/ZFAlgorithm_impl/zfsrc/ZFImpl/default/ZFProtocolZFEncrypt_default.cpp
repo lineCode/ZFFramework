@@ -37,7 +37,7 @@ public:
             }
             zfstring sizeCheck = zfstringWithFormat("%s+", zfsFromInt(inputBuf.bufferSize(), 16).cString());
             output.execute(sizeCheck.cString(), sizeCheck.length() * sizeof(zfchar));
-            return ZFBase64Encode(output, ZFInputForBuffer(inputBuf.buffer(), inputBuf.bufferSize()), zfnull, this->tableForKey(key));
+            return ZFBase64Encode(output, ZFInputForBufferUnsafe(inputBuf.buffer(), inputBuf.bufferSize()), zfnull, this->tableForKey(key));
         }
     }
     virtual zfbool decrypt(ZF_IN_OUT const ZFOutput &output,

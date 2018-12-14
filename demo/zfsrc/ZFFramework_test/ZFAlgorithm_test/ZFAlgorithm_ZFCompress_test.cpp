@@ -25,7 +25,7 @@ protected:
         this->testCaseOutput("compress buffer");
         {
             ZFIOBufferedCallbackUsingBuffer io;
-            ZFCompress(io, ZFInputForBuffer("uncompressed text"));
+            ZFCompress(io, ZFInputForBufferUnsafe("uncompressed text"));
             ZFDecompress(ZFOutputDefault(), io);
         }
 

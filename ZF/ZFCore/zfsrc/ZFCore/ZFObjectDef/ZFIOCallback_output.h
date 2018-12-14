@@ -24,7 +24,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief general output callback
  *
  * proto type:
- * -  zfindex output(const void *, zfindex);
+ * @code
+ *   zfindex output(ZF_IN const void *src,
+ *                  ZF_IN_OPT zfindex count = zfindexMax());
+ * @endcode
  *
  * params:
  * -  (const void *) output buffer
@@ -195,9 +198,9 @@ extern ZF_ENV_EXPORT ZFOutput ZFOutputForString(ZF_IN_OUT zfstring &s);
  *   if autoAppendNullToken, maxCount should contain the extra '\0' size
  * -  (zfbool) whether auto append '\0' to tail each time write
  */
-extern ZF_ENV_EXPORT ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
-                                                ZF_IN_OPT zfindex maxCount = zfindexMax(),
-                                                ZF_IN_OPT zfbool autoAppendNullToken = zftrue);
+extern ZF_ENV_EXPORT ZFOutput ZFOutputForBufferUnsafe(ZF_IN void *buf,
+                                                      ZF_IN_OPT zfindex maxCount = zfindexMax(),
+                                                      ZF_IN_OPT zfbool autoAppendNullToken = zftrue);
 
 // ============================================================
 // basic output

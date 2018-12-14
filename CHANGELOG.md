@@ -1,3 +1,7 @@
+# master
+
+* optimize unsafe method names
+
 # 0.7.0
 
 * optimize reflection performance

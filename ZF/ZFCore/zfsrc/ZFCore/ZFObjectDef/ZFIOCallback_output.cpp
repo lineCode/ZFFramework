@@ -82,10 +82,10 @@ ZFOutput ZFOutputForString(ZF_IN zfstring &s)
 }
 
 // ============================================================
-// ZFOutputForBuffer
-zfclass _ZFP_I_ZFOutputForBufferOwner : zfextends ZFObject
+// ZFOutputForBufferUnsafe
+zfclass _ZFP_I_ZFOutputForBufferUnsafeOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_I_ZFOutputForBufferOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFOutputForBufferUnsafeOwner, ZFObject)
 
 public:
     zfbool autoAppendNullToken;
@@ -145,15 +145,15 @@ public:
         return pEnd - pStart;
     }
 };
-ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
-                           ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
-                           ZF_IN_OPT zfbool autoAppendNullToken /* = zftrue */)
+ZFOutput ZFOutputForBufferUnsafe(ZF_IN void *buf,
+                                 ZF_IN_OPT zfindex maxCount /* = zfindexMax() */,
+                                 ZF_IN_OPT zfbool autoAppendNullToken /* = zftrue */)
 {
     if(buf == zfnull || maxCount == 0 || (maxCount == 1 && autoAppendNullToken))
     {
         return ZFCallbackNull();
     }
-    _ZFP_I_ZFOutputForBufferOwner *owner = zfAlloc(_ZFP_I_ZFOutputForBufferOwner);
+    _ZFP_I_ZFOutputForBufferUnsafeOwner *owner = zfAlloc(_ZFP_I_ZFOutputForBufferUnsafeOwner);
     owner->autoAppendNullToken = autoAppendNullToken;
     owner->pStart = (zfbyte *)buf;
     if(maxCount == zfindexMax())
@@ -171,7 +171,7 @@ ZFOutput ZFOutputForBuffer(ZF_IN void *buf,
     }
     owner->p = owner->pStart;
     ZFOutput ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_I_ZFOutputForBufferOwner, onOutput));
+        owner, ZFMethodAccess(_ZFP_I_ZFOutputForBufferUnsafeOwner, onOutput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;

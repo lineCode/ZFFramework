@@ -1008,6 +1008,11 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
                                        ZF_IN ZFObject *classDynamicRegisterUserData)
 {
     zfCoreMutexLocker();
+
+    // method data holder is required during _ZFP_ZFClassUnregister,
+    // access here to ensure init order
+    _ZFP_ZFMethodDataHolderInit();
+
     classNamespace = ZFNamespaceSkipGlobal(classNamespace);
     zfstring classNameFull;
     if(classNamespace != zfnull)
@@ -1074,9 +1079,6 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
     }
     ZFClass::_ZFP_ZFClassInitFinish(cls);
 
-    // method data holder is required during _ZFP_ZFClassUnregister,
-    // access here to ensure init order
-    _ZFP_ZFMethodDataHolderInit();
     return cls;
 }
 void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN const ZFClass *cls)
@@ -1110,7 +1112,7 @@ void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN c
 
     if(!d->internalTypesNeedAutoRegister)
     {
-        ZFMethodUserUnregister(cls->methodForName("ClassData"));
+        ZFMethodUserUnregister(cls->methodForNameIgnoreParent("ClassData"));
     }
 
     d->classDynamicRegisterUserData = zfnull;

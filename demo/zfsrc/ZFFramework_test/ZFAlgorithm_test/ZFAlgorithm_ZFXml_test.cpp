@@ -75,10 +75,10 @@ private:
         ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFXmlPerformance_test_fromData");
         for(zfindex i = 0; i < fromDataTimes; ++i)
         {
-            ZFXmlItemFromInput(ZFInputForBuffer(xmlString.cString()));
+            ZFXmlItemFromInput(ZFInputForBufferUnsafe(xmlString));
         }
         ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFXmlPerformance_test_fromData");
-        ZFXmlItem xmlItemNew = ZFXmlItemFromInput(ZFInputForBuffer(xmlString.cString()));
+        ZFXmlItem xmlItemNew = ZFXmlItemFromInput(ZFInputForBufferUnsafe(xmlString));
 
         this->testCaseOutputSeparator();
 

@@ -24,7 +24,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief general input callback
  *
  * proto type:
- * -  zfindex input(void *, zfindex);
+ * @code
+ *   zfindex input(ZF_OUT void *buf,
+ *                 ZF_IN zfindex count);
+ * @endcode
  *
  * params:
  * -  (void *) buffer to write to
@@ -183,14 +186,20 @@ extern ZF_ENV_EXPORT ZFInput ZFInputForInputInRange(ZF_IN const ZFInput &inputCa
  * -  (zfindex) src's count or zfindexMax() to calculate automatically (treated as const zfchar *),
  *   zfindexMax() by default
  */
-extern ZF_ENV_EXPORT ZFInput ZFInputForBuffer(ZF_IN const void *src,
-                                              ZF_IN_OPT zfindex count = zfindexMax());
+extern ZF_ENV_EXPORT ZFInput ZFInputForBufferUnsafe(ZF_IN const void *src,
+                                                    ZF_IN_OPT zfindex count = zfindexMax());
 /**
- * @brief see #ZFInputForBuffer,
+ * @brief see #ZFInputForBufferUnsafe,
  *   copy the contents and auto free it
  */
-extern ZF_ENV_EXPORT ZFInput ZFInputForBufferCopy(ZF_IN const void *src,
-                                                  ZF_IN_OPT zfindex count = zfindexMax());
+extern ZF_ENV_EXPORT ZFInput ZFInputForBuffer(ZF_IN const void *src,
+                                              ZF_IN_OPT zfindex count = zfindexMax());
+
+/**
+ * @brief same as #ZFInputForBuffer
+ */
+extern ZF_ENV_EXPORT ZFInput ZFInputForString(ZF_IN const zfchar *src,
+                                              ZF_IN_OPT zfindex count = zfindexMax());
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFIOCallback_input_h_

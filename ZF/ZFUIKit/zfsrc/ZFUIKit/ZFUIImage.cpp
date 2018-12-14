@@ -155,7 +155,7 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
         check, ZFSerializableKeyword_ZFUIImage_imageBin, zfstring, imageBin);
     if(imageBin != zfnull)
     {
-        if(!ZFUIImageEncodeFromBase64(this, ZFInputForBuffer(imageBin)))
+        if(!ZFUIImageEncodeFromBase64(this, ZFInputForBufferUnsafe(imageBin)))
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
                 "fail to load image from base64 data: \"%s\"", imageBin);

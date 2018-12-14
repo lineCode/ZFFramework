@@ -63,7 +63,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfautoObject, ZFLuaExecute,
                        ZFMP_IN_OPT(void *, L, zfnull))
 {
     zfautoObject ret;
-    if(_ZFP_ZFLuaExecute(zfnull, ZFInputForBuffer(buf), &ret, luaParams, L))
+    if(_ZFP_ZFLuaExecute(zfnull, ZFInputForBufferUnsafe(buf), &ret, luaParams, L))
     {
         ZFLuaGC(L);
         return ret;

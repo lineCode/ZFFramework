@@ -540,10 +540,10 @@ ZFCALLBACK_SERIALIZE_CUSTOM_TYPE_DEFINE(ZFInputForInputInRange, ZFCallbackSerial
 }
 
 // ============================================================
-// ZFInputForBuffer
-zfclass _ZFP_I_ZFInputForBufferOwner : zfextends ZFObject
+// ZFInputForBufferUnsafe
+zfclass _ZFP_I_ZFInputForBufferUnsafeOwner : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE(_ZFP_I_ZFInputForBufferOwner, ZFObject)
+    ZFOBJECT_DECLARE(_ZFP_I_ZFInputForBufferUnsafeOwner, ZFObject)
 
 public:
     const zfbyte *pStart;
@@ -607,12 +607,12 @@ static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
         return ZFCallbackNull();
     }
 
-    _ZFP_I_ZFInputForBufferOwner *owner = zfAlloc(_ZFP_I_ZFInputForBufferOwner);
+    _ZFP_I_ZFInputForBufferUnsafeOwner *owner = zfAlloc(_ZFP_I_ZFInputForBufferUnsafeOwner);
     owner->pStart = (const zfbyte *)src;
     owner->pEnd = owner->pStart + len;
     owner->p = owner->pStart;
     ZFInput ret = ZFCallbackForMemberMethod(
-        owner, ZFMethodAccess(_ZFP_I_ZFInputForBufferOwner, onInput));
+        owner, ZFMethodAccess(_ZFP_I_ZFInputForBufferUnsafeOwner, onInput));
     ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
     if(copy)
     {
@@ -624,13 +624,18 @@ static ZFInput _ZFP_ZFInputForBuffer(ZF_IN zfbool copy,
     zfRelease(owner);
     return ret;
 }
-ZFInput ZFInputForBuffer(ZF_IN const void *src,
-                         ZF_IN_OPT zfindex count /* = zfindexMax() */)
+ZFInput ZFInputForBufferUnsafe(ZF_IN const void *src,
+                               ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
     return _ZFP_ZFInputForBuffer(zffalse, src, count);
 }
-ZFInput ZFInputForBufferCopy(ZF_IN const void *src,
-                             ZF_IN_OPT zfindex count /* = zfindexMax() */)
+ZFInput ZFInputForBuffer(ZF_IN const void *src,
+                         ZF_IN_OPT zfindex count /* = zfindexMax() */)
+{
+    return _ZFP_ZFInputForBuffer(zftrue, src, count);
+}
+ZFInput ZFInputForString(ZF_IN const zfchar *src,
+                         ZF_IN_OPT zfindex count /* = zfindexMax() */)
 {
     return _ZFP_ZFInputForBuffer(zftrue, src, count);
 }
@@ -657,8 +662,9 @@ ZFMETHOD_USER_REGISTER_2({
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFBuffer, ZFInputReadToBuffer, ZFMP_IN_OUT(const ZFInput &, input))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFInput, ZFInputDummy)
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_4(ZFInput, ZFInputForInputInRange, ZFMP_IN(const ZFInput &, inputCallback), ZFMP_IN_OPT(zfindex, start, 0), ZFMP_IN_OPT(zfindex, count, zfindexMax()), ZFMP_IN_OPT(zfbool, autoRestorePos, zftrue))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBufferUnsafe, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBuffer, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForBufferCopy, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFInput, ZFInputForString, ZFMP_IN(const zfchar *, buf), ZFMP_IN_OPT(zfindex, count, zfindexMax()))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif
