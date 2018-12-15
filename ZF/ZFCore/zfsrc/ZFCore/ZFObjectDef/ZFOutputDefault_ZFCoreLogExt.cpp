@@ -8,6 +8,7 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFOutputDefault.h"
+#include "ZFObjectImpl.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
