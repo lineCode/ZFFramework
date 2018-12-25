@@ -293,7 +293,7 @@ _SYNC_EXCLUDE=
 if ! test "x-$_IS_MAC" = "x-1" ; then
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"project.pbxproj\""
 fi
-for i in "$ZF_EXCLUDE" ; do
+for i in $ZF_EXCLUDE ; do
     _SYNC_EXCLUDE="$_SYNC_EXCLUDE --exclude=\"$i\""
 done
 if ! test "x-$ZF_INPLACE" = "x-" ; then
