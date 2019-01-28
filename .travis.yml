@@ -7,15 +7,15 @@ matrix:
         ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo/zfproj_with_src;
         ZF_PROJ_NAME=ZFFramework_test;
-    os: osx
     android:
       components:
-        - build-tools-26.0.2
-        - android-26
+        - build-tools-25.0.2
+        - android-25
+        - extra
     script:
       # Android licenses
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
-      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-26" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-25" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "ndk-bundle" > /dev/null 2>&1
@@ -31,15 +31,15 @@ matrix:
         ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo/zfproj;
         ZF_PROJ_NAME=ZFFramework_test;
-    os: osx
     android:
       components:
-        - build-tools-26.0.2
-        - android-26
+        - build-tools-25.0.2
+        - android-25
+        - extra
     script:
       # Android licenses
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
-      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-26" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-25" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "ndk-bundle" > /dev/null 2>&1
@@ -117,15 +117,15 @@ matrix:
         ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo_ZF2048/zfproj;
         ZF_PROJ_NAME=ZF2048;
-    os: osx
     android:
       components:
-        - build-tools-26.0.2
-        - android-26
+        - build-tools-25.0.2
+        - android-25
+        - extra
     script:
       # Android licenses
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
-      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-26" > /dev/null 2>&1
+      - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-25" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;android;m2repository" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "extras;google;m2repository" > /dev/null 2>&1
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "ndk-bundle" > /dev/null 2>&1
