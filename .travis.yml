@@ -7,6 +7,7 @@ matrix:
         ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo/zfproj_with_src;
         ZF_PROJ_NAME=ZFFramework_test;
+    os: osx
     android:
       components:
         - build-tools-26.0.2
@@ -30,6 +31,7 @@ matrix:
         ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo/zfproj;
         ZF_PROJ_NAME=ZFFramework_test;
+    os: osx
     android:
       components:
         - build-tools-26.0.2
@@ -115,6 +117,7 @@ matrix:
         ANDROID_HOME=/usr/local/android-sdk;
         ZF_PROJ_PATH=demo_ZF2048/zfproj;
         ZF_PROJ_NAME=ZF2048;
+    os: osx
     android:
       components:
         - build-tools-26.0.2
