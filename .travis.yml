@@ -11,7 +11,6 @@ matrix:
       components:
         - build-tools-25.0.2
         - android-25
-        - extra
     script:
       # Android licenses
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
@@ -35,7 +34,6 @@ matrix:
       components:
         - build-tools-25.0.2
         - android-25
-        - extra
     script:
       # Android licenses
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
@@ -121,7 +119,6 @@ matrix:
       components:
         - build-tools-25.0.2
         - android-25
-        - extra
     script:
       # Android licenses
       - yes | ${ANDROID_HOME}/tools/bin/sdkmanager "tools" > /dev/null 2>&1
@@ -200,5 +197,8 @@ install:
         export HOMEBREW_QT5_VERSION=$(brew list --versions qt5 | rev | cut -d' ' -f1 | rev);
         sudo ln -s /usr/local/Cellar/qt5/$HOMEBREW_QT5_VERSION/mkspecs /usr/local/mkspecs;
       fi;
+    fi
+  - if [ "$ZF_BUILD" = "Android" ]; then
+      travis_retry sudo apt-get install ninja-build;
     fi
 
