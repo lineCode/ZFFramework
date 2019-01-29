@@ -9,10 +9,7 @@ matrix:
         ZF_PROJ_NAME={ZFTT_R_proj_name};
     android:
       components:
-        - tools
         - build-tools-25.0.2
-        - platform-tools
-        - tools
         - android-25
     script:
       # Android licenses
@@ -33,10 +30,7 @@ matrix:
         ZF_PROJ_NAME={ZFTT_R_proj_name};
     android:
       components:
-        - tools
         - build-tools-25.0.2
-        - platform-tools
-        - tools
         - android-25
     script:
       # Android licenses
@@ -129,5 +123,8 @@ install:
         export HOMEBREW_QT5_VERSION=$(brew list --versions qt5 | rev | cut -d' ' -f1 | rev);
         sudo ln -s /usr/local/Cellar/qt5/$HOMEBREW_QT5_VERSION/mkspecs /usr/local/mkspecs;
       fi;
+    fi
+  - if [ "$ZF_BUILD" = "Android" ]; then
+      travis_retry sudo apt-get install ninja-build;
     fi
 
