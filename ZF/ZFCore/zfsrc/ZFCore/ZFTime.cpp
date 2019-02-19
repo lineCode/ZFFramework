@@ -270,17 +270,18 @@ public:
 public:
     _ZFP_ZFTimePrivate(void)
     : tv(ZFTimeValueZero())
-    , tz(ZFTimeValueZero())
-    , tvAppliedTimeZone(ZFTimeValueZero())
+    , tz(ZFTime::timeZoneLocal())
+    , tvAppliedTimeZone(tz)
     , ti(ZFTimeInfoZero())
     {
+        _ZFP_ZFTimeImpl->timeInfoFromTimeValue(this->ti, this->tvAppliedTimeZone);
     }
     void clear(void)
     {
         this->tv = ZFTimeValueZero();
-        this->tz = ZFTimeValueZero();
-        this->tvAppliedTimeZone = ZFTimeValueZero();
-        this->ti = ZFTimeInfoZero();
+        this->tz = ZFTime::timeZoneLocal();
+        this->tvAppliedTimeZone = this->tz;
+        _ZFP_ZFTimeImpl->timeInfoFromTimeValue(this->ti, this->tvAppliedTimeZone);
     }
     void copyFrom(_ZFP_ZFTimePrivate *p)
     {
@@ -344,7 +345,7 @@ zfbool ZFTime::serializableOnSerializeFromData(ZF_IN const ZFSerializableData &s
         check, ZFSerializableKeyword_ZFTime_timeValue, ZFTimeValue, timeValue);
     this->timeValueSet(timeValue);
 
-    ZFTimeValue timeZone = ZFTimeValueZero();
+    ZFTimeValue timeZone = ZFTime::timeZoneLocal();
     ZFSerializableUtilSerializeAttributeFromData(serializableData, outErrorHint, outErrorPos,
         check, ZFSerializableKeyword_ZFTime_timeZone, ZFTimeValue, timeZone);
     this->timeZoneSet(timeZone);
@@ -362,7 +363,7 @@ zfbool ZFTime::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &seria
         ZFSerializableKeyword_ZFTime_timeValue, ZFTimeValue, this->timeValue(), ref->timeValue(), ZFTimeValueZero());
 
     ZFSerializableUtilSerializeAttributeToData(serializableData, outErrorHint, ref,
-        ZFSerializableKeyword_ZFTime_timeZone, ZFTimeValue, this->timeZone(), ref->timeZone(), ZFTimeValueZero());
+        ZFSerializableKeyword_ZFTime_timeZone, ZFTimeValue, this->timeZone(), ref->timeZone(), ZFTime::timeZoneLocal());
 
     return zftrue;
 }
