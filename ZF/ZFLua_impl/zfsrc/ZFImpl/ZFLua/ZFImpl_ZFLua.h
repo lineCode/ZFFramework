@@ -635,9 +635,9 @@ inline void ZFImpl_ZFLua_luaPush(ZF_IN lua_State *L, ZF_IN const zfautoObject &v
     ZFImpl_ZFLua_luaPush(L, t);
 }
 /** @brief util for impl */
-inline const zfautoObject &ZFImpl_ZFLua_luaGet(ZF_IN lua_State *L, ZF_IN int luaStackOffset)
+inline zfautoObject &ZFImpl_ZFLua_luaGet(ZF_IN lua_State *L, ZF_IN int luaStackOffset)
 {
-    return ELuna::convert2CppType<zfautoObject const &>::convertType(L, luaStackOffset);
+    return ELuna::convert2CppType<zfautoObject &>::convertType(L, luaStackOffset);
 }
 /** @cond ZFPrivateDoc */
 #define ZFImpl_ZFLua_dummyError "ZFImpl_ZFLua_dummyError"
