@@ -37,7 +37,7 @@ git pull
 
 sh "$ZF_TOOLS_PATH/common/copy_check.sh" "$REPO_PATH" "$REPO_PATH_TMP"
 cd "$_OLD_DIR"
-cp "$APP_PATH" "$REPO_PATH_TMP/$REMOTE_FILE"
+cp -r "$APP_PATH" "$REPO_PATH_TMP/$REMOTE_FILE"
 cd "$REPO_PATH"
 git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch *' --prune-empty --tag-name-filter cat -- --all
 sh "$ZF_TOOLS_PATH/common/copy_check.sh" "$REPO_PATH_TMP" "$REPO_PATH"
