@@ -636,6 +636,21 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     }
 }
 
+zfclassFwd _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder;
+static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFCallbackAutoClean_callback);
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFImpl_ZFLua_ZFCallbackAutoClean, ZFLevelZFFrameworkNormal)
+{
+    this->luaStateOnDetachListener = ZFCallbackForFunc(_ZFP_ZFImpl_ZFLua_ZFCallbackAutoClean_callback);
+    ZFGlobalEventCenter::instance()->observerAdd(ZFGlobalEvent::EventLuaStateOnDetach(), this->luaStateOnDetachListener);
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFImpl_ZFLua_ZFCallbackAutoClean)
+{
+    ZFGlobalEventCenter::instance()->observerRemove(ZFGlobalEvent::EventLuaStateOnDetach(), this->luaStateOnDetachListener);
+}
+ZFListener luaStateOnDetachListener;
+ZFCoreArrayPOD<_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder *> attachList;
+ZF_GLOBAL_INITIALIZER_END(ZFImpl_ZFLua_ZFCallbackAutoClean)
+
 zfclass _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder, ZFObject)
@@ -648,6 +663,10 @@ public:
 
     ZFLISTENER_INLINE(callback)
     {
+        if(L == zfnull)
+        {
+            return;
+        }
         lua_rawgeti(L, LUA_REGISTRYINDEX, luaFunc);
         if(lua_isfunction(L, -1))
         {
@@ -661,12 +680,41 @@ public:
     }
 protected:
     zfoverride
+    virtual void objectOnInitFinish(void)
+    {
+        zfsuper::objectOnInitFinish();
+        ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_ZFCallbackAutoClean)->attachList.add(this);
+        this->L = zfnull;
+    }
+    zfoverride
     virtual void objectOnDeallocPrepare(void)
     {
-        luaL_unref(L, LUA_REGISTRYINDEX, luaFunc);
+        if(L != zfnull)
+        {
+            ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_ZFCallbackAutoClean)->attachList.removeElement(this);
+            luaL_unref(L, LUA_REGISTRYINDEX, luaFunc);
+            L = zfnull;
+        }
         zfsuper::objectOnDeallocPrepare();
     }
 };
+
+static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFCallbackAutoClean_callback)
+{
+    lua_State *L = (lua_State *)listenerData.param0->to<v_VoidPointer *>()->zfv;
+    ZFCoreArrayPOD<_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder *> &attachList = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_ZFCallbackAutoClean)->attachList;
+    for(zfindex i = attachList.count() - 1; i != zfindexMax(); --i)
+    {
+        _ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder *p = attachList[i];
+        if(p->L == L)
+        {
+            attachList.remove(i);
+            luaL_unref(p->L, LUA_REGISTRYINDEX, p->luaFunc);
+            p->L = zfnull;
+        }
+    }
+}
+
 zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
                                ZF_IN lua_State *L,
                                ZF_IN int luaStackOffset)

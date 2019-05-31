@@ -1,3 +1,9 @@
+# 0.7.2
+
+* ZFTime use local time zone by default
+* fix Qt project files
+* fix ELuna
+
 # 0.7.1
 
 * optimize unsafe method names

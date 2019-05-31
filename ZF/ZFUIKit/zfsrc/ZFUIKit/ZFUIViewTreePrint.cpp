@@ -75,6 +75,41 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewTreePrintSyncObjectHolder)
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewTreePrintSyncObjectHolder);
 
+zfclass _ZFP_I_ZFUIViewTreePrintFormat : zfextends ZFObject, zfimplements ZFOutputFormat
+{
+    ZFOBJECT_DECLARE(_ZFP_I_ZFUIViewTreePrintFormat, ZFObject)
+    ZFIMPLEMENTS_DECLARE(ZFOutputFormat)
+
+protected:
+    virtual void format(ZF_IN_OUT zfstring &ret,
+                        ZF_IN ZFOutputFormatStepEnum outputStep,
+                        ZF_IN const zfchar *src,
+                        ZF_IN zfindex srcLen,
+                        ZF_IN zfindex outputCount,
+                        ZF_IN zfindex writtenLen,
+                        ZF_IN_OUT_OPT void *&state)
+    {
+        const zfchar *srcEnd = src + srcLen;
+        while(src < srcEnd)
+        {
+            if(*src == '\r')
+            {
+                ret += "\\r";
+                ++src;
+            }
+            else if(*src == '\n')
+            {
+                ret += "\\n";
+                ++src;
+            }
+            else
+            {
+                zfcharAppendAndMoveNext(ret, src);
+            }
+        }
+    }
+};
+
 ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
                        ZFMP_IN(ZFUIView *, view),
                        ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()))
@@ -85,6 +120,8 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
     }
 
     zfsynchronize(_ZFP_ZFUIViewTreePrintSyncObject);
+
+    ZFOutput outputCallbackNoEndl = ZFOutputForFormat(outputCallback, zflineAlloc(_ZFP_I_ZFUIViewTreePrintFormat));
 
     ZFCoreArrayPOD<_ZFP_ZFUIViewTreePrintPrintData> printDatas;
     _ZFP_ZFUIViewTreePrintPrintData rootPrintData;
@@ -180,7 +217,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
         {
             if(printData.view->classData()->classIsTypeOf(datas[i].viewClass))
             {
-                datas[i].viewInfoGetter(printData.view, outputCallback);
+                datas[i].viewInfoGetter(printData.view, outputCallbackNoEndl);
                 exist = zftrue;
                 break;
             }
@@ -189,7 +226,7 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
         {
             zfstring tmp;
             printData.view->objectInfoT(tmp);
-            outputCallback.execute(tmp.cString(), tmp.length());
+            outputCallbackNoEndl.execute(tmp.cString(), tmp.length());
         }
         outputCallback.execute("\n");
     } while(!printDatas.isEmpty());

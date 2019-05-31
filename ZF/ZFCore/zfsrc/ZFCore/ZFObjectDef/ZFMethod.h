@@ -37,7 +37,7 @@ typedef enum
 #define ZFTOKEN_ZFMethodPrivilegeTypePrivate "private"
 
 // ============================================================
-#define _ZFP_ZFMethodTypeText(t) (ZFM_TOSTRING(ZFM_CAT(_, t())) + 1)
+#define _ZFP_ZFMethodTypeText(t) ((const zfchar *)ZFM_TOSTRING(ZFM_CAT(_, t())) + 1)
 /** @brief see #ZFMethod */
 #define ZFMethodTypeNormal()
 /** @brief see #ZFMethod */
