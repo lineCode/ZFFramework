@@ -91,8 +91,6 @@ static void _ZFP_ZFCallbackPrivateDataChange(_ZFP_ZFCallbackPrivate *&oldData, _
 // ZFCallback
 ZFCallback::ZFCallback(void)
 : d(zfnull)
-, _ZFP_ZFCallbackCached_callbackType(_ZFP_ZFCallbackCachedTypeDummy)
-, _ZFP_ZFCallbackCached_callbackOwnerObj(zfnull)
 {
 }
 ZFCallback::ZFCallback(ZF_IN const ZFCallback &ref)
@@ -103,7 +101,6 @@ ZFCallback::ZFCallback(ZF_IN const ZFCallback &ref)
 ZFCallback &ZFCallback::operator = (ZF_IN const ZFCallback &ref)
 {
     _ZFP_ZFCallbackPrivateDataChange(d, ref.d);
-    _ZFP_ZFCallbackCachedDataSetup(*this, d);
     return *this;
 }
 ZFCallback::~ZFCallback(void)
@@ -127,14 +124,13 @@ ZFCallback ZFCallback::_ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
     switch(callbackType)
     {
         case ZFCallbackTypeDummy:
-            callback.d->callbackType = callbackType;
             break;
         case ZFCallbackTypeMethod:
             zfCoreAssertWithMessageTrim(callbackMethod != zfnull, "[ZFCallback] method is null");
             zfCoreAssertWithMessageTrim(callbackMethod->methodType() == ZFMethodTypeStatic,
                 "[ZFCallback] method \"%s\" is not class static member type",
                 callbackMethod->objectInfo().cString());
-            callback.d->callbackType = callbackType;
+            callback.d->callbackType = ZFCallbackTypeMethod;
             callback.d->callbackMethod = callbackMethod;
             break;
         case ZFCallbackTypeMemberMethod:
@@ -149,20 +145,19 @@ ZFCallback ZFCallback::_ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
                 "[ZFCallback] object %s has no such method \"%s\"",
                 callbackOwnerObj->objectInfoOfInstance().cString(),
                 callbackMethod->objectInfo().cString());
-            callback.d->callbackType = callbackType;
+            callback.d->callbackType = ZFCallbackTypeMemberMethod;
             callback.d->callbackOwnerObj = callbackOwnerObj;
             callback.d->callbackMethod = callbackMethod;
             break;
         case ZFCallbackTypeRawFunction:
             zfCoreAssertWithMessageTrim(callbackRawFunc != zfnull, "[ZFCallback] invalid function address");
-            callback.d->callbackType = callbackType;
+            callback.d->callbackType = ZFCallbackTypeRawFunction;
             callback.d->callbackRawFunc = callbackRawFunc;
             break;
         default:
             zfCoreCriticalShouldNotGoHere();
             break;
     }
-    _ZFP_ZFCallbackCachedDataSetup(callback, callback.d);
     return callback;
 }
 
@@ -479,42 +474,13 @@ void ZFCallback::pathInfoSet(ZF_IN const zfchar *pathType, ZF_IN const zfchar *p
     }
 }
 
-void ZFCallback::_ZFP_ZFCallbackCachedDataSetup(ZF_IN_OUT ZFCallback &c, _ZFP_ZFCallbackPrivate *d)
-{
-    if(d)
-    {
-        switch(d->callbackType)
-        {
-            case ZFCallbackTypeDummy:
-                c._ZFP_ZFCallbackCached_callbackType = _ZFP_ZFCallbackCachedTypeDummy;
-                c._ZFP_ZFCallbackCached_callbackOwnerObj = zfnull;
-                break;
-            case ZFCallbackTypeMethod:
-                c._ZFP_ZFCallbackCached_callbackType = _ZFP_ZFCallbackCachedTypeClassMember;
-                c._ZFP_ZFCallbackCached_callbackOwnerObj = zfnull;
-                break;
-            case ZFCallbackTypeMemberMethod:
-                c._ZFP_ZFCallbackCached_callbackType = _ZFP_ZFCallbackCachedTypeClassMember;
-                c._ZFP_ZFCallbackCached_callbackOwnerObj = d->callbackOwnerObj;
-                break;
-            case ZFCallbackTypeRawFunction:
-                c._ZFP_ZFCallbackCached_callbackType = _ZFP_ZFCallbackCachedTypeRawFunction;
-                c._ZFP_ZFCallbackCached_callbackOwnerObj = zfnull;
-                break;
-            default:
-                zfCoreCriticalShouldNotGoHere();
-                break;
-        }
-    }
-    else
-    {
-        c._ZFP_ZFCallbackCached_callbackType = _ZFP_ZFCallbackCachedTypeDummy;
-        c._ZFP_ZFCallbackCached_callbackOwnerObj = zfnull;
-    }
-}
 ZFFuncAddrType ZFCallback::_ZFP_ZFCallbackCached_callbackInvoker_rawFunction(void) const
 {
     return (d ? d->callbackRawFunc : zfnull);
+}
+ZFObject *ZFCallback::_ZFP_ZFCallbackCached_callbackOwnerObj(void) const
+{
+    return (d ? d->callbackOwnerObj : zfnull);
 }
 
 ZF_NAMESPACE_GLOBAL_END

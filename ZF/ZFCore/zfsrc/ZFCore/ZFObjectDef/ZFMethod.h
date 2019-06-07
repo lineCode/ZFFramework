@@ -448,6 +448,11 @@ public:
      *                            ZF_IN ParamType1 param1
      *                            / * ... * /);
      * @endcode
+     *
+     * @note the methodInvoker is ensured not null for normal method
+     *   and user registered method,
+     *   and may be null for dynamic registered method (#ZFMethodDynamicRegister),
+     *   you may change it by #methodInvokerSet
      */
     inline ZFFuncAddrType methodInvoker(void) const
     {

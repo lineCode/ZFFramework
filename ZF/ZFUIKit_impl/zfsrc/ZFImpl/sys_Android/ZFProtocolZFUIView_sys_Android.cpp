@@ -380,8 +380,7 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
                          jint mousePointX,
                          jint mousePointY)
 {
-    zfautoObject eventHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-    ZFUIMouseEvent *event = eventHolder;
+    zfblockedAllocWithCache(ZFUIMouseEvent, event);
     event->eventResolvedSet(zffalse);
     event->mouseId = mouseId;
     event->mouseAction = (ZFUIMouseActionEnum)mouseAction;
@@ -401,8 +400,7 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
                          jint keyCode,
                          jint keyCodeRaw)
 {
-    zfautoObject eventHolder = ZFUIKeyEvent::cacheHolder()->cacheGet(ZFUIKeyEvent::ClassData());
-    ZFUIKeyEvent *event = eventHolder;
+    zfblockedAllocWithCache(ZFUIKeyEvent, event);
     event->eventResolvedSet(zffalse);
     event->keyId = keyId;
     event->keyAction = (ZFUIKeyActionEnum)keyAction;

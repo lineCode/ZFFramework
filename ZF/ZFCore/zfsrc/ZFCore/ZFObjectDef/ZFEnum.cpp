@@ -173,15 +173,15 @@ ZFCompareResult ZFEnum::objectCompare(ZF_IN ZFObject *anotherObj)
 
 void *ZFEnum::wrappedValue(void)
 {
-    return &(this->_ZFP_ZFEnum_value); /* EnumReinterpretCast */
+    return &(this->_ZFP_ZFEnum_value); /* ZFTAG_TRICKS: EnumReinterpretCast */
 }
 void ZFEnum::wrappedValueSet(ZF_IN const void *v)
 {
-    this->_ZFP_ZFEnum_value = *(const zfuint *)v; /* EnumReinterpretCast */
+    this->_ZFP_ZFEnum_value = *(const zfuint *)v; /* ZFTAG_TRICKS: EnumReinterpretCast */
 }
 void ZFEnum::wrappedValueGet(ZF_IN void *v)
 {
-    *(zfuint *)v = this->_ZFP_ZFEnum_value; /* EnumReinterpretCast */
+    *(zfuint *)v = this->_ZFP_ZFEnum_value; /* ZFTAG_TRICKS: EnumReinterpretCast */
 }
 void ZFEnum::wrappedValueReset(void)
 {
@@ -194,12 +194,12 @@ zfbool ZFEnum::wrappedValueIsInit(void)
 ZFCompareResult ZFEnum::wrappedValueCompare(ZF_IN const void *v0,
                                             ZF_IN const void *v1)
 {
-    return ZFComparerDefault(*(const zfuint *)v0, *(const zfuint *)v1); /* EnumReinterpretCast */
+    return ZFComparerDefault(*(const zfuint *)v0, *(const zfuint *)v1); /* ZFTAG_TRICKS: EnumReinterpretCast */
 }
 void ZFEnum::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
                                  ZF_IN const void *v)
 {
-    /* EnumReinterpretCast */
+    /* ZFTAG_TRICKS: EnumReinterpretCast */
     zfflagsToString(ret, this->classData(), (zfflags)*(const zfuint *)v);
 }
 zfbool ZFEnum::wrappedValueProgressUpdate(ZF_IN const void *from,

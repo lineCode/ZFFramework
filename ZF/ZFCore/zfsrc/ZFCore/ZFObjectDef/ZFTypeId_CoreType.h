@@ -136,6 +136,14 @@ extern ZF_ENV_EXPORT zfbool zfflagsFromString(ZF_OUT zfflags &ret,
 ZFTYPEID_DECLARE(zfbool, zfbool)
 ZFOUTPUT_TYPE(zfbool, {output.execute(v ? ZFTOKEN_zfbool_zftrue : ZFTOKEN_zfbool_zffalse);})
 
+extern ZF_ENV_EXPORT v_zfbool *_ZFP_v_zftrue(void);
+extern ZF_ENV_EXPORT v_zfbool *_ZFP_v_zffalse(void);
+
+/** @brief cached #v_zfbool */
+#define v_zftrue (_ZFP_v_zftrue())
+/** @brief cached #v_zfbool */
+#define v_zffalse (_ZFP_v_zffalse())
+
 /**
  * @brief see #ZFTYPEID_DECLARE
  *
@@ -169,7 +177,84 @@ ZFOUTPUT_TYPE(zfchar, {output.execute(zfcharToString(v));})
 ZFTYPEID_DECLARE(zfstring, zfstring)
 ZFOUTPUT_TYPE(zfstring, {output.execute(zfstringToString(v));})
 
-ZFTYPEID_ALIAS_DECLARE(zfstring, zfstring, cString, const zfchar *)
+#define _ZFP_ZFTYPEID_ALIAS_EXPAND_cString(AliasToTypeName, AliasToType, TypeName, Type) \
+    template<typename T_Access = _ZFP_PropTypeW_##TypeName \
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
+            && zftTypeIsSame< \
+                    typename zftTraits<T_Access>::TrNoRef, \
+                    _ZFP_PropTypeW_##TypeName \
+                >::TypeIsSame != 1) \
+            ? 1 : 0) \
+        , typename T_Fix = void \
+        > \
+    zfclassNotPOD Value \
+    { \
+    public: \
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return (ZFCastZFObject(v_zfstring *, obj) != zfnull); \
+        } \
+        static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return ZFCastZFObject(v_zfstring *, obj)->zfv.cString(); \
+        } \
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
+        { \
+        } \
+    }; \
+    template<typename T_Access> \
+    zfclassNotPOD Value<T_Access const &, 0> \
+    { \
+    public: \
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return (ZFCastZFObject(v_zfstring *, obj) != zfnull); \
+        } \
+        static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return ZFCastZFObject(v_zfstring *, obj)->zfv.cString(); \
+        } \
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
+        { \
+        } \
+    }; \
+    template<typename T_Access> \
+    zfclassNotPOD Value<T_Access &, 0> \
+    { \
+    private: \
+         typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
+    public: \
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return zffalse; \
+        } \
+        static _TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return zfnull; \
+        } \
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
+        { \
+        } \
+    }; \
+    template<typename T_Access> \
+    zfclassNotPOD Value<T_Access, 1> \
+    { \
+    private: \
+         typedef typename zftTraits<T_Access>::TrNoRef _TrNoRef; \
+    public: \
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return zffalse; \
+        } \
+        static _TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj) \
+        { \
+            return zfnull; \
+        } \
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
+        { \
+        } \
+    };
+ZFTYPEID_ALIAS_DECLARE_CUSTOM(zfstring, zfstring, cString, const zfchar *, _ZFP_ZFTYPEID_ALIAS_EXPAND_cString)
 
 /**
  * @brief see #ZFTYPEID_DECLARE

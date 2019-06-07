@@ -116,11 +116,11 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
     public:
         static zfautoObject get_zftrue(void)
         {
-            return zflineAlloc(v_zfbool, zftrue);
+            return v_zftrue;
         }
         static zfautoObject get_zffalse(void)
         {
-            return zflineAlloc(v_zfbool, zffalse);
+            return v_zffalse;
         }
     };
     ZFImpl_ZFLua_luaFunctionRegister(L, "_ZFP_ZFImpl_ZFLua_zftrue", _ZFP_ZFImpl_ZFLua_zfboolHolder::get_zftrue);
@@ -136,7 +136,8 @@ void ZFImpl_ZFLua_luaStateAttach(ZF_IN lua_State *L)
     public:
         static int f(ZF_IN lua_State *L)
         {
-            zfblockedAlloc(v_VoidPointer, ret, (void *)L);
+            zfblockedAllocWithCache(v_VoidPointer, ret);
+            ret->zfv = (void *)L;
             zfautoObject tmp = ret;
             ZFImpl_ZFLua_luaPush(L, tmp);
             return 1;
@@ -624,10 +625,49 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     {
         return zftrue;
     }
-    zfblockedAlloc(ZFDI_Wrapper, t);
-    if(ZFImpl_ZFLua_toString(t->zfv, L, luaStackOffset, zftrue))
+
+    zfblockedAllocWithCache(ZFDI_WrapperRaw, wrapper);
+    if(lua_isstring(L, luaStackOffset))
     {
-        param = t;
+        wrapper->zfvSet(lua_tostring(L, luaStackOffset));
+        param = wrapper;
+        return zftrue;
+    }
+    if(lua_isboolean(L, luaStackOffset))
+    {
+        wrapper->zfvSet((zfbool)lua_toboolean(L, luaStackOffset) ? ZFTOKEN_zfbool_zftrue : ZFTOKEN_zfbool_zffalse);
+        param = wrapper;
+        return zftrue;
+    }
+    if(!lua_isuserdata(L, luaStackOffset))
+    {
+        return zffalse;
+    }
+
+    zfautoObject const &obj = ZFImpl_ZFLua_luaGet(L, luaStackOffset);
+    if(obj == zfnull)
+    {
+        wrapper->zfvSet("");
+        return zftrue;
+    }
+    const ZFClass *cls = obj->classData();
+    if(cls->classIsTypeOf(ZFString::ClassData()))
+    {
+        ZFString *t = obj->to<ZFString *>();
+        if(t != zfnull)
+        {
+            wrapper->zfvSet(t->stringValue());
+        }
+        return zftrue;
+    }
+    else if(cls->classIsTypeOf(v_zfstring::ClassData()))
+    {
+        wrapper->zfvSet(obj->to<v_zfstring *>()->zfv);
+        return zftrue;
+    }
+    else if(cls->classIsTypeOf(ZFDI_WrapperBase::ClassData()))
+    {
+        wrapper->zfvSet(obj->to<ZFDI_WrapperBase *>()->zfv());
         return zftrue;
     }
     else
@@ -670,7 +710,8 @@ public:
         lua_rawgeti(L, LUA_REGISTRYINDEX, luaFunc);
         if(lua_isfunction(L, -1))
         {
-            zfblockedAlloc(v_ZFListenerData, listenerDataTmp, listenerData);
+            zfblockedAllocWithCache(v_ZFListenerData, listenerDataTmp);
+            listenerDataTmp->zfv = listenerData;
             ZFImpl_ZFLua_luaPush(L, listenerDataTmp);
 
             ZFImpl_ZFLua_luaPush(L, userData);
@@ -832,10 +873,10 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
         s += obj->to<v_zfstring *>()->zfv;
         return zftrue;
     }
-    else if(cls->classIsTypeOf(ZFDI_Wrapper::ClassData()))
+    else if(cls->classIsTypeOf(ZFDI_WrapperBase::ClassData()))
     {
-        if(holderCls != zfnull) {*holderCls = ZFDI_Wrapper::ClassData();}
-        s += obj->to<ZFDI_Wrapper *>()->zfv;
+        if(holderCls != zfnull) {*holderCls = ZFDI_WrapperBase::ClassData();}
+        s += obj->to<ZFDI_WrapperBase *>()->zfv();
         return zftrue;
     }
     else

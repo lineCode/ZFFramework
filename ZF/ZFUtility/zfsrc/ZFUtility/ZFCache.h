@@ -25,24 +25,15 @@ zfclassFwd _ZFP_ZFCachePrivate;
  */
 zfclass ZF_ENV_EXPORT ZFCache : zfextends ZFObject
 {
-    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFCache, ZFObject)
+    ZFOBJECT_DECLARE(ZFCache, ZFObject)
 
 public:
     /** @brief callback for impl */
     typedef zfbool (*CacheOnAddImpl)(ZF_IN ZFObject *cache);
-    /** @brief callback for impl */
-    typedef zfbool (*CacheOnCheckImpl)(ZF_IN ZFObject *cache);
 
 public:
     /** @brief callback for impl */
-    ZFCache::CacheOnAddImpl cacheOnAddImpl;
-    /** @brief callback for impl */
-    ZFCache::CacheOnCheckImpl cacheOnCheckImpl;
-
-protected:
-    /** @cond ZFPrivateDoc */
-    ZFCache(void) : cacheOnAddImpl(zfnull), cacheOnCheckImpl(zfnull) {}
-    /** @endcond */
+    ZFCoreArrayPOD<ZFCache::CacheOnAddImpl> cacheOnAddImpl;
 
 public:
     /**
@@ -73,12 +64,8 @@ public:
                        ZFMP_IN(ZFObject *, cacheValue))
     /**
      * @brief access cache, or return #zfautoObjectNull if not exist
-     *
-     * if no cache available and cacheClass is not null,
-     * we will create a new instance and return using the cacheClass
      */
-    ZFMETHOD_DECLARE_1(zfautoObject, cacheGet,
-                       ZFMP_IN_OPT(const ZFClass *, cacheClass, zfnull))
+    ZFMETHOD_DECLARE_0(zfautoObject, cacheGet)
 
     /**
      * @brief remove all cache
@@ -119,59 +106,6 @@ protected:
 private:
     _ZFP_ZFCachePrivate *d;
 };
-
-// ============================================================
-/**
- * @brief util to declare a #ZFCache
- *
- * usage:
- * @code
- *   // in header file
- *   zfclass YourClass : zfextends ZFObject
- *   {
- *       ZFCACHEHOLDER_DECLARE()
- *   };
- *
- *   // in cpp file
- *   static zfbool myCacheOnAdd(ZF_IN ZFObject *cacheValue) {...}
- *   static zfbool myCacheOnCheck(ZF_IN ZFObject *cacheValue) {...}
- *   ZFCACHEHOLDER_DEFINE(YourClass, {
- *       // cache holder setup
- *       cacheHolder->cacheMaxSizeSet(100);
- *
- *       // setup cache setup action if necessary
- *       cacheHolder->cacheOnAddImpl = myCacheOnAdd;
- *       cacheHolder->cacheOnCheckImpl = myCacheOnCheck;
- *   })
- *
- *   // the macro would declare this reflectable #ZFMethod for you
- *   static ZFCache *cacheHolder(void);
- * @endcode
- */
-#define ZFCACHEHOLDER_DECLARE() \
-    /** @brief cache holder, see #ZFCACHEHOLDER_DECLARE */ \
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic, \
-                              ZFCache *, cacheHolder)
-
-/** @brief see #ZFCACHEHOLDER_DECLARE */
-#define ZFCACHEHOLDER_DEFINE(OwnerClass, ...) \
-    ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFCacheHolder_##OwnerClass, ZFLevelZFFrameworkEssential) \
-    { \
-        cacheHolder = zfAlloc(ZFCache); \
-        { \
-            __VA_ARGS__ \
-        } \
-    } \
-    ZF_GLOBAL_INITIALIZER_DESTROY(ZFCacheHolder_##OwnerClass) \
-    { \
-        zfRelease(cacheHolder); \
-    } \
-    ZFCache *cacheHolder; \
-    ZF_GLOBAL_INITIALIZER_END(ZFCacheHolder_##OwnerClass) \
-    ZFMETHOD_DEFINE_0(OwnerClass, ZFCache *, cacheHolder) \
-    { \
-        return ZF_GLOBAL_INITIALIZER_INSTANCE(ZFCacheHolder_##OwnerClass)->cacheHolder; \
-    }
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFCache_h_

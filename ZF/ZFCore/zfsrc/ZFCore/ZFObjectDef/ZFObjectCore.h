@@ -245,6 +245,7 @@ protected:
     /** @cond ZFPrivateDoc */
     ZFObject(void)
     : _ZFP_ZFObject_classData(zfnull)
+    , _ZFP_ZFObject_zfAllocCacheRelease(zfnull)
     , d(zfnull)
     , _observerHolder()
     {
@@ -791,9 +792,12 @@ protected:
 
 public:
     const ZFClass *_ZFP_ZFObject_classData;
+public:
+    void (*_ZFP_ZFObject_zfAllocCacheRelease)(ZF_IN ZFObject *obj);
 private:
     _ZFP_ZFObjectPrivate *d;
     ZFObserverHolder _observerHolder;
+private:
     friend zfclassFwd ZFClass;
     friend zfclassFwd ZFObserverHolder;
     friend zfclassFwd _ZFP_ZFObserverHolderPrivate;

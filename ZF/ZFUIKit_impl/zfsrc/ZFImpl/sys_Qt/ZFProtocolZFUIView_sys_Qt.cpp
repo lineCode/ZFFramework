@@ -194,8 +194,7 @@ public:
                 QWheelEvent *eventTmp = (QWheelEvent *)event;
                 QPoint eventSteps = eventTmp->angleDelta() / 8 / 15;
 
-                zfautoObject eventHolder = ZFUIWheelEvent::cacheHolder()->cacheGet(ZFUIWheelEvent::ClassData());
-                ZFUIWheelEvent *wheelEvent = eventHolder;
+                zfblockedAllocWithCache(ZFUIWheelEvent, wheelEvent);
                 wheelEvent->eventResolvedSet(zffalse);
                 wheelEvent->wheelX = -eventSteps.x();
                 wheelEvent->wheelY = -eventSteps.y();
@@ -326,8 +325,7 @@ public:
 private:
     void mouseEventResolve(QMouseEvent *event, ZFUIMouseActionEnum mouseAction)
     {
-        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-        ZFUIMouseEvent *ev = evHolder;
+        zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)event->button();
         ev->mouseAction = mouseAction;
@@ -351,8 +349,7 @@ private:
     }
     void mouseHoverEventResolve(const ZFUIPoint &pos, ZFUIMouseActionEnum mouseAction)
     {
-        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-        ZFUIMouseEvent *ev = evHolder;
+        zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolvedSet(zffalse);
         ev->mouseId = 0;
         ev->mouseAction = mouseAction;
@@ -385,8 +382,7 @@ private:
     {
         if(this->_ZFP_viewUIEnableTree && this->_ZFP_viewUIEnable)
         {
-            zfautoObject evHolder = ZFUIKeyEvent::cacheHolder()->cacheGet(ZFUIKeyEvent::ClassData());
-            ZFUIKeyEvent *ev = evHolder;
+            zfblockedAllocWithCache(ZFUIKeyEvent, ev);
             ev->eventResolvedSet(zffalse);
             ev->keyId = (zfidentity)event->key();
             ev->keyAction = keyAction;

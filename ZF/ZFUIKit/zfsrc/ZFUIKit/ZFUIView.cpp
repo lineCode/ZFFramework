@@ -1003,7 +1003,7 @@ void ZFUIView::objectOnInit(void)
 
     d = zfpoolNew(_ZFP_ZFUIViewPrivate);
 
-    d->measureResult = zfRetain(ZFUIViewMeasureResult::cacheHolder()->cacheGet(ZFUIViewMeasureResult::ClassData()));
+    d->measureResult = zflockfree_zfAllocWithCache(ZFUIViewMeasureResult);
     if(ZFFrameworkStateCheck(ZFLevelZFFrameworkNormal) != ZFFrameworkStateAvailable)
     {
         d->nativeView = ZFPROTOCOL_ACCESS(ZFUIView)->nativeViewCreate(this);
@@ -1064,7 +1064,6 @@ void ZFUIView::objectOnDealloc(void)
         zfRelease(d->layerInternalFg.views.get(i));
     }
     d->layoutParamSet(this, zfnull);
-    ZFUIViewMeasureResult::cacheHolder()->cacheAdd(d->measureResult);
     zfRelease(d->measureResult);
     zfpoolDelete(d);
     d = zfnull;

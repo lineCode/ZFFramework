@@ -233,6 +233,9 @@ static zfbool _ZFP_PropDynReg_setterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
 }
 static zfbool _ZFP_PropDynReg_getterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
 {
+    // ZFTAG_LIMITATION: property's getter would return value reference,
+    //   we would store the value to owner object's tag,
+    //   see #ZFMethodDynamicRegister for the reason for this behavior
     const ZFProperty *property = invokerMethod->methodOwnerProperty();
     _ZFP_I_PropDynRegData *d = ZFCastZFObject(_ZFP_I_PropDynRegData *, property->_ZFP_ZFProperty_propertyDynamicRegisterUserDataWrapper);
     ZFObject *wrapper = invokerObject->tagGet(d->tagKey);

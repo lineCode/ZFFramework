@@ -382,6 +382,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * serializable converter and string converter,
  * with the original exist one\n
  * see #ZFTYPEID_DECLARE for more info
+ * @note aliased type would:
+ *   -  create temp holder object for conversion
+ *   -  perform value copy during conversion
+ *
+ *   which would cause bad performance during reflection\n
+ *   if performance matters,
+ *   you should consider supply custom type id specializations (by #ZFTYPEID_ALIAS_DECLARE_CUSTOM),
+ *   or, prevent to use aliased type for reflectable method
  */
 #define ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type) \
     /** @brief see @ref ZFTypeId_##AliasToTypeName */ \
@@ -389,10 +397,68 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     { \
         return ZFTypeId_##AliasToTypeName(); \
     } \
-    _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type)
+    _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type, _ZFP_ZFTYPEID_ALIAS_EXPAND_DEFAULT)
 /** @brief see #ZFTYPEID_ALIAS_DECLARE */
 #define ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type) \
     _ZFP_ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type)
+
+/**
+ * @brief see #ZFTYPEID_ALIAS_DECLARE
+ *
+ * the TypeIdValueConversion must supply as macro expansion with these proto type:
+ * @code
+ *   #define MyExpand(AliasToTypeName, AliasToType, TypeName, Type) \
+ *       template<typename T_Access = _ZFP_PropTypeW_##TypeName \
+ *           , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
+ *               && zftTypeIsSame< \
+ *                       typename zftTraits<T_Access>::TrNoRef, \
+ *                       _ZFP_PropTypeW_##TypeName \
+ *                   >::TypeIsSame != 1) \
+ *               ? 1 : 0) \
+ *           , typename T_Fix = void \
+ *           > \
+ *       zfclassNotPOD Value \
+ *       { \
+ *       public: \
+ *           static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
+ *           { \
+ *               return yourChecker(xxx); \
+ *           } \
+ *           static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
+ *           { \
+ *               return yourAccess(xxx); \
+ *           } \
+ *           static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
+ *           { \
+ *               yourCleanup(xxx); \
+ *           } \
+ *       }; \
+ *       template<typename T_Access> \
+ *       zfclassNotPOD Value<T_Access, 1> \
+ *       { \
+ *       public: \
+ *           static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
+ *           { \
+ *               return yourChecker(xxx); \
+ *           } \
+ *           static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
+ *           { \
+ *               return yourAccess(xxx); \
+ *           } \
+ *           static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
+ *           { \
+ *               yourCleanup(xxx); \
+ *           } \
+ *       };
+ * @endcode
+ */
+#define ZFTYPEID_ALIAS_DECLARE_CUSTOM(AliasToTypeName, AliasToType, TypeName, Type, TypeIdValueConversion) \
+    /** @brief see @ref ZFTypeId_##AliasToTypeName */ \
+    inline const zfchar *ZFTypeId_##TypeName(void) \
+    { \
+        return ZFTypeId_##AliasToTypeName(); \
+    } \
+    _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type, TypeIdValueConversion)
 
 // ============================================================
 /**

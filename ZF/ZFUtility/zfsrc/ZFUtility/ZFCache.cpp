@@ -85,28 +85,27 @@ ZFMETHOD_DEFINE_1(ZFCache, void, cacheAdd,
                   ZFMP_IN(ZFObject *, cacheValue))
 {
     zfsynchronize(this);
-    if(cacheValue == zfnull
-        || (zfindex)d->cacheList.size() >= this->cacheMaxSize()
-        || (this->cacheOnAddImpl && !this->cacheOnAddImpl(cacheValue)))
+    if(cacheValue == zfnull || (zfindex)d->cacheList.size() >= this->cacheMaxSize())
     {
         return ;
     }
+    for(zfindex i = this->cacheOnAddImpl.count() - 1; i != zfindexMax(); --i)
+    {
+        if(!this->cacheOnAddImpl[i](cacheValue))
+        {
+            return ;
+        }
+    }
+    cacheValue->observerRemoveAll();
+    cacheValue->tagRemoveAll();
     d->cacheList.push_back(cacheValue);
 }
-ZFMETHOD_DEFINE_1(ZFCache, zfautoObject, cacheGet,
-                  ZFMP_IN_OPT(const ZFClass *, cacheClass, zfnull))
+ZFMETHOD_DEFINE_0(ZFCache, zfautoObject, cacheGet)
 {
     zfsynchronize(this);
     if(d->cacheList.empty())
     {
-        if(cacheClass != zfnull)
-        {
-            return cacheClass->newInstance();
-        }
-        else
-        {
-            return zfnull;
-        }
+        return zfnull;
     }
     else
     {

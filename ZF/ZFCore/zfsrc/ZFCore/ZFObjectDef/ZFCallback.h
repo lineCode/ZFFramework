@@ -53,17 +53,18 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
     template<typename T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TEMPLATE, ZFM_COMMA, ZFM_COMMA)> \
     T_ReturnType executeExact(ZFM_REPEAT(N, ZFM_REPEAT_PARAM, ZFM_EMPTY, ZFM_COMMA)) const \
     { \
-        switch(_ZFP_ZFCallbackCached_callbackType) \
+        switch(this->callbackType()) \
         { \
-            case _ZFP_ZFCallbackCachedTypeDummy: \
+            case ZFCallbackTypeDummy: \
                 _ZFP_ZFCallback_executeNullCallback(); \
                 break; \
-            case _ZFP_ZFCallbackCachedTypeClassMember: \
+            case ZFCallbackTypeMethod: \
+            case ZFCallbackTypeMemberMethod: \
                 return this->callbackMethod()->execute<T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)>( \
-                        _ZFP_ZFCallbackCached_callbackOwnerObj \
+                        this->_ZFP_ZFCallbackCached_callbackOwnerObj() \
                         ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA) \
                     ); \
-            case _ZFP_ZFCallbackCachedTypeRawFunction: \
+            case ZFCallbackTypeRawFunction: \
                 return ((T_ReturnType (*)(ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_EMPTY, ZFM_COMMA)))(this->_ZFP_ZFCallbackCached_callbackInvoker_rawFunction())) \
                     (ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_EMPTY, ZFM_COMMA)); \
             default: \
@@ -76,7 +77,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
 // ============================================================
 // child callback declare
 #define _ZFP_ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
-    zfclassLikePOD ZF_ENV_EXPORT CallbackTypeName : zfextendsLikePOD /* must not virtual inheritance */ ParentType \
+    zfclassLikePOD ZF_ENV_EXPORT CallbackTypeName : zfextendsLikePOD ParentType \
     { \
         _ZFP_ZFCALLBACK_DECLARE_CONSTRUCTORS(CallbackTypeName, ParentType) \
     public:
@@ -93,9 +94,9 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
         : ParentType(ref) \
         { \
         } \
-        virtual CallbackTypeName &operator = (ZF_IN const ZFCallback &ref) \
+        CallbackTypeName &operator = (const CallbackTypeName &ref) \
         { \
-            ParentType::operator = (ref); \
+            ZFCallback::operator = (ref); \
             return *this; \
         } \
         /** @endcond */
@@ -107,6 +108,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
     ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
 #define _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(CallbackTypeName, ParentType) \
     _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
+
 /**
  * @brief util macro to declare a child type of ZFCallback
  *
@@ -179,7 +181,7 @@ public:
     /** @cond ZFPrivateDoc */
     ZFCallback(void);
     ZFCallback(const ZFCallback &ref);
-    virtual ZFCallback &operator = (const ZFCallback &ref);
+    ZFCallback &operator = (const ZFCallback &ref);
     virtual ~ZFCallback(void);
     zfbool operator == (ZF_IN const ZFCallback &ref) const {return (this->objectCompare(ref) == ZFCompareTheSame);}
     zfbool operator != (ZF_IN const ZFCallback &ref) const {return (this->objectCompare(ref) != ZFCompareTheSame);}
@@ -207,7 +209,7 @@ public:
     zffinal zfindex objectRetainCount(void) const;
 
     /** @brief see #objectInfo */
-    virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const;
+    zffinal void objectInfoT(ZF_IN_OUT zfstring &ret) const;
     /** @brief return object info */
     zffinal inline zfstring objectInfo(void) const
     {
@@ -299,7 +301,7 @@ public:
      */
     zffinal inline zfbool callbackIsValid(void) const
     {
-        return (_ZFP_ZFCallbackCached_callbackType != _ZFP_ZFCallbackCachedTypeDummy);
+        return (this->callbackType() != ZFCallbackTypeDummy);
     }
 
     /**
@@ -406,15 +408,8 @@ public:
 
 private:
     _ZFP_ZFCallbackPrivate *d;
-    static void _ZFP_ZFCallbackCachedDataSetup(ZF_IN_OUT ZFCallback &c, _ZFP_ZFCallbackPrivate *d);
-    typedef enum {
-        _ZFP_ZFCallbackCachedTypeDummy,
-        _ZFP_ZFCallbackCachedTypeClassMember,
-        _ZFP_ZFCallbackCachedTypeRawFunction,
-    } _ZFP_ZFCallbackCachedType;
-    _ZFP_ZFCallbackCachedType _ZFP_ZFCallbackCached_callbackType;
     ZFFuncAddrType _ZFP_ZFCallbackCached_callbackInvoker_rawFunction(void) const;
-    ZFObject *_ZFP_ZFCallbackCached_callbackOwnerObj;
+    ZFObject *_ZFP_ZFCallbackCached_callbackOwnerObj(void) const;
 };
 
 // ============================================================

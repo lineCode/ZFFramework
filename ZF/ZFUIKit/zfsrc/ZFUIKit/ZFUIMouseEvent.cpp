@@ -15,7 +15,6 @@ ZFENUM_DEFINE(ZFUIMouseAction)
 ZFENUM_DEFINE(ZFUIMouseButton)
 
 ZFOBJECT_REGISTER(ZFUIMouseEvent)
-ZFCACHEHOLDER_DEFINE(ZFUIMouseEvent)
 
 void ZFUIMouseEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {

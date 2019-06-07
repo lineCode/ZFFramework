@@ -30,6 +30,7 @@ most of them has `ZFTAG_` as prefix:
 * `ZFTAG_DOXYGEN_BUG` : tricks to solve Doxygen issues
 * `ZFTAG_ADD_MODULE` : if you want to add modules for ZFFramework, you should take care of this
 * `ZFTAG_LIMITATION` : limitation of ZFFramework, you should take care during coding
+* `ZFTAG_TRICKS` : unconventional tricks to achieve unconventional goals
 * `ZFTAG_ZFVALUE_TYPE_TO_ADD` : if you want to add #ZFValue's internal type
 
 

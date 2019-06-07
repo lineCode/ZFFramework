@@ -13,8 +13,11 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
+ZFOBJECT_REGISTER(ZFDI_WrapperBase)
 ZFOBJECT_REGISTER(ZFDI_Wrapper)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFDI_Wrapper, zfstring, zfv)
+ZFOBJECT_REGISTER(ZFDI_WrapperRaw)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFDI_WrapperBase, void, zfvSet, ZFMP_IN(const zfchar *, zfv))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFDI_WrapperBase, const zfchar *, zfv)
 
 // ============================================================
 const zfchar *ZFDI_toString(ZF_IN ZFObject *obj)
@@ -38,10 +41,10 @@ const zfchar *ZFDI_toString(ZF_IN ZFObject *obj)
         }
     }
     {
-        ZFDI_Wrapper *t = ZFCastZFObject(ZFDI_Wrapper *, obj);
+        ZFDI_WrapperBase *t = ZFCastZFObject(ZFDI_WrapperBase *, obj);
         if(t != zfnull)
         {
-            return t->zfv;
+            return t->zfv();
         }
     }
     return zfnull;
@@ -272,7 +275,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         zfbool paramConvertSuccess = zftrue;
         for(zfindex iParam = 0; iParam < paramCount; ++iParam)
         {
-            ZFDI_Wrapper *wrapper = ZFCastZFObject(ZFDI_Wrapper *, paramList[iParam]);
+            ZFDI_WrapperBase *wrapper = ZFCastZFObject(ZFDI_WrapperBase *, paramList[iParam]);
             if(wrapper != zfnull)
             {
                 if(!ZFDI_paramConvert(
@@ -449,7 +452,7 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
         zfbool paramConvertSuccess = zftrue;
         for(zfindex iParam = 0; iParam < paramCount; ++iParam)
         {
-            ZFDI_Wrapper *wrapper = ZFCastZFObject(ZFDI_Wrapper *, paramList[iParam]);
+            ZFDI_WrapperBase *wrapper = ZFCastZFObject(ZFDI_WrapperBase *, paramList[iParam]);
             if(wrapper != zfnull)
             {
                 if(!ZFDI_paramConvert(
@@ -503,18 +506,18 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
 
 zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
                          ZF_IN const zfchar *typeId,
-                         ZF_IN ZFDI_Wrapper *wrapper,
+                         ZF_IN ZFDI_WrapperBase *wrapper,
                          ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
 {
     const ZFClass *cls = ZFClass::classForName(typeId);
     if(cls != zfnull)
     {
-        if(!ZFSerializeFromString(ret, cls, wrapper->zfv, wrapper->zfv.length()))
+        if(!ZFSerializeFromString(ret, cls, wrapper->zfv()))
         {
             if(errorHint != zfnull)
             {
                 zfstringAppend(errorHint, "%s unable to convert from string \"%s\"",
-                    typeId, wrapper->zfv.cString());
+                    typeId, wrapper->zfv());
             }
             return zffalse;
         }
@@ -536,7 +539,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
     if(ret != zfnull)
     {
         ZFTypeIdWrapper *typeWrapper = ret;
-        if(typeWrapper != zfnull && typeWrapper->wrappedValueFromString(wrapper->zfv, wrapper->zfv.length()))
+        if(typeWrapper != zfnull && typeWrapper->wrappedValueFromString(wrapper->zfv()))
         {
             return zftrue;
         }
@@ -545,7 +548,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
     {
         zfstringAppend(errorHint, "%s can not be converted from string \"%s\"",
                 typeId,
-                wrapper->zfv.cString()
+                wrapper->zfv()
             );
     }
     return zffalse;

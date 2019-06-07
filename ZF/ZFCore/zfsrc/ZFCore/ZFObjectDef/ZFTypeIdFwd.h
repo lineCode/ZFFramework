@@ -169,15 +169,11 @@ public:
      * \n
      * \n
      * (ZFTAG_LIMITATION) detailed limitation:\n
-     * -  aliased type (#ZFTYPEID_ALIAS_DECLARE) has very limited support
-     *   for output or return value, such as:
-     *   -  `Type &`
-     *   -  `Type *`
-     *   -  `Type *&`
-     * -  for return value, #zfvAccessFinish won't be called
-     * -  for return value that has reference type, e.g. `Type &func()`,
-     *   the returned holder is a newly created temp object,
-     *   modifying its value typically won't cause original value to be modified
+     * -  aliased type (#ZFTYPEID_ALIAS_DECLARE) may create a temporary object
+     *   to hold the actual type,
+     *   the temp object would be cleared during zfvAccessFinish,
+     *   and the impl value would be copied back to original value during zfvAccessFinish,
+     *   thus, the reflection performance of aliased type may be much worse than original type
      */
     template<typename T_Access = T_Type>
     zfclassNotPOD Value
@@ -440,16 +436,21 @@ public:
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
-            v_##TypeName *t = zfAlloc(v_##TypeName); \
+            zfCoreMutexLock(); \
+            v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
             v = t; \
-            zfRelease(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN _ZFP_PropTypeW_##TypeName const &v) \
         { \
-            v_##TypeName *t = zfAlloc(v_##TypeName, v); \
+            zfCoreMutexLock(); \
+            v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
+            t->zfv = v; \
             obj = t; \
-            zfRelease(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         template<typename T_Access = _ZFP_PropTypeW_##TypeName \
@@ -529,16 +530,21 @@ public:
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
-            v_##TypeName *t = zfAlloc(v_##TypeName); \
+            zfCoreMutexLock(); \
+            v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
             v = t; \
-            zfRelease(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN _ZFP_PropTypeW_##TypeName const &v) \
         { \
-            v_##TypeName *t = zfAlloc(v_##TypeName, v); \
+            zfCoreMutexLock(); \
+            v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
+            t->zfv = v; \
             obj = t; \
-            zfRelease(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         template<typename T_Access = _ZFP_PropTypeW_##TypeName \
@@ -634,7 +640,7 @@ public:
     /** @endcond */
 
 // ============================================================
-#define _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type) \
+#define _ZFP_ZFTYPEID_ALIAS_DECLARE(AliasToTypeName, AliasToType, TypeName, Type, TypeIdValueConversion) \
     /** @cond ZFPrivateDoc */ \
     typedef Type _ZFP_PropTypeW_##TypeName; \
     template<> \
@@ -670,6 +676,18 @@ public:
         { \
             return ZFTypeId<AliasToType>::ValueStore(obj, (AliasToType)v); \
         } \
+        TypeIdValueConversion(AliasToTypeName, AliasToType, TypeName, Type) \
+    }; \
+    /** @endcond */ \
+    /** @brief type wrapper for #ZFTypeId::Value */ \
+    zfclass ZF_ENV_EXPORT v_##TypeName : zfextends v_##AliasToTypeName \
+    { \
+        ZFOBJECT_DECLARE(v_##TypeName, v_##AliasToTypeName) \
+    };
+#define _ZFP_ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type) \
+    ZFOBJECT_REGISTER(v_##TypeName)
+
+#define _ZFP_ZFTYPEID_ALIAS_EXPAND_DEFAULT(AliasToTypeName, AliasToType, TypeName, Type) \
         template<typename T_Access = _ZFP_PropTypeW_##TypeName \
             , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr \
                 && zftTypeIsSame< \
@@ -691,12 +709,17 @@ public:
                 AliasToType const &aliasValue = ZFTypeId<AliasToType>::Value<AliasToType const &>::zfvAccess(obj); \
                 _ZFP_PropTypeW_##TypeName *v = zfnew(_ZFP_PropTypeW_##TypeName); \
                 *v = (_ZFP_PropTypeW_##TypeName)aliasValue; \
-                _ZFP_PropAliasAttach(obj, v, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
+                _ZFP_PropAliasAttach(obj, v \
+                    , zfsConnectLineFree(ZFM_TOSTRING(TypeName), ":", zftTraits<T_Access>::ModifierName()) \
+                    , _ZFP_PropAliasOnDetach \
+                    ); \
                 return *v; \
             } \
             static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
-                _ZFP_PropAliasDetach(obj, ZFM_TOSTRING(Type)); \
+                _ZFP_PropAliasDetach(obj \
+                    , zfsConnectLineFree(ZFM_TOSTRING(TypeName), ":", zftTraits<T_Access>::ModifierName()) \
+                    ); \
             } \
         private: \
             static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
@@ -730,12 +753,17 @@ public:
                 *v = (_ZFP_PropTypeW_##TypeName)aliasValue; \
                 _TrNoRef *p = zfnew(_TrNoRef); \
                 *p = v; \
-                _ZFP_PropAliasAttach(obj, p, ZFM_TOSTRING(Type), _ZFP_PropAliasOnDetach); \
+                _ZFP_PropAliasAttach(obj, p \
+                    , zfsConnectLineFree(ZFM_TOSTRING(TypeName), ":", zftTraits<T_Access>::ModifierName()) \
+                    , _ZFP_PropAliasOnDetach \
+                    ); \
                 return *p; \
             } \
             static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
-                _ZFP_PropAliasDetach(obj, ZFM_TOSTRING(Type)); \
+                _ZFP_PropAliasDetach(obj \
+                    , zfsConnectLineFree(ZFM_TOSTRING(TypeName), ":", zftTraits<T_Access>::ModifierName()) \
+                    ); \
             } \
         private: \
             static void _ZFP_PropAliasOnDetach(ZF_IN ZFObject *obj, \
@@ -753,16 +781,7 @@ public:
                 zfdelete(vTmp); \
                 zfdelete(p); \
             } \
-        }; \
-    }; \
-    /** @endcond */ \
-    /** @brief type wrapper for #ZFTypeId::Value */ \
-    zfclass ZF_ENV_EXPORT v_##TypeName : zfextends v_##AliasToTypeName \
-    { \
-        ZFOBJECT_DECLARE(v_##TypeName, v_##AliasToTypeName) \
-    };
-#define _ZFP_ZFTYPEID_ALIAS_DEFINE(AliasToTypeName, AliasToType, TypeName, Type) \
-    ZFOBJECT_REGISTER(v_##TypeName)
+        };
 
 // ============================================================
 // special alias implicit convert

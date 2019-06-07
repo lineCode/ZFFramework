@@ -107,7 +107,7 @@ public:
             } \
             static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
             { \
-                /* EnumReinterpretCast */ \
+                /* ZFTAG_TRICKS: EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
             static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
@@ -135,17 +135,18 @@ public:
             { \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
-                /* EnumReinterpretCast */ \
+                /* ZFTAG_TRICKS: EnumReinterpretCast */ \
                 *holder = (_TrNoRef)(&(t->_ZFP_ZFEnum_value)); \
-                _ZFP_PropAliasAttach(obj, holder, \
-                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), "_", zftTraits<_TrNoRef>::ModifierName()), \
-                    _ZFP_PropAliasOnDetach); \
+                _ZFP_PropAliasAttach(obj, holder \
+                    , zfsConnectLineFree(ZFM_TOSTRING(EnumName), ":", zftTraits<T_Access>::ModifierName()) \
+                    , _ZFP_PropAliasOnDetach \
+                    ); \
                 return *holder; \
             } \
             static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
-                _ZFP_PropAliasDetach(obj, \
-                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), "_", zftTraits<_TrNoRef>::ModifierName()) \
+                _ZFP_PropAliasDetach(obj \
+                    , zfsConnectLineFree(ZFM_TOSTRING(EnumName), ":", zftTraits<T_Access>::ModifierName()) \
                     ); \
             } \
         private: \
@@ -187,13 +188,18 @@ public:
     /** @brief type wrapper for #ZFTypeId::Value */ \
     zfclass ZF_ENV_EXPORT v_##EnumFlagsName : zfextends EnumName##Editable \
     { \
-        ZFOBJECT_DECLARE(v_##EnumFlagsName, EnumName##Editable) \
+        ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(v_##EnumFlagsName, EnumName##Editable) \
     public: \
         zfoverride \
         virtual const zfchar *wrappedValueTypeId(void) \
         { \
             return ZFTypeId_##EnumFlagsName(); \
         } \
+    public: \
+        /** @brief the value, see #ZFTypeId::Value */ \
+        zfuint &zfv; \
+    protected: \
+       v_##EnumFlagsName(void) : zfv(_ZFP_ZFEnum_value) {} \
     }; \
     /** @cond ZFPrivateDoc */ \
     template<> \
@@ -221,16 +227,21 @@ public:
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
-            v_##EnumFlagsName *t = zfAlloc(v_##EnumFlagsName); \
+            zfCoreMutexLock(); \
+            v_##EnumFlagsName *t = zflockfree_zfAllocWithCache(v_##EnumFlagsName); \
             v = t; \
-            zfRelease(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfuint const &v) \
         { \
-            v_##EnumFlagsName *t = zfAlloc(v_##EnumFlagsName, v); \
+            zfCoreMutexLock(); \
+            v_##EnumFlagsName *t = zflockfree_zfAllocWithCache(v_##EnumFlagsName); \
+            t->zfv = v; \
             obj = t; \
-            zfRelease(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN EnumName##Enum const &v) \
@@ -272,7 +283,7 @@ public:
             } \
             static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj) \
             { \
-                /* EnumReinterpretCast */ \
+                /* ZFTAG_TRICKS: EnumReinterpretCast */ \
                 return *(typename zftTraits<T_Access>::TrNoRef *)(&(ZFCastZFObject(EnumName *, obj)->_ZFP_ZFEnum_value)); \
             } \
             static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
@@ -300,17 +311,18 @@ public:
             { \
                 EnumName *t = ZFCastZFObject(EnumName *, obj); \
                 _TrNoRef *holder = zfnew(_TrNoRef); \
-                /* EnumReinterpretCast */ \
+                /* ZFTAG_TRICKS: EnumReinterpretCast */ \
                 *holder = (_TrNoRef)(&(t->_ZFP_ZFEnum_value)); \
-                _ZFP_PropAliasAttach(obj, holder, \
-                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), "_", zftTraits<_TrNoRef>::ModifierName()), \
-                    _ZFP_PropAliasOnDetach); \
+                _ZFP_PropAliasAttach(obj, holder \
+                    , zfsConnectLineFree(ZFM_TOSTRING(EnumName), ":", zftTraits<T_Access>::ModifierName()) \
+                    , _ZFP_PropAliasOnDetach \
+                    ); \
                 return *holder; \
             } \
             static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
             { \
-                _ZFP_PropAliasDetach(obj, \
-                    zfsConnectLineFree(ZFM_TOSTRING(EnumName), "_", zftTraits<_TrNoRef>::ModifierName()) \
+                _ZFP_PropAliasDetach(obj \
+                    , zfsConnectLineFree(ZFM_TOSTRING(EnumName), ":", zftTraits<T_Access>::ModifierName()) \
                     ); \
             } \
         private: \

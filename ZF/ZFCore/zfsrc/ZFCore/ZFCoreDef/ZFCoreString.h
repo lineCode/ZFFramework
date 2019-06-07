@@ -58,15 +58,15 @@ public:
             return d.s.s;
         }
     }
-    inline const T_Char *buf(void) const
+    inline const T_Char * const &buf(void) const
     {
         if(this->builtinBuf)
         {
-            return d.buf;
+            return (const T_Char * const &)d.buf;
         }
         else
         {
-            return d.s.s;
+            return (const T_Char * const &)d.s.s;
         }
     }
 };
@@ -165,7 +165,7 @@ public:
 
 public:
     /** @cond ZFPrivateDoc */
-    inline operator const T_Char * (void) const {return this->cString();}
+    inline operator const T_Char * const &(void) const {return this->cString();}
     /** @endcond */
 
 public:
@@ -382,7 +382,7 @@ public:
 
 public:
     /** @brief access string value */
-    inline const T_Char *cString(void) const
+    inline const T_Char * const &cString(void) const
     {
         return d.buf();
     }

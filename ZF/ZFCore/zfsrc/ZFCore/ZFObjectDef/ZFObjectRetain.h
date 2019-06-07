@@ -103,7 +103,7 @@ zfclassNotPOD ZF_ENV_EXPORT _ZFP_Obj_AllocCk<T_ZFObject, 0>
  */
 #define zfAlloc(T_ZFObject, ...) \
     (zfCoreMutexLockerHolder(), zflockfree_zfAlloc(T_ZFObject, ##__VA_ARGS__))
-/** @brief no lock version of #zfAlloc, use with causion */
+/** @brief no lock version of #zfAlloc, use with caution */
 #define zflockfree_zfAlloc(T_ZFObject, ...) \
     _ZFP_zfAlloc(T_ZFObject, ##__VA_ARGS__)
 
@@ -127,7 +127,7 @@ inline T_ZFObject _ZFP_zfRetain(ZF_IN T_ZFObject obj)
  */
 #define zfRetain(obj) \
     (zfCoreMutexLockerHolder(), zflockfree_zfRetain(obj))
-/** @brief no lock version of #zfRetain, use with causion */
+/** @brief no lock version of #zfRetain, use with caution */
 #define zflockfree_zfRetain(obj) \
     _ZFP_zfRetain(obj)
 
@@ -150,9 +150,109 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
  */
 #define zfRelease(obj) \
     (zfCoreMutexLockerHolder(), zflockfree_zfRelease(obj))
-/** @brief no lock version of #zfRelease, use with causion */
+/** @brief no lock version of #zfRelease, use with caution */
 #define zflockfree_zfRelease(obj) \
     _ZFP_zfRelease(obj)
+
+// ============================================================
+// zflockfree_zfAllocWithCache
+/**
+ * @brief alloc object with cache
+ *
+ * use the allocated object normally,
+ * it would be cached automatically when no other reference to it\n
+ * \n
+ * remarks:
+ * -  the max cache size of each type is 16,
+ *   you are unable to change the max cache size,
+ *   also, you are unable to check objects that are currently cached,
+ *   this is a very low level cache impl for performance,
+ *   supply your custom cache logic if necessary
+ * -  the cached object must be stateless,
+ *   you are unable to do anything when the object would be cached,
+ *   the #ZFObject::tagRemoveAll and #ZFObject::observerRemoveAll
+ *   would be called to clear the cached object's state
+ */
+#define zfAllocWithCache(T_ZFObject) \
+    (zfCoreMutexLockerHolder(), zflockfree_zfAllocWithCache(T_ZFObject))
+/** @brief no lock version of #zfAllocWithCache, use with caution */
+#define zflockfree_zfAllocWithCache(T_ZFObject) \
+    _ZFP_Obj_AllocCache<T_ZFObject>::Alloc()
+
+#define _ZFP_zfAllocWithCache_MAX 16
+extern ZF_ENV_EXPORT void _ZFP_zfAllocWithCache_register(ZF_IN_OUT zfbool &enableFlag,
+                                                         ZF_IN_OUT ZFObject **cache,
+                                                         ZF_IN_OUT zfindex &cacheCount);
+extern ZF_ENV_EXPORT void _ZFP_zfAllocWithCache_unregister(ZF_IN_OUT zfbool &enableFlag);
+template<typename T_ZFObject>
+zfclassNotPOD ZF_ENV_EXPORT _ZFP_Obj_AllocCache
+{
+public:
+    static T_ZFObject *Alloc(void)
+    {
+        static RegHolder _dummy;
+        ZFUNUSED(_dummy);
+        if(enableFlag())
+        {
+            if(cacheCount() > 0)
+            {
+                ZFObject *ret = zflockfree_zfRetain(cache()[--(cacheCount())]);
+                ret->_ZFP_ZFObject_zfAllocCacheRelease = zfAllocCacheRelease;
+                return ZFCastZFObjectUnchecked(T_ZFObject *, ret);
+            }
+            else
+            {
+                T_ZFObject *ret = zflockfree_zfRetain(zflockfree_zfAlloc(T_ZFObject));
+                ret->_ZFP_ZFObject_zfAllocCacheRelease = zfAllocCacheRelease;
+                return ret;
+            }
+        }
+        else
+        {
+            return zflockfree_zfRetain(zflockfree_zfAlloc(T_ZFObject));
+        }
+    }
+    static void zfAllocCacheRelease(ZF_IN ZFObject *obj)
+    {
+        obj->_ZFP_ZFObject_zfAllocCacheRelease = zfnull;
+        if(enableFlag() && cacheCount() < _ZFP_zfAllocWithCache_MAX)
+        {
+            cache()[cacheCount()++] = obj;
+        }
+        else
+        {
+            zflockfree_zfRelease(obj);
+        }
+    }
+    static zfbool &enableFlag(void)
+    {
+        static zfbool enableFlag = zffalse;
+        return enableFlag;
+    }
+    static ZFObject **cache(void)
+    {
+        static ZFObject *cache[_ZFP_zfAllocWithCache_MAX];
+        return cache;
+    }
+    static zfindex &cacheCount(void)
+    {
+        static zfindex cacheCount = 0;
+        return cacheCount;
+    }
+private:
+    zfclassNotPOD RegHolder
+    {
+    public:
+        RegHolder(void)
+        {
+            _ZFP_zfAllocWithCache_register(enableFlag(), cache(), cacheCount());
+        }
+        ~RegHolder(void)
+        {
+            _ZFP_zfAllocWithCache_unregister(enableFlag());
+        }
+    };
+};
 
 // ============================================================
 /**
@@ -192,7 +292,7 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
         zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
         zfCoreMutexUnlock(); \
     } while(zffalse)
-/** @brief no lock version of #zfRetainChange, use with causion */
+/** @brief no lock version of #zfRetainChange, use with caution */
 #define zflockfree_zfRetainChange(property, propertyValue) \
     do \
     { \
@@ -210,7 +310,7 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
         zflockfree_zfRelease(_ZFP_zfRetainChangeTmpValue.toObject()); \
         zfCoreMutexUnlock(); \
     } while(zffalse)
-/** @brief no lock version of #zfRetainChange, use with causion */
+/** @brief no lock version of #zfRetainChange, use with caution */
 #define zflockfree_zfRetainChange(property, propertyValue) \
     do \
     { \

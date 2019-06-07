@@ -128,7 +128,7 @@ ZF_NAMESPACE_END(ZFGlobalEvent)
  *
  * note, this path may or may not be writable,
  * maybe external storage path or user's home path,
- * write with causion and only if necessary\n
+ * write with caution and only if necessary\n
  * path is ensured to use ZFFileSeparator as separator,
  * and no extra separator would be added to tail
  */

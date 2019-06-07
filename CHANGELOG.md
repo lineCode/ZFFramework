@@ -1,3 +1,8 @@
+# master
+
+* optimize cache performance
+* optimize generic invoker performance
+
 # 0.7.2
 
 * ZFTime use local time zone by default

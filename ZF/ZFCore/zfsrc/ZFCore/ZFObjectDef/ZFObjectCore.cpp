@@ -18,8 +18,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 static ZFCoreQueuePOD<ZFObjectHolder *> _ZFP_ZFObjectCache_objectHolder;
-static ZFCoreQueuePOD<v_ZFProperty *> _ZFP_ZFObjectCache_prop0;
-static ZFCoreQueuePOD<v_VoidPointerConst *> _ZFP_ZFObjectCache_prop1;
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObjectCacheAutoClean, ZFLevelZFFrameworkStatic)
 {
 }
@@ -28,14 +26,6 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFObjectCacheAutoClean)
     while(!_ZFP_ZFObjectCache_objectHolder.isEmpty())
     {
         zfRelease(_ZFP_ZFObjectCache_objectHolder.queueTake());
-    }
-    while(!_ZFP_ZFObjectCache_prop0.isEmpty())
-    {
-        zfRelease(_ZFP_ZFObjectCache_prop0.queueTake());
-    }
-    while(!_ZFP_ZFObjectCache_prop1.isEmpty())
-    {
-        zfRelease(_ZFP_ZFObjectCache_prop1.queueTake());
     }
 }
 ZF_GLOBAL_INITIALIZER_END(ZFObjectCacheAutoClean)
@@ -446,7 +436,6 @@ void ZFObject::_ZFP_ZFObjectCheckRelease(void)
         if(d->objectRetainCount == 1)
         {
             this->observerNotify(ZFObject::EventObjectBeforeDealloc());
-            this->tagRemoveAll();
             if(d->objectRetainCount > 1)
             {
                 this->objectOnRelease();
@@ -457,7 +446,27 @@ void ZFObject::_ZFP_ZFObjectCheckRelease(void)
     }
 
     this->objectOnRelease();
-    if(d->objectRetainCount > 0) {return ;}
+    if(d->objectRetainCount > 0)
+    {
+        // check to save cache
+        if(this->_ZFP_ZFObject_zfAllocCacheRelease && d->objectRetainCount == 1)
+        {
+            if(ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc)
+                || ZFBitTest(_ZFP_ZFObject_stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectBeforeDealloc))
+            {
+                this->observerNotify(ZFObject::EventObjectBeforeDealloc());
+                if(d->objectRetainCount > 1)
+                {
+                    this->objectOnRelease();
+                    this->observerRemoveAll(ZFObject::EventObjectBeforeDealloc());
+                    return ;
+                }
+                this->observerRemoveAll();
+            }
+            this->_ZFP_ZFObject_zfAllocCacheRelease(this);
+        }
+        return ;
+    }
 
     d->objectInstanceState = ZFObjectInstanceStateOnDeallocPrepare;
     this->objectOnDeallocPrepare();
@@ -576,32 +585,13 @@ void ZFObject::objectPropertyValueOnUpdate(ZF_IN const ZFProperty *property, ZF_
         && (ZFBitTest(d->stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectPropertyValueOnUpdate)
             || ZFBitTest(_ZFP_ZFObject_stateFlags, _ZFP_ZFObjectPrivate::stateFlag_observerHasAddFlag_objectPropertyValueOnUpdate)))
     {
-        if(_ZFP_ZFObjectCache_prop0.isEmpty())
-        {
-            v_ZFProperty *param0 = zfAlloc(v_ZFProperty, property);
-            v_VoidPointerConst *param1 = zfAlloc(v_VoidPointerConst, oldValue);
-            this->observerNotify(ZFObject::EventObjectPropertyValueOnUpdate(), param0, param1);
-            _ZFP_ZFObjectCache_prop0.queuePut(param0);
-            _ZFP_ZFObjectCache_prop1.queuePut(param1);
-        }
-        else
-        {
-            v_ZFProperty *param0 = _ZFP_ZFObjectCache_prop0.queueTake();
-            param0->zfv = property;
-            v_VoidPointerConst *param1 = _ZFP_ZFObjectCache_prop1.queueTake();
-            param1->zfv = oldValue;
-            this->observerNotify(ZFObject::EventObjectPropertyValueOnUpdate(), param0, param1);
-            if(_ZFP_ZFObjectCache_prop0.count() < 8)
-            {
-                _ZFP_ZFObjectCache_prop0.queuePut(param0);
-                _ZFP_ZFObjectCache_prop1.queuePut(param1);
-            }
-            else
-            {
-                zfRelease(param0);
-                zfRelease(param1);
-            }
-        }
+        v_ZFProperty *param0 = zflockfree_zfAllocWithCache(v_ZFProperty);
+        param0->zfv = property;
+        v_VoidPointerConst *param1 = zflockfree_zfAllocWithCache(v_VoidPointerConst);
+        param1->zfv = oldValue;
+        this->observerNotify(ZFObject::EventObjectPropertyValueOnUpdate(), param0, param1);
+        zflockfree_zfRelease(param0);
+        zflockfree_zfRelease(param1);
     }
 }
 

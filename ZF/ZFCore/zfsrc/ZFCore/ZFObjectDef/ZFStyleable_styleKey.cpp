@@ -95,11 +95,16 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const zfchar *styleKey)
 
         if(_ZFP_styleKey->styleKey == zfnull)
         {
+            v_ZFProperty *param0 = zflockfree_zfAllocWithCache(v_ZFProperty);
+            v_zfstring *param1 = zflockfree_zfAllocWithCache(v_zfstring);
+            param1->zfv = styleKey;
             ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(
                 this->toObject(),
                 ZFGlobalEvent::EventZFStyleOnInvalid(),
-                zflockfree_zflineAlloc(v_ZFProperty),
-                zflockfree_zflineAlloc(v_zfstring, styleKey));
+                param0,
+                param1);
+            zflockfree_zfRelease(param0);
+            zflockfree_zfRelease(param1);
             return zffalse;
         }
         else
@@ -227,11 +232,17 @@ zfbool ZFStyleable::styleKeySet(ZF_IN const ZFProperty *property, ZF_IN const zf
                     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFStylePropertyChangeDataHolder)->stylePropertyOnChangeListener,
                     this->toObject()->objectHolder());
             }
+            v_ZFProperty *param0 = zflockfree_zfAllocWithCache(v_ZFProperty);
+            param0->zfv = property;
+            v_zfstring *param1 = zflockfree_zfAllocWithCache(v_zfstring);
+            param1->zfv = styleKey;
             ZFObjectGlobalEventObserver().observerNotifyWithCustomSender(
                 this->toObject(),
                 ZFGlobalEvent::EventZFStyleOnInvalid(),
-                zflockfree_zflineAlloc(v_ZFProperty, property),
-                zflockfree_zflineAlloc(v_zfstring, styleKey));
+                param0,
+                param1);
+            zflockfree_zfRelease(param0);
+            zflockfree_zfRelease(param1);
             return zffalse;
         }
     }

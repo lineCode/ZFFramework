@@ -393,7 +393,8 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
         || paramClass1->classIsTypeOf(v_zflongdouble::ClassData())
         )
     {
-        zfblockedAlloc(v_zfdouble, ret, (zfdouble)n);
+        zfblockedAllocWithCache(v_zfdouble, ret);
+        ret->zfv = (zfdouble)n;
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
@@ -404,25 +405,29 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
     }
     else if(paramClass0->classIsTypeOf(v_zfflags::ClassData()) || paramClass1->classIsTypeOf(v_zfflags::ClassData()))
     {
-        zfblockedAlloc(v_zfflags, ret, (zfflags)n);
+        zfblockedAllocWithCache(v_zfflags, ret);
+        ret->zfv = (zfflags)n;
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
     else if(paramClass0->classIsTypeOf(v_zfidentity::ClassData()) || paramClass1->classIsTypeOf(v_zfidentity::ClassData()))
     {
-        zfblockedAlloc(v_zfidentity, ret, (zfidentity)n);
+        zfblockedAllocWithCache(v_zfidentity, ret);
+        ret->zfv = (zfidentity)n;
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
     else if(paramClass0->classIsTypeOf(v_zfindex::ClassData()) || paramClass1->classIsTypeOf(v_zfindex::ClassData()))
     {
-        zfblockedAlloc(v_zfindex, ret, (zfindex)n);
+        zfblockedAllocWithCache(v_zfindex, ret);
+        ret->zfv = (zfindex)n;
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
     else if(paramClass0->classIsTypeOf(v_zftimet::ClassData()) || paramClass1->classIsTypeOf(v_zftimet::ClassData()))
     {
-        zfblockedAlloc(v_zftimet, ret, (zftimet)n);
+        zfblockedAllocWithCache(v_zftimet, ret);
+        ret->zfv = (zftimet)n;
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
@@ -442,7 +447,8 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
         return zftrue;
     }
 
-    zfblockedAlloc(v_zfint, ret, (int)n);
+    zfblockedAllocWithCache(v_zfint, ret);
+    ret->zfv = (zfint)n;
     ZFImpl_ZFLua_luaPush(L, ret);
     return 1;
 }

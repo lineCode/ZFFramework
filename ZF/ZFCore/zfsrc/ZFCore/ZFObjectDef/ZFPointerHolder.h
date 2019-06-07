@@ -67,20 +67,6 @@ public:
         return *ZFCastStatic(T_RawTypeConstPointer, this->holdedData);
     }
 
-public:
-    /**
-     * @brief access cached object for performance
-     *
-     * should be paired with #cacheAdd
-     */
-    static ZFPointerHolder *cacheGet(void);
-    /**
-     * @brief release the cached object
-     *
-     * after calling this method, you must not access the obj any more by any chances
-     */
-    static void cacheAdd(ZF_IN ZFPointerHolder *obj);
-
 protected:
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);

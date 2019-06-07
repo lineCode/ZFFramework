@@ -79,7 +79,6 @@ public:
     ZFObject *obj;
     void *v;
     _ZFP_PropAliasDetachCallback detachCallback;
-    ZFListener ownerOnDeallocListener;
 protected:
     zfoverride
     virtual void objectOnDeallocPrepare(void)
@@ -87,16 +86,11 @@ protected:
         this->cleanup();
         zfsuper::objectOnDeallocPrepare();
     }
-    ZFLISTENER_INLINE(ownerOnDealloc)
-    {
-        this->cleanup();
-    }
 private:
     void cleanup(void)
     {
         if(this->detachCallback != zfnull)
         {
-            this->obj->observerRemove(ZFObject::EventObjectBeforeDealloc(), this->ownerOnDeallocListener);
             _ZFP_PropAliasDetachCallback detachCallbackTmp = this->detachCallback;
             this->detachCallback = zfnull;
             detachCallbackTmp(this->obj, this->v);
@@ -111,28 +105,12 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
 {
     zfstring key = "_ZFP_PropTypeAlias_";
     key += typeName;
-    _ZFP_I_PropAliasHolder *d = obj->tagGet<_ZFP_I_PropAliasHolder *>(key);
-    if(d == zfnull)
-    {
-        d = zfAlloc(_ZFP_I_PropAliasHolder);
-        d->obj = obj;
-        d->v = v;
-        d->detachCallback = detachCallback;
-        d->ownerOnDeallocListener = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_I_PropAliasHolder, ownerOnDealloc));
-        obj->observerAdd(ZFObject::EventObjectBeforeDealloc(), d->ownerOnDeallocListener);
-        obj->tagSet(key, d);
-        zfRelease(d);
-    }
-    else
-    {
-        _ZFP_PropAliasDetachCallback detachCallbackOld = d->detachCallback;
-        ZFObject *objOld = d->obj;
-        void *vOld = d->v;
-        d->obj = obj;
-        d->v = v;
-        d->detachCallback = detachCallback;
-        detachCallbackOld(objOld, vOld);
-    }
+    _ZFP_I_PropAliasHolder *d = zfAlloc(_ZFP_I_PropAliasHolder);
+    d->obj = obj;
+    d->v = v;
+    d->detachCallback = detachCallback;
+    obj->tagSet(key, d);
+    zfRelease(d);
 }
 void _ZFP_PropAliasDetach(ZF_IN ZFObject *obj,
                           ZF_IN const zfchar *typeName)

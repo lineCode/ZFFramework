@@ -45,9 +45,6 @@ public:
      */
     zfflags keyCodeRaw;
 
-public:
-    ZFCACHEHOLDER_DECLARE()
-
 protected:
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);

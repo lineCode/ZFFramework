@@ -48,8 +48,7 @@ static inline _ZFP_ZFUIButtonMouseData _ZFP_ZFUIButtonMouseDataFromEvent(ZF_IN Z
     return ret;
 }
 #define _ZFP_ZFUIButtonMouseDataToEvent(event, mouseData) \
-    zfautoObject eventHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData()); \
-    ZFUIMouseEvent *event = eventHolder; \
+    zfblockedAllocWithCache(ZFUIMouseEvent, event); \
     event->eventResolvedSet(zffalse); \
     event->mouseId = mouseData.mouseId; \
     event->mouseAction = mouseData.mouseAction; \

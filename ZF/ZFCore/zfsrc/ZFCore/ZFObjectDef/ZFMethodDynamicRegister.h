@@ -31,7 +31,8 @@ zfclassFwd ZFMethodDynamicRegisterParam;
  *
  * @note dynamic registered contents would be removed automatically
  *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
- * @warning if your method has return value,
+ * @warning (ZFTAG_LIMITATION) for dynamic registered method,
+ *   if your method has return value,
  *   you must take care the life cycle of the return value\n
  *   when the method called by plain #ZFMethod::execute
  *   instead of #ZFMethod::methodGenericInvoker,
@@ -40,10 +41,15 @@ zfclassFwd ZFMethodDynamicRegisterParam;
  *   which would cause the raw return value
  *   points to invalid address\n
  *   to solve this, you have these workaround when implementing
- *   generic invoker:
+ *   #ZFMethodDynamicRegisterParam::methodGenericInvoker:
+ *   -  try not to have "non value type" return value for dynamic method
+ *     (i.e. reference or pointer type)
  *   -  store return value to owner object as #ZFObject::tagSet
+ *     (at this case, you should take care of circular reference,
+ *     and value's life cycle)
  *   -  #zfRetain and #zfautoRelease to extends the return value's life time
- *   -  try not to have return value for dynamic method
+ *     (at this case, you should ensure the method's caller won't store
+ *     the return value for a long time)
  */
 extern ZF_ENV_EXPORT const ZFMethod *ZFMethodDynamicRegister(ZF_IN const ZFMethodDynamicRegisterParam &param,
                                                              ZF_OUT_OPT zfstring *errorHint = zfnull);

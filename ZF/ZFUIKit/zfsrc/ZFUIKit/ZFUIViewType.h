@@ -45,7 +45,6 @@ ZFENUM_END(ZFUIViewChildLayer)
 zfclass ZF_ENV_EXPORT ZFUIViewMeasureResult : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(ZFUIViewMeasureResult, ZFObject)
-    ZFCACHEHOLDER_DECLARE()
 
 public:
     /** @brief see #ZFUIViewMeasureResult */

@@ -135,8 +135,7 @@
     {
         [self._ZFP_mouseRecords addObject:touch];
 
-        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-        ZFUIMouseEvent *ev = evHolder;
+        zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseDown;
@@ -165,8 +164,7 @@
 
     for(UITouch *touch in self._ZFP_mouseRecords)
     {
-        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-        ZFUIMouseEvent *ev = evHolder;
+        zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseMove;
@@ -189,8 +187,7 @@
     {
         [self._ZFP_mouseRecords removeObject:touch];
 
-        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-        ZFUIMouseEvent *ev = evHolder;
+        zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseUp;
@@ -213,8 +210,7 @@
     {
         [self._ZFP_mouseRecords removeObject:touch];
 
-        zfautoObject evHolder = ZFUIMouseEvent::cacheHolder()->cacheGet(ZFUIMouseEvent::ClassData());
-        ZFUIMouseEvent *ev = evHolder;
+        zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolvedSet(zffalse);
         ev->mouseId = (zfidentity)[touch hash];
         ev->mouseAction = ZFUIMouseAction::e_MouseCancel;

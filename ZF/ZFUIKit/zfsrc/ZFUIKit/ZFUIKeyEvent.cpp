@@ -12,7 +12,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIKeyEvent)
-ZFCACHEHOLDER_DEFINE(ZFUIKeyEvent)
 
 void ZFUIKeyEvent::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {

@@ -17,8 +17,6 @@ zfclass _ZFP_ZF2048UIBlockBackgroundView : zfextends ZFUIImageView
 {
     ZFOBJECT_DECLARE(_ZFP_ZF2048UIBlockBackgroundView, ZFUIImageView)
 
-    ZFCACHEHOLDER_DECLARE()
-
 protected:
     zfoverride
     virtual void objectOnInit(void)
@@ -66,9 +64,6 @@ public:
     {
     }
 };
-ZFCACHEHOLDER_DEFINE(_ZFP_ZF2048UIBlockBackgroundView, {
-        cacheHolder->cacheMaxSizeSet(16);
-    })
 
 ZFOBJECT_REGISTER(ZF2048UIFrame)
 
@@ -93,8 +88,7 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
     zfindex bgCount = dataWidth * dataHeight;
     while(d->blockBackgrounds->count() < bgCount)
     {
-        zfautoObject blockBgHolder = _ZFP_ZF2048UIBlockBackgroundView::cacheHolder()->cacheGet(_ZFP_ZF2048UIBlockBackgroundView::ClassData());
-        _ZFP_ZF2048UIBlockBackgroundView *blockBg = blockBgHolder;
+        zfblockedAllocWithCache(_ZFP_ZF2048UIBlockBackgroundView, blockBg);
         d->blockBackgrounds->add(blockBg);
         this->childAdd(blockBg, zfnull, 0);
     }
@@ -103,7 +97,6 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
         _ZFP_ZF2048UIBlockBackgroundView *blockBg = d->blockBackgrounds->getLast()->toAny();
         if(blockBg != zfnull)
         {
-            _ZFP_ZF2048UIBlockBackgroundView::cacheHolder()->cacheAdd(blockBg);
             blockBg->viewRemoveFromParent();
         }
         d->blockBackgrounds->removeLast();
@@ -135,8 +128,9 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
             }
             else
             {
-                zfautoObject blockHolder = ZF2048UIBlock::cacheHolder()->cacheGet(ZF2048UIBlock::ClassData());
+                zfblockedAllocWithCache(ZF2048UIBlock, blockHolder);
                 block = blockHolder;
+                block->blockValueSet(0);
                 ++blockCount;
                 this->childAdd(block);
                 d->blocksHolder->add(block);
@@ -149,7 +143,6 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
     {
         ZF2048UIBlock *block = d->blocksHolder->getLast<ZF2048UIBlock *>();
         block->viewRemoveFromParent();
-        ZF2048UIBlock::cacheHolder()->cacheAdd(block);
         d->blocksHolder->removeLast();
     }
     if(this->layoutedFrame().size.width > 0 && this->layoutedFrame().size.height > 0)

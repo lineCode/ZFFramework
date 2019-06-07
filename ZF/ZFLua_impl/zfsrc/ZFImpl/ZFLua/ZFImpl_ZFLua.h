@@ -368,11 +368,11 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     do { \
         if(paramName == zfnull && dispatchInfo.paramList[N]->toObject() != zfnull) \
         { \
-            ZFDI_Wrapper *t = ZFCastZFObject(ZFDI_Wrapper *, dispatchInfo.paramList[N]->toObject()); \
+            ZFDI_WrapperBase *t = ZFCastZFObject(ZFDI_WrapperBase *, dispatchInfo.paramList[N]->toObject()); \
             if(t != zfnull && desiredClass::ClassData()->classIsTypeOf(ZFTypeIdWrapper::ClassData())) \
             { \
                 zfblockedAlloc(desiredClass, t2); \
-                if(t2->to<ZFTypeIdWrapper *>()->wrappedValueFromString(t->zfv)) \
+                if(t2->to<ZFTypeIdWrapper *>()->wrappedValueFromString(t->zfv())) \
                 { \
                     _ZFP_##paramName = t2; \
                     paramName = t2; \
@@ -393,11 +393,11 @@ extern ZF_ENV_EXPORT void _ZFP_ZFImpl_ZFLua_implDispatchUnregister(ZF_IN _ZFP_ZF
     do { \
         if(paramName == zfnull) \
         { \
-            ZFDI_Wrapper *t = ZFCastZFObject(ZFDI_Wrapper *, dispatchInfo.paramList[N]->toObject()); \
+            ZFDI_WrapperBase *t = ZFCastZFObject(ZFDI_WrapperBase *, dispatchInfo.paramList[N]->toObject()); \
             if(t != zfnull && desiredClass::ClassData()->classIsTypeOf(ZFTypeIdWrapper::ClassData())) \
             { \
                 zfblockedAlloc(desiredClass, t2); \
-                if(t2->to<ZFTypeIdWrapper *>()->wrappedValueFromString(t->zfv)) \
+                if(t2->to<ZFTypeIdWrapper *>()->wrappedValueFromString(t->zfv())) \
                 { \
                     _ZFP_##paramName = t2; \
                     paramName = t2; \
@@ -490,7 +490,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toObject(ZF_OUT zfautoObject &param,
  * -  zfautoObject
  * -  any types that can be converted by #ZFImpl_ZFLua_toCallback
  * -  any type that can be converted to string by #ZFImpl_ZFLua_toString,
- *   result would be stored as #ZFDI_Wrapper,
+ *   result would be stored as #ZFDI_WrapperBase,
  *   and would be converted to #ZFTypeIdWrapper during function call
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,

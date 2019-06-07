@@ -207,7 +207,7 @@ public:
             /** @brief max enum value */ \
             ZFEnumCount, \
             /* used to ensure sizeof(enum) == sizeof(zfuint) */ \
-            /* required for enum value reinterpret cast (EnumReinterpretCast) */ \
+            /* required for enum value reinterpret cast (ZFTAG_TRICKS: EnumReinterpretCast) */ \
             _ZFP_ZFEnumMax = ((zfuint)-1), \
         } ZFEnumType; \
     public: \
@@ -460,7 +460,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFEnumMethodReg(ZF_IN_OUT ZFCoreArrayPOD<const ZF
 #define _ZFP_ZFENUM_FLAGS_DECLARE(EnumName, EnumFlagsName, defaultValue) \
     /** @brief EnumName as #zfflags, see @ref EnumName, @ref EnumFlagsName##ToString, @ref EnumFlagsName##FromString */ \
     zffinal zfclassPOD ZF_ENV_EXPORT EnumFlagsName \
-    { /* this class should be POD-like to support enum value reinterpret cast (EnumReinterpretCast) */ \
+    { /* this class should be POD-like to support enum value reinterpret cast (ZFTAG_TRICKS: EnumReinterpretCast) */ \
     public: \
         /** @brief default value for EnumFlagsName */ \
         static zfuint EnumDefault(void) \
