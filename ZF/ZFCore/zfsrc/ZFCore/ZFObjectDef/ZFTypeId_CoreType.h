@@ -226,11 +226,11 @@ ZFOUTPUT_TYPE(zfstring, {output.execute(zfstringToString(v));})
     public: \
         static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj) \
         { \
-            return zffalse; \
+            return (ZFCastZFObject(v_zfstring *, obj) != zfnull); \
         } \
         static _TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj) \
         { \
-            return zfnull; \
+            return ZFCastZFObject(v_zfstring *, obj)->zfv.cString(); \
         } \
         static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj) \
         { \
