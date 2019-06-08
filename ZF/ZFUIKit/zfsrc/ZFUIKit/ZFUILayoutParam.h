@@ -89,6 +89,10 @@ ZFMETHOD_FUNC_DECLARE_INLINE_1(ZFUISizeParam, ZFUISizeParamMake,
 /**
  * @brief #ZFUISizeParamMake(#ZFUISizeType::e_Wrap, #ZFUISizeType::e_Wrap)
  */
+ZFEXPORT_VAR_READONLY_DECLARE(ZFUISizeParam, ZFUISizeParamZero)
+/**
+ * @brief #ZFUISizeParamMake(#ZFUISizeType::e_Wrap, #ZFUISizeType::e_Wrap)
+ */
 ZFEXPORT_VAR_READONLY_DECLARE(ZFUISizeParam, ZFUISizeParamWrapWrap)
 /**
  * @brief #ZFUISizeParamMake(#ZFUISizeType::e_Wrap, #ZFUISizeType::e_Fill)

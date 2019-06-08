@@ -555,15 +555,25 @@ zfclass _ZFP_I_ZFInputForPathInfoOwner : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFInputForPathInfoOwner, ZFObject)
 
-protected:
-    zfoverride
-    virtual void objectOnDealloc(void)
+    ZFALLOC_CACHE_RELEASE({
+        cache->_cleanup();
+    })
+private:
+    void _cleanup(void)
     {
         if(this->token != ZFTokenInvalid())
         {
             this->impl->callbackClose(this->token);
+            this->impl = zfnull;
             this->token = ZFTokenInvalid();
         }
+    }
+
+protected:
+    zfoverride
+    virtual void objectOnDealloc(void)
+    {
+        this->_cleanup();
         zfsuper::objectOnDealloc();
     }
 
@@ -651,7 +661,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFInputForPathInfoT,
                        ZFMP_IN(const zfchar *, pathData),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
-    zfblockedAlloc(_ZFP_I_ZFInputForPathInfoOwner, inputOwner);
+    zfblockedAllocWithCache(_ZFP_I_ZFInputForPathInfoOwner, inputOwner);
     if(!inputOwner->openFile(pathType, pathData, flags))
     {
         return zffalse;
@@ -747,15 +757,25 @@ zfclass _ZFP_I_ZFOutputForPathInfoOwner : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFOutputForPathInfoOwner, ZFObject)
 
-protected:
-    zfoverride
-    virtual void objectOnDealloc(void)
+    ZFALLOC_CACHE_RELEASE({
+        cache->_cleanup();
+    })
+private:
+    void _cleanup(void)
     {
         if(this->token != ZFTokenInvalid())
         {
             this->impl->callbackClose(this->token);
+            this->impl = zfnull;
             this->token = ZFTokenInvalid();
         }
+    }
+
+protected:
+    zfoverride
+    virtual void objectOnDealloc(void)
+    {
+        this->_cleanup();
         zfsuper::objectOnDealloc();
     }
 
@@ -843,7 +863,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfbool, ZFOutputForPathInfoT,
                        ZFMP_IN(const zfchar *, pathData),
                        ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
-    zfblockedAlloc(_ZFP_I_ZFOutputForPathInfoOwner, outputOwner);
+    zfblockedAllocWithCache(_ZFP_I_ZFOutputForPathInfoOwner, outputOwner);
     if(!outputOwner->openFile(pathType, pathData, flags))
     {
         return zffalse;

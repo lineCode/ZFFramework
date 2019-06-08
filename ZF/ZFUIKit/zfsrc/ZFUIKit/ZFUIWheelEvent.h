@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 zffinal zfclass ZF_ENV_EXPORT ZFUIWheelEvent : zfextends ZFUIEvent
 {
-    ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFUIWheelEvent, ZFUIEvent)
+    ZFOBJECT_DECLARE(ZFUIWheelEvent, ZFUIEvent)
 
 public:
     /**
@@ -41,11 +41,6 @@ public:
 protected:
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
-
-protected:
-    /** @cond ZFPrivateDoc */
-    ZFUIWheelEvent(void) : wheelX(0), wheelY(0) {}
-    /** @endcond */
 };
 
 ZF_NAMESPACE_GLOBAL_END

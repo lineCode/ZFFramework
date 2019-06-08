@@ -344,25 +344,27 @@ template<typename T_ZFObject>
 zfclassNotPOD _ZFP_PropRVH
 {
 public:
-    zfautoObject valueHolder;
     T_ZFObject value;
 public:
     _ZFP_PropRVH(void)
-    : valueHolder()
-    , value(zfnull)
+    : value(zfnull)
     {
     }
     template<typename T_ZFObject2>
     _ZFP_PropRVH(ZF_IN T_ZFObject2 obj)
-    : valueHolder(obj)
-    , value(valueHolder)
+    : value(zflockfree_zfRetain(ZFCastZFObject(T_ZFObject, obj)))
     {
+    }
+    ~_ZFP_PropRVH(void)
+    {
+        zflockfree_zfRelease(this->value);
     }
 public:
     void valueSet(ZF_IN ZFObject *obj)
     {
-        this->valueHolder = obj;
-        this->value = this->valueHolder;
+        zflockfree_zfRetain(obj);
+        zflockfree_zfRelease(this->value);
+        this->value = ZFCastZFObjectUnchecked(T_ZFObject, obj);
     }
 };
 template<typename T_Type>
@@ -416,7 +418,7 @@ public:
                     , zfself::_ZFP_propCbReset_##Name \
                     , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
                     , zfself::_ZFP_propCbGet_retain_##Name \
-                    , _ZFP_propCbDValueGetRelease_dummy \
+                    , zfself::_ZFP_propCbGetRelease_retain_##Name \
                     , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
                     , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
                     , _ZFP_propCbDValueStore<PropHT_##Name> \
@@ -493,7 +495,7 @@ public:
                     _ZFP_ZFPropertyLifeCycleCall_init_retain( \
                         zfself::_ZFP_Prop_##Name(), \
                         owner, \
-                        this->_ZFP_v->valueHolder, \
+                        ZFCastZFObjectUnchecked(ZFObject *, this->_ZFP_v->value), \
                         needNotifyOwner, \
                         _ZFP_Prop_rawValueStoreCallback_retain<zfself::PropVT_##Name>, \
                         this->_ZFP_v); \
@@ -509,7 +511,7 @@ public:
                 _ZFP_ZFPropertyLifeCycleCall_dealloc_retain( \
                     zfself::_ZFP_Prop_##Name(), \
                     owner, \
-                    this->_ZFP_v->valueHolder, \
+                    ZFCastZFObjectUnchecked(ZFObject *, this->_ZFP_v->value), \
                     completeDetach); \
                 zfpoolDelete(this->_ZFP_v); \
                 this->_ZFP_v = zfnull; \
@@ -546,7 +548,16 @@ public:
         { \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             t->Name##_PropV._ZFP_init(ownerObj); \
-            return &(t->Name##_PropV._ZFP_v->valueHolder); \
+            zfautoObject *ret = zfnew(zfautoObject, t->Name##_PropV._ZFP_v->value); \
+            valueToken = (void *)ret; \
+            return ret; \
+        } \
+        static void _ZFP_propCbGetRelease_retain_##Name(ZF_IN const ZFProperty *property, \
+                                                        ZF_IN ZFObject *ownerObj, \
+                                                        ZF_IN void *valueToken, \
+                                                        ZF_IN const void *value) \
+        { \
+            zfdelete((zfautoObject *)valueToken); \
         } \
     public:
 #define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFTypeId_noneOrType, Name, \

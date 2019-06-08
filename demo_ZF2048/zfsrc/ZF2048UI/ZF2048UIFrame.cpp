@@ -17,6 +17,9 @@ zfclass _ZFP_ZF2048UIBlockBackgroundView : zfextends ZFUIImageView
 {
     ZFOBJECT_DECLARE(_ZFP_ZF2048UIBlockBackgroundView, ZFUIImageView)
 
+    ZFALLOC_CACHE_RELEASE({
+    })
+
 protected:
     zfoverride
     virtual void objectOnInit(void)
@@ -130,7 +133,6 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
             {
                 zfblockedAllocWithCache(ZF2048UIBlock, blockHolder);
                 block = blockHolder;
-                block->blockValueSet(0);
                 ++blockCount;
                 this->childAdd(block);
                 d->blocksHolder->add(block);

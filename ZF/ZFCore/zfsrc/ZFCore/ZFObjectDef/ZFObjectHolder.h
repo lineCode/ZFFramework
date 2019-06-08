@@ -35,6 +35,10 @@ zffinal zfclass ZF_ENV_EXPORT ZFObjectHolder : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(ZFObjectHolder, ZFObject)
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->objectHoldedSet(zfnull);
+    })
+
 public:
     /**
      * @brief set the holded object

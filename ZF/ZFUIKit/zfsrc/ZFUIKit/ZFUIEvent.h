@@ -25,6 +25,10 @@ zfclass ZF_ENV_EXPORT ZFUIEvent : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFUIEvent, ZFObject)
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->eventResolvedSet(zffalse);
+    })
+
 public:
     /**
      * @brief whether the event has been resolved

@@ -24,6 +24,11 @@ zfclass ZF2048UIBlock : zfextends ZFUIImageView
     ZFOBJECT_DECLARE(ZF2048UIBlock, ZFUIImageView)
     ZFSTYLE_DEFAULT_DECLARE(ZF2048UIBlock)
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->blockValueSet(0);
+        cache->blockTitle()->textSet("");
+    })
+
 public:
     ZFPROPERTY_ASSIGN_WITH_INIT(ZF2048Value, blockValue, 0)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZF2048Value, blockValue)

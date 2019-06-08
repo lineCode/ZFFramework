@@ -41,6 +41,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(zfAllocWithCache)
     {
         *(d[i].enableFlag) = zffalse;
         toRelease.addFrom(d[i].cache, *(d[i].cacheCount));
+        *(d[i].cacheCount) = 0;
     }
     for(zfindex i = toRelease.count() - 1; i != zfindexMax(); --i)
     {
@@ -48,6 +49,22 @@ ZF_GLOBAL_INITIALIZER_DESTROY(zfAllocWithCache)
     }
 }
 ZF_GLOBAL_INITIALIZER_END(zfAllocWithCache)
+
+void zfAllocCacheRemoveAll(void)
+{
+    zfCoreMutexLocker();
+    ZFCoreArrayPOD<ZFObject *> toRelease;
+    ZFCoreArrayPOD<_ZFP_zfAllocWithCache_Data> &d = _ZFP_zfAllocWithCache_DataList();
+    for(zfindex i = d.count() - 1; i != zfindexMax(); --i)
+    {
+        toRelease.addFrom(d[i].cache, *(d[i].cacheCount));
+        *(d[i].cacheCount) = 0;
+    }
+    for(zfindex i = toRelease.count() - 1; i != zfindexMax(); --i)
+    {
+        zflockfree_zfRelease(toRelease[i]);
+    }
+}
 
 void _ZFP_zfAllocWithCache_register(ZF_IN_OUT zfbool &enableFlag,
                                     ZF_IN_OUT ZFObject **cache,
@@ -59,7 +76,7 @@ void _ZFP_zfAllocWithCache_register(ZF_IN_OUT zfbool &enableFlag,
     item.cache = cache;
     item.cacheCount = &cacheCount;
     d.add(item);
-    if(ZFFrameworkStateCheck(ZFLevelZFFrameworkNormal) == ZFFrameworkStateAvailable)
+    if(ZFFrameworkStateCheck((ZFLevel)(ZFLevelZFFrameworkNormal - 1)) == ZFFrameworkStateAvailable)
     {
         enableFlag = zftrue;
     }

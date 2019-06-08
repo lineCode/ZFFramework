@@ -16,6 +16,13 @@ zfclass _ZFP_I_ZFInputForLuaOwner : zfextends ZFObject
 public:
     ZFOBJECT_DECLARE(_ZFP_I_ZFInputForLuaOwner, ZFObject)
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->_bufCache->zfv.removeAll();
+        cache->_countCache->zfv = 0;
+        cache->luaCallback.callbackClear();
+        cache->userData = zfnull;
+    })
+
 public:
     ZFListener luaCallback;
     zfautoObject userData;
@@ -84,7 +91,7 @@ ZFMETHOD_FUNC_DEFINE_2(ZFInput, ZFInputForLua,
     {
         return ZFCallbackNull();
     }
-    zfblockedAlloc(_ZFP_I_ZFInputForLuaOwner, owner);
+    zfblockedAllocWithCache(_ZFP_I_ZFInputForLuaOwner, owner);
     owner->luaCallback = luaCallback;
     owner->userData = userData;
     ZFInput ret = ZFCallbackForMemberMethod(owner, ZFMethodAccess(_ZFP_I_ZFInputForLuaOwner, onInput));

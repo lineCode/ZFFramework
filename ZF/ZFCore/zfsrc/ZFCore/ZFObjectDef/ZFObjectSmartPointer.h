@@ -120,11 +120,11 @@ public:
 /**
  * @brief same as zflineRelease(zfAllocWithCache(...)), see #zflineRelease
  */
-#define zflineAllocWithCache(T_ZFObject) \
-    zflineRelease(zfAllocWithCache(T_ZFObject))
+#define zflineAllocWithCache(T_ZFObject, ...) \
+    zflineRelease(zfAllocWithCache(T_ZFObject, ##__VA_ARGS__))
 /** @brief no lock version of #zflineAllocWithCache, use with caution */
-#define zflockfree_zflineAllocWithCache(T_ZFObject) \
-    zflockfree_zflineRelease(zflockfree_zfAllocWithCache(T_ZFObject))
+#define zflockfree_zflineAllocWithCache(T_ZFObject, ...) \
+    zflockfree_zflineRelease(zflockfree_zfAllocWithCache(T_ZFObject, ##__VA_ARGS__))
 
 // ============================================================
 template<typename T_ZFObject>
@@ -187,14 +187,14 @@ public:
 
 // ============================================================
 /** @brief see #zfblockedAlloc and #zfAllocWithCache */
-#define zfblockedAllocWithCache(T_ZFObject, name) \
+#define zfblockedAllocWithCache(T_ZFObject, name, ...) \
     _ZFP_zfblockedAllocContainer<T_ZFObject> \
-        ZFM_CAT(_ZFP_zfblockedAlloc_hold_, name) (zfAllocWithCache(T_ZFObject)); \
+        ZFM_CAT(_ZFP_zfblockedAlloc_hold_, name) (zfAllocWithCache(T_ZFObject, ##__VA_ARGS__)); \
     T_ZFObject *name = (ZFM_CAT(_ZFP_zfblockedAlloc_hold_, name).obj)
 /** @brief no lock version of #zfblockedAllocWithCache, use with caution */
-#define zflockfree_zfblockedAllocWithCache(T_ZFObject, name) \
+#define zflockfree_zfblockedAllocWithCache(T_ZFObject, name, ...) \
     _ZFP_zflockfree_zfblockedAllocContainer<T_ZFObject> \
-        ZFM_CAT(_ZFP_zfblockedAlloc_hold_, name) (zflockfree_zfAllocWithCache(T_ZFObject)); \
+        ZFM_CAT(_ZFP_zfblockedAlloc_hold_, name) (zflockfree_zfAllocWithCache(T_ZFObject, ##__VA_ARGS__)); \
     T_ZFObject *name = (ZFM_CAT(_ZFP_zfblockedAlloc_hold_, name).obj)
 
 // ============================================================

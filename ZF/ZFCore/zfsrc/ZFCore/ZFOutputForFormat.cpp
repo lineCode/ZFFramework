@@ -38,6 +38,25 @@ public:
     zfindex writtenLen;
     void *state;
 
+public:
+    ZFALLOC_CACHE_RELEASE({
+        if(cache->format != zfnull)
+        {
+            cache->outputEnd();
+        }
+
+        cache->output.callbackClear();
+        if(cache->format != zfnull)
+        {
+            zfRelease(cache->format);
+            cache->format = zfnull;
+        }
+        cache->outputStep = ZFOutputFormatStep::e_OnInit;
+        cache->outputCount = 0;
+        cache->writtenLen = 0;
+        cache->state = zfnull;
+    })
+
 protected:
     _ZFP_I_ZFOutputForFormatOwner(void)
     : output()
@@ -51,19 +70,11 @@ protected:
 
 protected:
     zfoverride
-    virtual void objectOnDeallocPrepare(void)
-    {
-        if(this->format != zfnull)
-        {
-            this->outputEnd();
-        }
-        zfsuper::objectOnDeallocPrepare();
-    }
-    zfoverride
     virtual void objectOnDealloc(void)
     {
         if(this->format != zfnull)
         {
+            this->outputEnd();
             zfRelease(this->format);
             this->format = zfnull;
         }
@@ -166,7 +177,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
         return zffalse;
     }
 
-    _ZFP_I_ZFOutputForFormatOwner *outputOwner = zfAlloc(_ZFP_I_ZFOutputForFormatOwner);
+    _ZFP_I_ZFOutputForFormatOwner *outputOwner = zfAllocWithCache(_ZFP_I_ZFOutputForFormatOwner);
     outputOwner->output = output;
     outputOwner->format = zfRetain(format);
     ret = ZFCallbackForMemberMethod(outputOwner, ZFMethodAccess(_ZFP_I_ZFOutputForFormatOwner, onOutput));

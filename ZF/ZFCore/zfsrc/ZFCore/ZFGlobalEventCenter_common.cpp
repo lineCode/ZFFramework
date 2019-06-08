@@ -38,5 +38,21 @@ ZF_STATIC_REGISTER_DESTROY(_ZFP_ZFGlobalEventCenter_common_register)
 }
 ZF_STATIC_REGISTER_END(_ZFP_ZFGlobalEventCenter_common_register)
 
+ZF_GLOBAL_INITIALIZER_INIT(zfAllocWithCache_autoClean)
+{
+    this->cleanListener = ZFCallbackForFunc(zfself::clean);
+    ZFGlobalEventCenter::instance()->observerAdd(ZFGlobalEvent::EventAppOnMemoryLow(), this->cleanListener);
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(zfAllocWithCache_autoClean)
+{
+    ZFGlobalEventCenter::instance()->observerRemove(ZFGlobalEvent::EventAppOnMemoryLow(), this->cleanListener);
+}
+ZFListener cleanListener;
+static ZFLISTENER_PROTOTYPE_EXPAND(clean)
+{
+    zfAllocCacheRemoveAll();
+}
+ZF_GLOBAL_INITIALIZER_END(zfAllocWithCache_autoClean)
+
 ZF_NAMESPACE_GLOBAL_END
 

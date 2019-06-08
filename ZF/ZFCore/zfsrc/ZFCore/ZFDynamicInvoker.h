@@ -26,6 +26,10 @@ zfabstract ZF_ENV_EXPORT ZFDI_WrapperBase : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_ABSTRACT(ZFDI_WrapperBase, ZFObject)
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->zfvSet(zfnull);
+    })
+
 public:
     /**
      * @brief the data
@@ -74,7 +78,17 @@ zfclass ZF_ENV_EXPORT ZFDI_Wrapper : zfextends ZFDI_WrapperBase
     ZFOBJECT_DECLARE(ZFDI_Wrapper, ZFDI_WrapperBase)
 public:
     zfoverride
-    virtual void zfvSet(ZF_IN const zfchar *zfv) {this->_ZFP_zfv = zfv;}
+    virtual void zfvSet(ZF_IN const zfchar *zfv)
+    {
+        if(zfv)
+        {
+            this->_ZFP_zfv = zfv;
+        }
+        else
+        {
+            this->_ZFP_zfv.removeAll();
+        }
+    }
     zfoverride
     virtual const zfchar *zfv(void) {return this->_ZFP_zfv;}
 private:
@@ -86,7 +100,17 @@ zfclass ZF_ENV_EXPORT ZFDI_WrapperRaw : zfextends ZFDI_WrapperBase
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFDI_WrapperRaw, ZFDI_WrapperBase)
 public:
     zfoverride
-    virtual void zfvSet(ZF_IN const zfchar *zfv) {this->_ZFP_zfv = zfv;}
+    virtual void zfvSet(ZF_IN const zfchar *zfv)
+    {
+        if(zfv)
+        {
+            this->_ZFP_zfv = zfv;
+        }
+        else
+        {
+            this->_ZFP_zfv = "";
+        }
+    }
     zfoverride
     virtual const zfchar *zfv(void) {return this->_ZFP_zfv;}
 private:

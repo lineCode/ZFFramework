@@ -54,6 +54,12 @@ public:
     /** @brief see #ZFUIViewMeasureResult */
     ZFUISize measuredSize;
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->sizeHint = ZFUISizeZero();
+        cache->sizeParam = ZFUISizeParamZero();
+        cache->measuredSize = ZFUISizeZero();
+    })
+
 protected:
     zfoverride
     virtual inline void objectInfoOnAppend(ZF_IN_OUT zfstring &ret)

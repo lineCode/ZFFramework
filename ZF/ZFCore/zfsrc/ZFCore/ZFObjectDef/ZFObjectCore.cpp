@@ -17,19 +17,6 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-static ZFCoreQueuePOD<ZFObjectHolder *> _ZFP_ZFObjectCache_objectHolder;
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObjectCacheAutoClean, ZFLevelZFFrameworkStatic)
-{
-}
-ZF_GLOBAL_INITIALIZER_DESTROY(ZFObjectCacheAutoClean)
-{
-    while(!_ZFP_ZFObjectCache_objectHolder.isEmpty())
-    {
-        zfRelease(_ZFP_ZFObjectCache_objectHolder.queueTake());
-    }
-}
-ZF_GLOBAL_INITIALIZER_END(ZFObjectCacheAutoClean)
-
 // ============================================================
 // _ZFP_ZFObjectPrivate
 typedef zfstlmap<zfstlstringZ, zfautoObject> _ZFP_ZFObjectTagMapType;
@@ -105,14 +92,7 @@ ZFObjectHolder *ZFObject::objectHolder(void)
     zfCoreMutexLocker();
     if(d->objectHolder == zfnull)
     {
-        if(_ZFP_ZFObjectCache_objectHolder.isEmpty())
-        {
-            d->objectHolder = zfAlloc(ZFObjectHolder);
-        }
-        else
-        {
-            d->objectHolder = _ZFP_ZFObjectCache_objectHolder.queueTake();
-        }
+        d->objectHolder = zflockfree_zfAllocWithCache(ZFObjectHolder);
         d->objectHolder->objectHoldedSet(this);
     }
     return d->objectHolder;
@@ -515,15 +495,7 @@ void ZFObject::objectOnDealloc(void)
     if(d->objectHolder)
     {
         d->objectHolder->objectHoldedSet(zfnull);
-        if(d->objectHolder->objectRetainCount() == 1
-            && _ZFP_ZFObjectCache_objectHolder.count() < 32)
-        {
-            _ZFP_ZFObjectCache_objectHolder.queuePut(d->objectHolder);
-        }
-        else
-        {
-            zfRelease(d->objectHolder);
-        }
+        zfRelease(d->objectHolder);
     }
 
     zfpoolDelete(d);

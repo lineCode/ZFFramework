@@ -27,10 +27,10 @@ zfclassFwd ZFTypeHolder;
  * to achieve #ZFTypeHolder, supply a function with following proto type,
  * which cleanup the internal #ZFTypeHolder::holdedData:
  * @code
- *   void type(ZF_IN ZFTypeHolder *holder);
+ *   void type(ZF_IN void *holdedData);
  * @endcode
  */
-typedef void (*ZFTypeHolderType)(ZF_IN ZFTypeHolder *holder);
+typedef void (*ZFTypeHolderType)(ZF_IN void *holdedData);
 /**
  * @brief used to hold a non ZFObject type for performance
  */
@@ -42,6 +42,27 @@ public:
 
 protected:
     ZFTypeHolder(void) : holdedData(zfnull), holderType(zfnull) {}
+
+    ZFALLOC_CACHE_RELEASE({
+        cache->_cleanup();
+    })
+private:
+    void _cleanup(void)
+    {
+        if(this->holdedData && this->holderType)
+        {
+            void *holdedData = this->holdedData;
+            ZFTypeHolderType holderType = this->holderType;
+            this->holdedData = zfnull;
+            this->holderType = zfnull;
+            holderType(holdedData);
+        }
+        else
+        {
+            this->holdedData = zfnull;
+            this->holderType = zfnull;
+        }
+    }
 
 protected:
     /**
@@ -62,12 +83,7 @@ protected:
     zfoverride
     virtual void objectOnDeallocPrepare(void)
     {
-        if(this->holdedData && this->holderType)
-        {
-            this->holderType(this);
-        }
-        this->holdedData = zfnull;
-        this->holderType = zfnull;
+        this->_cleanup();
         zfsuper::objectOnDeallocPrepare();
     }
 
@@ -111,17 +127,17 @@ public:
 zfclassNotPOD _ZFP_ZFTypeHolderType
 {
 public:
-    static void TypePointerRef(ZF_IN ZFTypeHolder *holder)
+    static void TypePointerRef(ZF_IN void *holdedData)
     {
     }
-    static void TypePOD(ZF_IN ZFTypeHolder *holder)
+    static void TypePOD(ZF_IN void *holdedData)
     {
-        zffree(holder->holdedData);
+        zffree(holdedData);
     }
     template<typename T_Object>
-    static void TypeObject(ZF_IN ZFTypeHolder *holder)
+    static void TypeObject(ZF_IN void *holdedData)
     {
-        zfdelete(ZFCastStatic(T_Object, holder->holdedData));
+        zfdelete(ZFCastStatic(T_Object, holdedData));
     }
 };
 /** @brief see #ZFTypeHolderType */

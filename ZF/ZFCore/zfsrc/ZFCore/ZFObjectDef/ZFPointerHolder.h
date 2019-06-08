@@ -52,6 +52,10 @@ public:
      */
     const void *holdedData;
 
+    ZFALLOC_CACHE_RELEASE({
+        cache->holdedData = zfnull;
+    })
+
 public:
     /** @brief util method to cast #holdedData */
     template<typename T_RawType>

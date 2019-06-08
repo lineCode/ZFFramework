@@ -162,29 +162,74 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
  * use the allocated object normally,
  * it would be cached automatically when no other reference to it\n
  * \n
- * remarks:
- * -  the max cache size of each type is 16,
- *   you are unable to change the max cache size,
- *   also, you are unable to check objects that are currently cached,
+ * note:
+ * -  you are unable to change the max cache size,
  *   this is a very low level cache impl for performance,
- *   supply your custom cache logic if necessary
- * -  the cached object must be stateless,
- *   you are unable to do anything when the object would be cached,
+ *   supply your own custom cache logic if necessary
+ * -  you are unable to check all cached objects,
+ *   but you may clear all cache by #zfAllocCacheRemoveAll
+ * -  the cached object should be stateless,
  *   the #ZFObject::tagRemoveAll and #ZFObject::observerRemoveAll
  *   would be called to clear the cached object's state
+ * -  the cached object type must supply #ZFALLOC_CACHE_RELEASE
+ *   to reset the cache state
+ *   @code
+ *     zfclass YourObject : zfextends ZFObject
+ *     {
+ *         ZFALLOC_CACHE_RELEASE({
+ *             // call super if necessary
+ *             zfsuper::zfAllocCacheRelease(obj);
+ *             cache->xxx.clear();
+ *         })
+ *     };
+ *     ZFObject *obj = zfAllocWithCache(YourObject);
+ *   @endcode
+ *   -  if you are unable to supply #ZFALLOC_CACHE_RELEASE for existing class,
+ *     you may also supply custom cache release callback by:
+ *     @code
+ *       class YourCacheRelease
+ *       {
+ *       public:
+ *           static void zfAllocCacheRelease(ZF_IN ZFObject *obj)
+ *           {
+ *           }
+ *       };
+ *       ZFObject *obj = zfAllocWithCache(YourObject, YourCacheRelease);
+ *     @endcode
+ *   -  especially take care of these things when supply cache release action:
+ *     -  properties, they won't be cleared since the object would be cached,
+ *       especially for retain properties and callbacks
+ *     -  #ZFObject::objectOnDealloc won't be called when owner cached,
+ *       if your object needs to perform additional cleanup steps,
+ *       you may need to perform these cleanup steps manually
  */
-#define zfAllocWithCache(T_ZFObject) \
-    (zfCoreMutexLockerHolder(), zflockfree_zfAllocWithCache(T_ZFObject))
+#define zfAllocWithCache(T_ZFObject, ...) \
+    (zfCoreMutexLockerHolder(), zflockfree_zfAllocWithCache(T_ZFObject, ##__VA_ARGS__))
 /** @brief no lock version of #zfAllocWithCache, use with caution */
-#define zflockfree_zfAllocWithCache(T_ZFObject) \
-    _ZFP_Obj_AllocCache<T_ZFObject>::Alloc()
+#define zflockfree_zfAllocWithCache(T_ZFObject, ...) \
+    _ZFP_Obj_AllocCache<T_ZFObject, ##__VA_ARGS__>::Alloc()
+
+/** @brief see #zfAllocWithCache */
+#define ZFALLOC_CACHE_RELEASE(action) \
+    public: \
+        static void zfAllocCacheRelease(ZF_IN ZFObject *_obj) \
+        { \
+            zfself *cache = ZFCastZFObjectUnchecked(zfself *, _obj); \
+            ZFUNUSED(cache); \
+            action \
+        }
+
+/**
+ * @brief remove all cache created by #zfAllocWithCache
+ */
+extern ZF_ENV_EXPORT void zfAllocCacheRemoveAll(void);
 
 #define _ZFP_zfAllocWithCache_MAX 16
 extern ZF_ENV_EXPORT void _ZFP_zfAllocWithCache_register(ZF_IN_OUT zfbool &enableFlag,
                                                          ZF_IN_OUT ZFObject **cache,
                                                          ZF_IN_OUT zfindex &cacheCount);
 extern ZF_ENV_EXPORT void _ZFP_zfAllocWithCache_unregister(ZF_IN_OUT zfbool &enableFlag);
-template<typename T_ZFObject>
+template<typename T_ZFObject, typename T_Cleanup = T_ZFObject>
 zfclassNotPOD ZF_ENV_EXPORT _ZFP_Obj_AllocCache
 {
 public:
@@ -217,6 +262,7 @@ public:
         obj->_ZFP_ZFObject_zfAllocCacheRelease = zfnull;
         if(enableFlag() && cacheCount() < _ZFP_zfAllocWithCache_MAX)
         {
+            T_Cleanup::zfAllocCacheRelease(obj);
             cache()[cacheCount()++] = obj;
         }
         else
