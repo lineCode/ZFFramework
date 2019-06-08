@@ -254,6 +254,7 @@
 			);
 			name = ZFSetup;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZF2048.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

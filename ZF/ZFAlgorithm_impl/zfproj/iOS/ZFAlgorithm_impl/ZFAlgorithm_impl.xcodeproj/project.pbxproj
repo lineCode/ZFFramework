@@ -168,6 +168,7 @@
 			);
 			name = ZFCompileSource;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFAlgorithm_impl.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

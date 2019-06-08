@@ -194,6 +194,7 @@
 			);
 			name = ZFCompileSource;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFUIKit_impl.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -194,6 +194,7 @@
 			);
 			name = ZFCompileSource;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZF_impl.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

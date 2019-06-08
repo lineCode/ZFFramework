@@ -195,6 +195,7 @@
 			);
 			name = ZFCompileSource;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFUIWidget.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

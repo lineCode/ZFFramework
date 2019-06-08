@@ -245,6 +245,16 @@
 			);
 			name = ZFSetup;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZF2048.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFCore.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFAlgorithm.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFUtility.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFUIKit.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFUIWidget.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZF_impl.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFCore_impl.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFAlgorithm_impl.mm",
+				"$(SRCROOT)/ProjectFiles/zfgensrc_ZFUIKit_impl.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

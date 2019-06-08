@@ -20,7 +20,10 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-#define _ZFP_zfstr_bufSize (sizeof(void *) * 2)
+enum {
+    _ZFP_zfstr_bufSize = (sizeof(void *) + sizeof(zfindex) * 2),
+};
+#define _ZFP_zfstr_dynamicBuf ((zfuint)-1)
 
 // ============================================================
 /** @cond ZFPrivateDoc */
@@ -31,25 +34,28 @@ public:
     union {
         struct {
             T_Char *s;
-            zfuint capacity;
+            zfindex capacity;
+            zfindex length;
         } s;
         T_Char buf[_ZFP_zfstr_bufSize];
     } d;
+    /*
+     * when !=_ZFP_zfstr_dynamicBuf, using builtin buf, and length is string size
+     * when ==_ZFP_zfstr_dynamicBuf, using dynamic buf
+     */
     zfuint length;
-    zfbool builtinBuf;
 
 public:
     _zfstrD(void)
     : d()
     , length(0)
-    , builtinBuf(zftrue)
     {
     }
 
 public:
     inline T_Char *buf(void)
     {
-        if(this->builtinBuf)
+        if(this->length != _ZFP_zfstr_dynamicBuf)
         {
             return d.buf;
         }
@@ -58,15 +64,15 @@ public:
             return d.s.s;
         }
     }
-    inline const T_Char * const &buf(void) const
+    inline const T_Char *buf(void) const
     {
-        if(this->builtinBuf)
+        if(this->length != _ZFP_zfstr_dynamicBuf)
         {
-            return (const T_Char * const &)d.buf;
+            return d.buf;
         }
         else
         {
-            return (const T_Char * const &)d.s.s;
+            return d.s.s;
         }
     }
 };
@@ -94,9 +100,8 @@ public:
     : d()
     {
         T_Char *buf = _capacityRequire(s.length());
-        d.length = (zfuint)s.length();
-        zfmemcpy(buf, s.cString(), d.length * sizeof(T_Char));
-        buf[d.length] = '\0';
+        zfmemcpy(buf, s.cString(), (s.length() + 1) * sizeof(T_Char));
+        _updateLength(s.length());
     }
     /** @brief copy content from another string */
     _zfstr(ZF_IN const _zfstr &s, zfindex pos)
@@ -104,10 +109,10 @@ public:
     {
         if(pos < s.length())
         {
-            T_Char *buf = _capacityRequire(s.length() - pos);
-            d.length = (zfuint)(s.length() - pos);
-            zfmemcpy(buf, s.cString() + pos, d.length * sizeof(T_Char));
-            buf[d.length] = '\0';
+            zfindex len = s.length() - pos;
+            T_Char *buf = _capacityRequire(len);
+            zfmemcpy(buf, s.cString() + pos, (len + 1) * sizeof(T_Char));
+            _updateLength(len);
         }
     }
     /** @brief copy content from another string */
@@ -121,9 +126,8 @@ public:
                 len = s.length() - pos;
             }
             T_Char *buf = _capacityRequire(len);
-            d.length = (zfuint)len;
-            zfmemcpy(buf, s.cString() + pos, d.length * sizeof(T_Char));
-            buf[d.length] = '\0';
+            zfmemcpy(buf, s.cString() + pos, (len + 1) * sizeof(T_Char));
+            _updateLength(len);
         }
     }
     /** @brief copy content from another string */
@@ -134,9 +138,8 @@ public:
         {
             zfindex len = _len(s);
             T_Char *buf = _capacityRequire(len);
-            d.length = (zfuint)len;
-            zfmemcpy(buf, s, d.length * sizeof(T_Char));
-            buf[d.length] = '\0';
+            zfmemcpy(buf, s, (len + 1) * sizeof(T_Char));
+            _updateLength(len);
         }
     }
     /** @brief copy content from another string */
@@ -150,14 +153,14 @@ public:
                 len = _len(s);
             }
             T_Char *buf = _capacityRequire(len);
-            d.length = (zfuint)len;
-            zfmemcpy(buf, s, d.length * sizeof(T_Char));
-            buf[d.length] = '\0';
+            zfmemcpy(buf, s, len * sizeof(T_Char));
+            buf[len] = '\0';
+            _updateLength(len);
         }
     }
     ~_zfstr(void)
     {
-        if(!d.builtinBuf)
+        if(d.length == _ZFP_zfstr_dynamicBuf)
         {
             zffree(d.d.s.s);
         }
@@ -165,7 +168,7 @@ public:
 
 public:
     /** @cond ZFPrivateDoc */
-    inline operator const T_Char * const &(void) const {return this->cString();}
+    inline operator const T_Char *(void) const {return this->cString();}
     /** @endcond */
 
 public:
@@ -187,7 +190,7 @@ public:
         T_Char *buf = d.buf();
         buf[0] = c;
         buf[1] = '\0';
-        d.length = 1;
+        _updateLength(1);
         return *this;
     }
     zfbool operator == (ZF_IN const _zfstr &ref) const
@@ -214,10 +217,12 @@ public:
     inline _zfstr &operator += (ZF_IN const T_Char *s) {return this->append(s);}
     _zfstr &operator += (ZF_IN T_Char c)
     {
-        T_Char *buf = _capacityRequire(d.length + 1);
-        buf[d.length] = c;
-        ++d.length;
-        buf[d.length] = '\0';
+        zfindex len = this->length();
+        T_Char *buf = _capacityRequire(len + 1);
+        buf[len] = c;
+        ++len;
+        buf[len] = '\0';
+        _updateLength(len);
         return *this;
     }
     /** @endcond */
@@ -268,11 +273,12 @@ public:
             {
                 len = _len(s);
             }
-            T_Char *buf = _capacityRequire(d.length + len);
-            _safeCheck(buf, s);
-            zfmemcpy(buf + d.length, s, len * sizeof(T_Char));
-            d.length += (zfuint)len;
-            buf[d.length] = '\0';
+            zfindex lenTmp = this->length();
+            T_Char *buf = _capacityRequire(lenTmp + len);
+            zfmemcpy(buf + lenTmp, s, len * sizeof(T_Char));
+            lenTmp += len;
+            buf[lenTmp] = '\0';
+            _updateLength(lenTmp);
         }
         return *this;
     }
@@ -297,15 +303,14 @@ public:
                 len = _len(s);
             }
             T_Char *buf = _capacityRequire(len);;
-            _safeCheck(buf, s);
             zfmemcpy(buf, s, len * sizeof(T_Char));
-            d.length = (zfuint)len;
-            buf[d.length] = '\0';
+            buf[len] = '\0';
+            _updateLength(len);
         }
         else
         {
-            d.length = 0;
             d.buf()[0] = '\0';
+            _updateLength(0);
         }
         return *this;
     }
@@ -323,7 +328,7 @@ public:
     /** @brief insert string */
     _zfstr &insert(ZF_IN zfindex insertAt, ZF_IN const T_Char *s, ZF_IN zfindex len)
     {
-        if(insertAt >= d.length)
+        if(insertAt >= this->length())
         {
             this->append(s, len);
         }
@@ -333,12 +338,13 @@ public:
             {
                 len = _len(s);
             }
-            T_Char *buf = _capacityRequire(d.length + len);
-            _safeCheck(buf, s);
-            zfmemmove(buf + insertAt + len, buf + insertAt, (d.length - insertAt) * sizeof(T_Char));
+            zfindex lenTmp = this->length();
+            T_Char *buf = _capacityRequire(lenTmp + len);
+            zfmemmove(buf + insertAt + len, buf + insertAt, (lenTmp - insertAt) * sizeof(T_Char));
             zfmemcpy(buf + insertAt, s, len * sizeof(T_Char));
-            d.length += (zfuint)len;
-            buf[d.length] = '\0';
+            lenTmp += len;
+            buf[lenTmp] = '\0';
+            _updateLength(lenTmp);
         }
         return *this;
     }
@@ -356,40 +362,61 @@ public:
     /** @brief replace string in range */
     _zfstr &replace(ZF_IN zfindex replacePos, ZF_IN zfindex replaceLen, ZF_IN const T_Char *s, ZF_IN zfindex len)
     {
-        if(replacePos >= d.length)
+        if(replacePos >= this->length())
         {
             this->append(s, len);
         }
         else if(s)
         {
-            if(replaceLen > d.length - replacePos)
+            zfindex lenTmp = this->length();
+            if(replaceLen > lenTmp - replacePos)
             {
-                replaceLen = d.length - replacePos;
+                replaceLen = lenTmp - replacePos;
             }
             if(len == zfindexMax())
             {
                 len = _len(s);
             }
-            T_Char *buf = _capacityRequire(d.length + len - replaceLen);
-            _safeCheck(buf, s);
-            zfmemmove(buf + replacePos + len, buf + replacePos + replaceLen, (d.length - replacePos - replaceLen) * sizeof(T_Char));
+            T_Char *buf = _capacityRequire(lenTmp + len - replaceLen);
+            zfmemmove(buf + replacePos + len, buf + replacePos + replaceLen, (lenTmp - replacePos - replaceLen) * sizeof(T_Char));
             zfmemcpy(buf + replacePos, s, len * sizeof(T_Char));
-            d.length = (zfuint)(d.length + len - replaceLen);
-            buf[d.length] = '\0';
+            lenTmp = lenTmp + len - replaceLen;
+            buf[lenTmp] = '\0';
+            _updateLength(lenTmp);
         }
         return *this;
     }
 
 public:
     /** @brief access string value */
-    inline const T_Char * const &cString(void) const
+    inline const T_Char *cString(void) const
     {
         return d.buf();
     }
     /** @brief length of the string */
-    inline zfindex length(void) const {return d.length;}
+    inline zfindex length(void) const
+    {
+        if(d.length != _ZFP_zfstr_dynamicBuf)
+        {
+            return d.length;
+        }
+        else
+        {
+            return d.d.s.length;
+        }
+    }
     /** @brief true if empty */
-    inline zfbool isEmpty(void) const {return (d.length == 0);}
+    inline zfbool isEmpty(void) const
+    {
+        if(d.length != _ZFP_zfstr_dynamicBuf)
+        {
+            return d.length == 0;
+        }
+        else
+        {
+            return d.d.s.length == 0;
+        }
+    }
 
 public:
     /** @brief ensure the string's capacity */
@@ -397,9 +424,9 @@ public:
     /** @brief capacity of the string */
     zfindex capacity(void)
     {
-        if(d.builtinBuf)
+        if(d.length != _ZFP_zfstr_dynamicBuf)
         {
-            return _ZFP_zfstr_bufSize;
+            return _ZFP_zfstr_bufSize - 1;
         }
         else
         {
@@ -409,26 +436,28 @@ public:
     /** @brief remove part of the string */
     void remove(ZF_IN_OPT zfindex pos = 0, ZF_IN_OPT zfindex len = zfindexMax())
     {
-        if(pos < d.length)
+        zfindex lenTmp = this->length();
+        if(pos < lenTmp)
         {
-            if(len > d.length - pos)
+            if(len > lenTmp - pos)
             {
-                len = d.length - pos;
+                len = lenTmp - pos;
             }
             if(len > 0)
             {
                 T_Char *buf = d.buf();
-                zfmemmove(buf + pos, buf + pos + len, (d.length - pos - len) * sizeof(T_Char));
-                d.length -= (zfuint)len;
-                buf[d.length] = '\0';
+                zfmemmove(buf + pos, buf + pos + len, (lenTmp - pos - len) * sizeof(T_Char));
+                lenTmp -= len;
+                buf[lenTmp] = '\0';
+                _updateLength(lenTmp);
             }
         }
     }
     /** @brief remove all content of the string */
     inline void removeAll(void)
     {
-        d.length = 0;
         d.buf()[0] = '\0';
+        _updateLength(0);
     }
 
 public:
@@ -444,9 +473,9 @@ public:
             {
                 len = _len(s);
             }
-            if(len > d.length)
+            if(len > this->length())
             {
-                return _ncmp(buf, s, d.length + 1);
+                return _ncmp(buf, s, this->length() + 1);
             }
             else
             {
@@ -472,7 +501,7 @@ private:
 private:
     T_Char *_capacityRequire(ZF_IN zfindex size)
     {
-        if(d.builtinBuf)
+        if(d.length != _ZFP_zfstr_dynamicBuf)
         {
             if(size >= _ZFP_zfstr_bufSize)
             {
@@ -484,8 +513,9 @@ private:
                 T_Char *buf = (T_Char *)zfmalloc(capacity * sizeof(T_Char));
                 zfmemcpy(buf, d.d.buf, d.length * sizeof(T_Char));
                 d.d.s.s = buf;
-                d.d.s.capacity = (zfuint)capacity;
-                d.builtinBuf = zffalse;
+                d.d.s.capacity = capacity;
+                d.d.s.length = d.length;
+                d.length = _ZFP_zfstr_dynamicBuf;
                 return d.d.s.s;
             }
             return d.d.buf;
@@ -503,12 +533,15 @@ private:
             return d.d.s.s;
         }
     }
-    inline void _safeCheck(ZF_IN const T_Char *buf, ZF_IN const T_Char *s) const
+    inline void _updateLength(ZF_IN zfindex len)
     {
-        // no overlapped copy supported
-        if(s >= buf && s < buf + d.length)
+        if(d.length != _ZFP_zfstr_dynamicBuf)
         {
-            abort();
+            d.length = (zfuint)len;
+        }
+        else
+        {
+            d.d.s.length = len;
         }
     }
     static zfindex _len(ZF_IN const T_Char *s)
