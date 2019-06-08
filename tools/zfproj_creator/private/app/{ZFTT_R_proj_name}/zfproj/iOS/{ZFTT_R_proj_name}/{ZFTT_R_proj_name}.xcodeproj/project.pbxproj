@@ -736,6 +736,7 @@
 			);
 			name = ZFSetup;
 			outputPaths = (
+				"$(SRCROOT)/ProjectFiles/zfgensrc_{ZFTT_R_proj_name}.mm",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

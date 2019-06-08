@@ -17,7 +17,7 @@
 
 #include "ZFLua.h"
 
-#include "../_repo/ELuna.h"
+#include "_impl/ELuna.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
