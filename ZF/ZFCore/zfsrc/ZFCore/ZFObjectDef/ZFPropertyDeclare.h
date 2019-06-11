@@ -360,10 +360,11 @@ public:
         zflockfree_zfRelease(this->value);
     }
 public:
-    void valueSet(ZF_IN ZFObject *obj)
+    template<typename T_ZFObject2>
+    void valueSet(ZF_IN T_ZFObject2 *obj)
     {
         T_ZFObject old = this->value;
-        this->value = zflockfree_zfRetain(zflockfree_zfRetain(ZFCastZFObject(T_ZFObject, obj)));
+        this->value = zflockfree_zfRetain(ZFCastZFObject(T_ZFObject, obj));
         zflockfree_zfRelease(old);
     }
 };
