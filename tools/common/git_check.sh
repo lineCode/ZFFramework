@@ -43,7 +43,7 @@ if test "$_GIT_VALID" = "1"; then
         git checkout .
         git reset --hard
         git clean -xdf
-        git fetch --all && git reset --hard origin/master && git pull
+        git fetch --all && git pull
         _SUCCESS="$?"
         git checkout $GIT_BRANCH
         cd "$_OLD_DIR"
