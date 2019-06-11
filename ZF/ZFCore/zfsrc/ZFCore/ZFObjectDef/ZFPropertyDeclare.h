@@ -362,9 +362,9 @@ public:
 public:
     void valueSet(ZF_IN ZFObject *obj)
     {
-        zflockfree_zfRetain(obj);
-        zflockfree_zfRelease(this->value);
-        this->value = ZFCastZFObjectUnchecked(T_ZFObject, obj);
+        T_ZFObject old = this->value;
+        this->value = zflockfree_zfRetain(zflockfree_zfRetain(ZFCastZFObject(T_ZFObject, obj)));
+        zflockfree_zfRelease(old);
     }
 };
 template<typename T_Type>
