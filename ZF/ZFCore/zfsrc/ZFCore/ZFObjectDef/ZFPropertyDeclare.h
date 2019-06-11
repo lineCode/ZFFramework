@@ -16,8 +16,8 @@
 #define _ZFI_ZFPropertyDeclare_h_
 
 #include "ZFPropertyCallbackDefaultImpl.h"
-#include "zfautoObjectFwd.h"
 #include "ZFMethodDeclare.h"
+#include "zfautoObject.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
