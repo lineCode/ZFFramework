@@ -25,9 +25,9 @@ zfclassFwd ZFInterface;
 zfclassFwd ZFMethod;
 zfclassFwd ZFProperty;
 
-typedef ZFObject *(* _ZFP_ZFObjectConstructor)(void);
-typedef void (* _ZFP_ZFObjectDestructor)(ZF_IN ZFObject *obj);
-typedef void (* _ZFP_ZFObjectCheckInitImplementationListCallback)(ZF_IN_OUT ZFClass *cls);
+typedef ZFObject *(*_ZFP_ZFObjectConstructor)(void);
+typedef void (*_ZFP_ZFObjectDestructor)(ZF_IN ZFObject *obj);
+typedef void (*_ZFP_ZFObjectCheckInitImplementationListCallback)(ZF_IN_OUT ZFClass *cls);
 typedef ZFInterface * (*_ZFP_ZFObjectToInterfaceCastCallback)(ZF_IN ZFObject * const &obj);
 
 // ============================================================

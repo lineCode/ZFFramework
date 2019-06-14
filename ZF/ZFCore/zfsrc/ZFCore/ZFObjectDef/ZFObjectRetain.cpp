@@ -88,7 +88,17 @@ void _ZFP_zfAllocWithCache_unregister(ZF_IN_OUT zfbool &enableFlag)
     {
         if(&enableFlag == d[i].enableFlag)
         {
+            ZFCoreArrayPOD<ZFObject *> toRelease;
+            toRelease.addFrom(d[i].cache, *(d[i].cacheCount));
+
+            *(d[i].cacheCount) = 0;
+            enableFlag = zffalse;
             d.remove(i);
+
+            for(zfindex i = toRelease.count() - 1; i != zfindexMax(); --i)
+            {
+                zflockfree_zfRelease(toRelease[i]);
+            }
             break;
         }
     }

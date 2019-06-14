@@ -219,17 +219,26 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
             action \
         }
 
+/** @brief dummy class for #zfAllocWithCache */
+zfclassNotPOD ZF_ENV_EXPORT zfAllocCacheNoReleaseAction
+{
+    /** @cond ZFPrivateDoc */
+public:
+    static void zfAllocCacheRelease(ZF_IN ZFObject *obj)
+    {
+    }
+};
+
 /**
  * @brief remove all cache created by #zfAllocWithCache
  */
 extern ZF_ENV_EXPORT void zfAllocCacheRemoveAll(void);
 
-#define _ZFP_zfAllocWithCache_MAX 16
 extern ZF_ENV_EXPORT void _ZFP_zfAllocWithCache_register(ZF_IN_OUT zfbool &enableFlag,
                                                          ZF_IN_OUT ZFObject **cache,
                                                          ZF_IN_OUT zfindex &cacheCount);
 extern ZF_ENV_EXPORT void _ZFP_zfAllocWithCache_unregister(ZF_IN_OUT zfbool &enableFlag);
-template<typename T_ZFObject, typename T_Cleanup = T_ZFObject>
+template<typename T_ZFObject, typename T_Cleanup = T_ZFObject, int T_MaxCache = 16>
 zfclassNotPOD ZF_ENV_EXPORT _ZFP_Obj_AllocCache
 {
 public:
@@ -260,7 +269,7 @@ public:
     static void zfAllocCacheRelease(ZF_IN ZFObject *obj)
     {
         obj->_ZFP_ZFObject_zfAllocCacheRelease = zfnull;
-        if(enableFlag() && cacheCount() < _ZFP_zfAllocWithCache_MAX)
+        if(enableFlag() && cacheCount() < T_MaxCache)
         {
             T_Cleanup::zfAllocCacheRelease(obj);
             cache()[cacheCount()++] = obj;
@@ -277,7 +286,7 @@ public:
     }
     static ZFObject **cache(void)
     {
-        static ZFObject *cache[_ZFP_zfAllocWithCache_MAX];
+        static ZFObject *cache[T_MaxCache];
         return cache;
     }
     static zfindex &cacheCount(void)
