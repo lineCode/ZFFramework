@@ -24,49 +24,45 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @cond ZFPrivateDoc */
 template<typename T_ZFObject>
 zfautoObject::zfautoObject(ZF_IN T_ZFObject *p)
+: d(zfnull)
 {
-    zfCoreMutexLock();
     ZFObject *obj = (p ? p->toObject() : zfnull);
     if(obj)
     {
+        zfCoreMutexLock();
         d = zfpoolNew(_ZFP_zfautoObjectPrivate,
             zflockfree_zfRetain(obj));
+        zfCoreMutexUnlock();
     }
-    else
-    {
-        d = zfnull;
-    }
-    zfCoreMutexUnlock();
 }
 template<typename T_ZFObject>
 zfautoObject::zfautoObject(ZF_IN T_ZFObject const &p)
+: d(zfnull)
 {
-    zfCoreMutexLock();
     ZFObject *obj = _ZFP_ZFAnyCast(T_ZFObject, p);
     if(obj)
     {
+        zfCoreMutexLock();
         d = zfpoolNew(_ZFP_zfautoObjectPrivate,
             zflockfree_zfRetain(obj));
+        zfCoreMutexUnlock();
     }
-    else
-    {
-        d = zfnull;
-    }
-    zfCoreMutexUnlock();
 }
 
-extern ZF_ENV_EXPORT void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
-                                                  ZF_IN ZFObject *obj);
 template<typename T_ZFObject>
 zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject *p)
 {
-    _ZFP_zfautoObjectAssign(d, p ? p->toObject() : zfnull);
+    zfCoreMutexLock();
+    this->zflockfree_assign(p ? p->toObject() : zfnull);
+    zfCoreMutexUnlock();
     return *this;
 }
 template<typename T_ZFObject>
 zfautoObject &zfautoObject::operator = (ZF_IN T_ZFObject const &p)
 {
-    _ZFP_zfautoObjectAssign(d, _ZFP_ZFAnyCast(T_ZFObject, p));
+    zfCoreMutexLock();
+    this->zflockfree_assign(_ZFP_ZFAnyCast(T_ZFObject, p));
+    zfCoreMutexUnlock();
     return *this;
 }
 /** @endcond */

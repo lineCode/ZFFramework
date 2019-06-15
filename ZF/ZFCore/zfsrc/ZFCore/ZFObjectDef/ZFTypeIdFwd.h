@@ -438,7 +438,7 @@ public:
         { \
             zfCoreMutexLock(); \
             v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
-            v = t; \
+            v.zflockfree_assign(t); \
             zflockfree_zfRelease(t); \
             zfCoreMutexUnlock(); \
             return zftrue; \
@@ -448,7 +448,7 @@ public:
             zfCoreMutexLock(); \
             v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
             t->zfv = v; \
-            obj = t; \
+            obj.zflockfree_assign(t); \
             zflockfree_zfRelease(t); \
             zfCoreMutexUnlock(); \
             return zftrue; \
@@ -532,7 +532,7 @@ public:
         { \
             zfCoreMutexLock(); \
             v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
-            v = t; \
+            v.zflockfree_assign(t); \
             zflockfree_zfRelease(t); \
             zfCoreMutexUnlock(); \
             return zftrue; \
@@ -542,7 +542,7 @@ public:
             zfCoreMutexLock(); \
             v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
             t->zfv = v; \
-            obj = t; \
+            obj.zflockfree_assign(t); \
             zflockfree_zfRelease(t); \
             zfCoreMutexUnlock(); \
             return zftrue; \

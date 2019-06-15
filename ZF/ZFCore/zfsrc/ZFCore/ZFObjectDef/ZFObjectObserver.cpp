@@ -370,25 +370,21 @@ public:
 // ZFObserverHolder
 ZFObserverHolder::ZFObserverHolder(void)
 {
-    zfCoreMutexLocker();
     d = zfpoolNew(_ZFP_ZFObserverHolderPrivate);
     _observerOwner = zfnull;
 }
 ZFObserverHolder::ZFObserverHolder(ZF_IN ZFObserverHolder const &ref)
 {
-    zfCoreMutexLocker();
     d = ref.d;
     ++(d->refCount);
     _observerOwner = ref._observerOwner;
 }
 ZFObserverHolder::~ZFObserverHolder(void)
 {
-    zfCoreMutexLocker();
     zfpoolDelete(d);
 }
 ZFObserverHolder &ZFObserverHolder::operator = (ZF_IN ZFObserverHolder const &ref)
 {
-    zfCoreMutexLocker();
     ++(ref.d->refCount);
     --(d->refCount);
     if(d->refCount == 0)
@@ -401,7 +397,6 @@ ZFObserverHolder &ZFObserverHolder::operator = (ZF_IN ZFObserverHolder const &re
 }
 zfbool ZFObserverHolder::operator == (ZF_IN ZFObserverHolder const &ref) const
 {
-    zfCoreMutexLocker();
     return (d == ref.d);
 }
 
@@ -643,12 +638,12 @@ void ZFObserverHolder::observerRemoveAll(ZF_IN zfidentity eventId) const
 }
 void ZFObserverHolder::observerRemoveAll(void) const
 {
-    zfCoreMutexLocker();
     if(d->observerMap.empty())
     {
         return ;
     }
 
+    zfCoreMutexLocker();
     zfstlmap<zfidentity, _ZFP_ZFObserverData *> tmp;
     tmp.swap(d->observerMap);
     d->observerMap.clear();
@@ -719,13 +714,12 @@ void ZFObserverHolder::observerNotifyWithCustomSender(ZF_IN ZFObject *customSend
                                                       ZF_IN_OPT ZFObject *param0 /* = zfnull */,
                                                       ZF_IN_OPT ZFObject *param1 /* = zfnull */) const
 {
-    zfCoreMutexLock();
     if(eventId == zfidentityInvalid())
     {
-        zfCoreMutexUnlock();
         return ;
     }
 
+    zfCoreMutexLock();
     zfstldeque<_ZFP_ZFObserverData *> toNotify;
     _ZFP_ZFObserverData *toDelete = zfnull;
 

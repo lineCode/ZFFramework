@@ -176,14 +176,14 @@ static int _ZFP_ZFImpl_ZFLua_metatable_concat(ZF_IN lua_State *L)
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_len(ZF_IN lua_State *L)
 {
-    zfstring v;
+    const zfchar *v = zfnull;
     if(!ZFImpl_ZFLua_toString(v, L, 1, zftrue))
     {
         ZFLuaErrorOccurredTrim("[LuaMetatable] unknown param type: %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);
     }
-    lua_pushinteger(L, (lua_Integer)v.length());
+    lua_pushinteger(L, (lua_Integer)zfslen(v));
     return 1;
 }
 static zfbool _ZFP_ZFImpl_ZFLua_metatable_cmp(ZF_OUT ZFCompareResult &ret, ZF_IN lua_State *L)
@@ -222,8 +222,8 @@ static zfbool _ZFP_ZFImpl_ZFLua_metatable_cmp(ZF_OUT ZFCompareResult &ret, ZF_IN
         }
         if(lua_isstring(L, 1) || lua_isstring(L, 2))
         {
-            zfstring v1;
-            zfstring v2;
+            const zfchar *v1 = zfnull;
+            const zfchar *v2 = zfnull;
             if(ZFImpl_ZFLua_toString(v1, L, 1, zftrue)
                && ZFImpl_ZFLua_toString(v2, L, 2, zftrue))
             {

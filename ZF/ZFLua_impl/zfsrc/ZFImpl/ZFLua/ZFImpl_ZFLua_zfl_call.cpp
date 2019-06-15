@@ -50,16 +50,12 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
                                            ZF_IN int paramCount,
                                            ZF_IN int luaParamOffset)
 {
-    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
-              ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-            , ZFMethodGenericInvokerDefaultParamHolder()
-        };
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM];
+    for(zfindex i = 0; i < ZFMETHOD_MAX_PARAM; ++i)
+    {
+        paramList[i].zflockfree_assign(ZFMethodGenericInvokerDefaultParamHolder());
+    }
+
     for(int i = 0; i < paramCount; ++i)
     {
         if(!ZFImpl_ZFLua_toGeneric(paramList[i], L, luaParamOffset + i))
@@ -242,7 +238,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_callStatic2(ZF_IN lua_State *L)
     }
     int paramCount = count - (luaParamOffset - 1);
 
-    zfstring classOrNamespace;
+    const zfchar *classOrNamespace = zfnull;
     if(!ZFImpl_ZFLua_toString(classOrNamespace, L, 1, zfHint("allowEmpty")zftrue))
     {
         ZFLuaErrorOccurredTrim("[%s] failed to access method scope, expect string type, got %s",

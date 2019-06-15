@@ -509,7 +509,7 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
         }
         else
         {
-            zfstring t;
+            const zfchar *t = zfnull;
             if(ZFImpl_ZFLua_toString(t, L, -1, zftrue))
             {
                 zfblockedAlloc(v_zfstring, v);
@@ -826,15 +826,55 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
                              ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
                              ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
 {
+    const zfchar *t = zfnull;
+    if(ZFImpl_ZFLua_toString(t, L, luaStackOffset, allowEmpty,  holderCls))
+    {
+        s += t;
+        return zftrue;
+    }
+    else
+    {
+        return zffalse;
+    }
+}
+zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
+                             ZF_IN ZFObject *obj,
+                             ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
+                             ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
+{
+    const zfchar *t = zfnull;
+    if(ZFImpl_ZFLua_toString(t, obj, allowEmpty,  holderCls))
+    {
+        s += t;
+        return zftrue;
+    }
+    else
+    {
+        return zffalse;
+    }
+}
+zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT const zfchar *&s,
+                             ZF_IN lua_State *L,
+                             ZF_IN int luaStackOffset,
+                             ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
+                             ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
+{
     if(holderCls != zfnull) {*holderCls = zfnull;}
     if(lua_isstring(L, luaStackOffset))
     {
-        s += lua_tostring(L, luaStackOffset);
+        s = lua_tostring(L, luaStackOffset);
         return zftrue;
     }
     if(lua_isboolean(L, luaStackOffset))
     {
-        zfboolToString(s, (zfbool)lua_toboolean(L, luaStackOffset));
+        if((zfbool)lua_toboolean(L, luaStackOffset))
+        {
+            s = ZFTOKEN_zfbool_zftrue;
+        }
+        else
+        {
+            s = ZFTOKEN_zfbool_zffalse;
+        }
         return zftrue;
     }
     if(!lua_isuserdata(L, luaStackOffset))
@@ -845,7 +885,7 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
     zfautoObject const &param = ZFImpl_ZFLua_luaGet(L, luaStackOffset);
     return ZFImpl_ZFLua_toString(s, param.toObject(), allowEmpty, holderCls);
 }
-zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
+zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT const zfchar *&s,
                              ZF_IN ZFObject *obj,
                              ZF_IN_OPT zfbool allowEmpty /* = zffalse */,
                              ZF_OUT_OPT const ZFClass **holderCls /* = zfnull */)
@@ -853,6 +893,7 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
     if(holderCls != zfnull) {*holderCls = zfnull;}
     if(obj == zfnull)
     {
+        s = "";
         return allowEmpty;
     }
 
@@ -863,20 +904,24 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
         ZFString *t = obj->to<ZFString *>();
         if(t != zfnull)
         {
-            s += t->stringValue();
+            s = t->stringValue();
+        }
+        else
+        {
+            s = "";
         }
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfstring::ClassData()))
     {
         if(holderCls != zfnull) {*holderCls = v_zfstring::ClassData();}
-        s += obj->to<v_zfstring *>()->zfv;
+        s = obj->to<v_zfstring *>()->zfv;
         return zftrue;
     }
     else if(cls->classIsTypeOf(ZFDI_WrapperBase::ClassData()))
     {
         if(holderCls != zfnull) {*holderCls = ZFDI_WrapperBase::ClassData();}
-        s += obj->to<ZFDI_WrapperBase *>()->zfv();
+        s = obj->to<ZFDI_WrapperBase *>()->zfv();
         return zftrue;
     }
     else
@@ -1069,10 +1114,10 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
         }
     }
 
-    zfstring s;
+    const zfchar *s = zfnull;
     if(ZFImpl_ZFLua_toString(s, obj, allowEmpty))
     {
-        lua_pushstring(L, s.cString());
+        lua_pushstring(L, s);
         return 1;
     }
 
@@ -1092,7 +1137,7 @@ zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
         return zftrue;
     }
 
-    zfstring fmt;
+    const zfchar *fmt = zfnull;
     if(!ZFImpl_ZFLua_toString(fmt, L, luaParamOffset))
     {
         return zffalse;
@@ -1117,7 +1162,7 @@ zfbool ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L,
     }
 
     /* ZFMETHOD_MAX_PARAM */
-    zfstringAppend(s, fmt.cString()
+    zfstringAppend(s, fmt
             , params[0].cString()
             , params[1].cString()
             , params[2].cString()

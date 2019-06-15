@@ -25,50 +25,38 @@ zfautoObject::zfautoObject(ZF_IN zfautoObject const &ref)
 }
 zfautoObject::~zfautoObject(void)
 {
-    zfCoreMutexLock();
     if(d)
     {
-        --(d->refCount);
-        if(d->refCount == 0)
+        zfCoreMutexLock();
+        if(d->refCount == 1)
         {
             zflockfree_zfRelease(d->obj);
             zfpoolDelete(d);
         }
+        else
+        {
+            --(d->refCount);
+        }
+        zfCoreMutexUnlock();
     }
-    zfCoreMutexUnlock();
 }
 
 zfautoObject &zfautoObject::operator = (ZF_IN zfautoObject const &ref)
 {
     zfCoreMutexLock();
-    _ZFP_zfautoObjectPrivate *dTmp = d;
-    d = ref.d;
-    if(d)
-    {
-        ++(d->refCount);
-    }
-    if(dTmp != zfnull)
-    {
-        --(dTmp->refCount);
-        if(dTmp->refCount == 0)
-        {
-            zflockfree_zfRelease(dTmp->obj);
-            zfpoolDelete(dTmp);
-        }
-    }
+    this->zflockfree_assign(ref);
     zfCoreMutexUnlock();
     return *this;
 }
-void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
-                             ZF_IN ZFObject *obj)
+
+void zfautoObject::zflockfree_assign(ZF_IN ZFObject *obj)
 {
-    zfCoreMutexLock();
     zflockfree_zfRetain(obj);
     if(d)
     {
-        ZFObject *objTmp = d->obj;
         if(d->refCount == 1)
         {
+            ZFObject *objTmp = d->obj;
             d->obj = obj;
             zflockfree_zfRelease(objTmp);
         }
@@ -89,7 +77,38 @@ void _ZFP_zfautoObjectAssign(ZF_IN_OUT _ZFP_zfautoObjectPrivate *&d,
     {
         d = zfpoolNew(_ZFP_zfautoObjectPrivate, obj);
     }
-    zfCoreMutexUnlock();
+}
+void zfautoObject::zflockfree_assign(ZF_IN zfautoObject const &ref)
+{
+    if(d)
+    {
+        _ZFP_zfautoObjectPrivate *dTmp = d;
+        d = ref.d;
+        if(d)
+        {
+            ++(d->refCount);
+        }
+        if(dTmp)
+        {
+            if(dTmp->refCount == 1)
+            {
+                zflockfree_zfRelease(dTmp->obj);
+                zfpoolDelete(dTmp);
+            }
+            else
+            {
+                --(dTmp->refCount);
+            }
+        }
+    }
+    else
+    {
+        d = ref.d;
+        if(d)
+        {
+            ++(d->refCount);
+        }
+    }
 }
 
 const zfautoObject _ZFP_zfautoObjectNull;

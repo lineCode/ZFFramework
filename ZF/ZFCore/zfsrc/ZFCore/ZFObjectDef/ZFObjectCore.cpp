@@ -89,11 +89,14 @@ zfindex ZFObject::objectRetainCount(void)
 
 ZFObjectHolder *ZFObject::objectHolder(void)
 {
-    zfCoreMutexLocker();
     if(d->objectHolder == zfnull)
     {
-        d->objectHolder = zflockfree_zfAllocWithCache(ZFObjectHolder);
-        d->objectHolder->objectHoldedSet(this);
+        zfCoreMutexLocker();
+        if(d->objectHolder == zfnull)
+        {
+            d->objectHolder = zflockfree_zfAllocWithCache(ZFObjectHolder);
+            d->objectHolder->objectHoldedSet(this);
+        }
     }
     return d->objectHolder;
 }
@@ -149,16 +152,15 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
     for(zfindex i = 0; i < methodList.count(); ++i)
     {
         m = methodList[i];
-        zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
-            param0,
-            param1,
-            param2,
-            param3,
-            param4,
-            param5,
-            param6,
-            param7,
-        };
+        zfautoObject paramList[ZFMETHOD_MAX_PARAM];
+        paramList[0].zflockfree_assign(param0);
+        paramList[1].zflockfree_assign(param1);
+        paramList[2].zflockfree_assign(param2);
+        paramList[3].zflockfree_assign(param3);
+        paramList[4].zflockfree_assign(param4);
+        paramList[5].zflockfree_assign(param5);
+        paramList[6].zflockfree_assign(param6);
+        paramList[7].zflockfree_assign(param7);
         if(m->methodGenericInvoker()(m, this, &errorHintTmp, ret, paramList))
         {
             if(success != zfnull)
@@ -215,38 +217,35 @@ void ZFObject::tagSet(ZF_IN const zfchar *key,
     {
         if(tag != zfnull)
         {
-            m[key] = tag;
+            m[key].zflockfree_assign(tag);
         }
     }
     else
     {
-        zfautoObject holder = it->second;
+        ZFObject *obj = zflockfree_zfRetain(it->second);
         if(tag == zfnull)
         {
             m.erase(it);
         }
         else
         {
-            it->second = tag;
+            it->second.zflockfree_assign(tag);
         }
+        zflockfree_zfRelease(obj);
     }
 }
 ZFObject *ZFObject::tagGet(ZF_IN const zfchar *key)
 {
-    if(key == zfnull)
+    if(key != zfnull)
     {
-        return zfnull;
+        zfCoreMutexLocker();
+        _ZFP_ZFObjectTagMapType::iterator it = d->tagMap.find(key);
+        if(it != d->tagMap.end())
+        {
+            return it->second.toObject();
+        }
     }
-    zfCoreMutexLocker();
-    _ZFP_ZFObjectTagMapType::iterator it = d->tagMap.find(key);
-    if(it != d->tagMap.end())
-    {
-        return it->second.toObject();
-    }
-    else
-    {
-        return zfnull;
-    }
+    return zfnull;
 }
 void ZFObject::tagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
                                  ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue)
@@ -269,7 +268,8 @@ zfautoObject ZFObject::tagRemoveAndGet(ZF_IN const zfchar *key)
         _ZFP_ZFObjectTagMapType::iterator it = d->tagMap.find(key);
         if(it != d->tagMap.end())
         {
-            zfautoObject ret = it->second;
+            zfautoObject ret;
+            ret.zflockfree_assign(it->second);
             d->tagMap.erase(it);
             return ret;
         }
@@ -278,7 +278,6 @@ zfautoObject ZFObject::tagRemoveAndGet(ZF_IN const zfchar *key)
 }
 void ZFObject::tagRemoveAll(void)
 {
-    zfCoreMutexLocker();
     if(!d->tagMap.empty())
     {
         _ZFP_ZFObjectTagMapType tmp;

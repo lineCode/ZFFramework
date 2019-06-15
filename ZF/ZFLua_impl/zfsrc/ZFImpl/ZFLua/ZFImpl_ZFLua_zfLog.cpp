@@ -109,7 +109,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNam
         {
             return dispatchInfo.dispatchSuccess();
         }
-        zfstring fmt;
+        const zfchar *fmt = zfnull;
         if(!ZFImpl_ZFLua_toString(fmt, dispatchInfo.paramList[0], zftrue))
         {
             return dispatchInfo.dispatchError(
@@ -118,7 +118,7 @@ ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNam
         }
         ZFOutput output = ZFCastZFObject(v_ZFCallback *, dispatchInfo.objectOrNull)->zfv;
         zfstring s;
-        zfstringAppend(s, fmt.cString()
+        zfstringAppend(s, fmt
                 , ZFObjectInfo(dispatchInfo.paramList[1]).cString()
                 , ZFObjectInfo(dispatchInfo.paramList[2]).cString()
                 , ZFObjectInfo(dispatchInfo.paramList[3]).cString()

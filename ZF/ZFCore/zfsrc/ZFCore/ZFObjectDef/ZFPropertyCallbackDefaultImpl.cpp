@@ -162,9 +162,9 @@ void _ZFP_ZFPropertyValueStoreImpl(ZF_IN const ZFProperty *property,
             _ZFP_I_ZFPropertyValueStoreHolder::ClassData()->classNameFull());
     if(d == zfnull)
     {
-        d = zfAlloc(_ZFP_I_ZFPropertyValueStoreHolder);
+        d = zflockfree_zfAlloc(_ZFP_I_ZFPropertyValueStoreHolder);
         ownerObj->tagSet(_ZFP_I_ZFPropertyValueStoreHolder::ClassData()->classNameFull(), d);
-        zfRelease(d);
+        zflockfree_zfRelease(d);
     }
     d->d[property][valueStored] = ZFCorePointerForObject<ZFCorePointerBase *>(valueHolder);
 }

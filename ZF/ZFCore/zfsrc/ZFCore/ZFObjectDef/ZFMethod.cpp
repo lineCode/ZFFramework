@@ -276,16 +276,16 @@ zfautoObject ZFMethod::methodGenericInvoke(ZF_IN_OPT ZFObject *ownerObjOrNull /*
                                            ) const
 {
     zfautoObject ret;
-    zfautoObject paramList[ZFMETHOD_MAX_PARAM] = {
-        param0,
-        param1,
-        param2,
-        param3,
-        param4,
-        param5,
-        param6,
-        param7,
-    };
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM];
+    paramList[0].zflockfree_assign(param0);
+    paramList[1].zflockfree_assign(param1);
+    paramList[2].zflockfree_assign(param2);
+    paramList[3].zflockfree_assign(param3);
+    paramList[4].zflockfree_assign(param4);
+    paramList[5].zflockfree_assign(param5);
+    paramList[6].zflockfree_assign(param6);
+    paramList[7].zflockfree_assign(param7);
+
     zfbool t = this->methodGenericInvoker()(this, ownerObjOrNull, errorHint, ret, paramList);
     if(success != zfnull)
     {

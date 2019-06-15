@@ -15,42 +15,13 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFObserverNotifyInMainThreadCacheHolder, ZFLevelZFFrameworkHigh)
-{
-}
-zfstllist<zfautoObject> l;
-ZF_GLOBAL_INITIALIZER_END(ZFObserverNotifyInMainThreadCacheHolder)
-
 zfclass _ZFP_I_ZFObserverNotifyInMainThreadTaskData : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(_ZFP_I_ZFObserverNotifyInMainThreadTaskData, ZFObject)
 
-public:
-    static zfautoObject cacheGet(void)
-    {
-        zfCoreMutexLocker();
-        ZF_GLOBAL_INITIALIZER_CLASS(ZFObserverNotifyInMainThreadCacheHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFObserverNotifyInMainThreadCacheHolder);
-        if(d->l.empty())
-        {
-            return zflineAlloc(zfself);
-        }
-        else
-        {
-            zfautoObject ret = *(d->l.begin());
-            d->l.pop_front();
-            return ret;
-        }
-    }
-    static void cacheAdd(ZF_IN zfself *taskData)
-    {
-        zfCoreMutexLocker();
-        taskData->removeAll();
-        ZF_GLOBAL_INITIALIZER_CLASS(ZFObserverNotifyInMainThreadCacheHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFObserverNotifyInMainThreadCacheHolder);
-        if(d->l.size() < 10)
-        {
-            d->l.push_back(taskData);
-        }
-    }
+    ZFALLOC_CACHE_RELEASE({
+        cache->removeAll();
+    })
 
 public:
     _ZFP_I_ZFObserverNotifyInMainThreadTaskData(void)
@@ -116,7 +87,6 @@ private:
             taskData->eventId,
             taskData->param0,
             taskData->param1);
-        _ZFP_I_ZFObserverNotifyInMainThreadTaskData::cacheAdd(taskData);
     }
 ZF_GLOBAL_INITIALIZER_END(ZFObserverNotifyInMainThreadDataHolder)
 
@@ -133,8 +103,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFObserverNotifyInMainThreadWithCustomSender,
     }
     if(_ZFP_ZFObserverNotifyInMainThreadCallback)
     {
-        zfautoObject taskDataHolder = _ZFP_I_ZFObserverNotifyInMainThreadTaskData::cacheGet();
-        _ZFP_I_ZFObserverNotifyInMainThreadTaskData *taskData = taskDataHolder;
+        zfblockedAllocWithCache(_ZFP_I_ZFObserverNotifyInMainThreadTaskData, taskData);
         taskData->objSet(obj);
         taskData->customSenderSet(customSender);
         taskData->eventId = eventId;

@@ -63,23 +63,29 @@ public:
         zfoverride \
         virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
         { \
-            EnumName *t = zfAlloc(EnumName); \
-            v = t; \
-            zfRelease(t); \
+            zfCoreMutexLock(); \
+            EnumName *t = zflockfree_zfAlloc(EnumName); \
+            v.zflockfree_assign(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfuint const &v) \
         { \
-            EnumName *t = zfAlloc(EnumName, v); \
-            obj = t; \
-            zfRelease(t); \
+            zfCoreMutexLock(); \
+            EnumName *t = zflockfree_zfAlloc(EnumName, v); \
+            obj.zflockfree_assign(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN EnumName##Enum const &v) \
         { \
-            EnumName *t = zfAlloc(EnumName, v); \
-            obj = t; \
-            zfRelease(t); \
+            zfCoreMutexLock(); \
+            EnumName *t = zflockfree_zfAlloc(EnumName, v); \
+            obj.zflockfree_assign(t); \
+            zflockfree_zfRelease(t); \
+            zfCoreMutexUnlock(); \
             return zftrue; \
         } \
         template<typename T_Access = EnumName##Enum \

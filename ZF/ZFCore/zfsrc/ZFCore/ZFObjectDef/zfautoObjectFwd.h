@@ -61,7 +61,7 @@ public:
     zfautoObject(ZF_IN T_ZFObject *obj);
     template<typename T_ZFObject>
     zfautoObject(ZF_IN T_ZFObject const &obj);
-    virtual ~zfautoObject(void);
+    zffinal ~zfautoObject(void);
 
 public:
     zfautoObject &operator = (ZF_IN zfautoObject const &ref);
@@ -109,6 +109,14 @@ public:
     /** @endcond */
 
 public:
+    /**
+     * @brief no lock version of object assign, for low level impl only
+     */
+    void zflockfree_assign(ZF_IN ZFObject *obj);
+    /**
+     * @brief no lock version of object assign, for low level impl only
+     */
+    void zflockfree_assign(ZF_IN zfautoObject const &ref);
     /**
      * @brief get current retain count
      */

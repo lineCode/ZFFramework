@@ -92,7 +92,7 @@ static int _ZFP_ZFLuaLocalInput(ZF_IN lua_State *L, ZF_IN zfbool requireValid, Z
         }
     }
 
-    zfstring localFilePath;
+    const zfchar *localFilePath = zfnull;
     if(!ZFImpl_ZFLua_toString(localFilePath, L, 2))
     {
         if(requireValid)
@@ -132,7 +132,7 @@ static int _ZFP_ZFLuaLocalInput(ZF_IN lua_State *L, ZF_IN zfbool requireValid, Z
         {
             ZFLuaErrorOccurredTrim(
                 "unable to load local file \"%s\" relative to \"%s\"",
-                localFilePath.cString(),
+                localFilePath,
                 ZFPathInfoToString(pathInfo->zfv).cString());
             return ZFImpl_ZFLua_luaError(L);
         }
@@ -221,7 +221,7 @@ static int _ZFP_ZFLuaImportAll(ZF_IN lua_State *L)
             return ZFImpl_ZFLua_luaError(L);
         }
 
-        zfstring localFilePath;
+        const zfchar *localFilePath = zfnull;
         if(!ZFImpl_ZFLua_toString(localFilePath, L, 2))
         {
             ZFLuaErrorOccurredTrim(
