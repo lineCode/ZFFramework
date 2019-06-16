@@ -101,36 +101,5 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfLog, {
         )
 #endif
 
-ZFImpl_ZFLua_implDispatch_DEFINE(zfLogT_log, v_ZFCallback::ClassData()->classNameFull(), "log", {
-        ZFImpl_ZFLua_implDispatch_AssertClassExist();
-        ZFImpl_ZFLua_implDispatch_AssertParamCountRange(0, ZFMETHOD_MAX_PARAM);
-        ZFImpl_ZFLua_implDispatch_AssertNotStaticMethod();
-        if(dispatchInfo.paramCount == 0)
-        {
-            return dispatchInfo.dispatchSuccess();
-        }
-        const zfchar *fmt = zfnull;
-        if(!ZFImpl_ZFLua_toString(fmt, dispatchInfo.paramList[0], zftrue))
-        {
-            return dispatchInfo.dispatchError(
-                "[zfLogT::log] unable to accss fmt from: %s",
-                ZFObjectInfo(dispatchInfo.paramList[0]).cString());
-        }
-        ZFOutput output = ZFCastZFObject(v_ZFCallback *, dispatchInfo.objectOrNull)->zfv;
-        zfstring s;
-        zfstringAppend(s, fmt
-                , ZFObjectInfo(dispatchInfo.paramList[1]).cString()
-                , ZFObjectInfo(dispatchInfo.paramList[2]).cString()
-                , ZFObjectInfo(dispatchInfo.paramList[3]).cString()
-                , ZFObjectInfo(dispatchInfo.paramList[4]).cString()
-                , ZFObjectInfo(dispatchInfo.paramList[5]).cString()
-                , ZFObjectInfo(dispatchInfo.paramList[6]).cString()
-                , ZFObjectInfo(dispatchInfo.paramList[7]).cString()
-            );
-        output.execute(s.cString(), s.length() * sizeof(zfchar));
-        dispatchInfo.returnValue = dispatchInfo.objectOrNull;
-        return dispatchInfo.dispatchSuccess();
-    })
-
 ZF_NAMESPACE_GLOBAL_END
 

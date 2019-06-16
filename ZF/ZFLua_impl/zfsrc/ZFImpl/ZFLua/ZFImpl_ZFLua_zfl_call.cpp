@@ -39,8 +39,6 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfl_call, {
  * -  string type
  * -  #v_ZFMethod
  * -  #v_ZFClass
- *
- * only string type would perform custom dispatch
  */
 static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
                                            ZF_IN const zfchar *zfl_funcName,
@@ -66,44 +64,6 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
                 ZFImpl_ZFLua_luaObjectInfo(L, luaParamOffset + i, zftrue).cString(),
                 ZFObjectInfo(type).cString());
             return ZFImpl_ZFLua_luaError(L);
-        }
-    }
-
-    const zfchar *methodName = ZFDI_toString(type);
-    if(methodName != zfnull && zfstringFind(methodName, zfindexMax(), ZFNamespaceSeparator()) == zfindexMax())
-    { // custom dispatch
-        ZFImpl_ZFLua_ImplDispatchInfo dispatchInfo(
-                L, luaParamOffset,
-                obj == zfnull, NS, obj ? obj->classData() : zfnull, obj,
-                methodName,
-                paramList, (zfindex)paramCount
-            );
-        ZFImpl_ZFLua_implDispatch(dispatchInfo);
-        switch(dispatchInfo.dispatchResult)
-        {
-            case ZFImpl_ZFLua_ImplDispatchResultSuccess:
-                if(dispatchInfo.returnValueCustom != -1)
-                {
-                    return dispatchInfo.returnValueCustom;
-                }
-                else
-                {
-                    if(dispatchInfo.returnValue != ZFImpl_ZFLua_implDispatchReturnValueNotSet)
-                    {
-                        ZFImpl_ZFLua_luaPush(L, dispatchInfo.returnValue);
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-            case ZFImpl_ZFLua_ImplDispatchResultError:
-                ZFLuaErrorOccurredTrim("[ImplDispatch] %s", dispatchInfo.errorHint.cString());
-                return ZFImpl_ZFLua_luaError(L);
-            case ZFImpl_ZFLua_ImplDispatchResultForward:
-            default:
-                break;
         }
     }
 

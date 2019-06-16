@@ -2,6 +2,7 @@
 
 * optimize cache performance
 * optimize generic invoker performance
+* remove lua custom dispatch support for performance
 
 # 0.7.2
 

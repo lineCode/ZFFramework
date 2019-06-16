@@ -100,47 +100,5 @@ ZFImpl_ZFLua_implSetupCallback_DEFINE(zfAlloc, {
     }, {
     })
 
-// ============================================================
-ZFImpl_ZFLua_implDispatch_DEFINE(ZFClass_zfAlloc, ZFImpl_ZFLua_implDispatchAll, "zfAlloc", {
-        ZFImpl_ZFLua_implDispatch_AssertClassExist();
-        ZFImpl_ZFLua_implDispatch_AssertParamCountRange(0, ZFMETHOD_MAX_PARAM);
-        ZFImpl_ZFLua_implDispatch_AssertIsStaticMethod();
-
-        if(dispatchInfo.paramCount == 0)
-        {
-            dispatchInfo.returnValue = dispatchInfo.classOrNull->newInstance();
-            if(dispatchInfo.returnValue == zfnull)
-            {
-                return dispatchInfo.dispatchError("unable to create %s",
-                    dispatchInfo.classOrNull->classNameFull());
-            }
-            return dispatchInfo.dispatchSuccess();
-        }
-        else
-        {
-            zfstring errorHint;
-            if(!ZFDI_alloc(dispatchInfo.returnValue, &errorHint, dispatchInfo.classOrNull, dispatchInfo.paramCount
-                    , dispatchInfo.paramList[0]
-                    , dispatchInfo.paramList[1]
-                    , dispatchInfo.paramList[2]
-                    , dispatchInfo.paramList[3]
-                    , dispatchInfo.paramList[4]
-                    , dispatchInfo.paramList[5]
-                    , dispatchInfo.paramList[6]
-                    , dispatchInfo.paramList[7]
-                ))
-            {
-                return dispatchInfo.dispatchError(
-                    "unable to create class %s, reason: %s",
-                    dispatchInfo.classOrNull->classNameFull(),
-                    errorHint.cString());
-            }
-            else
-            {
-                return dispatchInfo.dispatchSuccess();
-            }
-        }
-    })
-
 ZF_NAMESPACE_GLOBAL_END
 
