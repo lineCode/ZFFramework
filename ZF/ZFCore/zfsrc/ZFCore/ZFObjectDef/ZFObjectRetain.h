@@ -212,12 +212,30 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
 /** @brief see #zfAllocWithCache */
 #define ZFALLOC_CACHE_RELEASE(action) \
     public: \
+        /** @cond ZFPrivateDoc */ \
+        static ZFObject *_ZFP_zfAllocWithCache(void) \
+        { \
+            return zfAllocWithCache(zfself); \
+        } \
         static void zfAllocCacheRelease(ZF_IN ZFObject *_obj) \
         { \
             zfself *cache = ZFCastZFObjectUnchecked(zfself *, _obj); \
             ZFUNUSED(cache); \
             action \
-        }
+        } \
+        /** @endcond */
+
+/** @brief #ZFALLOC_CACHE_RELEASE for abstract class */
+#define ZFALLOC_CACHE_RELEASE_ABSTRACT(action) \
+    public: \
+        /** @cond ZFPrivateDoc */ \
+        static void zfAllocCacheRelease(ZF_IN ZFObject *_obj) \
+        { \
+            zfself *cache = ZFCastZFObjectUnchecked(zfself *, _obj); \
+            ZFUNUSED(cache); \
+            action \
+        } \
+        /** @endcond */
 
 /** @brief dummy class for #zfAllocWithCache */
 zfclassNotPOD ZF_ENV_EXPORT zfAllocCacheNoReleaseAction

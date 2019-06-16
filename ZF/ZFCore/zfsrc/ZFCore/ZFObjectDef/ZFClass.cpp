@@ -88,6 +88,7 @@ public:
     ZFClass *pimplOwner;
     zfbool classIsDynamicRegister;
     zfautoObject classDynamicRegisterUserData;
+    _ZFP_zfAllocWithCacheCallback objectAllocWithCacheCallback;
     _ZFP_ZFObjectConstructor constructor;
     _ZFP_ZFObjectDestructor destructor;
     zfstring classNamespace;
@@ -573,11 +574,18 @@ zfautoObject ZFClass::newInstance(void) const
 {
     zfCoreMutexLocker();
     ZFObject *obj = zfnull;
-    obj = d->objectConstruct();
-    if(obj != zfnull)
+    if(d->objectAllocWithCacheCallback)
     {
-        obj->objectOnInit();
-        obj->_ZFP_ZFObjectCheckOnInit();
+        obj = d->objectAllocWithCacheCallback();
+    }
+    else
+    {
+        obj = d->objectConstruct();
+        if(obj != zfnull)
+        {
+            obj->objectOnInit();
+            obj->_ZFP_ZFObjectCheckOnInit();
+        }
     }
     zfautoObject ret;
     ret.zflockfree_assign(obj);
@@ -1000,6 +1008,7 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
                                        ZF_IN const zfchar *classNamespace,
                                        ZF_IN const zfchar *className,
                                        ZF_IN const ZFClass *parent,
+                                       ZF_IN _ZFP_zfAllocWithCacheCallback objectAllocWithCacheCallback,
                                        ZF_IN _ZFP_ZFObjectConstructor constructor,
                                        ZF_IN _ZFP_ZFObjectDestructor destructor,
                                        ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
@@ -1046,6 +1055,7 @@ ZFClass *ZFClass::_ZFP_ZFClassRegister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
 
         cls->d->classIsDynamicRegister = classIsDynamicRegister;
         cls->d->classDynamicRegisterUserData = classDynamicRegisterUserData;
+        cls->d->objectAllocWithCacheCallback = objectAllocWithCacheCallback;
         cls->d->constructor = constructor;
         cls->d->destructor = destructor;
 
@@ -1626,6 +1636,10 @@ zfbool ZFClass::_ZFP_ZFClass_propertyInitStepIsTheSame(ZF_IN const ZFProperty *p
     return zftrue;
 }
 
+_ZFP_zfAllocWithCacheCallback ZFClass::_ZFP_objectAllocWithCacheCallback(void) const
+{
+    return d->objectAllocWithCacheCallback;
+}
 _ZFP_ZFObjectConstructor ZFClass::_ZFP_objectConstructor(void) const
 {
     return d->constructor;
@@ -1639,6 +1653,7 @@ _ZFP_ZFObjectDestructor ZFClass::_ZFP_objectDestructor(void) const
 _ZFP_ZFClassRegisterHolder::_ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *classNamespace,
                                                        ZF_IN const zfchar *className,
                                                        ZF_IN const ZFClass *parent,
+                                                       ZF_IN _ZFP_zfAllocWithCacheCallback objectAllocWithCacheCallback,
                                                        ZF_IN _ZFP_ZFObjectConstructor constructor,
                                                        ZF_IN _ZFP_ZFObjectDestructor destructor,
                                                        ZF_IN _ZFP_ZFObjectCheckInitImplementationListCallback checkInitImplListCallback,
@@ -1653,6 +1668,7 @@ _ZFP_ZFClassRegisterHolder::_ZFP_ZFClassRegisterHolder(ZF_IN const zfchar *class
         classNamespace,
         className,
         parent,
+        objectAllocWithCacheCallback,
         constructor,
         destructor,
         checkInitImplListCallback,

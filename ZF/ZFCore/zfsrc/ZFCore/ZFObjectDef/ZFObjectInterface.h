@@ -79,6 +79,7 @@ public:
                     ParentInterface::ClassData(), \
                     zfnull, \
                     zfnull, \
+                    zfnull, \
                     &zfself::_ZFP_Obj_initImplCk, \
                     zftrue \
                 ); \

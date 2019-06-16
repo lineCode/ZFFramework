@@ -55,6 +55,29 @@ public:
     {
         return ZFCallback::executeExact<zfindex, void *, zfindex>(buf, count);
     }
+    /** @brief see #ZFInput */
+    zfindex input(ZF_OUT zfstring &buf,
+                  ZF_IN zfindex count) const
+    {
+        if(count == zfindexMax())
+        {
+            count = this->execute(zfnull, zfindexMax());
+            if(count == zfindexMax())
+            {
+                return zfindexMax();
+            }
+        }
+        void *bufTmp = zfmalloc(count);
+        zfindex read = this->execute(bufTmp, count);
+        if(read > count)
+        {
+            zffree(bufTmp);
+            return zfindexMax();
+        }
+        buf.append((const zfchar *)bufTmp, read);
+        zffree(bufTmp);
+        return read;
+    }
 _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(ZFInput, ZFIOCallback)
 
 // ============================================================

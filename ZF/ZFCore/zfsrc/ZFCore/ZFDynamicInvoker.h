@@ -25,8 +25,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 zfabstract ZF_ENV_EXPORT ZFDI_WrapperBase : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_ABSTRACT(ZFDI_WrapperBase, ZFObject)
-
-    ZFALLOC_CACHE_RELEASE({
+    ZFALLOC_CACHE_RELEASE_ABSTRACT({
         cache->zfvSet(zfnull);
     })
 
@@ -76,6 +75,7 @@ protected:
 zfclass ZF_ENV_EXPORT ZFDI_Wrapper : zfextends ZFDI_WrapperBase
 {
     ZFOBJECT_DECLARE(ZFDI_Wrapper, ZFDI_WrapperBase)
+    ZFALLOC_CACHE_RELEASE({zfsuper::zfAllocCacheRelease(cache);})
 public:
     zfoverride
     virtual void zfvSet(ZF_IN const zfchar *zfv)
@@ -98,6 +98,7 @@ private:
 zfclass ZF_ENV_EXPORT ZFDI_WrapperRaw : zfextends ZFDI_WrapperBase
 {
     ZFOBJECT_DECLARE_WITH_CUSTOM_CTOR(ZFDI_WrapperRaw, ZFDI_WrapperBase)
+    ZFALLOC_CACHE_RELEASE({zfsuper::zfAllocCacheRelease(cache);})
 public:
     zfoverride
     virtual void zfvSet(ZF_IN const zfchar *zfv)

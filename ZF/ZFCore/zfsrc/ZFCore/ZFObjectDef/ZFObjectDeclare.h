@@ -116,6 +116,10 @@ public:
                     ZF_NAMESPACE_CURRENT(), \
                     ZFM_TOSTRING_DIRECT(ChildClass), \
                     zfsuper::ClassData(), \
+                    (&zfself::_ZFP_zfAllocWithCache == &zfsuper::_ZFP_zfAllocWithCache \
+                        || &zfself::_ZFP_zfAllocWithCache == &ZFObject::_ZFP_zfAllocWithCache) \
+                            ? zfnull \
+                            : &zfself::_ZFP_zfAllocWithCache, \
                     &zfself::_ZFP_Obj_ctor, \
                     &zfself::_ZFP_Obj_dtor, \
                     &zfself::_ZFP_Obj_initImplCk \
@@ -133,6 +137,7 @@ public:
                     ZF_NAMESPACE_CURRENT(), \
                     ZFM_TOSTRING_DIRECT(ChildClass), \
                     zfsuper::ClassData(), \
+                    zfnull, \
                     zfnull, \
                     zfnull, \
                     &zfself::_ZFP_Obj_initImplCk \

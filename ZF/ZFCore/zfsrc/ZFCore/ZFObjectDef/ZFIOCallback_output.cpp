@@ -190,16 +190,8 @@ ZF_NAMESPACE_GLOBAL_END
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_2({
-        if(size == zfindexMax())
-        {
-            size = zfslen(src);
-        }
-        else
-        {
-            size /= sizeof(zfchar);
-        }
         ZFOutput output = invokerObject->to<v_ZFCallback *>()->zfv;
-        return output.execute(src, size) * sizeof(zfchar);
+        return output.output(src, size);
     }, v_ZFCallback, zfindex, output, ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, size, zfindexMax()))
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFOutput, ZFOutputDummy)

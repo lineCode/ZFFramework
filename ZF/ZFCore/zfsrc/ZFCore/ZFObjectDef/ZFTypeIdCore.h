@@ -489,8 +489,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 zfabstract ZF_ENV_EXPORT ZFTypeIdWrapper : zfextends ZFStyleableObject
 {
     ZFOBJECT_DECLARE_ABSTRACT_WITH_CUSTOM_CTOR(ZFTypeIdWrapper, ZFStyleableObject)
-
-    ZFALLOC_CACHE_RELEASE({
+    ZFALLOC_CACHE_RELEASE_ABSTRACT({
         cache->wrappedValueIsConst = zffalse;
         cache->wrappedValueReset();
     })

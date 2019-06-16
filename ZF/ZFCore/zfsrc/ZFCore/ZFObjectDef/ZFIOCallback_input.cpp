@@ -665,17 +665,9 @@ ZF_NAMESPACE_GLOBAL_END
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_2({
-        if(size == zfindexMax())
-        {
-            return 0;
-        }
         ZFInput input = invokerObject->to<v_ZFCallback *>()->zfv;
-        void *bufTmp = zfmalloc(size);
-        zfindex read = input.execute(bufTmp, size);
-        buf.append((const zfchar *)bufTmp, read / sizeof(zfchar));
-        zffree(bufTmp);
-        return read;
-    }, v_ZFCallback, zfindex, input, ZFMP_OUT(zfstring &, buf), ZFMP_IN(zfindex, size))
+        return input.input(buf, count);
+    }, v_ZFCallback, zfindex, input, ZFMP_OUT(zfstring &, buf), ZFMP_IN(zfindex, count))
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFBuffer, ZFInputReadToBuffer, ZFMP_IN_OUT(const ZFInput &, input))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFInput, ZFInputDummy)
