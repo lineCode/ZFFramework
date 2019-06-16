@@ -8,7 +8,6 @@
  *   https://github.com/ZFFramework/ZFFramework/blob/master/LICENSE
  * ====================================================================== */
 #include "ZFImpl_ZFLua.h"
-#include "ZFImpl_ZFLua_zfAlloc.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -69,16 +68,7 @@ static int _ZFP_ZFImpl_ZFLua_zfl_call_impl(ZF_IN lua_State *L,
 
     zfautoObject ret;
     zfstring errorHint;
-    if(ZFDI_invoke(ret, &errorHint, obj, NS, type, (zfindex)paramCount
-            , paramList[0]
-            , paramList[1]
-            , paramList[2]
-            , paramList[3]
-            , paramList[4]
-            , paramList[5]
-            , paramList[6]
-            , paramList[7]
-        ))
+    if(ZFDI_invoke(ret, &errorHint, obj, NS, type, (zfindex)paramCount, paramList))
     {
         ZFImpl_ZFLua_luaPush(L, ret);
         return 1;

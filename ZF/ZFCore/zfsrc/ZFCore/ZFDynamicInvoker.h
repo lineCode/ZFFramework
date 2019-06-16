@@ -188,15 +188,8 @@ extern ZF_ENV_EXPORT zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
                                         , ZF_IN_OPT const zfchar *NS
                                         , ZF_IN ZFObject *type
                                         , ZF_IN zfindex paramCount
-                                        , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
-                                        , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
-                                        /* ZFMETHOD_MAX_PARAM */);
+                                        , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
+                                        );
 
 /**
  * @brief perform advanced dynamic invoke
@@ -220,28 +213,14 @@ extern ZF_ENV_EXPORT zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
                                        , ZF_IN_OPT const zfchar *NS
                                        , ZF_IN ZFObject *type
                                        , ZF_IN zfindex paramCount
-                                       , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
-                                       /* ZFMETHOD_MAX_PARAM */);
+                                       , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
+                                       );
 /** @brief see #ZFDI_alloc */
 extern ZF_ENV_EXPORT zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
                                        , ZF_OUT_OPT zfstring *errorHint
                                        , ZF_IN const ZFClass *cls
                                        , ZF_IN zfindex paramCount
-                                       , ZF_IN_OPT ZFObject *param0 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param1 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param2 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param3 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param4 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param5 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param6 = ZFMethodGenericInvokerDefaultParam()
-                                       , ZF_IN_OPT ZFObject *param7 = ZFMethodGenericInvokerDefaultParam()
+                                       , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                        );
 
 // ============================================================

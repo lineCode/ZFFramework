@@ -35,16 +35,7 @@ zfbool ZFImpl_ZFLua_zfAlloc(ZF_OUT zfautoObject &ret,
             return zffalse;
         }
     }
-    return ZFDI_alloc(ret, zfnull, cls, (zfindex)paramCount
-            , paramList[0]
-            , paramList[1]
-            , paramList[2]
-            , paramList[3]
-            , paramList[4]
-            , paramList[5]
-            , paramList[6]
-            , paramList[7]
-        );
+    return ZFDI_alloc(ret, zfnull, cls, (zfindex)paramCount, paramList);
 }
 
 // ============================================================
@@ -80,16 +71,7 @@ static int _ZFP_ZFImpl_ZFLua_zfAlloc(ZF_IN lua_State *L)
     }
 
     zfautoObject ret;
-    ZFDI_alloc(ret, zfnull, zfnull, clsHolder, (zfindex)paramCount
-            , paramList[0]
-            , paramList[1]
-            , paramList[2]
-            , paramList[3]
-            , paramList[4]
-            , paramList[5]
-            , paramList[6]
-            , paramList[7]
-        );
+    ZFDI_alloc(ret, zfnull, zfnull, clsHolder, (zfindex)paramCount, paramList);
     ZFImpl_ZFLua_luaPush(L, ret);
     return 1;
 }
