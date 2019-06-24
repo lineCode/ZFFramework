@@ -100,8 +100,8 @@ elif test "x-$CONFIG_FILE_PATH" = "x--app" || test "x-$CONFIG_FILE_PATH" = "x--l
     }
     _configFileTemplate > "$_CONFIG_FILE_PATH"
     echo "config file created: $_CONFIG_FILE_PATH"
-    echo "    use 'zfproj_recursive.sh $OUTPUT_PATH $OUTPUT_PATH' to create entire project folder structure"
-    echo "    or use 'zfproj_recursive.sh $OUTPUT_PATH' to update existing proejct inplace"
+    echo "    use 'zfproj_recursive.sh $OUTPUT_PATH/$PROJ_NAME $OUTPUT_PATH' to create entire project folder structure"
+    echo "    or use 'zfproj_recursive.sh $OUTPUT_PATH/$PROJ_NAME' to update existing proejct inplace"
     exit 0
 fi
 

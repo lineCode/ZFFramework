@@ -9,7 +9,7 @@ fi
 
 ZF_ROOT_PATH=$WORK_DIR/../../..
 ZF_TOOLS_PATH=$ZF_ROOT_PATH/tools
-_TMP_PATH=$ZF_ROOT_PATH/_tmp/$PROJ_NAME/Qt_Posix/release
+_TMP_PATH=$ZF_ROOT_PATH/_tmp/Qt_Posix/$PROJ_NAME/release
 
 _OLD_DIR=$(pwd)
 cd "$PROJ_PATH"

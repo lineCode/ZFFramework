@@ -18,8 +18,8 @@ if test "$?" = "0" ; then
 fi
 
 _OLD_DIR=$(pwd)
-mkdir -p "$ZF_ROOT_PATH/_tmp/$QT_TYPE/$PROJ_NAME" >/dev/null 2>&1
-cd "$ZF_ROOT_PATH/_tmp/$QT_TYPE/$PROJ_NAME"
+mkdir -p "$ZF_ROOT_PATH/_tmp/$QT_TYPE/$PROJ_NAME/build" >/dev/null 2>&1
+cd "$ZF_ROOT_PATH/_tmp/$QT_TYPE/$PROJ_NAME/build"
 find . -name "*.a.*" | xargs -I{} rm {}
 find . -name "*.so.*" | xargs -I{} rm {}
 find . -name "*.dylib.*" | xargs -I{} rm {}

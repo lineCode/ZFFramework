@@ -16,7 +16,7 @@ exit /b 1
 
 set ZF_ROOT_PATH=%WORK_DIR%\..\..\..
 set ZF_TOOLS_PATH=%ZF_ROOT_PATH%\tools
-set _TMP_PATH=%ZF_ROOT_PATH%\_tmp\%PROJ_NAME%\Qt_Windows\release
+set _TMP_PATH=%ZF_ROOT_PATH%\_tmp\Qt_Windows\%PROJ_NAME%\release
 
 set _OLD_DIR=%cd%
 cd "%PROJ_PATH%"

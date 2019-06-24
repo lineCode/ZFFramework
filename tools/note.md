@@ -103,3 +103,21 @@
                 zfres/
 ```
 
+# tmp dir structure
+
+```
+~/
+    _tmp/
+        Android/
+        iOS/
+        Qt_MacOS/
+        Qt_Posix/
+        Qt_Windows/
+            ProjName/
+                build/
+                release/
+                    ProjName.xxx
+                debug/
+                    ProjName.xxx
+```
+
