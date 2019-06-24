@@ -25,7 +25,10 @@ public:
         if(this->_pathForModule.isEmpty())
         {
             this->_pathForModule = QCoreApplication::applicationDirPath().toStdString().c_str();
-            zfCoreAssert(!this->_pathForModule.isEmpty());
+            if(this->_pathForModule.isEmpty())
+            {
+                this->_pathForModule = "./";
+            }
         }
         return this->_pathForModule;
     }
@@ -34,7 +37,10 @@ public:
         if(this->_pathForModuleFile.isEmpty())
         {
             this->_pathForModuleFile = QCoreApplication::applicationFilePath().toStdString().c_str();
-            zfCoreAssert(!this->_pathForModuleFile.isEmpty());
+            if(this->_pathForModuleFile.isEmpty())
+            {
+                this->_pathForModuleFile = "./unknown";
+            }
         }
         return this->_pathForModuleFile;
     }

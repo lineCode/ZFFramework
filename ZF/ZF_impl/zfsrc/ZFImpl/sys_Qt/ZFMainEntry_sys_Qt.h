@@ -15,9 +15,13 @@
 
 #if ZF_ENV_sys_Qt
 
+#ifdef QT_WIDGETS_LIB
 #include <QWidget>
+#endif
+
 #include <QLibrary>
 
+#ifdef QT_WIDGETS_LIB
 zfclassNotPOD ZF_ENV_EXPORT ZFImpl_sys_Qt_Window : public QWidget
 {
     Q_OBJECT
@@ -25,6 +29,9 @@ zfclassNotPOD ZF_ENV_EXPORT ZFImpl_sys_Qt_Window : public QWidget
 public:
     ZFImpl_sys_Qt_Window(void);
 };
+#else
+class QWidget;
+#endif
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 

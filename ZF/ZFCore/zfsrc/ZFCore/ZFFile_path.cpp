@@ -166,9 +166,12 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForCacheSet,
 
 ZFMETHOD_FUNC_DEFINE_0(void, ZFFilePathForCacheClear)
 {
-    ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheBeforeClear());
-    _ZFP_ZFFilePathImpl->pathForCacheClear();
-    ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheAfterClear());
+    if(ZFPROTOCOL_IS_AVAILABLE(ZFFilePath))
+    {
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheBeforeClear());
+        _ZFP_ZFFilePathImpl->pathForCacheClear();
+        ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheAfterClear());
+    }
 }
 
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFFilePathForCacheAutoClear, ZFLevelZFFrameworkLow)

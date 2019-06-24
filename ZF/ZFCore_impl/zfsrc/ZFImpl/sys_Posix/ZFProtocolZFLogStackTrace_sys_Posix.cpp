@@ -12,7 +12,7 @@
 #include "ZFCore/ZFLog_StackTrace.h"
 #include "ZFCore/ZFString.h"
 
-#if (ZF_ENV_sys_Posix || ZF_ENV_sys_unknown) && !ZF_ENV_sys_Android
+#if (ZF_ENV_sys_Posix || ZF_ENV_sys_unknown) && !ZF_ENV_sys_Android && defined(__GLIBC__)
 
 #include <execinfo.h>
 #include <memory.h>

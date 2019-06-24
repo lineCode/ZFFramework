@@ -1,3 +1,7 @@
+# 0.8.1
+
+* optimize optional impl
+
 # 0.8.0
 
 * optimize cache performance

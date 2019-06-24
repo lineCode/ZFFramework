@@ -14,10 +14,16 @@
 #include "ZFMainEntry_sys_Qt.h"
 
 #if ZF_ENV_sys_Qt
+
+#ifdef QT_WIDGETS_LIB
 #include <QApplication>
 #include <QWidget>
 #include <QLayout>
+#else
+#include <QCoreApplication>
+#endif
 
+#ifdef QT_WIDGETS_LIB
 class _ZFP_ZFMainEntry_sys_Qt_WindowLayout : public QLayout
 {
     Q_OBJECT
@@ -103,11 +109,13 @@ ZFImpl_sys_Qt_Window::ZFImpl_sys_Qt_Window(void)
     layout->_ZFP_owner = this;
     this->setLayout(layout);
 }
+#endif
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 int ZFMainEntry_sys_Qt(int argc, char **argv)
 {
+#ifdef QT_WIDGETS_LIB
     QApplication app(argc, argv);
     ZFImpl_sys_Qt_Window window;
     window.show();
@@ -122,6 +130,16 @@ int ZFMainEntry_sys_Qt(int argc, char **argv)
 
     window.close();
     return ret;
+#else
+    QCoreApplication app(argc, argv);
+    int ret = ZFMainEntry_sys_Qt_attach(NULL, argc, argv);
+    if(ret != 0)
+    {
+        return ret;
+    }
+    ZFMainEntry_sys_Qt_detach();
+    return 0;
+#endif
 }
 
 static QWidget *_ZFP_ZFImpl_sys_Qt_rootWindowInstance = zfnull;
@@ -136,7 +154,11 @@ int ZFMainEntry_sys_Qt_attach(ZF_IN QWidget *rootWindow,
 {
     _ZFP_ZFImpl_sys_Qt_rootWindowInstance = rootWindow;
     ZFFrameworkInit();
+
+#ifdef QT_WIDGETS_LIB
     zfCoreAssert(rootWindow != NULL && rootWindow->layout() != NULL);
+#endif
+
     ZFCoreArray<zfstring> params;
     for(int i = 0; i < argc; ++i)
     {
