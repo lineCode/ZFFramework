@@ -13,14 +13,14 @@ rd /s/q %OUTPUT_PATH% >nul 2>&1
 mkdir %OUTPUT_PATH% >nul 2>&1
 
 set _OLD_DIR=%cd%
-cd %WORK_DIR%\Doxygen
+cd /d %WORK_DIR%\Doxygen
 .\doxygen.exe
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 
 set _OLD_DIR=%cd%
-cd %OUTPUT_PATH%\html
+cd /d %OUTPUT_PATH%\html
 %WORK_DIR%\Doxygen\hhc.exe index.hhp
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 
 move %OUTPUT_PATH%\html\index.chm %OUTPUT_PATH%\ZFFramework_doc.chm
 del /q %OUTPUT_PATH%\html\index.hhc >nul 2>&1

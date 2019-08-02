@@ -18,10 +18,10 @@ set ZF_ROOT_PATH=%WORK_DIR%\..\..\..
 set ZF_TOOLS_PATH=%ZF_ROOT_PATH%\tools
 
 set _OLD_DIR=%cd%
-cd "%PROJ_PATH%"
+cd /d "%PROJ_PATH%"
 call gradlew.bat
 set _RESULT=%errorlevel%
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 
 exit /b %_RESULT%
 

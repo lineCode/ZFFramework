@@ -26,10 +26,10 @@ if "%errorlevel%" == "0" (
 
 set _OLD_DIR=%cd%
 mkdir "%ZF_ROOT_PATH%\_tmp\%QT_TYPE%\%PROJ_NAME%\build" >nul 2>&1
-cd "%ZF_ROOT_PATH%\_tmp\%QT_TYPE%\%PROJ_NAME%\build"
+cd /d "%ZF_ROOT_PATH%\_tmp\%QT_TYPE%\%PROJ_NAME%\build"
 del /f/s/q ".\*.dll" /f/s/q/a >nul 2>&1
 del /f/s/q ".\*.a" /f/s/q/a >nul 2>&1
 qmake "%PROJ_PATH%\zfproj\Qt\%PROJ_NAME%\%PROJ_NAME%.pro" CONFIG+=release
 mingw32-make -j2
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 

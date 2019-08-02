@@ -19,14 +19,14 @@ set ZF_TOOLS_PATH=%ZF_ROOT_PATH%\tools
 set _TMP_PATH=%ZF_ROOT_PATH%\_tmp\Qt_Windows\%PROJ_NAME%\release
 
 set _OLD_DIR=%cd%
-cd "%PROJ_PATH%"
+cd /d "%PROJ_PATH%"
 set _PROJ_PATH=%cd%
 mkdir "%_TMP_PATH%" >nul 2>&1
-cd "%_TMP_PATH%"
+cd /d "%_TMP_PATH%"
 qmake "%_PROJ_PATH%\%PROJ_NAME%.pro" CONFIG+=release
 mingw32-make -j2
 set _RESULT=%errorlevel%
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 
 exit /b %_RESULT%
 

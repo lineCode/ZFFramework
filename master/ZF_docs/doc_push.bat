@@ -30,7 +30,7 @@ mkdir "%DOC_REPO_PATH%\doc" >nul 2>&1
 xcopy /s/e/y/r/h "%OUTPUT_PATH%\html" "%DOC_REPO_PATH%\doc"
 
 set _OLD_DIR=%cd%
-cd "%DOC_REPO_PATH%"
+cd /d "%DOC_REPO_PATH%"
 git config user.email "z@zsaber.com"
 git config user.name "ZSaberLv0"
 git config push.default "simple"
@@ -38,5 +38,5 @@ git add -A
 git commit -a -m "update doc"
 git push "https://ZSaberLv0:%PASSWORD%@github.com/ZFFramework/zfframework.github.com"
 git fetch origin --prune
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 

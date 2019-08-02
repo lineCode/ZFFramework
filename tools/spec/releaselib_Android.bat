@@ -24,8 +24,8 @@ if "%errorlevel%" == "0" (
 
 set _OLD_DIR=%cd%
 
-cd "%PROJ_PATH%\zfproj\Android\%PROJ_NAME%"
+cd /d "%PROJ_PATH%\zfproj\Android\%PROJ_NAME%"
 call "gradlew.bat" assembleRelease
 
-cd "%_OLD_DIR%"
+cd /d "%_OLD_DIR%"
 
