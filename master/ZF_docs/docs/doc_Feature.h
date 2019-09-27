@@ -9,5 +9,7 @@
  *
  * @subpage DocTag_Feature_DynamicRegister "Dynamic class/method/property register"
  *
+ * @subpage DocTag_Feature_Lambda "Lambda with pure C++03"
+ *
  */
 

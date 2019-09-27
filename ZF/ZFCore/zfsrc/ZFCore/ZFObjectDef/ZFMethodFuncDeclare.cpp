@@ -59,6 +59,7 @@ void _ZFP_ZFMethodFuncUnregister(ZF_IN const ZFMethod *method)
                 {
                     m.erase(itNS);
                 }
+                break;
             }
         }
     }

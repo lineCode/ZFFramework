@@ -69,7 +69,7 @@ inline ZFObjectMutexImplCallbackUnlock ZFObjectMutexImplGetUnlock(void) {return 
 inline ZFObjectMutexImplCallbackTryLock ZFObjectMutexImplGetTryLock(void) {return _ZFP_ZFObjectMutexImplTryLock;}
 
 /** @brief see #ZFObjectMutexImplSet */
-inline zfbool ZFObjectMutexImplAvailable(void) {return _ZFP_ZFObjectMutexImplInit;}
+inline zfbool ZFObjectMutexImplAvailable(void) {return (_ZFP_ZFObjectMutexImplInit != zfnull);}
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFObjectMutex_h_

@@ -936,6 +936,11 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, void, jsonObjectRemoveAl
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, zfindex, jsonObjectFind, ZFMP_IN(const ZFJsonItem &, jsonObject))
 
 // ============================================================
+ZFMETHOD_FUNC_DEFINE_0(ZFJsonItem, ZFJsonValue) {return ZFJsonItem(ZFJsonType::e_JsonValue);}
+ZFMETHOD_FUNC_DEFINE_0(ZFJsonItem, ZFJsonObject) {return ZFJsonItem(ZFJsonType::e_JsonObject);}
+ZFMETHOD_FUNC_DEFINE_0(ZFJsonItem, ZFJsonArray) {return ZFJsonItem(ZFJsonType::e_JsonArray);}
+
+// ============================================================
 ZFMETHOD_FUNC_DEFINE_1(ZFJsonItem, ZFJsonItemFromInput, ZFMP_IN(const ZFInput &, input))
 {
     return ZFPROTOCOL_ACCESS(ZFJson)->jsonParse(input);

@@ -395,6 +395,13 @@ private:
 ZFTYPEID_DECLARE(ZFJsonItem, ZFJsonItem)
 ZFOUTPUT_TYPE(ZFJsonItem, {output << v.objectInfo();})
 
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFJsonItem, ZFJsonValue)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFJsonItem, ZFJsonObject)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFJsonItem, ZFJsonArray)
+
 // ============================================================
 /**
  * @brief parse json, or return an item with null type if fail

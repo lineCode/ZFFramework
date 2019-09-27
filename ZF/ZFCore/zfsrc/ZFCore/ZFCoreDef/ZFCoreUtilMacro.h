@@ -260,9 +260,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   zfindex n = 0;
  *   n = ZFM_PARAM_NUM(a, b, c); // n would be 3
  *   n = ZFM_PARAM_NUM(_EMPTY); // n would be 1
- *   n = ZFM_PARAM_NUM(); // result not ensured
+ *   n = ZFM_PARAM_NUM(); // result not ensured, may be 0 or 1
  * @endcode
- * this macro could calculate 0 ~ 32 param num
+ * this macro could calculate 1 ~ 32 param num
  */
 #define ZFM_PARAM_NUM(...) \
     _ZFP_ZFM_PARAM_EXPAND(_ZFP_ZFM_PARAM_NUM_TMP0(__VA_ARGS__, _ZFP_ZFM_PARAM_NUM_TMP2()))

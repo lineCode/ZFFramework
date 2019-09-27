@@ -191,6 +191,16 @@ public:
     ZFMETHOD_DECLARE_1(void, buttonSimulateClick,
                        ZFMP_IN_OPT(ZFUIEvent *, event, zfnull))
 
+    /**
+     * @brief util to observe #EventButtonOnClick
+     */
+    ZFMETHOD_DECLARE_5(zfidentity, onClick,
+                       ZFMP_IN(const ZFListener &, observer),
+                       ZFMP_IN_OPT(ZFObject *, userData, zfnull),
+                       ZFMP_IN_OPT(ZFObject *, owner, zfnull),
+                       ZFMP_IN_OPT(zfbool, autoRemoveAfterActivate, zffalse),
+                       ZFMP_IN_OPT(ZFLevel, observerLevel, ZFLevelAppNormal))
+
 protected:
     zfoverride
     virtual void viewEventOnMouseEvent(ZF_IN ZFUIMouseEvent *mouseEvent);

@@ -32,6 +32,7 @@ typedef enum
     ZFCallbackTypeMethod, /**< @brief class static member method described by #ZFMethod */
     ZFCallbackTypeMemberMethod, /**< @brief class memeber method that need a object instance to execute, described by #ZFMethod */
     ZFCallbackTypeRawFunction, /**< @brief static function without #ZFMethod */
+    ZFCallbackTypeLambda, /**< @brief lambda function that can capture other vars */
 } ZFCallbackType;
 /** @brief string tokens */
 #define ZFTOKEN_ZFCallbackTypeDummy "TypeDummy"
@@ -41,6 +42,8 @@ typedef enum
 #define ZFTOKEN_ZFCallbackTypeMemberMethod "TypeMemeberMethod"
 /** @brief string tokens */
 #define ZFTOKEN_ZFCallbackTypeRawFunction "TypeRawFunction"
+/** @brief string tokens */
+#define ZFTOKEN_ZFCallbackTypeLambda "TypeLambda"
 
 // ============================================================
 // callback invoker
@@ -55,93 +58,36 @@ extern ZF_ENV_EXPORT void _ZFP_ZFCallback_executeNullCallback(void);
     { \
         switch(this->callbackType()) \
         { \
-            case ZFCallbackTypeDummy: \
-                _ZFP_ZFCallback_executeNullCallback(); \
-                break; \
             case ZFCallbackTypeMethod: \
             case ZFCallbackTypeMemberMethod: \
                 return this->callbackMethod()->execute<T_ReturnType ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)>( \
-                        this->_ZFP_ZFCallbackCached_callbackOwnerObj() \
+                        this->callbackOwnerObject() \
                         ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA) \
                     ); \
             case ZFCallbackTypeRawFunction: \
-                return ((T_ReturnType (*)(ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_EMPTY, ZFM_COMMA)))(this->_ZFP_ZFCallbackCached_callbackInvoker_rawFunction())) \
+                return ((T_ReturnType (*)(ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_EMPTY, ZFM_COMMA)))(this->callbackRawFunction())) \
                     (ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_EMPTY, ZFM_COMMA)); \
+            case ZFCallbackTypeLambda: \
+                return ((T_ReturnType (*)(_ZFP_ZFCallbackLambda * ZFM_REPEAT(N, ZFM_REPEAT_TYPE, ZFM_COMMA, ZFM_COMMA)))(this->_ZFP_ZFCallback_callbackLambdaInvoker()))( \
+                        this->_ZFP_ZFCallback_callbackLambdaImpl() \
+                        ZFM_REPEAT(N, ZFM_REPEAT_NAME, ZFM_COMMA, ZFM_COMMA) \
+                    ); \
+            case ZFCallbackTypeDummy: \
             default: \
-                break; \
+                _ZFP_ZFCallback_executeNullCallback(); \
+                return ((T_ReturnType (*)(void))(zfnull)) (); \
         } \
-        /* typically should not go here */ \
-        return ((T_ReturnType (*)(void))(zfnull)) (); \
     }
 
-// ============================================================
-// child callback declare
-#define _ZFP_ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
-    zfclassLikePOD ZF_ENV_EXPORT CallbackTypeName : zfextendsLikePOD ParentType \
-    { \
-        _ZFP_ZFCALLBACK_DECLARE_CONSTRUCTORS(CallbackTypeName, ParentType) \
-    public:
-#define _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
-    };
-#define _ZFP_ZFCALLBACK_DECLARE_CONSTRUCTORS(CallbackTypeName, ParentType) \
-    public: \
-        /** @cond ZFPrivateDoc */ \
-        CallbackTypeName(void) \
-        : ParentType() \
-        { \
-        } \
-        CallbackTypeName(ZF_IN const ZFCallback &ref) \
-        : ParentType(ref) \
-        { \
-        } \
-        CallbackTypeName &operator = (const CallbackTypeName &ref) \
-        { \
-            ZFCallback::operator = (ref); \
-            return *this; \
-        } \
-        /** @endcond */
-/**
- * @brief see #ZFCALLBACK_DECLARE_BEGIN
- */
-#define ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
-    _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
-    ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
-#define _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(CallbackTypeName, ParentType) \
-    _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
-
-/**
- * @brief util macro to declare a child type of ZFCallback
- *
- * declaration:
- * @code
- *   // in header file
- *   // declare by default:
- *   ZFCALLBACK_DECLARE(CallbackTypeName, ParentType)
- *
- *   // if you need extra functions
- *   ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType)
- *       // your extra functions here
- *       // it's not allowed to add member variables
- *   ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
- *
- *   // in source file
- *   ZFCALLBACK_DEFINE(CallbackTypeName, ParentType)
- * @endcode
- */
-#define ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
-    _ZFP_ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType)
-/**
- * @brief see #ZFCALLBACK_DECLARE_BEGIN
- */
-#define ZFCALLBACK_DECLARE(CallbackTypeName, ParentType) \
-    ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
-    ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
-
-/**
- * @brief see #ZFCALLBACK_DECLARE_BEGIN
- */
-#define ZFCALLBACK_DEFINE(CallbackTypeName, ParentType) \
-    ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
+zfclassNotPOD _ZFP_ZFCallbackLambda
+{
+public:
+    typedef void (*DestroyCallback)(ZF_IN _ZFP_ZFCallbackLambda *impl);
+public:
+    virtual ~_ZFP_ZFCallbackLambda(void) {}
+public:
+    virtual ZFFuncAddrType _ZFP_ivk(void) const zfpurevirtual;
+};
 
 // ============================================================
 // ZFCallback
@@ -186,9 +132,11 @@ public:
     zfbool operator == (ZF_IN const ZFCallback &ref) const {return (this->objectCompare(ref) == ZFCompareTheSame);}
     zfbool operator != (ZF_IN const ZFCallback &ref) const {return (this->objectCompare(ref) != ZFCompareTheSame);}
     static ZFCallback _ZFP_ZFCallbackCreate(ZF_IN ZFCallbackType callbackType,
-                                            ZF_IN ZFObject *callbackOwnerObj,
+                                            ZF_IN ZFObject *callbackOwnerObject,
                                             ZF_IN const ZFMethod *callbackMethod,
-                                            ZF_IN ZFFuncAddrType callbackRawFunc);
+                                            ZF_IN ZFFuncAddrType callbackRawFunction,
+                                            ZF_IN _ZFP_ZFCallbackLambda *callbackLambdaImpl,
+                                            ZF_IN _ZFP_ZFCallbackLambda::DestroyCallback callbackLambdaImplDestroy);
     /** @endcond */
 
     _ZFP_ZFCALLBACK_INVOKER(0)
@@ -225,7 +173,7 @@ public:
      * -  #callbackType
      * -  #callbackOwnerObject
      * -  #callbackMethod
-     * -  #callbackFunctionAddr
+     * -  #callbackRawFunction
      */
     zffinal ZFCompareResult objectCompare(ZF_IN const ZFCallback &ref) const;
     /**
@@ -323,7 +271,7 @@ public:
     /**
      * @brief get static function, valid only if type is #ZFCallbackTypeRawFunction
      */
-    zffinal ZFFuncAddrType callbackFunctionAddr(void) const;
+    zffinal ZFFuncAddrType callbackRawFunction(void) const;
 
     /**
      * @brief clear and reset to dummy callback,
@@ -408,8 +356,8 @@ public:
 
 private:
     _ZFP_ZFCallbackPrivate *d;
-    ZFFuncAddrType _ZFP_ZFCallbackCached_callbackInvoker_rawFunction(void) const;
-    ZFObject *_ZFP_ZFCallbackCached_callbackOwnerObj(void) const;
+    zffinal _ZFP_ZFCallbackLambda *_ZFP_ZFCallback_callbackLambdaImpl(void) const;
+    zffinal ZFFuncAddrType _ZFP_ZFCallback_callbackLambdaInvoker(void) const;
 };
 
 // ============================================================
@@ -420,6 +368,8 @@ private:
 #define ZFCallbackNull() \
     ZFCallback::_ZFP_ZFCallbackCreate( \
         ZFCallbackTypeDummy, \
+        zfnull, \
+        zfnull, \
         zfnull, \
         zfnull, \
         zfnull)
@@ -435,6 +385,8 @@ private:
         ZFCallbackTypeMethod, \
         zfnull, \
         zfmethod, \
+        zfnull, \
+        zfnull, \
         zfnull)
 
 /**
@@ -449,6 +401,8 @@ private:
         ZFCallbackTypeMemberMethod, \
         obj, \
         zfmethod, \
+        zfnull, \
+        zfnull, \
         zfnull)
 
 /**
@@ -456,12 +410,83 @@ private:
  *
  * assert fail if function address not valid
  */
-#define ZFCallbackForFunc(callbackRawFunc) \
+#define ZFCallbackForFunc(callbackRawFunction) \
     ZFCallback::_ZFP_ZFCallbackCreate( \
         ZFCallbackTypeRawFunction, \
         zfnull, \
         zfnull, \
-        (ZFFuncAddrType)(callbackRawFunc))
+        (ZFFuncAddrType)(callbackRawFunction), \
+        zfnull, \
+        zfnull)
+
+// ============================================================
+// child callback declare
+#define _ZFP_ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
+    zfclassLikePOD ZF_ENV_EXPORT CallbackTypeName : zfextendsLikePOD ParentType \
+    { \
+        _ZFP_ZFCALLBACK_DECLARE_CONSTRUCTORS(CallbackTypeName, ParentType) \
+    public:
+#define _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
+    };
+#define _ZFP_ZFCALLBACK_DECLARE_CONSTRUCTORS(CallbackTypeName, ParentType) \
+    public: \
+        /** @cond ZFPrivateDoc */ \
+        CallbackTypeName(void) \
+        : ParentType() \
+        { \
+        } \
+        CallbackTypeName(ZF_IN const ZFCallback &ref) \
+        : ParentType(ref) \
+        { \
+        } \
+        CallbackTypeName &operator = (const CallbackTypeName &ref) \
+        { \
+            ZFCallback::operator = (ref); \
+            return *this; \
+        } \
+        /** @endcond */
+/**
+ * @brief see #ZFCALLBACK_DECLARE_BEGIN
+ */
+#define ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
+    _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType) \
+    ZFTYPEID_ALIAS_DECLARE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
+#define _ZFP_ZFCALLBACK_DECLARE_END_NO_ALIAS(CallbackTypeName, ParentType) \
+    _ZFP_ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
+
+/**
+ * @brief util macro to declare a child type of ZFCallback
+ *
+ * declaration:
+ * @code
+ *   // in header file
+ *   // declare by default:
+ *   ZFCALLBACK_DECLARE(CallbackTypeName, ParentType)
+ *
+ *   // if you need extra functions
+ *   ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType)
+ *       // your extra functions here
+ *       // it's not allowed to add member variables
+ *   ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
+ *
+ *   // in source file
+ *   ZFCALLBACK_DEFINE(CallbackTypeName, ParentType)
+ * @endcode
+ */
+#define ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
+    _ZFP_ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType)
+/**
+ * @brief see #ZFCALLBACK_DECLARE_BEGIN
+ */
+#define ZFCALLBACK_DECLARE(CallbackTypeName, ParentType) \
+    ZFCALLBACK_DECLARE_BEGIN(CallbackTypeName, ParentType) \
+    ZFCALLBACK_DECLARE_END(CallbackTypeName, ParentType)
+
+/**
+ * @brief see #ZFCALLBACK_DECLARE_BEGIN
+ */
+#define ZFCALLBACK_DEFINE(CallbackTypeName, ParentType) \
+    ZFTYPEID_ALIAS_DEFINE(ZFCallback, ZFCallback, CallbackTypeName, CallbackTypeName)
 
 // ============================================================
 /**

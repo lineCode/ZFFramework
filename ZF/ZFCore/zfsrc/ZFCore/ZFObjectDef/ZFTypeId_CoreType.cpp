@@ -1065,6 +1065,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallbackType, ZFCallbackType, {
             ZFTOKEN_ZFCallbackTypeMethod,
             ZFTOKEN_ZFCallbackTypeMemberMethod,
             ZFTOKEN_ZFCallbackTypeRawFunction,
+            ZFTOKEN_ZFCallbackTypeLambda,
         });
         zfindex matched = zfsCheckMatch(tokens, ZFM_ARRAY_SIZE(tokens), src, srcLen);
         v = ZFCallbackTypeDummy;
@@ -1099,6 +1100,9 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallbackType, ZFCallbackType, {
                 return zftrue;
             case ZFCallbackTypeRawFunction:
                 s += ZFTOKEN_ZFCallbackTypeRawFunction;
+                return zftrue;
+            case ZFCallbackTypeLambda:
+                s += ZFTOKEN_ZFCallbackTypeLambda;
                 return zftrue;
             default:
                 zfCoreCriticalShouldNotGoHere();

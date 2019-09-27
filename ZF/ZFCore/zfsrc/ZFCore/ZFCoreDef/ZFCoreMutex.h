@@ -47,7 +47,7 @@ inline ZFCoreMutexImplCallbackLock ZFCoreMutexImplGetLock(void) {return _ZFP_ZFC
 inline ZFCoreMutexImplCallbackUnlock ZFCoreMutexImplGetUnlock(void) {return _ZFP_ZFCoreMutexImplUnlock;}
 
 /** @brief see #ZFCoreMutexImplSet */
-inline zfbool ZFCoreMutexImplAvailable(void) {return _ZFP_ZFCoreMutexImplObject;}
+inline zfbool ZFCoreMutexImplAvailable(void) {return (_ZFP_ZFCoreMutexImplObject != zfnull);}
 
 // ============================================================
 /**

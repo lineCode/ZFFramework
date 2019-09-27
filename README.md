@@ -71,8 +71,9 @@ Homepage:
         ZFLISTENER_LOCAL(onClick, {
             ZFUIButtonBasic *button = userData->objectHolded();
             zfLogTrimT() << "button clicked:" << button;
+            zfLogTrimT() << "sender:" << listenerData.sender;
         })
-        button->observerAdd(ZFUIButton::EventButtonOnClick(), onClick, button->objectHolder());
+        button->onClick(onClick, button->objectHolder());
 
         return 0;
     }
@@ -96,10 +97,10 @@ Homepage:
     window:childAdd(button)
     button:layoutParam():layoutAlignSet(ZFUIAlign.e_RightInner())
     button:buttonLabelTextSet('click me')
-    button:observerAdd(
-        ZFUIButton.EventButtonOnClick(),
+    button:onClick(
         function (listenerData, userData)
             zfLog('button clicked: %s', userData:objectHolded())
+            zfLog('sender: %s', listenerData:sender())
         end,
         button:objectHolder())
 ```

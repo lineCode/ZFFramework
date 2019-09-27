@@ -1536,6 +1536,16 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFXmlItem, void, xmlTextCDATASet, ZF
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFXmlItem, zfbool, xmlTextCDATA)
 
 // ============================================================
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlElement) {return ZFXmlItem(ZFXmlType::e_XmlElement);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlAttribute) {return ZFXmlItem(ZFXmlType::e_XmlAttribute);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlText) {return ZFXmlItem(ZFXmlType::e_XmlText);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlComment) {return ZFXmlItem(ZFXmlType::e_XmlComment);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlDocument) {return ZFXmlItem(ZFXmlType::e_XmlDocument);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlDeclaration) {return ZFXmlItem(ZFXmlType::e_XmlDeclaration);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlDocType) {return ZFXmlItem(ZFXmlType::e_XmlDocType);}
+ZFMETHOD_FUNC_DEFINE_0(ZFXmlItem, ZFXmlPI) {return ZFXmlItem(ZFXmlType::e_XmlPI);}
+
+// ============================================================
 ZFMETHOD_FUNC_DEFINE_1(ZFXmlItem, ZFXmlItemFromInput,
                        ZFMP_IN(const ZFInput &, callback))
 {

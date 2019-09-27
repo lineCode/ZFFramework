@@ -1481,6 +1481,7 @@ void ZFClass::_ZFP_ZFClass_methodUnregister(ZF_IN const ZFMethod *method) const
                 if(l.empty())
                 {
                     d->methodMap.erase(itName);
+                    break;
                 }
                 d->methodList.removeElement(method);
             }

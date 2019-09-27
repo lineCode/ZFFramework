@@ -376,6 +376,23 @@ private:
 ZFTYPEID_DECLARE(ZFXmlItem, ZFXmlItem)
 ZFOUTPUT_TYPE(ZFXmlItem, {output << v.objectInfo();})
 
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlElement)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlAttribute)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlText)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlComment)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlDocument)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlDeclaration)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlDocType)
+/** @brief util to create #ZFXmlItem */
+ZFMETHOD_FUNC_DECLARE_0(ZFXmlItem, ZFXmlPI)
+
 // ============================================================
 // ZFXmlVisitData
 /**

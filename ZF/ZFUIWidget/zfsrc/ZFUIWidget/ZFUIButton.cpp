@@ -450,6 +450,18 @@ ZFMETHOD_DEFINE_1(ZFUIButton, void, buttonSimulateClick,
     d->buttonClicked(event);
 }
 
+ZFMETHOD_DEFINE_5(ZFUIButton, zfidentity, onClick,
+                  ZFMP_IN(const ZFListener &, observer),
+                  ZFMP_IN_OPT(ZFObject *, userData, zfnull),
+                  ZFMP_IN_OPT(ZFObject *, owner, zfnull),
+                  ZFMP_IN_OPT(zfbool, autoRemoveAfterActivate, zffalse),
+                  ZFMP_IN_OPT(ZFLevel, observerLevel, ZFLevelAppNormal))
+{
+    return this->observerAdd(ZFUIButton::EventButtonOnClick(),
+            observer, userData, owner, autoRemoveAfterActivate, observerLevel
+        );
+}
+
 void ZFUIButton::viewEventOnMouseEvent(ZF_IN ZFUIMouseEvent *mouseEvent)
 {
     zfsuper::viewEventOnMouseEvent(mouseEvent);

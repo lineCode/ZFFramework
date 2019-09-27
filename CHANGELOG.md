@@ -1,6 +1,6 @@
-# 0.8.1
+# 0.9.0RC
 
-* optimize optional impl
+* add lambda implemented by pure C++03
 
 # 0.8.0
 
