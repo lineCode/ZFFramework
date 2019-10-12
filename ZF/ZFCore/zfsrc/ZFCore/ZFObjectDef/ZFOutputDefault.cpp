@@ -47,6 +47,16 @@ void ZFOutputDefaultRemove(ZF_IN const ZFOutput &v)
     l.removeElement(v);
 }
 
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFOutputDefaultCleanup, ZFLevelZFFrameworkEssential)
+{
+}
+ZF_GLOBAL_INITIALIZER_DESTROY(ZFOutputDefaultCleanup)
+{
+    ZFCoreArray<ZFOutput> &l = _ZFP_ZFOutputDefault_list();
+    l.removeAll();
+}
+ZF_GLOBAL_INITIALIZER_END(ZFOutputDefaultCleanup)
+
 ZF_NAMESPACE_GLOBAL_END
 
 #if _ZFP_ZFOBJECT_METHOD_REG

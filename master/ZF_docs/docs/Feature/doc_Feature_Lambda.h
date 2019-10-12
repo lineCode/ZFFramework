@@ -12,7 +12,7 @@
  *   ZFLISTENER_LAMBDA_2(onClick
  *           , ZFUIRect &, refCapture
  *           , ZFUIRect, valueCapture
- *       ), {
+ *       , {
  *           refCapture.size.width = 999;
  *           valueCapture.size.width = 999;
  *       })
