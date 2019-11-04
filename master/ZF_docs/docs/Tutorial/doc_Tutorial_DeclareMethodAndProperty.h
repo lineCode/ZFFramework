@@ -32,6 +32,6 @@
  * @endcode
  *
  * for advanced usage of method and property,
- * see @ref DocTag_Tutorial_Reflection "Reflection" for more info
+ * see @ref DocTag_Tutorial_Reflection for more info
  */
 

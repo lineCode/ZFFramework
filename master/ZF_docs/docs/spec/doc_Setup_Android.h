@@ -6,7 +6,7 @@
  * you must have these settings being prepared:
  * -  have <a href="https://developer.android.com/ndk/index.html">Android NDK</a> installed and setup properly
  *
- * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files
+ * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup for quick setup your project files
  *
  * @section DocTag_Setup_Android_ManualSetup Manual Setup
  *
@@ -63,6 +63,6 @@
  * -# ensure all of your resource files put in "src/main/assets/zfres" directory of your Android project,
  *   and ensured all of them have an extra ".mp2" as file name postfix if they are large than 1M bytes
  * -# create cpp files in your project
- *   and follow the @ref DocTag_Tutorial "Tutorial" to code with ZFFramework, enjoy
+ *   and follow the @ref DocTag_Tutorial to code with ZFFramework, enjoy
  */
 

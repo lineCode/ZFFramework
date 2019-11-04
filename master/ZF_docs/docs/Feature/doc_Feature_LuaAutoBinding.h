@@ -1,7 +1,8 @@
 /**
  * @page DocTag_Feature_LuaAutoBinding Automatically lua binding
  *
- * thanks to powerful reflection logic of ZFFramework,
+ * thanks to powerful reflection logic of ZFFramework
+ * (see also @ref DocTag_Tutorial_Reflection),
  * we are able to achieve automatically lua binding without any other code\n
  * all reflectable #ZFClass/#ZFMethod/#ZFProperty
  * would be binded to lua automatically,
@@ -35,5 +36,29 @@
  * @endcode
  *
  * param and return supports any type that are registered by #ZFTYPEID_DECLARE
+ * @code
+ *   // header file
+ *   class YourType
+ *   {
+ *   public:
+ *       int yourProp;
+ *   };
+ *
+ *   ZFTYPEID_DECLARE(YourType, YourType)
+ *
+ *   // source file
+ *   ZFTYPEID_DEFINE_BY_STRING_CONVERTER(YourType, YourType, {
+ *           v.yourProp = yourParser(src, srcLen);
+ *           return zftrue;
+ *       }, {
+ *           yourPrinter(s, v);
+ *           return zftrue;
+ *       })
+ *   ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_YourType, zfint, yourProp)
+ *
+ *   // in lua
+ *   local obj = YourType();
+ *   local yourProp = obj:yourProp();
+ * @endcode
  */
 

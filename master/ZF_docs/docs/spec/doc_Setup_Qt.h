@@ -6,7 +6,7 @@
  * you must have these settings being prepared:
  * -  have qmake and proper make in your system path
  *
- * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup "Quick setup" for quick setup your project files
+ * once prepared, it's recommended to follow @ref DocTag_Setup_QuickSetup for quick setup your project files
  *
  * @section DocTag_Setup_Qt_ManualSetup Manual Setup
  *
@@ -55,6 +55,6 @@
  *                   zfres/
  *     @endcode
  * -# create cpp files in your project
- *   and follow the @ref DocTag_Tutorial "Tutorial" to code with ZFFramework, enjoy
+ *   and follow the @ref DocTag_Tutorial to code with ZFFramework, enjoy
  */
 

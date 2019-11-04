@@ -53,5 +53,39 @@
  *   // also, must ensure all the type matches the original type
  *   property->setterMethod()->execute<void, Type const &>(obj, newValue);
  * @endcode
+ *
+ * @section DocTag_Tutorial_Reflection_ExistingClass Existing class
+ * any existing class can also be reflectable if you are able to supply
+ * some extra registration code:
+ * @code
+ *   // header file
+ *   class YourType
+ *   {
+ *   public:
+ *       int yourProp;
+ *   };
+ *
+ *   ZFTYPEID_DECLARE(YourType, YourType)
+ *
+ *   // source file
+ *   ZFTYPEID_DEFINE_BY_STRING_CONVERTER(YourType, YourType, {
+ *           v.yourProp = yourParser(src, srcLen);
+ *           return zftrue;
+ *       }, {
+ *           yourPrinter(s, v);
+ *           return zftrue;
+ *       })
+ *   ZFMETHOD_USER_REGISTER_FOR_WRAPPER_VAR(v_YourType, zfint, yourProp)
+ * @endcode
+ * once registered:
+ * @code
+ *   zfautoObject obj = ZFClass::classForName("v_YourType")->newInstance();
+ *   int yourProp = obj->methodForName("yourProp")->execute<zfint>(obj);
+ * @endcode
+ * or even for lua: (see also @ref DocTag_Feature_LuaAutoBinding)
+ * @code
+ *   local obj = YourType();
+ *   local yourProp = obj:yourProp();
+ * @endcode
  */
 

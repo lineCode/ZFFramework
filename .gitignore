@@ -1,6 +1,6 @@
 # spec
 /private
-/master/ZF_docs/Doxygen/Doxygen.exe
+/master/ZF_docs/Doxygen/doxy*.exe
 /master/ZF_docs/Doxygen/libclang.dll
 
 # common
