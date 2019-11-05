@@ -22,16 +22,22 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 zfclassFwd _ZFP_ZFAnimationTimeLinePrivate;
 /**
- * @brief abstract animation based on time line
+ * @brief animation based on time line
+ *
+ * this is a dummy animation holder which do nothing by default,
+ * you should either:
+ * -  supply subclass and implement actual animation by overriding
+ *   #aniTimeLineOnUpdate
+ * -  attach observer to #EventAniTimeLineOnUpdate
  *
  * serializable data:
  * @code
  *   <ZFAnimationTimeLine />
  * @endcode
  */
-zfabstract ZF_ENV_EXPORT ZFAnimationTimeLine : zfextends ZFAnimation
+zfclass ZF_ENV_EXPORT ZFAnimationTimeLine : zfextends ZFAnimation
 {
-    ZFOBJECT_DECLARE_ABSTRACT(ZFAnimationTimeLine, ZFAnimation)
+    ZFOBJECT_DECLARE(ZFAnimationTimeLine, ZFAnimation)
 
 public:
     // ============================================================
@@ -89,7 +95,7 @@ protected:
      * which typically has value in range [0, 1] as base value,
      * but may exceeds the range for bounce curve
      */
-    virtual void aniTimeLineOnUpdate(ZF_IN zffloat progress) zfpurevirtual;
+    virtual void aniTimeLineOnUpdate(ZF_IN zffloat progress);
 
 private:
     _ZFP_ZFAnimationTimeLinePrivate *d;

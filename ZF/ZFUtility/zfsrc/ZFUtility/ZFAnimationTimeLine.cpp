@@ -24,9 +24,7 @@ public:
 
     ZFLISTENER_INLINE(timerOnEvent)
     {
-        zffloat progress = zfmApplyRange(
-            (zffloat)(ZFTime::timestamp() - this->timeStart) / this->pimplOwner->aniDurationFixed()
-            , (zffloat)0, (zffloat)1);
+        zffloat progress = (ZFTime::timestamp() - this->timeStart) / this->pimplOwner->aniDurationFixed();
         if(this->pimplOwner->aniTimeLineCurve() != zfnull)
         {
             progress = this->pimplOwner->aniTimeLineCurve()->progressUpdate(progress);
