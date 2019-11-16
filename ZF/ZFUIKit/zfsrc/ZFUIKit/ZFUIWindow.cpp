@@ -150,7 +150,7 @@ ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowShow)
 ZFMETHOD_DEFINE_0(ZFUIWindow, void, windowHide)
 {
     zfRetain(this);
-    ZFUIRootView *rootView = ZFCastZFObject(ZFUIRootView *, this->viewParentVirtual());
+    ZFUIRootView *rootView = ZFCastZFObject(ZFUIRootView *, this->viewParent());
     if(rootView != zfnull)
     {
         rootView->_ZFP_ZFUIRootView_windowList.removeElement(this);

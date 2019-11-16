@@ -244,37 +244,6 @@ public:
     // ============================================================
     // properties
     /**
-     * @brief class name of a ZFUIView class,
-     *   if set, all children would be managed by the delegate view
-     *
-     * if set, an instance of the class would be created and saved as
-     * this view's delegate,
-     * after that, all children would be managed by the delegate
-     * (a complete list of functions affected by delegate would be listed below)\n
-     * note: changing this property would cause all children been moved\n
-     * \n
-     * here's a list of functions that would be affected by delegate view:
-     * -  #ZFUIView::childFindById
-     * -  #ZFUIView::childAdd
-     * -  #ZFUIView::childRemove
-     * -  #ZFUIView::childRemoveAtIndex
-     * -  #ZFUIView::childRemoveAll
-     * -  #ZFUIView::childMove
-     * -  #ZFUIView::childReplaceAtIndex
-     * -  #ZFUIView::childCount
-     * -  #ZFUIView::childAtIndex
-     * -  #ZFUIView::childFind
-     * -  #ZFUIView::childArray
-     * -  #ZFUIView::childRawArray
-     * -  #ZFUIView::layoutOnMeasure
-     * -  #ZFUIView::layoutOnMeasureFinish
-     * -  #ZFUIView::layoutOnLayoutPrepare
-     * -  #ZFUIView::layoutOnLayout
-     * -  #ZFUIView::layoutOnLayoutFinish
-     */
-    ZFPROPERTY_ASSIGN(zfstring, viewDelegateClass)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, viewDelegateClass)
-    /**
      * @brief used to identify a view, empty by default
      *
      * this is useful when you want to find a view from a complicated view tree,
@@ -377,9 +346,6 @@ public:
     zfoverride
     virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj);
 
-public:
-    zfoverride
-    virtual void objectInfoT(ZF_IN_OUT zfstring &ret);
 protected:
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);
@@ -485,9 +451,7 @@ protected:
      * which is not necessary during parent dealloc
      * (which may cause performance issue),
      * so we use this method to remove all children directly during parent dealloc
-     * to improve performance\n
-     * this method would be used only if #viewDelegate is not set,
-     * otherwise, if it's set, normal #childRemoveAll would be used instead
+     * to improve performance
      */
     virtual void implChildOnRemoveAllForDealloc(void);
 
@@ -505,85 +469,6 @@ public:
     ZFMETHOD_DECLARE_0(void *, nativeView)
     static void _ZFP_ZFUIView_nativeViewNotifyAdd(ZF_IN ZFUIView *view, ZF_IN void *nativeParentView);
     static void _ZFP_ZFUIView_nativeViewNotifyRemove(ZF_IN ZFUIView *view);
-
-    // ============================================================
-    // view delegate logic
-protected:
-    /**
-     * @brief manually set the view delegate, see #ZFUIView::viewDelegateClass
-     *
-     * note, this method is not serializable,
-     * this method and #ZFUIView::viewDelegateClass is exclusive
-     * and would override with each other\n
-     * this method is not affected by #viewDelegateSupported
-     */
-    virtual void viewDelegateSet(ZF_IN ZFUIView *viewDelegate);
-    /**
-     * @brief whether this view support delegate view logic
-     */
-    virtual inline zfbool viewDelegateSupported(void)
-    {
-        return zftrue;
-    }
-public:
-    /**
-     * @brief true if this view is a delegate view for parent
-     */
-    ZFMETHOD_DECLARE_0(zfbool, viewDelegateForParent)
-    /**
-     * @brief delegate parent of this view, null if this view is added normally
-     * @see viewParent, viewParentVirtual
-     */
-    ZFMETHOD_DECLARE_0(ZFUIView *, viewDelegateParent)
-    /**
-     * @brief see #ZFUIView::viewDelegateClass
-     */
-    ZFMETHOD_DECLARE_0(ZFUIView *, viewDelegate)
-    /**
-     * @brief util method to #viewDelegate
-     */
-    template<typename T_ZFObject>
-    inline T_ZFObject viewDelegate(void)
-    {
-        return ZFCastZFObjectUnchecked(T_ZFObject, this->viewDelegate());
-    }
-protected:
-    /**
-     * @brief called to init delegate view
-     */
-    virtual inline void viewDelegateOnInit(ZF_IN ZFUIView *viewDelegate)
-    {
-    }
-    /**
-     * @brief called to destroy delegate view
-     */
-    virtual inline void viewDelegateOnDealloc(ZF_IN ZFUIView *viewDelegate)
-    {
-    }
-    /**
-     * @brief see ##ZFUIView::viewDelegateClass, #layoutOnMeasure
-     */
-    virtual void viewDelegateLayoutOnMeasure(ZF_OUT ZFUISize &ret,
-                                             ZF_IN const ZFUISize &sizeHint,
-                                             ZF_IN const ZFUISizeParam &sizeParam);
-    /**
-     * @brief see ##ZFUIView::viewDelegateClass, #layoutOnMeasureFinish
-     */
-    virtual void viewDelegateLayoutOnMeasureFinish(ZF_IN_OUT ZFUISize &measuredSize,
-                                                   ZF_IN const ZFUISize &sizeHint,
-                                                   ZF_IN const ZFUISizeParam &sizeParam);
-    /**
-     * @brief see ##ZFUIView::viewDelegateClass, #layoutOnLayoutPrepare
-     */
-    virtual void viewDelegateLayoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds);
-    /**
-     * @brief see ##ZFUIView::viewDelegateClass, #layoutOnLayout
-     */
-    virtual void viewDelegateLayoutOnLayout(ZF_IN const ZFUIRect &bounds);
-    /**
-     * @brief see ##ZFUIView::viewDelegateClass, #layoutOnLayoutFinish
-     */
-    virtual void viewDelegateLayoutOnLayoutFinish(ZF_IN const ZFUIRect &bounds);
 
     // ============================================================
     // view focus
@@ -623,13 +508,8 @@ public:
                                              ZF_IN ZFUIViewChildLayerEnum viewLayer);
     /**
      * @brief parent view or null if none
-     * @see viewParentVirtual, viewDelegateParent
      */
     ZFMETHOD_DECLARE_0(ZFUIView *, viewParent)
-    /**
-     * @brief return #viewDelegateParent if exist, or #viewParent otherwise
-     */
-    ZFMETHOD_DECLARE_0(ZFUIView *, viewParentVirtual)
 
     /**
      * @brief remove this view from parent or do nothing if no parent

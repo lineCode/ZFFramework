@@ -220,19 +220,18 @@ public:
      *   true by default
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, dialogWindowAutoResize, zftrue)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, dialogWindowAutoResize)
 
     /**
-     * @brief whether automatically fix frame accorrding to #ZFUIOnScreenKeyboardAutoFitStart,
+     * @brief whether automatically fix frame accorrding to #ZFUIOnScreenKeyboardAutoFitLayout,
      *   false by default
      *
-     * auto fit settings can be changed by #dialogWindowAutoFit
+     * auto fit settings can be changed by #dialogWindowAutoFitLayout
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, dialogWindowAutoFit, zffalse)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfbool, dialogWindowAutoFit)
     /** @brief see #dialogWindowAutoFit */
-    ZFMETHOD_INLINE_0(ZFUIOnScreenKeyboardAutoFitLayout *, dialogWindowAutoFitLayout)
-    {
-        return ZFCastZFObject(ZFUIOnScreenKeyboardAutoFitLayout *, this->dialogWindow()->viewDelegate());
-    }
+    ZFMETHOD_DECLARE_0(ZFUIOnScreenKeyboardAutoFitLayout *, dialogWindowAutoFitLayout)
 
 public:
     /**

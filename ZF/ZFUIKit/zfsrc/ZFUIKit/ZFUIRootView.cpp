@@ -30,12 +30,6 @@ ZFMETHOD_DEFINE_0(ZFUIRootView, const ZFCoreArrayPOD<ZFUIWindow *> &, windowList
     return _ZFP_ZFUIRootView_windowList;
 }
 
-void ZFUIRootView::viewDelegateSet(ZF_IN ZFUIView *viewDelegate)
-{
-    zfCoreAssertWithMessage(viewDelegate == zfnull,
-        "you must not set delegate view from ZFUIRootView, delegate: %s",
-        ZFObjectInfo(viewDelegate).cString());
-}
 void ZFUIRootView::viewOnAddToParent(ZF_IN ZFUIView *parent)
 {
     zfCoreCriticalMessage(

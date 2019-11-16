@@ -38,7 +38,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, viewIsChildOf,
             {
                 return zftrue;
             }
-            tmp = tmp->viewParentVirtual();
+            tmp = tmp->viewParent();
         } while(tmp != zfnull);
     }
     return zffalse;

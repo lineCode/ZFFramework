@@ -25,21 +25,22 @@ protected:
         ZFUIView *container = zfnull;
         ZFUIKit_test_prepareTestWindow(window, container, this);
 
-        ZFUIOnScreenKeyboardAutoFitLayout *layout = ZFUIOnScreenKeyboardAutoFitStart(window);
+        zfblockedAlloc(ZFUIOnScreenKeyboardAutoFitLayout, layout);
+        container->childAdd(layout, ZFUISizeParamFillFill());
         this->prepareSettingButton(window, layout);
 
-        container->viewBackgroundColorSet(ZFUIColorGreen());
+        layout->viewBackgroundColorSet(ZFUIColorGreen());
         for(zfindex i = 0; i < 3; ++i)
         {
             zfblockedAlloc(ZFUITextEdit, view);
-            container->childAdd(view);
+            layout->childAdd(view);
             view->layoutParam()->sizeParamSet(ZFUISizeParamFillWrap());
             view->viewBackgroundColorSet(ZFUIColorRandom());
             view->layoutParam()->layoutMarginSet(ZFUIMarginMake(10));
         }
-        container->childAtIndex(0)->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
-        container->childAtIndex(1)->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        container->childAtIndex(2)->layoutParam()->layoutAlignSet(ZFUIAlign::e_BottomInner);
+        layout->childAtIndex(0)->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
+        layout->childAtIndex(1)->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
+        layout->childAtIndex(2)->layoutParam()->layoutAlignSet(ZFUIAlign::e_BottomInner);
     }
 
 private:

@@ -24,7 +24,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * resize logic are done by changing window's #ZFUIViewLayoutParam::layoutMargin\n
  * \n
- * #ZFUIOnScreenKeyboardAutoFitStop would be applied automatically when owner window destroyed
+ * #ZFUIOnScreenKeyboardAutoResizeStop would be applied automatically when owner window destroyed
  */
 ZFMETHOD_FUNC_DECLARE_1(void, ZFUIOnScreenKeyboardAutoResizeStart,
                         ZFMP_IN(ZFUIWindow *, window))

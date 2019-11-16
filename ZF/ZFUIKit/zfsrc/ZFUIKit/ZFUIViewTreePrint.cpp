@@ -137,12 +137,6 @@ ZFMETHOD_FUNC_DEFINE_2(void, ZFUIViewTreePrint,
         _ZFP_ZFUIViewTreePrintPrintData printData = printDatas.getLast();
         printDatas.removeLast();
 
-        // ignore delegate view
-        if(printData.view->viewDelegateForParent())
-        {
-            continue;
-        }
-
         // all children
         ZFCoreArrayPOD<ZFUIView *> implViews = printData.view->internalImplViewArray();
         ZFCoreArrayPOD<ZFUIView *> bgViews = printData.view->internalBgViewArray();

@@ -115,7 +115,7 @@ public:
     ZFAnimationNativeView *dialogWindowAniHide;
     ZFUIButton *dialogClickMask;
     ZFUIImageView *dialogBg;
-    ZFUIView *dialogContainer;
+    ZFUIOnScreenKeyboardAutoFitLayout *dialogContainer;
     ZFListener aniShowOnStopListener;
     ZFListener aniHideOnStopListener;
 
@@ -335,6 +335,28 @@ ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIDialog, ZFUIView *, dialogView)
     }
 }
 
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIDialog, zfbool, dialogWindowAutoResize)
+{
+    if(this->dialogWindowAutoResize())
+    {
+        this->dialogWindowAutoFitSet(zffalse);
+    }
+}
+
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIDialog, zfbool, dialogWindowAutoFit)
+{
+    if(this->dialogWindowAutoFit())
+    {
+        this->dialogWindowAutoResizeSet(zffalse);
+    }
+    this->dialogWindowAutoFitLayout()->autoFitEnableSet(this->dialogWindowAutoFit());
+}
+
+ZFMETHOD_DEFINE_0(ZFUIDialog, ZFUIOnScreenKeyboardAutoFitLayout *, dialogWindowAutoFitLayout)
+{
+    return d->dialogContainer;
+}
+
 ZFMETHOD_DEFINE_0(ZFUIDialog, zfbool, dialogShowing)
 {
     return d->windowShowing();
@@ -352,10 +374,6 @@ ZFMETHOD_DEFINE_0(ZFUIDialog, void, dialogShow)
     if(this->dialogWindowAutoResize())
     {
         ZFUIOnScreenKeyboardAutoResizeStart(this->dialogWindow());
-    }
-    if(this->dialogWindowAutoFit())
-    {
-        ZFUIOnScreenKeyboardAutoFitStart(this->dialogWindow());
     }
 
     d->viewUIEnableTreeSet(zffalse);
@@ -396,10 +414,6 @@ ZFMETHOD_DEFINE_0(ZFUIDialog, void, dialogHide)
     if(this->dialogWindowAutoResize())
     {
         ZFUIOnScreenKeyboardAutoResizeStop(this->dialogWindow());
-    }
-    if(this->dialogWindowAutoFit())
-    {
-        ZFUIOnScreenKeyboardAutoFitStop(this->dialogWindow());
     }
 
     d->viewUIEnableTreeSet(zffalse);
@@ -506,7 +520,7 @@ void ZFUIDialog::objectOnInit(void)
     d->dialogBg->viewUIEnableTreeSet(zftrue);
     d->dialogBg->viewUIEnableSet(zftrue);
 
-    d->dialogContainer = zfAlloc(ZFUIViewLayout);
+    d->dialogContainer = zfAlloc(ZFUIOnScreenKeyboardAutoFitLayout);
     d->dialogBg->childAdd(d->dialogContainer);
     d->dialogContainer->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
 

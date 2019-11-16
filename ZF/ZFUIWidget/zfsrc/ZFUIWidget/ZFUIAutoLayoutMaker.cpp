@@ -36,20 +36,20 @@ public:
 public:
     void zfal_maker(ZF_IN ZFUIView *child, ZF_IN_OPT ZFUIAutoLayout *parent = zfnull)
     {
-        if(child->viewParentVirtual() == zfnull && parent != zfnull)
+        if(child->viewParent() == zfnull && parent != zfnull)
         {
             parent->childAdd(child);
         }
 
         zfCoreAssertWithMessageTrim(child != zfnull,
             "[ZFUIAutoLayoutMaker] null child");
-        zfCoreAssertWithMessageTrim(child->viewParentVirtual() != zfnull,
+        zfCoreAssertWithMessageTrim(child->viewParent() != zfnull,
             "[ZFUIAutoLayoutMaker] child must be added to %s",
             ZFUIAutoLayout::ClassData()->className());
-        zfCoreAssertWithMessageTrim(child->viewParentVirtual() != zfnull,
+        zfCoreAssertWithMessageTrim(child->viewParent() != zfnull,
             "[ZFUIAutoLayoutMaker] child's parent must be %s, got: %s",
             ZFUIAutoLayout::ClassData()->className(),
-            child->viewParentVirtual()->objectInfoOfInstance().cString());
+            child->viewParent()->objectInfoOfInstance().cString());
         this->done();
         this->child = child;
     }
@@ -62,7 +62,7 @@ public:
         zfCoreAssertWithMessageTrim(
             this->ruleAttached[0]->target() != zfnull,
             "[ZFUIAutoLayoutMaker] target rule not set (toLeft/toWidth etc)");
-        ZFUIAutoLayout *parent = ZFCastZFObject(ZFUIAutoLayout *, this->child->viewParentVirtual());
+        ZFUIAutoLayout *parent = ZFCastZFObject(ZFUIAutoLayout *, this->child->viewParent());
         for(zfindex i = 0; i < this->ruleAttached.count(); ++i)
         {
             parent->ruleSet(this->child, this->ruleAttached[i]->pos(), *(this->ruleAttached[i]));
@@ -123,7 +123,7 @@ public:
         this->requirePos();
         if(target == zfnull)
         {
-            target = this->child->viewParentVirtual();
+            target = this->child->viewParent();
         }
         for(zfindex i = this->ruleAttached.count() - 1; i != zfindexMax(); --i)
         {
@@ -136,7 +136,7 @@ public:
         this->requirePos();
         if(target == zfnull)
         {
-            target = this->child->viewParentVirtual();
+            target = this->child->viewParent();
         }
         for(zfindex i = this->ruleAttached.count() - 1; i != zfindexMax(); --i)
         {

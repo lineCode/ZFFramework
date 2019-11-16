@@ -297,7 +297,7 @@ zfbool ZFUIAutoLayout::_ZFP_updateTarget(ZF_IN ZFUIView *child, ZF_IN_OUT ZFUIAu
 }
 zfbool ZFUIAutoLayout::_ZFP_updateTargetId(ZF_IN ZFUIView *child, ZF_IN_OUT ZFUIAutoLayoutRule &rule)
 {
-    if(rule.target() == zfnull || (rule.target() != this && rule.target()->viewParentVirtual() != this))
+    if(rule.target() == zfnull || (rule.target() != this && rule.target()->viewParent() != this))
     {
         return zffalse;
     }

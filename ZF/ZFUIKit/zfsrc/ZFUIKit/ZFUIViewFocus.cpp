@@ -109,7 +109,7 @@ static void _ZFP_ZFUIViewFocusNextFind(ZF_OUT ZFCoreArrayPOD<_ZFP_ZFUIViewFocusD
                                        ZF_IN zfint offsetX,
                                        ZF_IN zfint offsetY)
 {
-    if(view->viewDelegateForParent() || !ZFUIViewFocusNextFilter().filterCheckActive(view))
+    if(!ZFUIViewFocusNextFilter().filterCheckActive(view))
     {
         return ;
     }
@@ -367,13 +367,13 @@ ZFMETHOD_FUNC_DEFINE_2(ZFUIView *, ZFUIViewFocusNextFind,
 
     ZFUIView *root = view;
     ZFUIPoint viewCenter = ZFUIRectGetCenter(view->layoutedFrame());
-    while(root->viewParentVirtual() != zfnull
+    while(root->viewParent() != zfnull
         && !root->classData()->classIsTypeOf(ZFUIWindow::ClassData())
         && root != param.focusEndParent())
     {
         viewCenter.x += root->layoutedFrame().point.x;
         viewCenter.y += root->layoutedFrame().point.y;
-        root = root->viewParentVirtual();
+        root = root->viewParent();
     }
     ZFCoreArrayPOD<_ZFP_ZFUIViewFocusData> focusDatas;
     _ZFP_ZFUIViewFocusNextFind(focusDatas, root, param.focusInternalViews(), 0, 0);

@@ -25,13 +25,10 @@ zfclassFwd _ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate;
 /**
  * @brief a scroll container that automatically fits content's position
  *   accorrding #ZFUIOnScreenKeyboardState
- *
- * recommended set as #ZFUIView::viewDelegateClass,
- * you may use #ZFUIOnScreenKeyboardAutoFitStart for short
  */
-zfclass ZF_ENV_EXPORT ZFUIOnScreenKeyboardAutoFitLayout : zfextends ZFUIView
+zfclass ZF_ENV_EXPORT ZFUIOnScreenKeyboardAutoFitLayout : zfextends ZFUIScrollView
 {
-    ZFOBJECT_DECLARE(ZFUIOnScreenKeyboardAutoFitLayout, ZFUIView)
+    ZFOBJECT_DECLARE(ZFUIOnScreenKeyboardAutoFitLayout, ZFUIScrollView)
     ZFSTYLE_DEFAULT_DECLARE(ZFUIOnScreenKeyboardAutoFitLayout)
 
 public:
@@ -70,38 +67,31 @@ protected:
     virtual void objectOnInitFinish(void);
 
 protected:
-    zfoverride
-    virtual zfbool viewDelegateSupported(void)
-    {
-        return zffalse;
-    }
+    virtual ZFSerializablePropertyType serializableOnCheckPropertyType(ZF_IN const ZFProperty *property);
 
+protected:
     zfoverride
-    virtual void viewDelegateLayoutOnMeasure(ZF_OUT ZFUISize &ret,
-                                             ZF_IN const ZFUISize &sizeHint,
-                                             ZF_IN const ZFUISizeParam &sizeParam);
+    virtual void layoutOnMeasure(ZF_OUT ZFUISize &ret,
+                                 ZF_IN const ZFUISize &sizeHint,
+                                 ZF_IN const ZFUISizeParam &sizeParam);
     zfoverride
-    virtual void viewDelegateLayoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds);
+    virtual void layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds);
+
+protected:
+    // disable scroll thumb
+    zfoverride
+    virtual void scrollThumbHorizontalOnInit(void)
+    {
+    }
+    zfoverride
+    virtual void scrollThumbVerticalOnInit(void)
+    {
+    }
 
 private:
     _ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate *d;
     friend zfclassFwd _ZFP_ZFUIOnScreenKeyboardAutoFitLayoutPrivate;
 };
-
-// ============================================================
-/**
- * @brief util method to apply #ZFUIOnScreenKeyboardAutoFitLayout to a window
- *
- * applied to #ZFUIView::viewDelegateClass,
- * you must not change the window's #ZFUIView::viewDelegate during using the auto fit layout\n
- * \n
- * #ZFUIOnScreenKeyboardAutoFitStop would be applied automatically when owner window destroyed
- */
-ZFMETHOD_FUNC_DECLARE_1(ZFUIOnScreenKeyboardAutoFitLayout *, ZFUIOnScreenKeyboardAutoFitStart,
-                        ZFMP_IN(ZFUIWindow *, window))
-/** @brief see #ZFUIOnScreenKeyboardAutoFitStart */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFUIOnScreenKeyboardAutoFitStop,
-                        ZFMP_IN(ZFUIWindow *, window))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUIOnScreenKeyboardAutoFit_h_

@@ -253,11 +253,6 @@ public:
     // override ZFUIView
 protected:
     zfoverride
-    virtual zfbool viewDelegateSupported(void)
-    {
-        return zffalse;
-    }
-    zfoverride
     virtual void viewChildOnAdd(ZF_IN ZFUIView *child,
                                 ZF_IN ZFUIViewChildLayerEnum layer);
     zfoverride
