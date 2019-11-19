@@ -41,7 +41,7 @@ public:
                 ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange(),
                 this->onScreenKeyboardStateOnChangeListener);
 
-            this->pimplOwner->scrollContentFrameSet(ZFUIRectGetBounds(this->pimplOwner->layoutedFrame()));
+            this->pimplOwner->scrollContentFrameSet(ZFUIRectGetBounds(this->pimplOwner->viewFrame()));
             if(this->autoFitMargin == ZFUIMarginZero() || this->pimplOwner->layoutParam() == zfnull)
             {
                 return ;
@@ -83,7 +83,7 @@ public:
         }
 
         ZFUIRect orgRect = ZFUIViewPositionOnScreen(this->pimplOwner);
-        if(orgRect.size != this->pimplOwner->layoutedFrame().size)
+        if(orgRect.size != this->pimplOwner->viewFrame().size)
         {
             return ;
         }
@@ -149,7 +149,7 @@ public:
                 zfLogTrimT() << "[ZFUIOnScreenKeyboardAutoFitLayout] margin reset to" << layout->d->autoFitMargin;
             #endif
             layout->layoutParam()->layoutMarginSet(layout->d->autoFitMargin);
-            layout->scrollContentFrameSet(ZFUIRectGetBounds(layout->layoutedFrame()));
+            layout->scrollContentFrameSet(ZFUIRectGetBounds(layout->viewFrame()));
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(viewFocusOnChange)
@@ -300,7 +300,7 @@ void ZFUIOnScreenKeyboardAutoFitLayout::layoutOnLayoutPrepare(ZF_IN const ZFUIRe
 {
     zfsuper::layoutOnLayoutPrepare(bounds);
     if(!this->autoFitEnable()
-        || this->layoutedFrame().size == ZFUISizeZero() || this->layoutedFrame().size != bounds.size
+        || this->viewFrame().size == ZFUISizeZero() || this->viewFrame().size != bounds.size
         || !d->scrollEnableFlag)
     {
         this->scrollContentFrameSet(bounds);

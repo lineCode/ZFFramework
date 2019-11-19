@@ -47,7 +47,7 @@ ZFMETHOD_FUNC_DECLARE_5(ZFUIView *, viewChildAt,
  * unlike #ZFUIViewPositionOnScreen,
  * this method does not depends on impl,
  * however, result may be invalid if view's parent contains #ZFUINativeViewWrapper\n
- * this method would calculate rect depends on #ZFUIView::layoutedFrameFixed recursively
+ * this method would calculate rect depends on #ZFUIView::layoutChildOffset recursively
  */
 ZFMETHOD_FUNC_DECLARE_3(void, viewRectToParent,
                         ZFMP_OUT(ZFUIRect &, rect),

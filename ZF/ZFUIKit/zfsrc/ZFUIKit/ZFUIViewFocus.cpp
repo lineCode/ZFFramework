@@ -109,7 +109,7 @@ static void _ZFP_ZFUIViewFocusNextFind(ZF_OUT ZFCoreArrayPOD<_ZFP_ZFUIViewFocusD
     {
         _ZFP_ZFUIViewFocusData focusData;
         focusData.view = view;
-        focusData.center = ZFUIRectGetCenter(view->layoutedFrame());
+        focusData.center = ZFUIRectGetCenter(view->viewFrame());
         focusData.center.x += offsetX;
         focusData.center.y += offsetY;
         focusDatas.add(focusData);
@@ -121,8 +121,8 @@ static void _ZFP_ZFUIViewFocusNextFind(ZF_OUT ZFCoreArrayPOD<_ZFP_ZFUIViewFocusD
             focusDatas,
             view->childAtIndex(i),
             includingInternalViews,
-            offsetX + view->layoutedFrame().point.x,
-            offsetY + view->layoutedFrame().point.y);
+            offsetX + view->viewFrame().point.x,
+            offsetY + view->viewFrame().point.y);
     }
     if(includingInternalViews)
     {
@@ -133,8 +133,8 @@ static void _ZFP_ZFUIViewFocusNextFind(ZF_OUT ZFCoreArrayPOD<_ZFP_ZFUIViewFocusD
                 focusDatas,
                 viewArray[i],
                 includingInternalViews,
-                offsetX + view->layoutedFrame().point.x,
-                offsetY + view->layoutedFrame().point.y);
+                offsetX + view->viewFrame().point.x,
+                offsetY + view->viewFrame().point.y);
         }
         viewArray = view->internalFgViewArray();
         for(zfindex i = 0; i < viewArray.count(); ++i)
@@ -143,8 +143,8 @@ static void _ZFP_ZFUIViewFocusNextFind(ZF_OUT ZFCoreArrayPOD<_ZFP_ZFUIViewFocusD
                 focusDatas,
                 viewArray[i],
                 includingInternalViews,
-                offsetX + view->layoutedFrame().point.x,
-                offsetY + view->layoutedFrame().point.y);
+                offsetX + view->viewFrame().point.x,
+                offsetY + view->viewFrame().point.y);
         }
     }
 }
@@ -357,13 +357,13 @@ ZFMETHOD_FUNC_DEFINE_2(ZFUIView *, ZFUIViewFocusNextFind,
     }
 
     ZFUIView *root = view;
-    ZFUIPoint viewCenter = ZFUIRectGetCenter(view->layoutedFrame());
+    ZFUIPoint viewCenter = ZFUIRectGetCenter(view->viewFrame());
     while(root->viewParent() != zfnull
         && !root->classData()->classIsTypeOf(ZFUIWindow::ClassData())
         && root != param.focusEndParent())
     {
-        viewCenter.x += root->layoutedFrame().point.x;
-        viewCenter.y += root->layoutedFrame().point.y;
+        viewCenter.x += root->viewFrame().point.x;
+        viewCenter.y += root->viewFrame().point.y;
         root = root->viewParent();
     }
     ZFCoreArrayPOD<_ZFP_ZFUIViewFocusData> focusDatas;

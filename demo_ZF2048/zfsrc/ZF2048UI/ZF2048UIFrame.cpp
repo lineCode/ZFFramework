@@ -138,7 +138,7 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
         block->viewRemoveFromParent();
         d->blocksHolder->removeLast();
     }
-    if(this->layoutedFrame().size.width > 0 && this->layoutedFrame().size.height > 0)
+    if(this->viewFrame().size.width > 0 && this->viewFrame().size.height > 0)
     {
         this->layoutIfNeed();
     }
@@ -206,7 +206,7 @@ void ZF2048UIFrame::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
 void ZF2048UIFrame::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
 {
     zfsuper::internalBgViewOnLayout(bounds);
-    d->backgroundView->layout(ZFUIRectApplyMarginReversely(d->cachedBlockFrame, this->frameMargin()));
+    d->backgroundView->viewFrameSet(ZFUIRectApplyMarginReversely(d->cachedBlockFrame, this->frameMargin()));
 }
 void ZF2048UIFrame::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
 {
@@ -218,12 +218,12 @@ void ZF2048UIFrame::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIRect blockFrame = this->blockRectAtIndex(pos.x, pos.y);
 
         _ZFP_ZF2048UIBlockBackgroundView *blockBg = d->blockBackgrounds->get(i)->toAny();
-        blockBg->layout(blockFrame);
+        blockBg->viewFrameSet(blockFrame);
 
         ZF2048UIBlock *block = d->blocks->get(i)->toAny();
         if(block != zfnull)
         {
-            block->layout(blockFrame);
+            block->viewFrameSet(blockFrame);
         }
     }
 }

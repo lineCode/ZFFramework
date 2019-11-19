@@ -52,7 +52,12 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
             image->imageScaleFixed(),
             ZFUIMarginApplyScale(image->imageNinePatch(), image->imageScaleFixed()));
     }
-    this->layoutRequest();
+
+    if(((propertyValueOld != zfnull) ? propertyValueOld.to<ZFUIImage *>()->imageSize() : ZFUISizeZero())
+        != ((this->image() != zfnull) ? this->image()->imageSize() : ZFUISizeZero()))
+    {
+        this->layoutRequest();
+    }
 }
 ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
 {

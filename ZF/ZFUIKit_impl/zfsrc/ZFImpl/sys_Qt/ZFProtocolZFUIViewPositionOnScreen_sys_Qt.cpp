@@ -22,7 +22,7 @@ public:
         QPoint nativePos = nativeView->mapToGlobal(QPoint(0, 0));
         rect.point.x = nativePos.x();
         rect.point.y = nativePos.y();
-        rect.size = view->layoutedFrame().size;
+        rect.size = view->viewFrame().size;
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFUIViewPositionOnScreenImpl_sys_Qt)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUIViewPositionOnScreenImpl_sys_Qt)

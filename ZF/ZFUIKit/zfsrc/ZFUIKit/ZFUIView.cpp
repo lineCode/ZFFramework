@@ -33,13 +33,6 @@ ZF_GLOBAL_INITIALIZER_END(ZFUIViewListenerHolder)
 
 // ============================================================
 // _ZFP_ZFUIViewPrivate
-static zfuint _ZFP_ZFUIView_layoutRequestOverrideFlag = 0;
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewLayoutRequestOverrideInit, ZFLevelZFFrameworkEssential)
-{
-    _ZFP_ZFUIView_layoutRequestOverrideFlag = 0;
-}
-ZF_GLOBAL_INITIALIZER_END(ZFUIViewLayoutRequestOverrideInit)
-
 zfclassLikePOD _ZFP_ZFUIViewLayerData
 {
 public:
@@ -91,25 +84,23 @@ public:
      */
 
     ZFUIViewMeasureResult *measureResult;
-    zfuint layoutRequestOverrideFlag;
-    ZFUIRect layoutedFramePrev;
-    ZFUIRect layoutedFrame;
+    ZFUIRect viewFramePrev;
+    ZFUIPoint viewCenter;
     ZFUIRect nativeImplViewFrame;
     _ZFP_ZFUIViewLayerData layerInternalImpl;
     _ZFP_ZFUIViewLayerData layerInternalBg;
     _ZFP_ZFUIViewLayerData layerNormal;
     _ZFP_ZFUIViewLayerData layerInternalFg;
     enum {
-        stateFlag_layoutRequested = 1 << 1,
-        stateFlag_layouting = 1 << 2,
-        stateFlag_layoutedFramePrevResetFlag = 1 << 3,
-        stateFlag_observerHasAddFlag_viewChildOnChange = 1 << 4,
-        stateFlag_observerHasAddFlag_viewChildOnAdd = 1 << 5,
-        stateFlag_observerHasAddFlag_viewChildOnRemove = 1 << 6,
-        stateFlag_observerHasAddFlag_viewOnAddToParent = 1 << 7,
-        stateFlag_observerHasAddFlag_viewOnRemoveFromParent = 1 << 8,
-        stateFlag_observerHasAddFlag_layoutOnLayoutRequest = 1 << 9,
-        stateFlag_observerHasAddFlag_viewPropertyOnUpdate = 1 << 10,
+        stateFlag_layoutRequested = 1 << 0,
+        stateFlag_layouting = 1 << 1,
+        stateFlag_observerHasAddFlag_viewChildOnChange = 1 << 2,
+        stateFlag_observerHasAddFlag_viewChildOnAdd = 1 << 3,
+        stateFlag_observerHasAddFlag_viewChildOnRemove = 1 << 4,
+        stateFlag_observerHasAddFlag_viewOnAddToParent = 1 << 5,
+        stateFlag_observerHasAddFlag_viewOnRemoveFromParent = 1 << 6,
+        stateFlag_observerHasAddFlag_layoutOnLayoutRequest = 1 << 7,
+        stateFlag_observerHasAddFlag_viewPropertyOnUpdate = 1 << 8,
     };
     zfuint stateFlag;
 
@@ -128,9 +119,8 @@ public:
     , scaleForImpl(1)
     , scaleFixed(1)
     , measureResult(zfnull)
-    , layoutRequestOverrideFlag(0)
-    , layoutedFramePrev(ZFUIRectZero())
-    , layoutedFrame(ZFUIRectZero())
+    , viewFramePrev(ZFUIRectZero())
+    , viewCenter(ZFUIPointZero())
     , nativeImplViewFrame(ZFUIRectZero())
     , layerInternalImpl()
     , layerInternalBg()
@@ -1125,7 +1115,7 @@ void ZFUIView::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
     }
 
     ret += " ";
-    ZFUIRectToString(ret, this->layoutedFrame());
+    ZFUIRectToString(ret, this->viewFrame());
 
     if(!this->viewVisible())
     {
@@ -1216,7 +1206,7 @@ void ZFUIView::_ZFP_ZFUIView_parentChanged(ZF_IN ZFUIView *viewParent,
     if(viewParent == zfnull)
     {
         d->viewParent = zfnull;
-        this->layoutedFramePrevReset();
+        d->viewFramePrev = ZFUIRectZero();
     }
     else
     {
@@ -1415,44 +1405,18 @@ ZFMETHOD_DEFINE_0(ZFUIView, ZFUIViewLayoutParam *, layoutParam)
     return d->layoutParam;
 }
 
-ZFMETHOD_DEFINE_1(ZFUIView, void, layoutRequestOverrideSet,
-                  ZFMP_IN(zfbool, layoutRequestOverride))
-{
-    if(layoutRequestOverride)
-    {
-        ++(d->layoutRequestOverrideFlag);
-    }
-    else
-    {
-        zfCoreAssert(d->layoutRequestOverrideFlag > 0);
-        --(d->layoutRequestOverrideFlag);
-    }
-}
-ZFMETHOD_DEFINE_0(ZFUIView, zfindex, layoutRequestOverride)
-{
-    return d->layoutRequestOverrideFlag;
-}
-
-void ZFUIView::_ZFP_ZFUIView_notifyLayoutRootView(ZF_IN const ZFUIRect &bounds)
-{
-    ++_ZFP_ZFUIView_layoutRequestOverrideFlag;
-    this->layoutMeasure(bounds.size, ZFUISizeParamFillFill());
-    this->layout(bounds);
-    --_ZFP_ZFUIView_layoutRequestOverrideFlag;
-}
-
 ZFMETHOD_DEFINE_0(ZFUIView, void, layoutRequest)
 {
-    if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested) && _ZFP_ZFUIView_layoutRequestOverrideFlag == 0 && d->layoutRequestOverrideFlag == 0)
+    if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
     {
         ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
-        this->layoutOnLayoutRequest(this);
+        this->layoutOnLayoutRequest();
 
         ZFUIView *view = this->viewParent();
         while(view != zfnull && !ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
         {
             ZFBitSet(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
-            view->layoutOnLayoutRequest(this);
+            view->layoutOnLayoutRequest();
             view = view->viewParent();
         }
 
@@ -1549,24 +1513,45 @@ ZFMETHOD_DEFINE_0(ZFUIView, const ZFUISize &, layoutMeasuredSize)
 {
     return d->measureResult->measuredSize;
 }
-ZFMETHOD_DEFINE_1(ZFUIView, void, layout,
-                  ZFMP_IN(const ZFUIRect &, rect))
+
+ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIView, ZFUIRect, viewFrame)
 {
-    if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
-        || !ZFUISizeIsEqual(d->layoutedFrame.size, rect.size))
+    if(propertyValue.size.width < 0)
     {
-        if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting) && !ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag))
+        propertyValue.size.width = 0;
+    }
+    if(propertyValue.size.height < 0)
+    {
+        propertyValue.size.height = 0;
+    }
+}
+ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
+{
+    d->viewFramePrev = propertyValueOld;
+    d->viewCenter.x = propertyValue.point.x + propertyValue.size.width / 2;
+    d->viewCenter.y = propertyValue.point.y + propertyValue.size.height / 2;
+
+    if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting)
+        && (d->viewParent == zfnull || !ZFBitTest(d->viewParent->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting)))
+    { // changed by user or animation
+        if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
+            || !ZFUISizeIsEqual(propertyValue.size, propertyValueOld.size))
         {
-            d->layoutedFramePrev = d->layoutedFrame;
+            this->layoutRequest();
         }
-        ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag);
-        if(d->layoutedFrame != rect)
+        return;
+    }
+    // else, changed by parent layout step
+
+    if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
+        || propertyValue.size != propertyValueOld.size)
+    {
+        if(propertyValue != propertyValueOld)
         {
-            d->layoutedFrame = rect;
-            ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
+            ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
         }
 
-        ZFUIRect bounds = ZFUIRectGetBounds(rect);
+        ZFUIRect bounds = ZFUIRectGetBounds(propertyValue);
 
         if(d->nativeImplView != zfnull)
         {
@@ -1600,60 +1585,106 @@ ZFMETHOD_DEFINE_1(ZFUIView, void, layout,
 
         ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
     }
-    else if(!ZFUIRectIsEqual(d->layoutedFrame, rect)) {
+    else if(propertyValue != propertyValueOld) {
         // size not changed but point changed, notify impl to move the view is enough
-        if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting) && !ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag))
-        {
-            d->layoutedFramePrev = d->layoutedFrame;
-        }
-        ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag);
-        if(d->layoutedFrame != rect)
-        {
-            d->layoutedFrame = rect;
-            ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(rect, this->scaleFixed()));
-        }
+        ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
     }
     ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
 }
-ZFMETHOD_DEFINE_0(ZFUIView, void, layoutIfNeed)
+ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIRect &, viewFramePrev)
 {
-    this->layout(this->layoutedFrame());
-}
-ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIRect &, layoutedFrame)
-{
-    return d->layoutedFrame;
-}
-ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIRect &, layoutedFramePrev)
-{
-    return d->layoutedFramePrev;
-}
-ZFMETHOD_DEFINE_0(ZFUIView, void, layoutedFramePrevReset)
-{
-    d->layoutedFramePrev = ZFUIRectZero();
-    ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutedFramePrevResetFlag);
-}
-ZFMETHOD_DEFINE_1(ZFUIView, void, layoutedFrameFixedT,
-                  ZFMP_OUT(ZFUIRect &, ret))
-{
-    ret = d->layoutedFrame;
-    if(d->viewParent != zfnull)
-    {
-        d->viewParent->layoutedFrameFixedOnUpdateForChild(ret, this->layoutedFrame());
-    }
-}
-ZFMETHOD_DEFINE_0(ZFUIView, ZFUIRect, layoutedFrameFixed)
-{
-    ZFUIRect ret = ZFUIRectZero();
-    this->layoutedFrameFixedT(ret);
-    return ret;
+    return d->viewFramePrev;
 }
 
-void ZFUIView::layoutOnLayoutRequest(ZF_IN ZFUIView *requestByView)
+ZFMETHOD_DEFINE_0(ZFUIView, zfint const &, viewX)
+{
+    return this->viewFrame().point.x;
+}
+ZFMETHOD_DEFINE_1(ZFUIView, void, viewXSet, ZFMP_IN(zfint const &, propertyValue))
+{
+    ZFUIRect viewFrame = this->viewFrame();
+    viewFrame.point.x = propertyValue;
+    this->viewFrameSet(viewFrame);
+}
+ZFMETHOD_DEFINE_0(ZFUIView, zfint const &, viewY)
+{
+    return this->viewFrame().point.y;
+}
+ZFMETHOD_DEFINE_1(ZFUIView, void, viewYSet, ZFMP_IN(zfint const &, propertyValue))
+{
+    ZFUIRect viewFrame = this->viewFrame();
+    viewFrame.point.y = propertyValue;
+    this->viewFrameSet(viewFrame);
+}
+ZFMETHOD_DEFINE_0(ZFUIView, zfint const &, viewWidth)
+{
+    return this->viewFrame().size.width;
+}
+ZFMETHOD_DEFINE_1(ZFUIView, void, viewWidthSet, ZFMP_IN(zfint const &, propertyValue))
+{
+    ZFUIRect viewFrame = this->viewFrame();
+    viewFrame.size.width = propertyValue;
+    this->viewFrameSet(viewFrame);
+}
+ZFMETHOD_DEFINE_0(ZFUIView, zfint const &, viewHeight)
+{
+    return this->viewFrame().size.height;
+}
+ZFMETHOD_DEFINE_1(ZFUIView, void, viewHeightSet, ZFMP_IN(zfint const &, propertyValue))
+{
+    ZFUIRect viewFrame = this->viewFrame();
+    viewFrame.size.height = propertyValue;
+    this->viewFrameSet(viewFrame);
+}
+ZFMETHOD_DEFINE_0(ZFUIView, zfint const &, viewCenterX)
+{
+    return d->viewCenter.x;
+}
+ZFMETHOD_DEFINE_1(ZFUIView, void, viewCenterXSet, ZFMP_IN(zfint const &, propertyValue))
+{
+    ZFUIRect viewFrame = this->viewFrame();
+    viewFrame.point.x = propertyValue - viewFrame.size.width / 2;
+    this->viewFrameSet(viewFrame);
+}
+ZFMETHOD_DEFINE_0(ZFUIView, zfint const &, viewCenterY)
+{
+    return d->viewCenter.y;
+}
+ZFMETHOD_DEFINE_1(ZFUIView, void, viewCenterYSet, ZFMP_IN(zfint const &, propertyValue))
+{
+    ZFUIRect viewFrame = this->viewFrame();
+    viewFrame.point.y = propertyValue - viewFrame.size.height / 2;
+    this->viewFrameSet(viewFrame);
+}
+
+ZFMETHOD_DEFINE_0(ZFUIView, void, layoutIfNeed)
+{
+    if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
+    {
+        this->_ZFP_ZFUIView_notifyLayoutView(this->viewFrame());
+    }
+}
+
+ZFMETHOD_DEFINE_1(ZFUIView, void, layoutChildOffset,
+                  ZFMP_OUT(ZFUIPoint &, ret))
+{
+    ret = ZFUIPointZero();
+    this->layoutChildOffsetOnUpdate(ret);
+}
+
+void ZFUIView::_ZFP_ZFUIView_notifyLayoutView(ZF_IN const ZFUIRect &viewFrame)
+{
+    ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
+    this->viewFrameSet(viewFrame);
+    ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
+}
+
+void ZFUIView::layoutOnLayoutRequest(void)
 {
     if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest)
         || ZFBitTest(_ZFP_ZFUIView_stateFlags, _ZFP_ZFUIViewPrivate::stateFlag_observerHasAddFlag_layoutOnLayoutRequest))
     {
-        this->observerNotify(ZFUIView::EventViewLayoutOnLayoutRequest(), requestByView);
+        this->observerNotify(ZFUIView::EventViewLayoutOnLayoutRequest());
     }
 }
 void ZFUIView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
@@ -1661,7 +1692,7 @@ void ZFUIView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
     for(zfindex i = 0; i < this->childCount(); ++i)
     {
         ZFUIView *child = this->childAtIndex(i);
-        child->layout(
+        child->viewFrameSet(
             ZFUIViewLayoutParam::layoutParamApply(
                 bounds,
                 child,
@@ -1898,7 +1929,7 @@ void ZFUIView::internalImplViewOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIView *child = d->childAtIndex(d->layerInternalImpl, i);
         if(this->internalViewShouldLayout(child))
         {
-            child->layout(
+            child->viewFrameSet(
                 ZFUIViewLayoutParam::layoutParamApply(
                     bounds,
                     child,
@@ -1932,7 +1963,7 @@ void ZFUIView::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIView *child = d->childAtIndex(d->layerInternalBg, i);
         if(this->internalViewShouldLayout(child))
         {
-            child->layout(
+            child->viewFrameSet(
                 ZFUIViewLayoutParam::layoutParamApply(
                     bounds,
                     child,
@@ -1966,7 +1997,7 @@ void ZFUIView::internalFgViewOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIView *child = d->childAtIndex(d->layerInternalFg, i);
         if(this->internalViewShouldLayout(child))
         {
-            child->layout(
+            child->viewFrameSet(
                 ZFUIViewLayoutParam::layoutParamApply(
                     bounds,
                     child,

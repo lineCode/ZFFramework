@@ -14,7 +14,6 @@
 @property (nonatomic, assign) CGRect _ZFP_frame;
 @property (nonatomic, strong) NSMutableArray *_ZFP_mouseRecords; // UITouch
 @property (nonatomic, assign) BOOL _ZFP_uiEnable;
-@property (nonatomic, assign) BOOL _ZFP_layoutRequested;
 @property (nonatomic, assign) BOOL _ZFP_ZFUIViewFocus_viewFocusable;
 @end
 @implementation _ZFP_ZFUIViewImpl_sys_iOS_View
@@ -33,7 +32,6 @@
 
     // status init
     self._ZFP_uiEnable = YES;
-    self._ZFP_layoutRequested = NO;
 
     self._ZFP_ZFUIViewFocus_viewFocusable = NO;
 
@@ -66,29 +64,16 @@
     self->__ZFP_frame = newFrame;
     self.frame = newFrame;
 }
-- (void)setNeedsLayout
-{
-    if(!self._ZFP_layoutRequested)
-    {
-        self._ZFP_layoutRequested = YES;
-        if(self._ZFP_ownerZFUIView != zfnull && self._ZFP_ownerZFUIView->viewParent() == zfnull)
-        {
-            ZFPROTOCOL_ACCESS(ZFUIView)->notifyNeedLayout(self._ZFP_ownerZFUIView);
-        }
-    }
-    [super setNeedsLayout];
-}
 - (CGSize)sizeThatFits:(CGSize)size
 {
     return self._ZFP_frame.size;
 }
 - (void)layoutSubviews
 {
-    self._ZFP_layoutRequested = NO;
     [super layoutSubviews];
-    if(self._ZFP_ownerZFUIView != zfnull && self._ZFP_ownerZFUIView->viewParent() == zfnull)
+    if(self._ZFP_ownerZFUIView != zfnull)
     {
-        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(self._ZFP_ownerZFUIView, ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(self.frame));
+        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(self._ZFP_ownerZFUIView, ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(self.frame));
     }
 
     NSArray *children = self.subviews;

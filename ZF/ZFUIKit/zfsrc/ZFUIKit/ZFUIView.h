@@ -150,8 +150,7 @@ public:
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * param0 is the view that caused this layout request\n
-     * called when this view or any of children called #layoutRequest manually
+     * called when #layoutRequest called
      */
     ZFOBSERVER_EVENT(ViewLayoutOnLayoutRequest)
     /**
@@ -164,7 +163,8 @@ public:
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * #layoutedFrame would be updated before this method,
+     * #viewFrame would be updated before this method,
+     * use #viewFramePrev if necessary,
      * you may safely modify children's #layoutParam during this method\n
      * note, you must not modify self's #layoutParam during the whole layout step
      */
@@ -219,6 +219,18 @@ protected:
     virtual zfbool serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &serializableData,
                                                  ZF_IN ZFSerializable *referencedOwnerOrNull,
                                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull);
+    zfoverride
+    virtual ZFSerializablePropertyType serializableOnCheckPropertyType(ZF_IN const ZFProperty *property)
+    {
+        if(property == ZFPropertyAccess(ZFUIView, viewFrame))
+        {
+            return ZFSerializablePropertyTypeNotSerializable;
+        }
+        else
+        {
+            return zfsuperI(ZFSerializable)::serializableOnCheckPropertyType(property);
+        }
+    }
     /**
      * @brief whether we should serialize all children
      *
@@ -290,6 +302,41 @@ public:
      */
     ZFPROPERTY_ASSIGN_WITH_INIT(zfbool, viewFocusObtainWhenClick,
                                 zftrue)
+
+    /**
+     * @brief view frame
+     */
+    ZFPROPERTY_ASSIGN(ZFUIRect, viewFrame)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFUIRect, viewFrame)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIRect, viewFrame)
+
+    /** @brief previous #viewFrame */
+    ZFMETHOD_DECLARE_0(const ZFUIRect &, viewFramePrev)
+
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_0(zfint const &, viewX)
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_1(void, viewXSet, ZFMP_IN(zfint const &, propertyValue))
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_0(zfint const &, viewY)
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_1(void, viewYSet, ZFMP_IN(zfint const &, propertyValue))
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_0(zfint const &, viewWidth)
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_1(void, viewWidthSet, ZFMP_IN(zfint const &, propertyValue))
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_0(zfint const &, viewHeight)
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_1(void, viewHeightSet, ZFMP_IN(zfint const &, propertyValue))
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_0(zfint const &, viewCenterX)
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_1(void, viewCenterXSet, ZFMP_IN(zfint const &, propertyValue))
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_0(zfint const &, viewCenterY)
+    /** @brief see #viewFrame */
+    ZFMETHOD_DECLARE_1(void, viewCenterYSet, ZFMP_IN(zfint const &, propertyValue))
 
     /**
      * @brief prefered size, #ZFUISizeInvalid by default
@@ -630,19 +677,6 @@ public:
     }
 
 public:
-    zffinal void _ZFP_ZFUIView_notifyLayoutRootView(ZF_IN const ZFUIRect &bounds);
-    /**
-     * @brief override #layoutRequest to prevent this view being layouted for some condition
-     *
-     * this method is useful if you want to update some property without notifying the view,
-     * typically for performance only, use with caution
-     */
-    ZFMETHOD_DECLARE_1(void, layoutRequestOverrideSet,
-                       ZFMP_IN(zfbool, layoutRequestOverride))
-    /**
-     * @brief see #layoutRequestOverrideSet
-     */
-    ZFMETHOD_DECLARE_0(zfindex, layoutRequestOverride)
     /**
      * @brief set need layout
      */
@@ -670,54 +704,29 @@ public:
      */
     ZFMETHOD_DECLARE_0(const ZFUISize &, layoutMeasuredSize)
     /**
-     * @brief layout the view and it's children
-     *
-     * internal views have layout step but no measure step
-     */
-    ZFMETHOD_DECLARE_1(void, layout,
-                       ZFMP_IN(const ZFUIRect &, rect))
-    /**
      * @brief force to layout if need
      */
     ZFMETHOD_DECLARE_0(void, layoutIfNeed)
     /**
-     * @brief get the frame of this view, invalid if not layout
-     */
-    ZFMETHOD_DECLARE_0(const ZFUIRect &, layoutedFrame)
-    /**
-     * @brief get previous frame of this view, ensured zero for first time,
-     *   ensured reset to zero after remove from parent
-     *
-     * you may also reset it manually by #layoutedFramePrevReset
-     */
-    ZFMETHOD_DECLARE_0(const ZFUIRect &, layoutedFramePrev)
-    /**
-     * @brief manually reset #layoutedFramePrev to zero
-     */
-    ZFMETHOD_DECLARE_0(void, layoutedFramePrevReset)
-    /**
-     * @brief get fixed frame of this view, invalid if not layout
+     * @brief get child offset to this view
      *
      * for views that have offset logic (typically scroll views),
-     * use this method to access frame relative to its parent
-     * instead of frame applied with offset\n
-     * call this method would cause parent's #layoutedFrameFixedOnUpdateForChild being called
-     * to update the actual frame,
-     * result may be invalid if not layout or parent is not type of ZFUIView,
-     * in this case, #layoutedFrame would be returned
+     * use this method to access the offset to its parent,
+     * child's #viewFrame plus this offset should be the actual
+     * offset to parent's edge\n
+     * subclass should override #layoutChildOffsetOnUpdate
+     * to supply this value
      */
-    ZFMETHOD_DECLARE_1(void, layoutedFrameFixedT,
-                       ZFMP_OUT(ZFUIRect &, ret))
-    /**
-     * @brief see #layoutedFrameFixedT
-     */
-    ZFMETHOD_DECLARE_0(ZFUIRect, layoutedFrameFixed)
+    ZFMETHOD_DECLARE_1(void, layoutChildOffset,
+                       ZFMP_OUT(ZFUIPoint &, ret))
 
+public:
+    void _ZFP_ZFUIView_notifyLayoutView(ZF_IN const ZFUIRect &viewFrame);
 protected:
     /**
      * @brief called during #layoutRequest
      */
-    virtual void layoutOnLayoutRequest(ZF_IN ZFUIView *requestByView);
+    virtual void layoutOnLayoutRequest(void);
     /**
      * @brief called by #layoutMeasure to decide the view's size
      *
@@ -769,12 +778,9 @@ protected:
     virtual inline void layoutOnLayoutFinish(ZF_IN const ZFUIRect &bounds)
     {
     }
-    /**
-     * @brief for subclass to impl #layoutedFrameFixed
-     */
-    virtual inline void layoutedFrameFixedOnUpdateForChild(ZF_OUT ZFUIRect &ret, ZF_IN const ZFUIRect &childFrame)
+    /** @brief see #layoutChildOffset */
+    virtual inline void layoutChildOffsetOnUpdate(ZF_IN_OUT ZFUIPoint &ret)
     {
-        ret = childFrame;
     }
 
     // ============================================================

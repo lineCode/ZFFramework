@@ -20,17 +20,17 @@ public:
         ZFUIViewStateAniSettingForMove *setting = ZFUIViewStateAniSettingForMove::instance();
         if(!setting->aniEnable() || !setting->aniFilter.filterCheckActive(view)) {return ;}
 
-        const ZFUIRect &layoutedFramePrev = view->layoutedFramePrev();
-        if(layoutedFramePrev.size.width == 0 || layoutedFramePrev.size.height == 0)
+        const ZFUIRect &viewFramePrev = view->viewFramePrev();
+        if(viewFramePrev.size.width == 0 || viewFramePrev.size.height == 0)
         {
             return ;
         }
-        const ZFUIRect &layoutedFrame = view->layoutedFrame();
+        const ZFUIRect &viewFrame = view->viewFrame();
         zfint aniTolerance = setting->aniTolerance();
-        if(zfmAbs(layoutedFrame.point.x - layoutedFramePrev.point.x) <= aniTolerance
-                && zfmAbs(layoutedFrame.point.y - layoutedFramePrev.point.y) <= aniTolerance
-                && zfmAbs(layoutedFrame.size.width - layoutedFramePrev.size.width) <= aniTolerance * 2
-                && zfmAbs(layoutedFrame.size.height - layoutedFramePrev.size.height) <= aniTolerance * 2
+        if(zfmAbs(viewFrame.point.x - viewFramePrev.point.x) <= aniTolerance
+                && zfmAbs(viewFrame.point.y - viewFramePrev.point.y) <= aniTolerance
+                && zfmAbs(viewFrame.size.width - viewFramePrev.size.width) <= aniTolerance * 2
+                && zfmAbs(viewFrame.size.height - viewFramePrev.size.height) <= aniTolerance * 2
             )
         {
             return ;
@@ -43,17 +43,17 @@ public:
         ani->aniDurationSet(setting->aniDuration());
         ani->aniCurveSet(setting->aniCurve());
 
-        if(zfmAbs(layoutedFrame.size.width - layoutedFramePrev.size.width) > aniTolerance * 2 && layoutedFrame.size.width > 0)
+        if(zfmAbs(viewFrame.size.width - viewFramePrev.size.width) > aniTolerance * 2 && viewFrame.size.width > 0)
         {
-            ani->aniScaleXFromSet((zffloat)layoutedFramePrev.size.width / layoutedFrame.size.width);
+            ani->aniScaleXFromSet((zffloat)viewFramePrev.size.width / viewFrame.size.width);
         }
-        if(zfmAbs(layoutedFrame.size.height - layoutedFramePrev.size.height) > aniTolerance * 2 && layoutedFrame.size.height > 0)
+        if(zfmAbs(viewFrame.size.height - viewFramePrev.size.height) > aniTolerance * 2 && viewFrame.size.height > 0)
         {
-            ani->aniScaleYFromSet((zffloat)layoutedFramePrev.size.height / layoutedFrame.size.height);
+            ani->aniScaleYFromSet((zffloat)viewFramePrev.size.height / viewFrame.size.height);
         }
 
-        ZFUIPoint from = ZFUIRectGetCenter(layoutedFramePrev);
-        ZFUIPoint to = ZFUIRectGetCenter(layoutedFrame);
+        ZFUIPoint from = ZFUIRectGetCenter(viewFramePrev);
+        ZFUIPoint to = ZFUIRectGetCenter(viewFrame);
         if(zfmAbs(from.x - to.x) > aniTolerance)
         {
             ani->aniTranslatePixelXFromSet((zfint)((from.x - to.x) / ani->aniScaleXFrom()));

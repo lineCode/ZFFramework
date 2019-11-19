@@ -14,8 +14,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief move animation for #ZFUIViewStateAniStart
  *
- * if a view's #ZFUIView::layoutedFrame changed (comparing to #ZFUIView::layoutedFramePrev),
- * and #ZFUIView::layoutedFramePrev's size is not zero,
+ * if a view's #ZFUIView::viewFrame changed (comparing to #ZFUIView::viewFramePrev),
+ * and #ZFUIView::viewFramePrev's size is not zero,
  * a move animation of #ZFAnimationNativeView would be applied
  */
 zfclass ZF_ENV_EXPORT ZFUIViewStateAniSettingForMove : zfextends ZFStyleableObject

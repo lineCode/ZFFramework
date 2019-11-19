@@ -249,7 +249,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIOnScreenKeyboardAutoResize_windowOnU
 {
     ZFUIRootView *rootView = listenerData.sender->to<ZFUIRootView *>();
     ZFUIWindow *window = userData->objectHolded();
-    if(rootView->layoutedFrame() != rootView->layoutedFramePrev())
+    if(rootView->viewFrame() != rootView->viewFramePrev())
     {
         _ZFP_ZFUIOnScreenKeyboardAutoResize_apply(window, ZFUIOnScreenKeyboardState::instanceForView(window));
     }

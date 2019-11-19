@@ -118,7 +118,7 @@ public:
     void scrollAreaUpdate(void)
     {
         ZFUIRect newValue = ZFUIRectZero();
-        newValue.size = this->pimplOwner->layoutedFrame().size;
+        newValue.size = this->pimplOwner->viewFrame().size;
         ZFUIRectApplyMargin(newValue, newValue, this->pimplOwner->nativeImplViewMargin());
         ZFUIRectApplyMargin(newValue, newValue, this->scrollAreaMargin);
         if(newValue != this->scrollArea)
@@ -837,12 +837,6 @@ void ZFUIScrollView::layoutOnLayoutFinish(ZF_IN const ZFUIRect &bounds)
 {
     zfsuper::layoutOnLayoutFinish(bounds);
     d->scrollContentFrameUpdateForImpl();
-}
-void ZFUIScrollView::layoutedFrameFixedOnUpdateForChild(ZF_OUT ZFUIRect &ret, ZF_IN const ZFUIRect &childFrame)
-{
-    ret = childFrame;
-    ret.point.x += this->scrollContentFrame().point.x;
-    ret.point.y += this->scrollContentFrame().point.y;
 }
 
 void ZFUIScrollView::viewEventOnMouseEvent(ZF_IN ZFUIMouseEvent *mouseEvent)

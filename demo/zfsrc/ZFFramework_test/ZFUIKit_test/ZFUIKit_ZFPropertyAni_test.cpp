@@ -36,8 +36,8 @@ protected:
 
             ZFUIView *testContainer = userData->objectHolded();
             ZFUIKit_ZFPropertyAni_test *owner = testContainer->tagGet("owner")->objectHolded();
-            zfint xMargin = testContainer->layoutedFrame().size.width - 80;
-            zfint yMargin = testContainer->layoutedFrame().size.height - 80;
+            zfint xMargin = testContainer->viewFrame().size.width - 80;
+            zfint yMargin = testContainer->viewFrame().size.height - 80;
 
             setting->aniDurationSet(owner->aniDuration());
             setting->aniIntervalSet(owner->aniInterval());

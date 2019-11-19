@@ -21,9 +21,7 @@ public:
         }
         else
         {
-            view->layoutRequestOverrideSet(zftrue);
             view->imageSet(view->animatedImage()->aniFrameImageCurrent());
-            view->layoutRequestOverrideSet(zffalse);
         }
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIAnimatedImageViewDataHolder)

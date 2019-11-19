@@ -151,7 +151,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniPrepare)
     {
         zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniPrepare" << listenerData.sender
-            << listenerData.sender->to<ZFUIView *>()->layoutedFramePrev();
+            << listenerData.sender->to<ZFUIView *>()->viewFramePrev();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniStart)
     {

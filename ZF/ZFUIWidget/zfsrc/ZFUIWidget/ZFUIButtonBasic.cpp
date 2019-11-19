@@ -383,7 +383,7 @@ void ZFUIButtonBasic::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
     ZFUIView *backgroundView = ZFCastZFObjectUnchecked(ZFUIView *, d->buttonBackground);
     if(backgroundView != zfnull)
     {
-        backgroundView->layout(ZFUIRectApplyMargin(bounds, this->buttonBackgroundMargin()));
+        backgroundView->viewFrameSet(ZFUIRectApplyMargin(bounds, this->buttonBackgroundMargin()));
     }
 
     ZFUISize sizeHint = ZFUISizeApplyMargin(bounds.size, this->buttonContentMargin());
@@ -422,22 +422,22 @@ void ZFUIButtonBasic::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
             {
                 if(iconView != zfnull)
                 {
-                    iconView->layout(ZFUIAlignApply(ZFUIAlign::e_LeftInner, contentFrame, iconSize));
+                    iconView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_LeftInner, contentFrame, iconSize));
                 }
                 if(labelView != zfnull)
                 {
-                    labelView->layout(ZFUIAlignApply(ZFUIAlign::e_RightInner, contentFrame, labelSize));
+                    labelView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_RightInner, contentFrame, labelSize));
                 }
             }
             else
             {
                 if(iconView != zfnull)
                 {
-                    iconView->layout(ZFUIAlignApply(ZFUIAlign::e_RightInner, contentFrame, iconSize));
+                    iconView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_RightInner, contentFrame, iconSize));
                 }
                 if(labelView != zfnull)
                 {
-                    labelView->layout(ZFUIAlignApply(ZFUIAlign::e_LeftInner, contentFrame, labelSize));
+                    labelView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_LeftInner, contentFrame, labelSize));
                 }
             }
             break;
@@ -456,22 +456,22 @@ void ZFUIButtonBasic::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
             {
                 if(iconView != zfnull)
                 {
-                    iconView->layout(ZFUIAlignApply(ZFUIAlign::e_TopInner, contentFrame, iconSize));
+                    iconView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_TopInner, contentFrame, iconSize));
                 }
                 if(labelView != zfnull)
                 {
-                    labelView->layout(ZFUIAlignApply(ZFUIAlign::e_BottomInner, contentFrame, labelSize));
+                    labelView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_BottomInner, contentFrame, labelSize));
                 }
             }
             else
             {
                 if(iconView != zfnull)
                 {
-                    iconView->layout(ZFUIAlignApply(ZFUIAlign::e_BottomInner, contentFrame, iconSize));
+                    iconView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_BottomInner, contentFrame, iconSize));
                 }
                 if(labelView != zfnull)
                 {
-                    labelView->layout(ZFUIAlignApply(ZFUIAlign::e_TopInner, contentFrame, labelSize));
+                    labelView->viewFrameSet(ZFUIAlignApply(ZFUIAlign::e_TopInner, contentFrame, labelSize));
                 }
             }
             break;

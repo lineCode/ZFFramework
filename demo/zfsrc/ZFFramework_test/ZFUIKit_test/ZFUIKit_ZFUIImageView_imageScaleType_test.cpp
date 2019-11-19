@@ -33,17 +33,17 @@ protected:
         zfsuper::layoutOnLayout(bounds);
         if(bounds.size.height >= bounds.size.width)
         {
-            this->imageViewSmall()->layout(ZFUIRectApplyMargin(
+            this->imageViewSmall()->viewFrameSet(ZFUIRectApplyMargin(
                 ZFUIRectMake(0, 0, bounds.size.width, bounds.size.height / 2),
                 ZFUIMarginMake(5)));
-            this->imageViewLarge()->layout(ZFUIRectApplyMargin(
+            this->imageViewLarge()->viewFrameSet(ZFUIRectApplyMargin(
                 ZFUIRectMake(0, bounds.size.height / 2, bounds.size.width, bounds.size.height / 2),
                 ZFUIMarginMake(5)));
         }
         else
         {
-            this->imageViewSmall()->layout(ZFUIRectMake(0, 0, bounds.size.width, bounds.size.height / 2));
-            this->imageViewLarge()->layout(ZFUIRectMake(bounds.size.width / 2, 0, bounds.size.width, bounds.size.height / 2));
+            this->imageViewSmall()->viewFrameSet(ZFUIRectMake(0, 0, bounds.size.width, bounds.size.height / 2));
+            this->imageViewLarge()->viewFrameSet(ZFUIRectMake(bounds.size.width / 2, 0, bounds.size.width, bounds.size.height / 2));
         }
     }
 };

@@ -157,12 +157,8 @@ public:
     /**
      * @brief called by ZFUIView to notify the implementation that the view needs layout
      *
-     * implementations should ensure next layout step would layout all views from root to children,
-     * otherwise, you should request layout recursively from child to all of its parent\n
-     * \n
-     * this method is called by ZFUIView to notify implementations,
-     * and #notifyNeedLayout is called by implementations to notify ZFUIView,
-     * take good care of them
+     * implementations should ensure next layout step would layout
+     * the view by calling #notifyLayoutView
      */
     virtual void layoutRequest(ZF_IN ZFUIView *view) zfpurevirtual;
 
@@ -177,24 +173,14 @@ public:
     // callbacks that implementations must notify
 public:
     /**
-     * @brief implementations must notify when native view needs layout
-     *   if view's parent isn't ZFUIView
-     *
-     * typically, you should call this method only if the view's parent is not type of ZFUIView
-     */
-    zffinal void notifyNeedLayout(ZF_IN ZFUIView *view)
-    {
-        view->layoutRequest();
-    }
-    /**
      * @brief implementations must notify when need layout if view's parent isn't ZFUIView
      *
      * typically, you should call this method only if the view's parent is not type of ZFUIView
      */
-    zffinal void notifyLayoutRootView(ZF_IN ZFUIView *view,
-                                      ZF_IN const ZFUIRect &rect)
+    zffinal void notifyLayoutView(ZF_IN ZFUIView *view,
+                                  ZF_IN const ZFUIRect &rect)
     {
-        view->_ZFP_ZFUIView_notifyLayoutRootView(ZFUIRectApplyScaleReversely(rect, view->scaleFixed()));
+        view->_ZFP_ZFUIView_notifyLayoutView(ZFUIRectApplyScaleReversely(rect, view->scaleFixed()));
     }
     /**
      * @brief implementation must notify when UI event occurred

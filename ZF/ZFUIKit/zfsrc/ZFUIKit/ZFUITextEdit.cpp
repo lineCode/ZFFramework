@@ -471,7 +471,7 @@ void ZFUITextEdit::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
     zfsuper::internalBgViewOnLayout(bounds);
 
     ZFUITextView *textPlaceHolder = this->textPlaceHolder()->to<ZFUITextView *>();
-    textPlaceHolder->layout(ZFUIRectApplyMargin(
+    textPlaceHolder->viewFrameSet(ZFUIRectApplyMargin(
             bounds,
             ZFUIMarginInc(this->nativeImplViewMargin(), textPlaceHolder->layoutParam()->layoutMargin())
         ));

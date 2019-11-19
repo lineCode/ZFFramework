@@ -228,7 +228,7 @@ private:
                     break;
                 }
                 ZFUIPoint &prevMousePoint = prevMousePointMapIt->second;
-                ZFUIRect bounds = ZFUIRectGetBounds(this->pimplOwner->layoutedFrame());
+                ZFUIRect bounds = ZFUIRectGetBounds(this->pimplOwner->viewFrame());
                 zfbool mouseInside = this->buttonClickedInside(bounds, mouseEvent->mousePoint);
                 zfbool mouseInsidePrev = this->buttonClickedInside(bounds, prevMousePoint);
                 prevMousePoint = mouseEvent->mousePoint;
@@ -269,7 +269,7 @@ private:
                 this->prevMousePointMap.erase(prevMousePointMapIt);
 
                 zfbool mouseInside = this->buttonClickedInside(
-                    ZFUIRectGetBounds(this->pimplOwner->layoutedFrame()),
+                    ZFUIRectGetBounds(this->pimplOwner->viewFrame()),
                     mouseEvent->mousePoint);
 
                 this->buttonHighlightedFlag = zffalse;

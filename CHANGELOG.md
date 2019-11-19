@@ -2,6 +2,7 @@
 
 * add lambda implemented by pure C++03
 * remove view delegate support
+* enhance view layout logic
 
 # 0.8.0
 

@@ -83,7 +83,7 @@ void ZFUIRootView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIWindow *window = ZFCastZFObject(ZFUIWindow *, child);
         if(window == zfnull || !window->sysWindowMarginShouldApply())
         {
-            child->layout(
+            child->viewFrameSet(
                 ZFUIViewLayoutParam::layoutParamApply(
                     bounds,
                     child,
@@ -98,7 +98,7 @@ void ZFUIRootView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
             child,
             child->layoutParam(),
             window->windowOwnerSysWindow()->sysWindowMargin());
-        child->layout(result);
+        child->viewFrameSet(result);
     }
 }
 

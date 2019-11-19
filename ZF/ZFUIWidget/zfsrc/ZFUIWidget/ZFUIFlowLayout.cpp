@@ -344,7 +344,7 @@ static void _ZFP_ZFUIFlowLayout_layoutHorizontal(ZF_IN ZFUIFlowLayout *parent,
             {
                 childSize = child->layoutMeasuredSize().width;
             }
-            child->layout(ZFUIAlignApply(
+            child->viewFrameSet(ZFUIAlignApply(
                 layoutParam->layoutAlign(),
                 ZFUIRectMake(
                     positiveDirectionX
@@ -409,7 +409,7 @@ static void _ZFP_ZFUIFlowLayout_layoutVertical(ZF_IN ZFUIFlowLayout *parent,
             {
                 childSize = child->layoutMeasuredSize().height;
             }
-            child->layout(ZFUIAlignApply(
+            child->viewFrameSet(ZFUIAlignApply(
                 layoutParam->layoutAlign(),
                 ZFUIRectMake(
                     positiveDirectionX

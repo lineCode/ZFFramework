@@ -233,7 +233,7 @@ public:
         ZFUISize dialogBgSize = dialogContainerSize;
         dialogBgSize.width += ZFUIMarginGetWidth(contentMargin);
         dialogBgSize.height += ZFUIMarginGetHeight(contentMargin);
-        this->dialogBg->layout(ZFUIAlignApply(
+        this->dialogBg->viewFrameSet(ZFUIAlignApply(
             this->pimplOwner->dialogLayoutParam()->layoutAlign(),
             bounds,
             dialogBgSize,

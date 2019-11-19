@@ -207,7 +207,7 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
         zfbool viewVisibleNew = zffalse;
         if(this->scrollThumbHorizontal())
         {
-            sizeRange = this->scrollView()->layoutedFrame().size.width
+            sizeRange = this->scrollView()->viewFrame().size.width
                 - ZFUIMarginGetWidth(this->scrollView()->nativeImplViewMargin());
             ZFUIScrollThumb::scrollThumbPosFromViewPos(
                 pos,
@@ -231,7 +231,7 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
         }
         else
         {
-            sizeRange = this->scrollView()->layoutedFrame().size.height
+            sizeRange = this->scrollView()->viewFrame().size.height
                 - ZFUIMarginGetHeight(this->scrollView()->nativeImplViewMargin());
             ZFUIScrollThumb::scrollThumbPosFromViewPos(
                 pos,

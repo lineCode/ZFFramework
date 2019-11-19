@@ -229,7 +229,11 @@ protected:
     zfoverride
     virtual void layoutOnLayoutFinish(ZF_IN const ZFUIRect &bounds);
     zfoverride
-    virtual void layoutedFrameFixedOnUpdateForChild(ZF_OUT ZFUIRect &ret, ZF_IN const ZFUIRect &childFrame);
+    virtual inline void layoutChildOffsetOnUpdate(ZF_IN_OUT ZFUIPoint &ret)
+    {
+        ret.x += this->scrollContentFrame().point.x;
+        ret.y += this->scrollContentFrame().point.y;
+    }
 
     /**
      * @brief (ZFTAG_LIMITATION) due to implementations limitation, ZFUIScrollView may or may not have mouse event callbacks

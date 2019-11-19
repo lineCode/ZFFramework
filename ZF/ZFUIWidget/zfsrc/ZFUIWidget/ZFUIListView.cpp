@@ -312,7 +312,7 @@ public:
             this->pimplOwner->nativeImplViewMargin(),
             this->pimplOwner->scrollAreaMargin());
         const ZFUIRect &scrollContentFrame = this->pimplOwner->scrollContentFrame();
-        const ZFUIRect &layoutedFrame = this->pimplOwner->layoutedFrame();
+        const ZFUIRect &viewFrame = this->pimplOwner->viewFrame();
 
         switch(this->pimplOwner->listOrientation())
         {
@@ -323,7 +323,7 @@ public:
                     -scrollContentFrame.point.x - scrollMargin.left,
                     0);
                 zfint offsetBegin = zfmMin(
-                    offsetEnd + layoutedFrame.size.width,
+                    offsetEnd + viewFrame.size.width,
                     scrollContentFrame.size.width);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; --index)
@@ -394,7 +394,7 @@ public:
                     -scrollContentFrame.point.y - scrollMargin.top,
                     0);
                 zfint offsetBegin = zfmMin(
-                    offsetEnd + layoutedFrame.size.height,
+                    offsetEnd + viewFrame.size.height,
                     scrollContentFrame.size.height);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; --index)
@@ -462,10 +462,10 @@ public:
             {
                 zfint offset = cellFrame.point.x;
                 zfint offsetEnd = zfmMin(
-                    -scrollContentFrame.point.x + layoutedFrame.size.width - scrollMargin.left,
+                    -scrollContentFrame.point.x + viewFrame.size.width - scrollMargin.left,
                     scrollContentFrame.size.width);
                 zfint offsetBegin = zfmMax(
-                    offsetEnd - layoutedFrame.size.width,
+                    offsetEnd - viewFrame.size.width,
                     0);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; --index)
@@ -525,10 +525,10 @@ public:
             {
                 zfint offset = cellFrame.point.y;
                 zfint offsetEnd = zfmMin(
-                    -scrollContentFrame.point.y + layoutedFrame.size.height - scrollMargin.top,
+                    -scrollContentFrame.point.y + viewFrame.size.height - scrollMargin.top,
                     scrollContentFrame.size.height);
                 zfint offsetBegin = zfmMax(
-                    offsetEnd - layoutedFrame.size.height,
+                    offsetEnd - viewFrame.size.height,
                     0);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; --index)
@@ -601,7 +601,7 @@ public:
             this->pimplOwner->nativeImplViewMargin(),
             this->pimplOwner->scrollAreaMargin());
         const ZFUIRect &scrollContentFrame = this->pimplOwner->scrollContentFrame();
-        const ZFUIRect &layoutedFrame = this->pimplOwner->layoutedFrame();
+        const ZFUIRect &viewFrame = this->pimplOwner->viewFrame();
 
         switch(this->pimplOwner->listOrientation())
         {
@@ -609,10 +609,10 @@ public:
             {
                 zfint offset = cellFrame.point.x;
                 zfint offsetEnd = zfmMin(
-                    -scrollContentFrame.point.x + layoutedFrame.size.width - scrollMargin.left,
+                    -scrollContentFrame.point.x + viewFrame.size.width - scrollMargin.left,
                     scrollContentFrame.size.width);
                 zfint offsetBegin = zfmMax(
-                    offsetEnd - layoutedFrame.size.width,
+                    offsetEnd - viewFrame.size.width,
                     0);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; ++index)
@@ -682,10 +682,10 @@ public:
             {
                 zfint offset = cellFrame.point.y;
                 zfint offsetEnd = zfmMin(
-                    -scrollContentFrame.point.y + layoutedFrame.size.height - scrollMargin.top,
+                    -scrollContentFrame.point.y + viewFrame.size.height - scrollMargin.top,
                     scrollContentFrame.size.height);
                 zfint offsetBegin = zfmMax(
-                    offsetEnd - layoutedFrame.size.height,
+                    offsetEnd - viewFrame.size.height,
                     0);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; ++index)
@@ -758,7 +758,7 @@ public:
                     -scrollContentFrame.point.x - scrollMargin.left,
                     0);
                 zfint offsetBegin = zfmMin(
-                    offsetEnd + layoutedFrame.size.width,
+                    offsetEnd + viewFrame.size.width,
                     scrollContentFrame.size.width);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; ++index)
@@ -825,7 +825,7 @@ public:
                     -scrollContentFrame.point.y - scrollMargin.top,
                     0);
                 zfint offsetBegin = zfmMin(
-                    offsetEnd + layoutedFrame.size.height,
+                    offsetEnd + viewFrame.size.height,
                     scrollContentFrame.size.height);
                 // remove cells exceeds visible range
                 for( ; index >= this->listVisibleCellIndexRange.start && index < this->listVisibleCellIndexRange.start + this->listVisibleCellIndexRange.count; ++index)
@@ -1237,7 +1237,7 @@ public:
                 for(zfindex i = 0; i < this->listVisibleCell.count(); ++i)
                 {
                     zfint cellWidth = this->cellSizeList[this->listVisibleCellIndexRange.start + i];
-                    this->listVisibleCell[i]->layout(ZFUIRectMake(
+                    this->listVisibleCell[i]->viewFrameSet(ZFUIRectMake(
                             offset,
                             0,
                             cellWidth,
@@ -1252,7 +1252,7 @@ public:
                 for(zfindex i = 0; i < this->listVisibleCell.count(); ++i)
                 {
                     zfint cellHeight = this->cellSizeList[this->listVisibleCellIndexRange.start + i];
-                    this->listVisibleCell[i]->layout(ZFUIRectMake(
+                    this->listVisibleCell[i]->viewFrameSet(ZFUIRectMake(
                             0,
                             offset,
                             fillSize,
@@ -1268,7 +1268,7 @@ public:
                 {
                     zfint cellWidth = this->cellSizeList[this->listVisibleCellIndexRange.start + i];
                     offset -= cellWidth;
-                    this->listVisibleCell[i]->layout(ZFUIRectMake(
+                    this->listVisibleCell[i]->viewFrameSet(ZFUIRectMake(
                             offset,
                             0,
                             cellWidth,
@@ -1283,7 +1283,7 @@ public:
                 {
                     zfint cellHeight = this->cellSizeList[this->listVisibleCellIndexRange.start + i];
                     offset -= cellHeight;
-                    this->listVisibleCell[i]->layout(ZFUIRectMake(
+                    this->listVisibleCell[i]->viewFrameSet(ZFUIRectMake(
                             0,
                             offset,
                             fillSize,
@@ -1561,7 +1561,7 @@ zfbool ZFUIListView::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData 
 
 void ZFUIListView::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
 {
-    if(!d->listQuickReloadRequested && this->layoutedFrame().size != this->layoutedFramePrev().size)
+    if(!d->listQuickReloadRequested && this->viewFrame().size != this->viewFramePrev().size)
     {
         d->listQuickReloadRequested = zftrue;
         d->cellNeedUpdate = zftrue;

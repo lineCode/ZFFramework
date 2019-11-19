@@ -106,7 +106,7 @@ void ZFUITextEditWidget::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
             margin = image->imageNinePatch();
         }
     }
-    textEditClearButton->layout(ZFUIAlignApply(
+    textEditClearButton->viewFrameSet(ZFUIAlignApply(
         textEditClearButton->layoutParam()->layoutAlign(),
         bounds,
         textEditClearButton->layoutMeasuredSize(),

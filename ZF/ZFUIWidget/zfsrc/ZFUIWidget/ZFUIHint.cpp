@@ -82,7 +82,7 @@ protected:
     {
         if(this->childCount() > 0)
         {
-            this->childAtIndex(0)->layout(bounds);
+            this->childAtIndex(0)->viewFrameSet(bounds);
         }
     }
 };

@@ -20,11 +20,11 @@ public:
         ZFUIViewStateAniSettingForAlpha *setting = ZFUIViewStateAniSettingForAlpha::instance();
         if(!setting->aniEnable() || !setting->aniFilter.filterCheckActive(view)) {return ;}
 
-        const ZFUIRect &layoutedFrame = view->layoutedFrame();
-        const ZFUIRect &layoutedFramePrev = view->layoutedFramePrev();
-        if((layoutedFramePrev.size.width != 0 && layoutedFramePrev.size.height != 0)
-            || layoutedFrame.size.width <= setting->aniToleranceX()
-            || layoutedFrame.size.height <= setting->aniToleranceY())
+        const ZFUIRect &viewFrame = view->viewFrame();
+        const ZFUIRect &viewFramePrev = view->viewFramePrev();
+        if((viewFramePrev.size.width != 0 && viewFramePrev.size.height != 0)
+            || viewFrame.size.width <= setting->aniToleranceX()
+            || viewFrame.size.height <= setting->aniToleranceY())
         {
             return ;
         }

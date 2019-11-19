@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief alpha animation for #ZFUIViewStateAniStart
  *
- * if a view's #ZFUIView::layoutedFramePrev's size is zero but #ZFUIView::layoutedFrame is not,
+ * if a view's #ZFUIView::viewFramePrev's size is zero but #ZFUIView::viewFrame is not,
  * a alpha animation of #ZFAnimationNativeView would be applied
  */
 zfclass ZF_ENV_EXPORT ZFUIViewStateAniSettingForAlpha : zfextends ZFStyleableObject

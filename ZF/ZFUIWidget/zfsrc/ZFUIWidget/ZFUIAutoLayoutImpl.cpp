@@ -200,7 +200,7 @@ void ZFUIAutoLayout::layoutOnMeasure(ZF_OUT ZFUISize &ret,
 }
 void ZFUIAutoLayout::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
 {
-    d->prepareLayout(this, this->layoutedFrame().size);
+    d->prepareLayout(this, this->viewFrame().size);
     d->_parentWidth = bounds.size.width;
     d->_parentHeight = bounds.size.height;
     for(zfindex i = this->childCount() - 1; i != zfindexMax(); --i)
@@ -210,7 +210,7 @@ void ZFUIAutoLayout::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
     }
     for(zfindex i = this->childCount() - 1; i != zfindexMax(); --i)
     {
-        this->childAtIndex(i)->layout(d->_childFrame[i]);
+        this->childAtIndex(i)->viewFrameSet(d->_childFrame[i]);
     }
 }
 

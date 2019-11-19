@@ -97,7 +97,6 @@ public:
     zfbool _ZFP_mousePressed;
     zfbool _ZFP_mouseEnterFlag;
     ZFUIPoint _ZFP_mouseMoveLastPoint;
-    zfbool _ZFP_layoutRequested;
 
 public:
     _ZFP_ZFUIViewImpl_sys_Qt_View(void) : QWidget()
@@ -110,7 +109,6 @@ public:
     , _ZFP_mousePressed(zffalse)
     , _ZFP_mouseEnterFlag(zffalse)
     , _ZFP_mouseMoveLastPoint(ZFUIPointZero())
-    , _ZFP_layoutRequested(zftrue)
     {
         this->setLayout(_ZFP_layoutProxy);
 
@@ -199,23 +197,13 @@ public:
             // layout
             case QEvent::LayoutRequest:
             case QEvent::Resize:
-                if(_ZFP_ownerZFUIView != zfnull
-                    && _ZFP_ownerZFUIView->viewParent() == zfnull)
+                if(_ZFP_ownerZFUIView != zfnull)
                 {
-                    if(!_ZFP_layoutRequested)
-                    {
-                        _ZFP_layoutRequested = zftrue;
-                        ZFPROTOCOL_ACCESS(ZFUIView)->notifyNeedLayout(_ZFP_ownerZFUIView);
-                    }
                     if(event->type() == QEvent::LayoutRequest)
                     {
                         QCoreApplication::processEvents();
                     }
-                    if(_ZFP_layoutRequested)
-                    {
-                        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutRootView(_ZFP_ownerZFUIView, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
-                        _ZFP_layoutRequested = zffalse;
-                    }
+                    ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(_ZFP_ownerZFUIView, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
                     return true;
                 }
                 return QWidget::event(event);

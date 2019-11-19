@@ -210,7 +210,7 @@ private:
         ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(view, ZFUIViewStateAniImpl::EventStateAniViewAniPrepare(), aniList);
         #if _ZFP_ZFUIViewStateAni_DEBUG
             zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
-                << "aniPrepare" << view << view->layoutedFramePrev() << aniList;
+                << "aniPrepare" << view << view->viewFramePrev() << aniList;
         #endif
 
         if(aniList->isEmpty())
