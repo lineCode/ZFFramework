@@ -93,14 +93,15 @@ public:
     _ZFP_ZFUIViewLayerData layerInternalFg;
     enum {
         stateFlag_layoutRequested = 1 << 0,
-        stateFlag_layouting = 1 << 1,
-        stateFlag_observerHasAddFlag_viewChildOnChange = 1 << 2,
-        stateFlag_observerHasAddFlag_viewChildOnAdd = 1 << 3,
-        stateFlag_observerHasAddFlag_viewChildOnRemove = 1 << 4,
-        stateFlag_observerHasAddFlag_viewOnAddToParent = 1 << 5,
-        stateFlag_observerHasAddFlag_viewOnRemoveFromParent = 1 << 6,
-        stateFlag_observerHasAddFlag_layoutOnLayoutRequest = 1 << 7,
-        stateFlag_observerHasAddFlag_viewPropertyOnUpdate = 1 << 8,
+        stateFlag_layoutRequestedRecursively = 1 << 1,
+        stateFlag_layouting = 1 << 2,
+        stateFlag_observerHasAddFlag_viewChildOnChange = 1 << 3,
+        stateFlag_observerHasAddFlag_viewChildOnAdd = 1 << 4,
+        stateFlag_observerHasAddFlag_viewChildOnRemove = 1 << 5,
+        stateFlag_observerHasAddFlag_viewOnAddToParent = 1 << 6,
+        stateFlag_observerHasAddFlag_viewOnRemoveFromParent = 1 << 7,
+        stateFlag_observerHasAddFlag_layoutOnLayoutRequest = 1 << 8,
+        stateFlag_observerHasAddFlag_viewPropertyOnUpdate = 1 << 9,
     };
     zfuint stateFlag;
 
@@ -129,9 +130,40 @@ public:
     , stateFlag(0)
     {
         ZFBitSet(this->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
+        ZFBitSet(this->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequestedRecursively);
     }
 
 public:
+    void layoutRequest(ZF_IN ZFUIView *view, ZF_IN zfbool recursively)
+    {
+        if(recursively)
+        {
+            if(!ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequestedRecursively))
+            {
+                ZFPROTOCOL_INTERFACE_CLASS(ZFUIView) *impl = ZFPROTOCOL_ACCESS(ZFUIView);
+                do
+                {
+                    ZFBitSet(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequestedRecursively);
+                    if(!ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
+                    {
+                        ZFBitSet(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
+                        view->layoutOnLayoutRequest();
+                        impl->layoutRequest(view);
+                    }
+                    view = view->viewParent();
+                } while(view != zfnull && !ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequestedRecursively));
+            }
+        }
+        else
+        {
+            if(!ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
+            {
+                ZFBitSet(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
+                view->layoutOnLayoutRequest();
+                ZFPROTOCOL_ACCESS(ZFUIView)->layoutRequest(view);
+            }
+        }
+    }
     void layoutParamSet(ZF_IN ZFUIView *owner, ZF_IN ZFUIViewLayoutParam *newLayoutParam)
     {
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewListenerHolder) *listenerHolder = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewListenerHolder);
@@ -229,7 +261,6 @@ public:
         layer.views.add(atIndex, view);
         owner->implChildOnAdd(view, this->viewLayerPrevCount(layer) + atIndex, childLayer, atIndex);
 
-        owner->layoutRequest();
         view->layoutRequest();
 
         if(layoutParamNeedRelease)
@@ -1407,21 +1438,7 @@ ZFMETHOD_DEFINE_0(ZFUIView, ZFUIViewLayoutParam *, layoutParam)
 
 ZFMETHOD_DEFINE_0(ZFUIView, void, layoutRequest)
 {
-    if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
-    {
-        ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
-        this->layoutOnLayoutRequest();
-
-        ZFUIView *view = this->viewParent();
-        while(view != zfnull && !ZFBitTest(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested))
-        {
-            ZFBitSet(view->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
-            view->layoutOnLayoutRequest();
-            view = view->viewParent();
-        }
-
-        ZFPROTOCOL_ACCESS(ZFUIView)->layoutRequest(this);
-    }
+    d->layoutRequest(this, zftrue);
 }
 ZFMETHOD_DEFINE_0(ZFUIView, zfbool, layoutRequested)
 {
@@ -1537,7 +1554,8 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
         if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
             || !ZFUISizeIsEqual(propertyValue.size, propertyValueOld.size))
         {
-            this->layoutRequest();
+            // request layout only for the changed view
+            d->layoutRequest(this, zffalse);
         }
         return;
     }
@@ -1590,6 +1608,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
         ZFPROTOCOL_ACCESS(ZFUIView)->viewFrameSet(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
     }
     ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
+    ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequestedRecursively);
 }
 ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIRect &, viewFramePrev)
 {

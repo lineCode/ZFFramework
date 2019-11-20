@@ -641,13 +641,13 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, zfbool, scrollAlignToPageVe
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollView, ZFUIRect, scrollContentFrame)
 {
-    if(d->xScroll->scrollContentOffset() != propertyValueOld.point.x
+    if(d->xScroll->scrollContentOffset() != propertyValue.point.x
         || d->xScroll->scrollContentSize() != propertyValue.size.width)
     {
         d->xScroll->scrollContentChanged(propertyValue.point.x, propertyValue.size.width);
     }
-    if(d->yScroll->scrollContentOffset() != propertyValueOld.point.x
-        || d->yScroll->scrollContentSize() != propertyValue.size.width)
+    if(d->yScroll->scrollContentOffset() != propertyValue.point.y
+        || d->yScroll->scrollContentSize() != propertyValue.size.height)
     {
         d->yScroll->scrollContentChanged(propertyValue.point.y, propertyValue.size.height);
     }

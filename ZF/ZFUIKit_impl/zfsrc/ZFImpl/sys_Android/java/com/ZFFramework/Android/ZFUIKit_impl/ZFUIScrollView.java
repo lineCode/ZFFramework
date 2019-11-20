@@ -53,9 +53,7 @@ public class ZFUIScrollView extends ZFUIView {
         ZFUIScrollView nativeViewTmp = (ZFUIScrollView)nativeView;
         ZFUIView.native_viewFrameSet(nativeViewTmp._contentLayout,
             contentFrame_x, contentFrame_y, contentFrame_width, contentFrame_height);
-        ZFUIView.requestLayoutOverride = true;
         nativeViewTmp.requestLayout();
-        ZFUIView.requestLayoutOverride = false;
     }
 
     private boolean _scrollAnimating = false;

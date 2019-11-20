@@ -22,6 +22,8 @@ public class ZFUIView extends ViewGroup {
     public View nativeImplView = null;
     public boolean viewUIEnable = true;
     public boolean viewUIEnableTree = true;
+    public int layoutedWidth = -1;
+    public int layoutedHeight = -1;
     public int viewFrame_x = 0;
     public int viewFrame_y = 0;
     public int viewFrame_width = 0;
@@ -147,7 +149,10 @@ public class ZFUIView extends ViewGroup {
         nativeViewTmp.viewFrame_height = viewFrame_height;
     }
     public static void native_layoutRequest(Object nativeView) {
-        ((ZFUIView)nativeView).requestLayout();
+        ZFUIView nativeViewTmp = (ZFUIView)nativeView;
+        nativeViewTmp.layoutedWidth = -1;
+        nativeViewTmp.layoutedHeight = -1;
+        nativeViewTmp.requestLayout();
     }
     public static Object native_measureNativeView(Object nativeView,
                                                   int maxWidthOrNegative,
@@ -605,32 +610,28 @@ public class ZFUIView extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(this.zfjniPointerOwnerZFUIView != 0) {
-            ZFUIView.native_notifyLayoutView(
-                this.zfjniPointerOwnerZFUIView,
-                this.getLeft(),
-                this.getTop(),
-                MeasureSpec.getSize(widthMeasureSpec),
-                MeasureSpec.getSize(heightMeasureSpec));
-        }
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec(this.viewFrame_width, MeasureSpec.EXACTLY);
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(this.viewFrame_height, MeasureSpec.EXACTLY);
-        if(this.nativeImplView != null) {
-            this.nativeImplView.measure(widthMeasureSpec, heightMeasureSpec);
-        }
-
-        // measure all children is necessary to ensure valid state for underlying Android View's layout logic
-        for(int i = 0; i < this.getChildCount(); ++i) {
-            View child = this.getChildAt(i);
-            child.measure(widthMeasureSpec, heightMeasureSpec);
-        }
         this.setMeasuredDimension(this.viewFrame_width, this.viewFrame_height);
     }
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        if(this.zfjniPointerOwnerZFUIView != 0) {
+            if(this.layoutedWidth != (r - l) || this.layoutedHeight != (b - t)) {
+                this.layoutedWidth = r - l;
+                this.layoutedHeight = b - t;
+                ZFUIView.native_notifyLayoutView(
+                    this.zfjniPointerOwnerZFUIView,
+                    l,
+                    t,
+                    this.layoutedWidth,
+                    this.layoutedHeight);
+            }
+        }
         for(int i = 0; i < this.getChildCount(); ++i) {
             View child = this.getChildAt(i);
             if(child == this.nativeImplView) {
+                child.measure(
+                    MeasureSpec.makeMeasureSpec(this.nativeImplViewFrame_width, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(this.nativeImplViewFrame_height, MeasureSpec.EXACTLY));
                 child.layout(
                     this.nativeImplViewFrame_x,
                     this.nativeImplViewFrame_y,
@@ -639,6 +640,9 @@ public class ZFUIView extends ViewGroup {
             }
             else if (child instanceof ZFUIView) {
                 ZFUIView childTmp = (ZFUIView)child;
+                child.measure(
+                    MeasureSpec.makeMeasureSpec(childTmp.viewFrame_width, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(childTmp.viewFrame_height, MeasureSpec.EXACTLY));
                 childTmp.layout(
                     childTmp.viewFrame_x,
                     childTmp.viewFrame_y,
@@ -647,6 +651,9 @@ public class ZFUIView extends ViewGroup {
             }
             else {
                 // usually should not go here
+                child.measure(
+                    MeasureSpec.makeMeasureSpec(r - l, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(b - t, MeasureSpec.EXACTLY));
                 child.layout(0, 0, r - l, b - t);
             }
         }

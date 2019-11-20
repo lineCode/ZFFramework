@@ -92,6 +92,7 @@ public:
     _ZFP_ZFUIViewImpl_sys_Qt_QLayout *_ZFP_layoutProxy;
     void *_ZFP_focusProxyToken;
     QWidget *_ZFP_nativeImplView;
+    QSize _ZFP_layoutedSize;
     zfbool _ZFP_viewUIEnable;
     zfbool _ZFP_viewUIEnableTree;
     zfbool _ZFP_mousePressed;
@@ -104,6 +105,7 @@ public:
     , _ZFP_layoutProxy(new _ZFP_ZFUIViewImpl_sys_Qt_QLayout())
     , _ZFP_focusProxyToken(zfnull)
     , _ZFP_nativeImplView(zfnull)
+    , _ZFP_layoutedSize(QSize(-1, -1))
     , _ZFP_viewUIEnable(zftrue)
     , _ZFP_viewUIEnableTree(zftrue)
     , _ZFP_mousePressed(zffalse)
@@ -203,7 +205,13 @@ public:
                     {
                         QCoreApplication::processEvents();
                     }
-                    ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(_ZFP_ownerZFUIView, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
+                    if(this->geometry().size() != this->_ZFP_layoutedSize)
+                    {
+                        this->_ZFP_layoutedSize = this->geometry().size();
+                        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(
+                            _ZFP_ownerZFUIView,
+                            ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
+                    }
                     return true;
                 }
                 return QWidget::event(event);
@@ -570,15 +578,12 @@ public:
 
     virtual void layoutRequest(ZF_IN ZFUIView *view)
     {
-        QWidget *nativeViewTmp = ZFCastStatic(QWidget *, view->nativeView());
-        while(nativeViewTmp != zfnull)
+        _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
+        if(nativeViewTmp->layout() != zfnull)
         {
-            if(nativeViewTmp->layout() != zfnull)
-            {
-                nativeViewTmp->layout()->invalidate();
-            }
-            nativeViewTmp = nativeViewTmp->parentWidget();
+            nativeViewTmp->layout()->invalidate();
         }
+        nativeViewTmp->_ZFP_layoutedSize = QSize(-1, -1);
     }
 
     virtual void measureNativeView(ZF_OUT ZFUISize &ret,

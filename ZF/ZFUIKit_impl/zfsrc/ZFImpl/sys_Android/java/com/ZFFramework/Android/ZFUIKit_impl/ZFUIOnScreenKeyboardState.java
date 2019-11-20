@@ -159,12 +159,12 @@ public class ZFUIOnScreenKeyboardState {
             }
         }
         else if(windowData.keyboardStateDelaying) {
-            System.arraycopy(_keyboardFrame, 0, windowData.keyboardFrame, 0, 4);
+            System.arraycopy(windowData.keyboardFrame, 0, _keyboardFrame, 0, 4);
         }
         else {
             int old = windowData.keyboardFrame[3];
             keyboardFrameUpdate(window, windowData.keyboardFrame);
-            System.arraycopy(_keyboardFrame, 0, windowData.keyboardFrame, 0, 4);
+            System.arraycopy(windowData.keyboardFrame, 0, _keyboardFrame, 0, 4);
             if(_keyboardFrame[3] != old) {
                 ZFUIOnScreenKeyboardState.native_notifyKeyboardStateOnChange();
             }

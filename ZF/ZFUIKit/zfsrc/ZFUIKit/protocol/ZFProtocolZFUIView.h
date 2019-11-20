@@ -158,7 +158,9 @@ public:
      * @brief called by ZFUIView to notify the implementation that the view needs layout
      *
      * implementations should ensure next layout step would layout
-     * the view by calling #notifyLayoutView
+     * the view by calling #notifyLayoutView\n
+     * you have no need worry about parent,
+     * parent's #layoutRequest would be called by ZFUIView if necessary
      */
     virtual void layoutRequest(ZF_IN ZFUIView *view) zfpurevirtual;
 

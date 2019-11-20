@@ -11,7 +11,7 @@
 @property (nonatomic, assign) ZFUIView *_ZFP_ownerZFUIView;
 @property (nonatomic, strong) UIView *_ZFP_nativeImplView;
 @property (nonatomic, assign) CGRect _ZFP_nativeImplViewFrame;
-@property (nonatomic, assign) CGRect _ZFP_frame;
+@property (nonatomic, assign) CGSize _ZFP_layoutedSize;
 @property (nonatomic, strong) NSMutableArray *_ZFP_mouseRecords; // UITouch
 @property (nonatomic, assign) BOOL _ZFP_uiEnable;
 @property (nonatomic, assign) BOOL _ZFP_ZFUIViewFocus_viewFocusable;
@@ -32,6 +32,7 @@
 
     // status init
     self._ZFP_uiEnable = YES;
+    self._ZFP_layoutedSize = CGSizeMake(-1, -1);
 
     self._ZFP_ZFUIViewFocus_viewFocusable = NO;
 
@@ -59,40 +60,18 @@
 
 // ============================================================
 // frame and layout
-- (void)set_ZFP_frame:(CGRect)newFrame ZFImpl_sys_iOS_overrideProperty
-{
-    self->__ZFP_frame = newFrame;
-    self.frame = newFrame;
-}
 - (CGSize)sizeThatFits:(CGSize)size
 {
-    return self._ZFP_frame.size;
+    return self.frame.size;
 }
 - (void)layoutSubviews
 {
-    [super layoutSubviews];
-    if(self._ZFP_ownerZFUIView != zfnull)
+    if(self._ZFP_ownerZFUIView != zfnull && !CGSizeEqualToSize(self._ZFP_layoutedSize, self.frame.size))
     {
+        self._ZFP_layoutedSize = self.frame.size;
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(self._ZFP_ownerZFUIView, ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectFromCGRect(self.frame));
     }
-
-    NSArray *children = self.subviews;
-    for(NSUInteger i = 0; i < [children count]; ++i)
-    {
-        UIView *child = [children objectAtIndex:i];
-        if(child == self._ZFP_nativeImplView)
-        {
-            child.frame = self._ZFP_nativeImplViewFrame;
-        }
-        else if([child isKindOfClass:[_ZFP_ZFUIViewImpl_sys_iOS_View class]])
-        {
-            child.frame = ((_ZFP_ZFUIViewImpl_sys_iOS_View *)child)._ZFP_frame;
-        }
-        else
-        {
-            child.frame = self.bounds;
-        }
-    }
+    self._ZFP_nativeImplView.frame = self._ZFP_nativeImplViewFrame;
 }
 
 // ============================================================
@@ -475,19 +454,15 @@ public:
     virtual void viewFrameSet(ZF_IN ZFUIView *view,
                               ZF_IN const ZFUIRect &rect)
     {
-        ((__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView())._ZFP_frame =
+        ((__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView()).frame =
             ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIRectToCGRect(rect);
     }
 
     virtual void layoutRequest(ZF_IN ZFUIView *view)
     {
-        // iOS needs to setNeedsLayout recursively
-        UIView *nativeView = (__bridge UIView *)view->nativeView();
-        do
-        {
-            [nativeView setNeedsLayout];
-            nativeView = nativeView.superview;
-        } while(nativeView != nil);
+        _ZFP_ZFUIViewImpl_sys_iOS_View *nativeView = (__bridge _ZFP_ZFUIViewImpl_sys_iOS_View *)view->nativeView();
+        nativeView._ZFP_layoutedSize = CGSizeMake(-1, -1);
+        [nativeView setNeedsLayout];
     }
 
     virtual void measureNativeView(ZF_OUT ZFUISize &ret,
