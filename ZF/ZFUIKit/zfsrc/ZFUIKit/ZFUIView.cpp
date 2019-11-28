@@ -261,6 +261,7 @@ public:
         layer.views.add(atIndex, view);
         owner->implChildOnAdd(view, this->viewLayerPrevCount(layer) + atIndex, childLayer, atIndex);
 
+        owner->layoutRequest();
         view->layoutRequest();
 
         if(layoutParamNeedRelease)
