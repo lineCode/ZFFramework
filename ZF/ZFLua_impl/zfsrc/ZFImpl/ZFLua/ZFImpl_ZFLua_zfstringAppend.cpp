@@ -27,21 +27,6 @@ static int _ZFP_ZFImpl_ZFLua_zfstringAppend(ZF_IN lua_State *L)
 
     if(!stringValid)
     {
-        ZFStringEditable *s = obj;
-        if(s != zfnull)
-        {
-            stringValid = zftrue;
-            zfstring tmp = s->stringValue();
-            convertSuccess = ZFImpl_ZFLua_zfstringAppend(L, tmp, 2);
-            if(convertSuccess)
-            {
-                s->stringValueSet(tmp);
-            }
-        }
-    }
-
-    if(!stringValid)
-    {
         ZFLuaErrorOccurredTrim("[zfstringAppend] unknown string type or not editable, got %s",
             ZFImpl_ZFLua_luaObjectInfo(L, 1, zftrue).cString());
         return ZFImpl_ZFLua_luaError(L);

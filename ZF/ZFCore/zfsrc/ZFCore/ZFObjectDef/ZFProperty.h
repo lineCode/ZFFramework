@@ -14,6 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 zfclassFwd ZFProperty;
+typedef void (*_ZFP_ZFPropertyCallbackEnsureInit)(ZF_IN const ZFProperty *property, ZF_IN ZFObject *owner);
 typedef void (*_ZFP_ZFPropertyCallbackDealloc)(ZF_IN const ZFProperty *property, ZF_IN ZFObject *owner);
 /**
  * @brief info for a property for ZFObject, see #ZFPROPERTY_RETAIN for more info
@@ -78,7 +79,7 @@ public:
      * property are serializable except:
      * -  #propertyTypeId is #ZFTypeId_none
      * -  assign property with ZFObject type
-     * -  #ZFTypeIdBase::typeIdSerializable returned false
+     * -  #ZFTypeInfo::typeIdSerializable returned false
      *
      * @note this property would be calculated at runtime,
      *   take care of performance
@@ -120,7 +121,7 @@ public:
      *
      * this value should be ensured the type id for the type or #ZFTypeId_none if no known type,
      * this value is used for property's advanced serialize and copy logic,
-     * see #ZFTypeIdBase
+     * see #ZFTypeInfo
      * @note for retain property, this value is always the class name of the #propertyClassOfRetainProperty
      */
     inline const zfchar *propertyTypeId(void) const
@@ -128,11 +129,11 @@ public:
         return this->_ZFP_ZFProperty_typeId.cString();
     }
     /**
-     * @brief see #ZFTypeIdBase, may be null if #propertyTypeId is #ZFTypeId_none
+     * @brief see #ZFTypeInfo, may be null if #propertyTypeId is #ZFTypeId_none
      */
-    inline const ZFTypeIdBase *propertyTypeIdData(void) const
+    inline const ZFTypeInfo *propertyTypeIdData(void) const
     {
-        return ZFTypeIdGet(this->propertyTypeId());
+        return ZFTypeInfoGet(this->propertyTypeId());
     }
     /**
      * @brief get the getter method
@@ -176,30 +177,7 @@ public:
     ZFPropertyCallbackIsInitValue callbackIsInitValue;
     /** @brief see #ZFPropertyCallbackValueReset */
     ZFPropertyCallbackValueReset callbackValueReset;
-    /** @brief see #ZFPropertyCallbackValueSet */
-    ZFPropertyCallbackValueSet callbackValueSet;
-    /** @brief see #ZFPropertyCallbackValueGet */
-    ZFPropertyCallbackValueGet callbackValueGet;
-    /** @brief see #ZFPropertyCallbackValueGetRelease */
-    ZFPropertyCallbackValueGetRelease callbackValueGetRelease;
-    /** @brief see #ZFPropertyCallbackCompare */
-    ZFPropertyCallbackCompare callbackCompare;
-    /** @brief see #ZFPropertyCallbackGetInfo */
-    ZFPropertyCallbackGetInfo callbackGetInfo;
-    /** @brief see #ZFPropertyCallbackValueStore */
-    ZFPropertyCallbackValueStore callbackValueStore;
-    /** @brief see #ZFPropertyCallbackValueRelease */
-    ZFPropertyCallbackValueRelease callbackValueRelease;
-    /** @brief see #ZFPropertyCallbackSerializeFrom */
-    ZFPropertyCallbackSerializeFrom callbackSerializeFrom;
-    /** @brief see #ZFPropertyCallbackSerializeTo */
-    ZFPropertyCallbackSerializeTo callbackSerializeTo;
-    /** @brief see #ZFPropertyCallbackProgressUpdate */
-    ZFPropertyCallbackProgressUpdate callbackProgressUpdate;
-
-    /**
-     * @brief see #ZFPropertyUserRegisterAssign
-     */
+    /** @brief see #ZFPropertyUserRegisterAssign */
     ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup;
 
 public:
@@ -236,6 +214,7 @@ public:
     const ZFMethod *_ZFP_ZFProperty_setterMethod;
     const ZFMethod *_ZFP_ZFProperty_getterMethod;
     const ZFClass *_ZFP_ZFProperty_propertyClassOfRetainProperty;
+    _ZFP_ZFPropertyCallbackEnsureInit _ZFP_ZFProperty_callbackEnsureInit;
     _ZFP_ZFPropertyCallbackDealloc _ZFP_ZFProperty_callbackDealloc;
     ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnInit;
     ZFCoreArrayPOD<_ZFP_PropLifeCycleData> _ZFP_ZFPropertyLifeCycle_OnDealloc;
@@ -274,17 +253,8 @@ extern ZF_ENV_EXPORT ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIs
                                                          , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                                          , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                                          , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
-                                                         , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
-                                                         , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
-                                                         , ZF_IN ZFPropertyCallbackValueGetRelease callbackValueGetRelease
-                                                         , ZF_IN ZFPropertyCallbackCompare callbackCompare
-                                                         , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
-                                                         , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
-                                                         , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
-                                                         , ZF_IN ZFPropertyCallbackSerializeFrom callbackSerializeFrom
-                                                         , ZF_IN ZFPropertyCallbackSerializeTo callbackSerializeTo
-                                                         , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                                          , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
+                                                         , ZF_IN _ZFP_ZFPropertyCallbackEnsureInit callbackEnsureInit
                                                          , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                                          );
 extern ZF_ENV_EXPORT void _ZFP_ZFPropertyUnregister(ZF_IN const ZFProperty *propertyInfo);
@@ -305,17 +275,8 @@ public:
                                   , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                   , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                   , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
-                                  , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
-                                  , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
-                                  , ZF_IN ZFPropertyCallbackValueGetRelease callbackValueGetRelease
-                                  , ZF_IN ZFPropertyCallbackCompare callbackCompare
-                                  , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
-                                  , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
-                                  , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
-                                  , ZF_IN ZFPropertyCallbackSerializeFrom callbackSerializeFrom
-                                  , ZF_IN ZFPropertyCallbackSerializeTo callbackSerializeTo
-                                  , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                   , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
+                                  , ZF_IN _ZFP_ZFPropertyCallbackEnsureInit callbackEnsureInit
                                   , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                   )
     : propertyInfo(_ZFP_ZFPropertyRegister(propertyIsUserRegister
@@ -331,17 +292,8 @@ public:
                                            , callbackIsValueAccessed
                                            , callbackIsInitValue
                                            , callbackValueReset
-                                           , callbackValueSet
-                                           , callbackValueGet
-                                           , callbackValueGetRelease
-                                           , callbackCompare
-                                           , callbackGetInfo
-                                           , callbackValueStore
-                                           , callbackValueRelease
-                                           , callbackSerializeFrom
-                                           , callbackSerializeTo
-                                           , callbackProgressUpdate
                                            , callbackUserRegisterInitValueSetup
+                                           , callbackEnsureInit
                                            , callbackDealloc
                                            ))
     {

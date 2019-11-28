@@ -133,8 +133,8 @@ private:
             settings->add(setting);
             setting->userDataSet(this->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet("change test object");
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = "change test object";
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {

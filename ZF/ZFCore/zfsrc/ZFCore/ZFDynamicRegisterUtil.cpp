@@ -184,8 +184,8 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
     ZFCoreArrayPOD<const ZFMethod *> allMethod;
     ZFMethodGetAllT(allMethod);
 
-    ZFCoreArrayPOD<const ZFTypeIdBase *> allTypeId;
-    ZFTypeIdGetAllT(allTypeId);
+    ZFCoreArrayPOD<const ZFTypeInfo *> allTypeId;
+    ZFTypeInfoGetAllT(allTypeId);
 
     ZFCoreArrayPOD<const zfchar *> allNamespace;
     ZFNamespaceGetAllT(allNamespace);
@@ -212,7 +212,7 @@ void ZFDynamic::exportTag(ZF_IN_OUT const ZFOutput &output)
     }
     for(zfindex i = 0; i < allTypeId.count(); ++i)
     {
-        const ZFTypeIdBase *t = allTypeId[i];
+        const ZFTypeInfo *t = allTypeId[i];
         if(!zfsIsEmpty(t->typeId())
             && zfsncmp(t->typeId(), zfpFix, zfpFixLen) != 0)
         {

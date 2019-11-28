@@ -303,23 +303,32 @@ ZFTYPEID_ALIAS_DEFINE(zfstring, zfstring, cString, const zfchar *)
 
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_int_allow_negative(zfint, zfint)
+ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(zfint, zfint)
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_int_disallow_negative(zfuint, zfuint)
+ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(zfuint, zfuint)
 
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_int_disallow_negative(zfindex, zfindex)
+ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(zfindex, zfindex)
 
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_float(zffloat, zffloat)
+ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(zffloat, zffloat)
 
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_float(zfdouble, zfdouble)
+ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(zfdouble, zfdouble)
 
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_float(zflongdouble, zflongdouble)
+ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(zflongdouble, zflongdouble)
 
 // ============================================================
 _ZFP_ZFTYPEID_DEFINE_int_allow_negative(zftimet, zftimet)
+ZFTYPEID_PROGRESS_DEFINE(zftimet, zftimet, {
+        ret = (zft_zftimet)(from + (zft_zftimet)((to - from) * progress));
+    })
 
 // ============================================================
 ZFTYPEID_DEFINE(zfidentity, zfidentity, {

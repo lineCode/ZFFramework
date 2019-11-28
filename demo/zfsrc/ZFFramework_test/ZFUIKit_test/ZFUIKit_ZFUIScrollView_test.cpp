@@ -129,8 +129,8 @@ private:
             setting->userData()->tagSet("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat("autoScrollSpeedX: %d", scrollView->autoScrollSpeedX()));
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat("autoScrollSpeedX: %d", scrollView->autoScrollSpeedX());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
@@ -153,8 +153,8 @@ private:
             setting->userData()->tagSet("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat("autoScrollSpeedY: %d", scrollView->autoScrollSpeedY()));
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat("autoScrollSpeedY: %d", scrollView->autoScrollSpeedY());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
@@ -177,8 +177,8 @@ private:
             setting->userDataSet(zflineAlloc(ZFObject));
             setting->userData()->tagSet("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet("scrollChildToVisible");
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = "scrollChildToVisible";
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
@@ -196,9 +196,9 @@ private:
             setting->userData()->tagSet("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat("scrollAreaMargin: %s",
-                    ZFUIMarginToString(scrollView->scrollAreaMargin()).cString()));
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat("scrollAreaMargin: %s",
+                    ZFUIMarginToString(scrollView->scrollAreaMargin()).cString());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {

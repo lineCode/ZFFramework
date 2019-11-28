@@ -21,7 +21,7 @@ public:
     {
         if(path == zfnull) {return zffalse;}
         #if ZF_ENV_sys_Windows
-            return (GetFileAttributesW(ZFString::toUTF16(path, ZFStringEncoding::e_UTF8).cString()) != 0xFFFFFFFF);
+            return (GetFileAttributesW(zfstringToUTF16(path, ZFStringEncoding::e_UTF8).cString()) != 0xFFFFFFFF);
         #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown // #if ZF_ENV_sys_Windows
             return (access(path, F_OK) != -1);
         #endif // #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown
@@ -29,7 +29,7 @@ public:
     virtual zfbool fileIsDir(ZF_IN const zfchar *path)
     {
         #if ZF_ENV_sys_Windows
-            return ((GetFileAttributesW(ZFString::toUTF16(path, ZFStringEncoding::e_UTF8).cString())
+            return ((GetFileAttributesW(zfstringToUTF16(path, ZFStringEncoding::e_UTF8).cString())
                 & FILE_ATTRIBUTE_DIRECTORY) != 0);
         #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown // #if ZF_ENV_sys_Windows
             zfstring tmp = path;
@@ -163,7 +163,7 @@ public:
         void setup(ZFFileFindData::Impl &zfd)
         {
             zfd.fileName.removeAll();
-            ZFString::toUTF8(zfd.fileName, fd.cFileName, ZFStringEncoding::e_UTF16);
+            zfstringToUTF8(zfd.fileName, fd.cFileName, ZFStringEncoding::e_UTF16);
 
             zfstring filePath = this->parentPath;
             filePath += ZFFileSeparator();
@@ -211,7 +211,7 @@ public:
             tmp += ZFFileSeparator();
             tmp += '*';
             nativeFd->hFind = FindFirstFileW(
-                ZFString::toUTF16(tmp.cString(), ZFStringEncoding::e_UTF8).cString(),
+                zfstringToUTF16(tmp.cString(), ZFStringEncoding::e_UTF8).cString(),
                 &(nativeFd->fd));
             if(nativeFd->hFind == INVALID_HANDLE_VALUE) {break;}
 
@@ -305,7 +305,7 @@ private:
             return zftrue;
         }
         #if ZF_ENV_sys_Windows
-            if(!CreateDirectoryW(ZFString::toUTF16(path, ZFStringEncoding::e_UTF8).cString(), zfnull))
+            if(!CreateDirectoryW(zfstringToUTF16(path, ZFStringEncoding::e_UTF8).cString(), zfnull))
             {
                 zfself::SetErrPos(errPos, path);
                 return zffalse;
@@ -390,8 +390,8 @@ private:
         }
         #if ZF_ENV_sys_Windows
             if(CopyFileW(
-                    ZFString::toUTF16(srcPath, ZFStringEncoding::e_UTF8).cString(),
-                    ZFString::toUTF16(dstPath, ZFStringEncoding::e_UTF8).cString(),
+                    zfstringToUTF16(srcPath, ZFStringEncoding::e_UTF8).cString(),
+                    zfstringToUTF16(dstPath, ZFStringEncoding::e_UTF8).cString(),
                     !isForce
                 ) != TRUE)
             {
@@ -444,8 +444,8 @@ private:
         }
         #if ZF_ENV_sys_Windows
             if(MoveFileW(
-                    ZFString::toUTF16(srcPath, ZFStringEncoding::e_UTF8).cString(),
-                    ZFString::toUTF16(dstPath, ZFStringEncoding::e_UTF8).cString()
+                    zfstringToUTF16(srcPath, ZFStringEncoding::e_UTF8).cString(),
+                    zfstringToUTF16(dstPath, ZFStringEncoding::e_UTF8).cString()
                 ) != TRUE)
             {
                 zfself::SetErrPos(errPos, dstPath);
@@ -545,10 +545,10 @@ private:
             if(isForce)
             {
                 SetFileAttributesW(
-                    ZFString::toUTF16(srcPath, ZFStringEncoding::e_UTF8).cString(),
+                    zfstringToUTF16(srcPath, ZFStringEncoding::e_UTF8).cString(),
                     FILE_ATTRIBUTE_NORMAL);
             }
-            if(DeleteFileW(ZFString::toUTF16(srcPath, ZFStringEncoding::e_UTF8).cString()) != TRUE)
+            if(DeleteFileW(zfstringToUTF16(srcPath, ZFStringEncoding::e_UTF8).cString()) != TRUE)
             {
                 zfself::SetErrPos(errPos, srcPath);
                 return zffalse;
@@ -586,7 +586,7 @@ private:
             {
                 #if ZF_ENV_sys_Windows
                     SetFileAttributesW(
-                        ZFString::toUTF16(dirPath.cString(), ZFStringEncoding::e_UTF8).cString(),
+                        zfstringToUTF16(dirPath.cString(), ZFStringEncoding::e_UTF8).cString(),
                         FILE_ATTRIBUTE_NORMAL);
                 #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown
                     chmod(dirPath.cString(), 0777);
@@ -625,7 +625,7 @@ private:
             emptyDirsToDel.removeLast();
 
             #if ZF_ENV_sys_Windows
-                if(RemoveDirectoryW(ZFString::toUTF16(pathTmp.cString(), ZFStringEncoding::e_UTF8).cString()) == 0)
+                if(RemoveDirectoryW(zfstringToUTF16(pathTmp.cString(), ZFStringEncoding::e_UTF8).cString()) == 0)
                 {
                     zfself::SetErrPos(errPos, pathTmp);
                     return zffalse;

@@ -53,8 +53,8 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(delayOnFinish)
     {
         ZFAnimation *ani = userData->objectHolded();
-        ZFValue *taskId = listenerData.param0->to<ZFValue *>();
-        ani->_ZFP_ZFAnimation_aniImplDelayNotifyFinish(taskId->identityValue());
+        v_zfidentity *taskId = listenerData.param0->to<v_zfidentity *>();
+        ani->_ZFP_ZFAnimation_aniImplDelayNotifyFinish(taskId->zfv);
     }
     ZFListener dummyOnFinishListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(dummyOnFinish)
@@ -230,7 +230,7 @@ void ZFAnimation::aniImplDelay(void)
         this->aniDelay(),
         ZF_GLOBAL_INITIALIZER_INSTANCE(ZFAnimationTaskHolder)->delayOnFinishListener,
         this->objectHolder(),
-        ZFListenerData().param0Set(ZFValue::identityValueCreate(d->aniDelayTaskId).toObject())
+        ZFListenerData().param0Set(zflineAlloc(v_zfidentity, d->aniDelayTaskId))
         );
 }
 void ZFAnimation::aniImplDelayCancel(void)

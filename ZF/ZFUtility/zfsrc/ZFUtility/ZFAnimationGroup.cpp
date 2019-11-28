@@ -178,7 +178,7 @@ private:
                 ZFCallbackForMemberMethod(this, ZFMethodAccess(_ZFP_ZFAnimationGroupPrivate, onChildStartDelay)),
                 zfnull,
                 ZFListenerData()
-                    .param0Set(ZFValue::identityValueCreate(aniId).toObject())
+                    .param0Set(zflineAlloc(v_zfidentity, aniId))
                     .param1Set(childData)
                 );
             if(childDelayTaskId != zfidentityInvalid())
@@ -189,7 +189,7 @@ private:
     }
     ZFLISTENER_INLINE(onChildStartDelay)
     {
-        zfidentity aniId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
+        zfidentity aniId = ZFCastZFObjectUnchecked(v_zfidentity *, listenerData.param0)->zfv;
         ZFAnimationGroupChildData *childData = ZFCastZFObjectUnchecked(ZFAnimationGroupChildData *, listenerData.param1);
         if(aniId == this->pimplOwner->aniId())
         {

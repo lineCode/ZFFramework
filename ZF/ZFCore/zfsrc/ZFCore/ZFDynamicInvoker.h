@@ -117,7 +117,6 @@ protected:
  *
  * support these types:
  * -  #v_zfstring
- * -  #ZFString
  * -  #ZFDI_WrapperBase
  */
 extern ZF_ENV_EXPORT const zfchar *ZFDI_toString(ZF_IN ZFObject *obj);

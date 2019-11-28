@@ -6,9 +6,8 @@
  *   C-style string, use just like "const char *"
  * -  zfstring\n
  *   C++-style string, use just like std::string
- * -  ZFString / ZFStringEditable\n
- *   ZFFramework object type string, using native string as container,
- *   would have better performance for large strings
+ * -  v_zfstring\n
+ *   string wrapped as #ZFObject
  *
  * @code
  *   // common C-style string, best performance
@@ -24,10 +23,10 @@
  *   zfLogT() << cppStyle << cppStyle2.cString();
  *
  *   // string container as object type
- *   zfblockedAlloc(ZFString, zfStyle, "object-style string");
- *   zfblockedAlloc(ZFStringEditable, zfStyle2);
- *   zfStyle2->stringValueSet("copied object-style string");
- *   zfLogT() << zfStyle << zfStyle2->stringValue();
+ *   zfblockedAlloc(v_zfstring, zfStyle, "object-style string");
+ *   zfblockedAlloc(v_zfstring, zfStyle2);
+ *   zfStyle2->zfv = "copied object-style string";
+ *   zfLogT() << zfStyle << zfStyle2->zfv;
  * @endcode
  * \n
  * by default, all strings in ZFFramework use UTF-8 as string encoding

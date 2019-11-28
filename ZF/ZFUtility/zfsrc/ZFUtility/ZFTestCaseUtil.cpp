@@ -42,7 +42,7 @@ zfbool ZFTestCaseRun(ZF_IN const zfchar *classNameFull,
 }
 
 // ============================================================
-static void _ZFP_ZFTestCaseRunAllHolder_testCaseOnFinish(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData);
+static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFTestCaseRunAllHolder_testCaseOnFinish);
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTestCaseRunAllHolder, ZFLevelZFFrameworkEssential)
 {
     this->running = zffalse;
@@ -139,7 +139,7 @@ private:
     }
 ZF_GLOBAL_INITIALIZER_END(ZFTestCaseRunAllHolder)
 
-static void _ZFP_ZFTestCaseRunAllHolder_testCaseOnFinish(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFTestCaseRunAllHolder_testCaseOnFinish)
 {
     ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTestCaseRunAllHolder)->testCaseRunNext();
 }

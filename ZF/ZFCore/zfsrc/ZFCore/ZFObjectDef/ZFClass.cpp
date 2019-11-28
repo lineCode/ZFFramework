@@ -413,7 +413,7 @@ void ZFClass::_ZFP_ZFClass_instanceObserverNotify(ZF_IN ZFObject *obj) const
     if(!d->instanceObserverCached.empty())
     {
         ZFListenerData listenerData(ZFObject::EventObjectAfterAlloc(), obj);
-        for(zfstlsize i = 0; i < d->instanceObserverCached.size() && !listenerData.eventFiltered; ++i)
+        for(zfstlsize i = 0; i < d->instanceObserverCached.size() && !listenerData.eventFiltered(); ++i)
         {
             _ZFP_ZFClassPrivate::InstanceObserverData &data = *(d->instanceObserverCached[i]);
             data.observer.execute(listenerData, data.userData.toObject());
@@ -876,6 +876,98 @@ const ZFProperty *ZFClass::propertyForName(const zfchar *propertyName) const
         return it->second;
     }
 }
+
+const ZFMethod *ZFClass::propertySetterForNameIgnoreParent(const zfchar *propertyName) const
+{
+    this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
+
+    if(!d->methodMap.empty())
+    {
+        zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> >::iterator itName
+            = d->methodMap.find(zfstringWithFormat("%sSet", propertyName).cString());
+        if(itName != d->methodMap.end())
+        {
+            zfstlvector<const ZFMethod *> &l = itName->second;
+            for(zfstlsize i = 0; i < l.size(); ++i)
+            {
+                const ZFMethod *m = l[i];
+                if(m->methodParamCountMin() == 1)
+                {
+                    return m;
+                }
+            }
+        }
+    }
+    return zfnull;
+}
+const ZFMethod *ZFClass::propertySetterForName(const zfchar *propertyName) const
+{
+    if(propertyName == zfnull)
+    {
+        return zfnull;
+    }
+    this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
+    this->_ZFP_ZFClass_methodMapCacheUpdate();
+    zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> >::iterator it
+        = d->methodMapCache.find(zfstringWithFormat("%sSet", propertyName).cString());
+    if(it == d->methodMapCache.end())
+    {
+        return zfnull;
+    }
+    for(zfindex i = 0; i < it->second.size(); ++i)
+    {
+        if(it->second[i]->methodParamCountMin() == 1)
+        {
+            return it->second[i];
+        }
+    }
+    return zfnull;
+}
+const ZFMethod *ZFClass::propertyGetterForNameIgnoreParent(const zfchar *propertyName) const
+{
+    this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
+
+    if(!d->methodMap.empty())
+    {
+        zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> >::iterator itName = d->methodMap.find(propertyName);
+        if(itName != d->methodMap.end())
+        {
+            zfstlvector<const ZFMethod *> &l = itName->second;
+            for(zfstlsize i = 0; i < l.size(); ++i)
+            {
+                const ZFMethod *m = l[i];
+                if(m->methodParamCountMin() == 0)
+                {
+                    return m;
+                }
+            }
+        }
+    }
+    return zfnull;
+}
+const ZFMethod *ZFClass::propertyGetterForName(const zfchar *propertyName) const
+{
+    if(propertyName == zfnull)
+    {
+        return zfnull;
+    }
+    this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
+    this->_ZFP_ZFClass_methodMapCacheUpdate();
+    zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> >::iterator it = d->methodMapCache.find(propertyName);
+    if(it == d->methodMapCache.end())
+    {
+        return zfnull;
+    }
+    for(zfindex i = 0; i < it->second.size(); ++i)
+    {
+        if(it->second[i]->methodParamCountMin() == 0)
+        {
+            return it->second[i];
+        }
+    }
+    return zfnull;
+}
+
 zfbool ZFClass::propertyHasOverrideInitStep(void) const
 {
     return !(d->propertyInitStepMap.empty());
@@ -1568,7 +1660,7 @@ void ZFClass::_ZFP_ZFClass_propertyAutoInitAction(ZF_IN ZFObject *owner) const
     for(zfstlmap<const ZFProperty *, zfbool>::iterator it = d->propertyAutoInitMap.begin(); it != d->propertyAutoInitMap.end(); ++it)
     {
         const ZFProperty *property = it->first;
-        ZFPropertyCallbackValueGetHolder _valueGetHolder(property, owner);
+        property->_ZFP_ZFProperty_callbackEnsureInit(property, owner);
     }
 }
 void ZFClass::_ZFP_ZFClass_propertyInitStepRegister(ZF_IN const ZFProperty *property) const

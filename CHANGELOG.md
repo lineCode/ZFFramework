@@ -1,8 +1,11 @@
 # 0.9.0RC
 
+* reduce property impl's complexity
+* add support for setter and getter method to simulate property
 * add lambda implemented by pure C++03
-* remove view delegate support
 * enhance view layout logic
+* remove view delegate support
+* remove some useless module
 
 # 0.8.0
 

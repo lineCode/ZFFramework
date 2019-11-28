@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_VAR(ZFTypeIdWrapper, zfbool, wrappedValueIsConst)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFTypeIdWrapper, void, markConst, ZFMP_IN(ZFObject *, obj))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFTypeIdWrapper, ZFTypeIdWrapper *, assign, ZFMP_IN(ZFTypeIdWrapper *, ref))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFTypeIdWrapper, ZFTypeIdWrapper *, wrappedValueAssign, ZFMP_IN(ZFTypeIdWrapper *, ref))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFTypeIdWrapper, const zfchar *, wrappedValueTypeId)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFTypeIdWrapper, void, wrappedValueReset)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFTypeIdWrapper, zfbool, wrappedValueIsInit)
@@ -30,7 +30,7 @@ ZFMETHOD_USER_REGISTER_1({
     ZFMP_IN(const zfchar *, src))
 ZFMETHOD_USER_REGISTER_1({
         invokerObject->objectOnInit();
-        invokerObject->to<ZFTypeIdWrapper *>()->assign(src);
+        invokerObject->to<ZFTypeIdWrapper *>()->wrappedValueAssign(src);
     }, ZFTypeIdWrapper, void, objectOnInit,
     ZFMP_IN(ZFTypeIdWrapper *, src))
 

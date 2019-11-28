@@ -34,7 +34,7 @@ public:
  *
  *   -- required
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellCount(), function(listenerData, userData)
- *       listenerData:param0():indexValueSet(yourListCellCount());
+ *       listenerData:param0():zfvSet(yourListCellCount());
  *   end);
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellAtIndex(), function(listenerData, userData)
  *       local param = listenerData:param0();
@@ -68,7 +68,7 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * called when #cellCount,
-     * param0 is #ZFValueEditable::indexValue that holds the cell count
+     * param0 is #v_zfindex that holds the cell count
      */
     ZFOBSERVER_EVENT(ListCellCount)
     /**
@@ -97,9 +97,9 @@ public:
     zfoverride
     virtual zfindex cellCount(void)
     {
-        zfblockedAlloc(ZFValueEditable, ret);
+        zfblockedAlloc(v_zfindex, ret);
         this->observerNotify(zfself::EventListCellCount(), ret);
-        return ret->indexValue();
+        return ret->zfv;
     }
     zfoverride
     virtual zfautoObject cellAtIndex(ZF_IN zfindex index)

@@ -36,7 +36,7 @@ public:
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * param0 is a float #ZFValue containing current time line progress
+     * param0 is a float #v_zffloat containing current time line progress
      */
     ZFOBSERVER_EVENT(AniTimeLineOnUpdate)
 

@@ -279,7 +279,7 @@ public:
 public:
     static void showAbout(void)
     {
-        ZFUIHintShow(ZFStyleGet("ZF2048_aboutContent").to<ZFString *>()->stringValue());
+        ZFUIHintShow(ZFStyleGet("ZF2048_aboutContent").to<v_zfstring *>()->zfv);
     }
 
 protected:

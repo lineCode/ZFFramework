@@ -15,33 +15,33 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief wrapper for #ZFMETHOD_INLINE_2, see #ZFListener
  *
  * proto type:\n
- * virtual void listenerName(ZF_IN_OUT ZFListenerData &listenerData, ZFObject *userData);
+ * virtual void listenerName(ZF_IN const ZFListenerData &listenerData, ZFObject *userData);
  */
 #define ZFLISTENER_INLINE(listenerName) \
     ZFMETHOD_INLINE_2(void, listenerName, \
-                      ZFMP_IN_OUT(ZFListenerData &, listenerData), \
+                      ZFMP_IN(const ZFListenerData &, listenerData), \
                       ZFMP_IN(ZFObject *, userData))
 /** @brief see #ZFLISTENER_INLINE */
 #define ZFLISTENER_DECLARE(listenerName) \
     ZFMETHOD_DECLARE_2(void, listenerName, \
-                       ZFMP_IN_OUT(ZFListenerData &, listenerData), \
+                       ZFMP_IN(const ZFListenerData &, listenerData), \
                        ZFMP_IN(ZFObject *, userData))
 /** @brief see #ZFLISTENER_INLINE */
 #define ZFLISTENER_DEFINE(OwnerClass, listenerName) \
     ZFMETHOD_DEFINE_2(OwnerClass, void, listenerName, \
-                      ZFMP_IN_OUT(ZFListenerData &, listenerData), \
+                      ZFMP_IN(const ZFListenerData &, listenerData), \
                       ZFMP_IN(ZFObject *, userData))
 
 /**
  * @brief util macro to expand as\n
- *   void methodPlaceholder(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *, userData)
+ *   void methodPlaceholder(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject *, userData)
  */
 #define ZFLISTENER_PROTOTYPE_EXPAND(methodPlaceholder) \
-    void methodPlaceholder(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject * userData)
+    void methodPlaceholder(ZF_IN const ZFListenerData &listenerData, ZF_IN ZFObject * userData)
 
 /** @brief see #ZFLISTENER_INLINE */
 #define ZFLISTENER_LOCAL_BEGIN(listenerName) \
-    ZFCALLBACK_LOCAL_BEGIN_2(void, listenerName, ZFListenerData &, listenerData, ZFObject *, userData)
+    ZFCALLBACK_LOCAL_BEGIN_2(void, listenerName, const ZFListenerData &, listenerData, ZFObject *, userData)
 /** @brief see #ZFLISTENER_INLINE */
 #define ZFLISTENER_LOCAL_END(listenerName) \
     ZFCALLBACK_LOCAL_END_WITH_TYPE(ZFListener, listenerName)
@@ -59,7 +59,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     , lambdaBody) \
     ZFLAMBDA_0(name \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -70,7 +70,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     ZFLAMBDA_1(name \
         , CaptureParam0, capture0 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -83,7 +83,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam0, capture0 \
         , CaptureParam1, capture1 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -98,7 +98,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam1, capture1 \
         , CaptureParam2, capture2 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -115,7 +115,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam2, capture2 \
         , CaptureParam3, capture3 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -134,7 +134,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam3, capture3 \
         , CaptureParam4, capture4 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -155,7 +155,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam4, capture4 \
         , CaptureParam5, capture5 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -178,7 +178,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam5, capture5 \
         , CaptureParam6, capture6 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 
@@ -203,7 +203,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         , CaptureParam6, capture6 \
         , CaptureParam7, capture7 \
         , lambdaBody, void \
-        , ZFM_EXPAND(ZFMP_IN_OUT(ZFListenerData &, listenerData)) \
+        , ZFM_EXPAND(ZFMP_IN(const ZFListenerData &, listenerData)) \
         , ZFM_EXPAND(ZFMP_IN(ZFObject *, userData)) \
         )
 

@@ -46,7 +46,7 @@ protected:
         zfLogTrimT() << ZFTypeId<zfstring>::Value<const zfstring * const &>::zfvAccess(v);
 
         // zfautoObject processed as normal raw type
-        zfblockedAlloc(ZFString, test_String, "zfautoObject");
+        zfblockedAlloc(v_zfstring, test_String, "zfautoObject");
         v = test_String;
         zfLogTrimT() << "============================================================";
         zfLogTrimT() << "zfautoObject";
@@ -61,7 +61,7 @@ protected:
         zfLogTrimT() << ZFTypeId<zfautoObject>::Value<const zfautoObject * const &>::zfvAccess(v);
 
         // ZFAny processed as aligned type
-        zfblockedAlloc(ZFString, test_ZFAny, "ZFAny");
+        zfblockedAlloc(v_zfstring, test_ZFAny, "ZFAny");
         v = test_ZFAny;
         zfLogTrimT() << "============================================================";
         zfLogTrimT() << "ZFAny";

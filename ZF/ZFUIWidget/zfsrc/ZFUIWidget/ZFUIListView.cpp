@@ -71,14 +71,14 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(listAdapterOnReload)
     {
         ZFUIListView *listView = userData->objectHolded();
-        ZFValue *atIndex = listenerData.param0->to<ZFValue *>();
-        if(atIndex == zfnull || atIndex->indexValue() == zfindexMax())
+        v_zfindex *atIndex = listenerData.param0->to<v_zfindex *>();
+        if(atIndex == zfnull || atIndex->zfv == zfindexMax())
         {
             listView->listReload();
         }
         else
         {
-            listView->listReloadCellAtIndex(atIndex->indexValue());
+            listView->listReloadCellAtIndex(atIndex->zfv);
         }
     }
     void listBounceUpdate(void)

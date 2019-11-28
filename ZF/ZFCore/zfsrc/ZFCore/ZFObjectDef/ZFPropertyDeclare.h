@@ -6,7 +6,6 @@
 #ifndef _ZFI_ZFPropertyDeclare_h_
 #define _ZFI_ZFPropertyDeclare_h_
 
-#include "ZFPropertyCallbackDefaultImpl.h"
 #include "ZFMethodDeclare.h"
 #include "ZFObjectUtil.h"
 
@@ -407,17 +406,8 @@ public:
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
                     , zfself::_ZFP_propCbReset_##Name \
-                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , zfself::_ZFP_propCbGet_retain_##Name \
-                    , zfself::_ZFP_propCbGetRelease_retain_##Name \
-                    , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
-                    , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
-                    , _ZFP_propCbDValueStore<PropHT_##Name> \
-                    , _ZFP_propCbDValueRelease<PropHT_##Name> \
-                    , _ZFP_propCbDSerializeFrom_get<zfself::PropVT_##Name>() \
-                    , _ZFP_propCbDSerializeTo_get<zfself::PropVT_##Name>() \
-                    , _ZFP_propCbDProgressUpdate<PropHT_##Name, zfself::PropVT_##Name> \
                     , zfnull \
+                    , zfself::_ZFP_propCbEnsureInit_##Name \
                     , zfself::_ZFP_propCbDel_##Name \
                 ); \
             return _propertyInfoHolder.propertyInfo; \
@@ -440,17 +430,8 @@ public:
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
                     , zfself::_ZFP_propCbReset_##Name \
-                    , _ZFP_propCbDValueSet<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , _ZFP_propCbDValueGet_assign<zfself::PropHT_##Name, zfself::PropVT_##Name> \
-                    , _ZFP_propCbDValueGetRelease_dummy \
-                    , _ZFP_propCbDCompare<zfself::PropHT_##Name> \
-                    , _ZFP_propCbDGetInfo<zfself::PropHT_##Name> \
-                    , _ZFP_propCbDValueStore<PropHT_##Name> \
-                    , _ZFP_propCbDValueRelease<PropHT_##Name> \
-                    , _ZFP_propCbDSerializeFrom_get<zfself::PropVT_##Name>() \
-                    , _ZFP_propCbDSerializeTo_get<zfself::PropVT_##Name>() \
-                    , _ZFP_propCbDProgressUpdate<PropHT_##Name, zfself::PropVT_##Name> \
                     , zfnull \
+                    , zfself::_ZFP_propCbEnsureInit_##Name \
                     , zfself::_ZFP_propCbDel_##Name \
                 ); \
             return _propertyInfoHolder.propertyInfo; \
@@ -514,7 +495,7 @@ public:
     private: \
         static zfbool _ZFP_propCbIsInit_##Name(ZF_IN const ZFProperty *property, \
                                                ZF_IN ZFObject *ownerObj, \
-                                               ZF_OUT_OPT void *outInitValue) \
+                                               ZF_OUT_OPT zfautoObject *outInitValue) \
         { \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             if(t->Name##_PropV._ZFP_accessed()) \
@@ -522,7 +503,7 @@ public:
                 zfself::_ZFP_PropV_##Name _holder; \
                 if(outInitValue != zfnull) \
                 { \
-                    *(zfself::PropHT_##Name *)outInitValue = _holder._ZFP_init(ownerObj, zffalse); \
+                    *outInitValue = _holder._ZFP_init(ownerObj, zffalse); \
                 } \
                 return (ZFComparerDefault( \
                         t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder._ZFP_init(ownerObj, zffalse)) \
@@ -609,7 +590,7 @@ public:
     private: \
         static zfbool _ZFP_propCbIsInit_##Name(ZF_IN const ZFProperty *property, \
                                                ZF_IN ZFObject *ownerObj, \
-                                               ZF_OUT_OPT void *outInitValue) \
+                                               ZF_OUT_OPT zfautoObject *outInitValue) \
         { \
             zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
             if(t->Name##_PropV._ZFP_accessed()) \
@@ -617,7 +598,7 @@ public:
                 zfself::_ZFP_PropV_##Name _holder; \
                 if(outInitValue != zfnull) \
                 { \
-                    *(zfself::PropHT_##Name *)outInitValue = _holder._ZFP_init(ownerObj, zffalse); \
+                    ZFTypeId<zfself::PropVT_##Name>::ValueStore(*outInitValue, _holder._ZFP_init(ownerObj, zffalse)); \
                 } \
                 return (ZFComparerDefault( \
                         t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder._ZFP_init(ownerObj, zffalse)) \
@@ -642,6 +623,10 @@ public:
         static void _ZFP_propCbReset_##Name(ZF_IN const ZFProperty *property, ZF_IN ZFObject *owner) \
         { \
             ZFCastZFObjectUnchecked(zfself *, owner)->Name##_PropV._ZFP_dealloc(owner, zftrue); \
+        } \
+        static void _ZFP_propCbEnsureInit_##Name(ZF_IN const ZFProperty *property, ZF_IN ZFObject *owner) \
+        { \
+            ZFCastZFObjectUnchecked(zfself *, owner)->Name##_PropV._ZFP_init(owner); \
         } \
         static void _ZFP_propCbDel_##Name(ZF_IN const ZFProperty *property, ZF_IN ZFObject *owner) \
         { \

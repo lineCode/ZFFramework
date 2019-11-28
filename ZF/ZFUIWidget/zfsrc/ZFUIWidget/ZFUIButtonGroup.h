@@ -60,7 +60,7 @@ public:
      * called when button added,
      * sender is the button,
      * param0 is this button group itself,
-     * param1 is a #ZFValue::indexValue which shows the button's index
+     * param1 is a #v_zfindex which shows the button's index
      */
     ZFOBSERVER_EVENT(ButtonOnAdd)
     /**
@@ -69,7 +69,7 @@ public:
      * called when button removed,
      * sender is the button,
      * param0 is this button group itself,
-     * param1 is a #ZFValue::indexValue which shows the button's index
+     * param1 is a #v_zfindex which shows the button's index
      */
     ZFOBSERVER_EVENT(ButtonOnRemove)
 
@@ -157,7 +157,7 @@ protected:
      * note:
      * sender is the button that fired the button event,
      * param0 is the button group itself,
-     * param1 is a #ZFValue::indexValue which shows the button's index
+     * param1 is a #v_zfindex which shows the button's index
      */
     virtual inline void buttonGroupOnEvent(ZF_IN ZFUIButton *button,
                                            ZF_IN zfindex buttonIndex,
@@ -167,7 +167,7 @@ protected:
             button,
             eventId,
             this->toObject(),
-            ZFValue::indexValueCreate(buttonIndex).toObject());
+            zflineAlloc(v_zfindex, buttonIndex));
     }
     /** @brief see #EventButtonOnAdd */
     virtual inline void buttonOnAdd(ZF_IN ZFUIButton *button,
@@ -177,7 +177,7 @@ protected:
             button,
             ZFUIButtonGroup::EventButtonOnAdd(),
             this->toObject(),
-            ZFValue::indexValueCreate(buttonIndex).toObject());
+            zflineAlloc(v_zfindex, buttonIndex));
     }
     /** @brief see #EventButtonOnRemove */
     virtual inline void buttonOnRemove(ZF_IN ZFUIButton *button,
@@ -187,7 +187,7 @@ protected:
             button,
             ZFUIButtonGroup::EventButtonOnRemove(),
             this->toObject(),
-            ZFValue::indexValueCreate(buttonIndex).toObject());
+            zflineAlloc(v_zfindex, buttonIndex));
     }
 
     // ============================================================
@@ -200,7 +200,7 @@ public:
      * called when #buttonTabChecked changed,
      * sender is the newly clicked button,
      * param0 is the button group itself,
-     * param1 is a #ZFValue::indexValue which shows the previous checked button index
+     * param1 is a #v_zfindex which shows the previous checked button index
      * (may be #zfindexMax if nothing checked previously)
      */
     ZFOBSERVER_EVENT(ButtonTabOnChange)
@@ -211,7 +211,7 @@ public:
      * called when checked button clicked,
      * sender is the clicked button,
      * param0 is the button group itself,
-     * param1 is a #ZFValue::indexValue which shows the button's index
+     * param1 is a #v_zfindex which shows the button's index
      */
     ZFOBSERVER_EVENT(ButtonTabOnClickChecked)
 
@@ -248,7 +248,7 @@ protected:
             button,
             ZFUIButtonGroup::EventButtonTabOnChange(),
             this->toObject(),
-            ZFValue::indexValueCreate(buttonIndexPrev).toObject());
+            zflineAlloc(v_zfindex, buttonIndexPrev));
     }
     /** @brief see #EventButtonTabOnClickChecked */
     virtual inline void buttonTabOnClickChecked(ZF_IN ZFUIButton *button,
@@ -258,7 +258,7 @@ protected:
             button,
             ZFUIButtonGroup::EventButtonTabOnClickChecked(),
             this->toObject(),
-            ZFValue::indexValueCreate(buttonIndex).toObject());
+            zflineAlloc(v_zfindex, buttonIndex));
     }
 };
 

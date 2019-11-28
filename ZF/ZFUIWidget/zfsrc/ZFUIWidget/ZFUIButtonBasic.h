@@ -367,8 +367,6 @@ protected:
     virtual void objectOnInit(void);
     zfoverride
     virtual void objectOnDealloc(void);
-    zfoverride
-    virtual void objectOnInitFinish(void);
 
     zfoverride
     virtual void objectInfoOnAppend(ZF_IN_OUT zfstring &ret);

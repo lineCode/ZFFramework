@@ -2,7 +2,6 @@
 #include "protocol/ZFProtocolZFTimer.h"
 
 #include "ZFThread.h" // for timer thread register
-#include "ZFValue.h" // for timer activate count
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -154,7 +153,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFTimerExecute,
     if(param.timerActivateCountMax() > 0)
     {
         ZFLISTENER_LOCAL(timerOnActivate, {
-            zfindex timerActivatedCountMax = userData->to<ZFValue *>()->indexValue();
+            zfindex timerActivatedCountMax = userData->to<v_zfindex *>()->zfv;
             ZFTimer *timer = listenerData.sender->to<ZFTimer *>();
             if(timer->timerActivatedCount() > timerActivatedCountMax)
             {
@@ -163,7 +162,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFTimerExecute,
         })
         timer->observerAdd(ZFTimer::EventTimerOnActivate(),
             timerOnActivate,
-            ZFValue::indexValueCreate(param.timerActivateCountMax()).toObject());
+            zflineAlloc(v_zfindex, param.timerActivateCountMax()));
     }
     timer->timerStart();
     return timer;

@@ -393,16 +393,16 @@ void ZFUITextEdit::textOnChangeCheck(ZF_IN const zfchar *newText, ZF_IN_OUT zfbo
 
     if(this->observerHasAdd(ZFUITextEdit::EventTextOnChangeCheck()))
     {
-        zfautoObject t = ZFValueEditable::boolValueCreate(shouldChange);
-        this->observerNotify(ZFUITextEdit::EventTextOnChangeCheck(), zflineAlloc(ZFString, newText), t.toObject());
-        shouldChange = t.to<ZFValue *>()->boolValue();
+        zfblockedAlloc(v_zfbool, t, shouldChange);
+        this->observerNotify(ZFUITextEdit::EventTextOnChangeCheck(), zflineAlloc(v_zfstring, newText), t);
+        shouldChange = t->zfv;
     }
 }
 void ZFUITextEdit::textOnChange(ZF_IN const zfchar *oldText)
 {
     if(this->observerHasAdd(ZFUITextEdit::EventTextOnChange()))
     {
-        zfblockedAlloc(ZFString, oldTextTmp, oldText);
+        zfblockedAlloc(v_zfstring, oldTextTmp, oldText);
         this->observerNotify(ZFUITextEdit::EventTextOnChange(), oldTextTmp);
     }
 }

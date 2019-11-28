@@ -30,10 +30,10 @@ zfclassFwd ZFSerializableData;
 /**
  * @brief base protocol for #ZFTypeId
  */
-zfclassNotPOD ZF_ENV_EXPORT ZFTypeIdBase
+zfclassNotPOD ZF_ENV_EXPORT ZFTypeInfo
 {
 public:
-    virtual ~ZFTypeIdBase(void) {}
+    virtual ~ZFTypeInfo(void) {}
 
 public:
     /**
@@ -59,22 +59,22 @@ public:
 };
 
 // ============================================================
-extern ZF_ENV_EXPORT void _ZFP_ZFTypeIdRegister(ZF_IN const zfchar *typeId,
-                                                ZF_IN ZFTypeIdBase *typeIdData);
-extern ZF_ENV_EXPORT ZFTypeIdBase *_ZFP_ZFTypeIdUnregister(ZF_IN const zfchar *typeId);
+extern ZF_ENV_EXPORT void _ZFP_ZFTypeInfoRegister(ZF_IN const zfchar *typeId,
+                                                  ZF_IN ZFTypeInfo *typeIdData);
+extern ZF_ENV_EXPORT ZFTypeInfo *_ZFP_ZFTypeInfoUnregister(ZF_IN const zfchar *typeId);
 /**
  * @brief access type id data
  */
-extern ZF_ENV_EXPORT const ZFTypeIdBase *ZFTypeIdGet(ZF_IN const zfchar *typeId);
-/** @brief see #ZFTypeIdGetAll */
-extern ZF_ENV_EXPORT void ZFTypeIdGetAllT(ZF_OUT ZFCoreArray<const ZFTypeIdBase *> &ret);
+extern ZF_ENV_EXPORT const ZFTypeInfo *ZFTypeInfoGet(ZF_IN const zfchar *typeId);
+/** @brief see #ZFTypeInfoGetAll */
+extern ZF_ENV_EXPORT void ZFTypeInfoGetAllT(ZF_OUT ZFCoreArray<const ZFTypeInfo *> &ret);
 /**
  * @brief access type id data
  */
-inline ZFCoreArrayPOD<const ZFTypeIdBase *> ZFTypeIdGetAll(void)
+inline ZFCoreArrayPOD<const ZFTypeInfo *> ZFTypeInfoGetAll(void)
 {
-    ZFCoreArrayPOD<const ZFTypeIdBase *> ret;
-    ZFTypeIdGetAllT(ret);
+    ZFCoreArrayPOD<const ZFTypeInfo *> ret;
+    ZFTypeInfoGetAllT(ret);
     return ret;
 }
 
@@ -92,7 +92,7 @@ zfclassNotPOD _ZFP_ZFTypeIdRegChecker
  * use #zftTraits::TrNoRef if necessary
  */
 template<typename T_Type, typename T_ZFObjectFix = void, typename T_PointerFix = void>
-zfclassNotPOD ZFTypeId : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId : zfextendsNotPOD ZFTypeInfo
 {
 public:
     /** @cond ZFPrivateDoc */
@@ -209,7 +209,7 @@ public:
     ZF_STATIC_REGISTER_INIT(PropTIReg_##TypeName) \
     { \
         typedef Type _ZFP_PropTypeW2_##TypeName; \
-        _ZFP_ZFTypeIdRegister(ZFTypeId_##TypeName(), \
+        _ZFP_ZFTypeInfoRegister(ZFTypeId_##TypeName(), \
             zfnew(ZFTypeId<_ZFP_PropTypeW2_##TypeName>)); \
         ZFMethodFuncUserRegister_0(dummy, { \
                 return ZFTypeId_##TypeName(); \
@@ -218,11 +218,16 @@ public:
     ZF_STATIC_REGISTER_DESTROY(PropTIReg_##TypeName) \
     { \
         ZFMethodFuncUserUnregister(ZFMethodFuncGet(zfnull, ZFM_TOSTRING(ZFTypeId_##TypeName))); \
-        zfdelete(_ZFP_ZFTypeIdUnregister(ZFTypeId_##TypeName())); \
+        zfdelete(_ZFP_ZFTypeInfoUnregister(ZFTypeId_##TypeName())); \
     } \
     ZF_STATIC_REGISTER_END(PropTIReg_##TypeName)
 
 // ============================================================
+zfclassFwd ZFProgressable;
+typedef zfbool (*_ZFP_ZFTypeIdProgressUpdate)(ZF_IN_OUT ZFProgressable *ret,
+                                              ZF_IN ZFProgressable *from,
+                                              ZF_IN ZFProgressable *to,
+                                              ZF_IN zffloat progress);
 #define _ZFP_ZFTYPEID_WRAPPER_DECLARE(TypeName, Type) \
     typedef Type _ZFP_PropTypeW_##TypeName; \
     /** @brief type wrapper for #ZFTypeId::Value */ \
@@ -251,7 +256,7 @@ public:
         virtual ZFCompareResult objectCompare(ZF_IN ZFObject *anotherObj); \
     public: \
         zfoverride \
-        virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref); \
+        virtual void wrappedValueOnAssign(ZF_IN ZFTypeIdWrapper *ref); \
         zfoverride \
         virtual const zfchar *wrappedValueTypeId(void); \
         zfoverride \
@@ -266,16 +271,6 @@ public:
         {this->zfv = zftValue<_ZFP_PropTypeW_##TypeName>().zfv;} \
         zfoverride \
         virtual zfbool wrappedValueIsInit(void); \
-        zfoverride \
-        virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0, \
-                                                    ZF_IN const void *v1); \
-        zfoverride \
-        virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
-                                         ZF_IN const void *v); \
-        zfoverride \
-        virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from, \
-                                                  ZF_IN const void *to, \
-                                                  ZF_IN zffloat progress); \
     public: \
         zfoverride \
         virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \
@@ -289,15 +284,32 @@ public:
                                               ZF_IN_OPT zfindex srcLen = zfindexMax()); \
         zfoverride \
         virtual zfbool wrappedValueToString(ZF_IN_OUT zfstring &s); \
+    public: \
+        static _ZFP_ZFTypeIdProgressUpdate _ZFP_ZFTypeId_progressUpdate; \
+        zfoverride \
+        virtual zfbool progressUpdate(ZF_IN ZFProgressable *from, \
+                                      ZF_IN ZFProgressable *to, \
+                                      ZF_IN zffloat progress) \
+        { \
+            if(zfself::_ZFP_ZFTypeId_progressUpdate) \
+            { \
+                return zfself::_ZFP_ZFTypeId_progressUpdate(this, from, to, progress); \
+            } \
+            else \
+            { \
+                return zffalse; \
+            } \
+        } \
     };
 
 #define _ZFP_ZFTYPEID_WRAPPER_DEFINE_COMMON(TypeName, Type) \
     ZFOBJECT_REGISTER(v_##TypeName) \
+    _ZFP_ZFTypeIdProgressUpdate v_##TypeName::_ZFP_ZFTypeId_progressUpdate = zfnull; \
     void v_##TypeName::objectInfoT(ZF_IN_OUT zfstring &ret) \
     { \
         ZFCoreElementInfoGetter<Type>::elementInfoGetter(ret, this->zfv); \
     } \
-    void v_##TypeName::assignAction(ZF_IN ZFTypeIdWrapper *ref) \
+    void v_##TypeName::wrappedValueOnAssign(ZF_IN ZFTypeIdWrapper *ref) \
     { \
         zfself *refTmp = ZFCastZFObject(zfself *, ref); \
         if(refTmp != zfnull) \
@@ -308,17 +320,6 @@ public:
     const zfchar *v_##TypeName::wrappedValueTypeId(void) \
     { \
         return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
-    } \
-    void v_##TypeName::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret, \
-                                           ZF_IN const void *v) \
-    { \
-        ZFCoreElementInfoGetter<_ZFP_PropTypeW_##TypeName>::elementInfoGetter(ret, *(const _ZFP_PropTypeW_##TypeName *)v); \
-    } \
-    zfbool v_##TypeName::wrappedValueProgressUpdate(ZF_IN const void *from, \
-                                                    ZF_IN const void *to, \
-                                                    ZF_IN zffloat progress) \
-    { \
-        return _ZFP_PropTypeProgressUpdate<_ZFP_PropTypeW_##TypeName>(this->zfv, from, to, progress); \
     } \
     ZFMETHOD_USER_REGISTER_1({ \
             invokerObject->to<v_##TypeName *>()->zfv = value; \
@@ -377,11 +378,6 @@ public:
     zfbool v_##TypeName::wrappedValueIsInit(void) \
     { \
         return (ZFComparerDefault(this->zfv, zftValue<_ZFP_PropTypeW_##TypeName>().zfv) == ZFCompareTheSame); \
-    } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
-                                                      ZF_IN const void *v1) \
-    { \
-        return ZFComparerDefault(*(const _ZFP_PropTypeW_##TypeName *)v0, *(const _ZFP_PropTypeW_##TypeName *)v1); \
     }
 
 #define _ZFP_ZFTYPEID_WRAPPER_DEFINE_UNCOMPARABLE(TypeName, Type) \
@@ -392,11 +388,6 @@ public:
     zfbool v_##TypeName::wrappedValueIsInit(void) \
     { \
         return zffalse; \
-    } \
-    ZFCompareResult v_##TypeName::wrappedValueCompare(ZF_IN const void *v0, \
-                                                      ZF_IN const void *v1) \
-    { \
-        return ZFCompareUncomparable; \
     }
 
 // ============================================================
@@ -404,7 +395,7 @@ public:
     _ZFP_ZFTYPEID_WRAPPER_DECLARE(TypeName, Type) \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFTypeId<_ZFP_PropTypeW_##TypeName> : zfextendsNotPOD ZFTypeIdBase \
+    zfclassNotPOD ZFTypeId<_ZFP_PropTypeW_##TypeName> : zfextendsNotPOD ZFTypeInfo \
     { \
     public: \
         enum { \
@@ -498,7 +489,7 @@ public:
     _ZFP_ZFTYPEID_WRAPPER_DECLARE(TypeName, Type) \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFTypeId<_ZFP_PropTypeW_##TypeName> : zfextendsNotPOD ZFTypeIdBase \
+    zfclassNotPOD ZFTypeId<_ZFP_PropTypeW_##TypeName> : zfextendsNotPOD ZFTypeInfo \
     { \
     public: \
         enum { \
@@ -597,7 +588,7 @@ public:
     typedef Type _ZFP_PropTypeW_##TypeName; \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFTypeId<Type> : zfextendsNotPOD ZFTypeIdBase \
+    zfclassNotPOD ZFTypeId<Type> : zfextendsNotPOD ZFTypeInfo \
     { \
     public: \
         enum { \
@@ -636,7 +627,7 @@ public:
     /** @cond ZFPrivateDoc */ \
     typedef Type _ZFP_PropTypeW_##TypeName; \
     template<> \
-    zfclassNotPOD ZFTypeId<Type> : zfextendsNotPOD ZFTypeIdBase \
+    zfclassNotPOD ZFTypeId<Type> : zfextendsNotPOD ZFTypeInfo \
     { \
     public: \
         enum { \

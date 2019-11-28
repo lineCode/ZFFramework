@@ -103,6 +103,11 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIPoint, ZFUIPoint, {
         return zftrue;
     })
 
+ZFTYPEID_PROGRESS_DEFINE(ZFUIPoint, ZFUIPoint, {
+        ret.x = from.x + (zfint)((to.x - from.x) * progress);
+        ret.y = from.y + (zfint)((to.y - from.y) * progress);
+    })
+
 // ============================================================
 // ZFUIMargin
 ZFEXPORT_VAR_READONLY_DEFINE(ZFUIMargin, ZFUIMarginZero, ZFUIMarginMake(0, 0, 0, 0))
@@ -162,6 +167,13 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIMargin, ZFUIMargin, {
     }, {
         zfstringAppend(s, "(%d, %d, %d, %d)", v.left, v.top, v.right, v.bottom);
         return zftrue;
+    })
+
+ZFTYPEID_PROGRESS_DEFINE(ZFUIMargin, ZFUIMargin, {
+        ret.left = from.left + (zfint)((to.left - from.left) * progress);
+        ret.top = from.top + (zfint)((to.top - from.top) * progress);
+        ret.right = from.right + (zfint)((to.right - from.right) * progress);
+        ret.bottom = from.bottom + (zfint)((to.bottom - from.bottom) * progress);
     })
 
 // ============================================================
@@ -257,6 +269,11 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUISize, ZFUISize, {
         return zftrue;
     })
 
+ZFTYPEID_PROGRESS_DEFINE(ZFUISize, ZFUISize, {
+        ret.width = from.width + (zfint)((to.width - from.width) * progress);
+        ret.height = from.height + (zfint)((to.height - from.height) * progress);
+    })
+
 // ============================================================
 // ZFUIRect
 ZFEXPORT_VAR_READONLY_DEFINE(ZFUIRect, ZFUIRectZero, ZFUIRectMake(0, 0, 0, 0))
@@ -347,6 +364,13 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIRect, ZFUIRect, {
     }, {
         zfstringAppend(s, "(%d, %d, %d, %d)", v.point.x, v.point.y, v.size.width, v.size.height);
         return zftrue;
+    })
+
+ZFTYPEID_PROGRESS_DEFINE(ZFUIRect, ZFUIRect, {
+        ret.point.x = from.point.x + (zfint)((to.point.x - from.point.x) * progress);
+        ret.point.y = from.point.y + (zfint)((to.point.y - from.point.y) * progress);
+        ret.size.width = from.size.width + (zfint)((to.size.width - from.size.width) * progress);
+        ret.size.height = from.size.height + (zfint)((to.size.height - from.size.height) * progress);
     })
 
 // ============================================================
@@ -627,6 +651,15 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUIColor, ZFUIColor, {
             }
         }
         return zftrue;
+    })
+
+ZFTYPEID_PROGRESS_DEFINE(ZFUIColor, ZFUIColor, {
+        ret = ZFUIColorMake(
+            ZFUIColorGetR(from) + (zffloat)((ZFUIColorGetR(to) - ZFUIColorGetR(from)) * progress),
+            ZFUIColorGetG(from) + (zffloat)((ZFUIColorGetG(to) - ZFUIColorGetG(from)) * progress),
+            ZFUIColorGetB(from) + (zffloat)((ZFUIColorGetB(to) - ZFUIColorGetB(from)) * progress),
+            ZFUIColorGetA(from) + (zffloat)((ZFUIColorGetA(to) - ZFUIColorGetA(from)) * progress)
+        );
     })
 
 ZFMETHOD_FUNC_DEFINE_INLINE_2(zfbool, ZFUIColorIsEqual,

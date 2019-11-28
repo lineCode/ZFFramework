@@ -27,7 +27,7 @@ zfbool ZFProperty::propertySerializable(void) const
     {
         return zffalse;
     }
-    const ZFTypeIdBase *t = ZFTypeIdGet(this->propertyTypeId());
+    const ZFTypeInfo *t = ZFTypeInfoGet(this->propertyTypeId());
     if(t == zfnull || !t->typeIdSerializable())
     {
         return zffalse;
@@ -39,16 +39,6 @@ ZFProperty::ZFProperty(void)
 : callbackIsValueAccessed(zfnull)
 , callbackIsInitValue(zfnull)
 , callbackValueReset(zfnull)
-, callbackValueSet(zfnull)
-, callbackValueGet(zfnull)
-, callbackValueGetRelease(zfnull)
-, callbackCompare(zfnull)
-, callbackGetInfo(zfnull)
-, callbackValueStore(zfnull)
-, callbackValueRelease(zfnull)
-, callbackSerializeFrom(zfnull)
-, callbackSerializeTo(zfnull)
-, callbackProgressUpdate(zfnull)
 , callbackUserRegisterInitValueSetup(zfnull)
 , _ZFP_ZFPropertyNeedInit(zftrue)
 , _ZFP_ZFProperty_propertyIsUserRegister(zffalse)
@@ -62,6 +52,7 @@ ZFProperty::ZFProperty(void)
 , _ZFP_ZFProperty_setterMethod(zfnull)
 , _ZFP_ZFProperty_getterMethod(zfnull)
 , _ZFP_ZFProperty_propertyClassOfRetainProperty(zfnull)
+, _ZFP_ZFProperty_callbackEnsureInit(zfnull)
 , _ZFP_ZFProperty_callbackDealloc(zfnull)
 , _ZFP_ZFPropertyLifeCycle_OnInit()
 , _ZFP_ZFPropertyLifeCycle_OnDealloc()
@@ -226,17 +217,8 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
                                     , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                     , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                     , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
-                                    , ZF_IN ZFPropertyCallbackValueSet callbackValueSet
-                                    , ZF_IN ZFPropertyCallbackValueGet callbackValueGet
-                                    , ZF_IN ZFPropertyCallbackValueGetRelease callbackValueGetRelease
-                                    , ZF_IN ZFPropertyCallbackCompare callbackCompare
-                                    , ZF_IN ZFPropertyCallbackGetInfo callbackGetInfo
-                                    , ZF_IN ZFPropertyCallbackValueStore callbackValueStore
-                                    , ZF_IN ZFPropertyCallbackValueRelease callbackValueRelease
-                                    , ZF_IN ZFPropertyCallbackSerializeFrom callbackSerializeFrom
-                                    , ZF_IN ZFPropertyCallbackSerializeTo callbackSerializeTo
-                                    , ZF_IN ZFPropertyCallbackProgressUpdate callbackProgressUpdate
                                     , ZF_IN ZFPropertyCallbackUserRegisterInitValueSetup callbackUserRegisterInitValueSetup
+                                    , ZF_IN _ZFP_ZFPropertyCallbackEnsureInit callbackEnsureInit
                                     , ZF_IN _ZFP_ZFPropertyCallbackDealloc callbackDealloc
                                     )
 {
@@ -252,16 +234,6 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
     zfCoreAssert(callbackIsValueAccessed != zfnull);
     zfCoreAssert(callbackIsInitValue != zfnull);
     zfCoreAssert(callbackValueReset != zfnull);
-    zfCoreAssert(callbackValueSet != zfnull);
-    zfCoreAssert(callbackValueGet != zfnull);
-    zfCoreAssert(callbackValueGetRelease != zfnull);
-    zfCoreAssert(callbackCompare != zfnull);
-    zfCoreAssert(callbackGetInfo != zfnull);
-    zfCoreAssert(callbackValueStore != zfnull);
-    zfCoreAssert(callbackValueRelease != zfnull);
-    zfCoreAssert(callbackSerializeFrom != zfnull);
-    zfCoreAssert(callbackSerializeTo != zfnull);
-    zfCoreAssert(callbackProgressUpdate != zfnull);
 
     zfstring propertyInternalId;
     _ZFP_ZFPropertyInstanceSig(propertyInternalId, propertyOwnerClass->classNameFull(), name);
@@ -301,17 +273,8 @@ ZFProperty *_ZFP_ZFPropertyRegister(ZF_IN zfbool propertyIsUserRegister
         propertyInfo->callbackIsValueAccessed = callbackIsValueAccessed;
         propertyInfo->callbackIsInitValue = callbackIsInitValue;
         propertyInfo->callbackValueReset = callbackValueReset;
-        propertyInfo->callbackValueSet = callbackValueSet;
-        propertyInfo->callbackValueGet = callbackValueGet;
-        propertyInfo->callbackValueGetRelease = callbackValueGetRelease;
-        propertyInfo->callbackCompare = callbackCompare;
-        propertyInfo->callbackGetInfo = callbackGetInfo;
-        propertyInfo->callbackValueStore = callbackValueStore;
-        propertyInfo->callbackValueRelease = callbackValueRelease;
-        propertyInfo->callbackSerializeFrom = callbackSerializeFrom;
-        propertyInfo->callbackSerializeTo = callbackSerializeTo;
-        propertyInfo->callbackProgressUpdate = callbackProgressUpdate;
         propertyInfo->callbackUserRegisterInitValueSetup = callbackUserRegisterInitValueSetup;
+        propertyInfo->_ZFP_ZFProperty_callbackEnsureInit = callbackEnsureInit;
         propertyInfo->_ZFP_ZFProperty_callbackDealloc = callbackDealloc;
 
         propertyOwnerClass->_ZFP_ZFClass_propertyRegister(propertyInfo);

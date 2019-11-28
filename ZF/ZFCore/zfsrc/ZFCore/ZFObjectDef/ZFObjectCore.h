@@ -637,7 +637,7 @@ protected:
      *
      * ensured called before any other registered observer
      */
-    virtual inline void observerOnEvent(ZF_IN_OUT ZFListenerData &listenerData)
+    virtual inline void observerOnEvent(ZF_IN const ZFListenerData &listenerData)
     {
     }
 

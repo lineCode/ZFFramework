@@ -11,7 +11,6 @@ static int _ZFP_ZFImpl_ZFLua_ZFCoreArrayCreate(ZF_IN lua_State *L)
     {
         zfautoObject p;
         if(ZFImpl_ZFLua_toObject(p, L, i + 1)
-            || ZFImpl_ZFLua_toNumberT(p, L, i + 1, zftrue)
             || ZFImpl_ZFLua_toCallback(p, L, i + 1))
         {
             ret->zfv.add(p);

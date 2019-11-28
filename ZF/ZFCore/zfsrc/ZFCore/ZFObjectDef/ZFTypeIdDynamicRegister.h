@@ -1,6 +1,6 @@
 /**
  * @file ZFTypeIdDynamicRegister.h
- * @brief dynamic register #ZFTypeIdBase
+ * @brief dynamic register #ZFTypeInfo
  */
 
 #ifndef _ZFI_ZFTypeIdDynamicRegister_h_
@@ -10,13 +10,13 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /**
- * @brief dynamic register #ZFTypeIdBase
+ * @brief dynamic register #ZFTypeInfo
  *
  * @note dynamic registered contents would be removed automatically
  *   during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkHigh
  */
 extern ZF_ENV_EXPORT zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
-                                                    ZF_IN const ZFCorePointerForObject<ZFTypeIdBase *> &typeIdData,
+                                                    ZF_IN const ZFCorePointerForObject<ZFTypeInfo *> &typeIdData,
                                                     ZF_OUT_OPT zfstring *errorHint = zfnull);
 /**
  * @brief see #ZFTypeIdDynamicRegister

@@ -108,9 +108,9 @@ protected:
             // reflect
             p->propertyAssignSet("oldValue");
             zfLogT() << "before:" << p->propertyAssign();
-            p->classData()->methodForName("propertyAssignSet")->execute<void, zfstring const &>(p, "newValue");
+            p->classData()->propertySetterForName("propertyAssign")->execute<void, zfstring const &>(p, "newValue");
             zfLogT() << "after:" << p->propertyAssign();
-            zfLogT() << "access by reflect:" << p->classData()->methodForName("propertyAssign")->execute<zfstring const &>(p);
+            zfLogT() << "access by reflect:" << p->classData()->propertyGetterForName("propertyAssign")->execute<zfstring const &>(p);
 
             // retain
             zfLogTrimT();

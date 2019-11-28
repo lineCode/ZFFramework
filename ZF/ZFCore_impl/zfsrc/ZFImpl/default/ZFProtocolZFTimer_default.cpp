@@ -1,7 +1,6 @@
 #include "ZFImpl_default_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFTimer.h"
 #include "ZFCore/ZFThread.h"
-#include "ZFCore/ZFValue.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -37,7 +36,7 @@ public:
         this->threadCallbackId = ZFThreadExecuteInNewThread(
             ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, threadCallback)),
             this /* pass this as dummy param to keep retain count */,
-            ZFListenerData().param0Set(ZFValue::identityValueCreate(this->threadCallbackTaskId))
+            ZFListenerData().param0Set(zflineAlloc(v_zfidentity, this->threadCallbackTaskId))
             );
     }
     zffinal void timerStop(void)
@@ -56,7 +55,7 @@ public:
 public:
     ZFLISTENER_INLINE(threadCallback)
     {
-        zfidentity curId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
+        zfidentity curId = ZFCastZFObjectUnchecked(v_zfidentity *, listenerData.param0)->zfv;
 
         // delay
         if(curId != this->threadCallbackTaskId) {return ;}
@@ -80,7 +79,7 @@ public:
                 this->mainThreadCallbackId = ZFThreadExecuteInNewThread(
                     ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, mainThreadCallback)),
                     zfnull,
-                    ZFListenerData().param0Set(ZFValue::identityValueCreate(this->mainThreadCallbackTaskId).toObject())
+                    ZFListenerData().param0Set(zflineAlloc(v_zfidentity, this->mainThreadCallbackTaskId))
                     );
             }
             else
@@ -92,7 +91,7 @@ public:
     }
     ZFLISTENER_INLINE(mainThreadCallback)
     {
-        zfidentity curId = ZFCastZFObjectUnchecked(ZFValue *, listenerData.param0)->identityValue();
+        zfidentity curId = ZFCastZFObjectUnchecked(v_zfidentity *, listenerData.param0)->zfv;
         if(curId != this->mainThreadCallbackTaskId) {return ;}
         this->impl->notifyTimerActivate(this->timer);
     }

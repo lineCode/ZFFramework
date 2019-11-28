@@ -92,12 +92,12 @@ private:
     }
     static zfbool _callbackIsInitValue(ZF_IN const ZFProperty *property,
                                        ZF_IN ZFObject *ownerObj,
-                                       ZF_OUT_OPT void *outInitValue = zfnull)
+                                       ZF_OUT_OPT zfautoObject *outInitValue = zfnull)
     {
         _ZFP_ZFCore_ZFPropertyDynamic_test_Object *obj = ownerObj->toAny();
         if(outInitValue != zfnull)
         {
-            *(zfint *)outInitValue = 0;
+            *outInitValue = zflineAlloc(v_zfint);
         }
         return (obj->myProp() == 0);
     }

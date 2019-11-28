@@ -1,7 +1,5 @@
 #include "ZFImpl_default_ZF_impl.h"
-#include "ZFCore/ZFMainEntry.h"
-#include "ZFCore/ZFString.h"
-#include "ZFCore/ZFArray.h"
+#include "ZFCore.h"
 
 #if !ZF_ENV_sys_Android && !ZF_ENV_sys_iOS && !ZF_ENV_sys_Qt
 
@@ -19,10 +17,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLin
     ZFArrayEditable *params = zfAlloc(ZFArrayEditable);
 
     ZFCoreArray<zfstring> tmpList;
-    zfCoreArgSplit(tmpList, ZFString::toUTF8(lpCmdLine, ZFStringEncoding::e_UTF16).cString());
+    zfCoreArgSplit(tmpList, zfstringToUTF8(lpCmdLine, ZFStringEncoding::e_UTF16).cString());
     for(zfindex i = 0; i < tmpList.count(); ++i)
     {
-        ZFString *s = zfAlloc(ZFString, tmpList.get(i).cString());
+        v_zfstring *s = zfAlloc(v_zfstring, tmpList.get(i).cString());
         params->add(s);
         zfRelease(s);
     }

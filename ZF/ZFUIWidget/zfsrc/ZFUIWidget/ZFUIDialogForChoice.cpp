@@ -130,7 +130,7 @@ private:
 private:
     ZFLISTENER_INLINE(buttonEvent)
     {
-        zfindex index = listenerData.param1->to<ZFValue *>()->indexValue();
+        zfindex index = listenerData.param1->to<v_zfindex *>()->zfv;
         switch(this->pimplOwner->choiceMode())
         {
             case ZFUIDialogForChoiceMode::e_ChoiceSingle:

@@ -58,7 +58,7 @@ public:
      *
      * called when animation stopped or invalid,
      * designed for convenient,
-     * param0 is a #ZFValue containing a bool value to show whether the animation is valid
+     * param0 is a #v_zfbool to show whether the animation is valid
      */
     ZFOBSERVER_EVENT(AniOnStopOrOnInvalid)
 
@@ -217,7 +217,7 @@ protected:
     /** @brief see #EventAniOnStopOrOnInvalid */
     virtual inline void aniOnStopOrOnInvalid(ZF_IN zfbool aniValid)
     {
-        this->observerNotify(ZFAnimation::EventAniOnStopOrOnInvalid(), ZFValue::boolValueCreate(aniValid).toObject());
+        this->observerNotify(ZFAnimation::EventAniOnStopOrOnInvalid(), zflineAlloc(v_zfbool, aniValid));
     }
     /**
      * @brief subclass must notify after the animation stop

@@ -107,7 +107,7 @@ private:
         return this->classData()->classDynamicRegisterUserData()->to<_ZFP_I_ZFEnumDynamicHolder *>()->d;
     }
 };
-zfclassNotPOD _ZFP_ZFEnumTypeId : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD _ZFP_ZFEnumTypeId : zfextendsNotPOD ZFTypeInfo
 {
 public:
     const ZFClass *enumClass;
@@ -216,7 +216,7 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
 
     // typeid
     _ZFP_ZFEnumTypeId *typeIdData = zfnew(_ZFP_ZFEnumTypeId);
-    ZFCorePointerForObject<ZFTypeIdBase *> typeIdDataHolder(typeIdData);
+    ZFCorePointerForObject<ZFTypeInfo *> typeIdDataHolder(typeIdData);
     typeIdData->enumClass = enumClass;
     if(!ZFTypeIdDynamicRegister(enumClassName, typeIdDataHolder, errorHint))
     {

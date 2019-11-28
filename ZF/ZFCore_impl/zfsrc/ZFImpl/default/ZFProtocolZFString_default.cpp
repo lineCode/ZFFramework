@@ -1,51 +1,12 @@
 #include "ZFImpl_default_ZFCore_impl.h"
 #include "ZFCore/protocol/ZFProtocolZFString.h"
-#include "ZFCore/ZFString.h"
 #include "ZFImpl/tools/UTFCodeUtil/UTFCodeUtil.h"
-
-#include <string.h>
-
-#if !ZF_ENV_sys_Android
-
-#if ZF_ENV_sys_WindowsCE
-    #if (_WIN32_WCE < 0x500) && (defined(WIN32_PLATFORM_PSPC) || defined(WIN32_PLATFORM_WFSP))
-        #pragma comment(lib, "ccrtrtti.lib")
-    #endif // #if (_WIN32_WCE < 0x500) && (defined(WIN32_PLATFORM_PSPC) || defined(WIN32_PLATFORM_WFSP))
-#endif // #if !ZF_ENV_sys_WindowsCE #else
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFStringImpl_default, ZFString, ZFProtocolLevel::e_Default)
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_HINT("ZFFramework:zfstring")
 public:
-    virtual void *nativeStringCreate(ZF_IN_OPT const zfchar *s = zfnull)
-    {
-        return (s ? zfnew(zfstring, s) : zfnew(zfstring));
-    }
-
-    virtual void *nativeStringRetain(ZF_IN void *nativeString)
-    {
-        // we don't have retain count logic
-        return zfnew(zfstring, *ZFCastStatic(zfstring *, nativeString));
-    }
-    virtual void nativeStringRelease(ZF_IN void *nativeString)
-    {
-        zfdelete(ZFCastStatic(zfstring *, nativeString));
-    }
-
-    virtual void stringValueAccess(ZF_IN void *nativeString,
-                                   ZF_OUT const zfchar *&stringValue,
-                                   ZF_OUT void *&stringValueToken)
-    {
-        stringValue = ZFCastStatic(zfstring *, nativeString)->cString();
-    }
-    virtual void stringValueAccessCleanup(ZF_IN void *nativeString,
-                                          ZF_IN const zfchar *stringValue,
-                                          ZF_IN void *stringValueToken)
-    {
-        // nothing to do
-    }
-
     virtual zfbool toUTF8(ZF_OUT zfstring &result,
                           ZF_IN const void *s,
                           ZF_IN ZFStringEncodingEnum srcEncoding)
@@ -150,6 +111,4 @@ ZFPROTOCOL_IMPLEMENTATION_END(ZFStringImpl_default)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFStringImpl_default)
 
 ZF_NAMESPACE_GLOBAL_END
-
-#endif // #if !ZF_ENV_sys_Android
 

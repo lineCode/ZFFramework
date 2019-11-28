@@ -63,7 +63,7 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  * a ZFSerializableData can hold these datas:
  * -  serializable class:
  *   ZFObject's class name or other non-ZFObject's type name,
- *   such as "ZFString", "zfstring" and "zfint"
+ *   such as "v_zfstring", "zfstring" and "zfint"
  * -  property name:
  *   used only when the serializable belongs to another serializable,
  *   it's the property name,
@@ -95,7 +95,7 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  *   // we have a ZFSerializableData like:
  *   <TestClass test="test">
  *       <ZFArray name="testProperty">
- *           <ZFString value="string content" />
+ *           <v_zfstring value="string content" />
  *       </ZFArray>
  *       <SomeType category="CategoryName" />
  *   </TestClass>
@@ -103,7 +103,7 @@ zfclassFwd _ZFP_ZFSerializablePrivate;
  * in this example:
  * -  the "TestClass" in "<TestClass>" is a serializable class
  * -  the "testProperty" in "<ZFArray name="testProperty">" is a property name
- * -  the "string content" in "<ZFString value="string content" />" is a property value
+ * -  the "string content" in "<v_zfstring value="string content" />" is a property value
  * -  the "test="test"" in "<TestClass test="test">" is a attribute
  * -  the "category" in "<SomeType category="CategoryName" />" is a category
  *   that should be resolved by subclass during #serializableOnSerializeFromData

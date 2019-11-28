@@ -206,7 +206,6 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toCallback(ZF_OUT zfautoObject &param,
  *
  * support types:
  * -  normal lua string
- * -  #ZFString
  * -  #v_zfstring
  */
 extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT zfstring &s,
@@ -243,7 +242,6 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
  *
  * support types:
  * -  normal lua number
- * -  #ZFValue
  * -  #v_zfbool
  * -  #v_zfindex
  * -  #v_zfint
@@ -257,8 +255,7 @@ extern ZF_ENV_EXPORT zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
  * -  #v_zfidentity
  * -  all #ZFEnum types
  *
- * return proper #ZFValue if success, or empty if fail\n
- * if allowEmpty, a #ZFValue::intValueCreate would be returned
+ * return proper #v_zflongdouble if success, or empty if fail
  */
 inline zfautoObject ZFImpl_ZFLua_toNumber(ZF_IN lua_State *L,
                                           ZF_IN int luaStackOffset,

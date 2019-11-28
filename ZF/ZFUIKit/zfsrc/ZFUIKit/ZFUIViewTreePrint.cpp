@@ -4,7 +4,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-static void _ZFP_ZFUIViewTreePrintDelayedAction(ZF_IN_OUT ZFListenerData &listenerData, ZF_IN ZFObject *userData)
+static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIViewTreePrintDelayedAction)
 {
     ZFListenerHolder *data = ZFCastZFObjectUnchecked(ZFListenerHolder *, userData);
     ZFUIViewTreePrint(ZFCastZFObjectUnchecked(ZFUIView *, data->listenerData.param0), data->runnable);

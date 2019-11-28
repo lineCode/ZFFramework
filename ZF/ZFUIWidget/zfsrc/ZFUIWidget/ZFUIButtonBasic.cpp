@@ -220,45 +220,6 @@ void ZFUIButtonBasic::objectOnDealloc(void)
     d = zfnull;
     zfsuper::objectOnDealloc();
 }
-void ZFUIButtonBasic::objectOnInitFinish(void)
-{
-    zfsuper::objectOnInitFinish();
-
-    const ZFClass *cls = this->classData();
-    if(d->buttonLabel == zfnull)
-    {
-        if(cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonLabelStyleNormal))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonLabelStyleHighlighted))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonLabelStyleChecked))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonLabelStyleCheckedHighlighted))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonLabelStyleDisabled)))
-        {
-            this->prepareButtonLabel();
-        }
-    }
-    if(d->buttonBackground == zfnull)
-    {
-        if(cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonBackgroundStyleNormal))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonBackgroundStyleHighlighted))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonBackgroundStyleChecked))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonBackgroundStyleCheckedHighlighted))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonBackgroundStyleDisabled)))
-        {
-            this->prepareButtonBackground();
-        }
-    }
-    if(d->buttonIcon == zfnull)
-    {
-        if(cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonIconStyleNormal))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonIconStyleHighlighted))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonIconStyleChecked))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonIconStyleCheckedHighlighted))
-            || cls->propertyHasOverrideInitStep(ZFPropertyAccess(zfself, buttonIconStyleDisabled)))
-        {
-            this->prepareButtonIcon();
-        }
-    }
-}
 
 void ZFUIButtonBasic::objectInfoOnAppend(ZF_IN_OUT zfstring &ret)
 {

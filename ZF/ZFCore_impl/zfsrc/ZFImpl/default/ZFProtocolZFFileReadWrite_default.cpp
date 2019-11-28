@@ -61,7 +61,7 @@ public:
 
         #if ZF_ENV_sys_Windows
             zfstringW _filePathSaved;
-            ZFString::toUTF16(_filePathSaved, filePath, ZFStringEncoding::e_UTF8);
+            zfstringToUTF16(_filePathSaved, filePath, ZFStringEncoding::e_UTF8);
             DWORD _fileAttrSaved = GetFileAttributesW(_filePathSaved.cString());
             SetFileAttributesW(_filePathSaved.cString(), FILE_ATTRIBUTE_NORMAL);
         #endif

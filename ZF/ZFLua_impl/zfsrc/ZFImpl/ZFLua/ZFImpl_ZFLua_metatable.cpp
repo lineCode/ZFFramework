@@ -13,14 +13,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
             ZFImpl_ZFLua_luaObjectInfo(L, luaStackOffset, zftrue).cString()); \
         return ZFImpl_ZFLua_luaError(L); \
     } \
-    ZFValue *param = _##param.to<ZFValue *>()
+    v_zflongdouble *param = _##param.to<v_zflongdouble *>()
 
 // ============================================================
 static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
                                                   ZF_IN lua_Number const &n,
-                                                  ZF_IN ZFValue *param0,
+                                                  ZF_IN v_zflongdouble *param0,
                                                   ZF_IN const ZFClass *paramClass0,
-                                                  ZF_IN ZFValue *param1,
+                                                  ZF_IN v_zflongdouble *param1,
                                                   ZF_IN const ZFClass *paramClass1);
 
 // ============================================================
@@ -29,7 +29,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_add(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->doubleValue() + v2->doubleValue()),
+        (lua_Number)(v1->zfv + v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_sub(ZF_IN lua_State *L)
@@ -37,7 +37,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_sub(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->doubleValue() - v2->doubleValue()),
+        (lua_Number)(v1->zfv - v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_mul(ZF_IN lua_State *L)
@@ -45,7 +45,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_mul(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->doubleValue() * v2->doubleValue()),
+        (lua_Number)(v1->zfv * v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_div(ZF_IN lua_State *L)
@@ -53,7 +53,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_div(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->doubleValue() / v2->doubleValue()),
+        (lua_Number)(v1->zfv / v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_mod(ZF_IN lua_State *L)
@@ -61,14 +61,14 @@ static int _ZFP_ZFImpl_ZFLua_metatable_mod(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->intValue() % v2->intValue()),
+        (lua_Number)((zfint)v1->zfv % (zfint)v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_unm(ZF_IN lua_State *L)
 {
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(-(v1->doubleValue())),
+        (lua_Number)(-(v1->zfv)),
         v1, v1Cls, zfnull, zfnull);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_band(ZF_IN lua_State *L)
@@ -76,7 +76,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_band(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->flagsValue() & v2->flagsValue()),
+        (lua_Number)((zfuint)v1->zfv & (zfuint)v2->zfv),
         v1, v_zfflags::ClassData(), v2, v_zfflags::ClassData());
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_bor(ZF_IN lua_State *L)
@@ -93,7 +93,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_bor(ZF_IN lua_State *L)
         cls = v2Cls;
     }
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->flagsValue() | v2->flagsValue()),
+        (lua_Number)((zfflags)v1->zfv | (zfflags)v2->zfv),
         v1, cls, v2, cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_bxor(ZF_IN lua_State *L)
@@ -101,14 +101,14 @@ static int _ZFP_ZFImpl_ZFLua_metatable_bxor(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->flagsValue() ^ v2->flagsValue()),
+        (lua_Number)((zfflags)v1->zfv ^ (zfflags)v2->zfv),
         v1, v_zfflags::ClassData(), v2, v_zfflags::ClassData());
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_bnot(ZF_IN lua_State *L)
 {
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(~(v1->flagsValue())),
+        (lua_Number)(~((zfflags)v1->zfv)),
         v1, v_zfflags::ClassData(), zfnull, zfnull);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_shl(ZF_IN lua_State *L)
@@ -116,7 +116,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_shl(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->intValue() << v2->intValue()),
+        (lua_Number)((zfint)v1->zfv << (zfint)v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static int _ZFP_ZFImpl_ZFLua_metatable_shr(ZF_IN lua_State *L)
@@ -124,7 +124,7 @@ static int _ZFP_ZFImpl_ZFLua_metatable_shr(ZF_IN lua_State *L)
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v1, 1);
     _ZFP_ZFImpl_ZFLua_metatable_PrepareParam(v2, 2);
     return _ZFP_ZFImpl_ZFLua_metatableStoreResult(L,
-        (lua_Number)(v1->intValue() >> v2->intValue()),
+        (lua_Number)((zfint)v1->zfv >> (zfint)v2->zfv),
         v1, v1Cls, v2, v2Cls);
 }
 static zfbool _ZFP_ZFImpl_ZFLua_metatable_concat_action(ZF_IN_OUT zfstring &v, ZF_IN lua_State *L, ZF_IN int luaStackOffset)
@@ -356,9 +356,9 @@ void ZFImpl_ZFLua_implSetupObject_metatable(ZF_IN_OUT lua_State *L, ZF_IN_OPT in
 // ============================================================
 static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
                                                   ZF_IN lua_Number const &n,
-                                                  ZF_IN ZFValue *param0,
+                                                  ZF_IN v_zflongdouble *param0,
                                                   ZF_IN const ZFClass *paramClass0,
-                                                  ZF_IN ZFValue *param1,
+                                                  ZF_IN v_zflongdouble *param1,
                                                   ZF_IN const ZFClass *paramClass1)
 {
     if(paramClass0 == zfnull)
@@ -375,23 +375,29 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
         paramClass1 = paramClass0;
     }
 
-    if(zffalse
-        || paramClass0->classIsTypeOf(v_zffloat::ClassData())
-        || paramClass1->classIsTypeOf(v_zffloat::ClassData())
-        || paramClass0->classIsTypeOf(v_zfdouble::ClassData())
-        || paramClass1->classIsTypeOf(v_zfdouble::ClassData())
-        || paramClass0->classIsTypeOf(v_zflongdouble::ClassData())
-        || paramClass1->classIsTypeOf(v_zflongdouble::ClassData())
-        )
+    if(paramClass0->classIsTypeOf(ZFEnum::ClassData()))
     {
-        zfblockedAllocWithCache(v_zfdouble, ret);
-        ret->zfv = (zfdouble)n;
+        zfautoObject ret = paramClass0->newInstance();
+        ret.toObject()->classData()->propertySetterForName("enumValue")->execute<void, zfuint>(ret, (zfuint)n);
         ZFImpl_ZFLua_luaPush(L, ret);
-        return 1;
+        return zftrue;
     }
-    else if(paramClass0->classIsTypeOf(ZFValue::ClassData()) || paramClass1->classIsTypeOf(ZFValue::ClassData()))
+    if(paramClass1->classIsTypeOf(ZFEnum::ClassData()))
     {
-        ZFImpl_ZFLua_luaPush(L, ZFValue::doubleValueCreate((zfdouble)n));
+        zfautoObject ret = paramClass1->newInstance();
+        ret.toObject()->classData()->propertySetterForName("enumValue")->execute<void, zfuint>(ret, (zfuint)n);
+        ZFImpl_ZFLua_luaPush(L, ret);
+        return zftrue;
+    }
+
+    if(zffalse)
+    {
+    }
+    else if(paramClass0->classIsTypeOf(v_zfbool::ClassData()) || paramClass1->classIsTypeOf(v_zfbool::ClassData()))
+    {
+        zfblockedAllocWithCache(v_zfbool, ret);
+        ret->zfv = (zfmAbs(n) <= zffloatEpsilon);
+        ZFImpl_ZFLua_luaPush(L, ret);
         return 1;
     }
     else if(paramClass0->classIsTypeOf(v_zfflags::ClassData()) || paramClass1->classIsTypeOf(v_zfflags::ClassData()))
@@ -423,23 +429,8 @@ static int _ZFP_ZFImpl_ZFLua_metatableStoreResult(ZF_IN lua_State *L,
         return 1;
     }
 
-    if(paramClass0->classIsTypeOf(ZFEnum::ClassData()))
-    {
-        zfautoObject ret = paramClass0->newInstance();
-        ret.toObject()->classData()->methodForName("enumValueSet")->execute<void, zfuint>(ret, (zfuint)n);
-        ZFImpl_ZFLua_luaPush(L, ret);
-        return zftrue;
-    }
-    if(paramClass1->classIsTypeOf(ZFEnum::ClassData()))
-    {
-        zfautoObject ret = paramClass1->newInstance();
-        ret.toObject()->classData()->methodForName("enumValueSet")->execute<void, zfuint>(ret, (zfuint)n);
-        ZFImpl_ZFLua_luaPush(L, ret);
-        return zftrue;
-    }
-
-    zfblockedAllocWithCache(v_zfint, ret);
-    ret->zfv = (zfint)n;
+    zfblockedAllocWithCache(v_zflongdouble, ret);
+    ret->zfv = (zflongdouble)n;
     ZFImpl_ZFLua_luaPush(L, ret);
     return 1;
 }

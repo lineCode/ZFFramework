@@ -182,23 +182,6 @@ zfbool ZFEnum::wrappedValueIsInit(void)
 {
     return (this->_ZFP_ZFEnum_value == ZFEnumInvalid());
 }
-ZFCompareResult ZFEnum::wrappedValueCompare(ZF_IN const void *v0,
-                                            ZF_IN const void *v1)
-{
-    return ZFComparerDefault(*(const zfuint *)v0, *(const zfuint *)v1); /* ZFTAG_TRICKS: EnumReinterpretCast */
-}
-void ZFEnum::wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
-                                 ZF_IN const void *v)
-{
-    /* ZFTAG_TRICKS: EnumReinterpretCast */
-    zfflagsToString(ret, this->classData(), (zfflags)*(const zfuint *)v);
-}
-zfbool ZFEnum::wrappedValueProgressUpdate(ZF_IN const void *from,
-                                          ZF_IN const void *to,
-                                          ZF_IN zffloat progress)
-{
-    return zffalse;
-}
 zfbool ZFEnum::wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData,
                                     ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
                                     ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)

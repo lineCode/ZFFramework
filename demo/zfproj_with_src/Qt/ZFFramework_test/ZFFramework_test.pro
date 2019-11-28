@@ -220,8 +220,10 @@ unix:!macx {
     QMAKE_LFLAGS += -Wl,--rpath=${ORIGIN}
 }
 macx {
-    QMAKE_POST_LINK += macdeployqt \
-        $$system_path($$clean_path($${_ZF_DESTDIR}/"$${TARGET}".app)) \
-        >/dev/null 2>&1 $$escape_expand(\\n\\t)
+    CONFIG(release, debug|release) {
+        QMAKE_POST_LINK += macdeployqt \
+            $$system_path($$clean_path($${_ZF_DESTDIR}/"$${TARGET}".app)) \
+            >/dev/null 2>&1 $$escape_expand(\\n\\t)
+    }
 }
 

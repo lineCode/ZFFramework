@@ -63,6 +63,10 @@ public:
         zffree(this->serializableCustomType);
         zfdelete(this->serializableCustomData);
         zfdelete(this->pathInfo);
+        if(this->callbackLambdaImplDestroy)
+        {
+            this->callbackLambdaImplDestroy(this->callbackLambdaImpl);
+        }
     }
 };
 

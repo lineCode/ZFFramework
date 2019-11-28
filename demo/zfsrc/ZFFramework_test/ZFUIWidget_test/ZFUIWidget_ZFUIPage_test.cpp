@@ -102,11 +102,11 @@ protected:
 
         for(zfindex i = 0; i < 4; ++i)
         {
-            zfblockedAlloc(ZFString, pageGroupId, zfstringWithFormat("pageGroup %zi", i));
+            zfblockedAlloc(v_zfstring, pageGroupId, zfstringWithFormat("pageGroup %zi", i));
 
             this->requestPageCreate(ZFUIPageRequestPageCreateParam()
                 .pageSet(zflineAlloc(ZFUIWidget_ZFUIPage_test_Page))
-                .pageGroupIdSet(pageGroupId->stringValue())
+                .pageGroupIdSet(pageGroupId->zfv)
                 .pageAutoResumeSet(zffalse));
 
             zfblockedAlloc(ZFUIButtonBasic, button);
@@ -116,7 +116,7 @@ protected:
             button->buttonCheckableSet(zftrue);
             ZFLISTENER_LOCAL(buttonOnClick, {
                 ZFUIWidget_ZFUIPage_test_PageManager *pageManager = userData->tagGet("pageManager")->objectHolded();
-                ZFString *pageGroupId = userData->tagGet<ZFString *>("pageGroupId");
+                v_zfstring *pageGroupId = userData->tagGet<v_zfstring *>("pageGroupId");
 
                 if(!listenerData.sender->to<ZFUIButton *>()->buttonChecked())
                 {
@@ -125,7 +125,7 @@ protected:
                     zfbool first = zftrue;
                     for(zfindex i = 0; i < pageManager->pageCount(); ++i)
                     {
-                        if(pageManager->pageAtIndex(i)->pageGroupId().compare(pageGroupId->stringValue()) == 0)
+                        if(pageManager->pageAtIndex(i)->pageGroupId().compare(pageGroupId->zfv) == 0)
                         {
                             if(first)
                             {
@@ -155,7 +155,7 @@ protected:
                     pauseAni->aniAlphaToSet(0);
                     pageManager->pageAniOverrideForOnce(resumeAni, pauseAni);
 
-                    pageManager->requestPageGroupResume(pageGroupId->stringValue());
+                    pageManager->requestPageGroupResume(pageGroupId->zfv);
                 }
             })
             zfblockedAlloc(ZFObject, userData);

@@ -3,13 +3,13 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 /*
- * <ZFString myAttr="myAttrValue" >
+ * <v_zfstring myAttr="myAttrValue" >
  *     <zfstring category="value" value="123" />
  *     <zfstring k1="123" k2="123" />
- * </ZFString>
+ * </v_zfstring>
  *
  * {
- *     "@ZFString" : [
+ *     "@v_zfstring" : [
  *         {
  *            "@zfstring" : [],
  *            "category" : "value",

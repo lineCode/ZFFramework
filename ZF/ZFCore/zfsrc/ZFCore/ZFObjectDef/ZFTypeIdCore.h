@@ -7,13 +7,13 @@
 #define _ZFI_ZFTypeIdCore_h_
 
 #include "ZFStyleable.h"
+#include "ZFProgressable.h"
 #include "ZFMethodUserRegister.h"
 #include "ZFMethodFuncUserRegister.h"
 #include "ZFMethodFuncDeclare.h"
 #include "ZFObjectUtil.h"
 #include "ZFSerializableUtil.h"
 #include "ZFSerializableDataSerializableConverter.h"
-#include "ZFPropertyCallbackDefaultImpl.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -148,48 +148,6 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFTYPEID_DECLARE */
 #define ZFTYPEID_DEFINE_WITH_CUSTOM_WRAPPER(TypeName, Type, serializeFromAction, serializeToAction, convertFromStringAction, convertToStringAction) \
-    template<> \
-    zfclassNotPOD _ZFP_ZFTypeId_propCbSerialize<Type> \
-    { \
-    public: \
-        static ZFPropertyCallbackSerializeFrom f(void) \
-        { \
-            return serializeFrom; \
-        } \
-        static ZFPropertyCallbackSerializeTo t(void) \
-        { \
-            return serializeTo; \
-        } \
-    public: \
-        static zfbool serializeFrom(ZF_IN const ZFProperty *propertyInfo, \
-                                    ZF_IN ZFObject *ownerObject, \
-                                    ZF_IN const ZFSerializableData &serializableData, \
-                                    ZF_OUT_OPT zfstring *outErrorHint = zfnull, \
-                                    ZF_OUT_OPT ZFSerializableData *outErrorPos = zfnull) \
-        { \
-            if(ZFSerializableUtil::requireItemClass(serializableData, propertyInfo->propertyTypeId(), outErrorHint, outErrorPos) == zfnull) \
-            { \
-                return zffalse; \
-            } \
-            Type v; \
-            if(!TypeName##FromData(v, serializableData, outErrorHint, outErrorPos)) \
-            { \
-                return zffalse; \
-            } \
-            propertyInfo->setterMethod()->execute<void, Type const &>(ownerObject, v); \
-            return zftrue; \
-        } \
-        static zfbool serializeTo(ZF_IN const ZFProperty *propertyInfo, \
-                                  ZF_IN ZFObject *ownerObject, \
-                                  ZF_OUT ZFSerializableData &serializableData, \
-                                  ZF_OUT_OPT zfstring *outErrorHint = zfnull) \
-        { \
-            serializableData.itemClassSet(propertyInfo->propertyTypeId()); \
-            serializableData.propertyNameSet(propertyInfo->propertyName()); \
-            Type const &v = propertyInfo->getterMethod()->execute<Type const &>(ownerObject); \
-            return TypeName##ToData(serializableData, v, outErrorHint); \
-        } \
-    }; \
     zfbool TypeName##FromData(ZF_OUT Type &v, \
                               ZF_IN const ZFSerializableData &serializableData, \
                               ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */, \
@@ -477,9 +435,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   />
  * @endcode
  */
-zfabstract ZF_ENV_EXPORT ZFTypeIdWrapper : zfextends ZFStyleableObject
+zfabstract ZF_ENV_EXPORT ZFTypeIdWrapper : zfextends ZFStyleableObject, zfimplements ZFProgressable
 {
     ZFOBJECT_DECLARE_ABSTRACT_WITH_CUSTOM_CTOR(ZFTypeIdWrapper, ZFStyleableObject)
+    ZFIMPLEMENTS_DECLARE(ZFProgressable)
     ZFALLOC_CACHE_RELEASE_ABSTRACT({
         cache->wrappedValueIsConst = zffalse;
         cache->wrappedValueReset();
@@ -511,17 +470,17 @@ public:
     /**
      * @brief copy internal value, assert fail if #wrappedValueIsConst
      */
-    zffinal ZFTypeIdWrapper *assign(ZF_IN ZFTypeIdWrapper *ref)
+    zffinal ZFTypeIdWrapper *wrappedValueAssign(ZF_IN ZFTypeIdWrapper *ref)
     {
         zfCoreAssert(!this->wrappedValueIsConst);
-        this->assignAction(ref);
+        this->wrappedValueOnAssign(ref);
         return this;
     }
 protected:
     /**
      * @brief see #assign
      */
-    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref) zfpurevirtual;
+    virtual void wrappedValueOnAssign(ZF_IN ZFTypeIdWrapper *ref) zfpurevirtual;
 
 public:
     /**
@@ -541,7 +500,6 @@ public:
      */
     virtual void wrappedValueGet(ZF_IN void *v) zfpurevirtual;
 
-public:
     /**
      * @brief reset the value to it's init value
      */
@@ -550,22 +508,6 @@ public:
      * @brief true if the value is in init value state
      */
     virtual zfbool wrappedValueIsInit(void) zfpurevirtual;
-    /**
-     * @brief compare the value
-     */
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
-                                                ZF_IN const void *v1) zfpurevirtual;
-    /**
-     * @brief get value info
-     */
-    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
-                                     ZF_IN const void *v) zfpurevirtual;
-    /**
-     * @brief update property value by progress, see #ZFTYPEID_PROGRESS_DECLARE
-     */
-    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
-                                              ZF_IN const void *to,
-                                              ZF_IN zffloat progress) zfpurevirtual;
 
 public:
     /**
@@ -588,6 +530,15 @@ public:
      * @brief convert to string
      */
     virtual zfbool wrappedValueToString(ZF_IN_OUT zfstring &s) zfpurevirtual;
+
+public:
+    zfoverride
+    virtual zfbool progressUpdate(ZF_IN ZFProgressable *from,
+                                  ZF_IN ZFProgressable *to,
+                                  ZF_IN zffloat progress)
+    {
+        return zffalse;
+    }
 
 public:
     zfoverride
@@ -677,42 +628,50 @@ public:
  * \n
  * to use this, register your type by this macro, with this proto type:
  * @code
- *   void update(ZF_IN_OUT void *ret,
- *               ZF_IN const void *from,
- *               ZF_IN const void *to,
+ *   void update(ZF_OUT Type &ret,
+ *               ZF_IN Type const &from,
+ *               ZF_IN Type const &to,
  *               ZF_IN zffloat progress);
  * @endcode
- * then use them by #ZFProperty::callbackProgressUpdate
+ * then use them by #ZFTypeInfo::typeIdProgressValue\n
+ * \n
+ * to register:
+ * @code
+ *   ZFTYPEID_PROGRESS_DEFINE(YourType, YourType, {
+ *           yourProgress(ret, from, to, progress);
+ *       })
+ * @endcode
+ * or use #ZFTYPEID_PROGRESS_DEFINE_BY_VALUE for short
  */
-#define ZFTYPEID_PROGRESS_DECLARE(Type, progressUpdateAction) \
-    template<typename T_Type> \
-    zfclassNotPOD _ZFP_ZFPropertyProgressHolder< \
-            T_Type, \
-            typename zftEnableIf<zftTypeIsTypeOf<T_Type, Type>::TypeIsTypeOf>::EnableIf \
-        > \
+#define ZFTYPEID_PROGRESS_DEFINE(TypeName, Type, progressUpdateAction) \
+    ZF_STATIC_REGISTER_INIT(_ZFP_ZFTypeIdProgressReg_##TypeName) \
     { \
-    public: \
-        static zfbool update(ZF_IN_OUT_OPT void *_ret = zfnull, \
-                             ZF_IN_OPT const void *_from = zfnull, \
-                             ZF_IN_OPT const void *_to = zfnull, \
-                             ZF_IN_OPT zffloat progress = 1) \
+        v_##TypeName::_ZFP_ZFTypeId_progressUpdate = zfself::I; \
+    } \
+    static zfbool I(ZF_IN_OUT ZFProgressable *_ret, \
+                    ZF_IN ZFProgressable *_from, \
+                    ZF_IN ZFProgressable *_to, \
+                    ZF_IN zffloat progress) \
+    { \
+        v_##TypeName *_retH = ZFCastZFObject(v_##TypeName *, _ret); \
+        v_##TypeName *_fromH = ZFCastZFObject(v_##TypeName *, _from); \
+        v_##TypeName *_toH = ZFCastZFObject(v_##TypeName *, _to); \
+        if(_retH == zfnull || _fromH == zfnull || _toH == zfnull) \
         { \
-            if(_ret == zfnull) {return zftrue;} \
-            typedef Type _ZFP_PP; \
-            _ZFP_PP &ret = *(_ZFP_PP *)_ret; \
-            _ZFP_PP const &from = *(const _ZFP_PP *)_from; \
-            _ZFP_PP const &to = *(const _ZFP_PP *)_to; \
-            { \
-                progressUpdateAction \
-            } \
-            return zftrue; \
+            return zffalse; \
         } \
-    };
+        Type &ret = _retH->zfv; \
+        Type const &from = _fromH->zfv; \
+        Type const &to = _toH->zfv; \
+        progressUpdateAction \
+        return zftrue; \
+    } \
+    ZF_STATIC_REGISTER_END(_ZFP_ZFTypeIdProgressReg_##TypeName)
 /**
- * @brief util macro to declare #ZFTYPEID_PROGRESS_DECLARE by raw value calculating
+ * @brief util macro to declare #ZFTYPEID_PROGRESS_DEFINE by raw value calculating
  */
-#define ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(Type) \
-    ZFTYPEID_PROGRESS_DECLARE(Type, { \
+#define ZFTYPEID_PROGRESS_DEFINE_BY_VALUE(TypeName, Type) \
+    ZFTYPEID_PROGRESS_DEFINE(TypeName, Type, { \
             ret = (Type)(from + (Type)((to - from) * progress)); \
         })
 

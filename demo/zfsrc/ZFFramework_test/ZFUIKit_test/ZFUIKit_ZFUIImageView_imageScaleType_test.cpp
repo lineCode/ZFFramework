@@ -95,10 +95,10 @@ private:
             setting->userDataSet(imageViews);
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFArray *imageViews = userData->to<ZFArray *>();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
 
                 ZFUIImageView *imageView = imageViews->getFirst<ZFUIImageView *>();
-                text->stringValueSet(ZFUIContentScaleType::EnumNameForValue(imageView->imageScaleType()));
+                text->zfv = ZFUIContentScaleType::EnumNameForValue(imageView->imageScaleType());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {

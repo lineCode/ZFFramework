@@ -457,6 +457,36 @@ public:
      * @note ensured breadth-first
      */
     const ZFProperty *propertyForName(const zfchar *propertyName) const;
+
+    /**
+     * @brief try to get property setter method within this class only
+     *
+     * note, the property has no need to exist,
+     * we only search method with proper name and param and return type
+     */
+    const ZFMethod *propertySetterForNameIgnoreParent(const zfchar *propertyName) const;
+    /**
+     * @brief try to get property setter method
+     *
+     * note, the property has no need to exist,
+     * we only search method with proper name and param and return type
+     */
+    const ZFMethod *propertySetterForName(const zfchar *propertyName) const;
+    /**
+     * @brief try to get property getter method within this class only
+     *
+     * note, the property has no need to exist,
+     * we only search method with proper name and param and return type
+     */
+    const ZFMethod *propertyGetterForNameIgnoreParent(const zfchar *propertyName) const;
+    /**
+     * @brief try to get property getter method
+     *
+     * note, the property has no need to exist,
+     * we only search method with proper name and param and return type
+     */
+    const ZFMethod *propertyGetterForName(const zfchar *propertyName) const;
+
     /**
      * @brief whether the property has #ZFPROPERTY_OVERRIDE_ON_INIT_DECLARE
      */

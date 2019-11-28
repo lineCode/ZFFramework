@@ -219,6 +219,13 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFTimeValue, ZFTimeValue, {
         return zftrue;
     })
 
+ZFTYPEID_PROGRESS_DEFINE(ZFTimeValue, ZFTimeValue, {
+        ret.sec = from.sec + (zft_zftimet)((to.sec - from.sec) * progress);
+        zfdouble usec = (to.sec - from.sec) * (zfdouble)progress;
+        ret.usec = from.usec + (zft_zftimet)((usec - (zfint)usec) * 1000000LL);
+        ZFTimeValueNormalize(ret);
+    })
+
 // ============================================================
 // ZFTimeInfo
 ZFTYPEID_ACCESS_ONLY_DEFINE(ZFTimeInfo, ZFTimeInfo)

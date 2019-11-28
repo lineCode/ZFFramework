@@ -24,12 +24,10 @@ ZFEXPORT_VAR_DECLARE(ZFFilterForZFObject, ZFUIViewStateAniFilter)
  * \n
  * this method use native animation to performan view animations,
  * typically has better performance but may cause strange animation\n
- * you may also use #ZFPropertyAniBegin/#ZFPropertyAniEnd to perform property change animation,
+ * you may also use #ZFAni to perform property change animation,
  * which are implemented by update property value accorrding to timeline,
  * best compatibility but may has worse performance,
- * and only the properties that supply #ZFTYPEID_PROGRESS_DECLARE are supported\n
- * \n
- * \n
+ * and only the properties that supply #ZFTYPEID_PROGRESS_DEFINE are supported\n
  * \n
  * for those who want to care about implementations:\n
  * state animation are implemented by:

@@ -121,16 +121,6 @@ public:
     virtual void wrappedValueReset(void);
     zfoverride
     virtual zfbool wrappedValueIsInit(void);
-    zfoverride
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
-                                                ZF_IN const void *v1);
-    zfoverride
-    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
-                                     ZF_IN const void *v);
-    zfoverride
-    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
-                                              ZF_IN const void *to,
-                                              ZF_IN zffloat progress);
 public:
     zfoverride
     virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData,
@@ -239,7 +229,7 @@ public:
     zfuint _ZFP_ZFEnum_value;
 public:
     zfoverride
-    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref)
+    virtual void wrappedValueOnAssign(ZF_IN ZFTypeIdWrapper *ref)
     {
         zfself *refTmp = ZFCastZFObject(zfself *, ref);
         if(refTmp != zfnull)

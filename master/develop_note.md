@@ -31,7 +31,6 @@ most of them has `ZFTAG_` as prefix:
 * `ZFTAG_ADD_MODULE` : if you want to add modules for ZFFramework, you should take care of this
 * `ZFTAG_LIMITATION` : limitation of ZFFramework, you should take care during coding
 * `ZFTAG_TRICKS` : unconventional tricks to achieve unconventional goals
-* `ZFTAG_ZFVALUE_TYPE_TO_ADD` : if you want to add #ZFValue's internal type
 
 
 ## ZFCastZFObject
@@ -72,14 +71,6 @@ we use zfstring as low level string container, which is reproduce of std::string
         which should be implemented manually,
         for most case, outter invoker should have wrapped by zfCoreMutexLocker,
         and there's no need for low level string types to supply thread-safe
-
-for app level, we use ZFString/ZFStringEditable to hold strings,
-whose actual impl depends on platform impl,
-and may have better performance when integrated with UI
-(considering a UI text view holding a large amount of text)
-
-in short, zfstring is more convenient in cpp wolrd and has better performance for small string operations,
-while ZFString suits the situation that interacting with native impls
 
 
 ## ZFCoreArray/ZFCoreMap

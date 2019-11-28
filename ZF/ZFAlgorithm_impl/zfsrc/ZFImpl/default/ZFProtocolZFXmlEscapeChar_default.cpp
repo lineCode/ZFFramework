@@ -124,7 +124,7 @@ private:
         if(zfsToIntT(*(zft_zfuint16 *)s, p, encodedCharLen, 10))
         {
             zfstring t;
-            ZFString::toUTF8(t, s, ZFStringEncoding::e_UTF16);
+            zfstringToUTF8(t, s, ZFStringEncoding::e_UTF16);
             dst.execute(t.cString(), t.length());
         }
         else
@@ -172,7 +172,7 @@ private:
         if(zfsToIntT(*(zft_zfuint16 *)s, p, encodedCharLen, 16))
         {
             zfstring t;
-            ZFString::toUTF8(t, s, ZFStringEncoding::e_UTF16);
+            zfstringToUTF8(t, s, ZFStringEncoding::e_UTF16);
             dst.execute(t.cString(), t.length());
         }
         else

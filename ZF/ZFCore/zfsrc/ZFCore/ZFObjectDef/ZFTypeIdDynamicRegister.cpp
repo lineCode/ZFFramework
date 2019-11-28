@@ -9,7 +9,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTypeIdDynamic, ZFLevelZFFrameworkStatic)
 {
 }
-zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeIdBase *> > m;
+zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > m;
 ZF_GLOBAL_INITIALIZER_END(ZFTypeIdDynamic)
 
 // ============================================================
@@ -18,14 +18,14 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTypeIdDynamicRegisterAutoRemove, ZFLevel
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFTypeIdDynamicRegisterAutoRemove)
 {
-    zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeIdBase *> > &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic)->m;
+    zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic)->m;
     if(!m.empty())
     {
-        zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeIdBase *> > t;
+        zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > t;
         t.swap(m);
-        for(zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeIdBase *> >::iterator it = t.begin(); it != t.end(); ++it)
+        for(zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> >::iterator it = t.begin(); it != t.end(); ++it)
         {
-            _ZFP_ZFTypeIdUnregister(it->first.c_str());
+            _ZFP_ZFTypeInfoUnregister(it->first.c_str());
         }
     }
 }
@@ -38,7 +38,7 @@ static zfbool _ZFP_ZFTypeIdGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
     return zftrue;
 }
 zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
-                               ZF_IN const ZFCorePointerForObject<ZFTypeIdBase *> &typeIdData,
+                               ZF_IN const ZFCorePointerForObject<ZFTypeInfo *> &typeIdData,
                                ZF_OUT_OPT zfstring *errorHint /* = zfnull */)
 {
     if(zfsIsEmpty(typeIdName))
@@ -66,7 +66,7 @@ zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
         return zffalse;
     }
     d->m[typeIdName] = typeIdData;
-    _ZFP_ZFTypeIdRegister(typeIdName, typeIdData);
+    _ZFP_ZFTypeInfoRegister(typeIdName, typeIdData);
     return zftrue;
 }
 void ZFTypeIdDynamicUnregister(ZF_IN const zfchar *typeIdName)
@@ -74,12 +74,12 @@ void ZFTypeIdDynamicUnregister(ZF_IN const zfchar *typeIdName)
     if(!zfsIsEmpty(typeIdName))
     {
         ZF_GLOBAL_INITIALIZER_CLASS(ZFTypeIdDynamic) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic);
-        zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeIdBase *> >::iterator it = d->m.find(typeIdName);
+        zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> >::iterator it = d->m.find(typeIdName);
         if(it != d->m.end())
         {
             ZFMethodDynamicUnregister(ZFMethodFuncGet(ZF_NAMESPACE_GLOBAL_NAME,
                 zfstringWithFormat("ZFTypeId_%s", typeIdName)));
-            _ZFP_ZFTypeIdUnregister(typeIdName);
+            _ZFP_ZFTypeInfoUnregister(typeIdName);
             d->m.erase(it);
         }
     }

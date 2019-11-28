@@ -89,19 +89,19 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
             ZFUIKit_test_SettingData *setting = userData->tagGet<ZFUIKit_test_SettingData *>("setting");
             ZFUIButtonBasic *button = userData->tagGet<ZFUIButtonBasic *>("button");
 
-            zfblockedAlloc(ZFStringEditable, buttonText);
+            zfblockedAlloc(v_zfstring, buttonText);
             setting->buttonTextGetter().execute(
                 ZFListenerData().senderSet(button).param0Set(buttonText),
                 setting->userData());
-            button->buttonLabelTextSet(buttonText->stringValue());
+            button->buttonLabelTextSet(buttonText->zfv);
         })
         setting->observerAdd(ZFUIKit_test_SettingData::EventSettingOnChange(), settingOnChange, settingChangeUserData);
 
-        zfblockedAlloc(ZFStringEditable, buttonText);
+        zfblockedAlloc(v_zfstring, buttonText);
         setting->buttonTextGetter().execute(
             ZFListenerData().senderSet(button).param0Set(buttonText),
             setting->userData());
-        button->buttonLabelTextSet(buttonText->stringValue());
+        button->buttonLabelTextSet(buttonText->zfv);
     }
 
     return settingsButton;
@@ -135,8 +135,8 @@ void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
         ZFObject *obj = userData->tagGet("obj")->objectHolded();
         const ZFProperty *property = userData->tagGet<v_ZFProperty *>("property")->zfv;
 
-        ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-        text->stringValueSet(zfstringWithFormat("%s : %s", property->propertyName(), ZFPropertyGetInfo(property, obj).cString()));
+        v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+        text->zfv = zfstringWithFormat("%s : %s", property->propertyName(), ZFPropertyGetInfo(property, obj).cString());
     })
     ZFLISTENER_LOCAL(buttonClickListener, {
         const ZFListener &nextCallback = userData->tagGet<ZFTypeHolder *>("nextCallback")->holdedDataRef<const ZFListener &>();
@@ -166,8 +166,8 @@ void ZFUIKit_test_prepareSettingForLayoutRequest(ZF_IN_OUT ZFArrayEditable *sett
     zfCoreAssert(view != zfnull);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
-        ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-        text->stringValueSet("layoutRequest");
+        v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+        text->zfv = "layoutRequest";
     })
     ZFLISTENER_LOCAL(buttonClickListener, {
         userData->objectHolded<ZFUIView *>()->layoutRequest();
@@ -191,8 +191,8 @@ void ZFUIKit_test_prepareSettingForResetProperty(ZF_IN_OUT ZFArrayEditable *sett
     setting->userData()->tagSet("propertyList", propertyListHolder);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
-        ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-        text->stringValueSet("reset setting");
+        v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+        text->zfv = "reset setting";
     })
     setting->buttonTextGetterSet(buttonTextGetter);
 

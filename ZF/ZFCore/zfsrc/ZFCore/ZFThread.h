@@ -207,7 +207,7 @@ protected:
      */
     ZFMETHOD_DECLARE_DETAIL_2(protected, ZFMethodTypeVirtual,
                               void, threadOnRun,
-                              ZFMP_IN_OUT(ZFListenerData &, listenerData),
+                              ZFMP_IN(const ZFListenerData &, listenerData),
                               ZFMP_IN(ZFObject *, userData))
 
 public:

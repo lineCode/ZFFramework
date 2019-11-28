@@ -108,8 +108,8 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * called when text is about to change\n
-     * param0 is the text (as #ZFString) that about to change\n
-     * param1 is a #ZFValueEditable::boolValue
+     * param0 is the text (as #v_zfstring) that about to change\n
+     * param1 is a #v_zfbool
      * shows whether the text should change,
      * set to false to show the text should not be changed\n
      * @note if #ZFUITextEdit::textEditFilter has been set,
@@ -122,7 +122,7 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * called when text changed,
-     * param0 is the old text (as #ZFString)
+     * param0 is the old text (as #v_zfstring)
      */
     ZFOBSERVER_EVENT(TextOnChange)
     /**
@@ -217,8 +217,8 @@ public:
      * @brief text, may be null if not set
      */
     ZFPROPERTY_ASSIGN(zfstring, text)
-    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFString *, text)
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFString *, text)
+    ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(zfstring, text)
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(zfstring, text)
 
     /**
      * @brief text appearance, #ZFUIGlobalStyle::textAppearance by default

@@ -49,7 +49,6 @@
 #include "ZFCore/ZFThread_zfautoRelease.h"
 #include "ZFCore/ZFTime.h"
 #include "ZFCore/ZFTimer.h"
-#include "ZFCore/ZFValue.h"
 
 #endif // #ifndef _ZFI_ZFCore_h_
 

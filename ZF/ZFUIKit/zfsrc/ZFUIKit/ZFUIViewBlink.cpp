@@ -99,7 +99,7 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
     {
         if(blinkParam.blinkCount() > 1)
         {
-            view->tagSet(_ZFP_ZFUIViewBlink_tag_blinkCountLeft, ZFValueEditable::indexValueCreate(blinkParam.blinkCount() - 1).toObject());
+            view->tagSet(_ZFP_ZFUIViewBlink_tag_blinkCountLeft, zflineAlloc(v_zfindex, blinkParam.blinkCount() - 1));
         }
 
         zfblockedAlloc(ZFAnimationNativeView, ani);
@@ -116,16 +116,16 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
             ZFUIView *blinkView = ani->aniTarget()->to<ZFUIView *>();
             ZFUIView *view = userData->objectHolded();
 
-            ZFValueEditable *blinkCountLeft = view->tagGet<ZFValueEditable *>(_ZFP_ZFUIViewBlink_tag_blinkCountLeft);
+            v_zfindex *blinkCountLeft = view->tagGet<v_zfindex *>(_ZFP_ZFUIViewBlink_tag_blinkCountLeft);
             if(blinkCountLeft != zfnull)
             {
-                if(blinkCountLeft->indexValue() <= 1)
+                if(blinkCountLeft->zfv <= 1)
                 {
                     view->tagRemove(_ZFP_ZFUIViewBlink_tag_blinkCountLeft);
                 }
                 else
                 {
-                    blinkCountLeft->indexValueSet(blinkCountLeft->indexValue() - 1);
+                    blinkCountLeft->zfv = blinkCountLeft->zfv - 1;
                 }
 
                 ani->aniStart();
@@ -153,22 +153,22 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
     {
         ZFLISTENER_LOCAL(blinkDelayOnFinish, {
             ZFUIView *view = userData->objectHolded();
-            ZFValue *delayTaskId = listenerData.param0->to<ZFValue *>();
-            ZFValue *delayTaskIdCur = view->tagGet<ZFValue *>(_ZFP_ZFUIViewBlink_tag_delayTaskId);
+            v_zfidentity *delayTaskId = listenerData.param0->to<v_zfidentity *>();
+            v_zfidentity *delayTaskIdCur = view->tagGet<v_zfidentity *>(_ZFP_ZFUIViewBlink_tag_delayTaskId);
             if(delayTaskId != delayTaskIdCur)
             {
                 return ;
             }
 
-            ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.idRelease(delayTaskId->identityValue());
+            ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.idRelease(delayTaskId->zfv);
             _ZFP_ZFUIViewBlink_noAni_doOff(view);
         })
         view->observerAdd(ZFObject::EventObjectBeforeDealloc(), ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->viewOnDeallocListener);
 
         ZFGlobalEventCenter::instance()->observerNotifyWithCustomSender(view, ZFGlobalEvent::EventViewBlinkOn());
         zfidentity delayTaskId = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewBlinkDataHolder)->delayTaskIdGenerator.idAcquire();
-        zfautoObject delayTaskIdTag = ZFValue::identityValueCreate(delayTaskId);
-        view->tagSet(_ZFP_ZFUIViewBlink_tag_delayTaskId, delayTaskIdTag.toObject());
+        zfblockedAlloc(v_zfidentity, delayTaskIdTag, delayTaskId);
+        view->tagSet(_ZFP_ZFUIViewBlink_tag_delayTaskId, delayTaskIdTag);
         zfidentity delayId = ZFThreadExecuteInMainThreadAfterDelay(
             #if _ZFP_ZFUIViewBlink_DEBUG_duration
                 (zftimet)5000
@@ -178,9 +178,9 @@ static void _ZFP_ZFUIViewBlinkDoOn(ZF_IN ZFUIView *view, ZF_IN const ZFUIViewBli
             ,
             blinkDelayOnFinish,
             view->objectHolder(),
-            ZFListenerData().param0Set(delayTaskIdTag.toObject())
+            ZFListenerData().param0Set(delayTaskIdTag)
             );
-        view->tagSet(_ZFP_ZFUIViewBlink_tag_delayId, ZFValue::identityValueCreate(delayId).toObject());
+        view->tagSet(_ZFP_ZFUIViewBlink_tag_delayId, zflineAlloc(v_zfidentity, delayId));
     }
 }
 static void _ZFP_ZFUIViewBlink_noAni_doOff(ZF_IN ZFUIView *view)

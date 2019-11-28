@@ -25,13 +25,6 @@ const zfchar *ZFDI_toString(ZF_IN ZFObject *obj)
         }
     }
     {
-        ZFString *t = ZFCastZFObject(ZFString *, obj);
-        if(t != zfnull)
-        {
-            return t->stringValue();
-        }
-    }
-    {
         ZFDI_WrapperBase *t = ZFCastZFObject(ZFDI_WrapperBase *, obj);
         if(t != zfnull)
         {
@@ -619,7 +612,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
         }
     }
 
-    const ZFTypeIdBase *typeIdData = ZFTypeIdGet(typeId);
+    const ZFTypeInfo *typeIdData = ZFTypeInfoGet(typeId);
     if(typeIdData == zfnull || !typeIdData->typeIdWrapper(ret))
     {
         if(errorHint != zfnull)

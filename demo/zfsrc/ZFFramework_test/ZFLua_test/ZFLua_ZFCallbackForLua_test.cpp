@@ -11,7 +11,7 @@ zfclass _ZFP_ZFLua_ZFCallbackForLua_test_Object : zfextends ZFObject
 public:
     ZFMETHOD_INLINE_0(void, notifyTest)
     {
-        this->observerNotify(zfself::EventTest(), ZFValue::intValueCreate(1111), ZFValue::intValueCreate(2222));
+        this->observerNotify(zfself::EventTest(), zflineAlloc(v_zfint, 1111), zflineAlloc(v_zfint, 2222));
     }
 
 protected:

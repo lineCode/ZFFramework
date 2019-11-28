@@ -18,7 +18,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @cond ZFPrivateDoc */
 template<>
-zfclassNotPOD ZFTypeId<void> : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId<void> : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {
@@ -84,7 +84,7 @@ ZFOUTPUT_TYPE_DECLARE(zfautoObject)
 
 /** @cond ZFPrivateDoc */
 template<>
-zfclassNotPOD ZFTypeId<zfautoObject> : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId<zfautoObject> : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {
@@ -163,7 +163,7 @@ public:
 // zfautoObjectT
 /** @cond ZFPrivateDoc */
 template<typename T_ZFObject>
-zfclassNotPOD ZFTypeId<zfautoObjectT<T_ZFObject> > : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId<zfautoObjectT<T_ZFObject> > : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {
@@ -245,7 +245,7 @@ public:
 template<typename T_Type>
 zfclassNotPOD ZFTypeId<T_Type,
         typename zftEnableIf<zftIsZFObject(typename zftTraits<T_Type>::TrType)>::EnableIf
-    > : zfextendsNotPOD ZFTypeIdBase
+    > : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {
@@ -385,7 +385,7 @@ public:
 // ZFAny
 /** @cond ZFPrivateDoc */
 template<>
-zfclassNotPOD ZFTypeId<ZFAny> : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId<ZFAny> : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {
@@ -469,7 +469,7 @@ template<typename T_Type>
 zfclassNotPOD ZFTypeId<T_Type,
         typename zftEnableIf<!zftIsZFObject(typename zftTraits<T_Type>::TrType)>::EnableIf,
         typename zftEnableIf<zftTraits<T_Type>::TrIsPtr>::EnableIf
-    > : zfextendsNotPOD ZFTypeIdBase
+    > : zfextendsNotPOD ZFTypeInfo
 {
 public:
     typedef typename zftTraits<T_Type>::TrType T_Type_;

@@ -108,7 +108,7 @@ public:
     }
 public:
     zfoverride
-    virtual void assignAction(ZF_IN ZFTypeIdWrapper *ref)
+    virtual void wrappedValueOnAssign(ZF_IN ZFTypeIdWrapper *ref)
     {
         zfself *refTmp = ZFCastZFObject(zfself *, ref);
         if(refTmp != zfnull)
@@ -155,54 +155,6 @@ public:
     {
         return this->zfv.isEmpty();
     }
-    zfoverride
-    virtual ZFCompareResult wrappedValueCompare(ZF_IN const void *v0,
-                                                ZF_IN const void *v1)
-    {
-        if(v0 == zfnull)
-        {
-            if(v1 == zfnull || ((const ZFCoreArray<zfautoObject> *)v1)->isEmpty())
-            {
-                return ZFCompareTheSame;
-            }
-            else
-            {
-                return ZFCompareUncomparable;
-            }
-        }
-        else
-        {
-            if(v1 == zfnull)
-            {
-                if(((const ZFCoreArray<zfautoObject> *)v0)->isEmpty())
-                {
-                    return ZFCompareTheSame;
-                }
-                else
-                {
-                    return ZFCompareUncomparable;
-                }
-            }
-            else
-            {
-                return ((const ZFCoreArray<zfautoObject> *)v0)->objectCompare(
-                    *(const ZFCoreArray<zfautoObject> *)v1);
-            }
-        }
-    }
-    zfoverride
-    virtual void wrappedValueGetInfo(ZF_IN_OUT zfstring &ret,
-                                     ZF_IN const void *v)
-    {
-        ((const ZFCoreArray<zfautoObject> *)v)->objectInfoOfContentT(ret, ZFCoreElementInfoGetter<zfautoObject>::elementInfoGetter);
-    }
-    zfoverride
-    virtual zfbool wrappedValueProgressUpdate(ZF_IN const void *from,
-                                              ZF_IN const void *to,
-                                              ZF_IN zffloat progress)
-    {
-        return zffalse;
-    }
 public:
     zfoverride
     virtual zfbool wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData,
@@ -235,7 +187,7 @@ public:
 };
 
 template<typename T_Type>
-zfclassNotPOD ZFTypeId<ZFCoreArray<T_Type> > : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId<ZFCoreArray<T_Type> > : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {
@@ -332,7 +284,7 @@ private:
 };
 
 template<typename T_Type>
-zfclassNotPOD ZFTypeId<ZFCoreArrayPOD<T_Type> > : zfextendsNotPOD ZFTypeIdBase
+zfclassNotPOD ZFTypeId<ZFCoreArrayPOD<T_Type> > : zfextendsNotPOD ZFTypeInfo
 {
 public:
     enum {

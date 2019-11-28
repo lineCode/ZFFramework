@@ -27,7 +27,7 @@ public:
      * called when list adapter's content changed
      * and owner list view needs to be updated,
      * param0 is null to update entire list,
-     * or a #ZFValue::indexValue shows which cell to reload\n
+     * or a #v_zfindex shows which cell to reload\n
      * typically, this event would be fired by #listAdapterNotifyReload
      * which would be called by list adapter impl
      */
@@ -37,7 +37,7 @@ public:
      *
      * called when update list cell,
      * param0 is the #ZFUIListCell,
-     * param1 is the index of the list cell (as #ZFValue::indexValue)
+     * param1 is the index of the list cell (as #v_zfindex)
      */
     ZFOBSERVER_EVENT(ListCellOnUpdate)
     /**
@@ -143,7 +143,7 @@ protected:
     virtual inline void listAdapterOnReload(ZF_IN_OPT zfindex atIndexOrMax = zfindexMax())
     {
         this->toObject()->observerNotify(zfself::EventListAdapterOnReload(),
-            (atIndexOrMax == zfindexMax()) ? zfnull : ZFValue::indexValueCreate(atIndexOrMax).toObject());
+            (atIndexOrMax == zfindexMax()) ? zfnull : zflineAlloc(v_zfindex, atIndexOrMax));
     }
     /**
      * @brief see #EventListCellOnUpdate
@@ -151,7 +151,7 @@ protected:
     virtual inline void cellOnUpdate(ZF_IN zfindex atIndex,
                                      ZF_IN ZFUIListCell *cell)
     {
-        this->toObject()->observerNotify(zfself::EventListCellOnUpdate(), cell, ZFValue::indexValueCreate(atIndex).toObject());
+        this->toObject()->observerNotify(zfself::EventListCellOnUpdate(), cell, zflineAlloc(v_zfindex, atIndex));
     }
 
     // ============================================================

@@ -92,7 +92,7 @@ public:
 
 public:
     /**
-     * param0 is a #ZFStringEditable to get the button's text
+     * param0 is a #v_zfstring to get the button's text
      */
     ZFPROPERTY_ASSIGN(ZFListener, buttonTextGetter)
     ZFPROPERTY_ASSIGN(ZFListener, buttonClickListener)

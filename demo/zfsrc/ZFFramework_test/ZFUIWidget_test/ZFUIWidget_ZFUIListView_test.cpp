@@ -152,8 +152,8 @@ private:
             setting->userData()->tagSet("listView", listView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIListView *listView = userData->tagGet("listView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat("autoScrollSpeedX: %d", listView->autoScrollSpeedX()));
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat("autoScrollSpeedX: %d", listView->autoScrollSpeedX());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
@@ -176,8 +176,8 @@ private:
             setting->userData()->tagSet("listView", listView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIListView *listView = userData->tagGet("listView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat("autoScrollSpeedY: %d", listView->autoScrollSpeedY()));
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat("autoScrollSpeedY: %d", listView->autoScrollSpeedY());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
@@ -230,9 +230,9 @@ private:
             setting->userData()->tagSet("listView", listView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIScrollView *listView = userData->tagGet("listView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat("scrollAreaMargin: %s",
-                    ZFUIMarginToString(listView->scrollAreaMargin()).cString()));
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat("scrollAreaMargin: %s",
+                    ZFUIMarginToString(listView->scrollAreaMargin()).cString());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {

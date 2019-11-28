@@ -221,13 +221,6 @@ extern ZF_ENV_EXPORT void operator *= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN zfindex 
 /** @brief overrided operator for ZFTimeValue calculate */
 extern ZF_ENV_EXPORT void operator /= (ZF_IN_OUT ZFTimeValue &v0, ZF_IN zfindex v1);
 
-ZFTYPEID_PROGRESS_DECLARE(ZFTimeValue, {
-        ret.sec = from.sec + (zft_zftimet)((to.sec - from.sec) * progress);
-        zfdouble usec = (to.sec - from.sec) * (zfdouble)progress;
-        ret.usec = from.usec + (zft_zftimet)((usec - (zfint)usec) * 1000000LL);
-        ZFTimeValueNormalize(ret);
-    })
-
 // ============================================================
 // ZFTimeInfo
 /**

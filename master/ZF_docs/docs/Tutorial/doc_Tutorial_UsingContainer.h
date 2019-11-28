@@ -36,7 +36,7 @@
  *     zfblockedAlloc(ZFArrayEditable, array);
  *
  *     // can hold ZFObject types only
- *     array->add(zflineAlloc(ZFString));
+ *     array->add(zflineAlloc(v_zfstring));
  *   @endcode
  */
 

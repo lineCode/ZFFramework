@@ -133,10 +133,8 @@ void ZFStyleable::styleableOnCopyPropertyFrom(ZF_IN ZFStyleable *anotherStyleabl
             break;
         case ZFStyleable::PropertyTypeStyleable:
         {
-            ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
-            ZFPropertyCallbackValueGetHolder _valueGetHolderRef(property, anotherStyleable->toObject());
-            ZFStyleable *selfPropertyValue = *(const zfautoObject *)_valueGetHolder.value();
-            ZFStyleable *anotherPropertyValue = *(const zfautoObject *)_valueGetHolderRef.value();
+            ZFStyleable *selfPropertyValue = property->getterMethod()->methodGenericInvoke(this->toObject());
+            ZFStyleable *anotherPropertyValue = property->getterMethod()->methodGenericInvoke(anotherStyleable->toObject());
             if(selfPropertyValue != zfnull && anotherPropertyValue != zfnull)
             {
                 selfPropertyValue->styleableCopyFrom(anotherPropertyValue);
@@ -145,10 +143,8 @@ void ZFStyleable::styleableOnCopyPropertyFrom(ZF_IN ZFStyleable *anotherStyleabl
             break;
         case ZFStyleable::PropertyTypeCopyable:
         {
-            ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
-            ZFPropertyCallbackValueGetHolder _valueGetHolderRef(property, anotherStyleable->toObject());
-            ZFCopyable *selfPropertyValue = *(const zfautoObject *)_valueGetHolder.value();
-            ZFObject *anotherPropertyValue = *(const zfautoObject *)_valueGetHolderRef.value();
+            ZFCopyable *selfPropertyValue = property->getterMethod()->methodGenericInvoke(this->toObject());
+            ZFObject *anotherPropertyValue = property->getterMethod()->methodGenericInvoke(anotherStyleable->toObject());
             if(selfPropertyValue != zfnull && anotherPropertyValue != zfnull)
             {
                 selfPropertyValue->copyFrom(anotherPropertyValue);

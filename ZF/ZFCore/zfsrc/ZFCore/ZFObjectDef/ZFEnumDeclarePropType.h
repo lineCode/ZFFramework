@@ -30,7 +30,7 @@ public:
     ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(EnumName##Enum, EnumName##Enum) \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFTypeId<EnumName##Enum> : zfextendsNotPOD ZFTypeIdBase \
+    zfclassNotPOD ZFTypeId<EnumName##Enum> : zfextendsNotPOD ZFTypeInfo \
     { \
     public: \
         enum { \
@@ -200,7 +200,7 @@ public:
     }; \
     /** @cond ZFPrivateDoc */ \
     template<> \
-    zfclassNotPOD ZFTypeId<EnumFlagsName> : zfextendsNotPOD ZFTypeIdBase \
+    zfclassNotPOD ZFTypeId<EnumFlagsName> : zfextendsNotPOD ZFTypeInfo \
     { \
     public: \
         enum { \

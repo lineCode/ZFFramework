@@ -179,12 +179,12 @@ static int _ZFP_ZFLuaImportAll(ZF_IN lua_State *L)
     if(count >= 5)
     {
         zfautoObject recursiveHolder;
-        if(ZFImpl_ZFLua_toNumberT(recursiveHolder, L, 5))
+        if(ZFImpl_ZFLua_toObject(recursiveHolder, L, 5))
         {
-            ZFValue *t = recursiveHolder;
-            if(t != zfnull && t->valueConvertableTo(ZFValueType::e_bool))
+            v_zfbool *t = recursiveHolder;
+            if(t != zfnull)
             {
-                recursive = t->boolValue();
+                recursive = t->zfv;
             }
         }
     }

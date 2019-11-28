@@ -257,7 +257,6 @@ ZFTYPEID_ALIAS_DECLARE_CUSTOM(zfstring, zfstring, cString, const zfchar *, _ZFP_
  */
 ZFTYPEID_DECLARE(zfint, zfint)
 ZFOUTPUT_TYPE(zfint, {output.execute(zfintToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfint)
 /**
  * @brief see #ZFTYPEID_DECLARE
  *
@@ -270,7 +269,6 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfint)
  */
 ZFTYPEID_DECLARE(zfuint, zfuint)
 ZFOUTPUT_TYPE(zfuint, {output.execute(zfuintToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfuint)
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -284,7 +282,6 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfuint)
  */
 ZFTYPEID_DECLARE(zfindex, zfindex)
 ZFOUTPUT_TYPE(zfindex, {output.execute(zfindexToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfindex)
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -296,7 +293,6 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfindex)
  */
 ZFTYPEID_DECLARE(zffloat, zffloat)
 ZFOUTPUT_TYPE(zffloat, {output.execute(zffloatToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zffloat)
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -308,7 +304,6 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zffloat)
  */
 ZFTYPEID_DECLARE(zfdouble, zfdouble)
 ZFOUTPUT_TYPE(zfdouble, {output.execute(zfdoubleToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfdouble)
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -320,7 +315,6 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zfdouble)
  */
 ZFTYPEID_DECLARE(zflongdouble, zflongdouble)
 ZFOUTPUT_TYPE(zflongdouble, {output.execute(zflongdoubleToString(v));})
-ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zflongdouble)
 
 /**
  * @brief see #ZFTYPEID_DECLARE
@@ -332,9 +326,6 @@ ZFTYPEID_PROGRESS_DECLARE_BY_VALUE(zflongdouble)
  */
 ZFTYPEID_DECLARE(zftimet, zftimet)
 ZFOUTPUT_TYPE(zftimet, {output.execute(zftimetToString(v));})
-ZFTYPEID_PROGRESS_DECLARE(zftimet, {
-        ret = (zft_zftimet)(from + (zft_zftimet)((to - from) * progress));
-    })
 
 /**
  * @brief see #ZFTYPEID_DECLARE

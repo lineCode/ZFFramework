@@ -23,14 +23,6 @@ public:
     ZFPropertyCallbackIsValueAccessed propertyCustomImplCallbackIsValueAccessed;
     ZFPropertyCallbackIsInitValue propertyCustomImplCallbackIsInitValue;
     ZFPropertyCallbackValueReset propertyCustomImplCallbackValueReset;
-    ZFPropertyCallbackValueSet propertyCustomImplCallbackValueSet;
-    ZFPropertyCallbackValueGet propertyCustomImplCallbackValueGet;
-    ZFPropertyCallbackValueGetRelease propertyCustomImplCallbackValueGetRelease;
-    ZFPropertyCallbackCompare propertyCustomImplCallbackCompare;
-    ZFPropertyCallbackGetInfo propertyCustomImplCallbackGetInfo;
-    ZFPropertyCallbackValueStore propertyCustomImplCallbackValueStore;
-    ZFPropertyCallbackValueRelease propertyCustomImplCallbackValueRelease;
-    ZFPropertyCallbackProgressUpdate propertyCustomImplCallbackProgressUpdate;
 
 public:
     _ZFP_ZFPropertyDynamicRegisterParamPrivate(void)
@@ -50,14 +42,6 @@ public:
     , propertyCustomImplCallbackIsValueAccessed(zfnull)
     , propertyCustomImplCallbackIsInitValue(zfnull)
     , propertyCustomImplCallbackValueReset(zfnull)
-    , propertyCustomImplCallbackValueSet(zfnull)
-    , propertyCustomImplCallbackValueGet(zfnull)
-    , propertyCustomImplCallbackValueGetRelease(zfnull)
-    , propertyCustomImplCallbackCompare(zfnull)
-    , propertyCustomImplCallbackGetInfo(zfnull)
-    , propertyCustomImplCallbackValueStore(zfnull)
-    , propertyCustomImplCallbackValueRelease(zfnull)
-    , propertyCustomImplCallbackProgressUpdate(zfnull)
     {
     }
 };
@@ -159,14 +143,6 @@ ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyCustomIm
                                                                                       , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
                                                                                       , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
                                                                                       , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackValueSet callbackValueSet /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackValueGet callbackValueGet /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackValueGetRelease callbackValueGetRelease /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackCompare callbackCompare /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackGetInfo callbackGetInfo /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackValueStore callbackValueStore /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackValueRelease callbackValueRelease /* = zfnull */
-                                                                                      , ZF_IN_OPT ZFPropertyCallbackProgressUpdate callbackProgressUpdate /* = zfnull */
                                                                                       )
 {
     d->propertyCustomImplSetterMethod = propertySetterMethod;
@@ -174,14 +150,6 @@ ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyCustomIm
     d->propertyCustomImplCallbackIsValueAccessed = callbackIsValueAccessed;
     d->propertyCustomImplCallbackIsInitValue = callbackIsInitValue;
     d->propertyCustomImplCallbackValueReset = callbackValueReset;
-    d->propertyCustomImplCallbackValueSet = callbackValueSet;
-    d->propertyCustomImplCallbackValueGet = callbackValueGet;
-    d->propertyCustomImplCallbackValueGetRelease = callbackValueGetRelease;
-    d->propertyCustomImplCallbackCompare = callbackCompare;
-    d->propertyCustomImplCallbackGetInfo = callbackGetInfo;
-    d->propertyCustomImplCallbackValueStore = callbackValueStore;
-    d->propertyCustomImplCallbackValueRelease = callbackValueRelease;
-    d->propertyCustomImplCallbackProgressUpdate = callbackProgressUpdate;
     return *this;
 }
 
@@ -204,38 +172,6 @@ ZFPropertyCallbackIsInitValue ZFPropertyDynamicRegisterParam::propertyCustomImpl
 ZFPropertyCallbackValueReset ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackValueReset(void) const
 {
     return d->propertyCustomImplCallbackValueReset;
-}
-ZFPropertyCallbackValueSet ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackValueSet(void) const
-{
-    return d->propertyCustomImplCallbackValueSet;
-}
-ZFPropertyCallbackValueGet ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackValueGet(void) const
-{
-    return d->propertyCustomImplCallbackValueGet;
-}
-ZFPropertyCallbackValueGetRelease ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackValueGetRelease(void) const
-{
-    return d->propertyCustomImplCallbackValueGetRelease;
-}
-ZFPropertyCallbackCompare ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackCompare(void) const
-{
-    return d->propertyCustomImplCallbackCompare;
-}
-ZFPropertyCallbackGetInfo ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackGetInfo(void) const
-{
-    return d->propertyCustomImplCallbackGetInfo;
-}
-ZFPropertyCallbackValueStore ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackValueStore(void) const
-{
-    return d->propertyCustomImplCallbackValueStore;
-}
-ZFPropertyCallbackValueRelease ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackValueRelease(void) const
-{
-    return d->propertyCustomImplCallbackValueRelease;
-}
-ZFPropertyCallbackProgressUpdate ZFPropertyDynamicRegisterParam::propertyCustomImplCallbackProgressUpdate(void) const
-{
-    return d->propertyCustomImplCallbackProgressUpdate;
 }
 
 // ============================================================

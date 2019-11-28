@@ -152,10 +152,10 @@ public:
  * @brief alloc a ZFObject looks like on a stack
  *
  * @code
- *   ZFString *saved = zfnull;
+ *   v_zfstring *saved = zfnull;
  *   {
  *       zfblockedAlloc(
- *           ZFString, // object's type
+ *           v_zfstring, // object's type
  *           s, // object's name
  *           "init value" // params passed to object's objectOnInit
  *       );

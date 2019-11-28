@@ -15,7 +15,20 @@ public:
 
     ZFLISTENER_INLINE(timerOnEvent)
     {
-        zffloat progress = (ZFTime::timestamp() - this->timeStart) / this->pimplOwner->aniDurationFixed();
+        zffloat progress = ((zffloat)(ZFTime::timestamp() - this->timeStart)) / this->pimplOwner->aniDurationFixed();
+        if(progress < 0)
+        {
+            progress = 0;
+        }
+        else if(progress > 1)
+        {
+            progress = 1;
+        }
+        this->update(progress);
+    }
+public:
+    void update(ZF_IN zffloat progress)
+    {
         if(this->pimplOwner->aniTimeLineCurve() != zfnull)
         {
             progress = this->pimplOwner->aniTimeLineCurve()->progressUpdate(progress);
@@ -104,6 +117,7 @@ void ZFAnimationTimeLine::aniImplStart(void)
 
     d->timer->timerActivateInMainThreadSet(this->aniTimeLineNotifyInMainThread());
     d->timer->timerStart();
+    d->update(0);
 }
 void ZFAnimationTimeLine::aniImplStop(void)
 {
@@ -115,7 +129,7 @@ void ZFAnimationTimeLine::aniTimeLineOnUpdate(ZF_IN zffloat progress)
 {
     this->observerNotify(
         ZFAnimationTimeLine::EventAniTimeLineOnUpdate(),
-        ZFValue::floatValueCreate(progress).toObject());
+        zflineAlloc(v_zffloat, progress));
 }
 
 ZF_NAMESPACE_GLOBAL_END

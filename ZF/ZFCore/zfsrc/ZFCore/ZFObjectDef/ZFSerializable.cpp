@@ -520,12 +520,34 @@ zfbool ZFSerializable::serializableOnSerializePropertyFromData(ZF_IN const ZFSer
                 obj.toObject()->objectInfoOfInstance().cString(), property->propertyClassOfRetainProperty()->classNameFull());
             return zffalse;
         }
-        property->callbackValueSet(property, this->toObject(), &obj);
+        property->setterMethod()->methodGenericInvoke(this->toObject(), obj);
         return zftrue;
     }
     else
     {
-        return property->callbackSerializeFrom(property, this->toObject(), propertyData, outErrorHint, outErrorPos);
+        const ZFTypeInfo *typeId = property->propertyTypeIdData();
+        if(typeId == zfnull)
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
+                "property %s is not serializable",
+                property->objectInfo().cString());
+            return zffalse;
+        }
+        zfautoObject propertyValue;
+        typeId->typeIdWrapper(propertyValue);
+        if(propertyValue == zfnull)
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
+                "property %s is not serializable",
+                property->propertyName());
+            return zffalse;
+        }
+        if(!ZFCastZFObject(ZFTypeIdWrapper *, propertyValue)->wrappedValueFromData(propertyData, outErrorHint, outErrorPos))
+        {
+            return zffalse;
+        }
+        property->setterMethod()->methodGenericInvoke(this->toObject(), propertyValue);
+        return zftrue;
     }
 }
 zfbool ZFSerializable::serializableOnSerializePropertyToData(ZF_OUT ZFSerializableData &propertyData,
@@ -545,17 +567,19 @@ zfbool ZFSerializable::serializableOnSerializePropertyToData(ZF_OUT ZFSerializab
 
     if(property->propertyIsRetainProperty())
     {
-        ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
-        const zfautoObject *obj = (const zfautoObject *)_valueGetHolder.value();
-        if(obj == zfnull || !ZFObjectToData(propertyData, *obj, outErrorHint))
-        {
-            return zffalse;
-        }
-        return zftrue;
+        return ZFObjectToData(propertyData, property->getterMethod()->methodGenericInvoke(this->toObject()), outErrorHint);
     }
     else
     {
-        return property->callbackSerializeTo(property, this->toObject(), propertyData, outErrorHint);
+        zfautoObject propertyValue = property->getterMethod()->methodGenericInvoke(this->toObject());
+        if(propertyValue == zfnull)
+        {
+            ZFSerializableUtil::errorOccurred(outErrorHint,
+                "property %s is not serializable",
+                property->propertyName());
+            return zffalse;
+        }
+        return ZFCastZFObject(ZFTypeIdWrapper *, propertyValue)->wrappedValueToData(propertyData, outErrorHint);
     }
 }
 zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN const ZFSerializableData &propertyData,
@@ -563,17 +587,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyFromData(ZF_IN cons
                                                                       ZF_OUT_OPT zfstring *outErrorHint /* = zfnull */,
                                                                       ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
 {
-    ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
-    const zfautoObject *objHolder = (const zfautoObject *)_valueGetHolder.value();
-    if(objHolder == zfnull)
-    {
-        ZFSerializableUtil::errorOccurred(outErrorHint,
-            "unable to access property %s's value is null while serializing \"%s\"",
-            property->propertyName(),
-            this->classData()->classNameFull());
-        return zffalse;
-    }
-    ZFObject *obj = *objHolder;
+    zfautoObject obj = property->getterMethod()->methodGenericInvoke(this->toObject());
     if(obj == zfnull)
     {
         ZFSerializableUtil::errorOccurred(outErrorHint,
@@ -631,9 +645,8 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyToData(ZF_OUT ZFSer
         return zftrue;
     }
 
-    ZFPropertyCallbackValueGetHolder _valueGetHolder(property, this->toObject());
-    const zfautoObject *obj = (const zfautoObject *)_valueGetHolder.value();
-    if(obj == zfnull || !ZFObjectIsSerializable(*obj))
+    zfautoObject obj = property->getterMethod()->methodGenericInvoke(this->toObject());
+    if(obj == zfnull || !ZFObjectIsSerializable(obj))
     {
         return zftrue;
     }
@@ -641,8 +654,7 @@ zfbool ZFSerializable::serializableOnSerializeEmbededPropertyToData(ZF_OUT ZFSer
     ZFSerializable *propertyRef = zfnull;
     if(referencedOwnerOrNull != zfnull)
     {
-        ZFPropertyCallbackValueGetHolder _valueGetHolderRef(property, referencedOwnerOrNull->toObject());
-        const zfautoObject *t = (const zfautoObject *)_valueGetHolderRef.value();
+        zfautoObject t = property->getterMethod()->methodGenericInvoke(referencedOwnerOrNull->toObject());
         if(t != zfnull)
         {
             propertyRef = t->to<ZFSerializable *>();

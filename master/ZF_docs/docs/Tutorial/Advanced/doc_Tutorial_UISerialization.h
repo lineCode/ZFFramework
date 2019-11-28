@@ -9,7 +9,7 @@
  *   zfblockedAlloc(ZFUIButtonBasic, child);
  *   parent->childAdd(child);
  *   child->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
- *   child->buttonLabelTextSet(zflineAlloc(ZFString, "button"));
+ *   child->buttonLabelTextSet("button");
  *
  *   ZFSerializableData data = ZFObjectToData(parent);
  *   zfstring xmlString;

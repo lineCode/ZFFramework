@@ -40,9 +40,9 @@ private:
             setting->userData()->tagSet("imageView", imageView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFUIImageView *imageView = userData->tagGet("imageView")->objectHolded();
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
                 zfbool fill = (imageView->layoutParam()->sizeParam().width == ZFUISizeType::e_Fill);
-                text->stringValueSet(fill ? "fill" : "wrap");
+                text->zfv = fill ? "fill" : "wrap";
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {

@@ -49,7 +49,7 @@ protected:
             this->testCaseOutput("try modify and serialize a statically registered property, result");
 
             obj->classData()->propertyForName("valueStatic")->setterMethod()
-                ->execute<void, ZFString * const &>(obj, zflineAlloc(ZFString, "value"));
+                ->execute<void, v_zfstring * const &>(obj, zflineAlloc(v_zfstring, "value"));
             ZFObjectToXml(ZFOutputDefault(), obj);
         }
 
@@ -59,7 +59,7 @@ protected:
 ZFOBJECT_REGISTER(ZFCore_ZFPropertyUserRegister_test)
 
 ZFPROPERTY_USER_REGISTER_RETAIN(_ZFP_ZFCore_ZFPropertyUserRegister_test_Object,
-    ZFString *, valueStatic, ZFPropertyNoInitValue,
+    v_zfstring *, valueStatic, ZFPropertyNoInitValue,
     public, public)
 
 ZF_NAMESPACE_GLOBAL_END

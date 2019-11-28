@@ -305,6 +305,13 @@ public:
 
     /**
      * @brief view frame
+     *
+     * typicall, this property would be updated automatically by parent's #layoutOnLayout,
+     * but you may also change this property manually,
+     * for example, to achieve custom animation logic\n
+     * after changing this value manually,
+     * if you want to restore default behavior,
+     * call #layoutRequest to the view's parent
      */
     ZFPROPERTY_ASSIGN(ZFUIRect, viewFrame)
     ZFPROPERTY_OVERRIDE_ON_VERIFY_DECLARE(ZFUIRect, viewFrame)

@@ -333,10 +333,6 @@ zfbool ZFImpl_ZFLua_execute(ZF_IN lua_State *L,
             *luaResult = ZFImpl_ZFLua_luaGet(L, -1);
             lua_pop(L, 1);
         }
-        else if(ZFImpl_ZFLua_toNumberT(*luaResult, L, -1, zftrue))
-        {
-            lua_pop(L, 1);
-        }
         else
         {
             const zfchar *t = zfnull;
@@ -481,16 +477,7 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
         return zftrue;
     }
     const ZFClass *cls = obj->classData();
-    if(cls->classIsTypeOf(ZFString::ClassData()))
-    {
-        ZFString *t = obj->to<ZFString *>();
-        if(t != zfnull)
-        {
-            wrapper->zfvSet(t->stringValue());
-        }
-        return zftrue;
-    }
-    else if(cls->classIsTypeOf(v_zfstring::ClassData()))
+    if(cls->classIsTypeOf(v_zfstring::ClassData()))
     {
         wrapper->zfvSet(obj->to<v_zfstring *>()->zfv);
         return zftrue;
@@ -728,21 +715,7 @@ zfbool ZFImpl_ZFLua_toString(ZF_IN_OUT const zfchar *&s,
     }
 
     const ZFClass *cls = obj->classData();
-    if(cls->classIsTypeOf(ZFString::ClassData()))
-    {
-        if(holderCls != zfnull) {*holderCls = ZFString::ClassData();}
-        ZFString *t = obj->to<ZFString *>();
-        if(t != zfnull)
-        {
-            s = t->stringValue();
-        }
-        else
-        {
-            s = "";
-        }
-        return zftrue;
-    }
-    else if(cls->classIsTypeOf(v_zfstring::ClassData()))
+    if(cls->classIsTypeOf(v_zfstring::ClassData()))
     {
         if(holderCls != zfnull) {*holderCls = v_zfstring::ClassData();}
         s = obj->to<v_zfstring *>()->zfv;
@@ -771,7 +744,7 @@ zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
     lua_Number num = lua_tonumberx(L, luaStackOffset, &success);
     if(success)
     {
-        ret = ZFValue::doubleValueCreate((zfdouble)num);
+        ret = zflineAlloc(v_zflongdouble, (zflongdouble)num);
         return zftrue;
     }
     if(!lua_isuserdata(L, luaStackOffset))
@@ -793,7 +766,7 @@ zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
     {
         if(allowEmpty)
         {
-            ret = ZFValue::intValueCreate(0);
+            ret = zflineAlloc(v_zflongdouble, 0);
             return zftrue;
         }
         else
@@ -804,69 +777,64 @@ zfbool ZFImpl_ZFLua_toNumberT(ZF_OUT zfautoObject &ret,
 
     const ZFClass *cls = obj->classData();
     if(holderCls != zfnull) {*holderCls = cls;}
-    if(cls->classIsTypeOf(ZFValue::ClassData()))
+    if(cls->classIsTypeOf(v_zfbool::ClassData()))
     {
-        ret = obj;
-        return zftrue;
-    }
-    else if(cls->classIsTypeOf(v_zfbool::ClassData()))
-    {
-        ret = ZFValue::boolValueCreate(obj->to<v_zfbool *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfbool *, obj)->zfv ? 1 : 0));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfindex::ClassData()))
     {
-        ret = ZFValue::indexValueCreate(obj->to<v_zfindex *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfindex *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfint::ClassData()))
     {
-        ret = ZFValue::intValueCreate(obj->to<v_zfint *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfint *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfuint::ClassData()))
     {
-        ret = ZFValue::unsignedIntValueCreate(obj->to<v_zfuint *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfuint *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zffloat::ClassData()))
     {
-        ret = ZFValue::floatValueCreate(obj->to<v_zffloat *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zffloat *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfdouble::ClassData()))
     {
-        ret = ZFValue::doubleValueCreate(obj->to<v_zfdouble *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfdouble *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zflongdouble::ClassData()))
     {
-        ret = ZFValue::longDoubleValueCreate(obj->to<v_zflongdouble *>()->zfv);
+        ret = obj;
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfbyte::ClassData()))
     {
-        ret = ZFValue::unsignedIntValueCreate((zfuint)obj->to<v_zfbyte *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfbyte *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zftimet::ClassData()))
     {
-        ret = ZFValue::timeValueCreate(obj->to<v_zftimet *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zftimet *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfflags::ClassData()))
     {
-        ret = ZFValue::flagsValueCreate(obj->to<v_zfflags *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfflags *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(v_zfidentity::ClassData()))
     {
-        ret = ZFValue::identityValueCreate(obj->to<v_zfidentity *>()->zfv);
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(v_zfidentity *, obj)->zfv));
         return zftrue;
     }
     else if(cls->classIsTypeOf(ZFEnum::ClassData()))
     {
-        ret = ZFValue::flagsValueCreate((zfflags)obj->to<ZFEnum *>()->enumValue());
+        ret = zflineAlloc(v_zflongdouble, (zft_zflongdouble)(ZFCastZFObjectUnchecked(ZFEnum *, obj)->enumValue()));
         return zftrue;
     }
     else
@@ -892,63 +860,23 @@ zfbool ZFImpl_ZFLua_toLuaValue(ZF_IN lua_State *L,
         }
     }
 
-    zfautoObject v;
-    if(ZFImpl_ZFLua_toNumberT(v, obj, allowEmpty))
+    if(obj->classData()->classIsTypeOf(v_zfbool::ClassData()))
     {
-        ZFValue *t = v.to<ZFValue *>();
-        switch(t->valueType())
-        {
-            case ZFValueType::e_bool:
-                lua_pushboolean(L, t->boolValue());
-                return 1;
-            case ZFValueType::e_char:
-            {
-                zfstlstring s;
-                s += (char)t->charValue();
-                lua_pushstring(L, s.c_str());
-            }
-                return 1;
-            case ZFValueType::e_int:
-                lua_pushinteger(L, (lua_Integer)t->intValue());
-                return 1;
-            case ZFValueType::e_unsignedInt:
-                lua_pushinteger(L, (lua_Integer)t->unsignedIntValue());
-                return 1;
-            case ZFValueType::e_index:
-                lua_pushinteger(L, (lua_Integer)t->indexValue());
-                return 1;
-            case ZFValueType::e_float:
-                lua_pushnumber(L, (lua_Number)t->floatValue());
-                return 1;
-            case ZFValueType::e_double:
-                lua_pushnumber(L, (lua_Number)t->doubleValue());
-                return 1;
-            case ZFValueType::e_longDouble:
-                lua_pushnumber(L, (lua_Number)t->longDoubleValue());
-                return 1;
-            case ZFValueType::e_time:
-                lua_pushinteger(L, (lua_Integer)t->timeValue());
-                return 1;
-            case ZFValueType::e_flags:
-                lua_pushinteger(L, (lua_Integer)t->flagsValue());
-                return 1;
-            case ZFValueType::e_identity:
-                lua_pushinteger(L, (lua_Integer)t->identityValue());
-                return 1;
-            case ZFValueType::e_serializableData:
-            default:
-                ZFLuaErrorOccurredTrim("[zfl_luaValue] unknown param type, got %s",
-                    t->objectInfo().cString());
-                ZFImpl_ZFLua_luaError(L);
-                return zffalse;
-        }
+        lua_pushboolean(L, ZFCastZFObjectUnchecked(v_zfbool *, obj)->zfv);
+        return zftrue;
+    }
+    zfautoObject t;
+    if(ZFImpl_ZFLua_toNumberT(t, obj, allowEmpty))
+    {
+        lua_pushnumber(L, (lua_Number)t.to<v_zflongdouble *>()->zfv);
+        return zftrue;
     }
 
     const zfchar *s = zfnull;
     if(ZFImpl_ZFLua_toString(s, obj, allowEmpty))
     {
         lua_pushstring(L, s);
-        return 1;
+        return zftrue;
     }
 
     ZFLuaErrorOccurredTrim("[zfl_luaValue] unknown param type, got %s",

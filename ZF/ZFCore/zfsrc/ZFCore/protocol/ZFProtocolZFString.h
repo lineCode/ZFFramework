@@ -16,64 +16,26 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFPROTOCOL_INTERFACE_BEGIN(ZFString)
 public:
     /**
-     * @brief create a new instance of nativeString, init with s
-     *
-     * newly created native string would be released by #nativeStringRelease
-     */
-    virtual void *nativeStringCreate(ZF_IN_OPT const zfchar *s = zfnull) zfpurevirtual;
-
-    /**
-     * @brief retain nativeString, return the retained or new instance if necessary
-     *
-     * unlike #nativeStringCreate,
-     * this method just retain the nativeString for performance,
-     * however, if your impl does not have retain count logic,
-     * you may simply deep copy to create new instance\n
-     * retained nativeString would be cleaned up by nativeStringRelease
-     */
-    virtual void *nativeStringRetain(ZF_IN void *nativeString) zfpurevirtual;
-    /**
-     * @brief see #nativeStringRetain
-     */
-    virtual void nativeStringRelease(ZF_IN void *nativeString) zfpurevirtual;
-
-    /**
-     * @brief get string from nativeString
-     *
-     * result would be cached and #stringValueAccessCleanup would be called if necessary,
-     * so there's no need for implementation to care about performance and clean up
-     */
-    virtual void stringValueAccess(ZF_IN void *nativeString,
-                                   ZF_OUT const zfchar *&stringValue,
-                                   ZF_OUT void *&stringValueToken) zfpurevirtual;
-    /**
-     * @brief see #stringValueAccess
-     */
-    virtual void stringValueAccessCleanup(ZF_IN void *nativeString,
-                                          ZF_IN const zfchar *stringValue,
-                                          ZF_IN void *stringValueToken) zfpurevirtual;
-
-    /**
-     * @brief see #ZFString::toUTF8
+     * @brief see #zfstringToUTF8
      */
     virtual zfbool toUTF8(ZF_OUT zfstring &result,
                           ZF_IN const void *s,
                           ZF_IN ZFStringEncodingEnum srcEncoding) zfpurevirtual;
     /**
-     * @brief see #ZFString::toUTF16
+     * @brief see #zfstringToUTF16
      */
     virtual zfbool toUTF16(ZF_OUT zfstringW &result,
                            ZF_IN const void *s,
                            ZF_IN ZFStringEncodingEnum srcEncoding) zfpurevirtual;
     /**
-     * @brief see #ZFString::toUTF16BE
+     * @brief see #zfstringToUTF16BE
      */
     virtual zfbool toUTF16BE(ZF_OUT zfstringW &result,
                              ZF_IN const void *s,
                              ZF_IN ZFStringEncodingEnum srcEncoding) zfpurevirtual;
 
     /**
-     * @brief see #ZFString::wordCount
+     * @brief see #zfstringWordCountOfUTF8
      */
     virtual zfindex wordCountOfUTF8(ZF_IN const zfchar *utf8String) zfpurevirtual;
 ZFPROTOCOL_INTERFACE_END(ZFString)

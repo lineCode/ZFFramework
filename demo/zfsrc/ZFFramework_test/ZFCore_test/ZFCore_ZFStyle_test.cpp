@@ -41,7 +41,7 @@ protected:
         this->testCaseOutputSeparator();
         this->testCaseOutput("notify change style");
         ZFStyleChangeBegin();
-        ZFStyleSet("ZFCore_ZFStyle_test", zflineAlloc(ZFString));
+        ZFStyleSet("ZFCore_ZFStyle_test", zflineAlloc(v_zfstring));
         ZFStyleSet("ZFCore_ZFStyle_test", zfnull);
         ZFStyleChangeEnd();
 

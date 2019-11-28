@@ -1,7 +1,6 @@
 #include "ZFPropertyDynamicRegister.h"
 #include "ZFObjectImpl.h"
 #include "ZFListenerDeclare.h"
-#include "ZFPropertyCallbackDefaultImpl.h"
 
 #include "../ZFSTLWrapper/zfstl_map.h"
 
@@ -42,7 +41,7 @@ zfclass _ZFP_I_PropDynRegData : zfextends ZFObject
     ZFOBJECT_DECLARE(_ZFP_I_PropDynRegData, ZFObject)
 
 public:
-    const ZFTypeIdBase *d; // null for retain property
+    const ZFTypeInfo *d; // null for retain property
     ZFPropertyDynamicRegisterInitValueCallback initValueCallback;
     /*
      * for assign property, store ZFTypeIdWrapper, ensured not null if accessed
@@ -266,7 +265,7 @@ static zfbool _ZFP_PropDynReg_callbackIsValueAccessed(ZF_IN const ZFProperty *pr
 }
 static zfbool _ZFP_PropDynReg_callbackIsInitValue(ZF_IN const ZFProperty *property,
                                                   ZF_IN ZFObject *ownerObj,
-                                                  ZF_OUT_OPT void *outInitValue /* = zfnull */)
+                                                  ZF_OUT_OPT zfautoObject *outInitValue /* = zfnull */)
 {
     _ZFP_I_PropDynRegData *d = ZFCastZFObject(_ZFP_I_PropDynRegData *, property->_ZFP_ZFProperty_propertyDynamicRegisterUserDataWrapper);
     zfbool ret = zffalse;
@@ -282,11 +281,11 @@ static zfbool _ZFP_PropDynReg_callbackIsInitValue(ZF_IN const ZFProperty *proper
                 _ZFP_I_PropDynRetainHolder *wrapperTmp = initValue;
                 if(wrapperTmp != zfnull)
                 {
-                    *(zfautoObject *)outInitValue = wrapperTmp->zfv;
+                    *outInitValue = wrapperTmp->zfv;
                 }
                 else
                 {
-                    initValue.to<ZFTypeIdWrapper *>()->wrappedValueGet(outInitValue);
+                    *outInitValue = initValue;
                 }
             }
         }
@@ -301,14 +300,14 @@ static zfbool _ZFP_PropDynReg_callbackIsInitValue(ZF_IN const ZFProperty *proper
             {
                 if(outInitValue != zfnull)
                 {
-                    *(zfautoObject *)outInitValue = wrapperTmp->zfv;
+                    *outInitValue = wrapperTmp->zfv;
                 }
             }
             else
             {
                 if(outInitValue != zfnull)
                 {
-                    initValue.to<ZFTypeIdWrapper *>()->wrappedValueGet(outInitValue);
+                    *outInitValue = initValue;
                 }
             }
             ret = (tag->objectCompare(initValue) == ZFCompareTheSame);
@@ -364,10 +363,10 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
         }
     }
 
-    const ZFTypeIdBase *d = zfnull;
+    const ZFTypeInfo *d = zfnull;
     if(param.propertyClassOfRetainProperty() == zfnull)
     {
-        d = ZFTypeIdGet(param.propertyTypeId());
+        d = ZFTypeInfoGet(param.propertyTypeId());
         if(d == zfnull)
         {
             zfstringAppend(errorHint,
@@ -413,16 +412,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
             , param.propertyCustomImplCallbackIsValueAccessed()
             , param.propertyCustomImplCallbackIsInitValue()
             , param.propertyCustomImplCallbackValueReset()
-            , param.propertyCustomImplCallbackValueSet() ? param.propertyCustomImplCallbackValueSet() : _ZFP_propCbDValueSet_generic
-            , param.propertyCustomImplCallbackValueGet() ? param.propertyCustomImplCallbackValueGet() : _ZFP_propCbDValueGet_generic
-            , param.propertyCustomImplCallbackValueGetRelease() ? param.propertyCustomImplCallbackValueGetRelease() : _ZFP_propCbDValueGetRelease_generic
-            , param.propertyCustomImplCallbackCompare() ? param.propertyCustomImplCallbackCompare() : _ZFP_propCbDCompare_generic
-            , param.propertyCustomImplCallbackGetInfo() ? param.propertyCustomImplCallbackGetInfo() : _ZFP_propCbDGetInfo_generic
-            , param.propertyCustomImplCallbackValueStore() ? param.propertyCustomImplCallbackValueStore() : _ZFP_propCbDValueStore_generic
-            , param.propertyCustomImplCallbackValueRelease() ? param.propertyCustomImplCallbackValueRelease() : _ZFP_propCbDValueRelease_generic
-            , _ZFP_propCbDSerializeFrom_generic
-            , _ZFP_propCbDSerializeTo_generic
-            , param.propertyCustomImplCallbackProgressUpdate() ? param.propertyCustomImplCallbackProgressUpdate() : _ZFP_propCbDProgressUpdate_generic
+            , zfnull
             , zfnull
             , zfnull
             );
@@ -484,16 +474,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
             , _ZFP_PropDynReg_callbackIsValueAccessed
             , _ZFP_PropDynReg_callbackIsInitValue
             , _ZFP_PropDynReg_callbackValueReset
-            , _ZFP_propCbDValueSet_generic
-            , _ZFP_propCbDValueGet_generic
-            , _ZFP_propCbDValueGetRelease_generic
-            , _ZFP_propCbDCompare_generic
-            , _ZFP_propCbDGetInfo_generic
-            , _ZFP_propCbDValueStore_generic
-            , _ZFP_propCbDValueRelease_generic
-            , _ZFP_propCbDSerializeFrom_generic
-            , _ZFP_propCbDSerializeTo_generic
-            , _ZFP_propCbDProgressUpdate_generic
+            , zfnull
             , zfnull
             , zfnull
             );

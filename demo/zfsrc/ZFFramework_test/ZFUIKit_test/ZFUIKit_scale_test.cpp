@@ -33,10 +33,10 @@ private:
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFStringEditable *text = listenerData.param0->to<ZFStringEditable *>();
-                text->stringValueSet(zfstringWithFormat(
+                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                text->zfv = zfstringWithFormat(
                     "scale: %d",
-                    (zfint)ZFUISysWindow::mainWindow()->rootView()->scaleForApp()));
+                    (zfint)ZFUISysWindow::mainWindow()->rootView()->scaleForApp());
             })
             setting->buttonTextGetterSet(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {

@@ -80,7 +80,7 @@
  * once registered:
  * @code
  *   zfautoObject obj = ZFClass::classForName("v_YourType")->newInstance();
- *   int yourProp = obj->methodForName("yourProp")->execute<zfint>(obj);
+ *   int yourProp = obj->classData()->propertyGetterForName("yourProp")->execute<zfint>(obj);
  * @endcode
  * or even for lua: (see also @ref DocTag_Feature_LuaAutoBinding)
  * @code
