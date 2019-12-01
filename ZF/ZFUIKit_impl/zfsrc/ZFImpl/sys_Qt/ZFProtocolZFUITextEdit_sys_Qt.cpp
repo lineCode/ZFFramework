@@ -32,7 +32,7 @@ public:
     {
         this->connect(this, SIGNAL(textChanged(QString)), this, SLOT(_ZFP_textChanged(QString)));
         this->connect(this, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(_ZFP_textSelectRangeOnChange(int,int)));
-        this->_ZFP_textColorSet(ZFUIColorBlack());
+        this->_ZFP_textColor(ZFUIColorBlack());
         this->setFrame(false);
         this->setAttribute(Qt::WA_MacShowFocusRect, false);
 
@@ -43,13 +43,13 @@ public:
     }
 
 public:
-    void _ZFP_textSizeSet(ZF_IN zfint v)
+    void _ZFP_textSize(ZF_IN zfint v)
     {
         QFont font = this->font();
         font.setPixelSize((int)v);
         this->setFont(font);
     }
-    void _ZFP_textColorSet(ZF_IN ZFUIColor v)
+    void _ZFP_textColor(ZF_IN ZFUIColor v)
     {
         QPalette palette = this->palette();
         palette.setColor(QPalette::Text, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(v));
@@ -74,7 +74,7 @@ public:
             effect->setOffset(textShadowOffset.width, textShadowOffset.height);
         }
     }
-    void _ZFP_textEditSecuredSet(ZF_IN zfbool textEditSecured)
+    void _ZFP_textEditSecured(ZF_IN zfbool textEditSecured)
     {
         if(this->textEditSecured == textEditSecured)
         {
@@ -95,7 +95,7 @@ public:
             this->setInputMethodHints(this->textEditInputMethodHintsSaved);
         }
     }
-    void _ZFP_textSet(const zfchar *text, zfbool needNotify)
+    void _ZFP_text(const zfchar *text, zfbool needNotify)
     {
         if(this->textEditTextSaved.compare(text) == 0)
         {
@@ -186,7 +186,7 @@ public slots:
             return ;
         }
         ++(this->textEditEventOverrideFlag);
-        this->_ZFP_textSet(ZFImpl_sys_Qt_zfstringFromQString(text), zftrue);
+        this->_ZFP_text(ZFImpl_sys_Qt_zfstringFromQString(text), zftrue);
         --(this->textEditEventOverrideFlag);
     }
     void _ZFP_textSelectRangeOnChange(int posOld, int posNew)
@@ -213,25 +213,25 @@ public:
 // ============================================================
 // properties
 public:
-    virtual void textEditEnableSet(ZF_IN ZFUITextEdit *textEdit,
-                                   ZF_IN zfbool textEditEnable)
+    virtual void textEditEnable(ZF_IN ZFUITextEdit *textEdit,
+                                ZF_IN zfbool textEditEnable)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         nativeImplView->setReadOnly(!textEditEnable);
     }
-    virtual void textEditSecuredSet(ZF_IN ZFUITextEdit *textEdit,
-                                    ZF_IN zfbool textEditSecured)
+    virtual void textEditSecure(ZF_IN ZFUITextEdit *textEdit,
+                                ZF_IN zfbool textEditSecured)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
-        nativeImplView->_ZFP_textEditSecuredSet(textEditSecured);
+        nativeImplView->_ZFP_textEditSecured(textEditSecured);
     }
-    virtual void textEditKeyboardTypeSet(ZF_IN ZFUITextEdit *textEdit,
-                                         ZF_IN ZFUITextEditKeyboardTypeEnum textEditKeyboardType)
+    virtual void textEditKeyboardType(ZF_IN ZFUITextEdit *textEdit,
+                                      ZF_IN ZFUITextEditKeyboardTypeEnum textEditKeyboardType)
     {
         // not supported
     }
-    virtual void textEditKeyboardReturnTypeSet(ZF_IN ZFUITextEdit *textEdit,
-                                               ZF_IN ZFUITextEditKeyboardReturnTypeEnum textEditKeyboardReturnType)
+    virtual void textEditKeyboardReturnType(ZF_IN ZFUITextEdit *textEdit,
+                                            ZF_IN ZFUITextEditKeyboardReturnTypeEnum textEditKeyboardReturnType)
     {
         // not supported
     }
@@ -250,7 +250,7 @@ public:
             textSelectRange.count = 0;
         }
     }
-    virtual void textSelectRangeSet(ZF_IN ZFUITextEdit *textEdit, ZF_IN const ZFIndexRange &textSelectRange)
+    virtual void textSelectRange(ZF_IN ZFUITextEdit *textEdit, ZF_IN const ZFIndexRange &textSelectRange)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         if(textSelectRange.count != 0)
@@ -264,14 +264,14 @@ public:
     }
 
 public:
-    virtual void textSet(ZF_IN ZFUITextEdit *textEdit,
-                         ZF_IN const zfchar *text)
+    virtual void text(ZF_IN ZFUITextEdit *textEdit,
+                      ZF_IN const zfchar *text)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
-        nativeImplView->_ZFP_textSet(text, zffalse);
+        nativeImplView->_ZFP_text(text, zffalse);
     }
-    virtual void textAppearanceSet(ZF_IN ZFUITextEdit *textEdit,
-                                   ZF_IN ZFUITextAppearanceEnum const &textAppearance)
+    virtual void textAppearance(ZF_IN ZFUITextEdit *textEdit,
+                                ZF_IN ZFUITextAppearanceEnum const &textAppearance)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         QFont font = nativeImplView->font();
@@ -299,35 +299,35 @@ public:
         }
         nativeImplView->setFont(font);
     }
-    virtual void textAlignSet(ZF_IN ZFUITextEdit *textEdit,
-                              ZF_IN ZFUIAlignFlags const &textAlign)
+    virtual void textAlign(ZF_IN ZFUITextEdit *textEdit,
+                           ZF_IN ZFUIAlignFlags const &textAlign)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         nativeImplView->setAlignment(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignment(textAlign));
     }
-    virtual void textColorSet(ZF_IN ZFUITextEdit *textEdit,
-                              ZF_IN ZFUIColor const &textColor)
+    virtual void textColor(ZF_IN ZFUITextEdit *textEdit,
+                           ZF_IN ZFUIColor const &textColor)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
-        nativeImplView->_ZFP_textColorSet(textColor);
+        nativeImplView->_ZFP_textColor(textColor);
     }
-    virtual void textShadowColorSet(ZF_IN ZFUITextEdit *textEdit,
-                                    ZF_IN ZFUIColor const &textShadowColor)
+    virtual void textShadowColor(ZF_IN ZFUITextEdit *textEdit,
+                                 ZF_IN ZFUIColor const &textShadowColor)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         nativeImplView->_ZFP_textShadowUpdate(textShadowColor, textEdit->textShadowOffset());
     }
-    virtual void textShadowOffsetSet(ZF_IN ZFUITextEdit *textEdit,
-                                     ZF_IN ZFUISize const &textShadowOffset)
+    virtual void textShadowOffset(ZF_IN ZFUITextEdit *textEdit,
+                                  ZF_IN ZFUISize const &textShadowOffset)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
         nativeImplView->_ZFP_textShadowUpdate(textEdit->textShadowColor(), textShadowOffset);
     }
-    virtual void textSizeSet(ZF_IN ZFUITextEdit *textEdit,
-                             ZF_IN zfint textSize)
+    virtual void textSize(ZF_IN ZFUITextEdit *textEdit,
+                          ZF_IN zfint textSize)
     {
         _ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *nativeImplView = ZFCastStatic(_ZFP_ZFUITextEditImpl_sys_Qt_TextEdit *, textEdit->nativeImplView());
-        nativeImplView->_ZFP_textSizeSet(textSize);
+        nativeImplView->_ZFP_textSize(textSize);
     }
 
 // ============================================================

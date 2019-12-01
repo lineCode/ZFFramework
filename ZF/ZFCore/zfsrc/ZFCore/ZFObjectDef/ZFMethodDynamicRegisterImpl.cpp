@@ -91,7 +91,7 @@ const ZFMethod *ZFMethodDynamicRegister(ZF_IN const ZFMethodDynamicRegisterParam
     }
     else
     {
-        existMethod = ZFMethodFuncGet(
+        existMethod = ZFMethodForName(
                 param.methodNamespace()
                 , param.methodName()
                 , param.methodParamTypeIdAtIndex(0)

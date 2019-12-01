@@ -9,10 +9,10 @@ ZFSTYLE_DEFAULT_DEFINE(ZFUITextView)
 static void _ZFP_ZFUITextView_updateSizeRelatedProperty(ZF_IN ZFUITextView *owner)
 {
     ZFPROTOCOL_INTERFACE_CLASS(ZFUITextView) *impl = ZFPROTOCOL_ACCESS(ZFUITextView);
-    impl->textShadowOffsetSet(owner, ZFUISizeApplyScale(owner->textShadowOffset(), owner->scaleFixed()));
-    impl->textSizeSet(owner, ZFUISizeApplyScale(owner->textSize(), owner->scaleFixed()));
-    impl->textSizeAutoChangeMinSizeSet(owner, ZFUISizeApplyScale(owner->textSizeAutoChangeMinSize(), owner->scaleFixed()));
-    impl->textSizeAutoChangeMaxSizeSet(owner, ZFUISizeApplyScale(owner->textSizeAutoChangeMaxSize(), owner->scaleFixed()));
+    impl->textShadowOffset(owner, ZFUISizeApplyScale(owner->textShadowOffset(), owner->scaleFixed()));
+    impl->textSize(owner, ZFUISizeApplyScale(owner->textSize(), owner->scaleFixed()));
+    impl->textSizeAutoChangeMinSize(owner, ZFUISizeApplyScale(owner->textSizeAutoChangeMinSize(), owner->scaleFixed()));
+    impl->textSizeAutoChangeMaxSize(owner, ZFUISizeApplyScale(owner->textSizeAutoChangeMaxSize(), owner->scaleFixed()));
 }
 
 // ============================================================
@@ -21,7 +21,7 @@ ZFOBJECT_REGISTER(ZFUITextView)
 
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfstring, text)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textSet(this, this->text());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->text(this, this->text());
     if(propertyValueOld.compare(this->text()) != 0)
     {
         this->layoutRequest();
@@ -30,7 +30,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfstring, text)
 
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUITextAppearanceEnum, textAppearance)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textAppearanceSet(this, this->textAppearance());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textAppearance(this, this->textAppearance());
     if(this->textAppearance() != propertyValueOld)
     {
         this->layoutRequest();
@@ -38,23 +38,23 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUITextAppearanceEnum, textA
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUIAlignFlags, textAlign)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textAlignSet(this, this->textAlign());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textAlign(this, this->textAlign());
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUIColor, textColor)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textColorSet(this, this->textColor());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textColor(this, this->textColor());
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUIColor, textShadowColor)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textShadowColorSet(this, this->textShadowColor());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textShadowColor(this, this->textShadowColor());
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUISize, textShadowOffset)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textShadowOffsetSet(this, ZFUISizeApplyScale(this->textShadowOffset(), this->scaleFixed()));
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textShadowOffset(this, ZFUISizeApplyScale(this->textShadowOffset(), this->scaleFixed()));
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfint, textSize)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeSet(this, ZFUISizeApplyScale(this->textSize(), this->scaleFixed()));
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textSize(this, ZFUISizeApplyScale(this->textSize(), this->scaleFixed()));
     if(this->textSize() != propertyValueOld)
     {
         this->layoutRequest();
@@ -62,7 +62,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfint, textSize)
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMinSize)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeAutoChangeMinSizeSet(this, ZFUISizeApplyScale(this->textSizeAutoChangeMinSize(), this->scaleFixed()));
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeAutoChangeMinSize(this, ZFUISizeApplyScale(this->textSizeAutoChangeMinSize(), this->scaleFixed()));
     if(this->textSizeAutoChangeMinSize() != propertyValueOld)
     {
         this->layoutRequest();
@@ -70,7 +70,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMinS
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMaxSize)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeAutoChangeMaxSizeSet(this, ZFUISizeApplyScale(this->textSizeAutoChangeMaxSize(), this->scaleFixed()));
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textSizeAutoChangeMaxSize(this, ZFUISizeApplyScale(this->textSizeAutoChangeMaxSize(), this->scaleFixed()));
     if(this->textSizeAutoChangeMaxSize() != propertyValueOld)
     {
         this->layoutRequest();
@@ -78,7 +78,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfint, textSizeAutoChangeMaxS
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfbool, textSingleLine)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textSingleLineSet(this, this->textSingleLine());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textSingleLine(this, this->textSingleLine());
     if(this->textSingleLine() != propertyValueOld)
     {
         this->layoutRequest();
@@ -86,7 +86,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, zfbool, textSingleLine)
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUITextView, ZFUITextTruncateModeEnum, textTruncateMode)
 {
-    ZFPROTOCOL_ACCESS(ZFUITextView)->textTruncateModeSet(this, this->textTruncateMode());
+    ZFPROTOCOL_ACCESS(ZFUITextView)->textTruncateMode(this, this->textTruncateMode());
     if(this->textTruncateMode() != propertyValueOld)
     {
         this->layoutRequest();
@@ -107,7 +107,7 @@ void ZFUITextView::objectOnInit(void)
             ZFPROTOCOL_ACCESS(ZFUITextView)->nativeTextViewDestroy(view->to<ZFUITextView *>(), nativeImplView);
         }
     };
-    this->nativeImplViewSet(ZFPROTOCOL_ACCESS(ZFUITextView)->nativeTextViewCreate(this),
+    this->nativeImplView(ZFPROTOCOL_ACCESS(ZFUITextView)->nativeTextViewCreate(this),
                             _ZFP_ZFUITextView_nativeImplViewDestroy::action);
 }
 void ZFUITextView::objectOnDealloc(void)

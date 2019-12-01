@@ -18,11 +18,11 @@ protected:
 
         zfblockedAlloc(ZFUIView, view);
         container->childAdd(view);
-        view->viewSizePreferedSet(ZFUISizeMake(80, 60));
-        view->viewBackgroundColorSet(ZFUIColorRandom());
-        view->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
+        view->viewSizePrefer(ZFUISizeMake(80, 60));
+        view->viewBackgroundColor(ZFUIColorRandom());
+        view->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
 
-        this->ani()->aniTargetSet(view);
+        this->ani()->aniTarget(view);
 
         this->prepareSettingButton(window, this->ani());
 
@@ -30,10 +30,10 @@ protected:
             userData->objectHolded<ZFAnimation *>()->aniStart();
         })
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
-        startButton->buttonLabelTextSet("start");
+        startButton->buttonLabelText("start");
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, this->ani()->objectHolder());
         container->childAdd(startButton);
-        startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
+        startButton->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
     }
 
     ZFPROPERTY_RETAIN_READONLY(ZFAnimationNativeView *, ani, zflineAlloc(ZFAnimationNativeView))

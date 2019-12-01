@@ -16,8 +16,8 @@ zfclass ZF2048UIBlock : zfextends ZFUIImageView
     ZFSTYLE_DEFAULT_DECLARE(ZF2048UIBlock)
 
     ZFALLOC_CACHE_RELEASE({
-        cache->blockValueSet(0);
-        cache->blockTitle()->textSet("");
+        cache->blockValue(0);
+        cache->blockTitle()->text("");
     })
 
 public:

@@ -83,10 +83,11 @@ zfclass ZF_ENV_EXPORT ZFUIViewLayoutParam : zfextends ZFUILayoutParam
 
 public:
     /** @brief see #layoutParamApply */
-    static void layoutParamApplyT(ZF_OUT ZFUIRect &ret,
-                                  ZF_IN const ZFUIRect &rect,
-                                  ZF_IN ZFUIView *child,
-                                  ZF_IN ZFUIViewLayoutParam *lp);
+    ZFMETHOD_DECLARE_STATIC_4(void, layoutParamApply,
+                              ZFMP_OUT(ZFUIRect &, ret),
+                              ZFMP_IN(const ZFUIRect &, rect),
+                              ZFMP_IN(ZFUIView *, child),
+                              ZFMP_IN(ZFUIViewLayoutParam *, lp))
     /**
      * @brief calculate single child's frame using logic of #ZFUIViewLayoutParam
      *
@@ -94,151 +95,98 @@ public:
      * it's declared for convenient for subclass to layout child
      * using parent's layout logic
      */
-    static ZFUIRect layoutParamApply(ZF_IN const ZFUIRect &rect,
-                                     ZF_IN ZFUIView *child,
-                                     ZF_IN ZFUIViewLayoutParam *lp)
-    {
-        ZFUIRect ret = ZFUIRectZero();
-        ZFUIViewLayoutParam::layoutParamApplyT(ret, rect, child, lp);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_3(ZFUIRect, layoutParamApply,
+                              ZFMP_IN(const ZFUIRect &, rect),
+                              ZFMP_IN(ZFUIView *, child),
+                              ZFMP_IN(ZFUIViewLayoutParam *, lp))
 
     /**
      * @brief util method to apply sizeHint accorrding sizeParam
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
-                              void, sizeHintApply,
+    ZFMETHOD_DECLARE_STATIC_4(void, sizeHintApply,
                               ZFMP_OUT(zfint &, ret),
                               ZFMP_IN(zfint, size),
                               ZFMP_IN(zfint, sizeHint),
                               ZFMP_IN(ZFUISizeTypeEnum, sizeParam))
     /** @brief see #sizeHintApply */
-    ZFMETHOD_INLINE_DETAIL_3(public, ZFMethodTypeStatic,
-                             zfint, sizeHintApply,
-                             ZFMP_IN(zfint, size),
-                             ZFMP_IN(zfint, sizeHint),
-                             ZFMP_IN(ZFUISizeTypeEnum, sizeParam))
-    {
-        zfint ret = size;
-        ZFUIViewLayoutParam::sizeHintApply(ret, size, sizeHint, sizeParam);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_3(zfint, sizeHintApply,
+                              ZFMP_IN(zfint, size),
+                              ZFMP_IN(zfint, sizeHint),
+                              ZFMP_IN(ZFUISizeTypeEnum, sizeParam))
 
     /**
      * @brief util method to apply sizeHint accorrding sizeParam
      */
-    ZFMETHOD_DECLARE_DETAIL_4(public, ZFMethodTypeStatic,
-                              void, sizeHintApply,
+    ZFMETHOD_DECLARE_STATIC_4(void, sizeHintApply,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, size),
                               ZFMP_IN(const ZFUISize &, sizeHint),
                               ZFMP_IN(const ZFUISizeParam &, sizeParam))
     /** @brief see #sizeHintApply */
-    ZFMETHOD_INLINE_DETAIL_3(public, ZFMethodTypeStatic,
-                             ZFUISize, sizeHintApply,
-                             ZFMP_IN(const ZFUISize &, size),
-                             ZFMP_IN(const ZFUISize &, sizeHint),
-                             ZFMP_IN(const ZFUISizeParam &, sizeParam))
-    {
-        ZFUISize ret = ZFUISizeZero();
-        ZFUIViewLayoutParam::sizeHintApply(ret, size, sizeHint, sizeParam);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_3(ZFUISize, sizeHintApply,
+                              ZFMP_IN(const ZFUISize &, size),
+                              ZFMP_IN(const ZFUISize &, sizeHint),
+                              ZFMP_IN(const ZFUISizeParam &, sizeParam))
 
     /**
      * @brief merge two size hint
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
-                              void, sizeHintMerge,
+    ZFMETHOD_DECLARE_STATIC_3(void, sizeHintMerge,
                               ZFMP_OUT(zfint &, ret),
                               ZFMP_IN(zfint, sizeHint0),
                               ZFMP_IN(zfint, sizeHint1))
     /** @brief see #sizeHintMerge */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
-                             zfint, sizeHintMerge,
-                             ZFMP_IN(zfint, sizeHint0),
-                             ZFMP_IN(zfint, sizeHint1))
-    {
-        zfint ret = 0;
-        ZFUIViewLayoutParam::sizeHintMerge(ret, sizeHint0, sizeHint1);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_2(zfint, sizeHintMerge,
+                              ZFMP_IN(zfint, sizeHint0),
+                              ZFMP_IN(zfint, sizeHint1))
 
     /**
      * @brief merge two size hint
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
-                              void, sizeHintMerge,
+    ZFMETHOD_DECLARE_STATIC_3(void, sizeHintMerge,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, sizeHint0),
                               ZFMP_IN(const ZFUISize &, sizeHint1))
     /** @brief see #sizeHintMerge */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
-                             ZFUISize, sizeHintMerge,
-                             ZFMP_IN(const ZFUISize &, sizeHint0),
-                             ZFMP_IN(const ZFUISize &, sizeHint1))
-    {
-        ZFUISize ret = ZFUISizeZero();
-        ZFUIViewLayoutParam::sizeHintMerge(ret, sizeHint0, sizeHint1);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_2(ZFUISize, sizeHintMerge,
+                              ZFMP_IN(const ZFUISize &, sizeHint0),
+                              ZFMP_IN(const ZFUISize &, sizeHint1))
 
     /**
      * @brief safely increase or decrease size hint, do nothing if old one is no limit
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
-                              void, sizeHintOffset,
+    ZFMETHOD_DECLARE_STATIC_3(void, sizeHintOffset,
                               ZFMP_OUT(zfint &, ret),
                               ZFMP_IN(zfint, sizeHint),
                               ZFMP_IN(zfint, offset))
     /** @brief see #sizeHintOffset */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
-                             zfint, sizeHintOffset,
-                             ZFMP_IN(zfint, sizeHint),
-                             ZFMP_IN(zfint, offset))
-    {
-        zfint ret = 0;
-        ZFUIViewLayoutParam::sizeHintOffset(ret, sizeHint, offset);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_2(zfint, sizeHintOffset,
+                              ZFMP_IN(zfint, sizeHint),
+                              ZFMP_IN(zfint, offset))
 
     /**
      * @brief safely increase or decrease size hint, do nothing if old one is no limit
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
-                              void, sizeHintOffset,
+    ZFMETHOD_DECLARE_STATIC_3(void, sizeHintOffset,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, sizeHint),
                               ZFMP_IN(const ZFUISize &, offset))
     /** @brief see #sizeHintOffset */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
-                             ZFUISize, sizeHintOffset,
-                             ZFMP_IN(const ZFUISize &, sizeHint),
-                             ZFMP_IN(const ZFUISize &, offset))
-    {
-        ZFUISize ret = ZFUISizeZero();
-        ZFUIViewLayoutParam::sizeHintOffset(ret, sizeHint, offset);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_2(ZFUISize, sizeHintOffset,
+                              ZFMP_IN(const ZFUISize &, sizeHint),
+                              ZFMP_IN(const ZFUISize &, offset))
 
     /**
      * @brief safely increase or decrease size hint, do nothing if old one is no limit
      */
-    ZFMETHOD_DECLARE_DETAIL_3(public, ZFMethodTypeStatic,
-                              void, sizeHintOffset,
+    ZFMETHOD_DECLARE_STATIC_3(void, sizeHintOffset,
                               ZFMP_OUT(ZFUISize &, ret),
                               ZFMP_IN(const ZFUISize &, sizeHint),
                               ZFMP_IN(zfint, offset))
     /** @brief see #sizeHintOffset */
-    ZFMETHOD_INLINE_DETAIL_2(public, ZFMethodTypeStatic,
-                             ZFUISize, sizeHintOffset,
-                             ZFMP_IN(const ZFUISize &, sizeHint),
-                             ZFMP_IN(zfint, offset))
-    {
-        ZFUISize ret = ZFUISizeZero();
-        ZFUIViewLayoutParam::sizeHintOffset(ret, sizeHint, offset);
-        return ret;
-    }
+    ZFMETHOD_DECLARE_STATIC_2(ZFUISize, sizeHintOffset,
+                              ZFMP_IN(const ZFUISize &, sizeHint),
+                              ZFMP_IN(zfint, offset))
 
 protected:
     zfoverride

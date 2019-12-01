@@ -455,13 +455,13 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     zfblockedAllocWithCache(ZFDI_WrapperRaw, wrapper);
     if(lua_isstring(L, luaStackOffset))
     {
-        wrapper->zfvSet(lua_tostring(L, luaStackOffset));
+        wrapper->zfv(lua_tostring(L, luaStackOffset));
         param = wrapper;
         return zftrue;
     }
     if(lua_isboolean(L, luaStackOffset))
     {
-        wrapper->zfvSet((zfbool)lua_toboolean(L, luaStackOffset) ? ZFTOKEN_zfbool_zftrue : ZFTOKEN_zfbool_zffalse);
+        wrapper->zfv((zfbool)lua_toboolean(L, luaStackOffset) ? ZFTOKEN_zfbool_zftrue : ZFTOKEN_zfbool_zffalse);
         param = wrapper;
         return zftrue;
     }
@@ -473,18 +473,18 @@ zfbool ZFImpl_ZFLua_toGeneric(ZF_OUT zfautoObject &param,
     zfautoObject const &obj = ZFImpl_ZFLua_luaGet(L, luaStackOffset);
     if(obj == zfnull)
     {
-        wrapper->zfvSet("");
+        wrapper->zfv("");
         return zftrue;
     }
     const ZFClass *cls = obj->classData();
     if(cls->classIsTypeOf(v_zfstring::ClassData()))
     {
-        wrapper->zfvSet(obj->to<v_zfstring *>()->zfv);
+        wrapper->zfv(obj->to<v_zfstring *>()->zfv);
         return zftrue;
     }
     else if(cls->classIsTypeOf(ZFDI_WrapperBase::ClassData()))
     {
-        wrapper->zfvSet(obj->to<ZFDI_WrapperBase *>()->zfv());
+        wrapper->zfv(obj->to<ZFDI_WrapperBase *>()->zfv());
         return zftrue;
     }
     else
@@ -559,7 +559,7 @@ protected:
 
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFCallbackAutoClean_callback)
 {
-    lua_State *L = (lua_State *)listenerData.param0->to<v_VoidPointer *>()->zfv;
+    lua_State *L = (lua_State *)listenerData.param0<v_VoidPointer *>()->zfv;
     ZFCoreArrayPOD<_ZFP_I_ZFImpl_ZFLua_ZFCallbackForLuaHolder *> &attachList = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFImpl_ZFLua_ZFCallbackAutoClean)->attachList;
     for(zfindex i = attachList.count() - 1; i != zfindexMax(); --i)
     {

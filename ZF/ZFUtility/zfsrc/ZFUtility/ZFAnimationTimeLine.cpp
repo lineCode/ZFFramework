@@ -108,14 +108,14 @@ void ZFAnimationTimeLine::aniImplStart(void)
     d->timeStart = ZFTime::timestamp();
     if(this->aniDurationFixed() < this->aniTimeLineInterval())
     {
-        d->timer->timerIntervalSet(this->aniDurationFixed());
+        d->timer->timerInterval(this->aniDurationFixed());
     }
     else
     {
-        d->timer->timerIntervalSet(this->aniTimeLineInterval());
+        d->timer->timerInterval(this->aniTimeLineInterval());
     }
 
-    d->timer->timerActivateInMainThreadSet(this->aniTimeLineNotifyInMainThread());
+    d->timer->timerActivateInMainThread(this->aniTimeLineNotifyInMainThread());
     d->timer->timerStart();
     d->update(0);
 }

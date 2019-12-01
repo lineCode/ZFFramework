@@ -122,7 +122,7 @@ zfclassFwd _ZFP_ZFDynamicPrivate;
  *           .method(callback, userData, returnTypeId, methodName [, paramTypeId0, ...])
  *       .NSEnd()
  *       .enumBegin(enumClassName)
- *           .enumIsFlagsSet(isFlag)
+ *           .enumIsFlags(isFlag)
  *           .enumValue(enumName [, enumValue])
  *           .enumValue(enumName [, enumValue])
  *       .enumEnd([enumDefault])
@@ -186,7 +186,7 @@ public:
      */
     ZFDynamic &regTag(ZF_IN const zfchar *regTag);
     /** @brief see #regTag */
-    const zfchar *regTagGet(void) const;
+    const zfchar *regTag(void) const;
 
 public:
     /** @brief see #ZFDynamic */
@@ -194,7 +194,7 @@ public:
     /** @brief see #ZFDynamic */
     ZFDynamic &removeAllOnEvent(ZF_IN zfidentity eventId = ZFGlobalEvent::EventZFDynamicRemoveAll());
     /** @brief see #ZFDynamic */
-    zfidentity removeAllOnEventGet(void) const;
+    zfidentity removeAllOnEvent(void) const;
     /** @brief see #ZFDynamic */
     const ZFCoreArrayPOD<const ZFClass *> &allClass(void) const;
     /** @brief see #ZFDynamic */
@@ -237,7 +237,7 @@ public:
     /** @brief see #ZFDynamic */
     ZFDynamic &enumBegin(ZF_IN const zfchar *enumClassName);
     /** @brief see #ZFDynamic */
-    ZFDynamic &enumIsFlagsSet(ZF_IN zfbool enumIsFlags);
+    ZFDynamic &enumIsFlags(ZF_IN zfbool enumIsFlags);
     /** @brief see #ZFDynamic */
     ZFDynamic &enumValue(ZF_IN const zfchar *enumName,
                          ZF_IN_OPT zfuint enumValue = ZFEnumInvalid());

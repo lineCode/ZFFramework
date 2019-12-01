@@ -16,19 +16,19 @@ ZF_NAMESPACE_BEGIN(ZFCoreStatistic)
  *
  * usage:
  * @code
- *   xxxLogBegin(key);
+ *   ZFCoreStatistic::invokeTimeLogBegin(key);
  *   yourHeavyFunc();
- *   xxxLogEnd(key);
+ *   ZFCoreStatistic::invokeTimeLogEnd(key);
  *   // ...
  *   // you may call any times
  *
  *   // finally, print result, and remove
- *   zfLogTrimT() << xxxGetSummary(key);
- *   xxxRemove(key);
+ *   zfLogTrimT() << ZFCoreStatistic::invokeTimeGetSummary(key);
+ *   ZFCoreStatistic::invokeTimeRemove(key);
  *
  *   // or, you may use the convenient macro to log and output for one time
  *   {
- *       xxxLoggerOneTime(key, optional_outputCallback);
+ *       ZFCoreStatisticInvokeTimeLoggerOneTime(key, optional_outputCallback);
  *       yourHeavyFunc();
  *   }
  * @endcode
@@ -43,9 +43,9 @@ extern ZF_ENV_EXPORT void invokeTimeRemoveAll(void);
 /** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
 extern ZF_ENV_EXPORT zfindex invokeTimeGetInvokeCount(ZF_IN const zfchar *key);
 /** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT zftimet invokeTimeGetAverageTime(ZF_IN const zfchar *key);
+extern ZF_ENV_EXPORT ZFTimeValue invokeTimeGetAverageTime(ZF_IN const zfchar *key);
 /** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT zftimet invokeTimeGetTotalTime(ZF_IN const zfchar *key);
+extern ZF_ENV_EXPORT ZFTimeValue invokeTimeGetTotalTime(ZF_IN const zfchar *key);
 /** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
 extern ZF_ENV_EXPORT void invokeTimeGetSummary(ZF_OUT zfstring &ret, ZF_IN const zfchar *key);
 /** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
@@ -81,7 +81,7 @@ zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFCoreStatisticInvokeTimeLoggerOneTime
 {
 public:
     _ZFP_ZFCoreStatisticInvokeTimeLoggerOneTime(ZF_IN const zfchar *key,
-                                                ZF_IN_OPT const ZFOutput &output = ZFOutputDefault())
+                                                ZF_IN const ZFOutput &output = ZFOutputDefault())
     : key(key)
     , output(output)
     {
@@ -101,77 +101,6 @@ private:
 #define ZFCoreStatisticInvokeTimeLoggerOneTime(key, ...) \
     ZFCoreStatistic::_ZFP_ZFCoreStatisticInvokeTimeLoggerOneTime \
         ZFUniqueName(ZFCoreStatisticInvokeTimeLoggerOneTime_v)(key, ##__VA_ARGS__)
-
-// ============================================================
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT void invokeTimeAccurateLogBegin(ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT void invokeTimeAccurateLogEnd(ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT void invokeTimeAccurateRemove(ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT void invokeTimeAccurateRemoveAll(void);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT zfindex invokeTimeAccurateGetInvokeCount(ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT ZFTimeValue invokeTimeAccurateGetAverageTime(ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT ZFTimeValue invokeTimeAccurateGetTotalTime(ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-extern ZF_ENV_EXPORT void invokeTimeAccurateGetSummary(ZF_OUT zfstring &ret, ZF_IN const zfchar *key);
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-inline zfstring invokeTimeAccurateGetSummary(ZF_IN const zfchar *key)
-{
-    zfstring ret;
-    ZFCoreStatistic::invokeTimeAccurateGetSummary(ret, key);
-    return ret;
-}
-
-// ============================================================
-zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFCoreStatisticInvokeTimeAccurateLogger
-{
-public:
-    _ZFP_ZFCoreStatisticInvokeTimeAccurateLogger(ZF_IN const zfchar *key)
-    : key(key)
-    {
-        ZFCoreStatistic::invokeTimeAccurateLogBegin(key);
-    }
-    ~_ZFP_ZFCoreStatisticInvokeTimeAccurateLogger(void)
-    {
-        ZFCoreStatistic::invokeTimeAccurateLogEnd(key);
-    }
-private:
-    zfstring key;
-};
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-#define ZFCoreStatisticInvokeTimeAccurateLogger(key) \
-    ZFCoreStatistic::_ZFP_ZFCoreStatisticInvokeTimeAccurateLogger ZFUniqueName(ZFCoreStatisticInvokeTimeAccurateLogger_v)(key)
-
-// ============================================================
-zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFCoreStatisticInvokeTimeAccurateLoggerOneTime
-{
-public:
-    _ZFP_ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(ZF_IN const zfchar *key,
-                                                        ZF_IN const ZFOutput &output = ZFOutputDefault())
-    : key(key)
-    , output(output)
-    {
-        ZFCoreStatistic::invokeTimeAccurateLogBegin(key);
-    }
-    ~_ZFP_ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(void)
-    {
-        ZFCoreStatistic::invokeTimeAccurateLogEnd(key);
-        output << ZFCoreStatistic::invokeTimeAccurateGetSummary(key) << "\n";
-        ZFCoreStatistic::invokeTimeAccurateRemove(key);
-    }
-private:
-    zfstring key;
-    ZFOutput output;
-};
-/** @brief see #ZFCoreStatistic::invokeTimeLogBegin */
-#define ZFCoreStatisticInvokeTimeAccurateLoggerOneTime(key, ...) \
-    ZFCoreStatistic::_ZFP_ZFCoreStatisticInvokeTimeAccurateLoggerOneTime \
-        ZFUniqueName(ZFCoreStatisticInvokeTimeAccurateLoggerOneTime_v)(key, ##__VA_ARGS__)
 
 ZF_NAMESPACE_END(ZFCoreStatistic)
 ZF_NAMESPACE_GLOBAL_END

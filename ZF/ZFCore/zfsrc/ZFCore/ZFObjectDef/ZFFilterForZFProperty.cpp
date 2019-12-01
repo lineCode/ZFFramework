@@ -3,37 +3,36 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-static void _ZFP_ZFFilterForZFPropertyGetSettingInfo(ZF_OUT zfstring &ret,
-                                                     ZF_IN const ZFFilterForZFProperty *filter)
+void ZFFilterForZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
     ret += '(';
     zfindex flagsCount = 0;
-    if(filter->ignorePublicSetter())
+    if(this->ignorePublicSetter())
     {
         ++flagsCount;
         ret += "ignorePublicSetter, ";
     }
-    if(filter->ignoreProtectedSetter())
+    if(this->ignoreProtectedSetter())
     {
         ++flagsCount;
         ret += "ignoreProtectedSetter, ";
     }
-    if(filter->ignorePrivateSetter())
+    if(this->ignorePrivateSetter())
     {
         ++flagsCount;
         ret += "ignorePrivateSetter, ";
     }
-    if(filter->ignorePublicGetter())
+    if(this->ignorePublicGetter())
     {
         ++flagsCount;
         ret += "ignorePublicGetter, ";
     }
-    if(filter->ignoreProtectedGetter())
+    if(this->ignoreProtectedGetter())
     {
         ++flagsCount;
         ret += "ignoreProtectedGetter, ";
     }
-    if(filter->ignorePrivateGetter())
+    if(this->ignorePrivateGetter())
     {
         ++flagsCount;
         ret += "ignorePrivateGetter, ";
@@ -48,10 +47,6 @@ static void _ZFP_ZFFilterForZFPropertyGetSettingInfo(ZF_OUT zfstring &ret,
         ret.remove(ret.length() - 2);
         ret += ')';
     }
-}
-void ZFFilterForZFProperty::objectInfoT(ZF_IN_OUT zfstring &ret) const
-{
-    _ZFP_ZFFilterForZFPropertyGetSettingInfo(ret, this);
     zfsuper::objectInfoT(ret);
 }
 
@@ -88,8 +83,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFFilterForZFProperty, void, filterR
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFProperty, void, filterRemoveAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFProperty, void, filterRemoveAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFProperty, zfindex, filterCount)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFProperty, const ZFProperty *, filterGet, ZFMP_IN(zfindex, index))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFProperty, ZFFilterType, filterGetFilterType, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFProperty, const ZFProperty *, filterElementAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFProperty, ZFFilterType, filterTypeAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFProperty, zfbool, filterCheckActive, ZFMP_IN(const ZFProperty * const &, e))
 
 ZF_NAMESPACE_GLOBAL_END

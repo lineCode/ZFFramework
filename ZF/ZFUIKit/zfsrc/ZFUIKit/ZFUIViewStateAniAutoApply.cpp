@@ -17,7 +17,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIViewStateAniAutoApply_settingInit, ZFL
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIViewStateAniAutoApply_settingInit)
 {
-    ZFUIViewStateAniAutoApplySet(zffalse);
+    ZFUIViewStateAniAutoApply(zffalse);
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewStateAniAutoApply_settingInit)
 
@@ -151,12 +151,12 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFUIViewStateAniAutoApplyPauseForTime,
     {
         d->delayTimer = zfAlloc(ZFTimer);
         d->delayTimer->observerAdd(ZFTimer::EventTimerOnActivate(), d->doStopListener);
-        d->delayTimer->timerActivateInMainThreadSet(zftrue);
+        d->delayTimer->timerActivateInMainThread(zftrue);
     }
     d->delayTimer->timerStop();
 
     d->endTime = endTime;
-    d->delayTimer->timerIntervalSet(time);
+    d->delayTimer->timerInterval(time);
     ZFUIViewStateAniAutoApplyPause();
     d->started = zftrue;
     d->delayTimer->timerStart();

@@ -218,14 +218,14 @@ public:
     /**
      * @brief set rule
      */
-    ZFMETHOD_DECLARE_3(void, ruleSet,
+    ZFMETHOD_DECLARE_3(void, rule,
                        ZFMP_IN(ZFUIView *, child),
                        ZFMP_IN(ZFUIAutoLayoutPosEnum, pos),
                        ZFMP_IN(const ZFUIAutoLayoutRule &, rule))
     /**
      * @brief whether the rule has set
      */
-    ZFMETHOD_DECLARE_2(zfbool, ruleHasSet,
+    ZFMETHOD_DECLARE_2(zfbool, ruleExist,
                        ZFMP_IN(ZFUIView *, child),
                        ZFMP_IN(ZFUIAutoLayoutPosEnum, pos))
     /**

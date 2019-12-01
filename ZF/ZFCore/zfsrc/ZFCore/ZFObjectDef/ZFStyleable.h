@@ -119,30 +119,19 @@ private:
 
 public:
     /** @brief see #ZFStyleSet */
-    zffinal zfbool styleKeySet(ZF_IN const zfchar *styleKey);
+    zffinal void styleKey(ZF_IN const zfchar *styleKey);
     /** @brief see #ZFStyleSet */
     zffinal const zfchar *styleKey(void);
     /** @brief see #ZFStyleSet */
-    zffinal zfbool styleKeySet(ZF_IN const ZFProperty *property, ZF_IN const zfchar *styleKey);
+    zffinal void styleKeyForProperty(ZF_IN const zfchar *propertyName, ZF_IN const zfchar *styleKey);
     /** @brief see #ZFStyleSet */
-    zffinal const zfchar *styleKey(ZF_IN const ZFProperty *property);
+    zffinal const zfchar *styleKeyForProperty(ZF_IN const zfchar *propertyName);
     /** @brief see #ZFStyleSet */
-    zffinal zfbool styleKeySet(ZF_IN const zfchar *propertyName, ZF_IN const zfchar *styleKey)
-    {return this->styleKeySet(this->classData()->propertyForName(propertyName), styleKey);}
+    zffinal void styleKeyForProperty(ZF_IN const ZFProperty *property, ZF_IN const zfchar *styleKey)
+    {if(property) {this->styleKeyForProperty(property->propertyName(), styleKey);}}
     /** @brief see #ZFStyleSet */
-    zffinal const zfchar *styleKey(ZF_IN const zfchar *propertyName)
-    {return this->styleKey(this->classData()->propertyForName(propertyName));}
-protected:
-    /**
-     * @brief called when #styleKeySet or associated style changed
-     *
-     * if the style is not valid,
-     * the styleKey would be reset to null
-     */
-    virtual inline zfbool styleKeyOnCheckValid(void)
-    {
-        return zftrue;
-    }
+    zffinal const zfchar *styleKeyForProperty(ZF_IN const ZFProperty *property)
+    {if(property) {return this->styleKeyForProperty(property->propertyName());} else {return zfnull;}}
 private:
     _ZFP_ZFStyleKeyHolder *_ZFP_styleKey;
     friend zfclassFwd _ZFP_ZFStyleKeyHolder;
@@ -215,10 +204,8 @@ private:
     public: \
         /** \n default style for @ref YourStyle */ \
         static YourStyle *DefaultStyle(void); \
-        /** @brief default style for @ref YourStyle (reflectable) */ \
-        static zfautoObject DefaultStyleReflect(void); \
     private: \
-        static void _ZFP_ZFStyleablEnumDefaultStyleSet(ZF_IN YourStyle *newInstance); \
+        static void _ZFP_ZFStyleablEnumDefaultStyle(ZF_IN YourStyle *newInstance); \
         static ZFCorePointerBase *&_ZFP_ZFStyleableDefaultCleaner(void); \
         static void _ZFP_ZFStyleableDefaultOnDelete(ZF_IN void *instance); \
     public:
@@ -246,17 +233,17 @@ private:
             zfautoObject obj = _ZFP_ZFStyleableDefault_##YourStyle::ClassData()->newInstance(); \
             if(obj != zfnull) \
             { \
-                zfself::_ZFP_ZFStyleablEnumDefaultStyleSet(obj.to<YourStyle *>()); \
+                zfself::_ZFP_ZFStyleablEnumDefaultStyle(obj.to<YourStyle *>()); \
             } \
         } \
         return ZFCastStatic(YourStyle *, holder->d); \
     } \
-    zfautoObject YourStyle::DefaultStyleReflect(void) \
-    { \
-        return ZFCastZFObjectUnchecked(ZFObject *, zfself::DefaultStyle()); \
-    } \
-    ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_STATIC_0(YourStyle, zfautoObject, DefaultStyleReflect) \
-    void YourStyle::_ZFP_ZFStyleablEnumDefaultStyleSet(ZF_IN YourStyle *newInstance) \
+    ZFMETHOD_USER_REGISTER_DETAIL_0({ \
+            return YourStyle::DefaultStyle(); \
+        }, YourStyle, \
+        public, ZFMethodTypeStatic, s, \
+        YourStyle *, DefaultStyle) \
+    void YourStyle::_ZFP_ZFStyleablEnumDefaultStyle(ZF_IN YourStyle *newInstance) \
     { \
         if(ZFFrameworkStateCheck(_ZFP_ZFStyleableDefault_level) == ZFFrameworkStateNotAvailable) \
         { \
@@ -317,8 +304,6 @@ private:
  * -  default style access method:
  *   static YourObjectStyle *DefaultStyle(void);
  *   virtual ZFStyleable *defaultStyle(void);
- * -  default style access method as ZFMethod (reflectable):
- *   static zfautoObject DefaultStyleReflect(void);
  *
  * \n
  * @note a style holder object would be created automatically when access the default style,
@@ -376,7 +361,7 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  * @brief used to store style holder
  *
  * typical style logic are implemented by:
- * 1. use #ZFStyleable::styleKeySet to attach object to observe style change
+ * 1. use #ZFStyleable::styleKey to attach object to observe style change
  * 1. use #ZFStyleSet or #ZFStyleLoad to modify styles
  * 1. during style change event,
  *   all the styles would be copied automatically
@@ -385,7 +370,7 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  * @code
  *   // register
  *   MyStyleObject *obj = xxx;
- *   obj->styleKeySet("MyStyle/MyStyleObject");
+ *   obj->styleKey("MyStyle/MyStyleObject");
  *
  *   // change style
  *   ZFStyleChangeBegin();
@@ -410,23 +395,17 @@ extern ZF_ENV_EXPORT void ZFStyleDefaultApplyAutoCopy(ZF_IN ZFStyleable *style);
  * causing the referenced style copied to the target object\n
  * \n
  * by default, all #ZFStyleable supports style logic,
- * for non-ZFStyleable properties,
- * you may supply #ZFSTYLE_PROPERTY_COPY_DEFINE to register your own copy action,
- * example:
- * @code
- *   // register
- *   ZFSTYLE_PROPERTY_COPY_DEFINE(YourPropertyTypeIdSig, {
- *           // proto type:
- *           //   zfbool copyFrom(ZF_IN ZFObject *propertyOwner,
- *           //                   ZF_IN const ZFProperty *property,
- *           //                   ZF_IN ZFStyleable *styleValue);
- *           ... // do your copy action
- *           return zftrue;
- *       })
+ * for non-ZFStyleable types, #zfint for example,
+ * can also benifit from style logic if:
+ * -  registered by #ZFTYPEID_DECLARE
+ * -  it's property declared by #ZFPROPERTY_ASSIGN series
  *
- *   // attach style
- *   myObject->styleKeySet(ZFPropertyAccess(MyObject, myStyleProperty), "myStyleKey");
+ * to apply style logic for these non-ZFStyleable types:
+ * @code
+ *   ownerZFStyleable->styleKeyForProperty("yourPropertyName", "yourStyleKey");
  * @endcode
+ * when style of yourStyleKey changed,
+ * yourPropertyName's setter method would be called to apply the style\n
  * \n
  * \n
  * note, by default, all styles would be cleared during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkNormal
@@ -491,8 +470,8 @@ ZFOBSERVER_EVENT_GLOBAL(ZFStyleOnChange)
  *
  * notified when setting an invalid style value\n
  * sender is the styleable object that changing the styleKey,
- * param0 is a #v_ZFProperty if chaning property
- * or holds null if changing the styleable object itself,
+ * param0 is a #v_zfstring if chaning property's name
+ * or holds empty string if changing the styleable object itself,
  * param1 is a #v_zfstring to (const zfchar *)
  * that holds the new styleKey\n
  * \n
@@ -507,7 +486,7 @@ extern ZF_ENV_EXPORT void ZFStyleInvalidCheckDisable(void);
 
 // ============================================================
 /**
- * @brief register a custom decoder for #ZFStyleGet
+ * @brief register a custom decoder for #ZFStyleSet
  *
  * usage:
  * @code
@@ -546,33 +525,6 @@ typedef zfbool (*_ZFP_ZFStyleDecoder)(ZF_OUT zfautoObject &ret, ZF_IN const zfch
 extern ZF_ENV_EXPORT void _ZFP_ZFStyleDecoderRegister(ZF_IN const zfchar *registerSig,
                                                       ZF_IN _ZFP_ZFStyleDecoder decoder);
 extern ZF_ENV_EXPORT void _ZFP_ZFStyleDecoderUnregister(ZF_IN const zfchar *registerSig);
-
-// ============================================================
-/**
- * @brief see #ZFStyleSet
- */
-#define ZFSTYLE_PROPERTY_COPY_DEFINE(propertyTypeIdSig, stylePropertyCopyAction, ...) \
-    ZF_STATIC_REGISTER_INIT(StylePropCp_##propertyTypeIdSig) \
-    { \
-        _ZFP_ZFStylePropertyCopyRegister(ZFTypeId_##propertyTypeIdSig(), zfself::action); \
-    } \
-    ZF_STATIC_REGISTER_DESTROY(StylePropCp_##propertyTypeIdSig) \
-    { \
-        _ZFP_ZFStylePropertyCopyUnregister(ZFTypeId_##propertyTypeIdSig()); \
-    } \
-    static zfbool action(ZF_IN ZFObject *propertyOwner, \
-                         ZF_IN const ZFProperty *property, \
-                         ZF_IN ZFStyleable *styleValue) \
-    { \
-        stylePropertyCopyAction __VA_ARGS__ \
-    } \
-    ZF_STATIC_REGISTER_END(StylePropCp_##propertyTypeIdSig)
-typedef zfbool (*_ZFP_ZFStylePropertyCopyCallback)(ZF_IN ZFObject *propertyOwner,
-                                                   ZF_IN const ZFProperty *property,
-                                                   ZF_IN ZFStyleable *styleValue);
-extern ZF_ENV_EXPORT void _ZFP_ZFStylePropertyCopyRegister(ZF_IN const zfchar *propertyTypeId,
-                                                           ZF_IN _ZFP_ZFStylePropertyCopyCallback callback);
-extern ZF_ENV_EXPORT void _ZFP_ZFStylePropertyCopyUnregister(ZF_IN const zfchar *propertyTypeId);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFStyleable_h_

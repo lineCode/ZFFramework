@@ -67,15 +67,15 @@ public:
      * -  used to store native view for different view's implementation
      *   such as EditText
      */
-    virtual void nativeImplViewSet(ZF_IN ZFUIView *view,
-                                   ZF_IN void *nativeImplViewOld,
-                                   ZF_IN void *nativeImplView,
-                                   ZF_IN zfindex virtualIndex) zfpurevirtual;
+    virtual void nativeImplView(ZF_IN ZFUIView *view,
+                                ZF_IN void *nativeImplViewOld,
+                                ZF_IN void *nativeImplView,
+                                ZF_IN zfindex virtualIndex) zfpurevirtual;
     /**
      * @brief see #ZFUIView::nativeImplViewMarginUpdate
      */
-    virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIRect &rect) zfpurevirtual;
+    virtual void nativeImplViewFrame(ZF_IN ZFUIView *view,
+                                     ZF_IN const ZFUIRect &rect) zfpurevirtual;
 
     /**
      * @brief get proper scale for the view
@@ -90,26 +90,26 @@ public:
     // properties
 public:
     /** @brief see #ZFUIView */
-    virtual void viewVisibleSet(ZF_IN ZFUIView *view,
-                                ZF_IN zfbool viewVisible) zfpurevirtual;
+    virtual void viewVisible(ZF_IN ZFUIView *view,
+                             ZF_IN zfbool viewVisible) zfpurevirtual;
     /** @brief see #ZFUIView */
-    virtual void viewAlphaSet(ZF_IN ZFUIView *view,
-                              ZF_IN zffloat viewAlpha) zfpurevirtual;
+    virtual void viewAlpha(ZF_IN ZFUIView *view,
+                           ZF_IN zffloat viewAlpha) zfpurevirtual;
     /** @brief see #ZFUIView */
-    virtual void viewUIEnableSet(ZF_IN ZFUIView *view,
-                                 ZF_IN zfbool viewUIEnable) zfpurevirtual;
+    virtual void viewUIEnable(ZF_IN ZFUIView *view,
+                              ZF_IN zfbool viewUIEnable) zfpurevirtual;
     /** @brief see #ZFUIView */
-    virtual void viewUIEnableTreeSet(ZF_IN ZFUIView *view,
-                                     ZF_IN zfbool viewUIEnableTree) zfpurevirtual;
+    virtual void viewUIEnableTree(ZF_IN ZFUIView *view,
+                                  ZF_IN zfbool viewUIEnableTree) zfpurevirtual;
     /** @brief see #ZFUIView */
-    virtual void viewMouseHoverEventEnableSet(ZF_IN ZFUIView *view,
-                                              ZF_IN zfbool viewMouseHoverEventEnable)
+    virtual void viewMouseHoverEventEnable(ZF_IN ZFUIView *view,
+                                           ZF_IN zfbool viewMouseHoverEventEnable)
     {
         // no hover event support by default
     }
     /** @brief see #ZFUIView */
-    virtual void viewBackgroundColorSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIColor &viewBackgroundColor) zfpurevirtual;
+    virtual void viewBackgroundColor(ZF_IN ZFUIView *view,
+                                     ZF_IN const ZFUIColor &viewBackgroundColor) zfpurevirtual;
 
     // ============================================================
     // children
@@ -152,8 +152,8 @@ public:
     /**
      * @brief set view's frame, no need to worry about layout param or auto resizing
      */
-    virtual void viewFrameSet(ZF_IN ZFUIView *view,
-                              ZF_IN const ZFUIRect &rect) zfpurevirtual;
+    virtual void viewFrame(ZF_IN ZFUIView *view,
+                           ZF_IN const ZFUIRect &rect) zfpurevirtual;
     /**
      * @brief called by ZFUIView to notify the implementation that the view needs layout
      *

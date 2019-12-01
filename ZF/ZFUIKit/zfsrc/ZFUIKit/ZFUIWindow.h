@@ -67,7 +67,7 @@ zfclassFwd _ZFP_ZFUIWindowPrivate;
  * \n
  * ADVANCED:\n
  * ZFUIWindow would be attached to #ZFUISysWindow::keyWindow by default,
- * you may change its owner ZFUISysWindow by #windowOwnerSysWindowSet,
+ * you may change its owner ZFUISysWindow by #windowOwnerSysWindow,
  * but only before #windowShow is called
  */
 zfclass ZF_ENV_EXPORT ZFUIWindow : zfextends ZFUIView
@@ -122,16 +122,14 @@ public:
     /**
      * @brief util method to get window of a view, or null if not in a window
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              ZFUIWindow *, windowForView,
+    ZFMETHOD_DECLARE_STATIC_1(ZFUIWindow *, windowForView,
                               ZFMP_IN(ZFUIView *, forView))
 
     /**
      * @brief util method to get owner sys window for the view,
      *   return null if not in view tree or failed to get
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              ZFUISysWindow *, sysWindowForView,
+    ZFMETHOD_DECLARE_STATIC_1(ZFUISysWindow *, sysWindowForView,
                               ZFMP_IN(ZFUIView *, view))
 
 protected:
@@ -168,7 +166,7 @@ public:
      * usually you should have only one #ZFUISysWindow in your app
      * so you have no need to care about this method
      */
-    ZFMETHOD_DECLARE_1(void, windowOwnerSysWindowSet,
+    ZFMETHOD_DECLARE_1(void, windowOwnerSysWindow,
                        ZFMP_IN(ZFUISysWindow *, windowOwnerSysWindow))
     /**
      * @brief get the owner #ZFUISysWindow, even if not showing

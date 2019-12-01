@@ -86,7 +86,7 @@ private:
             {
                 ZFJsonItem jsonValue(ZFJsonType::e_JsonValue);
                 ++(docHolder->docRefCount);
-                this->jsonMemoryPool_jsonValueSet(jsonValue, implJsonItem.GetString(), docHolder);
+                this->jsonMemoryPool_jsonValue(jsonValue, implJsonItem.GetString(), docHolder);
                 return jsonValue;
             }
             case rapidjson::kArrayType:
@@ -114,7 +114,7 @@ private:
                         return ZFJsonItem();
                     }
                     ++(docHolder->docRefCount);
-                    this->jsonMemoryPool_jsonItemSet(jsonObject, it->name.GetString(), docHolder, jsonChild);
+                    this->jsonMemoryPool_jsonItem(jsonObject, it->name.GetString(), docHolder, jsonChild);
                 }
                 return jsonObject;
             }

@@ -29,14 +29,14 @@ protected:
         const zfchar *styleKey = _ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull();
         {
             zfblockedAlloc(_ZFP_ZFCore_ZFStyle_test_Object, styleValue);
-            styleValue->myPropertySet(123);
+            styleValue->myProperty(123);
             ZFStyleSet(styleKey, styleValue);
         }
 
         this->testCaseOutputSeparator();
         this->testCaseOutput("attach object to style");
         zfblockedAlloc(_ZFP_ZFCore_ZFStyle_test_Object, obj);
-        obj->styleKeySet(_ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull());
+        obj->styleKey(_ZFP_ZFCore_ZFStyle_test_Object::ClassData()->classNameFull());
 
         this->testCaseOutputSeparator();
         this->testCaseOutput("notify change style");

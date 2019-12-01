@@ -18,7 +18,7 @@ public final class ZFUIImageView extends ImageView {
         ((ZFUIImageView)nativeImageView).setImageDrawable(null);
     }
 
-    public static void native_imageSet(Object nativeImageView,
+    public static void native_image(Object nativeImageView,
                                        Object nativeImage) {
         ZFUIImageView nativeImageViewTmp = (ZFUIImageView)nativeImageView;
         nativeImageViewTmp.setImageDrawable((Drawable)nativeImage);

@@ -29,7 +29,7 @@ ZFPATHTYPE_DECLARE(file)
  * auto open and auto close files, may return a null callback if open file error\n
  * auto setup callback cache id with res file path
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInput, ZFInputForFile,
+ZFMETHOD_FUNC_INLINE_DECLARE_2(ZFInput, ZFInputForFile,
                                ZFMP_IN(const zfchar *, filePath),
                                ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Read))
 {
@@ -49,7 +49,7 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFInput, ZFInputForFile,
  *
  * auto open and auto close files, may return a null callback if open file error
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFOutput, ZFOutputForFile,
+ZFMETHOD_FUNC_INLINE_DECLARE_2(ZFOutput, ZFOutputForFile,
                                ZFMP_IN(const zfchar *, filePath),
                                ZFMP_IN_OPT(ZFFileOpenOptionFlags, flags, ZFFileOpenOption::e_Create))
 {
@@ -99,10 +99,10 @@ public:
         T_Holder::pathConvert(pathDataAbs, pathData);
         return ZFFileFileIsDir(pathDataAbs);
     }
-    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
-                                      ZF_IN_OUT zfstring &fileName)
+    static zfbool callbackToFileName(ZF_IN const zfchar *pathData,
+                                     ZF_IN_OUT zfstring &fileName)
     {
-        return ZFFilePathInfoCallbackGetFileNameDefault(pathData, fileName);
+        return ZFFilePathInfoCallbackToFileNameDefault(pathData, fileName);
     }
     static zfbool callbackToChild(ZF_IN const zfchar *pathData,
                                   ZF_IN_OUT zfstring &pathDataChild,

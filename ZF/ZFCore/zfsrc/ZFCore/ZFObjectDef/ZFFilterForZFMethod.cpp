@@ -3,22 +3,21 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-static void _ZFP_ZFFilterForZFMethodGetSettingInfo(ZF_OUT zfstring &ret,
-                                                   ZF_IN const ZFFilterForZFMethod *filter)
+void ZFFilterForZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
 {
     ret += '(';
     zfindex flagsCount = 0;
-    if(filter->ignorePublic())
+    if(this->ignorePublic())
     {
         ++flagsCount;
         ret += "ignorePublic, ";
     }
-    if(filter->ignoreProtected())
+    if(this->ignoreProtected())
     {
         ++flagsCount;
         ret += "ignoreProtected, ";
     }
-    if(filter->ignorePrivate())
+    if(this->ignorePrivate())
     {
         ++flagsCount;
         ret += "ignorePrivate, ";
@@ -33,10 +32,7 @@ static void _ZFP_ZFFilterForZFMethodGetSettingInfo(ZF_OUT zfstring &ret,
         ret.remove(ret.length() - 2);
         ret += ')';
     }
-}
-void ZFFilterForZFMethod::objectInfoT(ZF_IN_OUT zfstring &ret) const
-{
-    _ZFP_ZFFilterForZFMethodGetSettingInfo(ret, this);
+
     zfsuper::objectInfoT(ret);
 }
 
@@ -70,8 +66,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFFilterForZFMethod, void, filterRem
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFMethod, void, filterRemoveAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFMethod, void, filterRemoveAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFMethod, zfindex, filterCount)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFMethod, const ZFMethod *, filterGet, ZFMP_IN(zfindex, index))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFMethod, ZFFilterType, filterGetFilterType, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFMethod, const ZFMethod *, filterElementAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFMethod, ZFFilterType, filterTypeAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFMethod, zfbool, filterCheckActive, ZFMP_IN(const ZFMethod * const &, e))
 
 ZF_NAMESPACE_GLOBAL_END

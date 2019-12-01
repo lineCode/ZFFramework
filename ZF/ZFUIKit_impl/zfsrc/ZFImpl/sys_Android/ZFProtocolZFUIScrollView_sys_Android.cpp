@@ -56,11 +56,11 @@ public:
     }
 
 public:
-    virtual void scrollViewScrollEnableSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollEnable)
+    virtual void scrollEnable(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollEnable)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollViewScrollEnableSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollEnable",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)
@@ -69,14 +69,14 @@ public:
             ZFCastStatic(jobject, scrollView->nativeImplView()),
             (jboolean)scrollEnable);
     }
-    virtual void scrollViewScrollBounceSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollBounceHorizontal,
-                                           ZF_IN zfbool scrollBounceVertical,
-                                           ZF_IN zfbool scrollBounceHorizontalAlways,
-                                           ZF_IN zfbool scrollBounceVerticalAlways)
-    {
+    virtual void scrollBounce(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollBounceHorizontal,
+                              ZF_IN zfbool scrollBounceVertical,
+                              ZF_IN zfbool scrollBounceHorizontalAlways,
+                              ZF_IN zfbool scrollBounceVerticalAlways)
+{
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollViewScrollBounceSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollBounce",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)
@@ -91,11 +91,11 @@ public:
             (jboolean)scrollBounceHorizontalAlways,
             (jboolean)scrollBounceVerticalAlways);
     }
-    virtual void scrollViewScrollContentFrameSet(ZF_IN ZFUIScrollView *scrollView,
-                                                 ZF_IN const ZFUIRect &frame)
+    virtual void scrollContentFrame(ZF_IN ZFUIScrollView *scrollView,
+                                    ZF_IN const ZFUIRect &frame)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollViewScrollContentFrameSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollContentFrame",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -110,11 +110,11 @@ public:
             (jint)frame.size.width,
             (jint)frame.size.height);
     }
-    virtual zftimet scrollViewScrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
-                                                   ZF_IN zftimet recommendTimerInterval)
+    virtual zftimet scrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
+                                         ZF_IN zftimet recommendTimerInterval)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollViewScrollAnimationStart",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollAnimationStart",
             JNIGetMethodSig(JNIType::S_long, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -123,10 +123,10 @@ public:
             ZFCastStatic(jobject, scrollView->nativeImplView()),
             (jint)(zfuint)recommendTimerInterval);
     }
-    virtual void scrollViewScrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
+    virtual void scrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollViewScrollAnimationStop",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIScrollView, "native_scrollAnimationStop",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
             ).c_str());

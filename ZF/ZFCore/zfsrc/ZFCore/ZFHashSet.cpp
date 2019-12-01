@@ -57,7 +57,7 @@ void ZFHashSet::addFrom(ZF_IN ZFContainer *another)
 
     for(zfiterator it = another->iterator(); another->iteratorIsValid(it);)
     {
-        ZFObject *obj = another->iteratorNext(it);
+        ZFObject *obj = another->iteratorNextValue(it);
         if(!d->isContain(obj))
         {
             d->set(obj, zfnullObject());
@@ -115,31 +115,31 @@ ZFMETHOD_DEFINE_2(ZFHashSet, zfbool, iteratorIsEqual,
     return d->iteratorIsEqual(it0, it1);
 }
 
-ZFMETHOD_DEFINE_1(ZFHashSet, ZFObject *, iteratorGet,
+ZFMETHOD_DEFINE_1(ZFHashSet, ZFObject *, iteratorValue,
                   ZFMP_IN(const zfiterator &, it))
 {
-    return d->iteratorGetKey(it);
+    return d->iteratorKey(it);
 }
 
-ZFMETHOD_DEFINE_1(ZFHashSet, ZFObject *, iteratorNext,
+ZFMETHOD_DEFINE_1(ZFHashSet, ZFObject *, iteratorNextValue,
                   ZFMP_IN_OUT(zfiterator &, it))
 {
     return d->iteratorNextKey(it);
 }
-ZFMETHOD_DEFINE_1(ZFHashSet, ZFObject *, iteratorPrev,
+ZFMETHOD_DEFINE_1(ZFHashSet, ZFObject *, iteratorPrevValue,
                   ZFMP_IN_OUT(zfiterator &, it))
 {
     return d->iteratorPrevKey(it);
 }
 
-void ZFHashSet::iteratorSet(ZF_IN_OUT zfiterator &it,
-                            ZF_IN ZFObject *value)
+void ZFHashSet::iteratorValue(ZF_IN_OUT zfiterator &it,
+                              ZF_IN ZFObject *value)
 {
     this->add(value);
 }
 void ZFHashSet::iteratorRemove(ZF_IN_OUT zfiterator &it)
 {
-    ZFKeyValuePair tmp = d->iteratorGetPair(it);
+    ZFKeyValuePair tmp = d->iteratorPair(it);
     if(tmp.key != zfnull)
     {
         this->contentOnRemove(tmp.key);

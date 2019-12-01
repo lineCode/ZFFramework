@@ -195,18 +195,18 @@ protected:
         {
             case QEvent::MouseButtonPress:
             case QEvent::MouseButtonDblClick:
-                ZFImpl_sys_Qt_QObjectTagSet(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag", QVariant::fromValue(zftrue));
+                ZFImpl_sys_Qt_QObjectTag(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag", QVariant::fromValue(zftrue));
                 mouseAction = ZFUIMouseAction::e_MouseDown;
                 break;
             case QEvent::MouseMove:
-                if(!ZFImpl_sys_Qt_QObjectTagGet(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag").isValid())
+                if(!ZFImpl_sys_Qt_QObjectTag(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag").isValid())
                 {
                     return false;
                 }
                 mouseAction = ZFUIMouseAction::e_MouseMove;
                 break;
             case QEvent::MouseButtonRelease:
-                ZFImpl_sys_Qt_QObjectTagSet(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag", QVariant());
+                ZFImpl_sys_Qt_QObjectTag(obj, "_ZFP_ZFImpl_ZFUIScrollView_sys_Qt_mouseDownTag", QVariant());
                 mouseAction = ZFUIMouseAction::e_MouseUp;
                 break;
             default:
@@ -284,15 +284,11 @@ public:
     {
         return _ZFP_ZFUIScrollViewImpl_sys_Qt_timestamp();
     }
-    virtual zfint mouseEventGetX(ZF_IN void *nativeMouseEvent)
+    virtual void mouseEventPos(ZF_OUT ZFUIPoint &ret, ZF_IN void *nativeMouseEvent)
     {
         QMouseEvent *e = ZFCastStatic(QMouseEvent *, nativeMouseEvent);
-        return (zfint)e->x();
-    }
-    virtual zfint mouseEventGetY(ZF_IN void *nativeMouseEvent)
-    {
-        QMouseEvent *e = ZFCastStatic(QMouseEvent *, nativeMouseEvent);
-        return (zfint)e->y();
+        ret.x = (zfint)e->x();
+        ret.y = (zfint)e->y();
     }
     virtual void *mouseEventClone(ZF_IN void *nativeMouseEvent,
                                   ZF_IN_OPT zfbool changeMouseAction = zffalse,
@@ -520,28 +516,28 @@ public:
     }
 
 public:
-    virtual void scrollViewScrollEnableSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollEnable)
+    virtual void scrollEnable(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollEnable)
     {
         // nothing to do, scroll impl helper would solve this
     }
-    virtual void scrollViewScrollBounceSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollBounceHorizontal,
-                                           ZF_IN zfbool scrollBounceVertical,
-                                           ZF_IN zfbool scrollBounceHorizontalAlways,
-                                           ZF_IN zfbool scrollBounceVerticalAlways)
-    {
+    virtual void scrollBounce(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollBounceHorizontal,
+                              ZF_IN zfbool scrollBounceVertical,
+                              ZF_IN zfbool scrollBounceHorizontalAlways,
+                              ZF_IN zfbool scrollBounceVerticalAlways)
+{
         // nothing to do, scroll impl helper would solve this
     }
-    virtual void scrollViewScrollContentFrameSet(ZF_IN ZFUIScrollView *scrollView,
-                                                 ZF_IN const ZFUIRect &frame)
+    virtual void scrollContentFrame(ZF_IN ZFUIScrollView *scrollView,
+                                    ZF_IN const ZFUIRect &frame)
     {
         _ZFP_ZFUIScrollViewImpl_sys_Qt_ScrollView *nativeScrollView = ZFCastStatic(_ZFP_ZFUIScrollViewImpl_sys_Qt_ScrollView *, scrollView->nativeImplView());
         QRect nativeFrame = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(frame);
         nativeScrollView->_ZFP_scrollViewContentView->setGeometry(nativeFrame);
     }
-    virtual zftimet scrollViewScrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
-                                                   ZF_IN zftimet recommendTimerInterval)
+    virtual zftimet scrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
+                                         ZF_IN zftimet recommendTimerInterval)
     {
         _ZFP_ZFUIScrollViewImpl_sys_Qt_ScrollView *nativeScrollView = ZFCastStatic(_ZFP_ZFUIScrollViewImpl_sys_Qt_ScrollView *, scrollView->nativeImplView());
         nativeScrollView->_ZFP_scrollAnimationTimer.connect(
@@ -551,7 +547,7 @@ public:
         nativeScrollView->_ZFP_scrollAnimationTimer.start((zfuint)recommendTimerInterval);
         return _ZFP_ZFUIScrollViewImpl_sys_Qt_timestamp();
     }
-    virtual void scrollViewScrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
+    virtual void scrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
     {
         _ZFP_ZFUIScrollViewImpl_sys_Qt_ScrollView *nativeScrollView = ZFCastStatic(_ZFP_ZFUIScrollViewImpl_sys_Qt_ScrollView *, scrollView->nativeImplView());
         nativeScrollView->_ZFP_scrollAnimationTimer.disconnect();

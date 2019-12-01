@@ -37,8 +37,8 @@ public:
     {
         zfblockedAlloc(ZFUITextView, titleTextView);
         propertyValue = titleTextView;
-        titleTextView->textSizeSet(ZFUIGlobalStyle::DefaultStyle()->textSizeBig());
-        titleTextView->textAppearanceSet(ZFUITextAppearance::e_Bold);
+        titleTextView->textSize(ZFUIGlobalStyle::DefaultStyle()->textSizeBig());
+        titleTextView->textAppearance(ZFUITextAppearance::e_Bold);
     }
 
     /**
@@ -49,7 +49,7 @@ public:
     {
         zfblockedAlloc(ZFUITextView, contentTextView);
         propertyValue = contentTextView;
-        contentTextView->textSingleLineSet(zffalse);
+        contentTextView->textSingleLine(zffalse);
     }
 
 public:
@@ -77,8 +77,8 @@ public:
     zfoverride
     virtual const zfchar *dialogButtonText(ZF_IN ZFUIDialogButtonTypeEnum dialogButtonType);
     zfoverride
-    virtual void dialogButtonTextSet(ZF_IN ZFUIDialogButtonTypeEnum dialogButtonType,
-                                     ZF_IN const zfchar *text);
+    virtual void dialogButtonText(ZF_IN ZFUIDialogButtonTypeEnum dialogButtonType,
+                                  ZF_IN const zfchar *text);
     zfoverride
     virtual void dialogButtonRemove(ZF_IN ZFUIDialogButtonTypeEnum dialogButtonType);
 

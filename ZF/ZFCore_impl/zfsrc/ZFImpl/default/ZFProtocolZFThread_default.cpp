@@ -109,7 +109,7 @@ void _ZFP_ZFThreadImpl_default_threadCallback(_ZFP_ZFThreadImpl_default_ExecuteD
     _ZFP_ZFThreadImpl_default_threadMap[nativeCurrentThreadId] = data->ownerZFThread;
     zfsynchronizeUnlock(_ZFP_ZFThreadImpl_default_syncObj);
 
-    data->runnable.execute(ZFListenerData().param0Set(data->param0).param1Set(data->param1));
+    data->runnable.execute(ZFListenerData().param0(data->param0).param1(data->param1));
 
     zfsynchronizeLock(_ZFP_ZFThreadImpl_default_syncObj);
     _ZFP_ZFThreadImpl_default_threadMap.erase(nativeCurrentThreadId);
@@ -157,7 +157,7 @@ public:
         _ZFP_ZFThreadImpl_default_ThreadMapType::const_iterator it = _ZFP_ZFThreadImpl_default_threadMap.find(nativeCurrentThread);
         if(it == _ZFP_ZFThreadImpl_default_threadMap.end())
         {
-            zfCoreLogTrim("current thread is null, make sure the thread is started or registerd by ZFThread");
+            zfCoreLogTrim("current thread is null, make sure the thread is started or registered by ZFThread");
             return zfnull;
         }
         return it->second;

@@ -60,11 +60,11 @@ public:
         JNIUtilDeleteGlobalRef(jniEnv, nativeImageViewTmp);
     }
 
-    virtual void imageSet(ZF_IN ZFUIImageView *imageView,
-                          ZF_IN ZFUIImage *image)
+    virtual void image(ZF_IN ZFUIImageView *imageView,
+                       ZF_IN ZFUIImage *image)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_imageSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_image",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))

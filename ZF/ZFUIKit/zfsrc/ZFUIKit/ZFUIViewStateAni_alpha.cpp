@@ -31,11 +31,11 @@ public:
 
         zfblockedAlloc(ZFAnimationNativeView, ani);
         aniList->add(ani);
-        ani->aniTargetSet(view);
+        ani->aniTarget(view);
 
-        ani->aniDurationSet(setting->aniDuration());
-        ani->aniCurveSet(setting->aniCurve());
-        ani->aniAlphaFromSet(0);
+        ani->aniDuration(setting->aniDuration());
+        ani->aniCurve(setting->aniCurve());
+        ani->aniAlphaFrom(0);
     }
 };
 

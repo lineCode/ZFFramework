@@ -342,7 +342,7 @@ public:
             { \
                 return zffalse; \
             } \
-            v.enumValueSet((zfuint)flags); \
+            v.enumValue((zfuint)flags); \
             return zftrue; \
         }, { \
             return zfflagsToString(s, EnumName::ClassData(), (zfflags)v.enumValue()); \

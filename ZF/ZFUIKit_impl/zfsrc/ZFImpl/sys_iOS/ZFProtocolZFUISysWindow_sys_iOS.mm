@@ -327,8 +327,8 @@ public:
     {
         return ((__bridge _ZFP_ZFUISysWindowImpl_sys_iOS_NativeWindow *)sysWindow->nativeWindow()).sysWindowOrientation;
     }
-    virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                              ZF_IN const ZFUIOrientationFlags &flags)
+    virtual void sysWindowOrientationFlags(ZF_IN ZFUISysWindow *sysWindow,
+                                           ZF_IN const ZFUIOrientationFlags &flags)
     {
         ((__bridge _ZFP_ZFUISysWindowImpl_sys_iOS_NativeWindow *)sysWindow->nativeWindow()).sysWindowOrientationFlags = flags;
     }

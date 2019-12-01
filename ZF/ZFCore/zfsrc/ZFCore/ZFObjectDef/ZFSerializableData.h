@@ -130,9 +130,9 @@ public:
      */
     zffinal const ZFPathInfo *pathInfo(void) const;
     /** @brief see #pathInfo */
-    zffinal void pathInfoSet(ZF_IN const ZFPathInfo *pathInfo);
+    zffinal void pathInfo(ZF_IN const ZFPathInfo *pathInfo);
     /** @brief see #pathInfo */
-    zffinal void pathInfoSet(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData);
+    zffinal void pathInfo(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData);
     /**
      * @brief recursively check path info from child to parent
      */
@@ -150,7 +150,7 @@ public:
     // class
 public:
     /** @brief see #ZFSerializable */
-    zffinal void itemClassSet(ZF_IN const zfchar *classNameFull);
+    zffinal void itemClass(ZF_IN const zfchar *classNameFull);
     /** @brief see #ZFSerializable */
     zffinal const zfchar *itemClass(void) const;
 
@@ -158,41 +158,41 @@ public:
     // other types
 public:
     /** @brief see #ZFSerializable, same as set value of attribute "name" */
-    inline void propertyNameSet(ZF_IN const zfchar *name)
+    inline void propertyName(ZF_IN const zfchar *name)
     {
-        this->attributeSet(ZFSerializableKeyword_name, name);
+        this->attributeForName(ZFSerializableKeyword_name, name);
     }
-    /** @brief see #propertyNameSet */
+    /** @brief see #propertyName */
     inline const zfchar *propertyName(void) const
     {
         return this->attributeForName(ZFSerializableKeyword_name);
     }
     /** @brief see #ZFSerializable, same as set value of attribute "value" */
-    inline void propertyValueSet(ZF_IN const zfchar *value)
+    inline void propertyValue(ZF_IN const zfchar *value)
     {
-        this->attributeSet(ZFSerializableKeyword_value, value);
+        this->attributeForName(ZFSerializableKeyword_value, value);
     }
-    /** @brief see #propertyValueSet */
+    /** @brief see #propertyValue */
     inline const zfchar *propertyValue(void) const
     {
         return this->attributeForName(ZFSerializableKeyword_value);
     }
     /** @brief see #ZFSerializable, same as set value of attribute "category" */
-    inline void categorySet(ZF_IN const zfchar *category)
+    inline void category(ZF_IN const zfchar *category)
     {
-        this->attributeSet(ZFSerializableKeyword_category, category);
+        this->attributeForName(ZFSerializableKeyword_category, category);
     }
-    /** @brief see #categorySet */
+    /** @brief see #category */
     inline const zfchar *category(void) const
     {
         return this->attributeForName(ZFSerializableKeyword_category);
     }
     /** @brief see #ZFSerializable, same as set value of attribute "editMode" */
-    inline void editModeSet(ZF_IN zfbool editMode)
+    inline void editMode(ZF_IN zfbool editMode)
     {
-        this->attributeSet(ZFSerializableKeyword_editMode, editMode ? ZFTOKEN_zfbool_zftrue : zfnull);
+        this->attributeForName(ZFSerializableKeyword_editMode, editMode ? ZFTOKEN_zfbool_zftrue : zfnull);
     }
-    /** @brief see #categorySet */
+    /** @brief see #category */
     inline zfbool editMode(void) const
     {
         return (this->attributeForName(ZFSerializableKeyword_editMode) != zfnull);
@@ -212,19 +212,19 @@ public:
      *
      * typically used by impl to achieve additional features
      */
-    zffinal void serializableDataTagSet(ZF_IN const zfchar *key,
-                                        ZF_IN ZFObject *tag);
+    zffinal void serializableDataTag(ZF_IN const zfchar *key,
+                                     ZF_IN ZFObject *tag);
     /**
-     * @brief see #serializableDataTagSet
+     * @brief see #serializableDataTag
      */
-    zffinal ZFObject *serializableDataTagGet(ZF_IN const zfchar *key) const;
-    /** @brief see #serializableDataTagSet */
+    zffinal ZFObject *serializableDataTag(ZF_IN const zfchar *key) const;
+    /** @brief see #serializableDataTag */
     template<typename T_ZFObject>
-    T_ZFObject serializableDataTagGet(ZF_IN const zfchar *key) const
+    T_ZFObject serializableDataTag(ZF_IN const zfchar *key) const
     {
-        return ZFCastZFObjectUnchecked(T_ZFObject, this->serializableDataTagGet(key));
+        return ZFCastZFObjectUnchecked(T_ZFObject, this->serializableDataTag(key));
     }
-    /** @brief see #serializableDataTagSet */
+    /** @brief see #serializableDataTag */
     zffinal void serializableDataTagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
                                                    ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue) const;
     /**
@@ -236,7 +236,7 @@ public:
      */
     zffinal zfautoObject serializableDataTagRemoveAndGet(ZF_IN const zfchar *key);
     /**
-     * @brief see #serializableDataTagSet
+     * @brief see #serializableDataTag
      *
      * @note it's unsafe to remove all tag manually,
      *   which may break unrelated modules' additional logic,
@@ -254,16 +254,16 @@ public:
      * note that order of attributes is not ensured
      * after you add, remove or modify attributes
      */
-    zffinal void attributeSet(ZF_IN const zfchar *name,
-                              ZF_IN const zfchar *value);
-    /** @brief see #attributeSet */
+    zffinal void attributeForName(ZF_IN const zfchar *name,
+                                  ZF_IN const zfchar *value);
+    /** @brief see #attributeForName */
     zffinal const zfchar *attributeForName(ZF_IN const zfchar *name) const;
 
-    /** @brief see #attributeSet */
+    /** @brief see #attributeForName */
     zffinal zfindex attributeCount(void) const;
 
     /**
-     * @brief remove value with name, see #attributeSet
+     * @brief remove value with name, see #attributeForName
      */
     zffinal void attributeRemove(ZF_IN const zfchar *name);
 
@@ -282,18 +282,18 @@ public:
     zffinal zfbool attributeIteratorIsEqual(ZF_IN const zfiterator &it0,
                                             ZF_IN const zfiterator &it1) const;
     /** @brief see #zfiterator */
-    zffinal void attributeIteratorSet(ZF_IN_OUT zfiterator &it,
-                                      ZF_IN const zfchar *value);
+    zffinal void attributeIteratorValue(ZF_IN_OUT zfiterator &it,
+                                        ZF_IN const zfchar *value);
     /** @brief see #zfiterator */
     zffinal void attributeIteratorRemove(ZF_IN_OUT zfiterator &it);
     /** @brief see #zfiterator */
-    zffinal const zfchar *attributeIteratorGetKey(ZF_IN const zfiterator &it) const;
+    zffinal const zfchar *attributeIteratorKey(ZF_IN const zfiterator &it) const;
     /** @brief see #zfiterator */
-    zffinal const zfchar *attributeIteratorGet(ZF_IN const zfiterator &it) const;
+    zffinal const zfchar *attributeIteratorValue(ZF_IN const zfiterator &it) const;
     /** @brief see #zfiterator */
     zffinal const zfchar *attributeIteratorNextKey(ZF_IN_OUT zfiterator &it) const;
     /** @brief see #zfiterator */
-    zffinal const zfchar *attributeIteratorNext(ZF_IN_OUT zfiterator &it) const;
+    zffinal const zfchar *attributeIteratorNextValue(ZF_IN_OUT zfiterator &it) const;
 
     /** @brief see #zfiterator */
     zffinal zfbool attributeIteratorResolved(ZF_IN const zfiterator &it) const;

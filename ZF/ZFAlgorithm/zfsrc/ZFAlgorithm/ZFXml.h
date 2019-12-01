@@ -173,9 +173,9 @@ public:
      *
      * note that the name is used for searching to access xml nodes
      */
-    void xmlNameSet(ZF_IN const zfchar *name);
+    void xmlName(ZF_IN const zfchar *name);
     /**
-     * @brief see #xmlNameSet
+     * @brief see #xmlName
      */
     const zfchar *xmlName(void) const;
 
@@ -192,14 +192,14 @@ public:
      * -  text: the text itself without tags if CDATA
      * -  comment: the comment itself without tags
      */
-    void xmlValueSet(ZF_IN const zfchar *value);
+    void xmlValue(ZF_IN const zfchar *value);
     /**
-     * @brief see #xmlValueSet
+     * @brief see #xmlValue
      */
     const zfchar *xmlValue(void) const;
 
-    zffinal void _ZFP_ZFXml_xmlMemoryPool_xmlNameSet(ZF_IN const zfchar *xmlName, ZF_IN void *token);
-    zffinal void _ZFP_ZFXml_xmlMemoryPool_xmlValueSet(ZF_IN const zfchar *xmlValue, ZF_IN void *token);
+    zffinal void _ZFP_ZFXml_xmlMemoryPool_xmlName(ZF_IN const zfchar *xmlName, ZF_IN void *token);
+    zffinal void _ZFP_ZFXml_xmlMemoryPool_xmlValue(ZF_IN const zfchar *xmlValue, ZF_IN void *token);
 
     // ============================================================
 public:
@@ -353,9 +353,9 @@ public:
     /**
      * @brief CDATA or not
      */
-    void xmlTextCDATASet(ZF_IN zfbool xmlTextCDATA);
+    void xmlTextCDATA(ZF_IN zfbool xmlTextCDATA);
     /**
-     * @brief see #xmlTextCDATASet
+     * @brief see #xmlTextCDATA
      */
     zfbool xmlTextCDATA(void) const;
 

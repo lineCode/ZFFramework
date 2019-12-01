@@ -31,7 +31,7 @@ void _ZFP_ZFUIImageSerializeTypeUnregister(ZF_IN const zfchar *name)
     m.erase(name);
 }
 
-void ZFUIImageSerializeTypeGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret)
+void ZFUIImageSerializeTypeGetAllT(ZF_IN_OUT ZFCoreArray<const zfchar *> &ret)
 {
     zfCoreMutexLocker();
     zfstlmap<zfstlstringZ, _ZFP_ZFUIImageSerializeFromCallback> &m = _ZFP_ZFUIImageSerializeDataMap();
@@ -190,7 +190,7 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
         }
 
         imageData = categoryData->copy();
-        imageData.categorySet(zfnull);
+        imageData.category(zfnull);
 
         categoryData->resolveMark();
     }
@@ -204,8 +204,8 @@ zfbool ZFUIImage::serializableOnSerializeFromData(ZF_IN const ZFSerializableData
         return zffalse;
     }
 
-    this->imageSerializableTypeSet(typeName);
-    this->imageSerializableDataSet(&imageData);
+    this->imageSerializableType(typeName);
+    this->imageSerializableData(&imageData);
 
     return zftrue;
 }
@@ -247,7 +247,7 @@ zfbool ZFUIImage::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &se
                 }
 
                 ZFSerializableData categoryData = this->imageSerializableData()->copy();
-                categoryData.categorySet(ZFSerializableKeyword_ZFUIImage_imageData);
+                categoryData.category(ZFSerializableKeyword_ZFUIImage_imageData);
                 serializableData.elementAdd(categoryData);
             }
         }
@@ -295,7 +295,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIImageScaleChangeListenerHolder, ZFLeve
 ZFListener globalImageScaleOnChangeListener;
 static ZFLISTENER_PROTOTYPE_EXPAND(globalImageScaleOnChange)
 {
-    const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv;
+    const ZFProperty *property = listenerData.param0<v_ZFProperty *>()->zfv;
     if(property == ZFPropertyAccess(ZFUIGlobalStyle, imageScale))
     {
         ZFUIImage *image = userData->objectHolded();
@@ -379,7 +379,7 @@ ZFMETHOD_DEFINE_0(ZFUIImage, void *, nativeImage)
     return d->nativeImage;
 }
 
-void ZFUIImage::nativeImageSet(ZF_IN void *nativeImage)
+void ZFUIImage::nativeImage(ZF_IN void *nativeImage)
 {
     void *toRelease = d->nativeImage;
 
@@ -399,7 +399,7 @@ void ZFUIImage::nativeImageSet(ZF_IN void *nativeImage)
     }
 }
 
-void ZFUIImage::imageSerializableTypeSet(ZF_IN const zfchar *typeName)
+void ZFUIImage::imageSerializableType(ZF_IN const zfchar *typeName)
 {
     zfsChange(d->serializableType, typeName);
 }
@@ -407,7 +407,7 @@ const zfchar *ZFUIImage::imageSerializableType(void)
 {
     return d->serializableType;
 }
-void ZFUIImage::imageSerializableDataSet(ZF_IN const ZFSerializableData *serializableData)
+void ZFUIImage::imageSerializableData(ZF_IN const ZFSerializableData *serializableData)
 {
     if(d->serializableData != zfnull)
     {
@@ -435,9 +435,9 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeFromBase64,
         void *nativeImage = ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageFromInput(io.inputCallback());
         if(nativeImage != zfnull)
         {
-            image->imageSerializableTypeSet(zfnull);
-            image->imageSerializableDataSet(zfnull);
-            image->nativeImageSet(nativeImage);
+            image->imageSerializableType(zfnull);
+            image->imageSerializableData(zfnull);
+            image->nativeImage(nativeImage);
             ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(nativeImage);
             return zftrue;
         }
@@ -481,9 +481,9 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFUIImageEncodeFromFile,
         void *nativeImage = ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageFromInput(inputCallback);
         if(nativeImage != zfnull)
         {
-            image->imageSerializableTypeSet(zfnull);
-            image->imageSerializableDataSet(zfnull);
-            image->nativeImageSet(nativeImage);
+            image->imageSerializableType(zfnull);
+            image->imageSerializableData(zfnull);
+            image->nativeImage(nativeImage);
             ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(nativeImage);
             return zftrue;
         }

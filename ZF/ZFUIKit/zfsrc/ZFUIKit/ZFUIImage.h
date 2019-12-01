@@ -63,7 +63,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFUIImageSerializeTypeUnregister(ZF_IN const zfch
                                                                     ZF_OUT_OPT ZFSerializableData *outErrorPos /* = zfnull */)
 
 /** @brief see #ZFUIImageSerializeTypeGetAll */
-extern ZF_ENV_EXPORT void ZFUIImageSerializeTypeGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret);
+extern ZF_ENV_EXPORT void ZFUIImageSerializeTypeGetAllT(ZF_IN_OUT ZFCoreArray<const zfchar *> &ret);
 /**
  * @brief usually for debug use only
  */
@@ -123,12 +123,6 @@ protected:
 protected:
     zfoverride
     virtual void styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable);
-    zfoverride
-    virtual zfbool styleKeyOnCheckValid(void)
-    {
-        return zfsuperI(ZFStyleable)::styleKeyOnCheckValid()
-            && this->nativeImage() != zfnull;
-    }
 
     // ============================================================
     // property
@@ -217,22 +211,22 @@ public:
      *
      * the image would be retained, actual retain logic is depending on the implementation
      */
-    virtual void nativeImageSet(ZF_IN void *nativeImage);
+    virtual void nativeImage(ZF_IN void *nativeImage);
 
     /**
      * @brief see #ZFUIIMAGE_SERIALIZE_TYPE_DEFINE
      */
-    virtual void imageSerializableTypeSet(ZF_IN const zfchar *typeName);
+    virtual void imageSerializableType(ZF_IN const zfchar *typeName);
     /**
-     * @brief see #imageSerializableTypeSet
+     * @brief see #imageSerializableType
      */
     virtual const zfchar *imageSerializableType(void);
     /**
      * @brief see #ZFUIIMAGE_SERIALIZE_TYPE_DEFINE
      */
-    virtual void imageSerializableDataSet(ZF_IN const ZFSerializableData *serializableData);
+    virtual void imageSerializableData(ZF_IN const ZFSerializableData *serializableData);
     /**
-     * @brief see #imageSerializableDataSet
+     * @brief see #imageSerializableData
      */
     virtual const ZFSerializableData *imageSerializableData(void);
 

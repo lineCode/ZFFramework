@@ -51,15 +51,15 @@ void ZFUIListCellViewBasic::objectOnInit(void)
 
     {
         d->cellCenterContainer = zfAlloc(ZFUILinearLayout);
-        d->cellCenterContainer->layoutOrientationSet(ZFUIOrientation::e_Top);
+        d->cellCenterContainer->layoutOrientation(ZFUIOrientation::e_Top);
 
         d->cellLabelMainContainer = zfAlloc(ZFUIViewLayout);
         d->cellCenterContainer->childAdd(d->cellLabelMainContainer);
-        d->cellLabelMainContainer->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
+        d->cellLabelMainContainer->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
 
         d->cellLabelSubContainer = zfAlloc(ZFUIViewLayout);
         d->cellCenterContainer->childAdd(d->cellLabelSubContainer);
-        d->cellLabelSubContainer->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
+        d->cellLabelSubContainer->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
     }
 
     d->cellAccessoryContainer = zfAlloc(ZFUIViewLayout);

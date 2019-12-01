@@ -27,12 +27,12 @@ protected:
 
         ZFLISTENER_LOCAL(eventFilter, {
             zfLogT() << "event filter";
-            listenerData.eventFilteredSet(zftrue);
+            listenerData.eventFiltered(zftrue);
         })
         ZFGlobalEventCenter::instance()->observerAdd(ZFObserverAddParam()
-            .eventIdSet(ZFGlobalEvent::EventZFCore_EventFilter_test())
-            .observerSet(eventFilter)
-            .observerLevelSet(ZFLevelAppHigh));
+            .eventId(ZFGlobalEvent::EventZFCore_EventFilter_test())
+            .observer(eventFilter)
+            .observerLevel(ZFLevelAppHigh));
 
         this->testCaseOutputSeparator();
         this->testCaseOutput("notify with event filter, only filter would be called");

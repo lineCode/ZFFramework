@@ -107,7 +107,7 @@ void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_cleanup(ZF_IN void *token)
 {
     delete ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *, token);
 }
-void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(ZF_IN void *token, ZF_IN zfbool v)
+void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusable(ZF_IN void *token, ZF_IN zfbool v)
 {
     _ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *t = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_FocusProxyToken *, token);
     if(v)

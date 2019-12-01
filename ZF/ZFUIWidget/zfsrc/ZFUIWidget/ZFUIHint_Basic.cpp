@@ -13,20 +13,20 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIHintMake,
     zfblockedAlloc(ZFUIHint, hint);
 
     zfblockedAlloc(ZFAnimationNativeView, hintAniShow);
-    hint->hintAniShowSet(hintAniShow);
-    hintAniShow->aniAlphaFromSet(0);
+    hint->hintAniShow(hintAniShow);
+    hintAniShow->aniAlphaFrom(0);
     zfblockedAlloc(ZFAnimationNativeView, hintAniHide);
-    hint->hintAniHideSet(hintAniHide);
-    hintAniHide->aniAlphaToSet(0);
+    hint->hintAniHide(hintAniHide);
+    hintAniHide->aniAlphaTo(0);
 
     zfblockedAlloc(ZFUIHintContentBasic, hintContent);
-    hint->hintContentSet(hintContent);
-    hintContent->buttonLabelTextSet(text);
-    hintContent->buttonIconImageSet(icon);
+    hint->hintContent(hintContent);
+    hintContent->buttonLabelText(text);
+    hintContent->buttonIconImage(icon);
 
     return hint;
 }
-ZFMETHOD_FUNC_DEFINE_INLINE_2(zfautoObject, ZFUIHintShow,
+ZFMETHOD_FUNC_INLINE_DEFINE_2(zfautoObject, ZFUIHintShow,
                               ZFMP_IN(const zfchar *, text),
                               ZFMP_IN_OPT(ZFUIImage *, icon, zfnull))
 

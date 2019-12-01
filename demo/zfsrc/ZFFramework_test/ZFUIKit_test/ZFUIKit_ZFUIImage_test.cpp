@@ -18,14 +18,14 @@ protected:
 
         zfblockedAlloc(ZFUIImageView, view);
         container->childAdd(view);
-        view->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        view->layoutParam()->sizeParam(ZFUISizeParamFillFill());
 
         // encode image to binary and load it again to test
         zfautoObject imageHolder = zfRes("test_normal.png");
         ZFIOBufferedCallbackUsingBuffer io;
         ZFUIImageEncodeToFile(io, imageHolder);
         zfautoObject imageNew = ZFUIImageEncodeFromFile(io);
-        view->imageSet(imageNew);
+        view->image(imageNew);
 
         this->prepareSettingButton(window, view);
     }

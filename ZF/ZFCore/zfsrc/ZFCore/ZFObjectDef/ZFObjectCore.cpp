@@ -1,6 +1,7 @@
 #include "ZFObjectSmartPointer.h"
 #include "ZFObjectImpl.h"
 #include "zfsynchronize.h"
+#include "ZFDynamicInvoker.h"
 
 #include "ZFCore/ZFSTLWrapper/zfstl_string.h"
 #include "ZFCore/ZFSTLWrapper/zfstl_map.h"
@@ -18,7 +19,7 @@ public:
     ZFObjectInstanceState objectInstanceState;
     ZFObjectHolder *objectHolder;
     void *mutexImpl;
-    _ZFP_ZFObjectTagMapType tagMap;
+    _ZFP_ZFObjectTagMapType objectTagMap;
     zfstlvector<const ZFProperty *> propertyAccessed;
     enum {
         stateFlag_objectIsPrivate = 1 << 0,
@@ -35,7 +36,7 @@ public:
     , objectInstanceState(ZFObjectInstanceStateOnInit)
     , objectHolder(zfnull)
     , mutexImpl(zfnull)
-    , tagMap()
+    , objectTagMap()
     , propertyAccessed()
     , stateFlags(0)
     {
@@ -86,7 +87,7 @@ ZFObjectHolder *ZFObject::objectHolder(void)
         if(d->objectHolder == zfnull)
         {
             d->objectHolder = zflockfree_zfAllocWithCache(ZFObjectHolder);
-            d->objectHolder->objectHoldedSet(this);
+            d->objectHolder->objectHolded(this);
         }
     }
     return d->objectHolder;
@@ -136,58 +137,95 @@ zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
                               , ZF_OUT_OPT zfstring *errorHint /* = zfnull */
                               )
 {
-    ZFCoreArrayPOD<const ZFMethod *> methodList = this->classData()->methodForNameGetAll(methodName);
-    zfstring errorHintTmp;
+    zfCoreMutexLock();
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM];
+    paramList[0].zflockfree_assign(param0);
+    paramList[1].zflockfree_assign(param1);
+    paramList[2].zflockfree_assign(param2);
+    paramList[3].zflockfree_assign(param3);
+    paramList[4].zflockfree_assign(param4);
+    paramList[5].zflockfree_assign(param5);
+    paramList[6].zflockfree_assign(param6);
+    paramList[7].zflockfree_assign(param7);
+    zflockfree_zfblockedAllocWithCache(v_zfstring, methodNameHolder);
+    methodNameHolder->zfv = methodName;
+    zfCoreMutexUnlock();
+
     zfautoObject ret;
-    const ZFMethod *m = zfnull;
-    for(zfindex i = 0; i < methodList.count(); ++i)
-    {
-        m = methodList[i];
-        zfautoObject paramList[ZFMETHOD_MAX_PARAM];
-        paramList[0].zflockfree_assign(param0);
-        paramList[1].zflockfree_assign(param1);
-        paramList[2].zflockfree_assign(param2);
-        paramList[3].zflockfree_assign(param3);
-        paramList[4].zflockfree_assign(param4);
-        paramList[5].zflockfree_assign(param5);
-        paramList[6].zflockfree_assign(param6);
-        paramList[7].zflockfree_assign(param7);
-        if(m->methodGenericInvoker()(m, this, &errorHintTmp, ret, paramList))
-        {
-            if(success != zfnull)
-            {
-                *success = zftrue;
-            }
-            return ret;
-        }
-    }
-    if(success != zfnull)
-    {
-        *success = zffalse;
-    }
-    if(methodList.isEmpty())
-    {
-        zfstringAppend(errorHint,
-            "no such method: %s",
-            methodName);
+    if(ZFDI_invoke(
+        ret
+        , errorHint
+        , this
+        , zfnull
+        , methodNameHolder
+        , zfindexMax()
+        , paramList
+    )) {
+        if(success != zfnull) {*success = zftrue;}
+        return ret;
     }
     else
     {
-        zfstringAppend(errorHint,
-            "no matching method to call, last error reason: %s, for method: %s",
-            methodName,
-            errorHintTmp.cString(),
-            m ? m->objectInfo().cString() : ZFTOKEN_zfnull);
+        if(success != zfnull) {*success = zffalse;}
+        return zfnull;
     }
-    return zfautoObjectNull();
+}
+zfautoObject ZFObject::invoke(ZF_IN const zfchar *methodName
+                              , ZF_IN_OPT const zfchar *param0 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param1 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param2 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param3 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param4 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param5 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param6 /* = zfnull */
+                              , ZF_IN_OPT const zfchar *param7 /* = zfnull */
+                              , ZF_OUT_OPT zfbool *success /* = zfnull */
+                              , ZF_OUT_OPT zfstring *errorHint /* = zfnull */
+                              )
+{
+    zfCoreMutexLock();
+    zfautoObject paramList[ZFMETHOD_MAX_PARAM];
+    zfindex paramCount = 0;
+    do {
+        if(param0 == zfnull) {paramCount = 0; break;} else {paramList[0] = zflockfree_zflineAlloc(ZFDI_Wrapper, param0);}
+        if(param1 == zfnull) {paramCount = 1; break;} else {paramList[1] = zflockfree_zflineAlloc(ZFDI_Wrapper, param1);}
+        if(param2 == zfnull) {paramCount = 2; break;} else {paramList[2] = zflockfree_zflineAlloc(ZFDI_Wrapper, param2);}
+        if(param3 == zfnull) {paramCount = 3; break;} else {paramList[3] = zflockfree_zflineAlloc(ZFDI_Wrapper, param3);}
+        if(param4 == zfnull) {paramCount = 4; break;} else {paramList[4] = zflockfree_zflineAlloc(ZFDI_Wrapper, param4);}
+        if(param5 == zfnull) {paramCount = 5; break;} else {paramList[5] = zflockfree_zflineAlloc(ZFDI_Wrapper, param5);}
+        if(param6 == zfnull) {paramCount = 6; break;} else {paramList[6] = zflockfree_zflineAlloc(ZFDI_Wrapper, param6);}
+        if(param7 == zfnull) {paramCount = 7; break;} else {paramList[7] = zflockfree_zflineAlloc(ZFDI_Wrapper, param7);}
+    } while(zffalse);
+    zflockfree_zfblockedAllocWithCache(v_zfstring, methodNameHolder);
+    methodNameHolder->zfv = methodName;
+    zfCoreMutexUnlock();
+
+    zfautoObject ret;
+    if(ZFDI_invoke(
+        ret
+        , errorHint
+        , this
+        , zfnull
+        , methodNameHolder
+        , paramCount
+        , paramList
+    )) {
+        if(success != zfnull) {*success = zftrue;}
+        return ret;
+    }
+    else
+    {
+        if(success != zfnull) {*success = zffalse;}
+        return zfnull;
+    }
 }
 
-zfbool ZFObject::tagHasSet(void)
+zfbool ZFObject::objectTagExist(void)
 {
-    return !(d->tagMap.empty());
+    return !(d->objectTagMap.empty());
 }
-void ZFObject::tagSet(ZF_IN const zfchar *key,
-                      ZF_IN ZFObject *tag)
+void ZFObject::objectTag(ZF_IN const zfchar *key,
+                         ZF_IN ZFObject *tag)
 {
     zfCoreMutexLocker();
     if(ZFBitTest(d->objectInstanceState, ZFObjectInstanceStateOnDealloc) && tag != zfnull)
@@ -202,7 +240,7 @@ void ZFObject::tagSet(ZF_IN const zfchar *key,
         return ;
     }
 
-    _ZFP_ZFObjectTagMapType &m = d->tagMap;
+    _ZFP_ZFObjectTagMapType &m = d->objectTagMap;
     _ZFP_ZFObjectTagMapType::iterator it = m.find(key);
     if(it == m.end())
     {
@@ -225,54 +263,54 @@ void ZFObject::tagSet(ZF_IN const zfchar *key,
         zflockfree_zfRelease(obj);
     }
 }
-ZFObject *ZFObject::tagGet(ZF_IN const zfchar *key)
+ZFObject *ZFObject::objectTag(ZF_IN const zfchar *key)
 {
     if(key != zfnull)
     {
         zfCoreMutexLocker();
-        _ZFP_ZFObjectTagMapType::iterator it = d->tagMap.find(key);
-        if(it != d->tagMap.end())
+        _ZFP_ZFObjectTagMapType::iterator it = d->objectTagMap.find(key);
+        if(it != d->objectTagMap.end())
         {
             return it->second.toObject();
         }
     }
     return zfnull;
 }
-void ZFObject::tagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
-                                 ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue)
+void ZFObject::objectTagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
+                                       ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue)
 {
     zfCoreMutexLocker();
-    _ZFP_ZFObjectTagMapType &m = d->tagMap;
-    allKey.capacitySet(allKey.count() + m.size());
-    allValue.capacitySet(allValue.count() + m.size());
+    _ZFP_ZFObjectTagMapType &m = d->objectTagMap;
+    allKey.capacity(allKey.count() + m.size());
+    allValue.capacity(allValue.count() + m.size());
     for(_ZFP_ZFObjectTagMapType::iterator it = m.begin(); it != m.end(); ++it)
     {
         allKey.add(it->first.c_str());
         allValue.add(it->second.toObject());
     }
 }
-zfautoObject ZFObject::tagRemoveAndGet(ZF_IN const zfchar *key)
+zfautoObject ZFObject::objectTagRemoveAndGet(ZF_IN const zfchar *key)
 {
     if(key != zfnull)
     {
         zfCoreMutexLocker();
-        _ZFP_ZFObjectTagMapType::iterator it = d->tagMap.find(key);
-        if(it != d->tagMap.end())
+        _ZFP_ZFObjectTagMapType::iterator it = d->objectTagMap.find(key);
+        if(it != d->objectTagMap.end())
         {
             zfautoObject ret;
             ret.zflockfree_assign(it->second);
-            d->tagMap.erase(it);
+            d->objectTagMap.erase(it);
             return ret;
         }
     }
     return zfnull;
 }
-void ZFObject::tagRemoveAll(void)
+void ZFObject::objectTagRemoveAll(void)
 {
-    if(!d->tagMap.empty())
+    if(!d->objectTagMap.empty())
     {
         _ZFP_ZFObjectTagMapType tmp;
-        tmp.swap(d->tagMap);
+        tmp.swap(d->objectTagMap);
     }
 }
 
@@ -466,7 +504,7 @@ void ZFObject::objectOnInit(void)
 
     // note that (d != zfnull) is also used to check whether ZFObject::objectOnInit() is called
     d = zfpoolNew(_ZFP_ZFObjectPrivate, this->classData());
-    this->observerHolder()._ZFP_ZFObserverHolder_observerOwnerSet(this);
+    this->observerHolder()._ZFP_ZFObserverHolder_observerOwner(this);
 }
 void ZFObject::objectOnDealloc(void)
 {
@@ -484,7 +522,7 @@ void ZFObject::objectOnDealloc(void)
 
     if(d->objectHolder)
     {
-        d->objectHolder->objectHoldedSet(zfnull);
+        d->objectHolder->objectHolded(zfnull);
         zfRelease(d->objectHolder);
     }
 
@@ -497,7 +535,7 @@ void ZFObject::objectOnInitFinish(void)
 }
 void ZFObject::objectOnDeallocPrepare(void)
 {
-    this->tagRemoveAll();
+    this->objectTagRemoveAll();
     this->observerRemoveAll();
 }
 void ZFObject::objectOnRetain(void)
@@ -587,13 +625,13 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_8(ZFObject, zfautoObject, invoke
         /* ZFMETHOD_MAX_PARAM , ZFMP_OUT_OPT(zfbool *, success, zfnull) */
         /* ZFMETHOD_MAX_PARAM , ZFMP_OUT_OPT(zfstring *, errorHint, zfnull) */
     )
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, zfbool, tagHasSet)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFObject, void, tagSet, ZFMP_IN(const zfchar *, key), ZFMP_IN(ZFObject *, tag))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, ZFObject *, tagGet, ZFMP_IN(const zfchar *, key))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFObject, void, tagGetAllKeyValue, ZFMP_IN_OUT(ZFCoreArray<const zfchar *> &, allKey), ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, allValue))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, void, tagRemove, ZFMP_IN(const zfchar *, key))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, zfautoObject, tagRemoveAndGet, ZFMP_IN(const zfchar *, key))
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, void, tagRemoveAll)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, zfbool, objectTagExist)
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFObject, void, objectTag, ZFMP_IN(const zfchar *, key), ZFMP_IN(ZFObject *, tag))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, ZFObject *, objectTag, ZFMP_IN(const zfchar *, key))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFObject, void, objectTagGetAllKeyValue, ZFMP_IN_OUT(ZFCoreArray<const zfchar *> &, allKey), ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, allValue))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, void, objectTagRemove, ZFMP_IN(const zfchar *, key))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, zfautoObject, objectTagRemoveAndGet, ZFMP_IN(const zfchar *, key))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, void, objectTagRemoveAll)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFObject, const ZFObserverHolder &, observerHolder)
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_6(ZFObject, zfidentity, observerAdd, ZFMP_IN(zfidentity, eventId), ZFMP_IN(const ZFListener &, observer), ZFMP_IN_OPT(ZFObject *, userData, zfnull), ZFMP_IN_OPT(ZFObject *, owner, zfnull), ZFMP_IN_OPT(zfbool, autoRemoveAfterActivate, zffalse), ZFMP_IN_OPT(ZFLevel, observerLevel, ZFLevelAppNormal))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObject, zfidentity, observerAdd, ZFMP_IN(const ZFObserverAddParam &, param))

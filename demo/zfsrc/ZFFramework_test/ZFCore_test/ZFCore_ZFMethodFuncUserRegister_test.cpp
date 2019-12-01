@@ -17,34 +17,52 @@ protected:
             this->testCaseOutputSeparator();
             this->testCaseOutput("try execute dynamically registered method");
 
-            ZFMethodFuncUserRegisterDetail_1(method, zfself::func1, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_1(method, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic"
                 , ZFMP_IN(zfstring const &, param0)
                 );
 
-            ZFMethodFuncUserRegisterDetail_0(method0, zfself::func0, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_0(method0, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic0"
                 );
 
-            ZFMethodFuncUserRegisterDetail_1(method1, zfself::func1, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_1(method1, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic1"
                 , ZFMP_IN(zfstring const &, param0)
                 );
 
-            ZFMethodFuncUserRegisterDetail_2(method2, zfself::func2, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_2(method2, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic2"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
                 );
 
-            ZFMethodFuncUserRegisterDetail_3(method3, zfself::func3, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_3(method3, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic3"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
                 , ZFMP_IN(zfstring const &, param2)
                 );
 
-            ZFMethodFuncUserRegisterDetail_4(method4, zfself::func4, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_4(method4, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic4"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -52,7 +70,10 @@ protected:
                 , ZFMP_IN(zfstring const &, param3)
                 );
 
-            ZFMethodFuncUserRegisterDetail_5(method5, zfself::func5, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_5(method5, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic5"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -61,7 +82,10 @@ protected:
                 , ZFMP_IN(zfstring const &, param4)
                 );
 
-            ZFMethodFuncUserRegisterDetail_6(method6, zfself::func6, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_6(method6, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic6"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -71,7 +95,10 @@ protected:
                 , ZFMP_IN(zfstring const &, param5)
                 );
 
-            ZFMethodFuncUserRegisterDetail_7(method7, zfself::func7, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_7(method7, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic7"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -82,7 +109,10 @@ protected:
                 , ZFMP_IN(zfstring const &, param6)
                 );
 
-            ZFMethodFuncUserRegisterDetail_8(method8, zfself::func8, "ZFCore_ZFMethodFuncUserRegister_testNamespace",
+            ZFMethodFuncUserRegisterDetail_8(method8, {
+                    zfLogT();
+                    return "returnValue";
+                }, "ZFCore_ZFMethodFuncUserRegister_testNamespace", ZF_CALLER_LINE,
                 zfstring, "funcDynamic8"
                 , ZFMP_IN(zfstring const &, param0)
                 , ZFMP_IN(zfstring const &, param1)
@@ -94,20 +124,20 @@ protected:
                 , ZFMP_IN(zfstring const &, param7)
                 );
 
-            zfstring ret = ZFMethodFuncGet("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcDynamic")
+            zfstring ret = ZFMethodForName("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcDynamic")
                 ->execute<zfstring, zfstring const &>(this, "paramValue");
             this->testCaseOutput("execute result: %s", ret.cString());
 
-            ZFMethodFuncUserUnregister(ZFMethodFuncGet("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcDynamic"));
+            ZFMethodFuncUserUnregister(ZFMethodForName("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcDynamic"));
 
             zfLogTrimT() << "after unregister, method:"
-                << ZFMethodFuncGet("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcDynamic");
+                << ZFMethodForName("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcDynamic");
 
             this->testCaseOutput("all list:");
             for(zfindex i = 0; i <= 8; ++i)
             {
                 this->testCaseOutput("  %s",
-                    ZFMethodFuncGet(
+                    ZFMethodForName(
                             "ZFCore_ZFMethodFuncUserRegister_testNamespace",
                             zfstringWithFormat("funcDynamic%zi", i)
                         )->objectInfo().cString()
@@ -116,7 +146,7 @@ protected:
 
             for(zfindex i = 0; i <= 8; ++i)
             {
-                ZFMethodFuncUserUnregister(ZFMethodFuncGet("ZFCore_ZFMethodFuncUserRegister_testNamespace",
+                ZFMethodFuncUserUnregister(ZFMethodForName("ZFCore_ZFMethodFuncUserRegister_testNamespace",
                         zfstringWithFormat("funcDynamic%zi", i))
                     );
             }
@@ -126,7 +156,7 @@ protected:
             this->testCaseOutputSeparator();
             this->testCaseOutput("try execute statically registered method");
 
-            zfstring ret = ZFMethodFuncGet("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcStatic")
+            zfstring ret = ZFMethodForName("ZFCore_ZFMethodFuncUserRegister_testNamespace", "funcStatic")
                 ->execute<zfstring, zfstring const &>(this, "paramValue");
             this->testCaseOutput("execute result: %s", ret.cString());
 
@@ -134,7 +164,7 @@ protected:
             for(zfindex i = 0; i <= ZFMETHOD_MAX_PARAM; ++i)
             {
                 this->testCaseOutput("  %s",
-                    ZFMethodFuncGet(
+                    ZFMethodForName(
                             "ZFCore_ZFMethodFuncUserRegister_testNamespace",
                             zfstringWithFormat("funcStatic%zi", i)
                         )->objectInfo().cString()
@@ -144,147 +174,69 @@ protected:
 
         this->testCaseStop();
     }
-
-public:
-    static zfstring func0(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func1(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func2(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func3(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        , ZF_IN zfstring const &param2
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func4(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        , ZF_IN zfstring const &param2
-        , ZF_IN zfstring const &param3
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func5(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        , ZF_IN zfstring const &param2
-        , ZF_IN zfstring const &param3
-        , ZF_IN zfstring const &param4
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func6(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        , ZF_IN zfstring const &param2
-        , ZF_IN zfstring const &param3
-        , ZF_IN zfstring const &param4
-        , ZF_IN zfstring const &param5
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func7(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        , ZF_IN zfstring const &param2
-        , ZF_IN zfstring const &param3
-        , ZF_IN zfstring const &param4
-        , ZF_IN zfstring const &param5
-        , ZF_IN zfstring const &param6
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
-    static zfstring func8(ZF_IN const ZFMethod *method, ZF_IN ZFObject *obj
-        , ZF_IN zfstring const &param0
-        , ZF_IN zfstring const &param1
-        , ZF_IN zfstring const &param2
-        , ZF_IN zfstring const &param3
-        , ZF_IN zfstring const &param4
-        , ZF_IN zfstring const &param5
-        , ZF_IN zfstring const &param6
-        , ZF_IN zfstring const &param7
-        )
-    {
-        zfLogT();
-        return "returnValue";
-    }
 };
 ZFOBJECT_REGISTER(ZFCore_ZFMethodFuncUserRegister_test)
 
 ZF_NAMESPACE_BEGIN(ZFCore_ZFMethodFuncUserRegister_testNamespace)
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_1(ZFCore_ZFMethodFuncUserRegister_test_funcStatic,
-    ZFCore_ZFMethodFuncUserRegister_test::func1,
-    zfstring, "funcStatic"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_1({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic
     , ZFMP_IN(zfstring const &, param0)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_0(ZFCore_ZFMethodFuncUserRegister_test_funcStatic0,
-    ZFCore_ZFMethodFuncUserRegister_test::func0,
-    zfstring, "funcStatic0"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_0({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic0
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_1(ZFCore_ZFMethodFuncUserRegister_test_funcStatic1,
-    ZFCore_ZFMethodFuncUserRegister_test::func1,
-    zfstring, "funcStatic1"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_1({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic1
     , ZFMP_IN(zfstring const &, param0)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_2(ZFCore_ZFMethodFuncUserRegister_test_funcStatic2,
-    ZFCore_ZFMethodFuncUserRegister_test::func2,
-    zfstring, "funcStatic2"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_2({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic2
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_3(ZFCore_ZFMethodFuncUserRegister_test_funcStatic3,
-    ZFCore_ZFMethodFuncUserRegister_test::func3,
-    zfstring, "funcStatic3"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_3({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic3
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     , ZFMP_IN(zfstring const &, param2)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_4(ZFCore_ZFMethodFuncUserRegister_test_funcStatic4,
-    ZFCore_ZFMethodFuncUserRegister_test::func4,
-    zfstring, "funcStatic4"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_4({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic4
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     , ZFMP_IN(zfstring const &, param2)
     , ZFMP_IN(zfstring const &, param3)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_5(ZFCore_ZFMethodFuncUserRegister_test_funcStatic5,
-    ZFCore_ZFMethodFuncUserRegister_test::func5,
-    zfstring, "funcStatic5"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_5({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic5
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     , ZFMP_IN(zfstring const &, param2)
@@ -292,9 +244,11 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_5(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     , ZFMP_IN(zfstring const &, param4)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_6(ZFCore_ZFMethodFuncUserRegister_test_funcStatic6,
-    ZFCore_ZFMethodFuncUserRegister_test::func6,
-    zfstring, "funcStatic6"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_6({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic6
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     , ZFMP_IN(zfstring const &, param2)
@@ -303,9 +257,11 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_6(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     , ZFMP_IN(zfstring const &, param5)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_7(ZFCore_ZFMethodFuncUserRegister_test_funcStatic7,
-    ZFCore_ZFMethodFuncUserRegister_test::func7,
-    zfstring, "funcStatic7"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_7({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic7
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     , ZFMP_IN(zfstring const &, param2)
@@ -315,9 +271,11 @@ ZFMETHOD_FUNC_USER_REGISTER_DETAIL_7(ZFCore_ZFMethodFuncUserRegister_test_funcSt
     , ZFMP_IN(zfstring const &, param6)
     )
 
-ZFMETHOD_FUNC_USER_REGISTER_DETAIL_8(ZFCore_ZFMethodFuncUserRegister_test_funcStatic8,
-    ZFCore_ZFMethodFuncUserRegister_test::func8,
-    zfstring, "funcStatic8"
+ZFMETHOD_FUNC_USER_REGISTER_DETAIL_8({
+        zfLogT();
+        return "returnValue";
+    }, ZF_NAMESPACE_CURRENT(), ZF_CALLER_LINE,
+    zfstring, funcStatic8
     , ZFMP_IN(zfstring const &, param0)
     , ZFMP_IN(zfstring const &, param1)
     , ZFMP_IN(zfstring const &, param2)

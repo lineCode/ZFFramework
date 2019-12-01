@@ -60,7 +60,7 @@ public:
     }
     /**
      * @brief true if this property is registered by #ZFPropertyDynamicRegister
-     *   with #ZFPropertyDynamicRegisterParam::propertyCustomImplSet
+     *   with #ZFPropertyDynamicRegisterParam::propertyCustomImpl
      */
     inline zfbool propertyIsDynamicRegisterWithCustomImpl(void) const
     {
@@ -94,11 +94,6 @@ public:
     }
     /**
      * @brief name for the property
-     *
-     * assume property's name is "myProperty",
-     * then the setter would be "myPropertySet",
-     * and the getter would be "myProperty",
-     * and getter name would return "myProperty"
      */
     inline const zfchar *propertyName(void) const
     {
@@ -133,7 +128,7 @@ public:
      */
     inline const ZFTypeInfo *propertyTypeIdData(void) const
     {
-        return ZFTypeInfoGet(this->propertyTypeId());
+        return ZFTypeInfoForName(this->propertyTypeId());
     }
     /**
      * @brief get the getter method
@@ -227,7 +222,7 @@ public:
 // ============================================================
 zfclassFwd ZFFilterForZFProperty;
 /** @brief see #ZFPropertyGetAll */
-extern ZF_ENV_EXPORT void ZFPropertyGetAllT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
+extern ZF_ENV_EXPORT void ZFPropertyGetAllT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret,
                                             ZF_IN_OPT const ZFFilterForZFProperty *propertyFilter = zfnull);
 /**
  * @brief get all property currently registered, for debug use only

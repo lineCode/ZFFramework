@@ -15,19 +15,19 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_OUT zfstring &ret, ZF_IN QWidget *view);
-inline zfstring ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfo(ZF_IN QWidget *view)
+extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_ZFUIKit_impl_viewInfoT(ZF_OUT zfstring &ret, ZF_IN QWidget *view);
+inline zfstring ZFImpl_sys_Qt_ZFUIKit_impl_viewInfo(ZF_IN QWidget *view)
 {
     zfstring ret;
-    ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ret, view);
+    ZFImpl_sys_Qt_ZFUIKit_impl_viewInfoT(ret, view);
     return ret;
 }
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN QWidget *view);
-inline zfstring ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree(ZF_IN QWidget *view)
+extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrintT(ZF_OUT zfstring &ret, ZF_IN QWidget *view);
+inline zfstring ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrint(ZF_IN QWidget *view)
 {
     zfstring ret;
-    ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTreeT(ret, view);
+    ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrintT(ret, view);
     return ret;
 }
 

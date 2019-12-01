@@ -88,7 +88,7 @@ ZFMETHOD_DEFINE_1(ZFCache, void, cacheAdd,
         }
     }
     cacheValue->observerRemoveAll();
-    cacheValue->tagRemoveAll();
+    cacheValue->objectTagRemoveAll();
     d->cacheList.push_back(cacheValue);
 }
 ZFMETHOD_DEFINE_0(ZFCache, zfautoObject, cacheGet)

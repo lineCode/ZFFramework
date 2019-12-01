@@ -12,10 +12,10 @@ zfbool ZFKeyValueContainer::serializableOnCheck(void)
 {
     if(!zfsuperI(ZFSerializable)::serializableOnCheck()) {return zffalse;}
 
-    for(zfiterator it = this->iterator(); this->iteratorIsValid(it); this->iteratorNext(it))
+    for(zfiterator it = this->iterator(); this->iteratorIsValid(it); this->iteratorNextValue(it))
     {
-        if(!ZFObjectIsSerializable(this->iteratorGetKey(it))
-            || !ZFObjectIsSerializable(this->iteratorGetValue(it)))
+        if(!ZFObjectIsSerializable(this->iteratorKey(it))
+            || !ZFObjectIsSerializable(this->iteratorValue(it)))
         {
             return zffalse;
         }
@@ -118,9 +118,9 @@ zfbool ZFKeyValueContainer::serializableOnSerializeToData(ZF_IN_OUT ZFSerializab
                 return zffalse;
             }
 
-            keyData.categorySet(ZFSerializableKeyword_ZFKeyValueContainer_key);
+            keyData.category(ZFSerializableKeyword_ZFKeyValueContainer_key);
             serializableData.elementAdd(keyData);
-            valueData.categorySet(ZFSerializableKeyword_ZFKeyValueContainer_value);
+            valueData.category(ZFSerializableKeyword_ZFKeyValueContainer_value);
             serializableData.elementAdd(valueData);
         }
     }
@@ -160,9 +160,9 @@ zfbool ZFKeyValueContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSer
                 return zffalse;
             }
 
-            keyData.categorySet(ZFSerializableKeyword_ZFKeyValueContainer_key);
+            keyData.category(ZFSerializableKeyword_ZFKeyValueContainer_key);
             serializableData.elementAdd(keyData);
-            valueData.categorySet(ZFSerializableKeyword_ZFKeyValueContainer_value);
+            valueData.category(ZFSerializableKeyword_ZFKeyValueContainer_value);
             serializableData.elementAdd(valueData);
         }
         return zftrue;
@@ -177,7 +177,7 @@ zfbool ZFKeyValueContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSer
         zfiterator itTmp = tmp->iteratorFind(pair.key);
         if(ref->iteratorIsValid(itTmp))
         {
-            if(ZFObjectCompare(pair.value, tmp->iteratorGetValue(itTmp)) == ZFCompareTheSame)
+            if(ZFObjectCompare(pair.value, tmp->iteratorValue(itTmp)) == ZFCompareTheSame)
             {
                 tmp->iteratorRemove(itTmp);
                 continue;
@@ -199,9 +199,9 @@ zfbool ZFKeyValueContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSer
             return zffalse;
         }
 
-        keyData.categorySet(ZFSerializableKeyword_ZFKeyValueContainer_key);
+        keyData.category(ZFSerializableKeyword_ZFKeyValueContainer_key);
         serializableData.elementAdd(keyData);
-        valueData.categorySet(ZFSerializableKeyword_ZFKeyValueContainer_value);
+        valueData.category(ZFSerializableKeyword_ZFKeyValueContainer_value);
         serializableData.elementAdd(valueData);
     }
 
@@ -268,8 +268,8 @@ zfidentity ZFKeyValueContainer::objectHash(void)
     if(this->iteratorIsValid(it))
     {
         return (zfidentity)(~((zfidentity)this->count()
-            | ((ZFObjectHash(this->iteratorGetKey(it)) << 16) & 0x00FF0000)
-            | ((ZFObjectHash(this->iteratorGetValue(it)) << 24) & 0xFF000000)));
+            | ((ZFObjectHash(this->iteratorKey(it)) << 16) & 0x00FF0000)
+            | ((ZFObjectHash(this->iteratorValue(it)) << 24) & 0xFF000000)));
     }
     else
     {

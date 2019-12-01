@@ -184,13 +184,13 @@ ZFIOBufferedCallbackUsingBuffer::~ZFIOBufferedCallbackUsingBuffer(void)
 ZFInput ZFIOBufferedCallbackUsingBuffer::inputCallback(void)
 {
     ZFInput ret = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFIOBufferedCallbackUsingBufferPrivate, onInput));
-    ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, d);
+    ret.callbackTag(ZFCallbackTagKeyword_ioOwner, d);
     return ret;
 }
 ZFOutput ZFIOBufferedCallbackUsingBuffer::outputCallback(void)
 {
     ZFOutput ret = ZFCallbackForMemberMethod(d, ZFMethodAccess(_ZFP_ZFIOBufferedCallbackUsingBufferPrivate, onOutput));
-    ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, d->outputIOOwner);
+    ret.callbackTag(ZFCallbackTagKeyword_ioOwner, d->outputIOOwner);
     return ret;
 }
 

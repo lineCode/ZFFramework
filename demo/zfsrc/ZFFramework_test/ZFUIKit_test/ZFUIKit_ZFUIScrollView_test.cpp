@@ -18,9 +18,9 @@ protected:
 
         zfblockedAlloc(ZFUIScrollView, scrollView);
         container->childAdd(scrollView);
-        scrollView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        scrollView->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
-        scrollView->viewBackgroundColorSet(ZFUIColorRed());
+        scrollView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        scrollView->layoutParam()->layoutMargin(ZFUIMarginMake(40));
+        scrollView->viewBackgroundColor(ZFUIColorRed());
 
         this->setupScrollListener(scrollView);
         this->setupScrollContent(scrollView, ZFUISizeMake(120), ZFUISizeMake(60), ZFUISizeMake(10));
@@ -28,10 +28,10 @@ protected:
 #if 1 // test embeded scroll view
         zfblockedAlloc(ZFUIScrollView, embededScrollView);
         scrollView->childAdd(embededScrollView);
-        embededScrollView->layoutParam()->layoutMarginSet(ZFUIMarginMake(80));
-        embededScrollView->layoutParam()->sizeHintSet(ZFUISizeMake(200, 100));
-        embededScrollView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        embededScrollView->viewBackgroundColorSet(ZFUIColorMake(0, 0, 1, 0.75f));
+        embededScrollView->layoutParam()->layoutMargin(ZFUIMarginMake(80));
+        embededScrollView->layoutParam()->sizeHint(ZFUISizeMake(200, 100));
+        embededScrollView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        embededScrollView->viewBackgroundColor(ZFUIColorMake(0, 0, 1, 0.75f));
 
         this->setupScrollListener(embededScrollView);
         this->setupScrollContent(embededScrollView, ZFUISizeMake(60), ZFUISizeMake(30), ZFUISizeMake(10));
@@ -45,32 +45,32 @@ private:
     {
 #if 1 // output logs during scroll event may cause performance issue
         ZFLISTENER_LOCAL(onDragBegin, {
-            zfLogTrimT() << "onDragBegin  " << listenerData.sender->objectInfoOfInstance() << listenerData.sender->to<ZFUIScrollView *>()->scrollContentFrame();
+            zfLogTrimT() << "onDragBegin  " << listenerData.sender()->objectInfoOfInstance() << listenerData.sender<ZFUIScrollView *>()->scrollContentFrame();
         })
         scrollView->observerAdd(ZFUIScrollView::EventScrollOnDragBegin(), onDragBegin);
 
         ZFLISTENER_LOCAL(onDrag, {
-            zfLogTrimT() << "onDrag       " << listenerData.sender->objectInfoOfInstance() << listenerData.sender->to<ZFUIScrollView *>()->scrollContentFrame();
+            zfLogTrimT() << "onDrag       " << listenerData.sender()->objectInfoOfInstance() << listenerData.sender<ZFUIScrollView *>()->scrollContentFrame();
         })
         scrollView->observerAdd(ZFUIScrollView::EventScrollOnDrag(), onDrag);
 
         ZFLISTENER_LOCAL(onDragEnd, {
-            zfLogTrimT() << "onDragEnd    " << listenerData.sender->objectInfoOfInstance() << listenerData.sender->to<ZFUIScrollView *>()->scrollContentFrame();
+            zfLogTrimT() << "onDragEnd    " << listenerData.sender()->objectInfoOfInstance() << listenerData.sender<ZFUIScrollView *>()->scrollContentFrame();
         })
         scrollView->observerAdd(ZFUIScrollView::EventScrollOnDragEnd(), onDragEnd);
 
         ZFLISTENER_LOCAL(onScrollBegin, {
-            zfLogTrimT() << "onScrollBegin" << listenerData.sender->objectInfoOfInstance() << listenerData.sender->to<ZFUIScrollView *>()->scrollContentFrame();
+            zfLogTrimT() << "onScrollBegin" << listenerData.sender()->objectInfoOfInstance() << listenerData.sender<ZFUIScrollView *>()->scrollContentFrame();
         })
         scrollView->observerAdd(ZFUIScrollView::EventScrollOnScrollBegin(), onScrollBegin);
 
         ZFLISTENER_LOCAL(onScroll, {
-            zfLogTrimT() << "onScroll     " << listenerData.sender->objectInfoOfInstance() << listenerData.sender->to<ZFUIScrollView *>()->scrollContentFrame();
+            zfLogTrimT() << "onScroll     " << listenerData.sender()->objectInfoOfInstance() << listenerData.sender<ZFUIScrollView *>()->scrollContentFrame();
         })
         scrollView->observerAdd(ZFUIScrollView::EventScrollOnScroll(), onScroll);
 
         ZFLISTENER_LOCAL(onScrollEnd, {
-            zfLogTrimT() << "onScrollEnd  " << listenerData.sender->objectInfoOfInstance() << listenerData.sender->to<ZFUIScrollView *>()->scrollContentFrame();
+            zfLogTrimT() << "onScrollEnd  " << listenerData.sender()->objectInfoOfInstance() << listenerData.sender<ZFUIScrollView *>()->scrollContentFrame();
         })
         scrollView->observerAdd(ZFUIScrollView::EventScrollOnScrollEnd(), onScrollEnd);
 #endif
@@ -81,7 +81,7 @@ private:
                             ZF_IN const ZFUISize &itemCount,
                             ZF_IN_OPT const ZFUIMargin &contentMargin = ZFUIMarginZero())
     {
-        scrollView->scrollContentFrameSet(ZFUIRectMake(
+        scrollView->scrollContentFrame(ZFUIRectMake(
             0,
             0,
             ZFUIMarginGetWidth(contentMargin) + itemSize.width + (itemSize.width + itemSpace.width) * itemCount.width,
@@ -97,13 +97,13 @@ private:
             {
                 zfblockedAlloc(ZFUIButton, btn);
                 scrollView->childAdd(btn);
-                btn->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-                btn->layoutParam()->sizeHintSet(itemSize);
-                btn->layoutParam()->layoutMarginSet(ZFUIMarginMake(x, y, 0, 0));
-                btn->viewBackgroundColorSet(ZFUIColorRandom(0.75f));
+                btn->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+                btn->layoutParam()->sizeHint(itemSize);
+                btn->layoutParam()->layoutMargin(ZFUIMarginMake(x, y, 0, 0));
+                btn->viewBackgroundColor(ZFUIColorRandom(0.75f));
 
                 ZFLISTENER_LOCAL(onClick, {
-                    zfLogTrimT() << "clicked" << listenerData.sender;
+                    zfLogTrimT() << "clicked" << listenerData.sender();
                 })
                 btn->observerAdd(ZFUIButton::EventButtonOnClick(), onClick);
             }
@@ -125,16 +125,16 @@ private:
         { // auto scroll x
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
-            setting->userDataSet(zflineAlloc(ZFObject));
-            setting->userData()->tagSet("scrollView", scrollView->objectHolder());
+            setting->userData(zflineAlloc(ZFObject));
+            setting->userData()->objectTag("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
                 text->zfv = zfstringWithFormat("autoScrollSpeedX: %d", scrollView->autoScrollSpeedX());
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
                 if(scrollView->autoScrollSpeedX() == 0)
                 {
                     scrollView->autoScrollStartX(_ZFP_ZFUIKit_ZFUIScrollView_test_autoScrollSpeed * ((zfmRand(2) == 0) ? 1 : -1));
@@ -144,21 +144,21 @@ private:
                     scrollView->autoScrollStopX();
                 }
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
         { // auto scroll y
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
-            setting->userDataSet(zflineAlloc(ZFObject));
-            setting->userData()->tagSet("scrollView", scrollView->objectHolder());
+            setting->userData(zflineAlloc(ZFObject));
+            setting->userData()->objectTag("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
                 text->zfv = zfstringWithFormat("autoScrollSpeedY: %d", scrollView->autoScrollSpeedY());
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
                 if(scrollView->autoScrollSpeedY() == 0)
                 {
                     scrollView->autoScrollStartY(_ZFP_ZFUIKit_ZFUIScrollView_test_autoScrollSpeed * ((zfmRand(2) == 0) ? 1 : -1));
@@ -168,41 +168,41 @@ private:
                     scrollView->autoScrollStopY();
                 }
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
 
         { // scroll child to visible
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
-            setting->userDataSet(zflineAlloc(ZFObject));
-            setting->userData()->tagSet("scrollView", scrollView->objectHolder());
+            setting->userData(zflineAlloc(ZFObject));
+            setting->userData()->objectTag("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
                 text->zfv = "scrollChildToVisible";
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
                 zfindex index = scrollView->childCount() / 2;
                 scrollView->scrollChildToVisible(scrollView->childAtIndex(index));
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
 
         { // scrollAreaMargin
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
-            setting->userDataSet(zflineAlloc(ZFObject));
-            setting->userData()->tagSet("scrollView", scrollView->objectHolder());
+            setting->userData(zflineAlloc(ZFObject));
+            setting->userData()->objectTag("scrollView", scrollView->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
                 text->zfv = zfstringWithFormat("scrollAreaMargin: %s",
                     ZFUIMarginToString(scrollView->scrollAreaMargin()).cString());
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
-                ZFUIScrollView *scrollView = userData->tagGet("scrollView")->objectHolded();
+                ZFUIScrollView *scrollView = userData->objectTag("scrollView")->objectHolded();
                 if(scrollView->scrollAreaMargin().left >= 40)
                 {
                     scrollView->scrollAreaMarginRemove(scrollView->scrollAreaMargin());
@@ -212,7 +212,7 @@ private:
                     scrollView->scrollAreaMarginAdd(ZFUIMarginMake(20));
                 }
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
 
         ZFUIKit_test_prepareSettingButtonWithTestWindow(window, settings);

@@ -103,7 +103,7 @@ ZFMETHOD_FUNC_DECLARE_1(zfstring, ZFFilePathParentOf,
  * @note path must be well formed, use #ZFFilePathFormat if necessary
  */
 ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFFilePathComponentsOf,
-                        ZFMP_OUT(ZFCoreArray<zfstring> &, ret),
+                        ZFMP_IN_OUT(ZFCoreArray<zfstring> &, ret),
                         ZFMP_IN(const zfchar *, src))
 /** @brief see #ZFFilePathComponentsOf */
 ZFMETHOD_FUNC_DECLARE_1(ZFCoreArray<zfstring>, ZFFilePathComponentsOf,
@@ -187,8 +187,8 @@ ZFMETHOD_FUNC_DECLARE_4(void, ZFFilePathInfoTreePrint,
  * usage:
  * @code
  *   ZFLISTENER_LOCAL(fileCallback, {
- *       const ZFPathInfo &pathInfo = listenerData.param0->to<v_ZFPathInfo *>()->zfv;
- *       const ZFFileFindData &fd = listenerData.param1->to<v_ZFFileFindData *>()->zfv;
+ *       const ZFPathInfo &pathInfo = listenerData.param0<v_ZFPathInfo *>()->zfv;
+ *       const ZFFileFindData &fd = listenerData.param1<v_ZFFileFindData *>()->zfv;
  *       // do your things with the file
  *   })
  *   ZFFilePathInfoForEach(pathInfo, fileCallback);

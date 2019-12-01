@@ -4,16 +4,16 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
 ZFMETHOD_FUNC_DEFINE_3(zfautoObjectT<ZFAnimationTimeLine *>, ZFAni,
-                        ZFMP_IN(ZFObject *, target),
-                        ZFMP_IN(const ZFListener &, aniImpl),
-                        ZFMP_IN_OPT(ZFObject *, userData, zfnull))
+                       ZFMP_IN(ZFObject *, target),
+                       ZFMP_IN(const ZFListener &, aniImpl),
+                       ZFMP_IN_OPT(ZFObject *, userData, zfnull))
 {
     zfblockedAlloc(ZFAnimationTimeLine, ani);
     ZFLISTENER_LAMBDA_2(aniImplWrap
             , zfautoObject, target
             , ZFListener, aniImpl
         , {
-            aniImpl.execute(ZFListenerData(zfidentityInvalid(), target, listenerData.param0), userData);
+            aniImpl.execute(ZFListenerData(zfidentityInvalid(), target, listenerData.param0()), userData);
         })
     ani->observerAdd(ZFAnimationTimeLine::EventAniTimeLineOnUpdate(), aniImplWrap, userData);
     return ani;
@@ -38,15 +38,15 @@ static zfautoObjectT<ZFAnimationTimeLine *> _ZFP_ZFAni(ZF_IN ZFObject *target,
                 , zfautoObject, from
                 , zfautoObject, to
             , {
-                ZFProgressable *value = getterMethod->methodGenericInvoke(listenerData.sender);
+                ZFProgressable *value = getterMethod->methodGenericInvoke(listenerData.sender());
                 if(value != zfnull)
                 {
-                    value->progressUpdate(from, to, listenerData.param0->to<v_zffloat *>()->zfv);
+                    value->progressUpdate(from, to, listenerData.param0<v_zffloat *>()->zfv);
                 }
             })
         return ZFAni(target, aniImpl);
     }
-    const ZFTypeInfo *typeInfo = ZFTypeInfoGet(getterMethod->methodReturnTypeId());
+    const ZFTypeInfo *typeInfo = ZFTypeInfoForName(getterMethod->methodReturnTypeId());
     if(typeInfo == zfnull)
     {
         return zfnull;
@@ -64,11 +64,11 @@ static zfautoObjectT<ZFAnimationTimeLine *> _ZFP_ZFAni(ZF_IN ZFObject *target,
                 return ;
             }
             ZFProgressable *value = valueHolder;
-            if(value == zfnull || !value->progressUpdate(from, to, listenerData.param0->to<v_zffloat *>()->zfv))
+            if(value == zfnull || !value->progressUpdate(from, to, listenerData.param0<v_zffloat *>()->zfv))
             {
                 return ;
             }
-            setterMethod->methodGenericInvoke(listenerData.sender, valueHolder);
+            setterMethod->methodGenericInvoke(listenerData.sender(), valueHolder);
         })
     return ZFAni(target, aniImpl);
 }
@@ -134,7 +134,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfautoObjectT<ZFAnimationTimeLine *>, ZFAni,
         }
         return _ZFP_ZFAni(target, setterMethod, getterMethod, fromHolder, toHolder);
     }
-    const ZFTypeInfo *typeInfo = ZFTypeInfoGet(typeId);
+    const ZFTypeInfo *typeInfo = ZFTypeInfoForName(typeId);
     if(typeInfo == zfnull)
     {
         return zfnull;

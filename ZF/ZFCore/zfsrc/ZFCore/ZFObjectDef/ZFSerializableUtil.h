@@ -212,7 +212,7 @@ extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &s
                     "failed to convert %s to string", key); \
                 return zffalse; \
             } \
-            serializableData.attributeSet(key, valueString); \
+            serializableData.attributeForName(key, valueString); \
         } \
     } while(zffalse)
 
@@ -245,7 +245,7 @@ extern ZF_ENV_EXPORT zfbool printResolveStatus(ZF_IN const ZFSerializableData &s
             { \
                 return zffalse; \
             } \
-            categoryData.categorySet(key); \
+            categoryData.category(key); \
             serializableData.elementAdd(categoryData); \
         } \
     } while(zffalse)

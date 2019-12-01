@@ -15,8 +15,8 @@ typedef zfbool (*ZFFilePathInfoCallbackIsExist)(ZF_IN const zfchar *pathData);
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
 typedef zfbool (*ZFFilePathInfoCallbackIsDir)(ZF_IN const zfchar *pathData);
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
-typedef zfbool (*ZFFilePathInfoCallbackGetFileName)(ZF_IN const zfchar *pathData,
-                                                    ZF_IN_OUT zfstring &fileName);
+typedef zfbool (*ZFFilePathInfoCallbackToFileName)(ZF_IN const zfchar *pathData,
+                                                   ZF_IN_OUT zfstring &fileName);
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
 typedef zfbool (*ZFFilePathInfoCallbackToChild)(ZF_IN const zfchar *pathData,
                                                 ZF_IN_OUT zfstring &pathDataChild,
@@ -75,8 +75,8 @@ extern ZF_ENV_EXPORT zfbool ZFFilePathInfoCallbackIsExistDefault(ZF_IN const zfc
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
 extern ZF_ENV_EXPORT zfbool ZFFilePathInfoCallbackIsDirDefault(ZF_IN const zfchar *pathData);
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
-extern ZF_ENV_EXPORT zfbool ZFFilePathInfoCallbackGetFileNameDefault(ZF_IN const zfchar *pathData,
-                                                                     ZF_IN_OUT zfstring &fileName);
+extern ZF_ENV_EXPORT zfbool ZFFilePathInfoCallbackToFileNameDefault(ZF_IN const zfchar *pathData,
+                                                                    ZF_IN_OUT zfstring &fileName);
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
 extern ZF_ENV_EXPORT zfbool ZFFilePathInfoCallbackToChildDefault(ZF_IN const zfchar *pathData,
                                                                  ZF_IN_OUT zfstring &pathDataChild,
@@ -137,7 +137,7 @@ ZFMETHOD_FUNC_DECLARE_1(zfbool, ZFFilePathInfoIsExist,
 ZFMETHOD_FUNC_DECLARE_1(zfbool, ZFFilePathInfoIsDir,
                         ZFMP_IN(const ZFPathInfo &, pathInfo))
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
-ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFFilePathInfoGetFileName,
+ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFFilePathInfoToFileName,
                         ZFMP_IN(const ZFPathInfo &, pathInfo),
                         ZFMP_IN_OUT(zfstring &, fileName))
 /** @brief see #ZFPATHTYPE_FILEIO_REGISTER */
@@ -227,7 +227,7 @@ zfclassPOD ZFFilePathInfoData
 public:
     ZFFilePathInfoCallbackIsExist callbackIsExist; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
     ZFFilePathInfoCallbackIsDir callbackIsDir; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
-    ZFFilePathInfoCallbackGetFileName callbackGetFileName; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
+    ZFFilePathInfoCallbackToFileName callbackToFileName; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
     ZFFilePathInfoCallbackToChild callbackToChild; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
     ZFFilePathInfoCallbackToParent callbackToParent; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
     ZFFilePathInfoCallbackPathCreate callbackPathCreate; /**< @brief see #ZFPATHTYPE_FILEIO_REGISTER */
@@ -264,7 +264,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFFilePathInfoUnregister(ZF_IN const zfchar *path
 #define ZFPATHTYPE_FILEIO_REGISTER(registerSig, pathType \
         , callbackIsExist_ \
         , callbackIsDir_ \
-        , callbackGetFileName_ \
+        , callbackToFileName_ \
         , callbackToChild_ \
         , callbackToParent_ \
         , callbackPathCreate_ \
@@ -288,7 +288,7 @@ extern ZF_ENV_EXPORT void _ZFP_ZFFilePathInfoUnregister(ZF_IN const zfchar *path
         ZFFilePathInfoData data; \
         data.callbackIsExist = callbackIsExist_; \
         data.callbackIsDir = callbackIsDir_; \
-        data.callbackGetFileName = callbackGetFileName_; \
+        data.callbackToFileName = callbackToFileName_; \
         data.callbackToChild = callbackToChild_; \
         data.callbackToParent = callbackToParent_; \
         data.callbackPathCreate = callbackPathCreate_; \
@@ -317,9 +317,9 @@ extern ZF_ENV_EXPORT void _ZFP_ZFFilePathInfoUnregister(ZF_IN const zfchar *path
 /**
  * @brief get data registered by #ZFPATHTYPE_FILEIO_REGISTER
  */
-extern ZF_ENV_EXPORT const ZFFilePathInfoData *ZFFilePathInfoDataGet(ZF_IN const zfchar *pathType);
+extern ZF_ENV_EXPORT const ZFFilePathInfoData *ZFFilePathInfoDataForPathType(ZF_IN const zfchar *pathType);
 /** @brief see #ZFFilePathInfoDataGetAll */
-extern ZF_ENV_EXPORT void ZFFilePathInfoDataGetAllT(ZF_OUT ZFCoreArrayPOD<const zfchar *> &ret);
+extern ZF_ENV_EXPORT void ZFFilePathInfoDataGetAllT(ZF_IN_OUT ZFCoreArrayPOD<const zfchar *> &ret);
 /**
  * @brief get all data registered by #ZFPATHTYPE_FILEIO_REGISTER
  */

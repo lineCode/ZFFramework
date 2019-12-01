@@ -93,11 +93,11 @@ inline ZFUIColor ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColor(ZF_IN jint j
 #define ZFImpl_sys_Android_JNI_ID_ZFAndroidUI ZFImpl_sys_Android_JNI_ID(NativeUtil_ZFAndroidUI)
 #define ZFImpl_sys_Android_JNI_NAME_ZFAndroidUI ZFImpl_sys_Android_JNI_NAME(NativeUtil.ZFAndroidUI)
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_Android_ViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView);
-inline zfstring ZFImpl_sys_Android_ViewGetViewTree(ZF_IN jobject nativeView)
+extern ZF_ENV_EXPORT void ZFImpl_sys_Android_viewTreePrintT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView);
+inline zfstring ZFImpl_sys_Android_viewTreePrint(ZF_IN jobject nativeView)
 {
     zfstring ret;
-    ZFImpl_sys_Android_ViewGetViewTreeT(ret, nativeView);
+    ZFImpl_sys_Android_viewTreePrintT(ret, nativeView);
     return ret;
 }
 

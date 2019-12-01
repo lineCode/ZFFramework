@@ -201,9 +201,8 @@ protected:
     /**
      * @brief set the #pageCreateParam, usually set by owner page manager only
      */
-    ZFMETHOD_INLINE_DETAIL_1(protected, ZFMethodTypeVirtual,
-                             void, pageCreateParamSet,
-                             ZFMP_IN(ZFObject * const &, pageCreateParam))
+    ZFMETHOD_INLINE_PROTECTED_1(void, pageCreateParam,
+                                ZFMP_IN(ZFObject * const &, pageCreateParam))
     {
         zfRetainChange(this->_ZFP_ZFUIPage_pageCreateParam, pageCreateParam);
     }
@@ -331,7 +330,7 @@ protected:
     {
         this->_ZFP_ZFUIPage_pageOnDestroyCalled = zftrue;
         this->_ZFP_ZFUIPage_pageAniCanChange = zftrue;
-        this->pageAniSet(zfnull);
+        this->pageAni(zfnull);
         this->_ZFP_ZFUIPage_pageAniCanChange = zffalse;
         this->toObject()->observerNotify(zfself::EventPageOnDestroy());
     }
@@ -415,10 +414,10 @@ public:
      * you may override the method to override the animation\n
      * this value would be reset to null when animation stopped or page destroyed\n
      */
-    ZFMETHOD_DECLARE_1(void, pageAniSet,
+    ZFMETHOD_DECLARE_1(void, pageAni,
                        ZFMP_IN(ZFAnimation *, pageAni))
     /**
-     * @brief see #pageAniSet
+     * @brief see #pageAni
      */
     ZFMETHOD_INLINE_0(ZFAnimation *, pageAni)
     {

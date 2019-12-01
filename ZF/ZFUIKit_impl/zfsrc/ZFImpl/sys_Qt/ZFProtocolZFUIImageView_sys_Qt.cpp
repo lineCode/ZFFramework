@@ -82,8 +82,8 @@ public:
         delete ZFCastStatic(_ZFP_ZFUIImageViewImpl_sys_Qt_ImageView *, nativeImageView);
     }
 
-    virtual void imageSet(ZF_IN ZFUIImageView *imageView,
-                          ZF_IN ZFUIImage *image)
+    virtual void image(ZF_IN ZFUIImageView *imageView,
+                       ZF_IN ZFUIImage *image)
     {
         _ZFP_ZFUIImageViewImpl_sys_Qt_ImageView *nativeImplView = ZFCastStatic(_ZFP_ZFUIImageViewImpl_sys_Qt_ImageView *, imageView->nativeImplView());
         nativeImplView->update();

@@ -8,11 +8,6 @@ JNIUtil::JNIString &_AndroidLogTagDefault(void)
     static JNIUtil::JNIString _s = "JNI log";
     return _s;
 }
-void AndroidLogTagDefaultSet(const char *s)
-{
-    _AndroidLogTagDefault() = ((s == NULL) ? "" : s);
-}
 
 }
-
 #endif

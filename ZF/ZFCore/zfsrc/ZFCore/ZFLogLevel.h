@@ -14,7 +14,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * @brief log level
  *
  * similar to Android's Log.v() to Log.e()\n
- * app's global log level can be set or get by #ZFLogLevelSet/#ZFLogLevelGet,
+ * app's global log level can be set or get by #ZFLogLevelDefault,
  * you may achieve your own log level specified behavior\n
  * it's ensured lower level has smaller value
  */
@@ -38,23 +38,23 @@ ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
 /**
  * @brief see #ZFObject::observerNotify
  *
- * notified when #ZFLogLevelSet called
+ * notified when #ZFLogLevelDefault changed
  */
 ZFOBSERVER_EVENT_GLOBAL(LogLevelOnChange)
 ZF_NAMESPACE_END(ZFGlobalEvent)
 
 /** @brief see #ZFLogLevel, #ZFLogLevel::e_Warning by default */
-extern ZF_ENV_EXPORT void ZFLogLevelSet(ZF_IN ZFLogLevelEnum level);
+extern ZF_ENV_EXPORT void ZFLogLevelDefault(ZF_IN ZFLogLevelEnum level);
 /** @brief see #ZFLogLevel */
-extern ZF_ENV_EXPORT ZFLogLevelEnum ZFLogLevelGet(void);
+extern ZF_ENV_EXPORT ZFLogLevelEnum ZFLogLevelDefault(void);
 
 /**
  * @brief true if specified level is active
- *   (i.e. #ZFLogLevelGet not greater than the specified level)
+ *   (i.e. #ZFLogLevelDefault not greater than the specified level)
  */
 inline zfbool ZFLogLevelIsActive(ZF_IN ZFLogLevelEnum level)
 {
-    return (ZFLogLevelGet() <= level);
+    return (ZFLogLevelDefault() <= level);
 }
 
 ZF_NAMESPACE_GLOBAL_END

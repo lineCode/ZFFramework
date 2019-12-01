@@ -19,12 +19,12 @@ protected:
 
         zfblockedAlloc(ZFUIKit_test_Button, button);
         container->childAdd(button);
-        button->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        button->buttonLabelTextSet("click me");
+        button->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
+        button->buttonLabelText("click me");
 
         ZFLISTENER_LOCAL(buttonOnClick, {
-            zfLogTrimT() << "window size:" << ZFUIViewUtil::viewRoot(listenerData.sender->to<ZFUIView *>())->viewFrame().size;
-            zfLogTrimT() << "clicked view's position:" << ZFUIViewPositionOnScreen(listenerData.sender->toAny());
+            zfLogTrimT() << "window size:" << ZFUIViewUtil::viewRoot(listenerData.sender<ZFUIView *>())->viewFrame().size;
+            zfLogTrimT() << "clicked view's position:" << ZFUIViewPositionOnScreen(listenerData.sender()->toAny());
         })
         button->observerAdd(ZFUIButton::EventButtonOnClick(), buttonOnClick);
     }

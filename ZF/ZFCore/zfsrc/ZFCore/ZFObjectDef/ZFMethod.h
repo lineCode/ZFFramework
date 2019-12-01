@@ -158,7 +158,7 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  *   zfclass YourClass : zfextends ZFObject
  *   {
  *       ZFOBJECT_DECLARE(YourClass, ZFObject)
- *       ZFMETHOD_INLINE_0(void, yourMethod); // declare only
+ *       ZFMETHOD_DECLARE_0(void, yourMethod) // declare only
  *   };
  *
  *   // YourClass.cpp
@@ -167,14 +167,14 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  *       // method code here
  *   }
  * @endcode
- * you can use any types for return value and param, including reference type,
- * while the param's num is limited to #ZFMETHOD_MAX_PARAM\n
+ * param and return type must registered by #ZFTYPEID_DECLARE series,
+ * and the param's num is limited to #ZFMETHOD_MAX_PARAM\n
  * \n
- * the ZFMETHOD_INLINE_XXX macro takes many params,
+ * the ZFMETHOD_XXX macro takes many params,
  * to walk through it, let's take a example:
  * @code
- *   ZFMETHOD_INLINE_DETAIL_2(
- *       PublicOrProtectedOrPrivate, ZFMethodType_,
+ *   ZFMETHOD_DECLARE_DETAIL_2(
+ *       PublicOrProtectedOrPrivate, ZFMethodType_, RegSig,
  *       ReturnType, MethodName
  *       , ZFMP_IN(ParamType0, param0)
  *       , ZFMP_IN_OPT(ParamType1, param1, DefaultValue1)
@@ -184,47 +184,41 @@ typedef zfautoObject (*ZFMethodParamDefaultValueCallback)(void);
  *   could be: public, protected, private
  * -  ZFMethodType_ indicates the method's type,
  *   could be: ZFMethodTypeStatic, ZFMethodTypeVirtual, ZFMethodTypeNormal
+ * -  RegSig used to differ the method from overloaded method,
+ *   you may use #ZF_CALLER_LINE for most case
  * -  ReturnType is the method's return value's type,
- *   could be any types
+ *   could be any types that are registerd by #ZFTYPEID_DECLARE
  * -  MethodName is the method's name
  * -  ParamTypeN is the type of param at index N,
- *   could be any types
- * -  paramN is the name of param at index N,
- *   could be any string valid for a variable name
+ *   could be any types that are registerd by #ZFTYPEID_DECLARE
+ * -  paramN is the name of param at index N
  * -  DefaultValueN is the default value for the param
  *
  * to override a method declared in parent,
  * simply override like normal virtual functions\n
- * overrided method isn't belong to subclass,
- * they still can only be found by parent's ZFClass\n
  * \n
  * once declared, the method would be automatically registered to
- * it's owner class when at least one instance created\n
- * also, similar to #ZFOBJECT_REGISTER,
- * you can add ZFMETHOD_REGISTER to your header file or cpp file to
- * statically register ZFMethod, so that you may access the method
- * even if none of instance ever created\n
+ * it's owner class when it's owner class registered, see also #ZFOBJECT_REGISTER\n
  * \n
  * to access the method, use ZFMethodAccess/ZFMethodAccessDetail_0 is recommended:
  * @code
  *   const ZFMethod *method = ZFMethodAccess(YourClassType, yourMethodName);
  * @endcode
  * also, you may use ZFClass's member function to reflect from string,
- * such as methodForName (see #ZFClass for more info)\n
+ * such as #ZFClass::methodForName\n
  * \n
  * once you have successfully get the ZFMethod data,
  * you can execute it without knowing the owner's class type:
  * @code
  *   const ZFClass *cls = ...; // we may not know the actual class type
  *   const ZFMethod *method = cls->methodForName("someMethod");
- *   zfautoObject objTmp = cls->newInstance();
- *   ZFObject *obj = objTmp.toObject();
+ *   zfautoObject obj = cls->newInstance();
  *
  *   // execute
  *   YourReturnType result = method->execute<YourReturnType, ParamType...>(obj, someParam...);
  *
  *   // or, you may use generic version:
- *   method->execute<YourReturnType, ParamType...>(obj, someParam...);
+ *   zfautoObject result2 = method->methodGenericInvoke(obj, someParam...);
  * @endcode
  * @warning you take the full responsibility to make sure
  *   the ReturnType and ParamType exactly match the method,
@@ -443,7 +437,7 @@ public:
      * @note the methodInvoker is ensured not null for normal method
      *   and user registered method,
      *   and may be null for dynamic registered method (#ZFMethodDynamicRegister),
-     *   you may change it by #methodInvokerSet
+     *   you may change it by #methodInvoker
      */
     inline ZFFuncAddrType methodInvoker(void) const
     {
@@ -471,9 +465,9 @@ public:
      *     method->execute<void>(obj); // would be affected
      *   @endcode
      */
-    void methodInvokerSet(ZF_IN ZFFuncAddrType methodInvoker) const;
+    void methodInvoker(ZF_IN ZFFuncAddrType methodInvoker) const;
     /**
-     * @brief see #methodInvokerSet
+     * @brief see #methodInvoker
      */
     inline ZFFuncAddrType methodInvokerOrg(void) const
     {
@@ -536,7 +530,7 @@ public:
                                      ) const;
     /* ZFMETHOD_MAX_PARAM */
     /**
-     * @brief see #methodGenericInvokerSet
+     * @brief see #methodGenericInvoker
      */
     inline ZFMethodGenericInvoker methodGenericInvokerOrg(void) const
     {
@@ -548,7 +542,7 @@ public:
      *
      * the original invoker can be accessed by #methodGenericInvokerOrg
      */
-    void methodGenericInvokerSet(ZF_IN ZFMethodGenericInvoker methodGenericInvoker) const;
+    void methodGenericInvoker(ZF_IN ZFMethodGenericInvoker methodGenericInvoker) const;
 
     // ============================================================
     // class member type
@@ -715,15 +709,59 @@ public:
 // ============================================================
 zfclassFwd ZFFilterForZFMethod;
 /** @brief see #ZFMethodGetAll */
-extern ZF_ENV_EXPORT void ZFMethodGetAllT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
+extern ZF_ENV_EXPORT void ZFMethodGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
                                           ZF_IN_OPT const ZFFilterForZFMethod *methodFilter = zfnull);
 /**
- * @brief get all method currently registered, for debug use only
+ * @brief get all method currently registered
+ *
+ * note, this method may cause performance issue
+ * if you have many method registered,
+ * use with caution\n
+ * use #ZFMethodForName or #ZFMethodGetAllFunc if necessary
  */
 inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodGetAll(ZF_IN_OPT const ZFFilterForZFMethod *methodFilter = zfnull)
 {
     ZFCoreArrayPOD<const ZFMethod *> ret;
     ZFMethodGetAllT(ret, methodFilter);
+    return ret;
+}
+
+// ============================================================
+/* ZFMETHOD_MAX_PARAM */
+/**
+ * @brief util method to find method
+ *
+ * method can be class member or function type method,
+ * return first registered one if more than one method found,
+ * use #ZFMethodForNameGetAll to check if you have overloaded method
+ */
+extern ZF_ENV_EXPORT const ZFMethod *ZFMethodForName(ZF_IN const zfchar *classNameOrNamespace,
+                                                     ZF_IN const zfchar *methodName);
+/** @brief see #ZFMethodForName */
+extern ZF_ENV_EXPORT const ZFMethod *ZFMethodForName(ZF_IN const zfchar *classNameOrNamespace,
+                                                     ZF_IN const zfchar *methodName
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId0
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId1 = zfnull
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId2 = zfnull
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId3 = zfnull
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId4 = zfnull
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId5 = zfnull
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId6 = zfnull
+                                                     , ZF_IN_OPT const zfchar *methodParamTypeId7 = zfnull
+                                                     );
+
+/**
+ * @brief util method to find method, see ZFMethodForName
+ */
+extern ZF_ENV_EXPORT void ZFMethodForNameGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
+                                                 ZF_IN const zfchar *classNameOrNamespace,
+                                                 ZF_IN const zfchar *methodName);
+/** @brief see #ZFMethodForNameGetAllT */
+inline ZFCoreArrayPOD<const ZFMethod *> ZFMethodForNameGetAll(ZF_IN const zfchar *classNameOrNamespace,
+                                                              ZF_IN const zfchar *methodName)
+{
+    ZFCoreArrayPOD<const ZFMethod *> ret;
+    ZFMethodForNameGetAllT(ret, classNameOrNamespace, methodName);
     return ret;
 }
 

@@ -13,7 +13,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFResCacheAutoCleanup, ZFLevelZFFrameworkP
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFResCacheAutoCleanup)
 {
-    ZFResCache::instance()->cacheMaxSizeSet(0);
+    ZFResCache::instance()->cacheMaxSize(0);
     ZFResCache::instance()->cacheRemoveAll();
 }
 ZF_GLOBAL_INITIALIZER_END(ZFResCacheAutoCleanup)
@@ -30,7 +30,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(resOnDealloc)
 {
     zfCoreMutexLocker();
     ZF_GLOBAL_INITIALIZER_CLASS(ZFResCacheHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFResCacheHolder);
-    zfstlmap<ZFObject *, const zfchar *>::iterator itValue = d->valueMap.find(listenerData.sender);
+    zfstlmap<ZFObject *, const zfchar *>::iterator itValue = d->valueMap.find(listenerData.sender());
     if(itValue != d->valueMap.end())
     {
         d->keyMap.erase(itValue->second);
@@ -74,7 +74,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, zfRes,
     return ret;
 }
 
-ZFMETHOD_FUNC_DEFINE_INLINE_1(zfautoObject, zfResNoCache,
+ZFMETHOD_FUNC_INLINE_DEFINE_1(zfautoObject, zfResNoCache,
                               ZFMP_IN(const zfchar *, resFilePath))
 
 ZF_NAMESPACE_GLOBAL_END

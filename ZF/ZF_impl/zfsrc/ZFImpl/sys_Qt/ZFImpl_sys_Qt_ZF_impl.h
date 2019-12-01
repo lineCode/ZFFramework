@@ -13,15 +13,15 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_QObjectTagSet(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN QVariant const &tag);
-extern ZF_ENV_EXPORT QVariant ZFImpl_sys_Qt_QObjectTagGet(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_QObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN QVariant const &tag);
+extern ZF_ENV_EXPORT QVariant ZFImpl_sys_Qt_QObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name);
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_QObjectTagSetZFObject(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN ZFObject *tag);
-extern ZF_ENV_EXPORT ZFObject *ZFImpl_sys_Qt_QObjectTagGetZFObject(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name);
+extern ZF_ENV_EXPORT void ZFImpl_sys_Qt_QObjectZFObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN ZFObject *tag);
+extern ZF_ENV_EXPORT ZFObject *ZFImpl_sys_Qt_QObjectZFObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name);
 template<typename T_ZFObject>
-T_ZFObject ZFImpl_sys_Qt_QObjectTagGetZFObject(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
+T_ZFObject ZFImpl_sys_Qt_QObjectZFObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
 {
-    return ZFCastZFObjectUnchecked(T_ZFObject, ZFImpl_sys_Qt_QObjectTagGetZFObject(obj, name));
+    return ZFCastZFObjectUnchecked(T_ZFObject, ZFImpl_sys_Qt_QObjectZFObjectTag(obj, name));
 }
 
 // ============================================================

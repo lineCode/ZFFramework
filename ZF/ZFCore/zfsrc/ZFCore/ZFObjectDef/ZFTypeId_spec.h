@@ -64,180 +64,8 @@ public:
 /** @endcond */
 
 // ============================================================
-ZFTYPEID_DECLARE(ZFCallerInfo, ZFCallerInfoHolder)
-ZFTYPEID_ALIAS_DECLARE(ZFCallerInfo, ZFCallerInfoHolder, ZFCallerInfoWrap, ZFCallerInfo)
-ZFOUTPUT_TYPE(ZFCallerInfoHolder, {output << v.callerInfo();})
+ZFTYPEID_DECLARE(ZFCallerInfo, ZFCallerInfo)
 ZFOUTPUT_TYPE(ZFCallerInfo, {output << v.callerInfo();})
-
-// ============================================================
-// zfautoObject
-/**
- * @brief see #ZFTYPEID_DECLARE
- *
- * serializable data:
- * @code
- *   <MyObject />
- * @endcode
- */
-ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(zfautoObject, zfautoObject)
-ZFOUTPUT_TYPE_DECLARE(zfautoObject)
-
-/** @cond ZFPrivateDoc */
-template<>
-zfclassNotPOD ZFTypeId<zfautoObject> : zfextendsNotPOD ZFTypeInfo
-{
-public:
-    enum {
-        TypeIdRegistered = 1,
-        TypeIdSerializable = 1,
-    };
-    static inline const zfchar *TypeId(void)
-    {
-        return ZFTypeId_zfautoObject();
-    }
-    zfoverride
-    virtual zfbool typeIdSerializable(void) const
-    {
-        return TypeIdSerializable;
-    }
-    zfoverride
-    virtual const zfchar *typeId(void) const
-    {
-        return TypeId();
-    }
-    zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
-    {
-        v = zfnull;
-        return zftrue;
-    }
-    static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfautoObject const &v)
-    {
-        obj = v;
-        return zftrue;
-    }
-    template<typename T_Access = zfautoObject
-        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
-            && zftTypeIsSame<
-                    typename zftTraits<T_Access>::TrNoRef,
-                    zfautoObject
-                >::TypeIsSame != 1)
-            ? 1 : 0)
-        , typename T_Fix = void
-        >
-    zfclassNotPOD Value
-    {
-    public:
-        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
-        {
-            return zftrue;
-        }
-        static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj)
-        {
-            return obj;
-        }
-        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
-        {
-        }
-    };
-    template<typename T_Access>
-    zfclassNotPOD Value<T_Access, 1>
-    {
-    public:
-        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
-        {
-            return zftrue;
-        }
-        static typename zftTraits<T_Access>::TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj)
-        {
-            return &obj;
-        }
-        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
-        {
-        }
-    };
-};
-/** @endcond */
-
-// ============================================================
-// zfautoObjectT
-/** @cond ZFPrivateDoc */
-template<typename T_ZFObject>
-zfclassNotPOD ZFTypeId<zfautoObjectT<T_ZFObject> > : zfextendsNotPOD ZFTypeInfo
-{
-public:
-    enum {
-        TypeIdRegistered = 1,
-        TypeIdSerializable = 1,
-    };
-    static inline const zfchar *TypeId(void)
-    {
-        return ZFTypeId_zfautoObject();
-    }
-    zfoverride
-    virtual zfbool typeIdSerializable(void) const
-    {
-        return TypeIdSerializable;
-    }
-    zfoverride
-    virtual const zfchar *typeId(void) const
-    {
-        return TypeId();
-    }
-    zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
-    {
-        v = zfnull;
-        return zftrue;
-    }
-    static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfautoObjectT<T_ZFObject> const &v)
-    {
-        obj = v;
-        return zftrue;
-    }
-    template<typename T_Access = zfautoObjectT<T_ZFObject>
-        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
-            && zftTypeIsSame<
-                    typename zftTraits<T_Access>::TrNoRef,
-                    zfautoObjectT<T_ZFObject>
-                >::TypeIsSame != 1)
-            ? 1 : 0)
-        , typename T_Fix = void
-        >
-    zfclassNotPOD Value
-    {
-    public:
-        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
-        {
-            return zftrue;
-        }
-        static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj)
-        {
-            return (T_Access)obj;
-        }
-        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
-        {
-        }
-    };
-    template<typename T_Access>
-    zfclassNotPOD Value<T_Access, 1>
-    {
-    public:
-        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
-        {
-            return zftrue;
-        }
-        static typename zftTraits<T_Access>::TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj)
-        {
-            // zfautoObjectT ensured safe for reinterpret cast
-            return (typename zftTraits<T_Access>::TrNoRef)&obj;
-        }
-        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
-        {
-        }
-    };
-};
-/** @endcond */
 
 // ============================================================
 // ZFObject
@@ -376,6 +204,176 @@ public:
         {
             _TrNoRef *vTmp = (_TrNoRef *)v;
             zfdelete(vTmp);
+        }
+    };
+};
+/** @endcond */
+
+// ============================================================
+// zfautoObject
+/**
+ * @brief see #ZFTYPEID_DECLARE
+ *
+ * serializable data:
+ * @code
+ *   <MyObject />
+ * @endcode
+ */
+ZFTYPEID_DECLARE_WITH_CUSTOM_WRAPPER(zfautoObject, zfautoObject)
+ZFOUTPUT_TYPE_DECLARE(zfautoObject)
+
+/** @cond ZFPrivateDoc */
+template<>
+zfclassNotPOD ZFTypeId<zfautoObject> : zfextendsNotPOD ZFTypeInfo
+{
+public:
+    enum {
+        TypeIdRegistered = 1,
+        TypeIdSerializable = 1,
+    };
+    static inline const zfchar *TypeId(void)
+    {
+        return ZFTypeId_zfautoObject();
+    }
+    zfoverride
+    virtual zfbool typeIdSerializable(void) const
+    {
+        return TypeIdSerializable;
+    }
+    zfoverride
+    virtual const zfchar *typeId(void) const
+    {
+        return TypeId();
+    }
+    zfoverride
+    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    {
+        v = zfnull;
+        return zftrue;
+    }
+    static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfautoObject const &v)
+    {
+        obj = v;
+        return zftrue;
+    }
+    template<typename T_Access = zfautoObject
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
+            && zftTypeIsSame<
+                    typename zftTraits<T_Access>::TrNoRef,
+                    zfautoObject
+                >::TypeIsSame != 1)
+            ? 1 : 0)
+        , typename T_Fix = void
+        >
+    zfclassNotPOD Value
+    {
+    public:
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
+        {
+            return zftrue;
+        }
+        static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj)
+        {
+            return obj;
+        }
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
+    };
+    template<typename T_Access>
+    zfclassNotPOD Value<T_Access, 1>
+    {
+    public:
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
+        {
+            return zftrue;
+        }
+        static typename zftTraits<T_Access>::TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj)
+        {
+            return &obj;
+        }
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
+    };
+};
+/** @endcond */
+
+// ============================================================
+// zfautoObjectT
+/** @cond ZFPrivateDoc */
+template<typename T_ZFObject>
+zfclassNotPOD ZFTypeId<zfautoObjectT<T_ZFObject> > : zfextendsNotPOD ZFTypeInfo
+{
+public:
+    enum {
+        TypeIdRegistered = 1,
+        TypeIdSerializable = 1,
+    };
+    static inline const zfchar *TypeId(void)
+    {
+        return ZFTypeId<T_ZFObject>::TypeId();
+    }
+    zfoverride
+    virtual zfbool typeIdSerializable(void) const
+    {
+        return TypeIdSerializable;
+    }
+    zfoverride
+    virtual const zfchar *typeId(void) const
+    {
+        return TypeId();
+    }
+    zfoverride
+    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    {
+        v = zfnull;
+        return zftrue;
+    }
+    static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfautoObjectT<T_ZFObject> const &v)
+    {
+        obj = v;
+        return zftrue;
+    }
+    template<typename T_Access = zfautoObjectT<T_ZFObject>
+        , int T_IsPointer = ((zftTraits<typename zftTraits<T_Access>::TrNoRef>::TrIsPtr
+            && zftTypeIsSame<
+                    typename zftTraits<T_Access>::TrNoRef,
+                    zfautoObjectT<T_ZFObject>
+                >::TypeIsSame != 1)
+            ? 1 : 0)
+        , typename T_Fix = void
+        >
+    zfclassNotPOD Value
+    {
+    public:
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
+        {
+            return zftrue;
+        }
+        static T_Access zfvAccess(ZF_IN_OUT zfautoObject &obj)
+        {
+            return (T_Access)obj;
+        }
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
+        }
+    };
+    template<typename T_Access>
+    zfclassNotPOD Value<T_Access, 1>
+    {
+    public:
+        static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj)
+        {
+            return zftrue;
+        }
+        static typename zftTraits<T_Access>::TrNoRef zfvAccess(ZF_IN_OUT zfautoObject &obj)
+        {
+            // zfautoObjectT ensured safe for reinterpret cast
+            return (typename zftTraits<T_Access>::TrNoRef)&obj;
+        }
+        static void zfvAccessFinish(ZF_IN_OUT zfautoObject &obj)
+        {
         }
     };
 };

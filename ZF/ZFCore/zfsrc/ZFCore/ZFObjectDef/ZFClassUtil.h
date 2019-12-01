@@ -18,7 +18,7 @@ zfclassFwd ZFFilterForZFProperty;
 ZF_NAMESPACE_BEGIN(ZFClassUtil)
 
 /** @brief see #allClassParent */
-extern ZF_ENV_EXPORT void allClassParentT(ZF_OUT ZFCoreArray<const ZFClass *> &ret,
+extern ZF_ENV_EXPORT void allClassParentT(ZF_IN_OUT ZFCoreArray<const ZFClass *> &ret,
                                           ZF_IN const ZFClass *cls,
                                           ZF_IN_OPT const ZFFilterForZFClass *filter = zfnull);
 /**
@@ -33,7 +33,7 @@ inline ZFCoreArrayPOD<const ZFClass *> allClassParent(ZF_IN const ZFClass *cls,
 }
 
 /** @brief see #allMethod */
-extern ZF_ENV_EXPORT void allMethodT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
+extern ZF_ENV_EXPORT void allMethodT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
                                      ZF_IN const ZFClass *cls,
                                      ZF_IN_OPT const ZFFilterForZFMethod *filter = zfnull);
 /**
@@ -48,7 +48,7 @@ inline ZFCoreArrayPOD<const ZFMethod *> allMethod(ZF_IN const ZFClass *cls,
 }
 
 /** @brief see #allProperty */
-extern ZF_ENV_EXPORT void allPropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
+extern ZF_ENV_EXPORT void allPropertyT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret,
                                        ZF_IN const ZFClass *cls,
                                        ZF_IN_OPT const ZFFilterForZFProperty *filter = zfnull);
 /**

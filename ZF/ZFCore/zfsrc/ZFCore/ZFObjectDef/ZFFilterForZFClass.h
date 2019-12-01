@@ -106,11 +106,11 @@ public:
     /**
      * @brief get filter class at index
      */
-    virtual const ZFClass *filterGet(ZF_IN zfindex index) const;
+    virtual const ZFClass *filterElementAtIndex(ZF_IN zfindex index) const;
     /**
      * @brief get filter type at index
      */
-    virtual ZFFilterForZFClassType filterGetFilterType(ZF_IN zfindex index) const;
+    virtual ZFFilterForZFClassType filterTypeAtIndex(ZF_IN zfindex index) const;
     /**
      * @brief add a custom filter callback
      */

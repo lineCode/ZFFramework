@@ -17,8 +17,8 @@ private:
     static ZFLISTENER_PROTOTYPE_EXPAND(viewFocusOnChange)
     {
         zfLogTrimT() << "[ZFUIViewFocus]"
-            << listenerData.sender
-            << "changed to" << listenerData.sender->to<ZFUIView *>()->viewFocused();
+            << listenerData.sender()
+            << "changed to" << listenerData.sender<ZFUIView *>()->viewFocused();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewFocusState_test)
 #endif

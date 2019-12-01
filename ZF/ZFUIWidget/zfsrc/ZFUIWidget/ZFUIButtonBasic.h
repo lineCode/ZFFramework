@@ -72,7 +72,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleNormal)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
-        v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorNormal());
+        v->textColor(ZFUIGlobalStyle::DefaultStyle()->controlColorNormal());
 
         this->prepareButtonLabel();
     }
@@ -85,7 +85,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleHighlighted)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
-        v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorHighlighted());
+        v->textColor(ZFUIGlobalStyle::DefaultStyle()->controlColorHighlighted());
 
         this->prepareButtonLabel();
     }
@@ -98,7 +98,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleChecked)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
-        v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorChecked());
+        v->textColor(ZFUIGlobalStyle::DefaultStyle()->controlColorChecked());
 
         this->prepareButtonLabel();
     }
@@ -111,7 +111,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleCheckedHighlighted)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
-        v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorCheckedHighlighted());
+        v->textColor(ZFUIGlobalStyle::DefaultStyle()->controlColorCheckedHighlighted());
 
         this->prepareButtonLabel();
     }
@@ -124,7 +124,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleDisabled)
     {
         ZFUITextView *v = propertyValue.to<ZFUITextView *>();
-        v->textColorSet(ZFUIGlobalStyle::DefaultStyle()->controlColorDisabled());
+        v->textColor(ZFUIGlobalStyle::DefaultStyle()->controlColorDisabled());
 
         this->prepareButtonLabel();
     }
@@ -319,11 +319,11 @@ public:
     /**
      * @brief util method to set button label's text
      */
-    ZFMETHOD_INLINE_2(void, buttonLabelTextSet,
+    ZFMETHOD_INLINE_2(void, buttonLabelText,
                       ZFMP_IN(const zfchar *, text),
                       ZFMP_IN_OPT(ZFUIButtonStateEnum, forState, ZFUIButtonState::e_Normal))
     {
-        this->buttonLabelStyle(forState)->textSet(text);
+        this->buttonLabelStyle(forState)->text(text);
     }
 
     /**
@@ -337,11 +337,11 @@ public:
     /**
      * @brief util method to set button icon's image
      */
-    ZFMETHOD_INLINE_2(void, buttonIconImageSet,
+    ZFMETHOD_INLINE_2(void, buttonIconImage,
                       ZFMP_IN(ZFUIImage *, image),
                       ZFMP_IN_OPT(ZFUIButtonStateEnum, forState, ZFUIButtonState::e_Normal))
     {
-        this->buttonIconStyle(forState)->imageSet(image);
+        this->buttonIconStyle(forState)->image(image);
     }
 
     /**
@@ -355,11 +355,11 @@ public:
     /**
      * @brief util method to set button background's image
      */
-    ZFMETHOD_INLINE_2(void, buttonBackgroundImageSet,
+    ZFMETHOD_INLINE_2(void, buttonBackgroundImage,
                       ZFMP_IN(ZFUIImage *, image),
                       ZFMP_IN_OPT(ZFUIButtonStateEnum, forState, ZFUIButtonState::e_Normal))
     {
-        this->buttonBackgroundStyle(forState)->imageSet(image);
+        this->buttonBackgroundStyle(forState)->image(image);
     }
 
 protected:

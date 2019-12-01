@@ -201,7 +201,7 @@ static zfbool _ZFP_ZFCompressDir(ZF_IN_OUT ZFToken compressToken,
 {
     // prepare param
     zfstring inputName;
-    if(!fileImpl.callbackGetFileName(pathData, inputName))
+    if(!fileImpl.callbackToFileName(pathData, inputName))
     {
         return zffalse;
     }
@@ -265,7 +265,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFCompressDir,
                        ZFMP_IN(const ZFPathInfo &, inputPathInfo),
                        ZFMP_IN_OPT(ZFCompressLevelEnum, compressLevel, ZFCompressLevel::EnumDefault()))
 {
-    const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataGet(inputPathInfo.pathType);
+    const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataForPathType(inputPathInfo.pathType);
     if(fileImpl == zfnull)
     {
         return zffalse;
@@ -286,7 +286,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFDecompressDir,
                        ZFMP_IN(const ZFPathInfo &, outputPathInfo),
                        ZFMP_IN_OUT(const ZFInput &, inputZip))
 {
-    const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataGet(outputPathInfo.pathType);
+    const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataForPathType(outputPathInfo.pathType);
     if(fileImpl == zfnull)
     {
         return zffalse;

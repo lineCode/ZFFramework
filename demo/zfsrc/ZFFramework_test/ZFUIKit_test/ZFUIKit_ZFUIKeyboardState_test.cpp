@@ -15,7 +15,7 @@ private:
     ZFListener keyPressedOnChangeListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(keyPressedOnChange)
     {
-        zfLogTrimT() << "[ZFUIKeyboardState]" << listenerData.sender;
+        zfLogTrimT() << "[ZFUIKeyboardState]" << listenerData.sender();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIKeyboardState_test)
 

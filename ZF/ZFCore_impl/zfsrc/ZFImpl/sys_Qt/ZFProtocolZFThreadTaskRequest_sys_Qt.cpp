@@ -15,8 +15,8 @@ public:
     {
         ZFListenerHolder *task = zfAlloc(ZFListenerHolder);
         task->runnable = runnable;
-        task->listenerData.param0Set(param0);
-        task->listenerData.param1Set(param1);
+        task->listenerData.param0(param0);
+        task->listenerData.param1(param1);
         this->tasks.queuePut(task);
         QCoreApplication::instance()->postEvent(this, new QEvent(_ZFP_ZFThreadTaskRequestImpl_sys_Qt_TaskEvent), Qt::LowEventPriority);
     }

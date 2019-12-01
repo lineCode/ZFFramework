@@ -69,7 +69,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
         }
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFTypeId_ZFRegExpResult());
+        serializableData.itemClass(ZFTypeId_ZFRegExpResult());
 
         if(v.matched)
         {
@@ -78,7 +78,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
             {
                 return zffalse;
             }
-            element.propertyNameSet(ZFSerializableKeyword_ZFRegExpResult_matched);
+            element.propertyName(ZFSerializableKeyword_ZFRegExpResult_matched);
             serializableData.elementAdd(element);
         }
 
@@ -89,7 +89,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
             {
                 return zffalse;
             }
-            element.propertyNameSet(ZFSerializableKeyword_ZFRegExpResult_matchedRange);
+            element.propertyName(ZFSerializableKeyword_ZFRegExpResult_matchedRange);
             serializableData.elementAdd(element);
         }
 
@@ -100,7 +100,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFRegExpResult, ZFRegExpResult, {
             {
                 return zffalse;
             }
-            element.propertyNameSet(ZFSerializableKeyword_ZFRegExpResult_namedGroups);
+            element.propertyName(ZFSerializableKeyword_ZFRegExpResult_namedGroups);
             serializableData.elementAdd(element);
         }
 

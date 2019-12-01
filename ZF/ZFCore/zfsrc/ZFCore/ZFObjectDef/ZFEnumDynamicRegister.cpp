@@ -140,7 +140,7 @@ static ZFEnum *_ZFP_ZFEnumDynamic_e(ZF_IN const ZFMethod *invokerMethod, ZF_IN Z
 {
     const zfchar *enumName = invokerMethod->methodName() + zfslen("e_");
     zfstring tagKey = zfstringWithFormat("_ZFP_EnumDyn_%s", enumName);
-    ZFEnum *ret = invokerMethod->methodOwnerClass()->classTagGet<ZFEnum *>(tagKey);
+    ZFEnum *ret = invokerMethod->methodOwnerClass()->classTag<ZFEnum *>(tagKey);
     if(ret != zfnull)
     {
         return ret;
@@ -148,8 +148,8 @@ static ZFEnum *_ZFP_ZFEnumDynamic_e(ZF_IN const ZFMethod *invokerMethod, ZF_IN Z
     const _ZFP_ZFEnumData *d = _ZFP_ZFEnumDataFind(invokerMethod->methodOwnerClass());
     zfautoObject retHolder = invokerMethod->methodOwnerClass()->newInstance();
     ret = retHolder;
-    ret->_ZFP_enumValueSet(d->enumValueForName(enumName));
-    invokerMethod->methodOwnerClass()->classTagSet(tagKey, retHolder);
+    ret->_ZFP_enumValue(d->enumValueForName(enumName));
+    invokerMethod->methodOwnerClass()->classTag(tagKey, retHolder);
     return ret;
 }
 const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
@@ -229,8 +229,9 @@ const ZFClass *ZFEnumDynamicRegister(ZF_IN const zfchar *enumClassName,
     _ZFP_ZFEnumMethodReg(d->userRegMethods, d->d);
     for(zfindex i = 0; i < d->d->enumCount(); ++i)
     {
-        ZFMethodUserRegisterDetail_0(resultMethod, _ZFP_ZFEnumDynamic_e, enumClass,
-            public, ZFMethodTypeStatic,
+        ZFMethodUserRegisterDetail_0(resultMethod, {
+                return _ZFP_ZFEnumDynamic_e(invokerMethod, invokerObject);
+            }, enumClass, public, ZFMethodTypeStatic,
             ZFEnum *, zfstringWithFormat("e_%s", d->d->enumNameAtIndex(i)));
         d->userRegMethods.add(resultMethod);
     }

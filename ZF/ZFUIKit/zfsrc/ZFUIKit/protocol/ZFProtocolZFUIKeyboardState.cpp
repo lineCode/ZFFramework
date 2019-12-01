@@ -23,7 +23,7 @@ public:
     ZFListener viewOnEventListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(viewOnEvent)
     {
-        ZFUIKeyEvent *event = ZFCastZFObject(ZFUIKeyEvent *, listenerData.param0);
+        ZFUIKeyEvent *event = listenerData.param0<ZFUIKeyEvent *>();
         if(event != zfnull)
         {
             ZFUIKeyboardStateBuiltinImplNotifyKeyEvent(event);
@@ -40,9 +40,9 @@ public:
         this->implRegisterFlag = zftrue;
 
         ZFObjectGlobalEventObserver().observerAdd(ZFObserverAddParam()
-                .eventIdSet(ZFUIView::EventViewOnEvent())
-                .observerSet(this->viewOnEventListener)
-                .observerLevelSet(ZFLevelZFFrameworkEssential)
+                .eventId(ZFUIView::EventViewOnEvent())
+                .observer(this->viewOnEventListener)
+                .observerLevel(ZFLevelZFFrameworkEssential)
             );
     }
     void implUnregister(void)

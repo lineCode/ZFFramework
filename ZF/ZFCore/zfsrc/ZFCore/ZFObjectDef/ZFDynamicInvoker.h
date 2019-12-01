@@ -6,7 +6,7 @@
 #ifndef _ZFI_ZFDynamicInvoker_h_
 #define _ZFI_ZFDynamicInvoker_h_
 
-#include "ZFObject.h"
+#include "ZFObjectCore.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
@@ -17,7 +17,7 @@ zfabstract ZF_ENV_EXPORT ZFDI_WrapperBase : zfextends ZFObject
 {
     ZFOBJECT_DECLARE_ABSTRACT(ZFDI_WrapperBase, ZFObject)
     ZFALLOC_CACHE_RELEASE_ABSTRACT({
-        cache->zfvSet(zfnull);
+        cache->zfv(zfnull);
     })
 
 public:
@@ -28,8 +28,8 @@ public:
      * -  #ZFTypeIdWrapper::wrappedValueFromString
      * -  #ZFSerializeFromString
      */
-    virtual void zfvSet(ZF_IN const zfchar *zfv) zfpurevirtual;
-    /** @brief see #zfvSet */
+    virtual void zfv(ZF_IN const zfchar *zfv) zfpurevirtual;
+    /** @brief see #zfv */
     virtual const zfchar *zfv(void) zfpurevirtual;
 
 public:
@@ -56,6 +56,9 @@ public:
     zfoverride
     virtual inline zfbool objectIsInternal(void) {return zftrue;}
 protected:
+    zfoverride virtual void objectOnInit(void) {zfsuper::objectOnInit();}
+    zfoverride virtual void objectOnInit(ZF_IN const zfchar *zfv) {this->objectOnInit(); this->zfv(zfv);}
+protected:
     zfoverride
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret)
     {
@@ -69,16 +72,9 @@ zfclass ZF_ENV_EXPORT ZFDI_Wrapper : zfextends ZFDI_WrapperBase
     ZFALLOC_CACHE_RELEASE({zfsuper::zfAllocCacheRelease(cache);})
 public:
     zfoverride
-    virtual void zfvSet(ZF_IN const zfchar *zfv)
+    virtual void zfv(ZF_IN const zfchar *zfv)
     {
-        if(zfv)
-        {
-            this->_ZFP_zfv = zfv;
-        }
-        else
-        {
-            this->_ZFP_zfv.removeAll();
-        }
+        this->_ZFP_zfv = zfv;
     }
     zfoverride
     virtual const zfchar *zfv(void) {return this->_ZFP_zfv;}
@@ -92,7 +88,7 @@ zfclass ZF_ENV_EXPORT ZFDI_WrapperRaw : zfextends ZFDI_WrapperBase
     ZFALLOC_CACHE_RELEASE({zfsuper::zfAllocCacheRelease(cache);})
 public:
     zfoverride
-    virtual void zfvSet(ZF_IN const zfchar *zfv)
+    virtual void zfv(ZF_IN const zfchar *zfv)
     {
         if(zfv)
         {
@@ -178,7 +174,7 @@ extern ZF_ENV_EXPORT zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
                                         , ZF_IN_OPT ZFObject *obj
                                         , ZF_IN_OPT const zfchar *NS
                                         , ZF_IN ZFObject *type
-                                        , ZF_IN zfindex paramCount
+                                        , ZF_IN_OPT zfindex paramCount
                                         , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                         );
 
@@ -203,14 +199,14 @@ extern ZF_ENV_EXPORT zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
                                        , ZF_OUT_OPT zfstring *errorHint
                                        , ZF_IN_OPT const zfchar *NS
                                        , ZF_IN ZFObject *type
-                                       , ZF_IN zfindex paramCount
+                                       , ZF_IN_OPT zfindex paramCount
                                        , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                        );
 /** @brief see #ZFDI_alloc */
 extern ZF_ENV_EXPORT zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
                                        , ZF_OUT_OPT zfstring *errorHint
                                        , ZF_IN const ZFClass *cls
-                                       , ZF_IN zfindex paramCount
+                                       , ZF_IN_OPT zfindex paramCount
                                        , ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM]
                                        );
 

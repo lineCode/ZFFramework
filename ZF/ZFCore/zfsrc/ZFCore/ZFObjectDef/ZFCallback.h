@@ -184,9 +184,9 @@ public:
      * you must ensure the callback id is unique and verbose enough to describe the callback,
      * otherwise, leave it empty
      */
-    zffinal void callbackIdSet(ZF_IN const zfchar *callbackId);
+    zffinal void callbackId(ZF_IN const zfchar *callbackId);
     /**
-     * @brief see #callbackIdSet
+     * @brief see #callbackId
      */
     zffinal const zfchar *callbackId(void) const;
 
@@ -201,17 +201,17 @@ public:
      * you can also retain the owner by #callbackOwnerObjectRetain\n
      * you can also save state for the callback as the auto released data
      */
-    zffinal void callbackTagSet(ZF_IN const zfchar *key,
-                                ZF_IN ZFObject *tag);
-    /** @brief see #callbackTagSet */
-    zffinal ZFObject *callbackTagGet(ZF_IN const zfchar *key) const;
-    /** @brief see #callbackTagSet */
+    zffinal void callbackTag(ZF_IN const zfchar *key,
+                             ZF_IN ZFObject *tag);
+    /** @brief see #callbackTag */
+    zffinal ZFObject *callbackTag(ZF_IN const zfchar *key) const;
+    /** @brief see #callbackTag */
     template<typename T_ZFObject>
-    T_ZFObject callbackTagGet(ZF_IN const zfchar *key) const
+    T_ZFObject callbackTag(ZF_IN const zfchar *key) const
     {
-        return ZFCastZFObjectUnchecked(T_ZFObject, this->callbackTagGet(key));
+        return ZFCastZFObjectUnchecked(T_ZFObject, this->callbackTag(key));
     }
-    /** @brief see #callbackTagSet */
+    /** @brief see #callbackTag */
     zffinal void callbackTagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
                                            ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue) const;
     /**
@@ -219,14 +219,14 @@ public:
      */
     inline void callbackTagRemove(ZF_IN const zfchar *key)
     {
-        this->callbackTagSet(key, zfnull);
+        this->callbackTag(key, zfnull);
     }
     /**
      * @brief remove tag, return removed tag or #zfautoObjectNull if not exist
      */
     zffinal zfautoObject callbackTagRemoveAndGet(ZF_IN const zfchar *key);
     /**
-     * @brief see #callbackTagSet
+     * @brief see #callbackTag
      *
      * @note it's unsafe to remove all tag manually,
      *   which may break unrelated modules' additional logic,
@@ -280,7 +280,7 @@ public:
      *
      * by default, owner won't be retained,
      * you may use this method to retain owner,
-     * or use #callbackTagSet to store owner
+     * or use #callbackTag to store owner
      */
     zffinal void callbackOwnerObjectRetain(void) const;
     /**
@@ -297,7 +297,7 @@ public:
      * you may set to #ZFCallbackSerializeCustomTypeDisable to explicitly
      * disable callback serialization
      */
-    zffinal void callbackSerializeCustomTypeSet(ZF_IN const zfchar *customType);
+    zffinal void callbackSerializeCustomType(ZF_IN const zfchar *customType);
     /**
      * @brief see #ZFTypeId_ZFCallback
      */
@@ -305,13 +305,13 @@ public:
     /**
      * @brief see #ZFTypeId_ZFCallback
      */
-    zffinal void callbackSerializeCustomDataSet(ZF_IN const ZFSerializableData *customData);
+    zffinal void callbackSerializeCustomData(ZF_IN const ZFSerializableData *customData);
     /**
      * @brief see #ZFTypeId_ZFCallback
      */
-    zffinal void callbackSerializeCustomDataSet(ZF_IN const ZFSerializableData &customData)
+    zffinal void callbackSerializeCustomData(ZF_IN const ZFSerializableData &customData)
     {
-        this->callbackSerializeCustomDataSet(&customData);
+        this->callbackSerializeCustomData(&customData);
     }
     /**
      * @brief see #ZFTypeId_ZFCallback
@@ -323,7 +323,7 @@ public:
      */
     zffinal void callbackSerializeCustomDisable(ZF_IN zfbool disable)
     {
-        this->callbackSerializeCustomTypeSet(disable ? ZFCallbackSerializeCustomTypeDisable : zfnull);
+        this->callbackSerializeCustomType(disable ? ZFCallbackSerializeCustomTypeDisable : zfnull);
     }
     /**
      * @brief see #ZFTypeId_ZFCallback
@@ -341,9 +341,9 @@ public:
      */
     zffinal const ZFPathInfo *pathInfo(void) const;
     /** @brief see #pathInfo */
-    zffinal void pathInfoSet(ZF_IN const ZFPathInfo *pathInfo);
+    zffinal void pathInfo(ZF_IN const ZFPathInfo *pathInfo);
     /** @brief see #pathInfo */
-    zffinal void pathInfoSet(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData);
+    zffinal void pathInfo(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData);
 
 private:
     _ZFP_ZFCallbackPrivate *d;

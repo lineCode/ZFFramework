@@ -62,7 +62,7 @@ ZFOBJECT_ON_INIT_DEFINE_1(ZFUIWindow, ZFMP_IN(ZFUISysWindow *, windowOwnerSysWin
     this->objectOnInit();
     if(windowOwnerSysWindow != zfnull)
     {
-        this->windowOwnerSysWindowSet(windowOwnerSysWindow);
+        this->windowOwnerSysWindow(windowOwnerSysWindow);
     }
 }
 
@@ -71,7 +71,7 @@ void ZFUIWindow::objectOnInit(void)
     zfsuper::objectOnInit();
     d = zfpoolNew(_ZFP_ZFUIWindowPrivate);
     d->windowLayoutParam = zfAlloc(ZFUIViewLayoutParam);
-    d->windowLayoutParam->sizeParamSet(ZFUISizeParamFillFill());
+    d->windowLayoutParam->sizeParam(ZFUISizeParamFillFill());
 }
 void ZFUIWindow::objectOnDealloc(void)
 {
@@ -88,7 +88,7 @@ ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIWindow, ZFUIWindowLevelEnum, windowLeve
     zfCoreAssertWithMessage(!this->windowShowing(), "you must not change window level while it's showing");
 }
 
-ZFMETHOD_DEFINE_1(ZFUIWindow, void, windowOwnerSysWindowSet,
+ZFMETHOD_DEFINE_1(ZFUIWindow, void, windowOwnerSysWindow,
                   ZFMP_IN(ZFUISysWindow *, windowOwnerSysWindow))
 {
     if(d->windowOwnerSysWindow != windowOwnerSysWindow)

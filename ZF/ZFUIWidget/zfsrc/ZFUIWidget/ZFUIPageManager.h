@@ -109,13 +109,13 @@ public:
      * @brief see #ZFObject::observerNotify
      *
      * called when page manager's UIEnable changed,
-     * see #managerUIBlockedSet
+     * see #managerUIBlocked
      */
     ZFOBSERVER_EVENT(ManagerUIBlockedOnChange)
     /**
      * @brief see #ZFObject::observerNotify
      *
-     * called when #requestBlockedSet setting changed
+     * called when #requestBlocked setting changed
      */
     ZFOBSERVER_EVENT(RequestBlockedOnChange)
     /**
@@ -206,10 +206,10 @@ public:
      * this method can be embeded but must be paired,
      * last time you call this method to restore enable state would finally restore enable state
      */
-    ZFMETHOD_DECLARE_1(void, managerUIBlockedSet,
+    ZFMETHOD_DECLARE_1(void, managerUIBlocked,
                        ZFMP_IN(zfbool, value))
     /**
-     * @brief see #managerUIBlockedSet
+     * @brief see #managerUIBlocked
      */
     ZFMETHOD_DECLARE_0(zfindex, managerUIBlocked)
 protected:
@@ -321,10 +321,10 @@ public:
                       ZFMP_IN_OPT(ZFObject *, param1, zfnull))
     {
         zfblockedAlloc(ZFUIPageRequestCustom, request);
-        request->listenerSet(listener);
-        request->userDataSet(userData);
-        request->param0Set(param0);
-        request->param1Set(param1);
+        request->listener(listener);
+        request->userData(userData);
+        request->param0(param0);
+        request->param1(param1);
         this->requestPost(request);
     }
 
@@ -333,13 +333,13 @@ public:
      * @brief block request to prevent multiple request running at same time
      *
      * newly posted request would be queued, until restored\n
-     * #requestBlockedSet can be embeded with more than one time,
+     * #requestBlocked can be embeded with more than one time,
      * but must be paired
      */
-    ZFMETHOD_DECLARE_1(void, requestBlockedSet,
+    ZFMETHOD_DECLARE_1(void, requestBlocked,
                        ZFMP_IN(zfbool, value))
     /**
-     * @brief see #requestBlockedSet
+     * @brief see #requestBlocked
      */
     ZFMETHOD_DECLARE_0(zfindex, requestBlocked)
 protected:

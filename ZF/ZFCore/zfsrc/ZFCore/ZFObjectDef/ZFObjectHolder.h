@@ -27,14 +27,14 @@ zffinal zfclass ZF_ENV_EXPORT ZFObjectHolder : zfextends ZFObject
     ZFOBJECT_DECLARE(ZFObjectHolder, ZFObject)
 
     ZFALLOC_CACHE_RELEASE({
-        cache->objectHoldedSet(zfnull);
+        cache->objectHolded(zfnull);
     })
 
 public:
     /**
      * @brief set the holded object
      */
-    inline void objectHoldedSet(ZF_IN ZFObject *obj)
+    inline void objectHolded(ZF_IN ZFObject *obj)
     {
         this->_ZFP_objectHolded = obj;
     }
@@ -42,7 +42,7 @@ public:
      * @brief set the holded object
      */
     template<typename T_ZFObject>
-    inline void objectHoldedSet(ZF_IN T_ZFObject obj)
+    inline void objectHolded(ZF_IN T_ZFObject obj)
     {
         this->_ZFP_objectHolded = obj;
     }

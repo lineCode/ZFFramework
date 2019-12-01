@@ -84,12 +84,12 @@ public:
     /**
      * @brief ignore public setter, false by default
      */
-    virtual void ignorePublicSetterSet(ZF_IN zfbool value)
+    virtual void ignorePublicSetter(ZF_IN zfbool value)
     {
         d->ignorePublicSetter = value;
     }
     /**
-     * @brief see #ignorePublicSetterSet
+     * @brief see #ignorePublicSetter
      */
     virtual zfbool ignorePublicSetter(void) const
     {
@@ -99,12 +99,12 @@ public:
     /**
      * @brief ignore protected setter, false by default
      */
-    virtual void ignoreProtectedSetterSet(ZF_IN zfbool value)
+    virtual void ignoreProtectedSetter(ZF_IN zfbool value)
     {
         d->ignoreProtectedSetter = value;
     }
     /**
-     * @brief see #ignoreProtectedSetterSet
+     * @brief see #ignoreProtectedSetter
      */
     virtual zfbool ignoreProtectedSetter(void) const
     {
@@ -114,12 +114,12 @@ public:
     /**
      * @brief ignore private setter, false by default
      */
-    virtual void ignorePrivateSetterSet(ZF_IN zfbool value)
+    virtual void ignorePrivateSetter(ZF_IN zfbool value)
     {
         d->ignorePrivateSetter = value;
     }
     /**
-     * @brief see #ignorePrivateSetterSet
+     * @brief see #ignorePrivateSetter
      */
     virtual zfbool ignorePrivateSetter(void) const
     {
@@ -129,12 +129,12 @@ public:
     /**
      * @brief ignore public getter, false by default
      */
-    virtual void ignorePublicGetterSet(ZF_IN zfbool value)
+    virtual void ignorePublicGetter(ZF_IN zfbool value)
     {
         d->ignorePublicGetter = value;
     }
     /**
-     * @brief see #ignorePublicGetterSet
+     * @brief see #ignorePublicGetter
      */
     virtual zfbool ignorePublicGetter(void) const
     {
@@ -144,12 +144,12 @@ public:
     /**
      * @brief ignore protected getter, false by default
      */
-    virtual void ignoreProtectedGetterSet(ZF_IN zfbool value)
+    virtual void ignoreProtectedGetter(ZF_IN zfbool value)
     {
         d->ignoreProtectedGetter = value;
     }
     /**
-     * @brief see #ignoreProtectedGetterSet
+     * @brief see #ignoreProtectedGetter
      */
     virtual zfbool ignoreProtectedGetter(void) const
     {
@@ -159,12 +159,12 @@ public:
     /**
      * @brief ignore private getter, false by default
      */
-    virtual void ignorePrivateGetterSet(ZF_IN zfbool value)
+    virtual void ignorePrivateGetter(ZF_IN zfbool value)
     {
         d->ignorePrivateGetter = value;
     }
     /**
-     * @brief see #ignorePrivateGetterSet
+     * @brief see #ignorePrivateGetter
      */
     virtual zfbool ignorePrivateGetter(void) const
     {

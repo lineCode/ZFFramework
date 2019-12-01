@@ -35,14 +35,14 @@ public:
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleNormal)
     {
         ZFUITextView *value = propertyValue.to<ZFUITextView *>();
-        value->textColorSet(ZFUIColorWhite());
-        value->textSingleLineSet(zffalse);
-        value->textSizeAutoChangeMinSizeSet(0);
+        value->textColor(ZFUIColorWhite());
+        value->textSingleLine(zffalse);
+        value->textSizeAutoChangeMinSize(0);
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
         ZFUIImageView *value = propertyValue;
-        value->imageSet(zfRes("ZFUIWidget/ZFUIHintContentBasic_background.xml"));
+        value->image(zfRes("ZFUIWidget/ZFUIHintContentBasic_background.xml"));
     }
 };
 
@@ -59,7 +59,7 @@ ZFMETHOD_FUNC_DECLARE_2(zfautoObject, ZFUIHintMake,
 /**
  * @brief #ZFUIHintMake and show the hint
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(zfautoObject, ZFUIHintShow,
+ZFMETHOD_FUNC_INLINE_DECLARE_2(zfautoObject, ZFUIHintShow,
                                ZFMP_IN(const zfchar *, text),
                                ZFMP_IN_OPT(ZFUIImage *, icon, zfnull))
 {

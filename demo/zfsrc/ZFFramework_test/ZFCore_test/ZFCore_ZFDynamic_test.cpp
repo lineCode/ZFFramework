@@ -17,7 +17,7 @@ protected:
         this->testCaseOutput("ZFDynamic");
 
         ZFLISTENER_LOCAL(methodCallback, {
-                ZFDynamicMethodData *d = listenerData.param0->toAny();
+                ZFDynamicMethodData *d = listenerData.param0()->toAny();
                 zfblockedAlloc(v_zfstring, ret);
                 ret->zfv += d->param0->to<v_zfstring *>()->zfv;
                 ret->zfv += "(modified)";
@@ -36,11 +36,11 @@ protected:
         const ZFClass *cls = ZFClass::classForName("ZFDynamicTest");
         zfautoObject obj = cls->newInstance();
 
-        obj->invoke("testPropSet", zflineAlloc(v_zfstring, "testValue"));
+        obj->invoke("testProp", zflineAlloc(v_zfstring, "testValue"));
         zfLogT() << obj->invoke("testProp");
         zfLogT() << obj->invoke("testMethod", zflineAlloc(v_zfstring, "testParam"));
 
-        const ZFMethod *method = ZFMethodFuncGet("ZFDynamicTestNS", "testMethod");
+        const ZFMethod *method = ZFMethodForName("ZFDynamicTestNS", "testMethod");
         zfLogT() << method;
         zfLogT() << method->methodGenericInvoke(zfnull, zflineAlloc(v_zfstring, "testParam"));
 

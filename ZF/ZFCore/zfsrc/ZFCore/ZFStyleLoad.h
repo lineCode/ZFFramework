@@ -28,7 +28,7 @@ public:
     ZFMETHOD_DECLARE_1(ZFStyleable *, itemValueAtIndex,
                        ZFMP_IN(zfindex, index))
     /** @brief style value */
-    ZFMETHOD_DECLARE_2(void, itemSet,
+    ZFMETHOD_DECLARE_2(void, itemForKey,
                        ZFMP_IN(const zfchar *, key),
                        ZFMP_IN(ZFStyleable *, value))
 

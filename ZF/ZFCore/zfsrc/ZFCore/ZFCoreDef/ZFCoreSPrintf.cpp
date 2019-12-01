@@ -132,8 +132,8 @@ public:
     } while(zffalse)
 
 void zfstringAppendV(ZF_OUT zfstring &s,
-                          ZF_IN const zfchar *fmt,
-                          ZF_IN va_list vaList)
+                     ZF_IN const zfchar *fmt,
+                     ZF_IN va_list vaList)
 {
     if(fmt == zfnull) {return ;}
 

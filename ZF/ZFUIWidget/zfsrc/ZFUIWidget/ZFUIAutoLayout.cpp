@@ -37,7 +37,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeFromData(ZF_IN const ZFSerial
     // remove all rule
     for(zfindex i = ZFUIAutoLayoutParam::_ZFP_PosBegin(); i < ZFUIAutoLayoutPos::ZFEnumCount; ++i)
     {
-        _ZFP_al_d.ruleList[i].posSet(ZFUIAutoLayoutPos::e_None);
+        _ZFP_al_d.ruleList[i].pos(ZFUIAutoLayoutPos::e_None);
     }
 
     for(zfindex i = 0; i < serializableData.elementCount(); ++i)
@@ -103,7 +103,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeFromData(ZF_IN const ZFSerial
 
         // finish
         element.resolveMark();
-        rule.posSet(pos);
+        rule.pos(pos);
     }
     return zftrue;
 }
@@ -131,7 +131,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeToData(ZF_IN_OUT ZFSerializab
         // pos
         value.removeAll();
         ZFUIAutoLayoutPosEnumToString(value, rule.pos());
-        element.attributeSet(ZFSerializableKeyword_ZFUIAutoLayoutParam_pos, value);
+        element.attributeForName(ZFSerializableKeyword_ZFUIAutoLayoutParam_pos, value);
 
         // target
         {
@@ -139,7 +139,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeToData(ZF_IN_OUT ZFSerializab
             ZFUIAutoLayoutPosEnumToString(target, rule.targetPos());
             target += ZFSerializableKeyword_ZFUIAutoLayoutParam_target_token;
             target += rule.targetId();
-            element.attributeSet(ZFSerializableKeyword_ZFUIAutoLayoutParam_target, target);
+            element.attributeForName(ZFSerializableKeyword_ZFUIAutoLayoutParam_target, target);
         }
 
         // scale
@@ -150,7 +150,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeToData(ZF_IN_OUT ZFSerializab
         ZFSerializableUtilSerializeAttributeToData(element, outErrorHint, ref,
             ZFSerializableKeyword_ZFUIAutoLayoutParam_offset, zfint, rule.offset(), 0, 0);
 
-        element.itemClassSet(ZFSerializableKeyword_ZFUIAutoLayoutParam_rule);
+        element.itemClass(ZFSerializableKeyword_ZFUIAutoLayoutParam_rule);
         serializableData.elementAdd(element);
     }
 
@@ -162,7 +162,7 @@ zfbool ZFUIAutoLayoutParam::serializableOnSerializeToData(ZF_IN_OUT ZFSerializab
 ZFSTYLE_DEFAULT_DEFINE(ZFUIAutoLayout)
 ZFOBJECT_REGISTER(ZFUIAutoLayout)
 
-ZFMETHOD_DEFINE_3(ZFUIAutoLayout, void, ruleSet,
+ZFMETHOD_DEFINE_3(ZFUIAutoLayout, void, rule,
                   ZFMP_IN(ZFUIView *, child),
                   ZFMP_IN(ZFUIAutoLayoutPosEnum, pos),
                   ZFMP_IN(const ZFUIAutoLayoutRule &, rule))
@@ -173,7 +173,7 @@ ZFMETHOD_DEFINE_3(ZFUIAutoLayout, void, ruleSet,
     ZFUIAutoLayoutParam *layoutParam = child->layoutParam<ZFUIAutoLayoutParam *>();
     ZFUIAutoLayoutRule &ruleRef = layoutParam->implRule(pos);
     ruleRef = rule;
-    ruleRef.posSet(pos);
+    ruleRef.pos(pos);
     if(ruleRef.target() == zfnull)
     {
         ruleRef.target() = this;
@@ -186,7 +186,7 @@ ZFMETHOD_DEFINE_3(ZFUIAutoLayout, void, ruleSet,
         ruleRef.target()->layoutParam<ZFUIAutoLayoutParam *>()->_ZFP_al_d.refByRule.add(&ruleRef);
     }
 }
-ZFMETHOD_DEFINE_2(ZFUIAutoLayout, zfbool, ruleHasSet,
+ZFMETHOD_DEFINE_2(ZFUIAutoLayout, zfbool, ruleExist,
                   ZFMP_IN(ZFUIView *, child),
                   ZFMP_IN(ZFUIAutoLayoutPosEnum, pos))
 {
@@ -196,10 +196,10 @@ ZFMETHOD_DEFINE_2(ZFUIAutoLayout, void, ruleRemove,
                   ZFMP_IN(ZFUIView *, child),
                   ZFMP_IN(ZFUIAutoLayoutPosEnum, pos))
 {
-    if(this->ruleHasSet(child, pos))
+    if(this->ruleExist(child, pos))
     {
         ZFUIAutoLayoutRule &ruleRef = child->layoutParam<ZFUIAutoLayoutParam *>()->implRule(pos);
-        ruleRef.posSet(ZFUIAutoLayoutPos::e_None);
+        ruleRef.pos(ZFUIAutoLayoutPos::e_None);
         this->layoutRequest();
 
         if(ruleRef.target() != this)
@@ -216,7 +216,7 @@ ZFMETHOD_DEFINE_1(ZFUIAutoLayout, void, ruleRemoveAll,
     {
         if(ruleList[i].pos() != ZFUIAutoLayoutPos::e_None)
         {
-            ruleList[i].posSet(ZFUIAutoLayoutPos::e_None);
+            ruleList[i].pos(ZFUIAutoLayoutPos::e_None);
             this->layoutRequest();
 
             if(ruleList[i].target() != this)

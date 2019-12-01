@@ -18,19 +18,19 @@ protected:
 
         zfblockedAlloc(ZFUIView, testContainer);
         container->childAdd(testContainer);
-        testContainer->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        testContainer->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, 50, 0, 0));
+        testContainer->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        testContainer->layoutParam()->layoutMargin(ZFUIMarginMake(0, 50, 0, 0));
 
         // use a view that not in view tree to test whether it would cause wrong ani state
         zfblockedAlloc(ZFUIView, testDummy);
-        testContainer->tagSet("testDummy", testDummy);
+        testContainer->objectTag("testDummy", testDummy);
 
         for(zfindex i = 0; i < 4; ++i)
         {
             zfblockedAlloc(ZFUIView, child);
             testContainer->childAdd(child);
-            child->viewSizePreferedSet(ZFUISizeMake(zfmRand(20, 80), zfmRand(20, 80)));
-            child->viewBackgroundColorSet(ZFUIColorRandom(0.5f));
+            child->viewSizePrefer(ZFUISizeMake(zfmRand(20, 80), zfmRand(20, 80)));
+            child->viewBackgroundColor(ZFUIColorRandom(0.5f));
         }
 
         ZFLISTENER_LOCAL(startOnClick, {
@@ -39,7 +39,7 @@ protected:
             ZFUIView *testContainer = userData->objectHolded();
 
             {
-                ZFUIView *testDummy = testContainer->tagGet<ZFUIView *>("testDummy");
+                ZFUIView *testDummy = testContainer->objectTag<ZFUIView *>("testDummy");
                 testDummy->childRemoveAll();
                 zfblockedAlloc(ZFUIView, testDummyChild);
                 testDummy->childAdd(testDummyChild);
@@ -54,15 +54,15 @@ protected:
             {
                 ZFUIView *child = testContainer->childAtIndex(i);
 
-                child->layoutParam()->layoutAlignSet(
+                child->layoutParam()->layoutAlign(
                         xAlign[zfmRand(xAlign.count())] | yAlign[zfmRand(yAlign.count())]
                     );
             }
         })
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
         container->childAdd(startButton);
-        startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
-        startButton->buttonLabelTextSet("start");
+        startButton->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
+        startButton->buttonLabelText("start");
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, testContainer->objectHolder());
 
         this->prepareSettingButton(window);
@@ -142,24 +142,24 @@ public:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAttach)
     {
-        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAttach" << listenerData.sender;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAttach" << listenerData.sender();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewDetach)
     {
-        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewDetach" << listenerData.sender;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewDetach" << listenerData.sender();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniPrepare)
     {
-        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniPrepare" << listenerData.sender
-            << listenerData.sender->to<ZFUIView *>()->viewFramePrev();
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniPrepare" << listenerData.sender()
+            << listenerData.sender<ZFUIView *>()->viewFramePrev();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniStart)
     {
-        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniStart" << listenerData.sender << listenerData.param0;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniStart" << listenerData.sender() << listenerData.param0();
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(debugEventStateAniViewAniStop)
     {
-        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniStop" << listenerData.sender << listenerData.param0;
+        zfLogTrimT() << "[ZFUIViewStateAni]" << "viewAniStop" << listenerData.sender() << listenerData.param0();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewStateAniDebug)
 #endif

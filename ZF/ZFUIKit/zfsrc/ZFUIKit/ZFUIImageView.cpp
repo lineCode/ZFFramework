@@ -15,7 +15,7 @@ public:
     ZFListener imageNinePatchChangedListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(imageNinePatchChanged)
     {
-        const ZFProperty *property = listenerData.param0->to<v_ZFProperty *>()->zfv;
+        const ZFProperty *property = listenerData.param0<v_ZFProperty *>()->zfv;
         if(property == ZFPropertyAccess(ZFUIImage, imageNinePatch))
         {
             ZFUIImageView *imageView = userData->objectHolded();
@@ -40,7 +40,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIImageView, ZFUIImage *, image)
         this->image()->observerAdd(ZFObject::EventObjectPropertyValueOnUpdate(), listenerHolder->imageNinePatchChangedListener, this->objectHolder());
     }
 
-    ZFPROTOCOL_ACCESS(ZFUIImageView)->imageSet(this,
+    ZFPROTOCOL_ACCESS(ZFUIImageView)->image(this,
         this->image() && this->image()->nativeImage()
             ? this->image()
             : zfnull);
@@ -89,13 +89,13 @@ void ZFUIImageView::objectOnInit(void)
             ZFPROTOCOL_ACCESS(ZFUIImageView)->nativeImageViewDestroy(view->to<ZFUIImageView *>(), nativeImplView);
         }
     };
-    this->nativeImplViewSet(
+    this->nativeImplView(
         ZFPROTOCOL_ACCESS(ZFUIImageView)->nativeImageViewCreate(this),
         _ZFP_ZFUIImageView_nativeImplViewDestroy::action);
 }
 void ZFUIImageView::objectOnDealloc(void)
 {
-    this->imageSet(zfnull);
+    this->image(zfnull);
     zfsuper::objectOnDealloc();
 }
 

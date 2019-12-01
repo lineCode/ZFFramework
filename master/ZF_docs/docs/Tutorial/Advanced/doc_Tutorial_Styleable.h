@@ -40,26 +40,26 @@
  * styleable is useful to achieve advance skin logic,
  * use #ZFStyleable::styleKey to supply your style:
  * @code
- *   yourObj->styleKeySet("your_skin_key");
+ *   yourObj->styleKey("your_skin_key");
  * @endcode
- * this code register yourObj to #ZFStyleGet,
+ * this code register yourObj to #ZFStyleSet,
  * once the skin value associated with "your_skin_key" has changed by #ZFStyleChangeEnd,
  * yourObj would be notified and copy style from it automatically\n
  * \n
  * for non-ZFStyleable property, you may also attach to style
- * if it's registered by #ZFSTYLE_PROPERTY_COPY_DEFINE
+ * if it's registered by #ZFTYPEID_DECLARE
  * @code
- *   yourObj->styleKeySet(ZFPropertyAccess(YourObject, yourProperty), "your_skin_key");
+ *   yourObj->styleKeyForProperty(ZFPropertyAccess(YourObject, yourProperty), "your_skin_key");
  * @endcode
  * \n
  * also, thanks to ZFClass's instance observer,
  * you may achieve more complex style logic:
  * @code
  *   ZFLISTENER_LOCAL(myObjCreated, {
- *       MyStyleableObject *obj = listenerData.sender->toAny();
+ *       MyStyleableObject *obj = listenerData.sender()->toAny();
  *
  *       // change default setting for all instance of MyStyleableObject
- *       obj->myPropertySet(xxx);
+ *       obj->myProperty(xxx);
  *
  *       // or apply style copy (consume more CPU)
  *       obj->styleableCopyFrom(yyy);

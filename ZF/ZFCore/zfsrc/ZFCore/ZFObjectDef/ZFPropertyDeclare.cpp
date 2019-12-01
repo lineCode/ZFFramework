@@ -4,19 +4,10 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-const ZFProperty *ZFPropertyGet(ZF_IN const zfchar *classNameOrFullName,
-                                ZF_IN const zfchar *propertyName)
+const ZFProperty *ZFPropertyForName(ZF_IN const zfchar *classNameOrFullName,
+                                    ZF_IN const zfchar *propertyName)
 {
     const ZFClass *cls = ZFClass::classForName(classNameOrFullName);
-    if(cls != zfnull)
-    {
-        return cls->propertyForName(propertyName);
-    }
-    return zfnull;
-}
-const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
-                                ZF_IN const zfchar *propertyName)
-{
     if(cls != zfnull)
     {
         return cls->propertyForName(propertyName);
@@ -397,8 +388,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFProperty *, ZFPropertyGet, ZFMP_IN(const zfchar *, classNameOrFullName), ZFMP_IN(const zfchar *, propertyName))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFProperty *, ZFPropertyGet, ZFMP_IN(const ZFClass *, cls), ZFMP_IN(const zfchar *, propertyName))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFProperty *, ZFPropertyForName, ZFMP_IN(const zfchar *, classNameOrFullName), ZFMP_IN(const zfchar *, propertyName))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

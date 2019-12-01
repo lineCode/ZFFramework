@@ -13,7 +13,7 @@ public class Loader extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(BuildConfig.DEBUG) {
-            ZFMainEntry.debugModeSet(true);
+            ZFMainEntry.debugMode(true);
         }
     }
     private boolean _firstTime = true;

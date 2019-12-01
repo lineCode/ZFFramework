@@ -89,7 +89,7 @@ private:
                          ZF_IN const ZFUIAutoLayoutRule &rule,
                          ZF_IN zfbool xAxis);
     void updateChain(ZF_IN ZFUIView *parent,
-                     ZF_OUT ZFCoreArray<zfindex> &chain,
+                     ZF_IN_OUT ZFCoreArray<zfindex> &chain,
                      ZF_IN zfindex childIndex,
                      ZF_IN const ZFUIAutoLayoutRule *ruleList,
                      ZF_IN ZFUIAutoLayoutPosEnum posHead,
@@ -210,7 +210,7 @@ void ZFUIAutoLayout::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
     }
     for(zfindex i = this->childCount() - 1; i != zfindexMax(); --i)
     {
-        this->childAtIndex(i)->viewFrameSet(d->_childFrame[i]);
+        this->childAtIndex(i)->viewFrame(d->_childFrame[i]);
     }
 }
 
@@ -328,7 +328,7 @@ void _ZFP_ZFUIAutoLayoutPrivate::updateChildSize(ZF_IN ZFUIView *parent,
 }
 
 void _ZFP_ZFUIAutoLayoutPrivate::updateChain(ZF_IN ZFUIView *parent,
-                                             ZF_OUT ZFCoreArray<zfindex> &chain,
+                                             ZF_IN_OUT ZFCoreArray<zfindex> &chain,
                                              ZF_IN zfindex childIndex,
                                              ZF_IN const ZFUIAutoLayoutRule *ruleList,
                                              ZF_IN ZFUIAutoLayoutPosEnum posHead,

@@ -36,7 +36,7 @@ public:
      *
      * to achieve memory pool logic, impl should:
      * -  supply memory pool token to hold state
-     * -  use #xmlMemoryPool_xmlNameSet/#xmlMemoryPool_xmlValueSet to store data
+     * -  use #xmlMemoryPool_xmlName/#xmlMemoryPool_xmlValue to store data
      * -  implement this method to release reference
      */
     virtual void xmlMemoryPoolRelease(ZF_IN void *token, ZF_IN const zfchar *value)
@@ -46,18 +46,18 @@ public:
 
 public:
     /** @brief see #xmlMemoryPoolRelease */
-    inline void xmlMemoryPool_xmlNameSet(ZF_IN ZFXmlItem &xmlItem,
-                                         ZF_IN const zfchar *xmlName,
-                                         ZF_IN void *token)
+    inline void xmlMemoryPool_xmlName(ZF_IN ZFXmlItem &xmlItem,
+                                      ZF_IN const zfchar *xmlName,
+                                      ZF_IN void *token)
     {
-        xmlItem._ZFP_ZFXml_xmlMemoryPool_xmlNameSet(xmlName, token);
+        xmlItem._ZFP_ZFXml_xmlMemoryPool_xmlName(xmlName, token);
     }
     /** @brief see #xmlMemoryPoolRelease */
-    inline void xmlMemoryPool_xmlValueSet(ZF_IN ZFXmlItem &xmlItem,
-                                          ZF_IN const zfchar *xmlValue,
-                                          ZF_IN void *token)
+    inline void xmlMemoryPool_xmlValue(ZF_IN ZFXmlItem &xmlItem,
+                                       ZF_IN const zfchar *xmlValue,
+                                       ZF_IN void *token)
     {
-        xmlItem._ZFP_ZFXml_xmlMemoryPool_xmlValueSet(xmlValue, token);
+        xmlItem._ZFP_ZFXml_xmlMemoryPool_xmlValue(xmlValue, token);
     }
 ZFPROTOCOL_INTERFACE_END(ZFXml)
 

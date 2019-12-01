@@ -219,7 +219,7 @@ void ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorFromColorT(ZF_OUT ZFUIColor &ret, 
 }
 
 // ============================================================
-void ZFImpl_sys_Android_ViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView)
+void ZFImpl_sys_Android_viewTreePrintT(ZF_OUT zfstring &ret, ZF_IN jobject nativeView)
 {
     JNIEnv *jniEnv = JNIGetJNIEnv();
     jclass jcls = JNIUtilFindClass(jniEnv, JNIConvertClassNameForFindClass(ZFImpl_sys_Android_JNI_NAME_ZFAndroidUI).c_str());

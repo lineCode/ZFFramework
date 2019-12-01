@@ -71,8 +71,8 @@ ZFMETHOD_FUNC_DECLARE_0(const zfchar *, ZFFilePathForSetting)
 /**
  * @brief change the data path, null to use defalut path
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForSettingSet,
-                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
+ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForSetting,
+                        ZFMP_IN(const zfchar *, path))
 
 // ============================================================
 // storage
@@ -97,8 +97,8 @@ ZFMETHOD_FUNC_DECLARE_0(const zfchar *, ZFFilePathForStorage)
 /**
  * @brief change the storage path, null to use defalut path
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForStorageSet,
-                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
+ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForStorage,
+                        ZFMP_IN(const zfchar *, path))
 
 // ============================================================
 // storage shared
@@ -127,8 +127,8 @@ ZFMETHOD_FUNC_DECLARE_0(const zfchar *, ZFFilePathForStorageShared)
 /**
  * @brief change the storage path, null to use defalut path
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForStorageSharedSet,
-                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
+ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForStorageShared,
+                        ZFMP_IN(const zfchar *, path))
 
 // ============================================================
 // cache
@@ -167,8 +167,8 @@ ZFMETHOD_FUNC_DECLARE_0(const zfchar *, ZFFilePathForCache)
 /**
  * @brief change the cache path, null to use defalut path
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForCacheSet,
-                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
+ZFMETHOD_FUNC_DECLARE_1(void, ZFFilePathForCache,
+                        ZFMP_IN(const zfchar *, path))
 /**
  * @brief clear all caches under #ZFFilePathForCache
  *

@@ -23,7 +23,7 @@ public:
     template<typename T_ZFCorePointer>
     static inline T_Pointer *toPointer(ZF_IN T_ZFCorePointer p)
     {
-        return ZFCastStatic(T_Pointer *, p->pointerValueGetNonConst());
+        return ZFCastStatic(T_Pointer *, p->pointerValueAccessNonConst());
     }
 };
 template<typename T_Pointer>
@@ -37,7 +37,7 @@ public:
     template<typename T_ZFCorePointer>
     static inline const T_Pointer *toPointer(ZF_IN T_ZFCorePointer p)
     {
-        return ZFCastStatic(const T_Pointer *, p->pointerValueGet());
+        return ZFCastStatic(const T_Pointer *, p->pointerValueAccess());
     }
 };
 
@@ -61,7 +61,7 @@ public:
     virtual void objectInfoT(ZF_IN_OUT zfstring &ret) const
     {
         zfstringAppend(ret, "<%p (%zi), content: %s>",
-            this->pointerValueGet(),
+            this->pointerValueAccess(),
             this->objectRetainCount(),
             this->objectInfoOfContent().cString());
     }
@@ -92,7 +92,7 @@ public:
      */
     virtual ZFCompareResult objectCompare(ZF_IN const ZFCorePointerBase &another) const
     {
-        return ((this->pointerValueGet() == another.pointerValueGet())
+        return ((this->pointerValueAccess() == another.pointerValueAccess())
             ? ZFCompareTheSame
             : ZFCompareUncomparable);
     }
@@ -119,11 +119,11 @@ public:
     /**
      * @brief get the internal pointer
      */
-    virtual const void *pointerValueGet(void) const zfpurevirtual;
+    virtual const void *pointerValueAccess(void) const zfpurevirtual;
     /**
      * @brief get the internal pointer
      */
-    virtual void *pointerValueGetNonConst(void) const zfpurevirtual;
+    virtual void *pointerValueAccessNonConst(void) const zfpurevirtual;
 
     /**
      * @brief util method to get and cast to desired type
@@ -193,7 +193,7 @@ public:
     /**
      * @brief set the pointer value
      */
-    inline void pointerValueSet(ZF_IN T_Pointer const &value)
+    inline void pointerValue(ZF_IN T_Pointer const &value)
     {
         if(d->pointerValue != zfnull)
         {
@@ -246,7 +246,7 @@ public:
     ZFCorePointer(ZF_IN T_Pointer const &value)
     : d(zfnew(_ZFP_ZFCorePointerPrivate<T_Pointer>))
     {
-        this->pointerValueSet(value);
+        this->pointerValue(value);
     }
     ZFCorePointer(ZF_IN const ZFCorePointer<T_Pointer, T_ZFCorePointerType> &ref)
     : d(ref.d)
@@ -283,7 +283,7 @@ public:
     }
     ZFCorePointer<T_Pointer, T_ZFCorePointerType> &operator = (ZF_IN T_Pointer const &value)
     {
-        this->pointerValueSet(value);
+        this->pointerValue(value);
         return *this;
     }
     operator T_Pointer const & (void) const
@@ -318,12 +318,12 @@ public:
         return zfnew((ZFCorePointer<T_Pointer, T_ZFCorePointerType>), *this);
     }
     zfoverride
-    virtual inline const void *pointerValueGet(void) const
+    virtual inline const void *pointerValueAccess(void) const
     {
         return d->pointerValue;
     }
     zfoverride
-    virtual inline void *pointerValueGetNonConst(void) const
+    virtual inline void *pointerValueAccessNonConst(void) const
     {
         return _ZFP_ZFCorePointerHelper<T_Pointer>::toNonConstRaw(d->pointerValue);
     }

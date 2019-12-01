@@ -606,7 +606,7 @@ static void _ZFP_GI_dataUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag,
         zfCoreCriticalShouldNotGoHere();
         return ;
     }
-    _ZFP_GI_Data *data = dataMap.iteratorGetValue<_ZFP_GI_Data *>(it);
+    _ZFP_GI_Data *data = dataMap.iteratorValue<_ZFP_GI_Data *>(it);
     data->ZFCoreLibDestroyFlag.removeElement(ZFCoreLibDestroyFlag);
     --(data->refCount);
     if(data->refCount == 0)

@@ -154,11 +154,11 @@ public:
             ZFCastStatic(jobject, sysWindow->nativeWindow()));
         return ZFCastStatic(ZFUIOrientationEnum, ret);
     }
-    virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                              ZF_IN const ZFUIOrientationFlags &flags)
+    virtual void sysWindowOrientationFlags(ZF_IN ZFUISysWindow *sysWindow,
+                                           ZF_IN const ZFUIOrientationFlags &flags)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_sysWindowOrientationFlagsSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_sysWindowOrientationFlags",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)

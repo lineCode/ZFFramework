@@ -18,8 +18,8 @@ protected:
 
         zfblockedAlloc(ZFUILinearLayout, layout);
         container->childAdd(layout);
-        layout->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
-        layout->viewBackgroundColorSet(ZFUIColorRed());
+        layout->layoutParam()->layoutMargin(ZFUIMarginMake(40));
+        layout->viewBackgroundColor(ZFUIColorRed());
 
         this->prepareChildren(layout);
 
@@ -33,24 +33,24 @@ private:
         {
             zfblockedAlloc(ZFUITextView, child);
             layout->childAdd(child);
-            child->textSet(zfstringWithFormat("text %zi", i));
-            child->textAlignSet(ZFUIAlign::e_Center);
-            child->viewBackgroundColorSet(ZFUIColorRandom());
+            child->text(zfstringWithFormat("text %zi", i));
+            child->textAlign(ZFUIAlign::e_Center);
+            child->viewBackgroundColor(ZFUIColorRandom());
         }
 
-        layout->childAtIndex(1)->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(1);
-        layout->childAtIndex(2)->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(2);
+        layout->childAtIndex(1)->layoutParam<ZFUILinearLayoutParam *>()->layoutWeight(1);
+        layout->childAtIndex(2)->layoutParam<ZFUILinearLayoutParam *>()->layoutWeight(2);
 
         zfblockedAlloc(ZFUILinearLayout, l);
         layout->childAdd(l);
-        l->layoutOrientationSet(ZFUIOrientation::e_Bottom);
+        l->layoutOrientation(ZFUIOrientation::e_Bottom);
         for(zfindex i = 0; i < 3; ++i)
         {
             zfblockedAlloc(ZFUITextView, child);
             l->childAdd(child);
-            child->textSet(zfstringWithFormat("text %zi", 3 + i));
-            child->textAlignSet(ZFUIAlign::e_Center);
-            child->viewBackgroundColorSet(ZFUIColorRandom());
+            child->text(zfstringWithFormat("text %zi", 3 + i));
+            child->textAlign(ZFUIAlign::e_Center);
+            child->viewBackgroundColor(ZFUIColorRandom());
         }
     }
     void prepareSettingButton(ZF_IN ZFUIWindow *window,

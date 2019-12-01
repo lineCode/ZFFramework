@@ -39,7 +39,7 @@ ZFMETHOD_FUNC_DECLARE_2(zfautoObject, zfRes,
 /**
  * @brief see #zfRes
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(zfautoObject, zfResNoCache,
+ZFMETHOD_FUNC_INLINE_DECLARE_1(zfautoObject, zfResNoCache,
                                ZFMP_IN(const zfchar *, resFilePath))
 {
     return zfRes(resFilePath, zffalse);

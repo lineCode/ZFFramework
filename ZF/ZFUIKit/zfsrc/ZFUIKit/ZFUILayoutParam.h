@@ -60,7 +60,7 @@ ZFCORE_POD_COMPARER_DECLARE(ZFUISizeParam)
 /**
  * @brief make a ZFUISizeParam
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUISizeParam, ZFUISizeParamMake,
+ZFMETHOD_FUNC_INLINE_DECLARE_2(ZFUISizeParam, ZFUISizeParamMake,
                                ZFMP_IN(ZFUISizeTypeEnum const &, width),
                                ZFMP_IN(ZFUISizeTypeEnum const &, height))
 {
@@ -70,7 +70,7 @@ ZFMETHOD_FUNC_DECLARE_INLINE_2(ZFUISizeParam, ZFUISizeParamMake,
 /**
  * @brief make a ZFUISizeParam
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(ZFUISizeParam, ZFUISizeParamMake,
+ZFMETHOD_FUNC_INLINE_DECLARE_1(ZFUISizeParam, ZFUISizeParamMake,
                                ZFMP_IN(ZFUISizeTypeEnum const &, v))
 {
     ZFUISizeParam ret = {v, v};

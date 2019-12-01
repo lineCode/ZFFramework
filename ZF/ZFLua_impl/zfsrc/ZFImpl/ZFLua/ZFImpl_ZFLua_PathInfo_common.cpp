@@ -249,7 +249,7 @@ static int _ZFP_ZFLuaImportAllWrap(ZF_IN lua_State *L,
                                    ZF_IN ZFObject *importCallbackUserData,
                                    ZF_IN zfbool recursive)
 {
-    const ZFFilePathInfoData *impl = ZFFilePathInfoDataGet(pathInfo.pathType);
+    const ZFFilePathInfoData *impl = ZFFilePathInfoDataForPathType(pathInfo.pathType);
     if(impl == zfnull)
     {
         ZFLuaErrorOccurredTrim(
@@ -293,7 +293,7 @@ static int _ZFP_ZFLuaImportAllExecute(ZF_IN lua_State *L,
 
     if(importCallback.callbackIsValid())
     {
-        importCallback.execute(ZFListenerData().param0Set(pathInfo), importCallbackUserData);
+        importCallback.execute(ZFListenerData().param0(pathInfo), importCallbackUserData);
     }
     ZFLuaExecute(input, zfnull, L);
     return 0;

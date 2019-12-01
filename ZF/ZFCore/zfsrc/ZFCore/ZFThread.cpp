@@ -90,7 +90,7 @@ public:
     _ZFP_ZFThreadRunState runState;
 
 public:
-    inline void runnableSet(ZF_IN const ZFListener &runnable)
+    inline void runnable(ZF_IN const ZFListener &runnable)
     {
         zfassert(runnable.callbackIsValid());
         runnable.callbackOwnerObjectRetain();
@@ -178,7 +178,7 @@ static zfidentity _ZFP_ZFThreadExecuteInNewThread(ZF_IN const ZFListener &runnab
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadCallback)
 {
     zfbool lockAvailable = (_ZFP_ZFThread_mutex != zfnull);
-    _ZFP_I_ZFThreadRunnableData *runnableData = ZFCastZFObjectUnchecked(_ZFP_I_ZFThreadRunnableData *, listenerData.param0);
+    _ZFP_I_ZFThreadRunnableData *runnableData = listenerData.param0<_ZFP_I_ZFThreadRunnableData *>();
     ZFThread *ownerZFThreadFixed = ((runnableData->ownerZFThread == zfnull) ? ZFThread::currentThread() : runnableData->ownerZFThread);
 
     if(lockAvailable)
@@ -203,11 +203,11 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadCallback)
         if(runnableData->ownerZFThread != zfnull)
         {
             runnableData->ownerZFThread->_ZFP_ZFThread_threadOnStart(
-                runnableData->listenerData.param0, runnableData->listenerData.param1);
+                runnableData->listenerData.param0(), runnableData->listenerData.param1());
         }
         runnableData->semaWait->observerNotifyWithCustomSender(
             ownerZFThreadFixed, ZFThread::EventThreadOnStart(),
-            runnableData->listenerData.param0, runnableData->listenerData.param1);
+            runnableData->listenerData.param0(), runnableData->listenerData.param1());
 
         // running
         runnableData->runnable().execute(runnableData->listenerData, runnableData->userData);
@@ -216,11 +216,11 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFThreadCallback)
         if(runnableData->ownerZFThread != zfnull)
         {
             runnableData->ownerZFThread->_ZFP_ZFThread_threadOnStop(
-                runnableData->listenerData.param0, runnableData->listenerData.param1);
+                runnableData->listenerData.param0(), runnableData->listenerData.param1());
         }
         runnableData->semaWait->observerNotifyWithCustomSender(
             ownerZFThreadFixed, ZFThread::EventThreadOnStop(),
-            runnableData->listenerData.param0, runnableData->listenerData.param1);
+            runnableData->listenerData.param0(), runnableData->listenerData.param1());
 
         if(lockAvailable)
         {
@@ -303,9 +303,9 @@ static void _ZFP_ZFThreadRunnableCleanup(ZF_IN _ZFP_I_ZFThreadRunnableData *runn
             return ;
     }
     zfRelease(runnableData->ownerZFThread);
-    zfRelease(runnableData->listenerData.sender);
-    zfRelease(runnableData->listenerData.param0);
-    zfRelease(runnableData->listenerData.param1);
+    zfRelease(runnableData->listenerData.sender());
+    zfRelease(runnableData->listenerData.param0());
+    zfRelease(runnableData->listenerData.param1());
     zfRelease(runnableData->userData);
 
     if(lockAvailable)
@@ -471,7 +471,7 @@ ZFMETHOD_DEFINE_3(ZFThread, void, threadStart,
             ? this->threadRunnable()
             : ZFListener(ZFCallbackForMemberMethod(this, ZFMethodAccess(ZFThread, threadOnRun))),
         userData,
-        ZFListenerData().param0Set(param0).param1Set(param1),
+        ZFListenerData().param0(param0).param1(param1),
         zfnull,
         this,
         _ZFP_ZFThread_d);
@@ -594,12 +594,12 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThread,
     zfidentity taskId = _ZFP_ZFThread_idGenerator.idAcquire();
     runnableData->taskId = taskId;
     runnableData->runnableType = _ZFP_ZFThreadRunnableTypeExecuteInMainThread;
-    runnableData->runnableSet(runnable);
+    runnableData->runnable(runnable);
     runnableData->listenerData = listenerData;
     {
-        zfRetain(listenerData.sender);
-        zfRetain(listenerData.param0);
-        zfRetain(listenerData.param1);
+        zfRetain(listenerData.sender());
+        zfRetain(listenerData.param0());
+        zfRetain(listenerData.param1());
     }
     runnableData->owner = owner;
     runnableData->userData = zfRetain(userData);
@@ -627,7 +627,7 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThread,
 
     return taskId;
 }
-ZFMETHOD_FUNC_DEFINE_INLINE_4(zfidentity, ZFThreadExecuteInMainThreadWaitUntilDone,
+ZFMETHOD_FUNC_INLINE_DEFINE_4(zfidentity, ZFThreadExecuteInMainThreadWaitUntilDone,
                               ZFMP_IN(const ZFListener &, runnable),
                               ZFMP_IN_OPT(ZFObject *, userData, zfnull),
                               ZFMP_IN_OPT(const ZFListenerData &, listenerData, ZFListenerData()),
@@ -659,14 +659,14 @@ static zfidentity _ZFP_ZFThreadExecuteInNewThread(ZF_IN const ZFListener &runnab
     zfidentity taskId = _ZFP_ZFThread_idGenerator.idAcquire();
     runnableData->taskId = taskId;
     runnableData->runnableType = _ZFP_ZFThreadRunnableTypeExecuteInNewThread;
-    runnableData->runnableSet(runnable);
+    runnableData->runnable(runnable);
     runnableData->ownerZFThread = zfRetain(ownerZFThread);
     runnableData->ownerZFThreadPrivate = ownerZFThreadPrivate;
     runnableData->listenerData = listenerData;
     {
-        zfRetain(listenerData.sender);
-        zfRetain(listenerData.param0);
-        zfRetain(listenerData.param1);
+        zfRetain(listenerData.sender());
+        zfRetain(listenerData.param0());
+        zfRetain(listenerData.param1());
     }
     runnableData->owner = owner;
     runnableData->userData = zfRetain(userData);
@@ -700,7 +700,7 @@ ZFMETHOD_FUNC_DEFINE_4(zfidentity, ZFThreadExecuteInNewThread,
     }
 
     ZFThread *tmpThread = zfAlloc(ZFThread);
-    tmpThread->threadRunnableSet(runnable);
+    tmpThread->threadRunnable(runnable);
     zfidentity taskId = _ZFP_ZFThreadExecuteInNewThread(
         runnable,
         userData,
@@ -737,12 +737,12 @@ ZFMETHOD_FUNC_DEFINE_5(zfidentity, ZFThreadExecuteInMainThreadAfterDelay,
     zfidentity taskId = _ZFP_ZFThread_idGenerator.idAcquire();
     runnableData->taskId = taskId;
     runnableData->runnableType = _ZFP_ZFThreadRunnableTypeExecuteInMainThreadAfterDelay;
-    runnableData->runnableSet(runnable);
+    runnableData->runnable(runnable);
     runnableData->listenerData = listenerData;
     {
-        zfRetain(listenerData.sender);
-        zfRetain(listenerData.param0);
-        zfRetain(listenerData.param1);
+        zfRetain(listenerData.sender());
+        zfRetain(listenerData.param0());
+        zfRetain(listenerData.param1());
     }
     runnableData->owner = owner;
     runnableData->userData = zfRetain(userData);
@@ -798,12 +798,12 @@ static void _ZFP_ZFThreadDoCancelTask(ZF_IN _ZFP_I_ZFThreadRunnableData *runnabl
     if(runnableData->ownerZFThread != zfnull)
     {
         runnableData->ownerZFThread->_ZFP_ZFThread_threadOnCancel(
-            runnableData->listenerData.param0, runnableData->listenerData.param1);
+            runnableData->listenerData.param0(), runnableData->listenerData.param1());
     }
     runnableData->semaWait->observerNotifyWithCustomSender(
         (runnableData->ownerZFThread == zfnull) ? ZFThread::currentThread() : runnableData->ownerZFThread,
         ZFThread::EventThreadOnCancel(),
-        runnableData->listenerData.param0, runnableData->listenerData.param1);
+        runnableData->listenerData.param0(), runnableData->listenerData.param1());
 
     _ZFP_ZFThreadRunnableCleanup(runnableData);
 }
@@ -973,7 +973,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverAdd,
         && eventId != ZFThread::EventThreadOnCancel())
     {
         zfCoreCriticalMessage("thread task can only add ZFThread's observer event, event: %s",
-            ZFIdMapGetName(eventId));
+            ZFIdMapNameForId(eventId));
         return ;
     }
     if(taskId != zfidentityInvalid())
@@ -1008,7 +1008,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFThreadExecuteObserverRemove,
         && eventId != ZFThread::EventThreadOnCancel())
     {
         zfCoreCriticalMessage("thread task can only add ZFThread's observer event, event: %s",
-            ZFIdMapGetName(eventId));
+            ZFIdMapNameForId(eventId));
         return ;
     }
     if(taskId != zfidentityInvalid())

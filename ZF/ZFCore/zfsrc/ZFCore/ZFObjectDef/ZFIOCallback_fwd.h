@@ -16,7 +16,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * for #ZFOutput and #ZFInput to achieve some additional operation\n
  * \n
  * usage:\n
- * set an auto released data by #ZFCallback::callbackTagSet,
+ * set an auto released data by #ZFCallback::callbackTag,
  * whose key is #ZFCallbackTagKeyword_ioOwner and value is a ZFObject
  * that optionally implements those method (as #ZFMethod):
  * -  ioSeek, similar to FILE's #ZFFileFileSeek, proto type:\n

@@ -35,8 +35,8 @@ public:
             zfself::ClassData()->propertyForName(v)
                 ->setterMethod()->execute<void, zfstring const &>(this, v);
         }
-        this->vObjSet(zflineAlloc(_ZFP_ZFUISerializePerformance_test_TestObject));
-        this->vObj()->v0Set("dummy");
+        this->vObj(zflineAlloc(_ZFP_ZFUISerializePerformance_test_TestObject));
+        this->vObj()->v0("dummy");
     }
 };
 
@@ -59,65 +59,65 @@ protected:
 
         zfblockedAlloc(ZFUIView, outputViewContainer);
         container->childAdd(outputViewContainer);
-        outputViewContainer->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        outputViewContainer->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, 50, 0, 0));
-        outputViewContainer->viewBackgroundColorSet(ZFUIColorBlack());
+        outputViewContainer->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        outputViewContainer->layoutParam()->layoutMargin(ZFUIMarginMake(0, 50, 0, 0));
+        outputViewContainer->viewBackgroundColor(ZFUIColorBlack());
 
         zfblockedAlloc(ZFUITextView, outputView);
         outputViewContainer->childAdd(outputView);
-        outputView->layoutParam()->sizeParamSet(ZFUISizeParamFillWrap());
-        outputView->textSingleLineSet(zffalse);
-        outputView->textColorSet(ZFUIColorWhite());
-        outputView->textSet("press start");
+        outputView->layoutParam()->sizeParam(ZFUISizeParamFillWrap());
+        outputView->textSingleLine(zffalse);
+        outputView->textColor(ZFUIColorWhite());
+        outputView->text("press start");
 
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
         container->childAdd(startButton);
-        startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
-        startButton->buttonLabelTextSet("start");
+        startButton->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner);
+        startButton->buttonLabelText("start");
 
         ZFLISTENER_LOCAL_BEGIN(onStart) {
-            ZFUIKit_ZFUISerializePerformance_test *owner = userData->tagGet("owner")->objectHolded();
+            ZFUIKit_ZFUISerializePerformance_test *owner = userData->objectTag("owner")->objectHolded();
             zfautoObject testObject = owner->prepareTestObject();
-            ZFUITextView *outputView = userData->tagGet<ZFUITextView *>("outputView");
-            outputView->textSet("running...");
+            ZFUITextView *outputView = userData->objectTag<ZFUITextView *>("outputView");
+            outputView->text("running...");
             ZFSerializableData data = ZFObjectToData(testObject);
 
             zfindex toDataTimes = 1000;
-            ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFUISerializePerformance_test_toData");
+            ZFCoreStatistic::invokeTimeLogBegin("ZFUISerializePerformance_test_toData");
             for(zfindex i = 0; i < toDataTimes; ++i)
             {
                 ZFObjectToData(testObject);
             }
-            ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFUISerializePerformance_test_toData");
+            ZFCoreStatistic::invokeTimeLogEnd("ZFUISerializePerformance_test_toData");
 
             zfindex fromDataTimes = toDataTimes;
-            ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFUISerializePerformance_test_fromData");
+            ZFCoreStatistic::invokeTimeLogBegin("ZFUISerializePerformance_test_fromData");
             for(zfindex i = 0; i < fromDataTimes; ++i)
             {
                 ZFObjectFromData(data);
             }
-            ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFUISerializePerformance_test_fromData");
+            ZFCoreStatistic::invokeTimeLogEnd("ZFUISerializePerformance_test_fromData");
 
             zfstring result;
-            ZFTimeValue toDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFUISerializePerformance_test_toData");
+            ZFTimeValue toDataUsedTime = ZFCoreStatistic::invokeTimeGetTotalTime("ZFUISerializePerformance_test_toData");
             zfstringAppend(result, "serialize %zi object to data cost %s seconds",
                 toDataTimes,
                 ZFTimeValueToStringFriendly(toDataUsedTime).cString());
             result += "\n";
-            ZFTimeValue fromDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFUISerializePerformance_test_fromData");
+            ZFTimeValue fromDataUsedTime = ZFCoreStatistic::invokeTimeGetTotalTime("ZFUISerializePerformance_test_fromData");
             zfstringAppend(result, "serialize %zi object from data cost %s seconds",
                 fromDataTimes,
                 ZFTimeValueToStringFriendly(fromDataUsedTime).cString());
             result += "\ndata:\n";
             ZFSerializableDataToXml(ZFOutputForString(result), data);
-            outputView->textSet(result);
+            outputView->text(result);
 
-            ZFCoreStatistic::invokeTimeAccurateRemove("ZFUISerializePerformance_test_toData");
-            ZFCoreStatistic::invokeTimeAccurateRemove("ZFUISerializePerformance_test_fromData");
+            ZFCoreStatistic::invokeTimeRemove("ZFUISerializePerformance_test_toData");
+            ZFCoreStatistic::invokeTimeRemove("ZFUISerializePerformance_test_fromData");
         } ZFLISTENER_LOCAL_END(onStart)
         zfblockedAlloc(ZFObject, userData);
-        userData->tagSet("owner", this->objectHolder());
-        userData->tagSet("outputView", outputView);
+        userData->objectTag("owner", this->objectHolder());
+        userData->objectTag("outputView", outputView);
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), onStart, userData);
 
         this->prepareSettingButton(window);
@@ -131,17 +131,17 @@ private:
         { // auto scroll x
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
-            setting->userDataSet(this->objectHolder());
+            setting->userData(this->objectHolder());
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
                 text->zfv = "change test object";
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
                 ZFUIKit_ZFUISerializePerformance_test *t = userData->objectHolded();
                 t->testObjectType = ((t->testObjectType + 1) % t->testObjectTypeCount);
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
 
         ZFUIKit_test_prepareSettingButtonWithTestWindow(window, settings);
@@ -166,13 +166,13 @@ public:
             case 0:
             {
                 zfblockedAlloc(ZFUIKit_test_Button, v);
-                v->buttonBackgroundStyle()->viewBackgroundColorSet(ZFUIColorRandom());
+                v->buttonBackgroundStyle()->viewBackgroundColor(ZFUIColorRandom());
                 return v;
             }
             case 1:
             {
                 zfblockedAlloc(ZFUIImageView, v);
-                v->imageSet(ZFUIImageLoadFromColor(ZFUIColorRed()));
+                v->image(ZFUIImageLoadFromColor(ZFUIColorRed()));
                 return v;
             }
             case 2:

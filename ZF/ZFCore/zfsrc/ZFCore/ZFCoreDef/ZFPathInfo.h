@@ -53,7 +53,7 @@ public:
  * @brief see #ZFPathInfo
  */
 #define ZFPATHTYPE_DECLARE(pathType) \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(const zfchar *, ZFPathType_##pathType) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_0(const zfchar *, ZFPathType_##pathType) \
     { \
         return ZFM_TOSTRING_DIRECT(pathType); \
     }
@@ -62,7 +62,7 @@ public:
  * @brief see #ZFPathInfo
  */
 #define ZFPATHTYPE_DEFINE(pathType) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(const zfchar *, ZFPathType_##pathType)
+    ZFMETHOD_FUNC_INLINE_DEFINE_0(const zfchar *, ZFPathType_##pathType)
 
 ZF_NAMESPACE_GLOBAL_END
 

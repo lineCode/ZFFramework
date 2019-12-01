@@ -12,7 +12,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIScrollerRegister, ZFLevelZFFrameworkHi
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUIScrollerRegister)
 
-ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollerClassSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollerClass,
                        ZFMP_IN(const ZFClass *, cls))
 {
     if(cls != zfnull && !cls->classIsTypeOf(ZFUIScroller::ClassData()))

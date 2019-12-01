@@ -16,7 +16,7 @@ protected:
     virtual void objectOnInit(void)
     {
         zfsuper::objectOnInit();
-        this->imageSet(ZFStyleGet("ZF2048/block/block_bg"));
+        this->image(ZFStyleGet("ZF2048/block/block_bg"));
     }
 };
 zfclassNotPOD _ZFP_ZF2048UIFramePrivate
@@ -65,7 +65,7 @@ ZFOBSERVER_EVENT_REGISTER(ZF2048UIFrame, FrameOnMove)
 
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048UIFrame, ZFUIImage *, frameBackgroundImage)
 {
-    d->backgroundView->imageSet(this->frameBackgroundImage());
+    d->backgroundView->image(this->frameBackgroundImage());
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048UIFrame, ZFUIMargin, frameMargin)
 {
@@ -129,7 +129,7 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
                 d->blocksHolder->add(block);
             }
             d->blocks->set(i, block);
-            block->blockValueSet(data[i]);
+            block->blockValue(data[i]);
         }
     }
     while(blockCount < d->blocksHolder->count())
@@ -140,7 +140,7 @@ void ZF2048UIFrame::update(ZF_IN const ZF2048Value *data,
     }
     if(this->viewFrame().size.width > 0 && this->viewFrame().size.height > 0)
     {
-        this->layoutIfNeed();
+        this->layoutRequest();
     }
 }
 ZF2048UIBlock *ZF2048UIFrame::blockAtIndex(ZF_IN zfindex posX, ZF_IN zfindex posY)
@@ -168,7 +168,7 @@ void ZF2048UIFrame::objectOnInit(void)
     d->blocksHolder = zfAlloc(ZFArrayEditable);
     d->blockBackgrounds = zfAlloc(ZFArrayEditable);
 
-    this->frameBackgroundImageSet(ZFStyleGet("ZF2048/frame/frame_bg"));
+    this->frameBackgroundImage(ZFStyleGet("ZF2048/frame/frame_bg"));
 }
 void ZF2048UIFrame::objectOnDealloc(void)
 {
@@ -206,7 +206,7 @@ void ZF2048UIFrame::layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
 void ZF2048UIFrame::internalBgViewOnLayout(ZF_IN const ZFUIRect &bounds)
 {
     zfsuper::internalBgViewOnLayout(bounds);
-    d->backgroundView->viewFrameSet(ZFUIRectApplyMarginReversely(d->cachedBlockFrame, this->frameMargin()));
+    d->backgroundView->viewFrame(ZFUIRectApplyMarginReversely(d->cachedBlockFrame, this->frameMargin()));
 }
 void ZF2048UIFrame::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
 {
@@ -218,12 +218,12 @@ void ZF2048UIFrame::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIRect blockFrame = this->blockRectAtIndex(pos.x, pos.y);
 
         _ZFP_ZF2048UIBlockBackgroundView *blockBg = d->blockBackgrounds->get(i)->toAny();
-        blockBg->viewFrameSet(blockFrame);
+        blockBg->viewFrame(blockFrame);
 
         ZF2048UIBlock *block = d->blocks->get(i)->toAny();
         if(block != zfnull)
         {
-            block->viewFrameSet(blockFrame);
+            block->viewFrame(blockFrame);
         }
     }
 }
@@ -278,28 +278,28 @@ void ZF2048UIFrame::viewEventOnKeyEvent(ZF_IN ZFUIKeyEvent *keyEvent)
             {
                 this->frameOnMove(ZFUIOrientation::e_Left);
             }
-            keyEvent->eventResolvedSet(zftrue);
+            keyEvent->eventResolved(zftrue);
             break;
         case ZFUIKeyCode::e_kUp:
             if(keyEvent->keyAction == ZFUIKeyAction::e_KeyDown)
             {
                 this->frameOnMove(ZFUIOrientation::e_Top);
             }
-            keyEvent->eventResolvedSet(zftrue);
+            keyEvent->eventResolved(zftrue);
             break;
         case ZFUIKeyCode::e_kRight:
             if(keyEvent->keyAction == ZFUIKeyAction::e_KeyDown)
             {
                 this->frameOnMove(ZFUIOrientation::e_Right);
             }
-            keyEvent->eventResolvedSet(zftrue);
+            keyEvent->eventResolved(zftrue);
             break;
         case ZFUIKeyCode::e_kDown:
             if(keyEvent->keyAction == ZFUIKeyAction::e_KeyDown)
             {
                 this->frameOnMove(ZFUIOrientation::e_Bottom);
             }
-            keyEvent->eventResolvedSet(zftrue);
+            keyEvent->eventResolved(zftrue);
             break;
         default:
             zfsuper::viewEventOnKeyEvent(keyEvent);

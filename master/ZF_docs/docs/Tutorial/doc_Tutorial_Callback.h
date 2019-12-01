@@ -22,7 +22,7 @@
  * @code
  *   // prepare an object and a method
  *   zfblockedAlloc(MyObject, obj);
- *   const ZFMethod *method = ZFMethodGet("MyObject", "myMemberMethod");
+ *   const ZFMethod *method = ZFMethodForName("MyObject", "myMemberMethod");
  *
  *   // create callback from an object's member method
  *   ZFCallback callback1 = ZFCallbackForMemberMethod(obj, method);

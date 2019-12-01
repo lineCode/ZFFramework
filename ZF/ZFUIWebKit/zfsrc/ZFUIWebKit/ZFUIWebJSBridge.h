@@ -95,8 +95,7 @@ public:
      * return old one if exist or create new one if not exist\n
      * the bridge object would be stored as an object tag to it's owner webView
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              ZFUIWebJSBridge *, instanceForWebView,
+    ZFMETHOD_DECLARE_STATIC_1(ZFUIWebJSBridge *, instanceForWebView,
                               ZFMP_IN(ZFUIWebView *, webView))
 
 public:

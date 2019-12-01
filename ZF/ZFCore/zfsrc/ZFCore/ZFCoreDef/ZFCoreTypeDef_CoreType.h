@@ -179,7 +179,7 @@ ZFT_INT_STRONG(zft_zfuint32, zfflags)
  *     while event name would be stable
  *
  *   because of the above reasons,
- *   #zfidentity would always be serialized by the name of #ZFIdMapGetName
+ *   #zfidentity would always be serialized by the name of #ZFIdMapNameForId
  */
 ZFT_INT_STRONG(zft_zfuint32, zfidentity)
 /** @brief zero value */

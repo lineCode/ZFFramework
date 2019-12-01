@@ -37,7 +37,7 @@ ZFTypeInfo *_ZFP_ZFTypeInfoUnregister(ZF_IN const zfchar *typeId)
     m.erase(it);
     return t;
 }
-const ZFTypeInfo *ZFTypeInfoGet(ZF_IN const zfchar *typeId)
+const ZFTypeInfo *ZFTypeInfoForName(ZF_IN const zfchar *typeId)
 {
     zfCoreMutexLocker();
     zfstlmap<zfstlstringZ, ZFTypeInfo *> &m = ZF_STATIC_INITIALIZER_INSTANCE(ZFTypeInfoHolder)->m;
@@ -51,7 +51,7 @@ const ZFTypeInfo *ZFTypeInfoGet(ZF_IN const zfchar *typeId)
         return zfnull;
     }
 }
-void ZFTypeInfoGetAllT(ZF_OUT ZFCoreArray<const ZFTypeInfo *> &ret)
+void ZFTypeInfoGetAllT(ZF_IN_OUT ZFCoreArray<const ZFTypeInfo *> &ret)
 {
     zfCoreMutexLocker();
     zfstlmap<zfstlstringZ, ZFTypeInfo *> &m = ZF_STATIC_INITIALIZER_INSTANCE(ZFTypeInfoHolder)->m;
@@ -100,7 +100,7 @@ void _ZFP_PropAliasAttach(ZF_IN ZFObject *obj,
     d->obj = obj;
     d->v = v;
     d->detachCallback = detachCallback;
-    obj->tagSet(key, d);
+    obj->objectTag(key, d);
     zfRelease(d);
 }
 void _ZFP_PropAliasDetach(ZF_IN ZFObject *obj,
@@ -108,7 +108,7 @@ void _ZFP_PropAliasDetach(ZF_IN ZFObject *obj,
 {
     zfstring key = "_ZFP_PropTypeAlias_";
     key += typeName;
-    obj->tagRemove(key);
+    obj->objectTagRemove(key);
 }
 
 void _ZFP_ZFTypeIdWrapperMarkConst(ZF_IN_OUT_OPT ZFObject *zfv)

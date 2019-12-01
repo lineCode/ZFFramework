@@ -32,7 +32,7 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObjectHolder, void, objectHoldedSet, ZFMP_IN(ZFObject *, obj))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFObjectHolder, void, objectHolded, ZFMP_IN(ZFObject *, obj))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

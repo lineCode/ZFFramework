@@ -14,18 +14,18 @@ protected:
     virtual void objectOnInit(void)
     {
         zfsuper::objectOnInit();
-        this->viewBackgroundColorSet(ZFUIColorYellow());
+        this->viewBackgroundColor(ZFUIColorYellow());
 
         zfautoObject imageSmall = zfRes("test_normal.png");
         zfautoObject imageLarge = ZFUIImageScale(imageSmall, ZFUISizeMake(600));
 
         this->childAdd(this->imageViewSmall());
-        this->imageViewSmall()->imageSet(imageSmall);
-        this->imageViewSmall()->viewBackgroundColorSet(ZFUIColorRed());
+        this->imageViewSmall()->image(imageSmall);
+        this->imageViewSmall()->viewBackgroundColor(ZFUIColorRed());
 
         this->childAdd(this->imageViewLarge());
-        this->imageViewLarge()->imageSet(imageLarge);
-        this->imageViewLarge()->viewBackgroundColorSet(ZFUIColorBlue());
+        this->imageViewLarge()->image(imageLarge);
+        this->imageViewLarge()->viewBackgroundColor(ZFUIColorBlue());
     }
     zfoverride
     virtual void layoutOnLayout(ZF_IN const ZFUIRect &bounds)
@@ -33,17 +33,17 @@ protected:
         zfsuper::layoutOnLayout(bounds);
         if(bounds.size.height >= bounds.size.width)
         {
-            this->imageViewSmall()->viewFrameSet(ZFUIRectApplyMargin(
+            this->imageViewSmall()->viewFrame(ZFUIRectApplyMargin(
                 ZFUIRectMake(0, 0, bounds.size.width, bounds.size.height / 2),
                 ZFUIMarginMake(5)));
-            this->imageViewLarge()->viewFrameSet(ZFUIRectApplyMargin(
+            this->imageViewLarge()->viewFrame(ZFUIRectApplyMargin(
                 ZFUIRectMake(0, bounds.size.height / 2, bounds.size.width, bounds.size.height / 2),
                 ZFUIMarginMake(5)));
         }
         else
         {
-            this->imageViewSmall()->viewFrameSet(ZFUIRectMake(0, 0, bounds.size.width, bounds.size.height / 2));
-            this->imageViewLarge()->viewFrameSet(ZFUIRectMake(bounds.size.width / 2, 0, bounds.size.width, bounds.size.height / 2));
+            this->imageViewSmall()->viewFrame(ZFUIRectMake(0, 0, bounds.size.width, bounds.size.height / 2));
+            this->imageViewLarge()->viewFrame(ZFUIRectMake(bounds.size.width / 2, 0, bounds.size.width, bounds.size.height / 2));
         }
     }
 };
@@ -64,7 +64,7 @@ protected:
 
         zfblockedAlloc(ZFUIKit_ZFUIImageView_imageScaleType_test_Container, layout);
         container->childAdd(layout);
-        layout->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        layout->layoutParam()->sizeParam(ZFUISizeParamFillFill());
 
         zfblockedAlloc(ZFArrayEditable, imageViews);
         imageViews->add(layout->imageViewSmall());
@@ -92,25 +92,25 @@ private:
         { // imageScaleType
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
-            setting->userDataSet(imageViews);
+            setting->userData(imageViews);
             ZFLISTENER_LOCAL(buttonTextGetter, {
                 ZFArray *imageViews = userData->to<ZFArray *>();
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
 
                 ZFUIImageView *imageView = imageViews->getFirst<ZFUIImageView *>();
                 text->zfv = ZFUIContentScaleType::EnumNameForValue(imageView->imageScaleType());
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
                 ZFArray *imageViews = userData->to<ZFArray *>();
                 ZFUIContentScaleTypeEnum value = imageViews->getFirst<ZFUIImageView *>()->imageScaleType();
                 _nextValue(value);
                 for(zfindex i = 0; i < imageViews->count(); ++i)
                 {
-                    imageViews->get<ZFUIImageView *>(i)->imageScaleTypeSet(value);
+                    imageViews->get<ZFUIImageView *>(i)->imageScaleType(value);
                 }
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
 
         ZFUIKit_test_prepareSettingButtonWithTestWindow(window, settings);

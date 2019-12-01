@@ -35,11 +35,11 @@ public:
         zfsuper::protocolOnDealloc();
     }
 public:
-    virtual void viewFocusableSet(ZF_IN ZFUIView *view,
-                                  ZF_IN zfbool viewFocusable)
+    virtual void viewFocusable(ZF_IN ZFUIView *view,
+                               ZF_IN zfbool viewFocusable)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_viewFocusableSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_viewFocusable",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)

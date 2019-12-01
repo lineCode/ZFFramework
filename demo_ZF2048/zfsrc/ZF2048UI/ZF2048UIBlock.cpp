@@ -10,21 +10,21 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZF2048UIBlock, ZF2048Value, blockValue)
 {
     if(this->blockValue() == 0)
     {
-        this->imageSet(zfnull);
-        this->blockTitle()->viewVisibleSet(zffalse);
+        this->image(zfnull);
+        this->blockTitle()->viewVisible(zffalse);
         return ;
     }
 
     zfstring skinKey = zfstringWithFormat("ZF2048/block/block_%d", (zfint)this->blockValue());
-    this->imageSet(ZFStyleGet(skinKey));
+    this->image(ZFStyleGet(skinKey));
     if(this->image() == zfnull)
     {
-        this->imageSet(ZFStyleGet("ZF2048/block/block_na"));
-        this->blockTitle()->viewVisibleSet(zftrue);
+        this->image(ZFStyleGet("ZF2048/block/block_na"));
+        this->blockTitle()->viewVisible(zftrue);
     }
     else
     {
-        this->blockTitle()->viewVisibleSet(zffalse);
+        this->blockTitle()->viewVisible(zffalse);
     }
 }
 
@@ -32,13 +32,13 @@ void ZF2048UIBlock::objectOnInit(void)
 {
     zfsuper::objectOnInit();
     this->internalFgViewAdd(this->blockTitle());
-    this->blockTitle()->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-    this->blockTitle()->viewVisibleSet(zffalse);
-    this->blockTitle()->textAlignSet(ZFUIAlign::e_Center);
-    this->blockTitle()->textColorSet(ZFUIColorWhite());
-    this->blockTitle()->textShadowColorSet(ZFUIColorGrayDark());
-    this->blockTitle()->textAppearanceSet(ZFUITextAppearance::e_Bold);
-    this->blockTitle()->textSizeSet(24);
+    this->blockTitle()->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
+    this->blockTitle()->viewVisible(zffalse);
+    this->blockTitle()->textAlign(ZFUIAlign::e_Center);
+    this->blockTitle()->textColor(ZFUIColorWhite());
+    this->blockTitle()->textShadowColor(ZFUIColorGrayDark());
+    this->blockTitle()->textAppearance(ZFUITextAppearance::e_Bold);
+    this->blockTitle()->textSize(24);
 }
 
 ZF_NAMESPACE_GLOBAL_END

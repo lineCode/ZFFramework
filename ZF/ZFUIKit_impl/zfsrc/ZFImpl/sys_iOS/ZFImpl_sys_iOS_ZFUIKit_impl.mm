@@ -111,7 +111,7 @@ zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zffloat *pARGB, ZF_IN
 
     return zftrue;
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ZF_OUT zfstring &ret, ZF_IN UIColor *color)
+void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorInfoT(ZF_OUT zfstring &ret, ZF_IN UIColor *color)
 {
     if(color != nil)
     {
@@ -120,7 +120,7 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ZF_OUT zfstring &ret, ZF_IN UIC
     }
 }
 
-static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_OUT zfstring &s, UIView *view, zfindex depth, zfindex siblingIndex)
+static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrint_recursive(ZF_IN_OUT zfstring &s, UIView *view, zfindex depth, zfindex siblingIndex)
 {
     zfstringAppend(s, "|%2d ", siblingIndex);
     for(zfindex i = 0; i < depth; ++i)
@@ -157,7 +157,7 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
 #if 1 // bg
     if(view.backgroundColor != nil)
     {
-        zfstring colorInfo = ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfo(view.backgroundColor);
+        zfstring colorInfo = ZFImpl_sys_iOS_ZFUIKit_impl_UIColorInfo(view.backgroundColor);
         viewInfo = [viewInfo stringByAppendingFormat:@" bg:%@", [NSString stringWithUTF8String:colorInfo]];
     }
 #endif // bg
@@ -212,16 +212,16 @@ static void _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ZF_IN_O
     NSArray *subviews = view.subviews;
     for(NSUInteger i = 0; i < [subviews count]; ++i)
     {
-        _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(s, [subviews objectAtIndex:i], depth + 1, i);
+        _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrint_recursive(s, [subviews objectAtIndex:i], depth + 1, i);
     }
 }
-void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN UIView *view)
+void ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrintT(ZF_OUT zfstring &ret, ZF_IN UIView *view)
 {
     ret += "==================== UIView tree begin ====================\n";
     if(view != nil)
     {
         @autoreleasepool {
-            _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree_recursive(ret, view, 0, 0);
+            _ZFP_ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrint_recursive(ret, view, 0, 0);
         }
     }
     ret += "==================== UIView tree  end  ====================\n";
@@ -235,9 +235,9 @@ void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN 
             return ;
         }
         ZFLISTENER_LOCAL(windowOnPause, {
-            ZFUISysWindow *sysWindow = listenerData.sender->to<ZFUISysWindow *>();
+            ZFUISysWindow *sysWindow = listenerData.sender<ZFUISysWindow *>();
             zfstring s;
-            ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(s, (__bridge UIView *)sysWindow->rootView()->nativeView());
+            ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrintT(s, (__bridge UIView *)sysWindow->rootView()->nativeView());
             zfLogTrimT() << s;
         })
         this->windowOnPauseListener = windowOnPause;

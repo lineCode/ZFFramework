@@ -31,12 +31,12 @@ public:
     {
         zfblockedAlloc(ZFUIImageView, cellIcon);
         propertyValue = cellIcon;
-        cellIcon->viewSizeMaxSet(ZFUISizeMake(ZFUIGlobalStyle::DefaultStyle()->itemSizeIcon()));
+        cellIcon->viewSizeMax(ZFUISizeMake(ZFUIGlobalStyle::DefaultStyle()->itemSizeIcon()));
     }
     ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZFUIImageView *, cellIcon)
     {
         this->cellIconContainer()->childAdd(this->cellIcon());
-        this->cellIcon()->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
+        this->cellIcon()->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
     }
     ZFPROPERTY_OVERRIDE_ON_DETACH_INLINE(ZFUIImageView *, cellIcon)
     {
@@ -55,7 +55,7 @@ public:
     ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZFUITextView *, cellLabelMain)
     {
         this->cellLabelMainContainer()->childAdd(this->cellLabelMain());
-        this->cellLabelMain()->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
+        this->cellLabelMain()->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
     }
     ZFPROPERTY_OVERRIDE_ON_DETACH_INLINE(ZFUITextView *, cellLabelMain)
     {
@@ -70,13 +70,13 @@ public:
     {
         zfblockedAlloc(ZFUITextView, cellLabelSub);
         propertyValue = cellLabelSub;
-        cellLabelSub->textColorSet(ZFUIGlobalStyle::DefaultStyle()->textColorSecondary());
-        cellLabelSub->textSizeSet(ZFUIGlobalStyle::DefaultStyle()->textSizeSmall());
+        cellLabelSub->textColor(ZFUIGlobalStyle::DefaultStyle()->textColorSecondary());
+        cellLabelSub->textSize(ZFUIGlobalStyle::DefaultStyle()->textSizeSmall());
     }
     ZFPROPERTY_OVERRIDE_ON_ATTACH_INLINE(ZFUITextView *, cellLabelSub)
     {
         this->cellLabelSubContainer()->childAdd(this->cellLabelSub());
-        this->cellLabelSub()->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
+        this->cellLabelSub()->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
     }
     ZFPROPERTY_OVERRIDE_ON_DETACH_INLINE(ZFUITextView *, cellLabelSub)
     {

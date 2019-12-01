@@ -23,16 +23,16 @@ ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFTypeIdWrapper, zfbool, wrappedValue
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_2(ZFTypeIdWrapper, zfbool, wrappedValueFromString, ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFTypeIdWrapper, zfbool, wrappedValueToString, ZFMP_IN_OUT(zfstring &, s))
 
-ZFMETHOD_USER_REGISTER_1({
-        invokerObject->objectOnInit();
+ZFOBJECT_ON_INIT_USER_REGISTER_1({
         invokerObject->to<ZFTypeIdWrapper *>()->wrappedValueFromString(src);
-    }, ZFTypeIdWrapper, void, objectOnInit,
-    ZFMP_IN(const zfchar *, src))
-ZFMETHOD_USER_REGISTER_1({
-        invokerObject->objectOnInit();
+    }, ZFTypeIdWrapper
+    , ZFMP_IN(const zfchar *, src)
+    )
+ZFOBJECT_ON_INIT_USER_REGISTER_1({
         invokerObject->to<ZFTypeIdWrapper *>()->wrappedValueAssign(src);
-    }, ZFTypeIdWrapper, void, objectOnInit,
-    ZFMP_IN(ZFTypeIdWrapper *, src))
+    }, ZFTypeIdWrapper
+    , ZFMP_IN(ZFTypeIdWrapper *, src)
+    )
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

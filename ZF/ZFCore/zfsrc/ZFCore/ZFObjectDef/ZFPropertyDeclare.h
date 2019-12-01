@@ -21,13 +21,8 @@ zfclassFwd ZFClass;
 /**
  * @brief get property by name, or null if not registered
  */
-extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const zfchar *classNameOrFullName,
-                                                     ZF_IN const zfchar *propertyName);
-/**
- * @brief get property by name, or null if not registered
- */
-extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
-                                                     ZF_IN const zfchar *propertyName);
+extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyForName(ZF_IN const zfchar *classNameOrFullName,
+                                                         ZF_IN const zfchar *propertyName);
 
 // ============================================================
 /** @brief see #ZFPROPERTY_RETAIN */
@@ -40,14 +35,11 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  * -  ZFPROPERTY_XXX is similar to \@property in Object-C,
  *   which would automatically generate setter and getter for you\n
  *   here's a list of what they'll generate
- *   (assume property's type is Type and property's name is Name):
+ *   (assume property's type is Type and property's name is yourPropName):
  *   -  ZFPROPERTY_RETAIN / ZFPROPERTY_ASSIGN:
  *     -  public:\n
- *       virtual void NameSet(Type const &propertyValue); // (reflectable)\n
- *       virtual Type const &Name(void); // (reflectable)
- *     -  protected:\n
- *       inline void NameSetInternal(Type const &propertyValue);\n
- *       inline Type const &NameInternal(void);
+ *       virtual void yourPropName(Type const &propertyValue); // (reflectable)\n
+ *       virtual Type const &yourPropName(void); // (reflectable)
  *   -  for a retain property, Type must be ZFObject or ZFObject's subclass,
  *     and value is set by #zfRetainChange,
  *     and would automatically be released when owner object deallocated
@@ -61,11 +53,7 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  * -  ZFProperty is also reflectable,
  *   you may reflect the ZFProperty itself by #ZFClass::propertyForName,
  *   or reflect the setter and getter as ZFMethod,
- *   for how to reflect, see #ZFMethod\n
- *   also, similar to ZFMethod, if you want the static binding for ZFProperty,
- *   use ZFPROPERTY_REGISTER,
- *   however, since a property is valid only if a instance has created,
- *   it's not quite necessary to register it
+ *   for how to reflect, see #ZFMethod, #ZFOBJECT_REGISTER\n
  * -  you may customize the accessibility for getter and setter,
  *   or add default value for setter,
  *   by using ZFPROPERTY_XXX_DETAIL:\n
@@ -102,16 +90,6 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
  *      *
  *      * setters' docs would be auto generated,
  *      * which is referencing to getters
- *      * /
- *     ZFPROPERTY_RETAIN(Type, Name)
- *   @endcode
- *   or:
- *   @code
- *    / **
- *      * @fn NameSet
- *      * @brief doc for NameSet
- *      * @fn Name
- *      * @brief doc for Name
  *      * /
  *     ZFPROPERTY_RETAIN(Type, Name)
  *   @endcode
@@ -173,27 +151,6 @@ extern ZF_ENV_EXPORT const ZFProperty *ZFPropertyGet(ZF_IN const ZFClass *cls,
         _ZFP_ZFPROPERTY_DECLARE_ASSIGN(Type, ZFTypeId<zftTraits<Type>::TrNoRef>::TypeId(), Name, \
                                        InitValueOrEmpty) \
     public:
-
-// ============================================================
-/**
- * @brief see #ZFPROPERTY_RETAIN
- *
- * statically register a property\n
- * you can find the property in its owner class only if it's registered,
- * which can be achieved by any of these:
- * -  any instance of owner class has ever been created,
- *   by default, #ZFClass would do the registration work for you automatically
- *   if the owner class is not an abstract class
- * -  ZFPROPERTY_REGISTER is declared
- */
-#define ZFPROPERTY_REGISTER(OwnerClass, Type, Name) \
-    ZF_STATIC_REGISTER_INIT(PropR_##OwnerClass##_##Name) \
-    { \
-        (void)OwnerClass::_ZFP_Prop_##Name(); \
-    } \
-    ZF_STATIC_REGISTER_END(PropR_##OwnerClass##_##Name) \
-    ZFMETHOD_REGISTER(OwnerClass, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name)) \
-    ZFMETHOD_REGISTER(OwnerClass, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name))
 
 // ============================================================
 /**
@@ -334,33 +291,37 @@ template<typename T_ZFObject>
 zfclassNotPOD _ZFP_PropRVH
 {
 public:
-    T_ZFObject value;
+    void value(ZF_IN ZFObject *obj)
+    {
+        T_ZFObject old = this->_value;
+        this->_value = ZFCastZFObject(T_ZFObject, zflockfree_zfRetain(obj));
+        zflockfree_zfRelease(old);
+    }
+    T_ZFObject &value(void)
+    {
+        return this->_value;
+    }
 public:
     _ZFP_PropRVH(void)
-    : value(zfnull)
+    : _value(zfnull)
     {
     }
     template<typename T_ZFObject2>
     _ZFP_PropRVH(ZF_IN T_ZFObject2 obj)
-    : value(zflockfree_zfRetain(ZFCastZFObject(T_ZFObject, obj)))
+    : _value(zflockfree_zfRetain(ZFCastZFObject(T_ZFObject, obj)))
     {
     }
     ~_ZFP_PropRVH(void)
     {
-        zflockfree_zfRelease(this->value);
+        zflockfree_zfRelease(this->_value);
     }
-public:
-    void valueSet(ZF_IN ZFObject *obj)
-    {
-        T_ZFObject old = this->value;
-        this->value = ZFCastZFObject(T_ZFObject, zflockfree_zfRetain(obj));
-        zflockfree_zfRelease(old);
-    }
+private:
+    T_ZFObject _value;
 };
 template<typename T_Type>
 void _ZFP_Prop_rawValueStoreCallback_retain(ZF_IN void *rawValueStoreToken, ZF_IN ZFObject *value)
 {
-    ((_ZFP_PropRVH<T_Type> *)rawValueStoreToken)->valueSet(value);
+    ((_ZFP_PropRVH<T_Type> *)rawValueStoreToken)->value(value);
 }
 template<typename T_Type>
 void *_ZFP_Prop_rawValueStoreCallback_assign(ZF_IN void *rawValueStoreToken, ZF_IN const void *value)
@@ -400,8 +361,8 @@ public:
                     , ZFM_TOSTRING(Name) \
                     , ZFM_TOSTRING(Type) \
                     , ZFTypeId_noneOrType \
-                    , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name)) \
-                    , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)) \
+                    , ZFMethodAccessDetail_1(zfself, Name, ZFMP_IN(Type const &, propertyValue)) \
+                    , ZFMethodAccessDetail_0(zfself, Name) \
                     , propertyClassOfRetainProperty \
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
@@ -424,8 +385,8 @@ public:
                     , ZFM_TOSTRING(Name) \
                     , ZFM_TOSTRING(Type) \
                     , ZFTypeId_noneOrType \
-                    , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name)) \
-                    , ZFMethodAccess(zfself, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)) \
+                    , ZFMethodAccessDetail_1(zfself, Name, ZFMP_IN(Type const &, propertyValue)) \
+                    , ZFMethodAccessDetail_0(zfself, Name) \
                     , propertyClassOfRetainProperty \
                     , zfself::_ZFP_propCbAccessed_##Name \
                     , zfself::_ZFP_propCbIsInit_##Name \
@@ -467,12 +428,12 @@ public:
                     _ZFP_ZFPropertyLifeCycleCall_init_retain( \
                         zfself::_ZFP_Prop_##Name(), \
                         owner, \
-                        ZFCastZFObjectUnchecked(ZFObject *, this->_ZFP_v->value), \
+                        ZFCastZFObjectUnchecked(ZFObject *, this->_ZFP_v->value()), \
                         needNotifyOwner, \
                         _ZFP_Prop_rawValueStoreCallback_retain<zfself::PropVT_##Name>, \
                         this->_ZFP_v); \
                 } \
-                return this->_ZFP_v->value; \
+                return this->_ZFP_v->value(); \
             } \
             inline zfbool _ZFP_accessed(void) const \
             { \
@@ -483,7 +444,7 @@ public:
                 _ZFP_ZFPropertyLifeCycleCall_dealloc_retain( \
                     zfself::_ZFP_Prop_##Name(), \
                     owner, \
-                    ZFCastZFObjectUnchecked(ZFObject *, this->_ZFP_v->value), \
+                    ZFCastZFObjectUnchecked(ZFObject *, this->_ZFP_v->value()), \
                     completeDetach); \
                 zfpoolDelete(this->_ZFP_v); \
                 this->_ZFP_v = zfnull; \
@@ -506,30 +467,13 @@ public:
                     *outInitValue = _holder._ZFP_init(ownerObj, zffalse); \
                 } \
                 return (ZFComparerDefault( \
-                        t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder._ZFP_init(ownerObj, zffalse)) \
+                        t->Name(), _holder._ZFP_init(ownerObj, zffalse)) \
                     == ZFCompareTheSame); \
             } \
             else \
             { \
                 return zftrue; \
             } \
-        } \
-        static const void *_ZFP_propCbGet_retain_##Name(ZF_IN const ZFProperty *property, \
-                                                        ZF_IN ZFObject *ownerObj, \
-                                                        ZF_IN_OUT void *&valueToken) \
-        { \
-            zfself *t = ZFCastZFObjectUnchecked(zfself *, ownerObj); \
-            t->Name##_PropV._ZFP_init(ownerObj); \
-            zfautoObject *ret = zfnew(zfautoObject, t->Name##_PropV._ZFP_v->value); \
-            valueToken = (void *)ret; \
-            return ret; \
-        } \
-        static void _ZFP_propCbGetRelease_retain_##Name(ZF_IN const ZFProperty *property, \
-                                                        ZF_IN ZFObject *ownerObj, \
-                                                        ZF_IN void *valueToken, \
-                                                        ZF_IN const void *value) \
-        { \
-            zfdelete((zfautoObject *)valueToken); \
         } \
     public:
 #define _ZFP_ZFPROPERTY_VALUE_DECLARE_ASSIGN(Type, ZFTypeId_noneOrType, Name, \
@@ -601,7 +545,7 @@ public:
                     ZFTypeId<zfself::PropVT_##Name>::ValueStore(*outInitValue, _holder._ZFP_init(ownerObj, zffalse)); \
                 } \
                 return (ZFComparerDefault( \
-                        t->_ZFP_ZFPROPERTY_GETTER_NAME(Type, Name)(), _holder._ZFP_init(ownerObj, zffalse)) \
+                        t->Name(), _holder._ZFP_init(ownerObj, zffalse)) \
                     == ZFCompareTheSame); \
             } \
             else \
@@ -651,16 +595,12 @@ public:
     _ZFP_ZFPROPERTY_DECLARE_CALLBACK(Type, Name)
 
 // ============================================================
-#define _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name) Name##Set
-#define _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name) Name
-
-// ============================================================
 #define _ZFP_ZFPROPERTY_SETTER_RETAIN(AccessType, Type, Name) \
     AccessType: \
         _ZFP_ZFMETHOD_INLINE( \
             notAutoRegister, \
-            AccessType, ZFMethodTypeVirtual, \
-            void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
+            AccessType, ZFMethodTypeVirtual, S, \
+            void, Name \
             , _ZFP_MtdP_EXPAND(ZFMP_IN(Type const &, propertyValue)) \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \
@@ -689,8 +629,8 @@ public:
     AccessType: \
         _ZFP_ZFMETHOD_INLINE( \
             notAutoRegister, \
-            AccessType, ZFMethodTypeVirtual, \
-            void, _ZFP_ZFPROPERTY_SETTER_NAME(Type, Name), ZF_CALLER_LINE \
+            AccessType, ZFMethodTypeVirtual, S, \
+            void, Name \
             , _ZFP_MtdP_EXPAND(ZFMP_IN(Type const &, propertyValue)) \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \
@@ -721,8 +661,8 @@ public:
     AccessType: \
         _ZFP_ZFMETHOD_INLINE( \
             notAutoRegister, \
-            AccessType, ZFMethodTypeVirtual, \
-            Type const &, _ZFP_ZFPROPERTY_GETTER_NAME(Type, Name), ZF_CALLER_LINE \
+            AccessType, ZFMethodTypeVirtual, G, \
+            Type const &, Name \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \
             , _ZFP_ZFMP_DUMMY() \

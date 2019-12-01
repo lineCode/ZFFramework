@@ -81,7 +81,7 @@ public final class ZFUISysWindow extends Activity {
         }
         return ((ZFUISysWindow)nativeWindow)._sysWindowOrientation;
     }
-    public static void native_sysWindowOrientationFlagsSet(Object nativeWindow,
+    public static void native_sysWindowOrientationFlags(Object nativeWindow,
                                                            int sysWindowOrientationFlags) {
         ZFUISysWindow nativeWindowTmp = (ZFUISysWindow)nativeWindow;
         nativeWindowTmp._sysWindowOrientationFlags = sysWindowOrientationFlags;

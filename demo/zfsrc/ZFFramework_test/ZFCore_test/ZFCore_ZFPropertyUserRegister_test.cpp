@@ -24,7 +24,7 @@ protected:
 
         {
             zfblockedAlloc(_ZFP_ZFCore_ZFPropertyUserRegister_test_Object, obj);
-            obj->valueNormalSet(1);
+            obj->valueNormal(1);
 
             this->testCaseOutputSeparator();
             this->testCaseOutput("try modify and serialize a dynamically registered property, result");
@@ -43,7 +43,7 @@ protected:
 
         {
             zfblockedAlloc(_ZFP_ZFCore_ZFPropertyUserRegister_test_Object, obj);
-            obj->valueNormalSet(1);
+            obj->valueNormal(1);
 
             this->testCaseOutputSeparator();
             this->testCaseOutput("try modify and serialize a statically registered property, result");

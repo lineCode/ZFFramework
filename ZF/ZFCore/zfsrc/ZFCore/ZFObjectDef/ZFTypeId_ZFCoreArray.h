@@ -16,9 +16,9 @@ zfclassNotPOD _ZFP_ZFCoreArrayConvert
 {
 public:
     template<typename T_Type>
-    static zfbool from(ZF_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<T_Type> &v);
+    static zfbool from(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<T_Type> &v);
     template<typename T_Type>
-    static zfbool to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_OUT ZFCoreArray<T_Type> &v);
+    static zfbool to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN_OUT ZFCoreArray<T_Type> &v);
     template<typename T_Type>
     static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj);
     template<typename T_Type>
@@ -32,9 +32,9 @@ zfclassNotPOD _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >
 {
 public:
     template<typename T_Type>
-    static zfbool from(ZF_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<zfautoObject> &v);
+    static zfbool from(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<zfautoObject> &v);
     template<typename T_Type>
-    static zfbool to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_OUT ZFCoreArray<zfautoObject> &v);
+    static zfbool to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN_OUT ZFCoreArray<zfautoObject> &v);
     template<typename T_Type>
     static zfbool zfvAccessAvailable(ZF_IN_OUT zfautoObject &obj);
     template<typename T_Type>
@@ -124,7 +124,7 @@ public:
     zfoverride
     virtual void *wrappedValue(void) {return &(this->zfv);}
     zfoverride
-    virtual void wrappedValueSet(ZF_IN const void *v)
+    virtual void wrappedValue(ZF_IN const void *v)
     {
         if(v != zfnull)
         {
@@ -135,12 +135,12 @@ public:
             this->zfv.removeAll();
         }
     }
-    virtual void wrappedValueSet(ZF_IN const ZFCoreArrayBase &v)
+    virtual void wrappedValue(ZF_IN const ZFCoreArrayBase &v)
     {
-        this->wrappedValueSet((const void *)&v);
+        this->wrappedValue((const void *)&v);
     }
     zfoverride
-    virtual void wrappedValueGet(ZF_IN void *v)
+    virtual void wrappedValueCopy(ZF_IN void *v)
     {
         *(ZFCoreArrayBase *)v = this->zfv;
     }
@@ -378,7 +378,7 @@ private:
 // ============================================================
 template<typename T_ZFCoreArray>
 template<typename T_Type>
-zfbool _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::from(ZF_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<T_Type> &v)
+zfbool _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::from(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<T_Type> &v)
 {
     for(zfindex i = 0; i < v.count(); ++i)
     {
@@ -394,7 +394,7 @@ zfbool _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::from(ZF_OUT ZFCoreArray<zfautoObj
 
 template<typename T_ZFCoreArray>
 template<typename T_Type>
-zfbool _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_OUT ZFCoreArray<T_Type> &v)
+zfbool _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN_OUT ZFCoreArray<T_Type> &v)
 {
     typedef T_Type const & T_Type_;
     for(zfindex i = 0; i < holder.count(); ++i)
@@ -449,14 +449,14 @@ void _ZFP_ZFCoreArrayConvert<T_ZFCoreArray>::zfvAccessFinish(ZF_IN_OUT zfautoObj
 
 // ============================================================
 template<typename T_Type>
-zfbool _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::from(ZF_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<zfautoObject> &v)
+zfbool _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::from(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN const ZFCoreArray<zfautoObject> &v)
 {
     holder = v;
     return zftrue;
 }
 
 template<typename T_Type>
-zfbool _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_OUT ZFCoreArray<zfautoObject> &v)
+zfbool _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::to(ZF_IN_OUT ZFCoreArray<zfautoObject> &holder, ZF_IN_OUT ZFCoreArray<zfautoObject> &v)
 {
     v = holder;
     return zftrue;
@@ -484,7 +484,7 @@ void _ZFP_ZFCoreArrayConvert<ZFCoreArray<zfautoObject> >::zfvAccessFinish(ZF_IN_
 // ============================================================
 /** @brief convert array from string */
 template<typename T_Type>
-zfbool ZFCoreArrayFromString(ZF_OUT ZFCoreArray<T_Type> &v,
+zfbool ZFCoreArrayFromString(ZF_IN_OUT ZFCoreArray<T_Type> &v,
                              ZF_IN zfbool (*elementFromString)(
                                  ZF_OUT T_Type &,
                                  ZF_IN const zfchar *,
@@ -557,7 +557,7 @@ zfstring ZFCoreArrayToString(ZF_IN ZFCoreArray<T_Type> const &v,
 // ============================================================
 /** @brief convert array from serializable data */
 template<typename T_Type>
-zfbool ZFCoreArrayFromData(ZF_OUT ZFCoreArray<T_Type> &v,
+zfbool ZFCoreArrayFromData(ZF_IN_OUT ZFCoreArray<T_Type> &v,
                            ZF_IN zfbool (*elementFromData)(
                                ZF_OUT T_Type &,
                                ZF_IN const ZFSerializableData &,
@@ -602,7 +602,7 @@ zfbool ZFCoreArrayToData(ZF_OUT ZFSerializableData &serializableData,
                          ZF_IN ZFCoreArray<T_Type> const &v,
                          ZF_OUT_OPT zfstring *outErrorHint = zfnull)
 {
-    serializableData.itemClassSet(ZFTypeId_ZFCoreArray());
+    serializableData.itemClass(ZFTypeId_ZFCoreArray());
     for(zfindex i = 0; i < v.count(); ++i)
     {
         ZFSerializableData element;

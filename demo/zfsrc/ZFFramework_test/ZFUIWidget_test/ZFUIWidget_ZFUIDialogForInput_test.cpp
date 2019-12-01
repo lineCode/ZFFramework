@@ -19,22 +19,22 @@ protected:
         ZFUIKit_test_prepareTestWindow(window, container, this);
 
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonCancel());
-        this->dialog()->dialogButtonCancelTextSet("cancel");
+        this->dialog()->dialogButtonCancelText("cancel");
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonYes());
-        this->dialog()->dialogButtonYesTextSet("confirm");
+        this->dialog()->dialogButtonYesText("confirm");
         ZFLISTENER_LOCAL(yesOnClick, {
             ZFUIDialogForInput *dialog = userData->objectHolded();
-            zfLogT() << "onConfirm" << listenerData.sender
+            zfLogT() << "onConfirm" << listenerData.sender()
                 << "text:" << dialog->inputText();
         })
         this->dialog()->dialogButtonYes()->observerAdd(ZFUIButton::EventButtonOnClick(), yesOnClick, this->dialog()->objectHolder());
-        this->dialog()->dialogTitleTextSet("i'm title");
-        this->dialog()->dialogContentTextSet("i'm hint");
-        this->dialog()->inputHintTextSet("input something here");
+        this->dialog()->dialogTitleText("i'm title");
+        this->dialog()->dialogContentText("i'm hint");
+        this->dialog()->inputHintText("input something here");
 
         zfblockedAlloc(ZFUIKit_test_Button, showButton);
         container->childAdd(showButton);
-        showButton->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        showButton->layoutParam()->sizeParam(ZFUISizeParamFillFill());
         ZFLISTENER_LOCAL(showButtonOnClick, {
             userData->objectHolded<ZFUIDialogForInput *>()->dialogShow();
         })

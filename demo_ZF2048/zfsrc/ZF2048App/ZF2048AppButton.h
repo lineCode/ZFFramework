@@ -15,28 +15,28 @@ zfclass ZF2048AppButton : zfextends ZFUIButtonBasic
 
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleNormal)
     {
-        propertyValue.to<ZFUITextView *>()->textColorSet(ZFUIColorBlue());
+        propertyValue.to<ZFUITextView *>()->textColor(ZFUIColorBlue());
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleHighlighted)
     {
-        propertyValue.to<ZFUITextView *>()->textColorSet(ZFUIColorBlue());
+        propertyValue.to<ZFUITextView *>()->textColor(ZFUIColorBlue());
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUITextView *, buttonLabelStyleDisabled)
     {
-        propertyValue.to<ZFUITextView *>()->textColorSet(ZFUIColorBlue());
+        propertyValue.to<ZFUITextView *>()->textColor(ZFUIColorBlue());
     }
 
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZF2048/app/button_normal.xml"));
+        propertyValue.to<ZFUIImageView *>()->image(zfRes("ZF2048/app/button_normal.xml"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZF2048/app/button_highlighted.xml"));
+        propertyValue.to<ZFUIImageView *>()->image(zfRes("ZF2048/app/button_highlighted.xml"));
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleDisabled)
     {
-        propertyValue.to<ZFUIImageView *>()->imageSet(zfRes("ZF2048/app/button_disabled.xml"));
+        propertyValue.to<ZFUIImageView *>()->image(zfRes("ZF2048/app/button_disabled.xml"));
     }
 };
 

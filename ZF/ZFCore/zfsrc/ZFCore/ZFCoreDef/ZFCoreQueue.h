@@ -195,7 +195,7 @@ public:
      */
     void toArrayT(ZF_IN_OUT ZFCoreArray<T_POD> &array) const
     {
-        array.capacitySet(array.capacity() + this->count());
+        array.capacity(array.capacity() + this->count());
         T_POD *p = _pHead;
         while(p != _pTail)
         {

@@ -167,7 +167,7 @@ public:
  *
  * use null to use default scroller
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFUIScrollerClassSet,
+ZFMETHOD_FUNC_DECLARE_1(void, ZFUIScrollerClass,
                         ZFMP_IN(const ZFClass *, cls))
 /**
  * @brief get the class of default scroller

@@ -15,7 +15,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * result would be appended to result instead of clear and set
  */
-extern ZF_ENV_EXPORT void zfCoreArgSplit(ZF_OUT ZFCoreArray<zfstring> &result,
+extern ZF_ENV_EXPORT void zfCoreArgSplit(ZF_IN_OUT ZFCoreArray<zfstring> &result,
                                          ZF_IN const zfchar *cmdLine);
 /**
  * @brief split cmd line to separate item

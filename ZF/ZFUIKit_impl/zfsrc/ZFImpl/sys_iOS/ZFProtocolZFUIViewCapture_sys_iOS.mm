@@ -25,7 +25,7 @@ public:
         UIImage *nativeImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
 
-        image->nativeImageSet((__bridge void *)nativeImage);
+        image->nativeImage((__bridge void *)nativeImage);
 
         return (nativeImage != nil);
     }

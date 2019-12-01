@@ -136,12 +136,12 @@ public:
     /**
      * @brief get child animation
      */
-    ZFMETHOD_DECLARE_1(ZFAnimation *, childAniGet,
+    ZFMETHOD_DECLARE_1(ZFAnimation *, childAniAtIndex,
                        ZFMP_IN(zfindex , index))
     /**
      * @brief get child animation data
      */
-    ZFMETHOD_DECLARE_1(ZFAnimationGroupChildData *, childAniDataGet,
+    ZFMETHOD_DECLARE_1(ZFAnimationGroupChildData *, childAniDataAtIndex,
                        ZFMP_IN(zfindex, index))
     /**
      * @brief remove child animation

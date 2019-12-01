@@ -411,7 +411,7 @@ public:
 
 public:
     /** @brief ensure the string's capacity */
-    inline void capacitySet(ZF_IN zfindex capacity) {_capacityRequire(capacity);}
+    inline void capacity(ZF_IN zfindex capacity) {_capacityRequire(capacity);}
     /** @brief capacity of the string */
     zfindex capacity(void)
     {

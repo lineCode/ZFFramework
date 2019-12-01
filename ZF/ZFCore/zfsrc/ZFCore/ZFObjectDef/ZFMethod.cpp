@@ -220,8 +220,7 @@ zfbool ZFMethod::methodParamTypeIdIsMatch(
                                           ) const
 {
     #define _ZFP_ZFMethodParamCheck_paramLoop(N) \
-        if(zfsIsEmpty(methodParamTypeId##N)) {return zftrue;} \
-        if(zfscmpTheSame(methodParamTypeId##N, ZFTypeId_void())) {return (this->methodParamCount() == N);} \
+        if(zfsIsEmpty(methodParamTypeId##N) || zfscmpTheSame(methodParamTypeId##N, ZFTypeId_void())) {return (this->methodParamCount() == N);} \
         if(this->methodParamCount() <= N || !zfscmpTheSame(this->methodParamTypeIdAtIndex(N), methodParamTypeId##N)) {return zffalse;}
     _ZFP_ZFMethodParamCheck_paramLoop(0)
     _ZFP_ZFMethodParamCheck_paramLoop(1)
@@ -285,7 +284,7 @@ zfautoObject ZFMethod::methodGenericInvoke(ZF_IN_OPT ZFObject *ownerObjOrNull /*
     return ret;
 }
 
-void ZFMethod::methodGenericInvokerSet(ZF_IN ZFMethodGenericInvoker methodGenericInvoker) const
+void ZFMethod::methodGenericInvoker(ZF_IN ZFMethodGenericInvoker methodGenericInvoker) const
 {
     zfCoreMutexLocker();
     ZFMethod *m = this->_ZFP_ZFMethod_removeConst();
@@ -300,7 +299,7 @@ void ZFMethod::methodGenericInvokerSet(ZF_IN ZFMethodGenericInvoker methodGeneri
     _ZFP_ZFClassDataChangeNotify(ZFClassDataChangeTypeUpdate, zfnull, zfnull, this);
 }
 
-void ZFMethod::methodInvokerSet(ZF_IN ZFFuncAddrType methodInvoker) const
+void ZFMethod::methodInvoker(ZF_IN ZFFuncAddrType methodInvoker) const
 {
     this->_ZFP_ZFMethod_removeConst()->_ZFP_ZFMethod_invoker =
         ((methodInvoker != zfnull) ? methodInvoker : this->_ZFP_ZFMethod_invokerOrg);
@@ -684,7 +683,7 @@ _ZFP_ZFMethodRegisterHolder::~_ZFP_ZFMethodRegisterHolder(void)
 }
 
 // ============================================================
-void ZFMethodGetAllT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
+void ZFMethodGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
                      ZF_IN_OPT const ZFFilterForZFMethod *methodFilter /* = zfnull */)
 {
     zfCoreMutexLocker();
@@ -707,6 +706,76 @@ void ZFMethodGetAllT(ZF_OUT ZFCoreArray<const ZFMethod *> &ret,
             _ZFP_ZFMethodMapData *v = m.iteratorNextValue<_ZFP_ZFMethodMapData *>(it);
             ret.add(v->method);
         }
+    }
+}
+
+// ============================================================
+/* ZFMETHOD_MAX_PARAM */
+const ZFMethod *ZFMethodForName(ZF_IN const zfchar *classNameOrNamespace,
+                                ZF_IN const zfchar *methodName)
+{
+    const ZFClass *cls = ZFClass::classForName(classNameOrNamespace);
+    if(cls != zfnull)
+    {
+        return cls->methodForName(methodName);
+    }
+    else
+    {
+        return _ZFP_ZFMethodFuncForName(classNameOrNamespace, methodName);
+    }
+}
+const ZFMethod *ZFMethodForName(ZF_IN const zfchar *classNameOrNamespace,
+                                ZF_IN const zfchar *methodName
+                                , ZF_IN_OPT const zfchar *methodParamTypeId0
+                                , ZF_IN_OPT const zfchar *methodParamTypeId1 /* = zfnull */
+                                , ZF_IN_OPT const zfchar *methodParamTypeId2 /* = zfnull */
+                                , ZF_IN_OPT const zfchar *methodParamTypeId3 /* = zfnull */
+                                , ZF_IN_OPT const zfchar *methodParamTypeId4 /* = zfnull */
+                                , ZF_IN_OPT const zfchar *methodParamTypeId5 /* = zfnull */
+                                , ZF_IN_OPT const zfchar *methodParamTypeId6 /* = zfnull */
+                                , ZF_IN_OPT const zfchar *methodParamTypeId7 /* = zfnull */
+                                )
+{
+    const ZFClass *cls = ZFClass::classForName(classNameOrNamespace);
+    if(cls != zfnull)
+    {
+        return cls->methodForName(methodName
+                , methodParamTypeId0
+                , methodParamTypeId1
+                , methodParamTypeId2
+                , methodParamTypeId3
+                , methodParamTypeId4
+                , methodParamTypeId5
+                , methodParamTypeId6
+                , methodParamTypeId7
+            );
+    }
+    else
+    {
+        return _ZFP_ZFMethodFuncForName(classNameOrNamespace, methodName
+                , methodParamTypeId0
+                , methodParamTypeId1
+                , methodParamTypeId2
+                , methodParamTypeId3
+                , methodParamTypeId4
+                , methodParamTypeId5
+                , methodParamTypeId6
+                , methodParamTypeId7
+            );
+    }
+}
+void ZFMethodForNameGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret,
+                            ZF_IN const zfchar *classNameOrNamespace,
+                            ZF_IN const zfchar *methodName)
+{
+    const ZFClass *cls = ZFClass::classForName(classNameOrNamespace);
+    if(cls != zfnull)
+    {
+        return cls->methodForNameGetAllT(ret, methodName);
+    }
+    else
+    {
+        return _ZFP_ZFMethodFuncForNameGetAllT(ret, classNameOrNamespace, methodName);
     }
 }
 
@@ -743,7 +812,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, ZFMethodParamDefaultValueC
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, zfautoObject, methodParamDefaultValueAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, zfindex, methodParamDefaultBeginIndex)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, ZFFuncAddrType, methodInvoker)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, void, methodInvokerSet, ZFMP_IN(ZFFuncAddrType, methodInvoker))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, void, methodInvoker, ZFMP_IN(ZFFuncAddrType, methodInvoker))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, ZFFuncAddrType, methodInvokerOrg)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, ZFMethodGenericInvoker, methodGenericInvoker)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFMethod, zfautoObject, methodGenericInvoke
@@ -760,15 +829,30 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFMethod, zfautoObject, methodGeneri
     /* ZFMETHOD_MAX_PARAM , ZFMP_OUT_OPT(zfstring *, errorHint, zfnull) */
     )
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, ZFMethodGenericInvoker, methodGenericInvokerOrg)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, void, methodGenericInvokerSet, ZFMP_IN(ZFMethodGenericInvoker, methodGenericInvoker))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethod, void, methodGenericInvoker, ZFMP_IN(ZFMethodGenericInvoker, methodGenericInvoker))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const ZFClass *, methodOwnerClass)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, ZFMethodPrivilegeType, methodPrivilegeType)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, ZFMethodType, methodType)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, zfbool, methodIsFunctionType)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethod, const zfchar *, methodNamespace)
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFMethodGetAllT, ZFMP_OUT(ZFCoreArray<const ZFMethod *> &, ret), ZFMP_IN_OPT(const ZFFilterForZFMethod *, methodFilter, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFMethodGetAllT, ZFMP_IN_OUT(ZFCoreArray<const ZFMethod *> &, ret), ZFMP_IN_OPT(const ZFFilterForZFMethod *, methodFilter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFCoreArrayPOD<const ZFMethod *>, ZFMethodGetAll, ZFMP_IN_OPT(const ZFFilterForZFMethod *, methodFilter, zfnull))
+
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFMethod *, ZFMethodForName, ZFMP_IN(const zfchar *, classNameOrNamespace), ZFMP_IN(const zfchar *, methodName))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_8(const ZFMethod *, ZFMethodForName, ZFMP_IN(const zfchar *, classNameOrNamespace), ZFMP_IN(const zfchar *, methodName)
+    , ZFMP_IN(const zfchar *, methodParamTypeId0)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId1, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId2, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId3, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId4, zfnull)
+    , ZFMP_IN_OPT(const zfchar *, methodParamTypeId5, zfnull)
+    /* ZFMETHOD_MAX_PARAM , ZFMP_IN_OPT(const zfchar *, methodParamTypeId6, zfnull) */
+    /* ZFMETHOD_MAX_PARAM , ZFMP_IN_OPT(const zfchar *, methodParamTypeId7, zfnull) */
+    )
+
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(void, ZFMethodForNameGetAllT, ZFMP_IN_OUT(ZFCoreArray<const ZFMethod *> &, ret), ZFMP_IN(const zfchar *, classNameOrNamespace), ZFMP_IN(const zfchar *, methodName))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(ZFCoreArrayPOD<const ZFMethod *>, ZFMethodForNameGetAll, ZFMP_IN(const zfchar *, classNameOrNamespace), ZFMP_IN(const zfchar *, methodName))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

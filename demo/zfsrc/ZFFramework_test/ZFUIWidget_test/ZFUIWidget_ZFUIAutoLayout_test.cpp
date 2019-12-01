@@ -18,8 +18,8 @@ protected:
 
         zfblockedAlloc(ZFUIAutoLayout, layout);
         container->childAdd(layout, ZFUISizeParamFillFill());
-        layout->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
-        layout->viewBackgroundColorSet(ZFUIColorRed());
+        layout->layoutParam()->layoutMargin(ZFUIMarginMake(40));
+        layout->viewBackgroundColor(ZFUIColorRed());
 
         ZFCoreArrayPOD<ZFUIView *> v;
         for(zfindex i = 0; i < 5; ++i)
@@ -27,8 +27,8 @@ protected:
             zfblockedAlloc(ZFUITextView, t);
             layout->childAdd(t);
             v.add(t);
-            t->textSet(zfstringWithFormat("text %zi", i));
-            t->viewBackgroundColorSet(ZFUIColorRandom());
+            t->text(zfstringWithFormat("text %zi", i));
+            t->viewBackgroundColor(ZFUIColorRandom());
         }
 
         zfal_maker(v[0]).left().toParentLeft().right().toLeft(v[1]);

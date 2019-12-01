@@ -56,22 +56,9 @@ protected:
     virtual void copyableOnCopyFrom(ZF_IN ZFObject *anotherObj)
     {
         zfsuperI(ZFCopyable)::copyableOnCopyFrom(anotherObj);
-        this->enumValueSet(ZFCastZFObjectUnchecked(zfself *, anotherObj)->enumValue());
+        this->enumValue(ZFCastZFObjectUnchecked(zfself *, anotherObj)->enumValue());
     }
 
-public:
-    static void _ZFP_ZFEnum_objectOnInit_zfflags(ZF_IN const ZFMethod *invokerMethod, ZF_IN ZFObject *invokerObject, ZF_IN zfflags value)
-    {
-        invokerObject->to<ZFEnum *>()->objectOnInit((zfuint)value);
-    }
-    static void _ZFP_ZFEnum_objectOnInit_zfuint(ZF_IN const ZFMethod *invokerMethod, ZF_IN ZFObject *invokerObject, ZF_IN zfuint value)
-    {
-        invokerObject->to<ZFEnum *>()->objectOnInit(value);
-    }
-    static void _ZFP_ZFEnum_objectOnInit_ZFEnum(ZF_IN const ZFMethod *invokerMethod, ZF_IN ZFObject *invokerObject, ZF_IN ZFEnum *another)
-    {
-        invokerObject->to<ZFEnum *>()->objectOnInit(another);
-    }
 protected:
     /**
      * @brief init with value or ZFEnumInvalid if invalid
@@ -113,9 +100,9 @@ public:
     zfoverride
     virtual void *wrappedValue(void);
     zfoverride
-    virtual void wrappedValueSet(ZF_IN const void *v);
+    virtual void wrappedValue(ZF_IN const void *v);
     zfoverride
-    virtual void wrappedValueGet(ZF_IN void *v);
+    virtual void wrappedValueCopy(ZF_IN void *v);
 public:
     zfoverride
     virtual void wrappedValueReset(void);
@@ -210,7 +197,7 @@ protected:
      *
      * must be the enum's value or ZFEnumInvalid
      */
-    virtual void enumValueSet(ZF_IN zfuint value)
+    virtual void enumValue(ZF_IN zfuint value)
     {
         if(!this->enumIsFlags() && !this->enumContainValue(value))
         {
@@ -221,9 +208,9 @@ protected:
     }
 
 public:
-    void _ZFP_enumValueSet(ZF_IN zfuint value)
+    void _ZFP_enumValue(ZF_IN zfuint value)
     {
-        this->enumValueSet(value);
+        this->enumValue(value);
     }
 public:
     zfuint _ZFP_ZFEnum_value;

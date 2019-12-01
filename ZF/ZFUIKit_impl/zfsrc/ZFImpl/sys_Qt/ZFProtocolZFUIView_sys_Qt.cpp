@@ -22,7 +22,7 @@ extern ZFUIKeyCodeEnum ZFUIViewImpl_sys_Qt_ZFUIKeyCodeFromQKeyCode(ZF_IN int qKe
 extern zfbool ZFUIViewImpl_sys_Qt_isMouseCancel(ZF_IN QMouseEvent *event);
 
 static zfbool _ZFP_ZFImpl_sys_Qt_mouseTracking(ZF_IN QWidget *view);
-static void _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(ZF_IN QWidget *view, ZF_IN zfbool mouseTracking);
+static void _ZFP_ZFImpl_sys_Qt_mouseTracking(ZF_IN QWidget *view, ZF_IN zfbool mouseTracking);
 
 class _ZFP_ZFUIViewImpl_sys_Qt_QLayout : public ZFImpl_sys_Qt_QLayout
 {
@@ -61,7 +61,7 @@ protected:
             QWidget *child = qobject_cast<QWidget *>(childEvent->child());
             if(child != NULL)
             {
-                _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(child, childEvent->added());
+                _ZFP_ZFImpl_sys_Qt_mouseTracking(child, childEvent->added());
             }
         }
 
@@ -77,7 +77,7 @@ extern void *_ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_attach(ZF_IN ZFUIView *ownerZFU
                                                         ZF_IN_OPT void *tokenOld = zfnull);
 extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_detach(ZF_IN void *token);
 extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_cleanup(ZF_IN void *token);
-extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(ZF_IN void *token, ZF_IN zfbool v);
+extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusable(ZF_IN void *token, ZF_IN zfbool v);
 extern void _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusRequest(ZF_IN void *token, ZF_IN zfbool v);
 extern zfbool _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocused(ZF_IN void *token);
 
@@ -125,22 +125,13 @@ public:
     }
 
 public:
-    void _ZFP_frameSet(ZF_IN const ZFUIRect &v)
+    void _ZFP_frame(ZF_IN const ZFUIRect &v)
     {
         QRect frame = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(v);
         if(this->geometry() != frame)
         {
             this->setGeometry(frame);
         }
-    }
-    void _ZFP_viewUIEnableSet(ZF_IN zfbool v)
-    {
-        _ZFP_viewUIEnable = v;
-    }
-    void _ZFP_viewUIEnableTreeSet(ZF_IN zfbool v)
-    {
-        _ZFP_viewUIEnableTree = v;
-        this->setEnabled(_ZFP_viewUIEnableTree);
     }
 
 public:
@@ -186,7 +177,7 @@ public:
                 QPoint eventSteps = eventTmp->angleDelta() / 8 / 15;
 
                 zfblockedAllocWithCache(ZFUIWheelEvent, wheelEvent);
-                wheelEvent->eventResolvedSet(zffalse);
+                wheelEvent->eventResolved(zffalse);
                 wheelEvent->wheelX = -eventSteps.x();
                 wheelEvent->wheelY = -eventSteps.y();
                 if(wheelEvent->wheelX != 0 || wheelEvent->wheelY != 0)
@@ -313,7 +304,7 @@ private:
     void mouseEventResolve(QMouseEvent *event, ZFUIMouseActionEnum mouseAction)
     {
         zfblockedAllocWithCache(ZFUIMouseEvent, ev);
-        ev->eventResolvedSet(zffalse);
+        ev->eventResolved(zffalse);
         ev->mouseId = (zfidentity)event->button();
         ev->mouseAction = mouseAction;
         ev->mousePoint = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIPointFromQPoint(event->pos());
@@ -337,7 +328,7 @@ private:
     void mouseHoverEventResolve(const ZFUIPoint &pos, ZFUIMouseActionEnum mouseAction)
     {
         zfblockedAllocWithCache(ZFUIMouseEvent, ev);
-        ev->eventResolvedSet(zffalse);
+        ev->eventResolved(zffalse);
         ev->mouseId = 0;
         ev->mouseAction = mouseAction;
         ev->mousePoint = pos;
@@ -370,7 +361,7 @@ private:
         if(this->_ZFP_viewUIEnableTree && this->_ZFP_viewUIEnable)
         {
             zfblockedAllocWithCache(ZFUIKeyEvent, ev);
-            ev->eventResolvedSet(zffalse);
+            ev->eventResolved(zffalse);
             ev->keyId = (zfidentity)event->key();
             ev->keyAction = keyAction;
             ev->keyCode = ZFUIViewImpl_sys_Qt_ZFUIKeyCodeFromQKeyCode(event->key());
@@ -438,10 +429,10 @@ public:
         delete nativeViewTmp;
     }
 
-    virtual void nativeImplViewSet(ZF_IN ZFUIView *view,
-                                   ZF_IN void *nativeImplViewOld,
-                                   ZF_IN void *nativeImplView,
-                                   ZF_IN zfindex virtualIndex)
+    virtual void nativeImplView(ZF_IN ZFUIView *view,
+                                ZF_IN void *nativeImplViewOld,
+                                ZF_IN void *nativeImplView,
+                                ZF_IN zfindex virtualIndex)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         QWidget *v = ZFCastStatic(QWidget*, nativeImplView);
@@ -458,10 +449,10 @@ public:
 
         nativeView->_ZFP_focusProxyToken = _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_attach(
             view, nativeView, nativeView->_ZFP_nativeImplView, nativeView->_ZFP_focusProxyToken);
-        _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(nativeView->_ZFP_focusProxyToken, view->viewFocusable());
+        _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusable(nativeView->_ZFP_focusProxyToken, view->viewFocusable());
     }
-    virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIRect &rect)
+    virtual void nativeImplViewFrame(ZF_IN ZFUIView *view,
+                                     ZF_IN const ZFUIRect &rect)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         QRect frame = ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectToQRect(rect);
@@ -482,8 +473,8 @@ public:
     // ============================================================
     // properties
 public:
-    virtual void viewVisibleSet(ZF_IN ZFUIView *view,
-                                ZF_IN zfbool viewVisible)
+    virtual void viewVisible(ZF_IN ZFUIView *view,
+                             ZF_IN zfbool viewVisible)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View  *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         // set to visible when no parent would cause QWidget changed to a window
@@ -493,8 +484,8 @@ public:
             nativeView->setVisible(viewVisible);
         }
     }
-    virtual void viewAlphaSet(ZF_IN ZFUIView *view,
-                              ZF_IN zffloat viewAlpha)
+    virtual void viewAlpha(ZF_IN ZFUIView *view,
+                           ZF_IN zffloat viewAlpha)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         if(viewAlpha == 1)
@@ -512,25 +503,26 @@ public:
             effect->setOpacity(viewAlpha);
         }
     }
-    virtual void viewUIEnableSet(ZF_IN ZFUIView *view,
-                                 ZF_IN zfbool viewUIEnable)
+    virtual void viewUIEnable(ZF_IN ZFUIView *view,
+                              ZF_IN zfbool viewUIEnable)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
-        nativeViewTmp->_ZFP_viewUIEnableSet(viewUIEnable);
+        nativeViewTmp->_ZFP_viewUIEnable = viewUIEnable;
     }
-    virtual void viewUIEnableTreeSet(ZF_IN ZFUIView *view,
-                                     ZF_IN zfbool viewUIEnableTree)
+    virtual void viewUIEnableTree(ZF_IN ZFUIView *view,
+                                  ZF_IN zfbool viewUIEnableTree)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
-        nativeViewTmp->_ZFP_viewUIEnableTreeSet(viewUIEnableTree);
+        nativeViewTmp->_ZFP_viewUIEnableTree = viewUIEnableTree;
+        nativeViewTmp->setEnabled(viewUIEnableTree);
     }
-    virtual void viewMouseHoverEventEnableSet(ZF_IN ZFUIView *view,
-                                              ZF_IN zfbool viewMouseHoverEventEnable)
+    virtual void viewMouseHoverEventEnable(ZF_IN ZFUIView *view,
+                                           ZF_IN zfbool viewMouseHoverEventEnable)
     {
-        _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(ZFCastStatic(QWidget *, view->nativeView()), viewMouseHoverEventEnable);
+        _ZFP_ZFImpl_sys_Qt_mouseTracking(ZFCastStatic(QWidget *, view->nativeView()), viewMouseHoverEventEnable);
     }
-    virtual void viewBackgroundColorSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIColor &viewBackgroundColor)
+    virtual void viewBackgroundColor(ZF_IN ZFUIView *view,
+                                     ZF_IN const ZFUIColor &viewBackgroundColor)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
         QPalette palette = nativeViewTmp->palette();
@@ -569,11 +561,11 @@ public:
     }
 
 public:
-    virtual void viewFrameSet(ZF_IN ZFUIView *view,
-                              ZF_IN const ZFUIRect &rect)
+    virtual void viewFrame(ZF_IN ZFUIView *view,
+                           ZF_IN const ZFUIRect &rect)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
-        nativeViewTmp->_ZFP_frameSet(rect);
+        nativeViewTmp->_ZFP_frame(rect);
     }
 
     virtual void layoutRequest(ZF_IN ZFUIView *view)
@@ -617,11 +609,11 @@ ZFPROTOCOL_IMPLEMENTATION_BEGIN(ZFUIViewFocusImpl_sys_Qt, ZFUIViewFocus, ZFProto
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_ITEM(ZFUIView, "Qt:QWidget")
     ZFPROTOCOL_IMPLEMENTATION_PLATFORM_DEPENDENCY_END()
 public:
-    virtual void viewFocusableSet(ZF_IN ZFUIView *view,
-                                  ZF_IN zfbool viewFocusable)
+    virtual void viewFocusable(ZF_IN ZFUIView *view,
+                               ZF_IN zfbool viewFocusable)
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeView = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, view->nativeView());
-        _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusableSet(nativeView->_ZFP_focusProxyToken, viewFocusable);
+        _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_viewFocusable(nativeView->_ZFP_focusProxyToken, viewFocusable);
     }
     virtual zfbool viewFocused(ZF_IN ZFUIView *view)
     {
@@ -643,18 +635,18 @@ const zfchar *_ZFP_ZFImpl_ZFUIView_mouseTrackingCount = "_ZFP_ZFImpl_ZFUIView_mo
 const zfchar *_ZFP_ZFImpl_ZFUIView_mouseTrackingSaved = "_ZFP_ZFImpl_ZFUIView_mouseTrackingSaved";
 static zfbool _ZFP_ZFImpl_sys_Qt_mouseTracking(ZF_IN QWidget *view)
 {
-    return ZFImpl_sys_Qt_QObjectTagGet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount).isValid();
+    return ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount).isValid();
 }
-static void _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(ZF_IN QWidget *view, ZF_IN zfbool mouseTracking)
+static void _ZFP_ZFImpl_sys_Qt_mouseTracking(ZF_IN QWidget *view, ZF_IN zfbool mouseTracking)
 {
     zfindex countSaved = 0;
     zfbool valueSaved = zffalse;
     {
-        QVariant tmp = ZFImpl_sys_Qt_QObjectTagGet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount);
+        QVariant tmp = ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount);
         if(tmp.isValid())
         {
             countSaved = tmp.toInt();
-            tmp = ZFImpl_sys_Qt_QObjectTagGet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingSaved);
+            tmp = ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingSaved);
             if(tmp.isValid())
             {
                 valueSaved = tmp.toBool();
@@ -680,13 +672,13 @@ static void _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(ZF_IN QWidget *view, ZF_IN zfboo
     }
     if(countSaved > 0)
     {
-        ZFImpl_sys_Qt_QObjectTagSet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount, QVariant::fromValue((int)countSaved));
-        ZFImpl_sys_Qt_QObjectTagSet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingSaved, QVariant::fromValue((bool)valueSaved));
+        ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount, QVariant::fromValue((int)countSaved));
+        ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingSaved, QVariant::fromValue((bool)valueSaved));
     }
     else
     {
-        ZFImpl_sys_Qt_QObjectTagSet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount, QVariant());
-        ZFImpl_sys_Qt_QObjectTagSet(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingSaved, QVariant());
+        ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingCount, QVariant());
+        ZFImpl_sys_Qt_QObjectTag(view, _ZFP_ZFImpl_ZFUIView_mouseTrackingSaved, QVariant());
     }
 
     const QObjectList &children = view->children();
@@ -695,7 +687,7 @@ static void _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(ZF_IN QWidget *view, ZF_IN zfboo
         QWidget *child = qobject_cast<QWidget *>(children.at(i));
         if(child != NULL)
         {
-            _ZFP_ZFImpl_sys_Qt_mouseTrackingSet(child, mouseTracking);
+            _ZFP_ZFImpl_sys_Qt_mouseTracking(child, mouseTracking);
         }
     }
 }

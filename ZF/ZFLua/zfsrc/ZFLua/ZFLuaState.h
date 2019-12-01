@@ -32,7 +32,7 @@ ZFMETHOD_FUNC_DECLARE_1(void, ZFLuaStateChange,
 
 /** @brief see #ZFLuaState */
 ZFMETHOD_FUNC_DECLARE_1(void, ZFLuaStateListT,
-                        ZFMP_OUT(ZFCoreArray<void *> &, ret))
+                        ZFMP_IN_OUT(ZFCoreArray<void *> &, ret))
 /** @brief see #ZFLuaState */
 ZFMETHOD_FUNC_DECLARE_0(ZFCoreArrayPOD<void *>, ZFLuaStateList)
 

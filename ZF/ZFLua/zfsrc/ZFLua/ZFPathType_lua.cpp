@@ -30,8 +30,8 @@ public:
     {
         return zffalse;
     }
-    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
-                                      ZF_IN_OUT zfstring &fileName)
+    static zfbool callbackToFileName(ZF_IN const zfchar *pathData,
+                                     ZF_IN_OUT zfstring &fileName)
     {
         return zffalse;
     }
@@ -142,7 +142,7 @@ public:
 ZFPATHTYPE_FILEIO_REGISTER(lua, ZFPathType_lua()
         , _ZFP_ZFPathType_lua::callbackIsExist
         , _ZFP_ZFPathType_lua::callbackIsDir
-        , _ZFP_ZFPathType_lua::callbackGetFileName
+        , _ZFP_ZFPathType_lua::callbackToFileName
         , _ZFP_ZFPathType_lua::callbackToChild
         , _ZFP_ZFPathType_lua::callbackToParent
         , _ZFP_ZFPathType_lua::callbackPathCreate

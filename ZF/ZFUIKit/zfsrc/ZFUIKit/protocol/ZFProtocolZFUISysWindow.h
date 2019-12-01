@@ -89,11 +89,11 @@ public:
      */
     virtual ZFUIOrientationEnum sysWindowOrientation(ZF_IN ZFUISysWindow *sysWindow) zfpurevirtual;
     /**
-     * @brief see #ZFUISysWindow::sysWindowOrientationFlagsSet,
+     * @brief see #ZFUISysWindow::sysWindowOrientationFlags,
      *  impl should have #ZFUIOrientation::e_Top as init value
      */
-    virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                              ZF_IN const ZFUIOrientationFlags &flags) zfpurevirtual;
+    virtual void sysWindowOrientationFlags(ZF_IN ZFUISysWindow *sysWindow,
+                                           ZF_IN const ZFUIOrientationFlags &flags) zfpurevirtual;
 
     // ============================================================
     // callbacks that implementations must notify
@@ -106,7 +106,7 @@ public:
                                          ZF_IN const ZFUIRect &rootRefRect,
                                          ZF_IN const ZFUIMargin &sysWindowMargin)
     {
-        sysWindow->_ZFP_ZFUISysWindow_sysWindowMarginSet(sysWindowMargin);
+        sysWindow->_ZFP_ZFUISysWindow_sysWindowMargin(sysWindowMargin);
         return sysWindow->_ZFP_ZFUISysWindow_measureWindow(rootRefRect);
     }
     /**

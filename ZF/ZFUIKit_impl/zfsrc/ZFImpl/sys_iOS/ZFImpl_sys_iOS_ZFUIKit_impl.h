@@ -85,19 +85,19 @@ inline ZFUIColor ZFImpl_sys_iOS_ZFUIKit_impl_ZFUIColorFromUIColor(ZF_IN UIColor 
 // util method
 extern ZF_ENV_EXPORT zfbool ZFImpl_sys_iOS_ZFUIKit_impl_UIColorToARGB(ZF_IN_OUT zffloat *pARGB, ZF_IN UIColor *color);
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ZF_OUT zfstring &ret, ZF_IN UIColor *color);
-inline zfstring ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfo(ZF_IN UIColor *color)
+extern ZF_ENV_EXPORT void ZFImpl_sys_iOS_ZFUIKit_impl_UIColorInfoT(ZF_OUT zfstring &ret, ZF_IN UIColor *color);
+inline zfstring ZFImpl_sys_iOS_ZFUIKit_impl_UIColorInfo(ZF_IN UIColor *color)
 {
     zfstring ret;
-    ZFImpl_sys_iOS_ZFUIKit_impl_UIColorGetInfoT(ret, color);
+    ZFImpl_sys_iOS_ZFUIKit_impl_UIColorInfoT(ret, color);
     return ret;
 }
 
-extern ZF_ENV_EXPORT void ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN UIView *view);
-inline zfstring ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTree(ZF_IN UIView *view)
+extern ZF_ENV_EXPORT void ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrintT(ZF_OUT zfstring &ret, ZF_IN UIView *view);
+inline zfstring ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrint(ZF_IN UIView *view)
 {
     zfstring ret;
-    ZFImpl_sys_iOS_ZFUIKit_impl_UIViewGetViewTreeT(ret, view);
+    ZFImpl_sys_iOS_ZFUIKit_impl_viewTreePrintT(ret, view);
     return ret;
 }
 

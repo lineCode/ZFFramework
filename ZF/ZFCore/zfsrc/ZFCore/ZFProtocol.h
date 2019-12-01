@@ -256,9 +256,9 @@ extern ZF_ENV_EXPORT void _ZFP_ZFProtocolImplAccess(void);
                     implData->implInstance = zfnull; \
                 } \
             } \
-            static void _ZFP_ZFProtocolImplementationSet(ZF_IN _ZFP_ZFProtocolConstructor implConstructor, \
-                                                         ZF_IN const zfchar *implName, \
-                                                         ZF_IN ZFProtocolLevelEnum implLevel) \
+            static void _ZFP_ZFProtocolImplementationRegister(ZF_IN _ZFP_ZFProtocolConstructor implConstructor, \
+                                                              ZF_IN const zfchar *implName, \
+                                                              ZF_IN ZFProtocolLevelEnum implLevel) \
             { \
                 _ZFP_ZFProtocolData &_d = zfself::_ZFP_ZFProtocolDataRef(); \
                 if(_d.implConstructor != zfnull) \
@@ -558,7 +558,7 @@ private:
             } \
             static zfbool _ZFP_ZFProtocolRegister(void) \
             { \
-                ZFPROTOCOL_INTERFACE_CLASS(ModuleName)::_ZFP_ZFProtocolImplementationSet( \
+                ZFPROTOCOL_INTERFACE_CLASS(ModuleName)::_ZFP_ZFProtocolImplementationRegister( \
                     &ImplementationClass::_ZFP_##ImplementationClass##_ctor, \
                     ZFM_TOSTRING_DIRECT(ImplementationName), \
                     implLevel); \
@@ -791,9 +791,9 @@ ZFMETHOD_FUNC_DECLARE_2(zfbool, ZFProtocolIsAvailable,
 
 // ============================================================
 /**
- * @brief see #ZFProtocolImplInfoDataGet
+ * @brief see #ZFProtocolImplInfoGetAll
  */
-zfclassLikePOD ZF_ENV_EXPORT ZFProtocolImplInfoData
+zfclassLikePOD ZF_ENV_EXPORT ZFProtocolImplInfo
 {
 public:
     /**
@@ -813,25 +813,25 @@ public:
 /**
  * @brief for debug use only, get all protocol's info
  */
-extern ZF_ENV_EXPORT ZFCoreArray<ZFProtocolImplInfoData> ZFProtocolImplInfoDataGet(void);
+extern ZF_ENV_EXPORT ZFCoreArray<ZFProtocolImplInfo> ZFProtocolImplInfoGetAll(void);
 /**
- * @brief util method to #ZFProtocolImplInfoDataGet
+ * @brief util method to #ZFProtocolImplInfoGetAll
  */
-extern ZF_ENV_EXPORT ZFCoreArray<ZFProtocolImplInfoData> ZFProtocolImplInfoDataGetImplemented(void);
+extern ZF_ENV_EXPORT ZFCoreArray<ZFProtocolImplInfo> ZFProtocolImplInfoGetAllImplemented(void);
 /**
- * @brief util method to #ZFProtocolImplInfoDataGet
+ * @brief util method to #ZFProtocolImplInfoGetAll
  */
-extern ZF_ENV_EXPORT ZFCoreArray<ZFProtocolImplInfoData> ZFProtocolImplInfoDataGetNotImplemented(void);
+extern ZF_ENV_EXPORT ZFCoreArray<ZFProtocolImplInfo> ZFProtocolImplInfoGetAllNotImplemented(void);
 /**
- * @brief util method to #ZFProtocolImplInfoDataGet
+ * @brief util method to #ZFProtocolImplInfoGetAll
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFProtocolImplInfoDataPrint,
+ZFMETHOD_FUNC_DECLARE_1(void, ZFProtocolImplInfoPrint,
                         ZFMP_IN_OPT(const ZFOutput &, callback, ZFOutputDefault()))
 /**
- * @brief util method to #ZFProtocolImplInfoDataGet
+ * @brief util method to #ZFProtocolImplInfoGetAll
  */
-extern ZF_ENV_EXPORT void ZFProtocolImplInfoDataPrint(ZF_IN const ZFProtocolImplInfoData &data,
-                                                      ZF_IN_OPT const ZFOutput &callback = ZFOutputDefault());
+extern ZF_ENV_EXPORT void ZFProtocolImplInfoPrint(ZF_IN const ZFProtocolImplInfo &data,
+                                                  ZF_IN_OPT const ZFOutput &callback = ZFOutputDefault());
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFProtocol_h_

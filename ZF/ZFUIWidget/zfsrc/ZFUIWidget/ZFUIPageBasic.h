@@ -22,7 +22,7 @@ private:
     static zfautoObject _ZFP_pageContainerInit(void)
     {
         zfblockedAlloc(ZFUILinearLayout, ret);
-        ret->layoutOrientationSet(ZFUIOrientation::e_Top);
+        ret->layoutOrientation(ZFUIOrientation::e_Top);
         return ret;
     }
 public:
@@ -37,23 +37,23 @@ protected:
     {
         ZFAnimationNativeView *pageAni = zfnull;
 
-        this->pageAniResumeByRequestSet(pageAni = zflineAlloc(ZFAnimationNativeView));
-        pageAni->aniTranslateXFromSet(1);
+        this->pageAniResumeByRequest(pageAni = zflineAlloc(ZFAnimationNativeView));
+        pageAni->aniTranslateXFrom(1);
 
-        this->pageAniResumeFromBackgroundSet(pageAni = zflineAlloc(ZFAnimationNativeView));
-        pageAni->aniTranslateXFromSet(-1);
+        this->pageAniResumeFromBackground(pageAni = zflineAlloc(ZFAnimationNativeView));
+        pageAni->aniTranslateXFrom(-1);
 
-        this->pageAniPauseToBackgroundSet(pageAni = zflineAlloc(ZFAnimationNativeView));
-        pageAni->aniTranslateXToSet(-1);
+        this->pageAniPauseToBackground(pageAni = zflineAlloc(ZFAnimationNativeView));
+        pageAni->aniTranslateXTo(-1);
 
-        this->pageAniPauseBeforeDestroySet(pageAni = zflineAlloc(ZFAnimationNativeView));
-        pageAni->aniTranslateXToSet(1);
+        this->pageAniPauseBeforeDestroy(pageAni = zflineAlloc(ZFAnimationNativeView));
+        pageAni->aniTranslateXTo(1);
     }
     zfoverride
     virtual void pageAniOnUpdateAniTarget(ZF_IN ZFAnimation *pageAni)
     {
         zfsuperI(ZFUIPage)::pageAniOnUpdateAniTarget(pageAni);
-        pageAni->aniTargetSet(this->pageContainer());
+        pageAni->aniTarget(this->pageContainer());
     }
 };
 

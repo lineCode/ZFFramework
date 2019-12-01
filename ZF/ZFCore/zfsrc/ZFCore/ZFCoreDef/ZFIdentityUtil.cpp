@@ -77,7 +77,7 @@ zfbool ZFIdentityGenerator::idUsed(ZF_IN zfidentity identity) const
 }
 void ZFIdentityGenerator::idUsedGetAll(ZF_IN_OUT ZFCoreArray<zfidentity> &ret) const
 {
-    ret.capacitySet(ret.capacity() + (zfindex)d->used.size());
+    ret.capacity(ret.capacity() + (zfindex)d->used.size());
     for(zfstlmap<zfidentity, zfbool>::iterator it = d->used.begin(); it != d->used.end(); ++it)
     {
         ret.add(it->first);

@@ -72,7 +72,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFStyleLoad,
                        ZFMP_IN_OPT(const ZFFilterForString *, fileNameFilter, zfnull),
                        ZFMP_IN_OPT(const ZFFilterForString *, dirNameFilter, zfnull))
 {
-    const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataGet(pathInfo.pathType);
+    const ZFFilePathInfoData *fileImpl = ZFFilePathInfoDataForPathType(pathInfo.pathType);
     if(fileImpl == zfnull)
     {
         return zffalse;
@@ -82,7 +82,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFStyleLoad,
     if(!fileImpl->callbackIsDir(pathInfo.pathData))
     {
         zfstring fileName;
-        if(!fileImpl->callbackGetFileName(pathInfo.pathData, fileName))
+        if(!fileImpl->callbackToFileName(pathInfo.pathData, fileName))
         {
             return zffalse;
         }
@@ -164,7 +164,7 @@ ZFMETHOD_DEFINE_1(ZFStyleList, ZFStyleable *, itemValueAtIndex,
 {
     return d->valueList.get(index);
 }
-ZFMETHOD_DEFINE_2(ZFStyleList, void, itemSet,
+ZFMETHOD_DEFINE_2(ZFStyleList, void, itemForKey,
                   ZFMP_IN(const zfchar *, key),
                   ZFMP_IN(ZFStyleable *, value))
 {
@@ -249,7 +249,7 @@ zfbool ZFStyleList::serializableOnSerializeFromData(ZF_IN const ZFSerializableDa
                 ZFStyleable::ClassData()->className());
             return zffalse;
         }
-        this->itemSet(key, value);
+        this->itemForKey(key, value);
     }
     return zftrue;
 }
@@ -273,7 +273,7 @@ zfbool ZFStyleList::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &
         {
             return zffalse;
         }
-        elementData.propertyNameSet(d->keyList[i]);
+        elementData.propertyName(d->keyList[i]);
         serializableData.elementAdd(elementData);
     }
     return zftrue;

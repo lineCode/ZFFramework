@@ -37,30 +37,30 @@ Q_DECLARE_METATYPE(_ZFP_ZFImpl_sys_Qt_ValueWrapper);
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-void ZFImpl_sys_Qt_QObjectTagSet(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN QVariant const &tag)
+void ZFImpl_sys_Qt_QObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN QVariant const &tag)
 {
     obj->setProperty(name, tag);
 }
-QVariant ZFImpl_sys_Qt_QObjectTagGet(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
+QVariant ZFImpl_sys_Qt_QObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
 {
     return obj->property(name);
 }
 
-void ZFImpl_sys_Qt_QObjectTagSetZFObject(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN ZFObject *tag)
+void ZFImpl_sys_Qt_QObjectZFObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name, ZF_IN ZFObject *tag)
 {
     if(tag == zfnull)
     {
-        ZFImpl_sys_Qt_QObjectTagSet(obj, name, QVariant());
+        ZFImpl_sys_Qt_QObjectTag(obj, name, QVariant());
     }
     else
     {
         _ZFP_ZFImpl_sys_Qt_ValueWrapper valueWrapper(tag);
-        ZFImpl_sys_Qt_QObjectTagSet(obj, name, QVariant::fromValue(valueWrapper));
+        ZFImpl_sys_Qt_QObjectTag(obj, name, QVariant::fromValue(valueWrapper));
     }
 }
-ZFObject *ZFImpl_sys_Qt_QObjectTagGetZFObject(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
+ZFObject *ZFImpl_sys_Qt_QObjectZFObjectTag(ZF_IN_OUT QObject *obj, ZF_IN const zfchar *name)
 {
-    QVariant tag = ZFImpl_sys_Qt_QObjectTagGet(obj, name);
+    QVariant tag = ZFImpl_sys_Qt_QObjectTag(obj, name);
     return ((tag.isValid()) ? tag.value<_ZFP_ZFImpl_sys_Qt_ValueWrapper>().value : zfnull);
 }
 

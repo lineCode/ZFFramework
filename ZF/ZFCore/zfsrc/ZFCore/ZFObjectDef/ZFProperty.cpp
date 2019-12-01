@@ -27,7 +27,7 @@ zfbool ZFProperty::propertySerializable(void) const
     {
         return zffalse;
     }
-    const ZFTypeInfo *t = ZFTypeInfoGet(this->propertyTypeId());
+    const ZFTypeInfo *t = ZFTypeInfoForName(this->propertyTypeId());
     if(t == zfnull || !t->typeIdSerializable())
     {
         return zffalse;
@@ -118,7 +118,7 @@ ZF_STATIC_INITIALIZER_END(ZFPropertyDataHolder)
 #define _ZFP_ZFPropertyMap (ZF_STATIC_INITIALIZER_INSTANCE(ZFPropertyDataHolder)->propertyMap)
 
 // ============================================================
-void ZFPropertyGetAllT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret,
+void ZFPropertyGetAllT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret,
                        ZF_IN_OPT const ZFFilterForZFProperty *propertyFilter /* = zfnull */)
 {
     zfCoreMutexLocker();
@@ -330,7 +330,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, const ZFMethod *, getter
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, zfbool, propertyIsRetainProperty)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFProperty, const ZFClass *, propertyClassOfRetainProperty)
 
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFPropertyGetAllT, ZFMP_OUT(ZFCoreArray<const ZFProperty *> &, ret), ZFMP_IN_OPT(const ZFFilterForZFProperty *, propertyFilter, zfnull))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(void, ZFPropertyGetAllT, ZFMP_IN_OUT(ZFCoreArray<const ZFProperty *> &, ret), ZFMP_IN_OPT(const ZFFilterForZFProperty *, propertyFilter, zfnull))
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_1(ZFCoreArrayPOD<const ZFProperty *>, ZFPropertyGetAll, ZFMP_IN_OPT(const ZFFilterForZFProperty *, propertyFilter, zfnull))
 
 ZF_NAMESPACE_GLOBAL_END

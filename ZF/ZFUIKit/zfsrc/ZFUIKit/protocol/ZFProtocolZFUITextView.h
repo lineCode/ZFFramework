@@ -29,38 +29,38 @@ public:
     // properties
 public:
     /** @brief see #ZFUITextView */
-    virtual void textSet(ZF_IN ZFUITextView *textView,
-                         ZF_IN const zfchar *text) zfpurevirtual;
+    virtual void text(ZF_IN ZFUITextView *textView,
+                      ZF_IN const zfchar *text) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textAppearanceSet(ZF_IN ZFUITextView *textView,
-                                   ZF_IN ZFUITextAppearanceEnum const &textAppearance) zfpurevirtual;
+    virtual void textAppearance(ZF_IN ZFUITextView *textView,
+                                ZF_IN ZFUITextAppearanceEnum const &textAppearance) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textAlignSet(ZF_IN ZFUITextView *textView,
-                              ZF_IN ZFUIAlignFlags const &textAlign) zfpurevirtual;
+    virtual void textAlign(ZF_IN ZFUITextView *textView,
+                           ZF_IN ZFUIAlignFlags const &textAlign) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textColorSet(ZF_IN ZFUITextView *textView,
-                              ZF_IN ZFUIColor const &textColor) zfpurevirtual;
+    virtual void textColor(ZF_IN ZFUITextView *textView,
+                           ZF_IN ZFUIColor const &textColor) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textShadowColorSet(ZF_IN ZFUITextView *textView,
-                                    ZF_IN ZFUIColor const &textShadowColor) zfpurevirtual;
+    virtual void textShadowColor(ZF_IN ZFUITextView *textView,
+                                 ZF_IN ZFUIColor const &textShadowColor) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textShadowOffsetSet(ZF_IN ZFUITextView *textView,
-                                     ZF_IN ZFUISize const &textShadowOffset) zfpurevirtual;
+    virtual void textShadowOffset(ZF_IN ZFUITextView *textView,
+                                  ZF_IN ZFUISize const &textShadowOffset) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textSizeSet(ZF_IN ZFUITextView *textView,
-                             ZF_IN zfint textSize) zfpurevirtual;
+    virtual void textSize(ZF_IN ZFUITextView *textView,
+                          ZF_IN zfint textSize) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textSizeAutoChangeMinSizeSet(ZF_IN ZFUITextView *textView,
-                                              ZF_IN zfint textSizeAutoChangeMinSize) zfpurevirtual;
+    virtual void textSizeAutoChangeMinSize(ZF_IN ZFUITextView *textView,
+                                           ZF_IN zfint textSizeAutoChangeMinSize) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textSizeAutoChangeMaxSizeSet(ZF_IN ZFUITextView *textView,
-                                              ZF_IN zfint textSizeAutoChangeMaxSize) zfpurevirtual;
+    virtual void textSizeAutoChangeMaxSize(ZF_IN ZFUITextView *textView,
+                                           ZF_IN zfint textSizeAutoChangeMaxSize) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textSingleLineSet(ZF_IN ZFUITextView *textView,
-                                   ZF_IN zfbool textSingleLine) zfpurevirtual;
+    virtual void textSingleLine(ZF_IN ZFUITextView *textView,
+                                ZF_IN zfbool textSingleLine) zfpurevirtual;
     /** @brief see #ZFUITextView */
-    virtual void textTruncateModeSet(ZF_IN ZFUITextView *textView,
-                                     ZF_IN ZFUITextTruncateModeEnum const &textTruncateMode) zfpurevirtual;
+    virtual void textTruncateMode(ZF_IN ZFUITextView *textView,
+                                  ZF_IN ZFUITextTruncateModeEnum const &textTruncateMode) zfpurevirtual;
 
     // ============================================================
     // layout

@@ -70,7 +70,7 @@ extern ZF_ENV_EXPORT const ZFMethod *ZFMethodFromSig(ZF_IN const zfchar *methodS
  * -  pos[8] : range of methodParamTypeId6, 0 length if none
  * -  pos[9] : range of methodParamTypeId7, 0 length if none
  */
-extern ZF_ENV_EXPORT zfbool ZFMethodSigSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &ret,
+extern ZF_ENV_EXPORT zfbool ZFMethodSigSplit(ZF_IN_OUT ZFCoreArray<ZFIndexRange> &ret,
                                              ZF_IN const zfchar *src,
                                              ZF_IN_OPT zfindex srcLen = zfindexMax());
 

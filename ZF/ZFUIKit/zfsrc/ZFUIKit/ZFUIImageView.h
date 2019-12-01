@@ -78,7 +78,7 @@ protected:
     ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(ZFUIImage *, image))
     {
         this->objectOnInit();
-        this->imageSet(image);
+        this->image(image);
     }
 
     zfoverride

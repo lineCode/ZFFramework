@@ -1,6 +1,7 @@
 # 0.9.0RC
 
 * reduce property impl's complexity
+* change property setter name
 * add support for setter and getter method to simulate property
 * add lambda implemented by pure C++03
 * enhance view layout logic

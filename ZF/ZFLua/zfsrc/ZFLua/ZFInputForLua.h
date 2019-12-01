@@ -21,15 +21,15 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   ZFInputForLua(function(listenerData, userData)
  *       if listenerData:param1() == zfindexMax() then
  *           // return total input size
- *           listenerData:param1():zfvSet(yourTotalLength)
+ *           listenerData:param1():zfv(yourTotalLength)
  *       end
  *
  *       local buf = listenerData:param0()
  *       local count = listenerData:param1()
  *       // write to the buf
- *       buf:zfvSet(yourData)
+ *       buf:zfv(yourData)
  *       // save written length
- *       listenerData:param1():zfvSet(yourWrittenLength)
+ *       listenerData:param1():zfv(yourWrittenLength)
  *   end)
  * @endcode
  */

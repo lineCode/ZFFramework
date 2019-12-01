@@ -126,16 +126,16 @@ ZF_NAMESPACE_GLOBAL_END
 
 #include "ZFCore/ZFLogLevel.h"
 JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFMainEntry,
-                         void, native_1debugModeSet,
+                         void, native_1debugMode,
                          jboolean value)
 {
     if(value)
     {
-        ZFLogLevelSet(ZFLogLevel::e_Verbose);
+        ZFLogLevelDefault(ZFLogLevel::e_Verbose);
     }
     else
     {
-        ZFLogLevelSet(ZFLogLevel::EnumDefault());
+        ZFLogLevelDefault(ZFLogLevel::EnumDefault());
     }
 }
 JNI_METHOD_DECLARE_END()

@@ -15,8 +15,8 @@ public:
     _ZFP_ZFUITextViewImpl_sys_Qt_TextView(void)
     : QLabel()
     {
-        this->_ZFP_textColorSet(ZFUIColorBlack());
-        this->_ZFP_textSizeSet(14);
+        this->_ZFP_textColor(ZFUIColorBlack());
+        this->_ZFP_textSize(14);
         this->setWordWrap(false);
         this->setGraphicsEffect(zfnull);
 
@@ -26,13 +26,13 @@ public:
     }
 
 public:
-    void _ZFP_textSizeSet(ZF_IN zfint v)
+    void _ZFP_textSize(ZF_IN zfint v)
     {
         QFont font = this->font();
         font.setPixelSize((int)v);
         this->setFont(font);
     }
-    void _ZFP_textColorSet(ZF_IN ZFUIColor v)
+    void _ZFP_textColor(ZF_IN ZFUIColor v)
     {
         QPalette palette = this->palette();
         palette.setColor(QPalette::WindowText, ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIColorToQColor(v));
@@ -79,14 +79,14 @@ public:
 // ============================================================
 // properties
 public:
-    virtual void textSet(ZF_IN ZFUITextView *textView,
-                         ZF_IN const zfchar *text)
+    virtual void text(ZF_IN ZFUITextView *textView,
+                      ZF_IN const zfchar *text)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         nativeImplView->setText(ZFImpl_sys_Qt_zfstringToQString(text));
     }
-    virtual void textAppearanceSet(ZF_IN ZFUITextView *textView,
-                                   ZF_IN ZFUITextAppearanceEnum const &textAppearance)
+    virtual void textAppearance(ZF_IN ZFUITextView *textView,
+                                ZF_IN ZFUITextAppearanceEnum const &textAppearance)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         QFont font = nativeImplView->font();
@@ -114,53 +114,53 @@ public:
         }
         nativeImplView->setFont(font);
     }
-    virtual void textAlignSet(ZF_IN ZFUITextView *textView,
-                              ZF_IN ZFUIAlignFlags const &textAlign)
+    virtual void textAlign(ZF_IN ZFUITextView *textView,
+                           ZF_IN ZFUIAlignFlags const &textAlign)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         nativeImplView->setAlignment(ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIAlignFlagsToQAlignment(textAlign));
     }
-    virtual void textColorSet(ZF_IN ZFUITextView *textView,
-                              ZF_IN ZFUIColor const &textColor)
+    virtual void textColor(ZF_IN ZFUITextView *textView,
+                           ZF_IN ZFUIColor const &textColor)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
-        nativeImplView->_ZFP_textColorSet(textColor);
+        nativeImplView->_ZFP_textColor(textColor);
     }
-    virtual void textShadowColorSet(ZF_IN ZFUITextView *textView,
-                                    ZF_IN ZFUIColor const &textShadowColor)
+    virtual void textShadowColor(ZF_IN ZFUITextView *textView,
+                                 ZF_IN ZFUIColor const &textShadowColor)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         nativeImplView->_ZFP_textShadowUpdate(textShadowColor, textView->textShadowOffset());
     }
-    virtual void textShadowOffsetSet(ZF_IN ZFUITextView *textView,
-                                     ZF_IN ZFUISize const &textShadowOffset)
+    virtual void textShadowOffset(ZF_IN ZFUITextView *textView,
+                                  ZF_IN ZFUISize const &textShadowOffset)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         nativeImplView->_ZFP_textShadowUpdate(textView->textShadowColor(), textShadowOffset);
     }
-    virtual void textSizeSet(ZF_IN ZFUITextView *textView,
-                             ZF_IN zfint textSize)
+    virtual void textSize(ZF_IN ZFUITextView *textView,
+                          ZF_IN zfint textSize)
     {
         // changed during layoutNativeTextView
     }
-    virtual void textSizeAutoChangeMinSizeSet(ZF_IN ZFUITextView *textView,
-                                              ZF_IN zfint textSizeAutoChangeMinSize)
+    virtual void textSizeAutoChangeMinSize(ZF_IN ZFUITextView *textView,
+                                           ZF_IN zfint textSizeAutoChangeMinSize)
     {
         // changed during layoutNativeTextView
     }
-    virtual void textSizeAutoChangeMaxSizeSet(ZF_IN ZFUITextView *textView,
-                                              ZF_IN zfint textSizeAutoChangeMaxSize)
+    virtual void textSizeAutoChangeMaxSize(ZF_IN ZFUITextView *textView,
+                                           ZF_IN zfint textSizeAutoChangeMaxSize)
     {
         // changed during layoutNativeTextView
     }
-    virtual void textSingleLineSet(ZF_IN ZFUITextView *textView,
-                                   ZF_IN zfbool textSingleLine)
+    virtual void textSingleLine(ZF_IN ZFUITextView *textView,
+                                ZF_IN zfbool textSingleLine)
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         nativeImplView->setWordWrap(!textSingleLine);
     }
-    virtual void textTruncateModeSet(ZF_IN ZFUITextView *textView,
-                                     ZF_IN ZFUITextTruncateModeEnum const &textTruncateMode)
+    virtual void textTruncateMode(ZF_IN ZFUITextView *textView,
+                                  ZF_IN ZFUITextTruncateModeEnum const &textTruncateMode)
     {
 #if 0 // not supported for now
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
@@ -198,7 +198,7 @@ public:
         int maximumWidthSaved = nativeImplView->maximumWidth();
         int maximumHeightSaved = nativeImplView->maximumHeight();
 
-        nativeImplView->_ZFP_textSizeSet(textSize);
+        nativeImplView->_ZFP_textSize(textSize);
         nativeImplView->setMaximumWidth((sizeHint.width <= 0) ? 30000 : sizeHint.width);
         nativeImplView->setMaximumHeight((sizeHint.height <= 0) ? 30000 : sizeHint.height);
         nativeImplView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
@@ -206,7 +206,7 @@ public:
 
         QRect ret = nativeImplView->geometry();
 
-        nativeImplView->_ZFP_textSizeSet(textSizeSaved);
+        nativeImplView->_ZFP_textSize(textSizeSaved);
         nativeImplView->setMaximumWidth(maximumWidthSaved);
         nativeImplView->setMaximumHeight(maximumHeightSaved);
         nativeImplView->setGeometry(geometrySaved);
@@ -224,7 +224,7 @@ public:
     {
         _ZFP_ZFUITextViewImpl_sys_Qt_TextView *nativeImplView = ZFCastStatic(_ZFP_ZFUITextViewImpl_sys_Qt_TextView *, textView->nativeImplView());
         zfint fixedTextSize = this->calcTextSizeAutoChange(textView, viewSize);
-        nativeImplView->_ZFP_textSizeSet(fixedTextSize);
+        nativeImplView->_ZFP_textSize(fixedTextSize);
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFUITextViewImpl_sys_Qt)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFUITextViewImpl_sys_Qt)

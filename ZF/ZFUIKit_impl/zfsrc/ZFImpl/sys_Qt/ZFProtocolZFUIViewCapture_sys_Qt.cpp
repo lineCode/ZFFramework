@@ -27,7 +27,7 @@ public:
         t.fill(QColor(0, 0, 0, 0));
         nativeView->render(&t);
         QImage nativeImage = t.toImage();
-        image->nativeImageSet(&nativeImage);
+        image->nativeImage(&nativeImage);
 
         return zftrue;
     }

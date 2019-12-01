@@ -51,14 +51,14 @@ public class ZFUIView extends ViewGroup {
         nativeViewTmp.setClickable(true);
         nativeViewTmp.setBackgroundColor(Color.TRANSPARENT);
 
-        ZFUIViewFocus.native_viewFocusableSet(nativeView, false);
+        ZFUIViewFocus.native_viewFocusable(nativeView, false);
     }
     public static Object native_nativeViewCreate(long zfjniPointerOwnerZFUIView) {
         ZFUIView ret = new ZFUIView(ZFMainEntry.mainEntryActivity());
         ret.zfjniPointerOwnerZFUIView = zfjniPointerOwnerZFUIView;
         return ret;
     }
-    public static void native_nativeImplViewSet(Object nativeView,
+    public static void native_nativeImplView(Object nativeView,
                                                 Object nativeImplView,
                                                 int virtualIndex) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;
@@ -74,11 +74,11 @@ public class ZFUIView extends ViewGroup {
 
         ZFUIViewFocus.ZFUIViewImplChanged(nativeViewTmp, nativeImplViewOld, nativeImplViewNew);
     }
-    public static void native_nativeImplViewFrameSet(Object nativeView,
-                                                     int nativeImplViewFrame_x,
-                                                     int nativeImplViewFrame_y,
-                                                     int nativeImplViewFrame_width,
-                                                     int nativeImplViewFrame_height) {
+    public static void native_nativeImplViewFrame(Object nativeView,
+                                                  int nativeImplViewFrame_x,
+                                                  int nativeImplViewFrame_y,
+                                                  int nativeImplViewFrame_width,
+                                                  int nativeImplViewFrame_height) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;
         nativeViewTmp.nativeImplViewFrame_x = nativeImplViewFrame_x;
         nativeViewTmp.nativeImplViewFrame_y = nativeImplViewFrame_y;
@@ -91,25 +91,25 @@ public class ZFUIView extends ViewGroup {
     public static float native_nativeViewScaleForPhysicalPixel(Object nativeView) {
         return ZFAndroidUI.screenDensity(((View)nativeView).getContext());
     }
-    public static void native_viewVisibleSet(Object nativeView,
+    public static void native_viewVisible(Object nativeView,
                                              boolean viewVisible) {
         ((ZFUIView)nativeView).setVisibility(viewVisible ? View.VISIBLE : View.GONE);
     }
-    public static void native_viewAlphaSet(Object nativeView,
+    public static void native_viewAlpha(Object nativeView,
                                            float viewAlpha) {
         ((ZFUIView)nativeView).setAlpha(viewAlpha);
     }
-    public static void native_viewUIEnableSet(Object nativeView,
+    public static void native_viewUIEnable(Object nativeView,
                                               boolean viewUIEnable) {
         ((ZFUIView)nativeView).viewUIEnable = viewUIEnable;
     }
-    public static void native_viewUIEnableTreeSet(Object nativeView,
+    public static void native_viewUIEnableTree(Object nativeView,
                                                   boolean viewUIEnableTree) {
         ZFUIView nativeViewTmp = (ZFUIView)nativeView;
         nativeViewTmp.viewUIEnableTree = viewUIEnableTree;
         nativeViewTmp.setClickable(viewUIEnableTree);
     }
-    public static void native_viewBackgroundColorSet(Object nativeView,
+    public static void native_viewBackgroundColor(Object nativeView,
                                                      int viewBackgroundColor) {
         ((ZFUIView)nativeView).setBackgroundColor(viewBackgroundColor);
     }
@@ -137,7 +137,7 @@ public class ZFUIView extends ViewGroup {
             }
         }
     }
-    public static void native_viewFrameSet(Object nativeView,
+    public static void native_viewFrame(Object nativeView,
                                            int viewFrame_x,
                                            int viewFrame_y,
                                            int viewFrame_width,

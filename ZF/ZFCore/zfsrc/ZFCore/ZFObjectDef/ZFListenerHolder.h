@@ -37,7 +37,7 @@ protected:
         this->objectOnInit();
         this->runnable = runnable;
         this->listenerData = listenerData;
-        this->userDataSet(userData);
+        this->userData(userData);
     }
 
     zfoverride

@@ -77,12 +77,12 @@ public:
     /**
      * @brief ignore public method, false by default
      */
-    virtual void ignorePublicSet(ZF_IN zfbool value)
+    virtual void ignorePublic(ZF_IN zfbool value)
     {
         d->ignorePublic = value;
     }
     /**
-     * @brief see #ignorePublicSet
+     * @brief see #ignorePublic
      */
     virtual zfbool ignorePublic(void) const
     {
@@ -92,12 +92,12 @@ public:
     /**
      * @brief ignore protected method, false by default
      */
-    virtual void ignoreProtectedSet(ZF_IN zfbool value)
+    virtual void ignoreProtected(ZF_IN zfbool value)
     {
         d->ignoreProtected = value;
     }
     /**
-     * @brief see #ignoreProtectedSet
+     * @brief see #ignoreProtected
      */
     virtual zfbool ignoreProtected(void) const
     {
@@ -107,12 +107,12 @@ public:
     /**
      * @brief ignore private method, false by default
      */
-    virtual void ignorePrivateSet(ZF_IN zfbool value)
+    virtual void ignorePrivate(ZF_IN zfbool value)
     {
         d->ignorePrivate = value;
     }
     /**
-     * @brief see #ignorePrivateSet
+     * @brief see #ignorePrivate
      */
     virtual zfbool ignorePrivate(void) const
     {

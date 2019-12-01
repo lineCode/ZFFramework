@@ -18,6 +18,7 @@
 #include "ZFObjectDef/ZFCopyable.h"
 #include "ZFObjectDef/ZFCoreType_IODef.h"
 #include "ZFObjectDef/ZFCoreType_methodRegister.h"
+#include "ZFObjectDef/ZFDynamicInvoker.h"
 #include "ZFObjectDef/ZFEnum.h"
 #include "ZFObjectDef/ZFEnumDeclare.h"
 #include "ZFObjectDef/ZFEnumDeclarePropType.h"

@@ -9,9 +9,9 @@ ZFOBJECT_REGISTER(ZFListenerHolder)
 zfidentity ZFListenerHolder::objectHash(void)
 {
     return zfidentityHash(zfidentityCalcString(this->classData()->classNameFull())
-        , zfidentityCalcPointer(this->listenerData.sender)
-        , zfidentityCalcPointer(this->listenerData.param0)
-        , zfidentityCalcPointer(this->listenerData.param1)
+        , zfidentityCalcPointer(this->listenerData.sender())
+        , zfidentityCalcPointer(this->listenerData.param0())
+        , zfidentityCalcPointer(this->listenerData.param1())
         , zfidentityCalcPointer(this->userData())
         );
 }
@@ -22,9 +22,9 @@ ZFCompareResult ZFListenerHolder::objectCompare(ZF_IN ZFObject *anotherObj)
     if(another == zfnull) {return ZFCompareUncomparable;}
 
     if(this->runnable.objectCompare(another->runnable) == ZFCompareTheSame
-        && this->listenerData.sender == another->listenerData.sender
-        && this->listenerData.param0 == another->listenerData.param0
-        && this->listenerData.param1 == another->listenerData.param1
+        && this->listenerData.sender() == another->listenerData.sender()
+        && this->listenerData.param0() == another->listenerData.param0()
+        && this->listenerData.param1() == another->listenerData.param1()
         && this->userData() == another->userData())
     {
         return ZFCompareTheSame;

@@ -145,68 +145,68 @@ ZFMETHOD_FUNC_DEFINE_2(zfbool, ZFProtocolIsAvailable,
 }
 
 // ============================================================
-static void _ZFP_ZFProtocolImplDataGet(ZF_IN_OUT ZFProtocolImplInfoData &data,
-                                       ZF_IN _ZFP_ZFProtocolData &implData)
+static void _ZFP_ZFProtocolImplInfoCopy(ZF_IN_OUT ZFProtocolImplInfo &data,
+                                        ZF_IN _ZFP_ZFProtocolData &implData)
 {
     data.protocolName = implData.protocolName;
     data.protocolOptional = implData.protocolOptional;
     data.protocolImpl = implData.implTryAccessCallback();
 }
-ZFCoreArray<ZFProtocolImplInfoData> ZFProtocolImplInfoDataGet(void)
+ZFCoreArray<ZFProtocolImplInfo> ZFProtocolImplInfoGetAll(void)
 {
-    ZFCoreArray<ZFProtocolImplInfoData> ret;
+    ZFCoreArray<ZFProtocolImplInfo> ret;
 
     ZFCoreArrayPOD<_ZFP_ZFProtocolDataPrivateData *> allValue;
     _ZFP_ZFProtocolDataMap.allValueT(allValue);
     for(zfindex i = 0; i < allValue.count(); ++i)
     {
-        ZFProtocolImplInfoData data;
-        _ZFP_ZFProtocolImplDataGet(data, allValue[i]->data);
+        ZFProtocolImplInfo data;
+        _ZFP_ZFProtocolImplInfoCopy(data, allValue[i]->data);
         ret.add(data);
     }
 
     return ret;
 }
-ZFCoreArray<ZFProtocolImplInfoData> ZFProtocolImplInfoDataGetImplemented(void)
+ZFCoreArray<ZFProtocolImplInfo> ZFProtocolImplInfoGetAllImplemented(void)
 {
-    ZFCoreArray<ZFProtocolImplInfoData> ret;
+    ZFCoreArray<ZFProtocolImplInfo> ret;
 
     ZFCoreArrayPOD<_ZFP_ZFProtocolDataPrivateData *> allValue;
     _ZFP_ZFProtocolDataMap.allValueT(allValue);
     for(zfindex i = 0; i < allValue.count(); ++i)
     {
-        ZFProtocolImplInfoData data;
+        ZFProtocolImplInfo data;
         _ZFP_ZFProtocolData &implData = allValue[i]->data;
         if(implData.implTryAccessCallback() != zfnull)
         {
-            _ZFP_ZFProtocolImplDataGet(data, implData);
+            _ZFP_ZFProtocolImplInfoCopy(data, implData);
             ret.add(data);
         }
     }
 
     return ret;
 }
-ZFCoreArray<ZFProtocolImplInfoData> ZFProtocolImplInfoDataGetNotImplemented(void)
+ZFCoreArray<ZFProtocolImplInfo> ZFProtocolImplInfoGetAllNotImplemented(void)
 {
-    ZFCoreArray<ZFProtocolImplInfoData> ret;
+    ZFCoreArray<ZFProtocolImplInfo> ret;
 
     ZFCoreArrayPOD<_ZFP_ZFProtocolDataPrivateData *> allValue;
     _ZFP_ZFProtocolDataMap.allValueT(allValue);
     for(zfindex i = 0; i < allValue.count(); ++i)
     {
-        ZFProtocolImplInfoData data;
+        ZFProtocolImplInfo data;
         _ZFP_ZFProtocolData &implData = allValue[i]->data;
         if(implData.implTryAccessCallback() == zfnull)
         {
-            _ZFP_ZFProtocolImplDataGet(data, implData);
+            _ZFP_ZFProtocolImplInfoCopy(data, implData);
             ret.add(data);
         }
     }
 
     return ret;
 }
-static ZFCompareResult _ZFP_ZFProtocolImplInfoDataPrint_sortComparer(ZF_IN const ZFProtocolImplInfoData &e0,
-                                                                     ZF_IN const ZFProtocolImplInfoData &e1)
+static ZFCompareResult _ZFP_ZFProtocolImplInfoPrint_sortComparer(ZF_IN const ZFProtocolImplInfo &e0,
+                                                                 ZF_IN const ZFProtocolImplInfo &e1)
 {
     zfint t = zfscmp(e0.protocolName.cString(), e1.protocolName.cString());
     if(t < 0)
@@ -222,8 +222,8 @@ static ZFCompareResult _ZFP_ZFProtocolImplInfoDataPrint_sortComparer(ZF_IN const
         return ZFCompareTheSame;
     }
 }
-void ZFProtocolImplInfoDataPrint(ZF_IN const ZFProtocolImplInfoData &data,
-                                 ZF_IN_OPT const ZFOutput &callback /* = ZFOutputDefault() */)
+void ZFProtocolImplInfoPrint(ZF_IN const ZFProtocolImplInfo &data,
+                             ZF_IN_OPT const ZFOutput &callback /* = ZFOutputDefault() */)
 {
     callback.execute(data.protocolName.cString());
     if(data.protocolOptional)
@@ -244,7 +244,7 @@ void ZFProtocolImplInfoDataPrint(ZF_IN const ZFProtocolImplInfoData &data,
         }
     }
 }
-ZFMETHOD_FUNC_DEFINE_1(void, ZFProtocolImplInfoDataPrint,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFProtocolImplInfoPrint,
                        ZFMP_IN_OPT(const ZFOutput &, callback, ZFOutputDefault()))
 {
     if(!callback.callbackIsValid())
@@ -252,31 +252,31 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFProtocolImplInfoDataPrint,
         return ;
     }
 
-    ZFCoreArray<ZFProtocolImplInfoData> notImplemented = ZFProtocolImplInfoDataGetNotImplemented();
-    ZFCoreArray<ZFProtocolImplInfoData> implemented = ZFProtocolImplInfoDataGetImplemented();
+    ZFCoreArray<ZFProtocolImplInfo> notImplemented = ZFProtocolImplInfoGetAllNotImplemented();
+    ZFCoreArray<ZFProtocolImplInfo> implemented = ZFProtocolImplInfoGetAllImplemented();
     if(!notImplemented.isEmpty())
     {
-        notImplemented.sort(_ZFP_ZFProtocolImplInfoDataPrint_sortComparer);
+        notImplemented.sort(_ZFP_ZFProtocolImplInfoPrint_sortComparer);
 
         callback.execute("not implemented:\n");
         for(zfindex i = 0; i < notImplemented.count(); ++i)
         {
-            const ZFProtocolImplInfoData &data = notImplemented[i];
+            const ZFProtocolImplInfo &data = notImplemented[i];
             callback.execute("  ");
-            ZFProtocolImplInfoDataPrint(data, callback);
+            ZFProtocolImplInfoPrint(data, callback);
             callback.execute("\n");
         }
     }
     if(!implemented.isEmpty())
     {
-        implemented.sort(_ZFP_ZFProtocolImplInfoDataPrint_sortComparer);
+        implemented.sort(_ZFP_ZFProtocolImplInfoPrint_sortComparer);
 
         callback.execute("implemented:\n");
         for(zfindex i = 0; i < implemented.count(); ++i)
         {
-            const ZFProtocolImplInfoData &data = implemented[i];
+            const ZFProtocolImplInfo &data = implemented[i];
             callback.execute("  ");
-            ZFProtocolImplInfoDataPrint(data, callback);
+            ZFProtocolImplInfoPrint(data, callback);
             callback.execute("\n");
         }
     }

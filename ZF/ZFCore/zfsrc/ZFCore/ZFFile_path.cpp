@@ -63,18 +63,18 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForSetting)
 {
     return _ZFP_ZFFilePathImpl->pathForSetting();
 }
-ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForSettingSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForSetting,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
     if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForSettingOnChange()))
     {
         zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForSetting());
-        _ZFP_ZFFilePathImpl->pathForSettingSet(path);
+        _ZFP_ZFFilePathImpl->pathForSetting(path);
         ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForSettingOnChange(), old);
     }
     else
     {
-        _ZFP_ZFFilePathImpl->pathForSettingSet(path);
+        _ZFP_ZFFilePathImpl->pathForSetting(path);
     }
 }
 
@@ -88,18 +88,18 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForStorage)
 {
     return _ZFP_ZFFilePathImpl->pathForStorage();
 }
-ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorage,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
     if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForStorageOnChange()))
     {
         zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForStorage());
-        _ZFP_ZFFilePathImpl->pathForStorageSet(path);
+        _ZFP_ZFFilePathImpl->pathForStorage(path);
         ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForStorageOnChange(), old);
     }
     else
     {
-        _ZFP_ZFFilePathImpl->pathForStorageSet(path);
+        _ZFP_ZFFilePathImpl->pathForStorage(path);
     }
 }
 
@@ -113,18 +113,18 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForStorageShared)
 {
     return _ZFP_ZFFilePathImpl->pathForStorageShared();
 }
-ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageSharedSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForStorageShared,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
     if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForStorageSharedOnChange()))
     {
         zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForStorageShared());
-        _ZFP_ZFFilePathImpl->pathForStorageSharedSet(path);
+        _ZFP_ZFFilePathImpl->pathForStorageShared(path);
         ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForStorageSharedOnChange(), old);
     }
     else
     {
-        _ZFP_ZFFilePathImpl->pathForStorageSharedSet(path);
+        _ZFP_ZFFilePathImpl->pathForStorageShared(path);
     }
 }
 
@@ -140,18 +140,18 @@ ZFMETHOD_FUNC_DEFINE_0(const zfchar *, ZFFilePathForCache)
 {
     return _ZFP_ZFFilePathImpl->pathForCache();
 }
-ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForCacheSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFFilePathForCache,
                        ZFMP_IN_OPT(const zfchar *, path, zfnull))
 {
     if(ZFGlobalEventCenter::instance()->observerHasAdd(ZFGlobalEvent::EventZFFilePathForCacheOnChange()))
     {
         zfblockedAlloc(v_zfstring, old, _ZFP_ZFFilePathImpl->pathForCache());
-        _ZFP_ZFFilePathImpl->pathForCacheSet(path);
+        _ZFP_ZFFilePathImpl->pathForCache(path);
         ZFGlobalEventCenter::instance()->observerNotify(ZFGlobalEvent::EventZFFilePathForCacheOnChange(), old);
     }
     else
     {
-        _ZFP_ZFFilePathImpl->pathForCacheSet(path);
+        _ZFP_ZFFilePathImpl->pathForCache(path);
     }
 }
 

@@ -47,7 +47,7 @@ protected:
 
         this->testCaseOutputSeparator();
         this->testCaseOutput("ZFJson add element");
-        json.jsonItemValueSet("testJsonKey", "testJsonValue");
+        json.jsonItemValue("testJsonKey", "testJsonValue");
         this->testCaseOutput("ZFJson add element, result:");
         zfLogTrimT() << ZFJsonItemToString(json);
 
@@ -59,33 +59,33 @@ private:
     void performanceTest(ZF_IN const ZFJsonItem &jsonItem)
     {
         zfindex toDataTimes = 10000;
-        ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFJsonPerformance_test_toData");
+        ZFCoreStatistic::invokeTimeLogBegin("ZFJsonPerformance_test_toData");
         for(zfindex i = 0; i < toDataTimes; ++i)
         {
             zfstring tmp;
             ZFJsonItemToOutput(ZFOutputForString(tmp), jsonItem);
         }
-        ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFJsonPerformance_test_toData");
+        ZFCoreStatistic::invokeTimeLogEnd("ZFJsonPerformance_test_toData");
 
         zfindex fromDataTimes = toDataTimes;
         zfstring jsonString;
         ZFJsonItemToOutput(ZFOutputForString(jsonString), jsonItem);
-        ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFJsonPerformance_test_fromData");
+        ZFCoreStatistic::invokeTimeLogBegin("ZFJsonPerformance_test_fromData");
         for(zfindex i = 0; i < fromDataTimes; ++i)
         {
             ZFJsonItemFromInput(ZFInputForBufferUnsafe(jsonString));
         }
-        ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFJsonPerformance_test_fromData");
+        ZFCoreStatistic::invokeTimeLogEnd("ZFJsonPerformance_test_fromData");
         ZFJsonItem jsonItemNew = ZFJsonItemFromInput(ZFInputForBufferUnsafe(jsonString));
 
         this->testCaseOutputSeparator();
 
-        ZFTimeValue toDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFJsonPerformance_test_toData");
+        ZFTimeValue toDataUsedTime = ZFCoreStatistic::invokeTimeGetTotalTime("ZFJsonPerformance_test_toData");
         this->testCaseOutput("serialize to data %zi times cost %s seconds",
             toDataTimes,
             ZFTimeValueToStringFriendly(toDataUsedTime).cString());
 
-        ZFTimeValue fromDataUsedTime = ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFJsonPerformance_test_fromData");
+        ZFTimeValue fromDataUsedTime = ZFCoreStatistic::invokeTimeGetTotalTime("ZFJsonPerformance_test_fromData");
         this->testCaseOutput("serialize from data %zi times cost %s seconds",
             fromDataTimes,
             ZFTimeValueToStringFriendly(fromDataUsedTime).cString());
@@ -96,8 +96,8 @@ private:
             this->testCaseOutput("newly: %s", ZFJsonItemToString(jsonItemNew).cString());
         #endif
 
-        ZFCoreStatistic::invokeTimeAccurateRemove("ZFJsonPerformance_test_toData");
-        ZFCoreStatistic::invokeTimeAccurateRemove("ZFJsonPerformance_test_fromData");
+        ZFCoreStatistic::invokeTimeRemove("ZFJsonPerformance_test_toData");
+        ZFCoreStatistic::invokeTimeRemove("ZFJsonPerformance_test_fromData");
     }
 };
 ZFOBJECT_REGISTER(ZFAlgorithm_ZFJson_test)

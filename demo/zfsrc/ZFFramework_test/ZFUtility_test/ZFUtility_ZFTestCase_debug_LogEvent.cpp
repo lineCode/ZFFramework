@@ -8,8 +8,8 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnOutput, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
-            << listenerData.param0->to<v_zfstring *>()->zfv;
+            << zfstringWithFormat("[%s]", listenerData.sender()->classData()->classNameFull())
+            << listenerData.param0<v_zfstring *>()->zfv;
     })
     this->testCaseOnOutputListener = testCaseOnOutput;
     ZFObjectGlobalEventObserver().observerAdd(ZFTestCase::EventTestCaseOnOutput(), this->testCaseOnOutputListener);
@@ -17,7 +17,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnStart, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
+            << zfstringWithFormat("[%s]", listenerData.sender()->classData()->classNameFull())
             << "========================== start ===========================";
     })
     this->testCaseOnStartListener = testCaseOnStart;
@@ -26,7 +26,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnProgress, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
+            << zfstringWithFormat("[%s]", listenerData.sender()->classData()->classNameFull())
             << "progress updated";
     })
     this->testCaseOnProgressListener = testCaseOnProgress;
@@ -35,7 +35,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUtility_ZFTestCase_debug_LogEvent)
     ZFLISTENER_LOCAL(testCaseOnStop, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << zfstringWithFormat("[%s]", listenerData.sender->classData()->classNameFull())
+            << zfstringWithFormat("[%s]", listenerData.sender()->classData()->classNameFull())
             << "-------------------------- stop ----------------------------";
     })
     this->testCaseOnStopListener = testCaseOnStop;

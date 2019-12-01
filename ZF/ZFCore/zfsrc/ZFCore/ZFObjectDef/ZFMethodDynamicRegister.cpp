@@ -43,7 +43,7 @@ public:
 };
 
 // ============================================================
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodDynamicRegisterUserDataSet(ZF_IN ZFObject *methodDynamicRegisterUserData)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodDynamicRegisterUserData(ZF_IN ZFObject *methodDynamicRegisterUserData)
 {
     d->methodDynamicRegisterUserData = methodDynamicRegisterUserData;
     return *this;
@@ -53,7 +53,7 @@ ZFObject *ZFMethodDynamicRegisterParam::methodDynamicRegisterUserData(void) cons
     return d->methodDynamicRegisterUserData;
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodOwnerClassSet(ZF_IN const ZFClass *methodOwnerClass)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodOwnerClass(ZF_IN const ZFClass *methodOwnerClass)
 {
     d->methodOwnerClass = methodOwnerClass;
     return *this;
@@ -63,7 +63,7 @@ const ZFClass *ZFMethodDynamicRegisterParam::methodOwnerClass(void) const
     return d->methodOwnerClass;
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodNamespaceSet(ZF_IN const zfchar *methodNamespace)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodNamespace(ZF_IN const zfchar *methodNamespace)
 {
     d->methodNamespace = methodNamespace;
     return *this;
@@ -73,7 +73,7 @@ const zfchar *ZFMethodDynamicRegisterParam::methodNamespace(void) const
     return (d->methodNamespace.isEmpty() ? zfnull : d->methodNamespace.cString());
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodGenericInvokerSet(ZF_IN ZFMethodGenericInvoker methodGenericInvoker)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodGenericInvoker(ZF_IN ZFMethodGenericInvoker methodGenericInvoker)
 {
     d->methodGenericInvoker = methodGenericInvoker;
     return *this;
@@ -83,7 +83,7 @@ ZFMethodGenericInvoker ZFMethodDynamicRegisterParam::methodGenericInvoker(void) 
     return d->methodGenericInvoker;
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodTypeSet(ZF_IN ZFMethodType methodType)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodType(ZF_IN ZFMethodType methodType)
 {
     d->methodType = methodType;
     return *this;
@@ -93,7 +93,7 @@ ZFMethodType ZFMethodDynamicRegisterParam::methodType(void) const
     return d->methodType;
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodPrivilegeTypeSet(ZF_IN ZFMethodPrivilegeType methodPrivilegeType)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodPrivilegeType(ZF_IN ZFMethodPrivilegeType methodPrivilegeType)
 {
     d->methodPrivilegeType = methodPrivilegeType;
     return *this;
@@ -103,7 +103,7 @@ ZFMethodPrivilegeType ZFMethodDynamicRegisterParam::methodPrivilegeType(void) co
     return d->methodPrivilegeType;
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodNameSet(ZF_IN const zfchar *methodName)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodName(ZF_IN const zfchar *methodName)
 {
     d->methodName = methodName;
     return *this;
@@ -113,7 +113,7 @@ const zfchar *ZFMethodDynamicRegisterParam::methodName(void) const
     return (d->methodName.isEmpty() ? zfnull : d->methodName.cString());
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodReturnTypeIdSet(ZF_IN const zfchar *methodReturnTypeId)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodReturnTypeId(ZF_IN const zfchar *methodReturnTypeId)
 {
     d->methodReturnTypeId = methodReturnTypeId;
     return *this;
@@ -123,7 +123,7 @@ const zfchar *ZFMethodDynamicRegisterParam::methodReturnTypeId(void) const
     return (d->methodReturnTypeId.isEmpty() ? zfnull : d->methodReturnTypeId.cString());
 }
 
-ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodReturnTypeNameSet(ZF_IN const zfchar *methodReturnTypeName)
+ZFMethodDynamicRegisterParam &ZFMethodDynamicRegisterParam::methodReturnTypeName(ZF_IN const zfchar *methodReturnTypeName)
 {
     d->methodReturnTypeName = methodReturnTypeName;
     return *this;
@@ -217,25 +217,25 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodDynamicRegisterUserDataSet, ZFMP_IN(ZFObject *, methodDynamicRegisterUserData))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodDynamicRegisterUserData, ZFMP_IN(ZFObject *, methodDynamicRegisterUserData))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, ZFObject *, methodDynamicRegisterUserData)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodOwnerClassSet, ZFMP_IN(const ZFClass *, methodOwnerClass))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodOwnerClass, ZFMP_IN(const ZFClass *, methodOwnerClass))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, const ZFClass *, methodOwnerClass)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodNamespaceSet, ZFMP_IN(const zfchar *, methodNamespace))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodNamespace, ZFMP_IN(const zfchar *, methodNamespace))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, const zfchar *, methodNamespace)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodGenericInvokerSet, ZFMP_IN(ZFMethodGenericInvoker, methodGenericInvoker))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodGenericInvoker, ZFMP_IN(ZFMethodGenericInvoker, methodGenericInvoker))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, ZFMethodGenericInvoker, methodGenericInvoker)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodTypeSet, ZFMP_IN(ZFMethodType, methodType))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodType, ZFMP_IN(ZFMethodType, methodType))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, ZFMethodType, methodType)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodPrivilegeTypeSet, ZFMP_IN(ZFMethodPrivilegeType, methodPrivilegeType))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodPrivilegeType, ZFMP_IN(ZFMethodPrivilegeType, methodPrivilegeType))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, ZFMethodPrivilegeType, methodPrivilegeType)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodNameSet, ZFMP_IN(const zfchar *, methodName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodName, ZFMP_IN(const zfchar *, methodName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, const zfchar *, methodName)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodReturnTypeIdSet, ZFMP_IN(const zfchar *, methodReturnTypeId))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodReturnTypeId, ZFMP_IN(const zfchar *, methodReturnTypeId))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, const zfchar *, methodReturnTypeId)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodReturnTypeNameSet, ZFMP_IN(const zfchar *, methodReturnTypeName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, void, methodReturnTypeName, ZFMP_IN(const zfchar *, methodReturnTypeName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, const zfchar *, methodReturnTypeName)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFMethodDynamicRegisterParam, ZFMethodDynamicRegisterParam &, methodParamAdd, ZFMP_IN(const zfchar *, methodParamTypeId), ZFMP_IN_OPT(const zfchar *, methodParamTypeName, zfnull), ZFMP_IN_OPT(ZFMethodParamDefaultValueCallback, methodParamDefaultValueCallback, zfnull))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFMethodDynamicRegisterParam, void, methodParamAdd, ZFMP_IN(const zfchar *, methodParamTypeId), ZFMP_IN_OPT(const zfchar *, methodParamTypeName, zfnull), ZFMP_IN_OPT(ZFMethodParamDefaultValueCallback, methodParamDefaultValueCallback, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFMethodDynamicRegisterParam, zfindex, methodParamCount)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, const zfchar *, methodParamTypeIdAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFMethodDynamicRegisterParam, const zfchar *, methodParamTypeNameAtIndex, ZFMP_IN(zfindex, index))

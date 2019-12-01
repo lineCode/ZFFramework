@@ -58,9 +58,9 @@ zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
         return zffalse;
     }
     if(!ZFMethodDynamicRegister(ZFMethodDynamicRegisterParam()
-            .methodGenericInvokerSet(_ZFP_ZFTypeIdGI)
-            .methodReturnTypeIdSet(ZFTypeId_zfstring())
-            .methodNameSet(zfstringWithFormat("ZFTypeId_%s", typeIdName))
+            .methodGenericInvoker(_ZFP_ZFTypeIdGI)
+            .methodReturnTypeId(ZFTypeId_zfstring())
+            .methodName(zfstringWithFormat("ZFTypeId_%s", typeIdName))
         , errorHint))
     {
         return zffalse;
@@ -77,7 +77,7 @@ void ZFTypeIdDynamicUnregister(ZF_IN const zfchar *typeIdName)
         zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> >::iterator it = d->m.find(typeIdName);
         if(it != d->m.end())
         {
-            ZFMethodDynamicUnregister(ZFMethodFuncGet(ZF_NAMESPACE_GLOBAL_NAME,
+            ZFMethodDynamicUnregister(ZFMethodForName(ZF_NAMESPACE_GLOBAL_NAME,
                 zfstringWithFormat("ZFTypeId_%s", typeIdName)));
             _ZFP_ZFTypeInfoUnregister(typeIdName);
             d->m.erase(it);

@@ -34,7 +34,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(luaStateOnDetach)
 {
     zfCoreMutexLocker();
     zfstlmap<void *, zfbool> &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFLuaGCHolder)->m;
-    m.erase(listenerData.param0->to<v_VoidPointer *>()->zfv);
+    m.erase(listenerData.param0<v_VoidPointer *>()->zfv);
 }
 ZF_GLOBAL_INITIALIZER_END(ZFLuaGCHolder)
 
@@ -92,7 +92,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFLuaGCAutoApply)
 ZFListener classChangeListener;
 static ZFLISTENER_PROTOTYPE_EXPAND(classChange)
 {
-    const ZFClassDataChangeData *data = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
+    const ZFClassDataChangeData *data = listenerData.param0<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
     if(data->changedClass != zfnull && data->changeType == ZFClassDataChangeTypeDetach)
     {
         ZFCoreArrayPOD<void *> L;

@@ -16,7 +16,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIDialogContentClassInit, ZFLevelZFFrame
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUIDialogContentClassInit)
 
-ZFMETHOD_FUNC_DEFINE_1(void, ZFUIDialogContentClassSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFUIDialogContentClass,
                        ZFMP_IN(const ZFClass *, cls))
 {
     if(cls == zfnull)
@@ -52,12 +52,12 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(dialogButtonOnAdd)
     {
         userData->objectHolded<ZFUIDialogBasic *>()
-            ->_ZFP_ZFUIDialogBasic_dialogButtonOnAdd(listenerData.param0->to<ZFUIButton *>());
+            ->_ZFP_ZFUIDialogBasic_dialogButtonOnAdd(listenerData.param0<ZFUIButton *>());
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(dialogButtonOnRemove)
     {
         userData->objectHolded<ZFUIDialogBasic *>()
-            ->_ZFP_ZFUIDialogBasic_dialogButtonOnRemove(listenerData.param0->to<ZFUIButton *>());
+            ->_ZFP_ZFUIDialogBasic_dialogButtonOnRemove(listenerData.param0<ZFUIButton *>());
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIDialogBasicDataHolder)
 
@@ -77,7 +77,7 @@ ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIDialogBasic, ZFUIDialogContent *, dialo
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIDialogBasic, ZFUIDialogContent *, dialogContent)
 {
     this->dialogInternalContainer()->childAdd(this->dialogContent()->to<ZFUIView *>());
-    this->dialogContent()->to<ZFUIView *>()->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
+    this->dialogContent()->to<ZFUIView *>()->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
 
     this->dialogContent()->toObject()->observerAdd(
         ZFUIDialogContent::EventDialogButtonOnAdd(),
@@ -105,7 +105,7 @@ ZFPROPERTY_OVERRIDE_ON_DETACH_DEFINE(ZFUIDialogBasic, ZFUIDialogContent *, dialo
 void ZFUIDialogBasic::objectOnInit(void)
 {
     zfsuper::objectOnInit();
-    this->dialogContentSet(this->dialogContent());
+    this->dialogContent(this->dialogContent());
 }
 void ZFUIDialogBasic::objectOnDeallocPrepare(void)
 {

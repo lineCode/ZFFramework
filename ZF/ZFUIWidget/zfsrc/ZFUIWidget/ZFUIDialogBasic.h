@@ -68,10 +68,10 @@ public:
     /**
      * @brief set the dialog's title text
      */
-    ZFMETHOD_INLINE_1(void, dialogTitleTextSet,
+    ZFMETHOD_INLINE_1(void, dialogTitleText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogTitleView()->textSet(text);
+        this->dialogTitleView()->text(text);
     }
     /**
      * @brief get the dialog's title text
@@ -94,10 +94,10 @@ public:
     /**
      * @brief set the dialog's content text
      */
-    ZFMETHOD_INLINE_1(void, dialogContentTextSet,
+    ZFMETHOD_INLINE_1(void, dialogContentText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogContentView()->textSet(text);
+        this->dialogContentView()->text(text);
     }
     /**
      * @brief get the dialog's content text
@@ -131,8 +131,8 @@ public:
     /**
      * @brief see #dialogButtonText
      */
-    virtual void dialogButtonTextSet(ZF_IN ZFUIDialogButtonTypeEnum dialogButtonType,
-                                     ZF_IN const zfchar *text) zfpurevirtual;
+    virtual void dialogButtonText(ZF_IN ZFUIDialogButtonTypeEnum dialogButtonType,
+                                  ZF_IN const zfchar *text) zfpurevirtual;
     /**
      * @brief remove specified button type, see #dialogButton
      */
@@ -168,44 +168,44 @@ public:
     {
         return this->dialogButtonText(ZFUIDialogButtonType::e_Yes);
     }
-    /** @brief util method to access #dialogButtonTextSet */
-    ZFMETHOD_INLINE_1(void, dialogButtonYesTextSet,
+    /** @brief util method to access #dialogButtonText */
+    ZFMETHOD_INLINE_1(void, dialogButtonYesText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogButtonTextSet(ZFUIDialogButtonType::e_Yes, text);
+        this->dialogButtonText(ZFUIDialogButtonType::e_Yes, text);
     }
     /** @brief util method to access #dialogButtonText */
     ZFMETHOD_INLINE_0(const zfchar *, dialogButtonNoText)
     {
         return this->dialogButtonText(ZFUIDialogButtonType::e_No);
     }
-    /** @brief util method to access #dialogButtonTextSet */
-    ZFMETHOD_INLINE_1(void, dialogButtonNoTextSet,
+    /** @brief util method to access #dialogButtonText */
+    ZFMETHOD_INLINE_1(void, dialogButtonNoText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogButtonTextSet(ZFUIDialogButtonType::e_No, text);
+        this->dialogButtonText(ZFUIDialogButtonType::e_No, text);
     }
     /** @brief util method to access #dialogButtonText */
     ZFMETHOD_INLINE_0(const zfchar *, dialogButtonCancelText)
     {
         return this->dialogButtonText(ZFUIDialogButtonType::e_Cancel);
     }
-    /** @brief util method to access #dialogButtonTextSet */
-    ZFMETHOD_INLINE_1(void, dialogButtonCancelTextSet,
+    /** @brief util method to access #dialogButtonText */
+    ZFMETHOD_INLINE_1(void, dialogButtonCancelText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogButtonTextSet(ZFUIDialogButtonType::e_Cancel, text);
+        this->dialogButtonText(ZFUIDialogButtonType::e_Cancel, text);
     }
     /** @brief util method to access #dialogButtonText */
     ZFMETHOD_INLINE_0(const zfchar *, dialogButtonDestructiveText)
     {
         return this->dialogButtonText(ZFUIDialogButtonType::e_Destructive);
     }
-    /** @brief util method to access #dialogButtonTextSet */
-    ZFMETHOD_INLINE_1(void, dialogButtonDestructiveTextSet,
+    /** @brief util method to access #dialogButtonText */
+    ZFMETHOD_INLINE_1(void, dialogButtonDestructiveText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogButtonTextSet(ZFUIDialogButtonType::e_Destructive, text);
+        this->dialogButtonText(ZFUIDialogButtonType::e_Destructive, text);
     }
 
     // ============================================================
@@ -260,10 +260,10 @@ protected:
  * #ZFUIDialogContentBasic by default,
  * set null to reset to default
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFUIDialogContentClassSet,
+ZFMETHOD_FUNC_DECLARE_1(void, ZFUIDialogContentClass,
                         ZFMP_IN(const ZFClass *, cls))
 /**
- * @brief see #ZFUIDialogContentClassSet
+ * @brief see #ZFUIDialogContentClass
  */
 ZFMETHOD_FUNC_DECLARE_0(const ZFClass *, ZFUIDialogContentClass)
 
@@ -273,7 +273,7 @@ ZFMETHOD_FUNC_DECLARE_0(const ZFClass *, ZFUIDialogContentClass)
  * @brief basic dialog with title, content and buttons
  *
  * actual dialog content is implemented by #ZFUIDialogContent,
- * you may change the default impl by #ZFUIDialogContentClassSet,
+ * you may change the default impl by #ZFUIDialogContentClass,
  * or directly change #ZFUIDialogBasic::dialogContent
  */
 zfclass ZF_ENV_EXPORT ZFUIDialogBasic : zfextends ZFUIDialog, zfimplements ZFUIDialogContent
@@ -332,11 +332,11 @@ public:
     {
         return this->dialogContent()->dialogButtonText(dialogButtonType);
     }
-    ZFMETHOD_INLINE_2(void, dialogButtonTextSet,
+    ZFMETHOD_INLINE_2(void, dialogButtonText,
                       ZFMP_IN(ZFUIDialogButtonTypeEnum, dialogButtonType),
                       ZFMP_IN(const zfchar *, text))
     {
-        this->dialogContent()->dialogButtonTextSet(dialogButtonType, text);
+        this->dialogContent()->dialogButtonText(dialogButtonType, text);
     }
     ZFMETHOD_INLINE_1(void, dialogButtonRemove,
                       ZFMP_IN(ZFUIDialogButtonTypeEnum , dialogButtonType))

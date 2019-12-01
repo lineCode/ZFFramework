@@ -13,17 +13,17 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /**
  * @brief manually set the next focus target for the from view, set null to remove
  */
-ZFMETHOD_FUNC_DECLARE_2(void, ZFUIViewFocusNextSet,
+ZFMETHOD_FUNC_DECLARE_2(void, ZFUIViewFocusNextSetup,
                         ZFMP_IN(ZFUIView *, from),
                         ZFMP_IN(ZFUIView *, nextFocus))
 
-#define _ZFP_ZFUIViewFocusNextSetChainEndPtr ((ZFUIView *)-1)
-extern ZF_ENV_EXPORT void _ZFP_ZFUIViewFocusNextSetChain(ZF_IN ZFUIView *view0, ZF_IN ZFUIView *view1, ...);
+#define _ZFP_ZFUIViewFocusNextSetupChainEndPtr ((ZFUIView *)-1)
+extern ZF_ENV_EXPORT void _ZFP_ZFUIViewFocusNextSetupChain(ZF_IN ZFUIView *view0, ZF_IN ZFUIView *view1, ...);
 /**
- * @brief util method to chain all view's next focus target by #ZFUIViewFocusNextSet
+ * @brief util method to chain all view's next focus target by #ZFUIViewFocusNextSetup
  */
-#define ZFUIViewFocusNextSetChain(view0, view1, ...) \
-    _ZFP_ZFUIViewFocusNextSetChain(view0, view1, ##__VA_ARGS__, _ZFP_ZFUIViewFocusNextSetChainEndPtr)
+#define ZFUIViewFocusNextSetupChain(view0, view1, ...) \
+    _ZFP_ZFUIViewFocusNextSetupChain(view0, view1, ##__VA_ARGS__, _ZFP_ZFUIViewFocusNextSetupChainEndPtr)
 
 // ============================================================
 /**

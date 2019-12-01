@@ -17,25 +17,25 @@ protected:
         ZFUIKit_test_prepareTestWindow(window, container, this);
 
         ZFLISTENER_LOCAL(onClickReturn, {
-            ZFUITextEdit *textEdit = listenerData.sender->toAny();
+            ZFUITextEdit *textEdit = listenerData.sender()->toAny();
             textEdit->viewFocusRequest(zffalse);
         })
 
         zfblockedAlloc(ZFUITextEdit, view);
         container->childAdd(view);
-        view->layoutParam()->sizeParamSet(ZFUISizeParamFillWrap());
-        view->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
-        view->viewBackgroundColorSet(ZFUIColorRed());
+        view->layoutParam()->sizeParam(ZFUISizeParamFillWrap());
+        view->layoutParam()->layoutMargin(ZFUIMarginMake(40));
+        view->viewBackgroundColor(ZFUIColorRed());
         view->observerAdd(ZFUITextEdit::EventTextOnReturnClick(), onClickReturn);
-        view->textPlaceHolder()->textSet("first text edit");
+        view->textPlaceHolder()->text("first text edit");
 
         zfblockedAlloc(ZFUITextEdit, view2);
         container->childAdd(view2);
-        view2->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        view2->layoutParam()->layoutMarginSet(ZFUIMarginMake(40, 100, 40, 40));
-        view2->viewBackgroundColorSet(ZFUIColorBlue());
+        view2->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        view2->layoutParam()->layoutMargin(ZFUIMarginMake(40, 100, 40, 40));
+        view2->viewBackgroundColor(ZFUIColorBlue());
         view2->observerAdd(ZFUITextEdit::EventTextOnReturnClick(), onClickReturn);
-        view2->textPlaceHolder()->textSet("second text edit");
+        view2->textPlaceHolder()->text("second text edit");
 
         this->prepareSettingButton(window, view);
     }

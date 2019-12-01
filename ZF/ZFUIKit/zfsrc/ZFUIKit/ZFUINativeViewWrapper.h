@@ -16,7 +16,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *
  * used to hold a native view in ZFUIKit environment,
  * what you should do is create a #ZFUINativeViewWrapper
- * and store native view by #wrappedNativeViewSet\n
+ * and store native view by #wrappedNativeView\n
  * the embeded native view would be layouted to fill #ZFUINativeViewWrapper's frame,
  * to change it's layout logic, you should use it as a #ZFUIView\n
  * the #ZFUINativeViewWrapper itself is serializable,
@@ -34,7 +34,7 @@ protected:
     ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(void *, wrappedNativeView))
     {
         this->objectOnInit();
-        zfself::wrappedNativeViewSet(wrappedNativeView);
+        zfself::wrappedNativeView(wrappedNativeView);
     }
 
     zfoverride
@@ -48,7 +48,7 @@ public:
     /**
      * @brief see #ZFUINativeViewWrapper
      */
-    ZFMETHOD_DECLARE_1(void, wrappedNativeViewSet,
+    ZFMETHOD_DECLARE_1(void, wrappedNativeView,
                        ZFMP_IN(void *, wrappedNativeView))
     /**
      * @brief see #ZFUINativeViewWrapper

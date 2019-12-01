@@ -21,7 +21,7 @@ public:
             ZFThreadExecuteInMainThread(mainThreadCallback, userData);
         })
         ZFThreadExecuteInNewThread(threadCallback,
-            zflineAlloc(ZFListenerHolder, task, ZFListenerData().param0Set(param0).param1Set(param1)));
+            zflineAlloc(ZFListenerHolder, task, ZFListenerData().param0(param0).param1(param1)));
     }
 ZFPROTOCOL_IMPLEMENTATION_END(ZFThreadTaskRequestImpl_default)
 ZFPROTOCOL_IMPLEMENTATION_REGISTER(ZFThreadTaskRequestImpl_default)

@@ -65,12 +65,12 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(viewOnDetach)
     {
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniDataHolder);
-        d->viewDetach(listenerData.sender->to<ZFUIView *>());
+        d->viewDetach(listenerData.sender<ZFUIView *>());
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(viewTaskOnStart)
     {
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniDataHolder);
-        d->viewAniStart(listenerData.sender->to<ZFUIView *>());
+        d->viewAniStart(listenerData.sender<ZFUIView *>());
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(viewAniOnStop)
     {
@@ -78,7 +78,7 @@ public:
         d->viewDetach(userData->objectHolded());
         #if _ZFP_ZFUIViewStateAni_DEBUG
             zfLogTrimT() << zfLogCurTimeString() << "[ZFUIViewStateAni]"
-                << "aniStop" << userData->objectHolded() << listenerData.sender;
+                << "aniStop" << userData->objectHolded() << listenerData.sender();
         #endif
     }
 
@@ -338,7 +338,7 @@ public:
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniImplDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniImplDataHolder);
         for(zfindex i = 0; i < d->implList.count(); ++i)
         {
-            d->implList[i]->stateAniViewAttach(listenerData.sender->to<ZFUIView *>());
+            d->implList[i]->stateAniViewAttach(listenerData.sender<ZFUIView *>());
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(stateAniViewDetach)
@@ -346,7 +346,7 @@ public:
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniImplDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniImplDataHolder);
         for(zfindex i = 0; i < d->implList.count(); ++i)
         {
-            d->implList[i]->stateAniViewDetach(listenerData.sender->to<ZFUIView *>());
+            d->implList[i]->stateAniViewDetach(listenerData.sender<ZFUIView *>());
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(stateAniViewAniPrepare)
@@ -354,7 +354,7 @@ public:
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniImplDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniImplDataHolder);
         for(zfindex i = 0; i < d->implList.count(); ++i)
         {
-            d->implList[i]->stateAniViewAniPrepare(listenerData.sender->to<ZFUIView *>(), listenerData.param0->to<ZFArrayEditable *>());
+            d->implList[i]->stateAniViewAniPrepare(listenerData.sender<ZFUIView *>(), listenerData.param0<ZFArrayEditable *>());
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(stateAniViewAniStart)
@@ -362,7 +362,7 @@ public:
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniImplDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniImplDataHolder);
         for(zfindex i = 0; i < d->implList.count(); ++i)
         {
-            d->implList[i]->stateAniViewAniStart(listenerData.sender->to<ZFUIView *>(), listenerData.param0->to<ZFAnimation *>());
+            d->implList[i]->stateAniViewAniStart(listenerData.sender<ZFUIView *>(), listenerData.param0<ZFAnimation *>());
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(stateAniViewAniStop)
@@ -370,7 +370,7 @@ public:
         ZF_GLOBAL_INITIALIZER_CLASS(ZFUIViewStateAniImplDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFUIViewStateAniImplDataHolder);
         for(zfindex i = 0; i < d->implList.count(); ++i)
         {
-            d->implList[i]->stateAniViewAniStop(listenerData.sender->to<ZFUIView *>(), listenerData.param0->to<ZFAnimation *>());
+            d->implList[i]->stateAniViewAniStop(listenerData.sender<ZFUIView *>(), listenerData.param0<ZFAnimation *>());
         }
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIViewStateAniImplDataHolder)

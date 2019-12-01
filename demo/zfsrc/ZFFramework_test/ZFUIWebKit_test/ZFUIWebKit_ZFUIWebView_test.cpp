@@ -18,14 +18,14 @@ protected:
 
         zfblockedAlloc(ZFUIWebView, testView);
         container->childAdd(testView);
-        testView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        testView->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
-        testView->viewBackgroundColorSet(ZFUIColorRed());
+        testView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        testView->layoutParam()->layoutMargin(ZFUIMarginMake(40));
+        testView->viewBackgroundColor(ZFUIColorRed());
 
         this->prepareSettingButton(window, testView);
 
         ZFLISTENER_LOCAL(loadStateOnChange, {
-            zfLogTrimT() << "webLoadingOnChange" << listenerData.sender->to<ZFUIWebView *>()->webLoading();
+            zfLogTrimT() << "webLoadingOnChange" << listenerData.sender<ZFUIWebView *>()->webLoading();
         })
         testView->observerAdd(ZFUIWebView::EventWebLoadStateOnChange(), loadStateOnChange);
 

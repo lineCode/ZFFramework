@@ -42,8 +42,8 @@ zfclass ZF_ENV_EXPORT ZFUIListCell : zfextends ZFUIView
     {
         propertyValue = this->layoutParamCreate();
         ZFUIViewLayoutParam *value = propertyValue.to<ZFUIViewLayoutParam *>();
-        value->sizeParamSet(ZFUISizeParamFillFill());
-        value->layoutAlignSet(ZFUIAlign::e_Center);
+        value->sizeParam(ZFUISizeParamFillFill());
+        value->layoutAlign(ZFUIAlign::e_Center);
     }
 
 protected:

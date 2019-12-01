@@ -153,7 +153,7 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, zfbool, mainWindowAttached)
     return (_ZFP_ZFUISysWindow_mainWindow != zfnull);
 }
 
-ZFMETHOD_DEFINE_1(ZFUISysWindow, void, keyWindowSet,
+ZFMETHOD_DEFINE_1(ZFUISysWindow, void, keyWindow,
                   ZFMP_IN(ZFUISysWindow *, window))
 {
     if(window == zfnull)
@@ -187,7 +187,7 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, const ZFUIMargin &, sysWindowMargin)
 {
     return d->sysWindowMargin;
 }
-void ZFUISysWindow::_ZFP_ZFUISysWindow_sysWindowMarginSet(ZF_IN const ZFUIMargin &sysWindowMargin)
+void ZFUISysWindow::_ZFP_ZFUISysWindow_sysWindowMargin(ZF_IN const ZFUIMargin &sysWindowMargin)
 {
     ZFUIMargin sysWindowMarginOld = d->sysWindowMargin;
     d->sysWindowMargin = ZFUIMarginApplyScaleReversely(sysWindowMargin, this->rootView()->scaleFixed());
@@ -210,7 +210,7 @@ void ZFUISysWindow::objectOnInit(void)
     d = zfpoolNew(_ZFP_ZFUISysWindowPrivate);
     d->windowRootView = zfRetain(ZFUIRootView::ClassData()->newInstance().to<ZFUIRootView *>());
     d->sysWindowLayoutParam = zfAlloc(ZFUIViewLayoutParam);
-    d->sysWindowLayoutParam->sizeParamSet(ZFUISizeParamFillFill());
+    d->sysWindowLayoutParam->sizeParam(ZFUISizeParamFillFill());
 }
 void ZFUISysWindow::objectOnInitFinish(void)
 {
@@ -294,7 +294,7 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUIOrientationEnum, sysWindowOrientation)
         return ZFUIOrientation::e_Top;
     }
 }
-ZFMETHOD_DEFINE_1(ZFUISysWindow, void, sysWindowOrientationFlagsSet,
+ZFMETHOD_DEFINE_1(ZFUISysWindow, void, sysWindowOrientationFlags,
                   ZFMP_IN(const ZFUIOrientationFlags &, sysWindowOrientationFlags))
 {
     zfuint tmp = 0;
@@ -319,13 +319,13 @@ ZFMETHOD_DEFINE_1(ZFUISysWindow, void, sysWindowOrientationFlagsSet,
         d->sysWindowOrientationFlags = tmp;
         if(d->embedImpl != zfnull)
         {
-            d->embedImpl->sysWindowOrientationFlagsSet(this, tmp);
+            d->embedImpl->sysWindowOrientationFlags(this, tmp);
         }
         else
         {
             if(this->nativeWindow() != zfnull)
             {
-                ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowOrientationFlagsSet(this, tmp);
+                ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowOrientationFlags(this, tmp);
             }
         }
     }
@@ -374,11 +374,11 @@ ZFMETHOD_DEFINE_0(ZFUISysWindow, void, modalWindowFinish)
 
     zfRelease(this);
 }
-ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, modalWindowGetShowing)
+ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, modalWindowShowingWindow)
 {
     return d->modalWindowShowing;
 }
-ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, modalWindowGetOwner)
+ZFMETHOD_DEFINE_0(ZFUISysWindow, ZFUISysWindow *, modalWindowOwner)
 {
     return d->modalWindowOwner;
 }
@@ -410,12 +410,12 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onCreate(ZF_IN void *nativeWindow)
     void *nativeParentView = zfnull;
     if(d->embedImpl != zfnull)
     {
-        d->embedImpl->sysWindowOrientationFlagsSet(this, d->sysWindowOrientationFlags);
+        d->embedImpl->sysWindowOrientationFlags(this, d->sysWindowOrientationFlags);
         d->embedImpl->nativeWindowRootViewOnAdd(this, nativeParentView);
     }
     else
     {
-        ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowOrientationFlagsSet(this, d->sysWindowOrientationFlags);
+        ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowOrientationFlags(this, d->sysWindowOrientationFlags);
         ZFPROTOCOL_ACCESS(ZFUISysWindow)->nativeWindowRootViewOnAdd(this, nativeParentView);
     }
     ZFUIView::_ZFP_ZFUIView_nativeViewNotifyAdd(this->rootView(), nativeParentView);

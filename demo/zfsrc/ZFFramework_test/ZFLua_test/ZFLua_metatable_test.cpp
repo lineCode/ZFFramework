@@ -13,7 +13,7 @@ protected:
         zfsuper::testCaseOnStart();
 
         {
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("run lua code");
+            ZFCoreStatisticInvokeTimeLoggerOneTime("run lua code");
             ZFLuaExecute(
                     "print('\\n__add: (5 5 5)')\n"
                     "print(zfint(2) + zfint(3))\n"
@@ -144,7 +144,7 @@ protected:
         }
 
         {
-            ZFCoreStatisticInvokeTimeAccurateLoggerOneTime("lua gc");
+            ZFCoreStatisticInvokeTimeLoggerOneTime("lua gc");
             ZFLuaGC();
         }
 

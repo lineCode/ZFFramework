@@ -11,7 +11,7 @@ public:
     {
         return _ZFP_myProp.zfv;
     }
-    void myPropSet(ZF_IN zfint v)
+    void myProp(ZF_IN zfint v)
     {
         _ZFP_myProp.zfv = v;
     }
@@ -33,31 +33,31 @@ protected:
         const ZFClass *cls = _ZFP_ZFCore_ZFPropertyDynamic_test_Object::ClassData();
 
         const ZFMethod *setterMethod = ZFMethodDynamicRegister(ZFMethodDynamicRegisterParam()
-                .methodOwnerClassSet(cls)
-                .methodGenericInvokerSet(_setterGI)
-                .methodTypeSet(ZFMethodTypeNormal)
-                .methodNameSet("myPropSet")
+                .methodOwnerClass(cls)
+                .methodGenericInvoker(_setterGI)
+                .methodType(ZFMethodTypeNormal)
+                .methodName("myProp")
                 .methodParamAdd(ZFTypeId_zfint(), "zfint const &")
             );
         const ZFMethod *getterMethod = ZFMethodDynamicRegister(ZFMethodDynamicRegisterParam()
-                .methodOwnerClassSet(cls)
-                .methodGenericInvokerSet(_getterGI)
-                .methodTypeSet(ZFMethodTypeNormal)
-                .methodNameSet("myProp")
-                .methodReturnTypeIdSet(ZFTypeId_zfint())
+                .methodOwnerClass(cls)
+                .methodGenericInvoker(_getterGI)
+                .methodType(ZFMethodTypeNormal)
+                .methodName("myProp")
+                .methodReturnTypeId(ZFTypeId_zfint())
             );
 
         const ZFProperty *property = ZFPropertyDynamicRegister(ZFPropertyDynamicRegisterParam()
-                .propertyOwnerClassSet(cls)
-                .propertyTypeIdSet(ZFTypeId_zfint())
-                .propertyNameSet("myProp")
-                .propertyCustomImplSet(setterMethod, getterMethod, _callbackIsValueAccessed, _callbackIsInitValue, _callbackValueReset)
+                .propertyOwnerClass(cls)
+                .propertyTypeId(ZFTypeId_zfint())
+                .propertyName("myProp")
+                .propertyCustomImpl(setterMethod, getterMethod, _callbackIsValueAccessed, _callbackIsInitValue, _callbackValueReset)
             );
 
         this->testCaseOutput("property: %s", property->objectInfo().cString());
 
         zfblockedAlloc(_ZFP_ZFCore_ZFPropertyDynamic_test_Object, obj);
-        obj->myPropSet(123);
+        obj->myProp(123);
         this->testCaseOutput("obj: %s", ZFClassUtil::objectInfo(obj).cString());
 
         ZFPropertyDynamicUnregister(property);
@@ -73,15 +73,15 @@ private:
     static zfbool _setterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
     {
         _ZFP_ZFCore_ZFPropertyDynamic_test_Object *obj = invokerObject->toAny();
-        obj->myPropSet(paramList[0]->to<v_zfint *>()->zfv);
-        obj->tagSet(_valueKey(), paramList[0]->to<ZFCopyable *>()->copy());
+        obj->myProp(paramList[0]->to<v_zfint *>()->zfv);
+        obj->objectTag(_valueKey(), paramList[0]->to<ZFCopyable *>()->copy());
         return zftrue;
     }
     static zfbool _getterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
     {
         _ZFP_ZFCore_ZFPropertyDynamic_test_Object *obj = invokerObject->toAny();
         zfautoObject tag = zflineAlloc(v_zfint, obj->myProp());
-        obj->tagSet(_valueKey(), tag);
+        obj->objectTag(_valueKey(), tag);
         ret = tag;
         return zftrue;
     }
@@ -105,8 +105,8 @@ private:
                                     ZF_IN ZFObject *ownerObj)
     {
         _ZFP_ZFCore_ZFPropertyDynamic_test_Object *obj = ownerObj->toAny();
-        obj->tagRemove(_valueKey());
-        obj->myPropSet(0);
+        obj->objectTagRemove(_valueKey());
+        obj->myProp(0);
     }
 };
 ZFOBJECT_REGISTER(ZFCore_ZFPropertyDynamic_test)

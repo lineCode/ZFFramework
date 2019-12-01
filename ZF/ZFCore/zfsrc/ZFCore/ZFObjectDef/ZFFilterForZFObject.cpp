@@ -24,7 +24,7 @@ ZFFilterForZFObject::~ZFFilterForZFObject(void)
 {
     for(zfindex i = 0; i < this->filterCount(); ++i)
     {
-        zfRelease(this->filterGetInternal(i));
+        zfRelease(this->filterInternalAtIndex(i));
     }
 }
 
@@ -33,7 +33,7 @@ void ZFFilterForZFObject::copyFrom(ZF_IN ZFFilterBase<ZFObject *, ZFObject *> co
     zfsuper::copyFrom(ref);
     for(zfindex i = 0; i < this->filterCount(); ++i)
     {
-        zfRetain(this->filterGetInternal(i));
+        zfRetain(this->filterInternalAtIndex(i));
     }
     this->classFilter.copyFrom(((ZFFilterForZFObject const &)ref).classFilter);
 }
@@ -73,8 +73,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFFilterForZFObject, void, filterRem
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFObject, void, filterRemoveAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFObject, void, filterRemoveAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFObject, zfindex, filterCount)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFObject, ZFObject *, filterGet, ZFMP_IN(zfindex, index))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFObject, ZFFilterType, filterGetFilterType, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFObject, ZFObject *, filterElementAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFObject, ZFFilterType, filterTypeAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFObject, zfbool, filterCheckActive, ZFMP_IN(ZFObject * const &, e))
 
 ZF_NAMESPACE_GLOBAL_END

@@ -49,15 +49,15 @@ static int _ZFP_ZFLua_performance_test_C_f4(lua_State *L)
 // ============================================================
 static int _ZFP_ZFLua_performance_test_begin(lua_State *L)
 {
-    ZFCoreStatistic::invokeTimeAccurateLogBegin("ZFLua_performance_test");
+    ZFCoreStatistic::invokeTimeLogBegin("ZFLua_performance_test");
     return 0;
 }
 static int _ZFP_ZFLua_performance_test_end(lua_State *L)
 {
-    ZFCoreStatistic::invokeTimeAccurateLogEnd("ZFLua_performance_test");
+    ZFCoreStatistic::invokeTimeLogEnd("ZFLua_performance_test");
     zfLogTrimT() << "[ZFLua_performance_test]" << lua_tostring(L, 1)
-        << ZFTimeValueToStringFriendly(ZFCoreStatistic::invokeTimeAccurateGetTotalTime("ZFLua_performance_test"));
-    ZFCoreStatistic::invokeTimeAccurateRemove("ZFLua_performance_test");
+        << ZFTimeValueToStringFriendly(ZFCoreStatistic::invokeTimeGetTotalTime("ZFLua_performance_test"));
+    ZFCoreStatistic::invokeTimeRemove("ZFLua_performance_test");
     return 0;
 }
 

@@ -112,7 +112,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFUIScrollThumbRegister, ZFLevelZFFramewor
 }
 ZF_GLOBAL_INITIALIZER_END(ZFUIScrollThumbRegister)
 
-ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollThumbHorizontalClassSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollThumbHorizontalClass,
                        ZFMP_IN(const ZFClass *, cls))
 {
     if(cls != zfnull && !cls->classIsTypeOf(ZFUIScrollThumb::ClassData()))
@@ -134,7 +134,7 @@ ZFMETHOD_FUNC_DEFINE_0(const ZFClass *, ZFUIScrollThumbHorizontalClass)
     return _ZFP_ZFUIScrollThumbHorizontal_cls;
 }
 
-ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollThumbVerticalClassSet,
+ZFMETHOD_FUNC_DEFINE_1(void, ZFUIScrollThumbVerticalClass,
                        ZFMP_IN(const ZFClass *, cls))
 {
     if(cls != zfnull && !cls->classIsTypeOf(ZFUIScrollThumb::ClassData()))

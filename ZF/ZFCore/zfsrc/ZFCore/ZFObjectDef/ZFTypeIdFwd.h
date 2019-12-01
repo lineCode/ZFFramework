@@ -65,9 +65,9 @@ extern ZF_ENV_EXPORT ZFTypeInfo *_ZFP_ZFTypeInfoUnregister(ZF_IN const zfchar *t
 /**
  * @brief access type id data
  */
-extern ZF_ENV_EXPORT const ZFTypeInfo *ZFTypeInfoGet(ZF_IN const zfchar *typeId);
+extern ZF_ENV_EXPORT const ZFTypeInfo *ZFTypeInfoForName(ZF_IN const zfchar *typeId);
 /** @brief see #ZFTypeInfoGetAll */
-extern ZF_ENV_EXPORT void ZFTypeInfoGetAllT(ZF_OUT ZFCoreArray<const ZFTypeInfo *> &ret);
+extern ZF_ENV_EXPORT void ZFTypeInfoGetAllT(ZF_IN_OUT ZFCoreArray<const ZFTypeInfo *> &ret);
 /**
  * @brief access type id data
  */
@@ -217,7 +217,7 @@ public:
     } \
     ZF_STATIC_REGISTER_DESTROY(PropTIReg_##TypeName) \
     { \
-        ZFMethodFuncUserUnregister(ZFMethodFuncGet(zfnull, ZFM_TOSTRING(ZFTypeId_##TypeName))); \
+        ZFMethodFuncUserUnregister(ZFMethodForName(zfnull, ZFM_TOSTRING(ZFTypeId_##TypeName))); \
         zfdelete(_ZFP_ZFTypeInfoUnregister(ZFTypeId_##TypeName())); \
     } \
     ZF_STATIC_REGISTER_END(PropTIReg_##TypeName)
@@ -262,9 +262,9 @@ typedef zfbool (*_ZFP_ZFTypeIdProgressUpdate)(ZF_IN_OUT ZFProgressable *ret,
         zfoverride \
         virtual void *wrappedValue(void) {return &(this->zfv);} \
         zfoverride \
-        virtual void wrappedValueSet(ZF_IN const void *v) {this->zfv = *(const _ZFP_PropTypeW_##TypeName *)v;} \
+        virtual void wrappedValue(ZF_IN const void *v) {this->zfv = *(const _ZFP_PropTypeW_##TypeName *)v;} \
         zfoverride \
-        virtual void wrappedValueGet(ZF_IN void *v) {*(_ZFP_PropTypeW_##TypeName *)v = this->zfv;} \
+        virtual void wrappedValueCopy(ZF_IN void *v) {*(_ZFP_PropTypeW_##TypeName *)v = this->zfv;} \
     public: \
         zfoverride \
         virtual void wrappedValueReset(void) \
@@ -321,10 +321,19 @@ typedef zfbool (*_ZFP_ZFTypeIdProgressUpdate)(ZF_IN_OUT ZFProgressable *ret,
     { \
         return ZFTypeId<_ZFP_PropTypeW_##TypeName>::TypeId(); \
     } \
-    ZFMETHOD_USER_REGISTER_1({ \
+    ZFMETHOD_USER_REGISTER_DETAIL_0({ \
+            return invokerObject->to<v_##TypeName *>()->zfv; \
+        }, v_##TypeName, \
+        public, ZFMethodTypeVirtual, G, \
+        _ZFP_PropTypeW_##TypeName const &, zfv \
+        ) \
+    ZFMETHOD_USER_REGISTER_DETAIL_1({ \
             invokerObject->to<v_##TypeName *>()->zfv = value; \
-        }, v_##TypeName, void, zfvSet, \
-        ZFMP_IN(_ZFP_PropTypeW_##TypeName const &, value))
+        }, v_##TypeName, \
+        public, ZFMethodTypeVirtual, S, \
+        void, zfv \
+        , ZFMP_IN(_ZFP_PropTypeW_##TypeName const &, value) \
+        )
 
 #define _ZFP_ZFTYPEID_WRAPPER_DEFINE_SERIALIZABLE(TypeName, Type) \
     zfbool v_##TypeName::wrappedValueFromData(ZF_IN const ZFSerializableData &serializableData, \

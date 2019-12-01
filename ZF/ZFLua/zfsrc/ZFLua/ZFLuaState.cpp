@@ -16,7 +16,7 @@ ZFMETHOD_FUNC_DEFINE_1(void, ZFLuaStateChange,
 }
 
 ZFMETHOD_FUNC_DEFINE_1(void, ZFLuaStateListT,
-                       ZFMP_OUT(ZFCoreArray<void *> &, ret))
+                       ZFMP_IN_OUT(ZFCoreArray<void *> &, ret))
 {
     ZFPROTOCOL_ACCESS(ZFLua)->luaStateList(ret);
 }

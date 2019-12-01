@@ -234,7 +234,7 @@ ZFCompareResult ZFCallback::objectCompare(ZF_IN const ZFCallback &ref) const
         ? ZFCompareTheSame : ZFCompareUncomparable);
 }
 
-void ZFCallback::callbackIdSet(ZF_IN const zfchar *callbackId)
+void ZFCallback::callbackId(ZF_IN const zfchar *callbackId)
 {
     if(d == zfnull)
     {
@@ -251,8 +251,8 @@ const zfchar *ZFCallback::callbackId(void) const
     return (d ? d->callbackId : zfnull);
 }
 
-void ZFCallback::callbackTagSet(ZF_IN const zfchar *key,
-                                ZF_IN ZFObject *tag)
+void ZFCallback::callbackTag(ZF_IN const zfchar *key,
+                             ZF_IN ZFObject *tag)
 {
     if(key == zfnull)
     {
@@ -288,7 +288,7 @@ void ZFCallback::callbackTagSet(ZF_IN const zfchar *key,
         }
     }
 }
-ZFObject *ZFCallback::callbackTagGet(ZF_IN const zfchar *key) const
+ZFObject *ZFCallback::callbackTag(ZF_IN const zfchar *key) const
 {
     if(d != zfnull && key != zfnull)
     {
@@ -307,8 +307,8 @@ void ZFCallback::callbackTagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *>
     if(d != zfnull)
     {
         _ZFP_ZFCallbackTagMap &m = d->callbackTagMap;
-        allKey.capacitySet(allKey.count() + m.size());
-        allValue.capacitySet(allValue.count() + m.size());
+        allKey.capacity(allKey.count() + m.size());
+        allValue.capacity(allValue.count() + m.size());
         for(_ZFP_ZFCallbackTagMap::iterator it = m.begin(); it != m.end(); ++it)
         {
             allKey.add(it->first.c_str());
@@ -385,7 +385,7 @@ void ZFCallback::callbackOwnerObjectRelease(void) const
     }
 }
 
-void ZFCallback::callbackSerializeCustomTypeSet(ZF_IN const zfchar *customType)
+void ZFCallback::callbackSerializeCustomType(ZF_IN const zfchar *customType)
 {
     if(d == zfnull)
     {
@@ -397,7 +397,7 @@ const zfchar *ZFCallback::callbackSerializeCustomType(void) const
 {
     return (d ? d->serializableCustomType : zfnull);
 }
-void ZFCallback::callbackSerializeCustomDataSet(ZF_IN const ZFSerializableData *customData)
+void ZFCallback::callbackSerializeCustomData(ZF_IN const ZFSerializableData *customData)
 {
     if(d == zfnull)
     {
@@ -432,7 +432,7 @@ const ZFPathInfo *ZFCallback::pathInfo(void) const
 {
     return (d ? d->pathInfo : zfnull);
 }
-void ZFCallback::pathInfoSet(ZF_IN const ZFPathInfo *pathInfo)
+void ZFCallback::pathInfo(ZF_IN const ZFPathInfo *pathInfo)
 {
     if(d == zfnull)
     {
@@ -458,7 +458,7 @@ void ZFCallback::pathInfoSet(ZF_IN const ZFPathInfo *pathInfo)
         }
     }
 }
-void ZFCallback::pathInfoSet(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData)
+void ZFCallback::pathInfo(ZF_IN const zfchar *pathType, ZF_IN const zfchar *pathData)
 {
     if(d == zfnull)
     {
@@ -502,10 +502,10 @@ ZF_NAMESPACE_GLOBAL_END
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackIdSet, ZFMP_IN(const zfchar *, callbackId))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackId, ZFMP_IN(const zfchar *, callbackId))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, const zfchar *, callbackId)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCallback, void, callbackTagSet, ZFMP_IN(const zfchar *, key), ZFMP_IN(ZFObject *, tag))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, ZFObject *, callbackTagGet, ZFMP_IN(const zfchar *, key))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCallback, void, callbackTag, ZFMP_IN(const zfchar *, key), ZFMP_IN(ZFObject *, tag))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, ZFObject *, callbackTag, ZFMP_IN(const zfchar *, key))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCallback, void, callbackTagGetAllKeyValue, ZFMP_IN_OUT(ZFCoreArray<const zfchar *> &, allKey), ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, allValue))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackTagRemove, ZFMP_IN(const zfchar *, key))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, zfautoObject, callbackTagRemoveAndGet, ZFMP_IN(const zfchar *, key))
@@ -518,15 +518,15 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, ZFFuncAddrType, callback
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, void, callbackClear)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, void, callbackOwnerObjectRetain)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, void, callbackOwnerObjectRelease)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackSerializeCustomTypeSet, ZFMP_IN(const zfchar *, customType))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackSerializeCustomType, ZFMP_IN(const zfchar *, customType))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, const zfchar *, callbackSerializeCustomType)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackSerializeCustomDataSet, ZFMP_IN(const ZFSerializableData &, customData))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackSerializeCustomData, ZFMP_IN(const ZFSerializableData &, customData))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, const ZFSerializableData *, callbackSerializeCustomData)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, callbackSerializeCustomDisable, ZFMP_IN(zfbool, disable))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, zfbool, callbackSerializeCustomDisabled)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFCallback, const ZFPathInfo *, pathInfo)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, pathInfoSet, ZFMP_IN(const ZFPathInfo *, pathInfo))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCallback, void, pathInfoSet, ZFMP_IN(const zfchar *, pathType), ZFMP_IN(const zfchar *, pathData))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFCallback, void, pathInfo, ZFMP_IN(const ZFPathInfo *, pathInfo))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFCallback, void, pathInfo, ZFMP_IN(const zfchar *, pathType), ZFMP_IN(const zfchar *, pathData))
 
 // ============================================================
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_0(ZFCallback, ZFCallbackNull)

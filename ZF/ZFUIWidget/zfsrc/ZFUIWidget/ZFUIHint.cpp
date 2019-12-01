@@ -17,7 +17,7 @@ static ZFArray *_ZFP_ZFUIHint_hintListForRead(ZF_IN ZFUISysWindow *inSysWindow)
     {
         return zfnull;
     }
-    return inSysWindow->tagGet<ZFArray *>("_ZFP_ZFUIHint_hintList");
+    return inSysWindow->objectTag<ZFArray *>("_ZFP_ZFUIHint_hintList");
 }
 static ZFArrayEditable *_ZFP_ZFUIHint_hintListForWrite(ZF_IN ZFUISysWindow *inSysWindow)
 {
@@ -29,12 +29,12 @@ static ZFArrayEditable *_ZFP_ZFUIHint_hintListForWrite(ZF_IN ZFUISysWindow *inSy
     {
         return zfnull;
     }
-    ZFArrayEditable *hintList = inSysWindow->tagGet<ZFArrayEditable *>("_ZFP_ZFUIHint_hintList");
+    ZFArrayEditable *hintList = inSysWindow->objectTag<ZFArrayEditable *>("_ZFP_ZFUIHint_hintList");
     if(hintList == zfnull)
     {
         zfblockedAlloc(ZFArrayEditable, hintListTmp);
         hintList = hintListTmp;
-        inSysWindow->tagSet("_ZFP_ZFUIHint_hintList", hintList);
+        inSysWindow->objectTag("_ZFP_ZFUIHint_hintList", hintList);
     }
     return hintList;
 }
@@ -82,7 +82,7 @@ protected:
     {
         if(this->childCount() > 0)
         {
-            this->childAtIndex(0)->viewFrameSet(bounds);
+            this->childAtIndex(0)->viewFrame(bounds);
         }
     }
 };
@@ -132,11 +132,11 @@ public:
         if(this->hintAnimating != zfnull)
         {
             this->hintAnimating->observerAdd(ZFObserverAddParam()
-                .eventIdSet(ZFAnimation::EventAniOnStopOrOnInvalid())
-                .observerSet(this->hintAniShowOnStopListener)
-                .userDataSet(this->pimplOwner->objectHolder())
-                .autoRemoveAfterActivateSet(zftrue));
-            this->hintAnimating->aniTargetSet(this->pimplOwner->hintWindow());
+                .eventId(ZFAnimation::EventAniOnStopOrOnInvalid())
+                .observer(this->hintAniShowOnStopListener)
+                .userData(this->pimplOwner->objectHolder())
+                .autoRemoveAfterActivate(zftrue));
+            this->hintAnimating->aniTarget(this->pimplOwner->hintWindow());
             this->hintAnimating->aniStart();
         }
         else
@@ -171,11 +171,11 @@ public:
         if(this->hintAnimating != zfnull)
         {
             this->hintAnimating->observerAdd(ZFObserverAddParam()
-                .eventIdSet(ZFAnimation::EventAniOnStopOrOnInvalid())
-                .observerSet(ZFCallbackForFunc(_ZFP_ZFUIHintPrivate::hintAniHideOnStop))
-                .userDataSet(this->pimplOwner->objectHolder())
-                .autoRemoveAfterActivateSet(zftrue));
-            this->hintAnimating->aniTargetSet(this->pimplOwner->hintWindow());
+                .eventId(ZFAnimation::EventAniOnStopOrOnInvalid())
+                .observer(ZFCallbackForFunc(_ZFP_ZFUIHintPrivate::hintAniHideOnStop))
+                .userData(this->pimplOwner->objectHolder())
+                .autoRemoveAfterActivate(zftrue));
+            this->hintAnimating->aniTarget(this->pimplOwner->hintWindow());
             this->hintAnimating->aniStart();
         }
         else
@@ -366,18 +366,18 @@ void ZFUIHint::objectOnInit(void)
     d->pimplOwner = this;
 
     d->hintWindow = zfAlloc(_ZFP_ZFUIHintWindow);
-    d->hintWindow->windowLevelSet(ZFUIWindowLevel::e_ZFFrameworkFgHighest);
-    d->hintWindow->viewSizeMinSet(ZFUISizeMake(ZFUIGlobalStyle::DefaultStyle()->itemSizeText()));
-    d->hintWindow->windowLayoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-    d->hintWindow->windowLayoutParam()->sizeParamSet(ZFUISizeParamWrapWrap());
-    d->hintWindow->windowLayoutParam()->layoutMarginSet(ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin()));
-    d->hintWindow->viewUIEnableTreeSet(zffalse);
+    d->hintWindow->windowLevel(ZFUIWindowLevel::e_ZFFrameworkFgHighest);
+    d->hintWindow->viewSizeMin(ZFUISizeMake(ZFUIGlobalStyle::DefaultStyle()->itemSizeText()));
+    d->hintWindow->windowLayoutParam()->layoutAlign(ZFUIAlign::e_Center);
+    d->hintWindow->windowLayoutParam()->sizeParam(ZFUISizeParamWrapWrap());
+    d->hintWindow->windowLayoutParam()->layoutMargin(ZFUIMarginMake(ZFUIGlobalStyle::DefaultStyle()->itemMargin()));
+    d->hintWindow->viewUIEnableTree(zffalse);
 
     ZFLISTENER_LOCAL(hintWindowChanged, {
         zfsynchronize(_ZFP_ZFUIHintSyncObj);
         ZFUIHint *hint = userData->objectHolded();
         zfCoreAssertWithMessage(!hint->hintShowing(), "you must not change ZFUIHint's window while it's showing or delaying");
-        ZFUISysWindow *sysWindowOld = listenerData.param0->to<ZFUISysWindow *>();
+        ZFUISysWindow *sysWindowOld = listenerData.param0<ZFUISysWindow *>();
         ZFArrayEditable *hintListOld = _ZFP_ZFUIHint_hintListForWrite(sysWindowOld);
         ZFArrayEditable *hintListNew = _ZFP_ZFUIHint_hintListForWrite(hint->hintWindow()->windowOwnerSysWindow());
         hintListNew->add(hint);
@@ -422,7 +422,7 @@ void ZFUIHint::objectOnInitFinish(void)
 void ZFUIHint::objectOnDealloc(void)
 {
     _ZFP_ZFUIHint_allHint.removeElement(this);
-    this->hintWindowAutoResizeSet(zffalse);
+    this->hintWindowAutoResize(zffalse);
     if(d->hintAnimating != zfnull)
     {
         d->hintAnimating->aniStop();

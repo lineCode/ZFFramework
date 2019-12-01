@@ -2,7 +2,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-void zfCoreArgSplit(ZF_OUT ZFCoreArray<zfstring> &result,
+void zfCoreArgSplit(ZF_IN_OUT ZFCoreArray<zfstring> &result,
                     ZF_IN const zfchar *cmdLine)
 {
     if(cmdLine == zfnull) {return ;}

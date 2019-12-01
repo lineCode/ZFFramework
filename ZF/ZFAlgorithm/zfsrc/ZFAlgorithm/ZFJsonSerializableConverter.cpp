@@ -44,13 +44,13 @@ static zfbool _ZFP_ZFSerializableDataFromJson(ZF_OUT ZFSerializableData &seriali
     }
 
     ZFJsonItem elementJsonArray;
-    for(zfiterator jsonItemIt = jsonObject.jsonItemIterator(); jsonObject.jsonItemIteratorIsValid(jsonItemIt); jsonObject.jsonItemIteratorNext(jsonItemIt))
+    for(zfiterator jsonItemIt = jsonObject.jsonItemIterator(); jsonObject.jsonItemIteratorIsValid(jsonItemIt); jsonObject.jsonItemIteratorNextValue(jsonItemIt))
     {
-        const zfchar *key = jsonObject.jsonItemIteratorGetKey(jsonItemIt);
-        ZFJsonItem jsonItem = jsonObject.jsonItemIteratorGet(jsonItemIt);
+        const zfchar *key = jsonObject.jsonItemIteratorKey(jsonItemIt);
+        ZFJsonItem jsonItem = jsonObject.jsonItemIteratorValue(jsonItemIt);
         if(*key == _ZFP_ZFJsonSerializeKey_classPrefix)
         {
-            serializableData.itemClassSet(key + 1);
+            serializableData.itemClass(key + 1);
 
             if(jsonItem.jsonType() != ZFJsonType::e_JsonArray)
             {
@@ -80,7 +80,7 @@ static zfbool _ZFP_ZFSerializableDataFromJson(ZF_OUT ZFSerializableData &seriali
                 }
                 return zffalse;
             }
-            serializableData.attributeSet(key, jsonItem.jsonValue());
+            serializableData.attributeForName(key, jsonItem.jsonValue());
         }
     }
 
@@ -158,10 +158,10 @@ ZFMETHOD_FUNC_DEFINE_3(ZFJsonItem, ZFSerializableDataToJson,
 
     for(zfiterator it = serializableData.attributeIterator();
         serializableData.attributeIteratorIsValid(it);
-        serializableData.attributeIteratorNext(it))
+        serializableData.attributeIteratorNextValue(it))
     {
-        ret.jsonItemValueSet(serializableData.attributeIteratorGetKey(it),
-            serializableData.attributeIteratorGet(it));
+        ret.jsonItemValue(serializableData.attributeIteratorKey(it),
+            serializableData.attributeIteratorValue(it));
     }
 
     ZFJsonItem elementJsonArray(ZFJsonType::e_JsonArray);
@@ -177,7 +177,7 @@ ZFMETHOD_FUNC_DEFINE_3(ZFJsonItem, ZFSerializableDataToJson,
     zfstring t;
     t += _ZFP_ZFJsonSerializeKey_classPrefix;
     t += serializableData.itemClass();
-    ret.jsonItemSet(
+    ret.jsonItem(
         t.cString(),
         elementJsonArray);
 
@@ -206,7 +206,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFSerializableDataFromJson,
         return zffalse;
     }
 
-    ret.pathInfoSet(input.pathInfo());
+    ret.pathInfo(input.pathInfo());
     return zftrue;
 }
 ZFMETHOD_FUNC_DEFINE_2(ZFSerializableData, ZFSerializableDataFromJson,

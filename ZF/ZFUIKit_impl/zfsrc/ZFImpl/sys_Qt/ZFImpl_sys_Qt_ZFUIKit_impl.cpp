@@ -8,7 +8,7 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_IN_OUT zfstring &s, ZF_IN QWidget *view)
+void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_viewInfoT(ZF_IN_OUT zfstring &s, ZF_IN QWidget *view)
 {
     // class name
     s += view->metaObject()->className();
@@ -39,7 +39,7 @@ void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_IN_OUT zfstring &s, 
     }
 }
 
-void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
+void ZFImpl_sys_Qt_ZFUIKit_impl_viewInfoT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
 {
     if(view == zfnull)
     {
@@ -47,11 +47,11 @@ void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ZF_OUT zfstring &ret, ZF_IN 
     }
     else
     {
-        _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(ret, view);
+        _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_viewInfoT(ret, view);
     }
 }
 
-static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_OUT zfstring &s, QWidget *view, zfindex depth, zfindex siblingIndex)
+static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrint_recursive(ZF_IN_OUT zfstring &s, QWidget *view, zfindex depth, zfindex siblingIndex)
 {
     zfstringAppend(s, "|%2d ", siblingIndex);
     for(zfindex i = 0; i < depth; ++i)
@@ -59,7 +59,7 @@ static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_O
         s += "| ";
     }
 
-    _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewInfoT(s, view);
+    _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_viewInfoT(s, view);
 
     s += "\n";
 
@@ -67,16 +67,16 @@ static void _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ZF_IN_O
     {
         for(int i = 0; i < view->layout()->count(); ++i)
         {
-            _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(s, view->layout()->itemAt(i)->widget(), depth + 1, i);
+            _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrint_recursive(s, view->layout()->itemAt(i)->widget(), depth + 1, i);
         }
     }
 }
-void ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTreeT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
+void ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrintT(ZF_OUT zfstring &ret, ZF_IN QWidget *view)
 {
     ret += "==================== QWidget tree begin ====================\n";
     if(view != zfnull)
     {
-        _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree_recursive(ret, view, 0, 0);
+        _ZFP_ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrint_recursive(ret, view, 0, 0);
     }
     ret += "==================== QWidget tree  end  ====================\n";
 }

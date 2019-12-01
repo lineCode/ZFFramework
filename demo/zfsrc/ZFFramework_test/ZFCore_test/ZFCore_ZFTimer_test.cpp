@@ -4,7 +4,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFCore_ZFTimer_test_timerEvent)
 {
-    ZFTimer *timer = ZFCastZFObject(ZFTimer *, listenerData.sender);
+    ZFTimer *timer = listenerData.sender<ZFTimer *>();
     zfLogTrim("timer event, current thread: %s", ZFThread::currentThread()->objectInfo().cString());
     if(timer->timerActivatedCount() >= 3)
     {
@@ -33,10 +33,10 @@ protected:
 
         zfblockedAlloc(ZFTimer, timer);
 #if 0
-        timer->timerActivateInMainThreadSet(zftrue);
+        timer->timerActivateInMainThread(zftrue);
 #endif
         timer->observerAdd(ZFTimer::EventTimerOnActivate(), ZFCallbackForFunc(_ZFP_ZFCore_ZFTimer_test_timerEvent), this);
-        timer->timerIntervalSet((zftimet)1000);
+        timer->timerInterval((zftimet)1000);
         timer->timerStart();
     }
 };

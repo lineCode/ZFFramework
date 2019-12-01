@@ -15,33 +15,21 @@ public:
         zfLogT();
     }
     ZFMETHOD_DECLARE_0(void, methodDefinedInCppFile)
-    ZFMETHOD_INLINE_0(void, methodStaticallyRegistered)
-    {
-        zfLogT();
-    }
     ZFMETHOD_INLINE_0(void, methodOverrided)
     {
         zfLogT();
     }
-    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBase)
-    {
-        zfLogT();
-    }
-    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBaseAndChild)
-    {
-        zfLogT();
-    }
-    ZFMETHOD_INLINE_DETAIL_0(protected, ZFMethodTypeVirtual,
+    ZFMETHOD_INLINE_DETAIL_0(protected, ZFMethodTypeVirtual, ZF_CALLER_LINE,
                              void, methodProtected)
     {
         zfLogT();
     }
-    ZFMETHOD_INLINE_DETAIL_0(private, ZFMethodTypeVirtual,
+    ZFMETHOD_INLINE_DETAIL_0(private, ZFMethodTypeVirtual, ZF_CALLER_LINE,
                              void, methodPrivate)
     {
         zfLogT();
     }
-    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodTypeStatic,
+    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodTypeStatic, ZF_CALLER_LINE,
                              void, methodStatic)
     {
         zfLogT();
@@ -139,9 +127,6 @@ public:
 #if 0 // if opened, all method should be registered statically
     ZFOBJECT_REGISTER(_ZFP_ZFCore_ZFMethod_test_TestBase)
 #endif
-ZFMETHOD_REGISTER(_ZFP_ZFCore_ZFMethod_test_TestBase, methodStaticallyRegistered)
-ZFMETHOD_REGISTER(_ZFP_ZFCore_ZFMethod_test_TestBase, methodOverridedStaticallyRegisteredInBase)
-ZFMETHOD_REGISTER(_ZFP_ZFCore_ZFMethod_test_TestBase, methodOverridedStaticallyRegisteredInBaseAndChild)
 ZFMETHOD_DEFINE_0(_ZFP_ZFCore_ZFMethod_test_TestBase, void, methodDefinedInCppFile)
 {
     zfLogT();
@@ -158,16 +143,6 @@ public:
         zfsuper::methodOverrided();
         zfLogT();
     }
-    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBase)
-    {
-        zfsuper::methodOverridedStaticallyRegisteredInBase();
-        zfLogT();
-    }
-    ZFMETHOD_INLINE_0(void, methodOverridedStaticallyRegisteredInBaseAndChild)
-    {
-        zfsuper::methodOverridedStaticallyRegisteredInBaseAndChild();
-        zfLogT();
-    }
 
     ZFMETHOD_INLINE_0(void, methodInChild)
     {
@@ -177,7 +152,6 @@ public:
 #if 0 // if opened, all method should be registered statically
     ZFOBJECT_REGISTER(_ZFP_ZFCore_ZFMethod_test_TestChild)
 #endif
-ZFMETHOD_REGISTER(_ZFP_ZFCore_ZFMethod_test_TestChild, methodOverridedStaticallyRegisteredInBaseAndChild)
 
 // ============================================================
 zfclass ZFCore_ZFMethod_test : zfextends ZFFramework_test_TestCase

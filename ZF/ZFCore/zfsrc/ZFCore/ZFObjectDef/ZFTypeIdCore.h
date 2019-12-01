@@ -260,7 +260,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         serializableData.resolveMark(); \
         return zftrue; \
     }, { \
-        serializableData.itemClassSet(ZFTypeId_##TypeName()); \
+        serializableData.itemClass(ZFTypeId_##TypeName()); \
         zfstring s; \
         if(!TypeName##ToString(s, v)) \
         { \
@@ -268,7 +268,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
                 "unable to convert value to string"); \
             return zffalse; \
         } \
-        serializableData.propertyValueSet(s.isEmpty() ? zfnull : s.cString()); \
+        serializableData.propertyValue(s.isEmpty() ? zfnull : s.cString()); \
         return zftrue; \
     }, ZFM_EXPAND(convertFromStringAction), ZFM_EXPAND(convertToStringAction))
 
@@ -494,11 +494,11 @@ public:
     /**
      * @brief set the value, no type safe check
      */
-    virtual void wrappedValueSet(ZF_IN const void *v) zfpurevirtual;
+    virtual void wrappedValue(ZF_IN const void *v) zfpurevirtual;
     /**
      * @brief get the value, no type safe check
      */
-    virtual void wrappedValueGet(ZF_IN void *v) zfpurevirtual;
+    virtual void wrappedValueCopy(ZF_IN void *v) zfpurevirtual;
 
     /**
      * @brief reset the value to it's init value
@@ -557,7 +557,7 @@ protected:
     virtual void styleableOnCopyFrom(ZF_IN ZFStyleable *anotherStyleable)
     {
         zfsuper::styleableOnCopyFrom(anotherStyleable);
-        this->wrappedValueSet(anotherStyleable->to<ZFTypeIdWrapper *>()->wrappedValue());
+        this->wrappedValue(anotherStyleable->to<ZFTypeIdWrapper *>()->wrappedValue());
     }
 
 protected:
@@ -597,7 +597,7 @@ protected:
             {
                 return zffalse;
             }
-            serializableData.propertyValueSet(valueString);
+            serializableData.propertyValue(valueString);
         }
 
         return zftrue;

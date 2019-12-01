@@ -27,25 +27,25 @@ ZFMAIN_ENTRY(params)
 static zfbool _ZFP_ZFFramework_test_protocolCheck(void)
 {
     {
-        ZFCoreArray<ZFProtocolImplInfoData> implDatas = ZFProtocolImplInfoDataGetNotImplemented();
+        ZFCoreArray<ZFProtocolImplInfo> implDatas = ZFProtocolImplInfoGetAllNotImplemented();
         if(!implDatas.isEmpty())
         {
-            zfclassNotPOD _ZFP_main_ZFProtocolImplInfoData_sort
+            zfclassNotPOD _ZFP_main_ZFProtocolImplInfo_sort
             {
             public:
-                static ZFCompareResult action(ZF_IN ZFProtocolImplInfoData const &v0, ZF_IN ZFProtocolImplInfoData const &v1)
+                static ZFCompareResult action(ZF_IN ZFProtocolImplInfo const &v0, ZF_IN ZFProtocolImplInfo const &v1)
                 {
                     return ZFComparerDefault(v0.protocolName, v1.protocolName);
                 }
             };
-            implDatas.sort(_ZFP_main_ZFProtocolImplInfoData_sort::action);
+            implDatas.sort(_ZFP_main_ZFProtocolImplInfo_sort::action);
 
             zfLogTrimT() << "note, these protocol has not been implemented:";
             for(zfindex i = 0; i < implDatas.count(); ++i)
             {
                 ZFOutput output = (zfLogTrimT() << ZFLogAutoSpaceOff << ZFLogAutoEndlOff);
                 output << "    ";
-                ZFProtocolImplInfoDataPrint(implDatas[i], output);
+                ZFProtocolImplInfoPrint(implDatas[i], output);
                 output << "\n";
             }
         }
@@ -66,7 +66,7 @@ static zfautoObject _ZFP_ZFFramework_test_containerViewPrepare(void)
 
     zfblockedAlloc(ZFUIKit_test_ListView, containerView);
     window->childAdd(containerView);
-    containerView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+    containerView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
 
     {
         zfblockedAlloc(ZFUIKit_test_Button, button);
@@ -81,11 +81,11 @@ static zfautoObject _ZFP_ZFFramework_test_containerViewPrepare(void)
             {
                 ZFUIViewStateAniAutoApplyStart();
             }
-            listenerData.sender->to<ZFUIButtonBasic *>()->buttonLabelTextSet(
+            listenerData.sender<ZFUIButtonBasic *>()->buttonLabelText(
                 zfstringWithFormat("stateAni %s", ZFUIViewStateAniAutoApplyStarted() ? "on" : "off"));
         })
         button->observerAdd(ZFUIButton::EventButtonOnClick(), onClickButton);
-        button->buttonBackgroundStyle()->viewBackgroundColorSet(ZFUIColorRed());
+        button->buttonBackgroundStyle()->viewBackgroundColor(ZFUIColorRed());
         ZFUIViewStateAniAutoApplyStart();
         button->buttonSimulateClick();
     }
@@ -93,9 +93,9 @@ static zfautoObject _ZFP_ZFFramework_test_containerViewPrepare(void)
     {
         zfblockedAlloc(ZFUIView, separator);
         containerView->childAdd(separator);
-        separator->viewSizeMinSet(ZFUISizeMake(0, 5));
-        separator->viewSizeMaxSet(ZFUISizeMake(-1, 5));
-        separator->viewBackgroundColorSet(ZFUIColorGray());
+        separator->viewSizeMin(ZFUISizeMake(0, 5));
+        separator->viewSizeMax(ZFUISizeMake(-1, 5));
+        separator->viewBackgroundColor(ZFUIColorGray());
     }
 
     ZFUIViewFocusNextMove(window);
@@ -166,27 +166,27 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModule(ZF_IN ZFUIView *conta
         _ZFP_ZFFramework_test_TestCaseSubModuleData *subModuleData = userData->toAny();
 
         zfblockedAlloc(ZFUIWindow, subModuleWindow);
-        subModuleWindow->viewBackgroundColorSet(ZFUIColorWhite());
+        subModuleWindow->viewBackgroundColor(ZFUIColorWhite());
         subModuleWindow->windowShow();
         zfblockedAlloc(ZFUIKit_test_ListView, containerView);
         subModuleWindow->childAdd(containerView);
-        containerView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        containerView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
 
         {
             zfblockedAlloc(ZFUIKit_test_Button, closeButton);
             containerView->childAdd(closeButton);
-            closeButton->buttonLabelTextSet("back");
+            closeButton->buttonLabelText("back");
             ZFLISTENER_LOCAL(closeButtonOnClick, {
                 userData->objectHolded<ZFUIWindow *>()->windowHide();
             })
             closeButton->observerAdd(ZFUIButton::EventButtonOnClick(), closeButtonOnClick, subModuleWindow->objectHolder());
-            closeButton->buttonBackgroundStyle()->viewBackgroundColorSet(ZFUIColorRed());
+            closeButton->buttonBackgroundStyle()->viewBackgroundColor(ZFUIColorRed());
 
             zfblockedAlloc(ZFUIView, separator);
             containerView->childAdd(separator);
-            separator->viewSizeMinSet(ZFUISizeMake(0, 5));
-            separator->viewSizeMaxSet(ZFUISizeMake(-1, 5));
-            separator->viewBackgroundColorSet(ZFUIColorGray());
+            separator->viewSizeMin(ZFUISizeMake(0, 5));
+            separator->viewSizeMax(ZFUISizeMake(-1, 5));
+            separator->viewBackgroundColor(ZFUIColorGray());
         }
 
         for(zfindex i = 0; i < subModuleData->testCases.count(); ++i)
@@ -199,7 +199,7 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModule(ZF_IN ZFUIView *conta
     subModuleData->subModuleName = subModuleName;
     subModuleData->testCases = testCases;
     button->observerAdd(ZFUIButton::EventButtonOnClick(), onClickButton, subModuleData);
-    button->buttonLabelTextSet(subModuleName);
+    button->buttonLabelText(subModuleName);
 }
 static void _ZFP_ZFFramework_test_prepareTestCaseSubModuleTest(ZF_IN ZFUIView *containerView,
                                                                ZF_IN const zfchar *subModuleName,
@@ -209,28 +209,28 @@ static void _ZFP_ZFFramework_test_prepareTestCaseSubModuleTest(ZF_IN ZFUIView *c
     containerView->childAdd(button);
 
     ZFLISTENER_LOCAL(onClickButton, {
-        const ZFClass *testCase = userData->tagGet<v_ZFClass *>("testCase")->zfv;
-        ZFUIView *containerView = userData->tagGet("containerView")->objectHolded();
+        const ZFClass *testCase = userData->objectTag<v_ZFClass *>("testCase")->zfv;
+        ZFUIView *containerView = userData->objectTag("containerView")->objectHolded();
         ZFTestCase *running = zfnull;
-        containerView->viewUIEnableTreeSet(zffalse);
+        containerView->viewUIEnableTree(zffalse);
         ZFTestCaseRun(testCase, &running);
         if(running != zfnull)
         {
             ZFLISTENER_LOCAL(testCaseOnStop, {
-                ZFUIView *containerView = userData->tagGet("containerView")->objectHolded();
-                containerView->viewUIEnableTreeSet(zftrue);
+                ZFUIView *containerView = userData->objectTag("containerView")->objectHolded();
+                containerView->viewUIEnableTree(zftrue);
             })
             running->observerAdd(ZFTestCase::EventTestCaseOnStop(), testCaseOnStop, userData);
         }
         else
         {
-            containerView->viewUIEnableTreeSet(zftrue);
+            containerView->viewUIEnableTree(zftrue);
         }
     })
     zfblockedAlloc(ZFObject, userData);
-    userData->tagSet("testCase", zflineAlloc(v_ZFClass, testCase));
-    userData->tagSet("containerView", containerView->objectHolder());
+    userData->objectTag("testCase", zflineAlloc(v_ZFClass, testCase));
+    userData->objectTag("containerView", containerView->objectHolder());
     button->observerAdd(ZFUIButton::EventButtonOnClick(), onClickButton, userData);
-    button->buttonLabelTextSet(zfstring(testCase->classNameFull() + zfslen(subModuleName) + 1));
+    button->buttonLabelText(zfstring(testCase->classNameFull() + zfslen(subModuleName) + 1));
 }
 

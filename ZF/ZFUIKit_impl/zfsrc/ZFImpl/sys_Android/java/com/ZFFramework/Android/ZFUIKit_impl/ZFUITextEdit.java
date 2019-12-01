@@ -40,12 +40,12 @@ public final class ZFUITextEdit extends EditText {
     }
 
     // ============================================================
-    public static void native_textEditEnableSet(Object nativeTextEdit,
+    public static void native_textEditEnable(Object nativeTextEdit,
                                                 boolean textEditEnable) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         nativeTextEditTmp.setEnabled(textEditEnable);
     }
-    public static void native_textEditSecuredSet(Object nativeTextEdit,
+    public static void native_textEditSecure(Object nativeTextEdit,
                                                  boolean textEditSecured) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         if(textEditSecured) {
@@ -55,7 +55,7 @@ public final class ZFUITextEdit extends EditText {
             nativeTextEditTmp.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         }
     }
-    public static void native_textEditKeyboardTypeSet(Object nativeTextEdit,
+    public static void native_textEditKeyboardType(Object nativeTextEdit,
                                                       int textEditKeyboardType) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         if(textEditKeyboardType == ZFUITextEditKeyboardType.e_Normal) {
@@ -74,7 +74,7 @@ public final class ZFUITextEdit extends EditText {
             ZFAndroidLog.shouldNotGoHere();
         }
     }
-    public static void native_textEditKeyboardReturnTypeSet(Object nativeTextEdit,
+    public static void native_textEditKeyboardReturnType(Object nativeTextEdit,
                                                             int textEditKeyboardReturnType) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         if(textEditKeyboardReturnType == ZFUITextEditKeyboardReturnType.e_Normal) {
@@ -110,7 +110,7 @@ public final class ZFUITextEdit extends EditText {
         return nativeTextEditTmp.getSelectionEnd() - nativeTextEditTmp.getSelectionStart();
     }
 
-    public static void native_textSelectRangeSet(Object nativeTextEdit, int start, int count) {
+    public static void native_textSelectRange(Object nativeTextEdit, int start, int count) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         if(count == 0) {
             nativeTextEditTmp.setSelection(start);
@@ -121,11 +121,11 @@ public final class ZFUITextEdit extends EditText {
     }
 
     // ============================================================
-    public static void native_textSet(Object nativeTextEdit,
+    public static void native_text(Object nativeTextEdit,
                                       Object nativeText) {
         ((ZFUITextEdit)nativeTextEdit).setText((String)nativeText);
     }
-    public static void native_textAppearanceSet(Object nativeTextEdit,
+    public static void native_textAppearance(Object nativeTextEdit,
                                                 int textAppearance) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         if(textAppearance == ZFUITextAppearance.e_Normal) {
@@ -145,7 +145,7 @@ public final class ZFUITextEdit extends EditText {
             nativeTextEditTmp.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         }
     }
-    public static void native_textAlignSet(Object nativeTextEdit,
+    public static void native_textAlign(Object nativeTextEdit,
                                            int textAlign) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         if((textAlign & ZFUIAlign.e_LeftInner) == ZFUIAlign.e_LeftInner) {
@@ -161,12 +161,12 @@ public final class ZFUITextEdit extends EditText {
             nativeTextEditTmp.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         }
     }
-    public static void native_textColorSet(Object nativeTextEdit,
+    public static void native_textColor(Object nativeTextEdit,
                                            int textColor) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         nativeTextEditTmp.setTextColor(textColor);
     }
-    public static void native_textShadowColorSet(Object nativeTextEdit,
+    public static void native_textShadowColor(Object nativeTextEdit,
                                                  int textShadowColor) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         nativeTextEditTmp._textShadowColor = textShadowColor;
@@ -176,7 +176,7 @@ public final class ZFUITextEdit extends EditText {
             nativeTextEditTmp._textShadowOffsetY,
             nativeTextEditTmp._textShadowColor);
     }
-    public static void native_textShadowOffsetSet(Object nativeTextEdit,
+    public static void native_textShadowOffset(Object nativeTextEdit,
                                                   int textShadowOffsetX,
                                                   int textShadowOffsetY) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
@@ -188,7 +188,7 @@ public final class ZFUITextEdit extends EditText {
             nativeTextEditTmp._textShadowOffsetY,
             nativeTextEditTmp._textShadowColor);
     }
-    public static void native_textSizeSet(Object nativeTextEdit,
+    public static void native_textSize(Object nativeTextEdit,
                                           int textSize) {
         ZFUITextEdit nativeTextEditTmp = (ZFUITextEdit)nativeTextEdit;
         nativeTextEditTmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);

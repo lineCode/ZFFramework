@@ -11,11 +11,11 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 zfclassFwd ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView);
-extern ZF_ENV_EXPORT zftimet _ZFP_ZFProtocolZFUIScrollView_scrollViewScrollAnimationStart(ZF_IN ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView) *impl,
-                                                                                          ZF_IN ZFUIScrollView *scrollView,
-                                                                                          ZF_IN zftimet recommendTimerInterval);
-extern ZF_ENV_EXPORT void _ZFP_ZFProtocolZFUIScrollView_scrollViewScrollAnimationStop(ZF_IN ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView) *impl,
-                                                                                      ZF_IN ZFUIScrollView *scrollView);
+extern ZF_ENV_EXPORT zftimet _ZFP_ZFProtocolZFUIScrollView_scrollAnimationStart(ZF_IN ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView) *impl,
+                                                                                ZF_IN ZFUIScrollView *scrollView,
+                                                                                ZF_IN zftimet recommendTimerInterval);
+extern ZF_ENV_EXPORT void _ZFP_ZFProtocolZFUIScrollView_scrollAnimationStop(ZF_IN ZFPROTOCOL_INTERFACE_CLASS(ZFUIScrollView) *impl,
+                                                                            ZF_IN ZFUIScrollView *scrollView);
 
 /**
  * @brief protocol for ZFUIScrollView
@@ -35,8 +35,8 @@ public:
     /**
      * @brief see #ZFUIScrollView::scrollEnable
      */
-    virtual void scrollViewScrollEnableSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollEnable) zfpurevirtual;
+    virtual void scrollEnable(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollEnable) zfpurevirtual;
     /**
      * @brief see #ZFUIScrollView::scrollBounceHorizontal
      *
@@ -45,11 +45,11 @@ public:
      * for example,
      * a none bounceable scroll view won't start drag action
      */
-    virtual void scrollViewScrollBounceSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollBounceHorizontal,
-                                           ZF_IN zfbool scrollBounceVertical,
-                                           ZF_IN zfbool scrollBounceHorizontalAlways,
-                                           ZF_IN zfbool scrollBounceVerticalAlways) zfpurevirtual;
+    virtual void scrollBounce(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollBounceHorizontal,
+                              ZF_IN zfbool scrollBounceVertical,
+                              ZF_IN zfbool scrollBounceHorizontalAlways,
+                              ZF_IN zfbool scrollBounceVerticalAlways) zfpurevirtual;
     /**
      * @brief change content's frame
      *
@@ -62,18 +62,18 @@ public:
      * -  #notifyScrollViewDrag
      * -  #notifyScrollViewDragEnd
      */
-    virtual void scrollViewScrollContentFrameSet(ZF_IN ZFUIScrollView *scrollView,
-                                                 ZF_IN const ZFUIRect &frame) zfpurevirtual;
+    virtual void scrollContentFrame(ZF_IN ZFUIScrollView *scrollView,
+                                    ZF_IN const ZFUIRect &frame) zfpurevirtual;
     /**
      * @brief for impl to update scroll content frame without activating any other event
      */
-    zffinal void scrollViewScrollContentFrameSetForImpl(ZF_IN ZFUIScrollView *scrollView,
-                                                        ZF_IN const ZFUIRect &frame)
+    zffinal void scrollContentFrameUpdateByImpl(ZF_IN ZFUIScrollView *scrollView,
+                                                ZF_IN const ZFUIRect &frame)
     {
         ZFUIRect frameNew = ZFUIRectApplyScaleReversely(frame, scrollView->scaleFixed());
         frameNew.point.x -= scrollView->scrollAreaMargin().left;
         frameNew.point.y -= scrollView->scrollAreaMargin().top;
-        scrollView->_ZFP_ZFUIScrollView_scrollContentFrameSetByImpl(frameNew);
+        scrollView->_ZFP_ZFUIScrollView_scrollContentFrameByImpl(frameNew);
     }
     /**
      * @brief used to start scroll animation for performance
@@ -88,17 +88,17 @@ public:
      * which may have worse performance,
      * and depends on #ZFTimer and #ZFTime
      */
-    virtual zftimet scrollViewScrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
-                                                   ZF_IN zftimet recommendTimerInterval)
+    virtual zftimet scrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
+                                         ZF_IN zftimet recommendTimerInterval)
     {
-        return _ZFP_ZFProtocolZFUIScrollView_scrollViewScrollAnimationStart(this, scrollView, recommendTimerInterval);
+        return _ZFP_ZFProtocolZFUIScrollView_scrollAnimationStart(this, scrollView, recommendTimerInterval);
     }
     /**
-     * @brief see #scrollViewScrollAnimationStart
+     * @brief see #scrollAnimationStart
      */
-    virtual void scrollViewScrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
+    virtual void scrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
     {
-        _ZFP_ZFProtocolZFUIScrollView_scrollViewScrollAnimationStop(this, scrollView);
+        _ZFP_ZFProtocolZFUIScrollView_scrollAnimationStop(this, scrollView);
     }
 
     // ============================================================
@@ -134,7 +134,7 @@ public:
     // callbacks that implementations must notify
 public:
     /**
-     * @brief see #scrollViewScrollContentFrameSet for how to implements scroll logic
+     * @brief see #scrollContentFrame for how to implements scroll logic
      */
     zffinal void notifyScrollViewDragBegin(ZF_IN ZFUIScrollView *scrollView,
                                            ZF_IN const ZFUIPoint &mousePos,
@@ -143,7 +143,7 @@ public:
         scrollView->_ZFP_ZFUIScrollView_notifyDragBegin(ZFUIPointApplyScaleReversely(mousePos, scrollView->scaleFixed()), mouseTime);
     }
     /**
-     * @brief see #scrollViewScrollContentFrameSet for how to implements scroll logic
+     * @brief see #scrollContentFrame for how to implements scroll logic
      */
     zffinal void notifyScrollViewDrag(ZF_IN ZFUIScrollView *scrollView,
                                       ZF_IN const ZFUIPoint &mousePos,
@@ -152,7 +152,7 @@ public:
         scrollView->_ZFP_ZFUIScrollView_notifyDrag(ZFUIPointApplyScaleReversely(mousePos, scrollView->scaleFixed()), mouseTime);
     }
     /**
-     * @brief see #scrollViewScrollContentFrameSet for how to implements scroll logic
+     * @brief see #scrollContentFrame for how to implements scroll logic
      */
     zffinal void notifyScrollViewDragEnd(ZF_IN ZFUIScrollView *scrollView,
                                          ZF_IN zftimet mouseTime,
@@ -161,7 +161,7 @@ public:
         scrollView->_ZFP_ZFUIScrollView_notifyDragEnd(mouseTime, needScrollAni);
     }
     /**
-     * @brief see #scrollViewScrollAnimationStart for how to implements scroll animation logic
+     * @brief see #scrollAnimationStart for how to implements scroll animation logic
      */
     zffinal void notifyScrollViewScrollAnimation(ZF_IN ZFUIScrollView *scrollView,
                                                  ZF_IN zftimet relativeTimeInMiliseconds)
@@ -182,9 +182,7 @@ public:
     /** @brief see #ZFUIScrollViewImplHelper */
     virtual zftimet nativeTime(void) zfpurevirtual;
     /** @brief see #ZFUIScrollViewImplHelper */
-    virtual zfint mouseEventGetX(ZF_IN void *nativeMouseEvent) zfpurevirtual;
-    /** @brief see #ZFUIScrollViewImplHelper */
-    virtual zfint mouseEventGetY(ZF_IN void *nativeMouseEvent) zfpurevirtual;
+    virtual void mouseEventPos(ZF_OUT ZFUIPoint &ret, ZF_IN void *nativeMouseEvent) zfpurevirtual;
     /** @brief see #ZFUIScrollViewImplHelper */
     virtual void *mouseEventClone(ZF_IN void *nativeMouseEvent,
                                   ZF_IN_OPT zfbool changeMouseAction = zffalse,

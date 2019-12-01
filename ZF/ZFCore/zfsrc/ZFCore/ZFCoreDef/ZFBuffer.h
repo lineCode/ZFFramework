@@ -76,7 +76,7 @@ public:
      *
      * new size must be smaller than current size
      */
-    zffinal void bufferSizeSet(ZF_IN zfindex bufferSize)
+    zffinal void bufferSize(ZF_IN zfindex bufferSize)
     {
         if(bufferSize < d->bufferSize)
         {
@@ -88,7 +88,7 @@ public:
      *
      * note, for string type, you should ensure buffer size and append tail '\0' manually
      */
-    zffinal void bufferSet(ZF_IN void *buffer, ZF_IN zfindex bufferSize, ZF_IN zfbool bufferAutoFree)
+    zffinal void bufferChange(ZF_IN void *buffer, ZF_IN zfindex bufferSize, ZF_IN zfbool bufferAutoFree)
     {
         this->bufferFree();
         d->buffer = buffer;

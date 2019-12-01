@@ -55,7 +55,7 @@ extern ZF_ENV_EXPORT void ZFTestCaseRunAllStart(ZF_IN_OPT const ZFCallbackT<zfbo
 extern ZF_ENV_EXPORT void ZFTestCaseRunAllStop(void);
 
 /** @brief see #ZFTestCaseGetAll */
-extern ZF_ENV_EXPORT void ZFTestCaseGetAllT(ZF_OUT ZFCoreArray<const ZFClass *> &ret);
+extern ZF_ENV_EXPORT void ZFTestCaseGetAllT(ZF_IN_OUT ZFCoreArray<const ZFClass *> &ret);
 /**
  * @brief get all test case currently registered
  */

@@ -30,20 +30,20 @@ public:
     {
         zfblockedAlloc(ZFUITextEditWidget, inputView);
         propertyValue = inputView;
-        inputView->to<ZFUIView *>()->viewSizeMinSet(ZFUISizeMake(
+        inputView->to<ZFUIView *>()->viewSizeMin(ZFUISizeMake(
                 ZFUIGlobalStyle::DefaultStyle()->itemSizeDialogWidth(),
                 ZFUIGlobalStyle::DefaultStyle()->itemSizeControl()
             ));
-        inputView->textEditConfirmWhenLostFocusSet(zffalse);
+        inputView->textEditConfirmWhenLostFocus(zffalse);
     }
 
     /**
      * @brief util method to set input hint text
      */
-    ZFMETHOD_INLINE_1(void, inputHintTextSet,
+    ZFMETHOD_INLINE_1(void, inputHintText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->inputView()->textPlaceHolder()->textSet(text);
+        this->inputView()->textPlaceHolder()->text(text);
     }
     /**
      * @brief util method to get input hint text
@@ -56,10 +56,10 @@ public:
     /**
      * @brief util method to set input text
      */
-    ZFMETHOD_INLINE_1(void, inputTextSet,
+    ZFMETHOD_INLINE_1(void, inputText,
                       ZFMP_IN(const zfchar *, text))
     {
-        this->inputView()->textSet(text);
+        this->inputView()->text(text);
     }
     /**
      * @brief util method to get input text

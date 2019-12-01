@@ -17,36 +17,36 @@ void ZFUIKit_test_prepareTestWindow(ZF_OUT ZFUIWindow *&window,
     // close button
     zfblockedAlloc(ZFUIKit_test_Button, closeButton);
     window->childAdd(closeButton);
-    closeButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
-    closeButton->buttonLabelTextSet("close");
+    closeButton->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
+    closeButton->buttonLabelText("close");
     ZFLISTENER_LOCAL(onClickCloseButton, {
-        ZFUIWindow *window = userData->tagGet("window")->objectHolded();
-        ZFTestCase *testCase = userData->tagGet("testCaseToStop")->objectHolded();
+        ZFUIWindow *window = userData->objectTag("window")->objectHolded();
+        ZFTestCase *testCase = userData->objectTag("testCaseToStop")->objectHolded();
         window->windowHide();
         testCase->testCaseStop();
     })
     zfblockedAlloc(ZFObject, closeButtonUserData);
-    closeButtonUserData->tagSet("window", window->objectHolder());
-    closeButtonUserData->tagSet("testCaseToStop", testCaseToStop->objectHolder());
+    closeButtonUserData->objectTag("window", window->objectHolder());
+    closeButtonUserData->objectTag("testCaseToStop", testCaseToStop->objectHolder());
     closeButton->observerAdd(ZFUIButton::EventButtonOnClick(), onClickCloseButton, closeButtonUserData);
 
     // container
     container = zfAlloc(ZFUIView);
     zfblockedRelease(container);
     window->childAdd(container);
-    container->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-    container->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, 50, 0, 0));
+    container->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+    container->layoutParam()->layoutMargin(ZFUIMarginMake(0, 50, 0, 0));
 }
 
 zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
 {
     zfblockedAlloc(ZFUIKit_test_Button, settingsButton);
-    settingsButton->buttonLabelTextSet("settings");
-    settingsButton->tagSet("settingsHolder", settings);
+    settingsButton->buttonLabelText("settings");
+    settingsButton->objectTag("settingsHolder", settings);
 
     zfblockedAlloc(ZFUIKit_test_Window, window);
-    settingsButton->tagSet("setting window", window);
-    window->viewAlphaSet(0.8f);
+    settingsButton->objectTag("setting window", window);
+    window->viewAlpha(0.8f);
     ZFLISTENER_LOCAL(onClickSetting, {
         userData->objectHolded<ZFUIWindow *>()->windowShow();
     })
@@ -54,8 +54,8 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
 
     zfblockedAlloc(ZFUIKit_test_Button, closeButton);
     window->childAdd(closeButton);
-    closeButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
-    closeButton->buttonLabelStyle()->textSet("done");
+    closeButton->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner);
+    closeButton->buttonLabelStyle()->text("done");
     ZFLISTENER_LOCAL(onClickCloseButton, {
         userData->objectHolded<ZFUIWindow *>()->windowHide();
     })
@@ -63,8 +63,8 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
 
     zfblockedAlloc(ZFUIKit_test_ListView, listView);
     window->childAdd(listView);
-    listView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-    listView->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, 50, 0, 0));
+    listView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+    listView->layoutParam()->layoutMargin(ZFUIMarginMake(0, 50, 0, 0));
     for(zfindex i = 0; i < settings->count(); ++i)
     {
         ZFUIKit_test_SettingData *setting = settings->get<ZFUIKit_test_SettingData *>(i);
@@ -75,33 +75,33 @@ zfautoObject ZFUIKit_test_prepareSettingButton(ZF_IN ZFArray *settings)
         listView->childAdd(button);
         ZFLISTENER_LOCAL(onButtonClick, {
             ZFUIKit_test_SettingData *setting = ZFAny(userData);
-            ZFUIButtonBasic *button = ZFAny(listenerData.sender);
+            ZFUIButtonBasic *button = ZFAny(listenerData.sender());
 
-            setting->buttonClickListener().execute(ZFListenerData().senderSet(button), setting->userData());
+            setting->buttonClickListener().execute(ZFListenerData().sender(button), setting->userData());
             setting->settingUpdate();
         })
         button->observerAdd(ZFUIButton::EventButtonOnClick(), onButtonClick, setting);
 
         zfblockedAlloc(ZFObject, settingChangeUserData);
-        settingChangeUserData->tagSet("setting", setting);
-        settingChangeUserData->tagSet("button", button);
+        settingChangeUserData->objectTag("setting", setting);
+        settingChangeUserData->objectTag("button", button);
         ZFLISTENER_LOCAL(settingOnChange, {
-            ZFUIKit_test_SettingData *setting = userData->tagGet<ZFUIKit_test_SettingData *>("setting");
-            ZFUIButtonBasic *button = userData->tagGet<ZFUIButtonBasic *>("button");
+            ZFUIKit_test_SettingData *setting = userData->objectTag<ZFUIKit_test_SettingData *>("setting");
+            ZFUIButtonBasic *button = userData->objectTag<ZFUIButtonBasic *>("button");
 
             zfblockedAlloc(v_zfstring, buttonText);
             setting->buttonTextGetter().execute(
-                ZFListenerData().senderSet(button).param0Set(buttonText),
+                ZFListenerData().sender(button).param0(buttonText),
                 setting->userData());
-            button->buttonLabelTextSet(buttonText->zfv);
+            button->buttonLabelText(buttonText->zfv);
         })
         setting->observerAdd(ZFUIKit_test_SettingData::EventSettingOnChange(), settingOnChange, settingChangeUserData);
 
         zfblockedAlloc(v_zfstring, buttonText);
         setting->buttonTextGetter().execute(
-            ZFListenerData().senderSet(button).param0Set(buttonText),
+            ZFListenerData().sender(button).param0(buttonText),
             setting->userData());
-        button->buttonLabelTextSet(buttonText->zfv);
+        button->buttonLabelText(buttonText->zfv);
     }
 
     return settingsButton;
@@ -113,7 +113,7 @@ void ZFUIKit_test_prepareSettingButtonWithTestWindow(ZF_IN ZFUIWindow *window,
     zfautoObject buttonHolder = ZFUIKit_test_prepareSettingButton(settings);
     ZFUIButton *button = buttonHolder;
     window->childAdd(button);
-    button->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
+    button->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner);
 }
 
 void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
@@ -126,21 +126,21 @@ void ZFUIKit_test_prepareSettingForProperty(ZF_IN_OUT ZFArrayEditable *settings,
     zfCoreAssert(nextCallback.callbackIsValid());
 
     zfblockedAlloc(ZFObject, holder);
-    holder->tagSet("obj", obj->objectHolder());
-    holder->tagSet("property", zflineAlloc(v_ZFProperty, property));
-    holder->tagSet("nextCallback", zflineAlloc(ZFTypeHolder, zfnew(ZFListener, nextCallback), ZFTypeHolderTypeObject<ZFListener *>));
-    holder->tagSet("userData", userData);
+    holder->objectTag("obj", obj->objectHolder());
+    holder->objectTag("property", zflineAlloc(v_ZFProperty, property));
+    holder->objectTag("nextCallback", zflineAlloc(ZFTypeHolder, zfnew(ZFListener, nextCallback), ZFTypeHolderTypeObject<ZFListener *>));
+    holder->objectTag("userData", userData);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
-        ZFObject *obj = userData->tagGet("obj")->objectHolded();
-        const ZFProperty *property = userData->tagGet<v_ZFProperty *>("property")->zfv;
+        ZFObject *obj = userData->objectTag("obj")->objectHolded();
+        const ZFProperty *property = userData->objectTag<v_ZFProperty *>("property")->zfv;
 
-        v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+        v_zfstring *text = listenerData.param0<v_zfstring *>();
         text->zfv = zfstringWithFormat("%s : %s", property->propertyName(), ZFPropertyGetInfo(property, obj).cString());
     })
     ZFLISTENER_LOCAL(buttonClickListener, {
-        const ZFListener &nextCallback = userData->tagGet<ZFTypeHolder *>("nextCallback")->holdedDataRef<const ZFListener &>();
-        nextCallback.execute(ZFListenerData(), userData->tagGet("userData"));
+        const ZFListener &nextCallback = userData->objectTag<ZFTypeHolder *>("nextCallback")->holdedDataRef<const ZFListener &>();
+        nextCallback.execute(ZFListenerData(), userData->objectTag("userData"));
     })
 
     settings->add(zflineAlloc(ZFUIKit_test_SettingData, buttonTextGetter, buttonClickListener, holder));
@@ -166,7 +166,7 @@ void ZFUIKit_test_prepareSettingForLayoutRequest(ZF_IN_OUT ZFArrayEditable *sett
     zfCoreAssert(view != zfnull);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
-        v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+        v_zfstring *text = listenerData.param0<v_zfstring *>();
         text->zfv = "layoutRequest";
     })
     ZFLISTENER_LOCAL(buttonClickListener, {
@@ -182,24 +182,24 @@ void ZFUIKit_test_prepareSettingForResetProperty(ZF_IN_OUT ZFArrayEditable *sett
 {
     zfblockedAlloc(ZFUIKit_test_SettingData, setting);
     settings->add(setting);
-    setting->userDataSet(zflineAlloc(ZFObject));
-    setting->userData()->tagSet("obj", obj->objectHolder());
-    setting->userData()->tagSet("settings", settings->objectHolder());
+    setting->userData(zflineAlloc(ZFObject));
+    setting->userData()->objectTag("obj", obj->objectHolder());
+    setting->userData()->objectTag("settings", settings->objectHolder());
     zfblockedAlloc(ZFTypeHolder, propertyListHolder,
         zfnew(ZFCoreArrayPOD<const ZFProperty *>, propertyList),
         ZFTypeHolderTypeObject<ZFCoreArrayPOD<const ZFProperty *> *>);
-    setting->userData()->tagSet("propertyList", propertyListHolder);
+    setting->userData()->objectTag("propertyList", propertyListHolder);
 
     ZFLISTENER_LOCAL(buttonTextGetter, {
-        v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+        v_zfstring *text = listenerData.param0<v_zfstring *>();
         text->zfv = "reset setting";
     })
-    setting->buttonTextGetterSet(buttonTextGetter);
+    setting->buttonTextGetter(buttonTextGetter);
 
     ZFLISTENER_LOCAL(buttonClickListener, {
-        ZFObject *obj = userData->tagGet("obj")->objectHolded();
-        ZFArray *settings = userData->tagGet("settings")->objectHolded();
-        const ZFCoreArrayPOD<const ZFProperty *> &toReset = userData->tagGet<ZFTypeHolder *>("propertyList")->holdedDataRef<const ZFCoreArrayPOD<const ZFProperty *> &>();
+        ZFObject *obj = userData->objectTag("obj")->objectHolded();
+        ZFArray *settings = userData->objectTag("settings")->objectHolded();
+        const ZFCoreArrayPOD<const ZFProperty *> &toReset = userData->objectTag<ZFTypeHolder *>("propertyList")->holdedDataRef<const ZFCoreArrayPOD<const ZFProperty *> &>();
 
         if(obj == zfnull || settings == zfnull || toReset.isEmpty())
         {
@@ -216,7 +216,7 @@ void ZFUIKit_test_prepareSettingForResetProperty(ZF_IN_OUT ZFArrayEditable *sett
             settings->get<ZFUIKit_test_SettingData *>(i)->settingUpdate();
         }
     })
-    setting->buttonClickListenerSet(buttonClickListener);
+    setting->buttonClickListener(buttonClickListener);
 }
 
 ZF_NAMESPACE_GLOBAL_END

@@ -156,8 +156,8 @@ public:
                       ZFMP_IN(const zfchar *, choiceName))
     {
         zfblockedAlloc(ZFUIDialogForChoiceData, choiceData);
-        choiceData->choiceIdSet(choiceId);
-        choiceData->choiceNameSet(choiceName);
+        choiceData->choiceId(choiceId);
+        choiceData->choiceName(choiceName);
         this->choiceAdd(choiceData);
     }
     /** @brief remove choice by id */
@@ -315,7 +315,7 @@ public:
     ZFMETHOD_INLINE_0(ZFCoreArrayPOD<zfindex>, choiceSelectedIndexList)
     {
         ZFCoreArrayPOD<zfindex> ret;
-        ret.capacitySet(this->selected()->count());
+        ret.capacity(this->selected()->count());
         for(zfindex i = 0; i < this->selected()->count(); ++i)
         {
             zfindex index = this->selected()->get<v_zfindex *>(i)->zfv;
@@ -329,7 +329,7 @@ public:
     ZFMETHOD_INLINE_0(ZFCoreArray<zfstring>, choiceSelectedIdList)
     {
         ZFCoreArray<zfstring> ret;
-        ret.capacitySet(this->selected()->count());
+        ret.capacity(this->selected()->count());
         for(zfindex i = 0; i < this->selected()->count(); ++i)
         {
             zfindex index = this->selected()->get<v_zfindex *>(i)->zfv;
@@ -343,7 +343,7 @@ public:
     ZFMETHOD_INLINE_0(ZFCoreArray<zfstring>, choiceSelectedNameList)
     {
         ZFCoreArray<zfstring> ret;
-        ret.capacitySet(this->selected()->count());
+        ret.capacity(this->selected()->count());
         for(zfindex i = 0; i < this->selected()->count(); ++i)
         {
             zfindex index = this->selected()->get<v_zfindex *>(i)->zfv;

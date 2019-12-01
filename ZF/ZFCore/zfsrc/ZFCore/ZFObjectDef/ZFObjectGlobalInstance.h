@@ -70,7 +70,7 @@ public:
         static AccessTypeName *accessMethodName(void); \
     SetterAccessType: \
         /** @brief see @ref accessMethodName */ \
-        static void accessMethodName##Set(ZF_IN AccessTypeName *newInstance); \
+        static void accessMethodName(ZF_IN AccessTypeName *newInstance); \
     public: \
         static ZFCorePointerBase *&_ZFP_ZFClassSingletonCleaner_##accessMethodName(void); \
         static void _ZFP_ZFClassSingletonOnDelete_##accessMethodName(ZF_IN void *instance); \
@@ -88,12 +88,12 @@ public:
                 return zfnull; \
             } \
             AccessTypeName *t = newAction(ObjectTypeName); \
-            OwnerClass::accessMethodName##Set(t); \
+            OwnerClass::accessMethodName(t); \
             releaseAction(t); \
         } \
         return ZFCastStatic(AccessTypeName *, holder->d); \
     } \
-    void OwnerClass::accessMethodName##Set(ZF_IN AccessTypeName *newInstance) \
+    void OwnerClass::accessMethodName(ZF_IN AccessTypeName *newInstance) \
     { \
         if(ZFFrameworkStateCheck(ZFLevel_) == ZFFrameworkStateNotAvailable) \
         { \
@@ -155,7 +155,7 @@ public:
  * you may change the internal singleton instance by:
  * @code
  *   newInstance = zfnew(YourType); // must be created by zfnew
- *   YourObject::instanceSet(newInstance); // set
+ *   YourObject::instance(newInstance); // set
  *   newInstance = YourObject::instance(); // must re-check new pointer value
  * @endcode
  */
@@ -187,14 +187,14 @@ public:
     GetterAccessType: \
         /** \n access singleton instance */ \
         ZFMETHOD_DECLARE_DETAIL_0( \
-            GetterAccessType, ZFMethodTypeStatic, \
+            GetterAccessType, ZFMethodTypeStatic, G, \
             AccessTypeName *, accessMethodName \
             ) \
     SetterAccessType: \
         /** @brief see @ref accessMethodName */ \
         ZFMETHOD_DECLARE_DETAIL_1( \
-            SetterAccessType, ZFMethodTypeStatic, \
-            void, accessMethodName##Set \
+            SetterAccessType, ZFMethodTypeStatic, S, \
+            void, accessMethodName \
             , ZFMP_IN(AccessTypeName *, param0) \
             ) \
         /** @cond ZFPrivateDoc */ \
@@ -202,19 +202,6 @@ public:
         _ZFP_ZFCLASS_SINGLETON_DECLARE(private, private, \
                                        AccessTypeName, _ZFP_ZFObjectSingleton_##accessMethodName) \
         /** @endcond */ \
-    GetterAccessType: \
-        /** @brief see @ref accessMethodName */ \
-        ZFMETHOD_DECLARE_DETAIL_0( \
-            GetterAccessType, ZFMethodTypeStatic, \
-            ZFObject *, accessMethodName##Reflect \
-            ) \
-    SetterAccessType: \
-        /** @brief see @ref accessMethodName */ \
-        ZFMETHOD_DECLARE_DETAIL_1( \
-            SetterAccessType, ZFMethodTypeStatic, \
-            void, accessMethodName##Set##Reflect \
-            , ZFMP_IN(ZFObject *, param0) \
-            ) \
     public:
 #define _ZFP_ZFOBJECT_SINGLETON_DEFINE(OwnerClass, \
                                        AccessTypeName, ObjectTypeName, sig, accessMethodName, \
@@ -223,29 +210,22 @@ public:
                                   AccessTypeName, ObjectTypeName, sig, _ZFP_ZFObjectSingleton_##accessMethodName, \
                                   ZFLevel_, \
                                   zfAlloc, zfRelease, zfRetain, zfRelease) \
-    ZFMETHOD_DEFINE_0(OwnerClass, AccessTypeName *, accessMethodName) \
+    ZFMETHOD_DEFINE_DETAIL_0(OwnerClass, G, \
+        AccessTypeName *, accessMethodName \
+        ) \
     { \
         return zfself::_ZFP_ZFObjectSingleton_##accessMethodName(); \
     } \
-    ZFMETHOD_DEFINE_1(OwnerClass, void, accessMethodName##Set \
-                      , ZFMP_IN(AccessTypeName *, param0) \
-                      ) \
-    { \
-        zfself::_ZFP_ZFObjectSingleton_##accessMethodName##Set(param0); \
-    } \
-    ZFMETHOD_DEFINE_0(OwnerClass, ZFObject *, accessMethodName##Reflect) \
-    { \
-        return ZFCastZFObjectUnchecked(ZFObject *, zfself::accessMethodName()); \
-    } \
-    ZFMETHOD_DEFINE_1(OwnerClass, void, accessMethodName##Set##Reflect \
-                      , ZFMP_IN(ZFObject *, param0) \
-                      ) \
+    ZFMETHOD_DEFINE_DETAIL_1(OwnerClass, S, \
+        void, accessMethodName \
+        , ZFMP_IN(AccessTypeName *, param0) \
+        ) \
     { \
         if(ZFFrameworkStateCheck(ZFLevel_) == ZFFrameworkStateNotAvailable) \
         { \
             return ; \
         } \
-        zfself::accessMethodName##Set(ZFCastZFObject(AccessTypeName *, param0)); \
+        zfself::_ZFP_ZFObjectSingleton_##accessMethodName(param0); \
     }
 
 /**
@@ -267,14 +247,12 @@ public:
  *   // then you can access the instance by
  *   YourObject::instance();
  *   // or manually change the instance by
- *   YourObject::instanceSet(yourInstance);
+ *   YourObject::instance(yourInstance);
  * @endcode
- * @note this macro would generate two reflectable ZFMethod for you,
+ * @note this macro would generate these reflectable ZFMethod for you,
  *   with this proto type:
  *   -  YourObject *instance(void);
- *   -  void instanceSet(ZF_IN YourObject *);
- *   -  ZFObject *instanceReflect(void);
- *   -  void instanceSetReflect(ZF_IN ZFObject *);
+ *   -  void instance(ZF_IN YourObject *);
  */
 #define ZFOBJECT_SINGLETON_DECLARE(AccessTypeName, accessMethodName) \
     ZFOBJECT_SINGLETON_DECLARE_DETAIL(protected, public, AccessTypeName, accessMethodName)

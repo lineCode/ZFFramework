@@ -19,8 +19,8 @@ public:
     /**
      * @brief change view's focusable setting
      */
-    virtual void viewFocusableSet(ZF_IN ZFUIView *view,
-                                  ZF_IN zfbool viewFocusable) zfpurevirtual;
+    virtual void viewFocusable(ZF_IN ZFUIView *view,
+                               ZF_IN zfbool viewFocusable) zfpurevirtual;
     /**
      * @brief see #ZFUIView::viewFocused
      */

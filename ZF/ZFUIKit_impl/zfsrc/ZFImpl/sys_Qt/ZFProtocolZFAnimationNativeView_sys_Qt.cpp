@@ -254,7 +254,7 @@ public:
         this->aniDrawingTargetWindow = this->aniTargetCached->window();
         _ZFP_ZFAnimationNativeViewImpl_sys_Qt_AniData *v = zfnull;
         {
-            QVariant tag = ZFImpl_sys_Qt_QObjectTagGet(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget");
+            QVariant tag = ZFImpl_sys_Qt_QObjectTag(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget");
             if(tag.isValid())
             {
                 v = tag.value<_ZFP_ZFAnimationNativeViewImpl_sys_Qt_AniData *>();
@@ -264,7 +264,7 @@ public:
                 v = zfnew(_ZFP_ZFAnimationNativeViewImpl_sys_Qt_AniData);
                 v->aniDrawingTarget = new _ZFP_ZFAnimationNativeViewImpl_sys_Qt_AniDrawingTarget();
                 this->aniDrawingTargetWindow->layout()->addWidget(v->aniDrawingTarget);
-                ZFImpl_sys_Qt_QObjectTagSet(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget", QVariant::fromValue(v));
+                ZFImpl_sys_Qt_QObjectTag(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget", QVariant::fromValue(v));
             }
         }
 
@@ -293,7 +293,7 @@ public:
     }
     void aniDrawingTargetCleanup(void)
     {
-        QVariant tag = ZFImpl_sys_Qt_QObjectTagGet(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget");
+        QVariant tag = ZFImpl_sys_Qt_QObjectTag(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget");
         zfassert(tag.isValid());
         _ZFP_ZFAnimationNativeViewImpl_sys_Qt_AniData *v = tag.value<_ZFP_ZFAnimationNativeViewImpl_sys_Qt_AniData *>();
 
@@ -314,7 +314,7 @@ public:
 
         if(v->aniDrawingTarget->aniList.isEmpty())
         {
-            ZFImpl_sys_Qt_QObjectTagSet(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget", QVariant());
+            ZFImpl_sys_Qt_QObjectTag(this->aniDrawingTargetWindow, "_ZFP_ZFAnimationNativeViewImpl_sys_Qt_aniDrawingTarget", QVariant());
             this->aniDrawingTargetWindow->layout()->removeWidget(v->aniDrawingTarget);
             delete v->aniDrawingTarget;
         }

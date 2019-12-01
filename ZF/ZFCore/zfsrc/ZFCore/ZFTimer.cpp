@@ -121,20 +121,13 @@ void ZFTimer::_ZFP_ZFTimer_timerOnStop(void)
 // ============================================================
 ZFTYPEID_ACCESS_ONLY_DEFINE(ZFTimerExecuteParam, ZFTimerExecuteParam)
 
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, zftimet const &, timerInterval)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerIntervalSet, ZFMP_IN(zftimet const &, timerInterval))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, zfbool const &, timerActivateInMainThread)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerActivateInMainThreadSet, ZFMP_IN(zfbool const &, timerActivateInMainThread))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, ZFObject * const &, timerParam0)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerParam0Set, ZFMP_IN(ZFObject * const &, timerParam0))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, ZFObject * const &, timerParam1)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerParam1Set, ZFMP_IN(ZFObject * const &, timerParam1))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, ZFObject * const &, userData)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, userDataSet, ZFMP_IN(ZFObject * const &, userData))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, ZFListener const &, timerCallback)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerCallbackSet, ZFMP_IN(ZFListener const &, timerCallback))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFTimerExecuteParam, zfindex const &, timerActivateCountMax)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFTimerExecuteParam, void, timerActivateCountMaxSet, ZFMP_IN(zfindex const &, timerActivateCountMax))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, zftimet, timerInterval)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, zfbool, timerActivateInMainThread)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, ZFObject *, timerParam0)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, ZFObject *, timerParam1)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, ZFObject *, userData)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, ZFListener, timerCallback)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_SETTER_GETTER(v_ZFTimerExecuteParam, zfindex, timerActivateCountMax)
 
 ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFTimerExecute,
                        ZFMP_IN(const ZFTimerExecuteParam &, param))
@@ -144,17 +137,17 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFTimerExecute,
         return zfnull;
     }
     zfblockedAlloc(ZFTimer, timer);
-    timer->timerIntervalSet(param.timerInterval());
-    timer->timerDelaySet(param.timerDelay());
-    timer->timerActivateInMainThreadSet(param.timerActivateInMainThread());
-    timer->timerParam0Set(param.timerParam0());
-    timer->timerParam1Set(param.timerParam1());
+    timer->timerInterval(param.timerInterval());
+    timer->timerDelay(param.timerDelay());
+    timer->timerActivateInMainThread(param.timerActivateInMainThread());
+    timer->timerParam0(param.timerParam0());
+    timer->timerParam1(param.timerParam1());
     timer->observerAdd(ZFTimer::EventTimerOnActivate(), param.timerCallback(), param.userData());
     if(param.timerActivateCountMax() > 0)
     {
         ZFLISTENER_LOCAL(timerOnActivate, {
             zfindex timerActivatedCountMax = userData->to<v_zfindex *>()->zfv;
-            ZFTimer *timer = listenerData.sender->to<ZFTimer *>();
+            ZFTimer *timer = listenerData.sender<ZFTimer *>();
             if(timer->timerActivatedCount() > timerActivatedCountMax)
             {
                 timer->timerStop();

@@ -40,7 +40,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFKeyValuePairHolder, ZFKeyValuePairHo
             {
                 return zffalse;
             }
-            data.categorySet(ZFSerializableKeyword_ZFKeyValuePair_key);
+            data.category(ZFSerializableKeyword_ZFKeyValuePair_key);
             serializableData.elementAdd(data);
         }
         if(v.value != zfnull)
@@ -50,7 +50,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFKeyValuePairHolder, ZFKeyValuePairHo
             {
                 return zffalse;
             }
-            data.categorySet(ZFSerializableKeyword_ZFKeyValuePair_value);
+            data.category(ZFSerializableKeyword_ZFKeyValuePair_value);
             serializableData.elementAdd(data);
         }
         return zftrue;

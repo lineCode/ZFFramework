@@ -12,8 +12,8 @@ static zfindex _ZFP_ZFOutputDummy(ZF_IN const void *s, ZF_IN zfindex count)
 ZFOutput ZFOutputDummy(void)
 {
     ZFOutput ret = ZFCallbackForFunc(_ZFP_ZFOutputDummy);
-    ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputDummy);
-    ret.callbackSerializeCustomDataSet(ZFSerializableData());
+    ret.callbackSerializeCustomType(ZFCallbackSerializeCustomType_ZFOutputDummy);
+    ret.callbackSerializeCustomData(ZFSerializableData());
     return ret;
 }
 
@@ -70,7 +70,7 @@ ZFOutput ZFOutputForString(ZF_IN zfstring &s)
     owner->curPos = s.length();
     ZFOutput ret = ZFCallbackForMemberMethod(
         owner, ZFMethodAccess(_ZFP_I_ZFOutputForStringOwner, onOutput));
-    ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
+    ret.callbackTag(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;
 }
@@ -169,7 +169,7 @@ ZFOutput ZFOutputForBufferUnsafe(ZF_IN void *buf,
     owner->p = owner->pStart;
     ZFOutput ret = ZFCallbackForMemberMethod(
         owner, ZFMethodAccess(_ZFP_I_ZFOutputForBufferUnsafeOwner, onOutput));
-    ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, owner);
+    ret.callbackTag(ZFCallbackTagKeyword_ioOwner, owner);
     zfRelease(owner);
     return ret;
 }

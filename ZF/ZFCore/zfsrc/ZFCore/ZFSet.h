@@ -92,21 +92,21 @@ public:
                        ZFMP_IN(const zfiterator &, it1))
 
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_1(ZFObject *, iteratorGet,
+    ZFMETHOD_DECLARE_1(ZFObject *, iteratorValue,
                        ZFMP_IN(const zfiterator &, it))
 
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_1(ZFObject *, iteratorNext,
+    ZFMETHOD_DECLARE_1(ZFObject *, iteratorNextValue,
                        ZFMP_IN_OUT(zfiterator &, it))
 
     /** @brief see #zfiterator */
-    ZFMETHOD_DECLARE_1(ZFObject *, iteratorPrev,
+    ZFMETHOD_DECLARE_1(ZFObject *, iteratorPrevValue,
                        ZFMP_IN_OUT(zfiterator &, it))
 
 protected:
     /** @brief see #zfiterator */
-    virtual void iteratorSet(ZF_IN_OUT zfiterator &it,
-                             ZF_IN ZFObject *value);
+    virtual void iteratorValue(ZF_IN_OUT zfiterator &it,
+                               ZF_IN ZFObject *value);
     /** @brief see #zfiterator */
     virtual void iteratorRemove(ZF_IN_OUT zfiterator &it);
 
@@ -153,11 +153,11 @@ public:
 
 public:
     /** @brief see #zfiterator */
-    ZFMETHOD_INLINE_2(void, iteratorSet,
+    ZFMETHOD_INLINE_2(void, iteratorValue,
                       ZFMP_IN_OUT(zfiterator &, it),
                       ZFMP_IN(ZFObject *, value))
     {
-        zfsuper::iteratorSet(it, value);
+        zfsuper::iteratorValue(it, value);
     }
     /** @brief see #zfiterator */
     ZFMETHOD_INLINE_1(void, iteratorRemove,

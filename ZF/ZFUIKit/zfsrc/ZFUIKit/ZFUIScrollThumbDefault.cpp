@@ -35,7 +35,7 @@ protected:
         zfsuper::aniTimeLineOnUpdate(progress);
         if(this->thumbView->viewVisible())
         {
-            this->thumbView->viewAlphaSet(1 - progress);
+            this->thumbView->viewAlpha(1 - progress);
         }
     }
 };
@@ -47,8 +47,8 @@ protected:
     virtual void objectOnInit(ZF_IN ZFUIImageView *thumbView)
     {
         this->objectOnInit();
-        this->aniTargetSet(thumbView);
-        this->aniAlphaToSet(0);
+        this->aniTarget(thumbView);
+        this->aniAlphaTo(0);
     }
     zfoverride
     virtual void objectOnInit(void)
@@ -81,8 +81,8 @@ public:
         ZFUIScrollThumbDefault *owner = userData->objectHolded();
         if(owner != zfnull)
         {
-            owner->d->thumbView->viewAlphaSet(1);
-            owner->d->thumbView->viewVisibleSet(zffalse);
+            owner->d->thumbView->viewAlpha(1);
+            owner->d->thumbView->viewVisible(zffalse);
         }
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(thumbHideAniAutoStop)
@@ -146,14 +146,14 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollThumbDefault, ZFUIImage *, scroll
 {
     if(this->scrollThumbHorizontal())
     {
-        d->thumbView->imageSet(this->scrollThumbImageHorizontal());
+        d->thumbView->image(this->scrollThumbImageHorizontal());
     }
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIScrollThumbDefault, ZFUIImage *, scrollThumbImageVertical)
 {
     if(!this->scrollThumbHorizontal())
     {
-        d->thumbView->imageSet(this->scrollThumbImageVertical());
+        d->thumbView->image(this->scrollThumbImageVertical());
     }
 }
 
@@ -166,18 +166,18 @@ void ZFUIScrollThumbDefault::scrollThumbInit(void)
 
     if(this->scrollThumbHorizontal())
     {
-        d->thumbView->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner | ZFUIAlign::e_BottomInner);
-        d->thumbView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        d->thumbView->imageSet(this->scrollThumbImageHorizontal());
+        d->thumbView->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner | ZFUIAlign::e_BottomInner);
+        d->thumbView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        d->thumbView->image(this->scrollThumbImageHorizontal());
     }
     else
     {
-        d->thumbView->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
-        d->thumbView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        d->thumbView->imageSet(this->scrollThumbImageVertical());
+        d->thumbView->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
+        d->thumbView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        d->thumbView->image(this->scrollThumbImageVertical());
     }
 
-    d->thumbView->viewVisibleSet(zffalse);
+    d->thumbView->viewVisible(zffalse);
 }
 void ZFUIScrollThumbDefault::scrollThumbDealloc(void)
 {
@@ -191,12 +191,12 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
     if(this->scrollView()->scrollViewState() != ZFUIScrollViewState::e_Idle)
     {
         d->thumbHideAni->aniStop();
-        d->thumbView->viewAlphaSet(1);
+        d->thumbView->viewAlpha(1);
     }
 
     if(d->thumbView->image() == zfnull)
     {
-        d->thumbView->viewVisibleSet(zffalse);
+        d->thumbView->viewVisible(zffalse);
     }
     else
     {
@@ -224,9 +224,9 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
             if(size != 0)
             {
                 viewVisibleNew = zftrue;
-                d->thumbView->layoutParam()->layoutMarginSet(ZFUIMarginMake(
+                d->thumbView->layoutParam()->layoutMargin(ZFUIMarginMake(
                     pos, 0, 0, this->scrollView()->nativeImplViewMargin().bottom));
-                d->thumbView->layoutParam()->sizeHintSet(ZFUISizeMake(size, imageSize.height));
+                d->thumbView->layoutParam()->sizeHint(ZFUISizeMake(size, imageSize.height));
             }
         }
         else
@@ -247,9 +247,9 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
             if(size != 0)
             {
                 viewVisibleNew = zftrue;
-                d->thumbView->layoutParam()->layoutMarginSet(ZFUIMarginMake(
+                d->thumbView->layoutParam()->layoutMargin(ZFUIMarginMake(
                     0, pos, this->scrollView()->nativeImplViewMargin().right, 0));
-                d->thumbView->layoutParam()->sizeHintSet(ZFUISizeMake(imageSize.width, size));
+                d->thumbView->layoutParam()->sizeHint(ZFUISizeMake(imageSize.width, size));
             }
         }
 
@@ -289,7 +289,7 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
         {
             d->thumbHideAni->aniStop();
         }
-        d->thumbView->viewVisibleSet(viewVisibleNew);
+        d->thumbView->viewVisible(viewVisibleNew);
     }
 
     // auto hide scroll thumb
@@ -297,12 +297,12 @@ void ZFUIScrollThumbDefault::scrollThumbUpdate(void)
         && this->scrollView()->scrollViewState() == ZFUIScrollViewState::e_Idle)
     {
         d->thumbHideAni->aniStop();
-        d->thumbView->viewVisibleSet(zftrue);
+        d->thumbView->viewVisible(zftrue);
         zftimet autoHideTime = (this->scrollThumbHorizontal() ? this->scrollThumbAutoHideDurationHorizontal() : this->scrollThumbAutoHideDurationVertical());
         if(autoHideTime > 0)
         {
-            d->thumbHideAni->aniDelaySet(this->scrollThumbHorizontal() ? this->scrollThumbAutoHideDelayHorizontal() : this->scrollThumbAutoHideDelayVertical());
-            d->thumbHideAni->aniDurationSet(autoHideTime);
+            d->thumbHideAni->aniDelay(this->scrollThumbHorizontal() ? this->scrollThumbAutoHideDelayHorizontal() : this->scrollThumbAutoHideDelayVertical());
+            d->thumbHideAni->aniDuration(autoHideTime);
             d->thumbHideAni->aniStart();
         }
     }

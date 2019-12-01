@@ -173,7 +173,7 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
     outputOwner->format = zfRetain(format);
     ret = ZFCallbackForMemberMethod(outputOwner, ZFMethodAccess(_ZFP_I_ZFOutputForFormatOwner, onOutput));
     ret.callbackOwnerObjectRetain();
-    ret.callbackTagSet(ZFCallbackTagKeyword_ioOwner, output.callbackTagGet(ZFCallbackTagKeyword_ioOwner));
+    ret.callbackTag(ZFCallbackTagKeyword_ioOwner, output.callbackTag(ZFCallbackTagKeyword_ioOwner));
     zfRelease(outputOwner);
 
     if(!ret.callbackSerializeCustomDisabled())
@@ -185,12 +185,12 @@ ZFMETHOD_FUNC_DEFINE_3(zfbool, ZFOutputForFormatT,
             && ZFObjectToData(formatData, format->toObject()))
         {
             ZFSerializableData serializableData;
-            outputData.categorySet(ZFSerializableKeyword_ZFOutputForFormat_output);
+            outputData.category(ZFSerializableKeyword_ZFOutputForFormat_output);
             serializableData.elementAdd(outputData);
-            formatData.categorySet(ZFSerializableKeyword_ZFOutputForFormat_format);
+            formatData.category(ZFSerializableKeyword_ZFOutputForFormat_format);
             serializableData.elementAdd(formatData);
-            ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputForFormat);
-            ret.callbackSerializeCustomDataSet(serializableData);
+            ret.callbackSerializeCustomType(ZFCallbackSerializeCustomType_ZFOutputForFormat);
+            ret.callbackSerializeCustomData(serializableData);
         }
     }
 

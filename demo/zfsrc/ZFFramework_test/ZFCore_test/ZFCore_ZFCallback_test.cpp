@@ -11,8 +11,7 @@ zfclass _ZFP_ZFCore_ZFCallback_test_Class : zfextends ZFObject
         zfLogT();
     }
 
-    ZFMETHOD_INLINE_DETAIL_0(public, ZFMethodTypeStatic,
-                             void, classStaticMember)
+    ZFMETHOD_INLINE_STATIC_0(void, classStaticMember)
     {
         zfLogT();
     }

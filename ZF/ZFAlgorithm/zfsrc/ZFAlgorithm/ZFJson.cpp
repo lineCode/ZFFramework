@@ -88,7 +88,7 @@ static void _ZFP_ZFJsonItemToOutput_output_JsonObject(ZF_IN_OUT const ZFOutput &
 {
     output << outputFlags.jsonToken.jsonObjectTagLeft;
     zfbool first = zftrue;
-    for(zfiterator it = jsonObject.jsonItemIterator(); jsonObject.jsonItemIteratorIsValid(it); jsonObject.jsonItemIteratorNext(it))
+    for(zfiterator it = jsonObject.jsonItemIterator(); jsonObject.jsonItemIteratorIsValid(it); jsonObject.jsonItemIteratorNextValue(it))
     {
         if(outputFlags.jsonObjectAddNewLineForContent)
         {
@@ -116,10 +116,10 @@ static void _ZFP_ZFJsonItemToOutput_output_JsonObject(ZF_IN_OUT const ZFOutput &
         }
         output
             << outputFlags.jsonToken.jsonKeyTagLeft
-            << jsonObject.jsonItemIteratorGetKey(it)
+            << jsonObject.jsonItemIteratorKey(it)
             << outputFlags.jsonToken.jsonKeyTagRight;
         output << outputFlags.jsonToken.jsonValueSeparatorToken;
-        _ZFP_ZFJsonItemToOutput_output(output, jsonObject.jsonItemIteratorGet(it), outputFlags, indentLevel + 1);
+        _ZFP_ZFJsonItemToOutput_output(output, jsonObject.jsonItemIteratorValue(it), outputFlags, indentLevel + 1);
     }
     if(outputFlags.jsonObjectAddNewLineForContent
         && !(outputFlags.jsonObjectTagInSameLineIfNoContent && jsonObject.jsonItemCount() == 0))
@@ -241,7 +241,7 @@ public:
     }
 
 public:
-    void valueSet(ZF_IN const zfchar *value)
+    void value(ZF_IN const zfchar *value)
     {
         if(_token)
         {
@@ -251,7 +251,7 @@ public:
         }
         zfsChange(_s._s, value);
     }
-    void valueSet(ZF_IN const zfchar *value, ZF_IN void *token)
+    void value(ZF_IN const zfchar *value, ZF_IN void *token)
     {
         if(_token)
         {
@@ -341,7 +341,7 @@ public:
     }
 
 public:
-    void jsonItemSet(ZF_IN _ZFP_ZFJsonItemData *jsonItemData)
+    void jsonItem(ZF_IN _ZFP_ZFJsonItemData *jsonItemData)
     {
         if(this->jsonItemMap.empty())
         {
@@ -555,27 +555,27 @@ const zfchar *ZFJsonItem::jsonKey(void) const
 {
     return d->jsonKey;
 }
-void ZFJsonItem::jsonValueSet(ZF_IN const zfchar *value)
+void ZFJsonItem::jsonValue(ZF_IN const zfchar *value)
 {
     zfCoreAssert(this->jsonType() == ZFJsonType::e_JsonValue);
-    d->jsonValue.valueSet(value);
+    d->jsonValue.value(value);
 }
 const zfchar *ZFJsonItem::jsonValue(void) const
 {
     return d->jsonValue.value();
 }
 
-void ZFJsonItem::_ZFP_ZFJson_jsonMemoryPool_jsonValueSet(ZF_IN const zfchar *value, ZF_IN void *token)
+void ZFJsonItem::_ZFP_ZFJson_jsonMemoryPool_jsonValue(ZF_IN const zfchar *value, ZF_IN void *token)
 {
-    d->jsonValue.valueSet(value, token);
+    d->jsonValue.value(value, token);
 }
-void ZFJsonItem::_ZFP_ZFJson_jsonMemoryPool_jsonItemSet(ZF_IN const zfchar *key, ZF_IN void *token, ZF_IN const ZFJsonItem &jsonItem)
+void ZFJsonItem::_ZFP_ZFJson_jsonMemoryPool_jsonItem(ZF_IN const zfchar *key, ZF_IN void *token, ZF_IN const ZFJsonItem &jsonItem)
 {
     zfCoreAssert(this->jsonType() == ZFJsonType::e_JsonObject);
     zfCoreAssert(!jsonItem.jsonIsNull());
     if(key != zfnull)
     {
-        d->jsonItemSet(zfnew(_ZFP_ZFJsonItemData, key, token, jsonItem));
+        d->jsonItem(zfnew(_ZFP_ZFJsonItemData, key, token, jsonItem));
     }
 }
 
@@ -588,12 +588,12 @@ ZFJsonItem ZFJsonItem::jsonCloneTree(void) const
         case ZFJsonType::e_JsonNull:
             break;
         case ZFJsonType::e_JsonValue:
-            ret.jsonValueSet(this->jsonValue());
+            ret.jsonValue(this->jsonValue());
             break;
         case ZFJsonType::e_JsonObject:
-            for(zfiterator it = this->jsonItemIterator(); this->jsonItemIteratorIsValid(it); this->jsonItemIteratorNext(it))
+            for(zfiterator it = this->jsonItemIterator(); this->jsonItemIteratorIsValid(it); this->jsonItemIteratorNextValue(it))
             {
-                ret.jsonItemSet(this->jsonItemIteratorGetKey(it), this->jsonItemIteratorGet(it).jsonCloneTree());
+                ret.jsonItem(this->jsonItemIteratorKey(it), this->jsonItemIteratorValue(it).jsonCloneTree());
             }
             break;
         case ZFJsonType::e_JsonArray:
@@ -623,14 +623,14 @@ ZFJsonItem ZFJsonItem::jsonItem(ZF_IN const zfchar *key) const
         return ZFJsonItem();
     }
 }
-void ZFJsonItem::jsonItemSet(ZF_IN const zfchar *key,
-                             ZF_IN const ZFJsonItem &jsonItem)
+void ZFJsonItem::jsonItem(ZF_IN const zfchar *key,
+                          ZF_IN const ZFJsonItem &jsonItem)
 {
     zfCoreAssert(this->jsonType() == ZFJsonType::e_JsonObject);
     zfCoreAssert(!jsonItem.jsonIsNull());
     if(key != zfnull)
     {
-        d->jsonItemSet(zfnew(_ZFP_ZFJsonItemData, key, jsonItem));
+        d->jsonItem(zfnew(_ZFP_ZFJsonItemData, key, jsonItem));
     }
 }
 
@@ -646,7 +646,7 @@ const zfchar *ZFJsonItem::jsonItemValue(ZF_IN const zfchar *key) const
         return zfnull;
     }
 }
-void ZFJsonItem::jsonItemValueSet(ZF_IN const zfchar *key, ZF_IN const zfchar *value)
+void ZFJsonItem::jsonItemValue(ZF_IN const zfchar *key, ZF_IN const zfchar *value)
 {
     if(value == zfnull)
     {
@@ -655,8 +655,8 @@ void ZFJsonItem::jsonItemValueSet(ZF_IN const zfchar *key, ZF_IN const zfchar *v
     else
     {
         ZFJsonItem jsonValue(ZFJsonType::e_JsonValue);
-        jsonValue.jsonValueSet(value);
-        this->jsonItemSet(key, jsonValue);
+        jsonValue.jsonValue(value);
+        this->jsonItem(key, jsonValue);
     }
 }
 
@@ -722,7 +722,7 @@ zfbool ZFJsonItem::jsonItemIteratorIsEqual(ZF_IN const zfiterator &it0,
     return zfiterator::iteratorIsEqual<zfstlsize *>(it0, it1);
 }
 
-void ZFJsonItem::jsonItemIteratorSet(ZF_IN_OUT zfiterator &it, ZF_IN const ZFJsonItem &jsonItem)
+void ZFJsonItem::jsonItemIteratorValue(ZF_IN_OUT zfiterator &it, ZF_IN const ZFJsonItem &jsonItem)
 {
     if(jsonItem.jsonIsNull())
     {
@@ -751,7 +751,7 @@ void ZFJsonItem::jsonItemIteratorRemove(ZF_IN_OUT zfiterator &it)
     }
 }
 
-const zfchar *ZFJsonItem::jsonItemIteratorGetKey(ZF_IN const zfiterator &it) const
+const zfchar *ZFJsonItem::jsonItemIteratorKey(ZF_IN const zfiterator &it) const
 {
     zfstlsize *data = it.data<zfstlsize *>();
     if(data && *data < d->jsonItemMap.size())
@@ -763,7 +763,7 @@ const zfchar *ZFJsonItem::jsonItemIteratorGetKey(ZF_IN const zfiterator &it) con
         return zfnull;
     }
 }
-ZFJsonItem ZFJsonItem::jsonItemIteratorGet(ZF_IN const zfiterator &it) const
+ZFJsonItem ZFJsonItem::jsonItemIteratorValue(ZF_IN const zfiterator &it) const
 {
     zfstlsize *data = it.data<zfstlsize *>();
     if(data && *data < d->jsonItemMap.size())
@@ -790,7 +790,7 @@ const zfchar *ZFJsonItem::jsonItemIteratorNextKey(ZF_IN_OUT zfiterator &it) cons
         return zfnull;
     }
 }
-ZFJsonItem ZFJsonItem::jsonItemIteratorNext(ZF_IN_OUT zfiterator &it) const
+ZFJsonItem ZFJsonItem::jsonItemIteratorNextValue(ZF_IN_OUT zfiterator &it) const
 {
     zfstlsize *data = it.data<zfstlsize *>();
     if(data && *data < d->jsonItemMap.size())
@@ -897,13 +897,13 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, ZFJsonTypeEnum, jsonType
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, zfbool, jsonIsNull)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, ZFJsonItem, jsonParent)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, const zfchar *, jsonKey)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, void, jsonValueSet, ZFMP_IN(const zfchar *, value))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, void, jsonValue, ZFMP_IN(const zfchar *, value))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, const zfchar *, jsonValue)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, ZFJsonItem, jsonCloneTree)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, ZFJsonItem, jsonItem, ZFMP_IN(const zfchar *, key))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonItemSet, ZFMP_IN(const zfchar *, key), ZFMP_IN(const ZFJsonItem &, jsonItem))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonItem, ZFMP_IN(const zfchar *, key), ZFMP_IN(const ZFJsonItem &, jsonItem))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, const zfchar *, jsonItemValue, ZFMP_IN(const zfchar *, key))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonItemValueSet, ZFMP_IN(const zfchar *, key), ZFMP_IN(const zfchar *, value))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonItemValue, ZFMP_IN(const zfchar *, key), ZFMP_IN(const zfchar *, value))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, void, jsonItemRemove, ZFMP_IN(const ZFJsonItem &, jsonItem))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, void, jsonItemRemove, ZFMP_IN(const zfchar *, key))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, void, jsonItemRemoveAll)
@@ -912,12 +912,12 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, zfiterator, jsonItemIter
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, zfiterator, jsonItemIteratorForKey, ZFMP_IN(const zfchar *, key))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, zfbool, jsonItemIteratorIsValid, ZFMP_IN(const zfiterator &, it))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, zfbool, jsonItemIteratorIsEqual, ZFMP_IN(const zfiterator &, it0), ZFMP_IN(const zfiterator &, it1))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonItemIteratorSet, ZFMP_IN_OUT(zfiterator &, it), ZFMP_IN(const ZFJsonItem &, jsonItem))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonItemIteratorValue, ZFMP_IN_OUT(zfiterator &, it), ZFMP_IN(const ZFJsonItem &, jsonItem))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, void, jsonItemIteratorRemove, ZFMP_IN_OUT(zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, const zfchar *, jsonItemIteratorGetKey, ZFMP_IN(const zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, ZFJsonItem, jsonItemIteratorGet, ZFMP_IN(const zfiterator &, it))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, const zfchar *, jsonItemIteratorKey, ZFMP_IN(const zfiterator &, it))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, ZFJsonItem, jsonItemIteratorValue, ZFMP_IN(const zfiterator &, it))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, const zfchar *, jsonItemIteratorNextKey, ZFMP_IN_OUT(zfiterator &, it))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, ZFJsonItem, jsonItemIteratorNext, ZFMP_IN_OUT(zfiterator &, it))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, ZFJsonItem, jsonItemIteratorNextValue, ZFMP_IN_OUT(zfiterator &, it))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFJsonItem, zfindex, jsonObjectCount)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFJsonItem, ZFJsonItem, jsonObjectAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFJsonItem, void, jsonObjectAdd, ZFMP_IN(const ZFJsonItem &, jsonObject), ZFMP_IN_OPT(zfindex, atIndex, zfindexMax()))

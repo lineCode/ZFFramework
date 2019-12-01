@@ -22,7 +22,7 @@ zfclass _ZFP_ZFUIDialogForChoicePrivate : zfextends ZFUIListView
 
 public:
     ZFUIDialogForChoice *pimplOwner;
-    ZFUIListAdapterArray *listAdapter;
+    ZFUIListAdapterArray *listAdapterValue;
     ZFListener updateTaskListener;
     zfidentity updateTaskId;
     ZFListener buttonEventListener;
@@ -34,7 +34,7 @@ public:
     {
         this->buttonGroup->observerRemove(ZFUIButton::EventButtonOnClick(), this->buttonEventListener);
         this->updateTaskId = zfidentityInvalid();
-        this->listAdapter->cellRemoveAll();
+        this->listAdapterValue->cellRemoveAll();
         this->buttonGroup->buttonRemoveAll();
         switch(this->pimplOwner->choiceMode())
         {
@@ -68,7 +68,7 @@ protected:
 private:
     void updateListSize(void)
     {
-        zfint cellSizeHint = this->listAdapter->cellSizeHint();
+        zfint cellSizeHint = this->listAdapterValue->cellSizeHint();
         ZFUISize sizeHint = ZFUISizeMake(ZFUIGlobalStyle::DefaultStyle()->itemSizeDialogWidth(), cellSizeHint);
         ZFUISize size = sizeHint;
         size.height = 0;
@@ -92,45 +92,45 @@ private:
 private:
     void updateForChoiceSingle(void)
     {
-        this->buttonGroup->buttonGroupTypeSet(ZFUIButtonGroupType::e_Tab);
+        this->buttonGroup->buttonGroupType(ZFUIButtonGroupType::e_Tab);
         for(zfindex i = 0; i < this->pimplOwner->choiceCount(); ++i)
         {
             zfblockedAlloc(ZFUIListCell, cell);
-            this->listAdapter->cellAdd(cell);
+            this->listAdapterValue->cellAdd(cell);
 
             zfblockedAlloc(ZFUIButtonRatio, button);
-            cell->cellViewSet(button);
+            cell->cellView(button);
             this->buttonGroup->buttonAdd(button);
 
-            button->buttonLabelTextSet(this->pimplOwner->choiceNameAtIndex(i));
+            button->buttonLabelText(this->pimplOwner->choiceNameAtIndex(i));
         }
-        this->buttonGroup->buttonTabCheckedSet(this->pimplOwner->choiceSelectedIndexList().getFirst());
+        this->buttonGroup->buttonTabChecked(this->pimplOwner->choiceSelectedIndexList().getFirst());
     }
     void updateForChoiceMultiple(void)
     {
-        this->buttonGroup->buttonGroupTypeSet(ZFUIButtonGroupType::e_Normal);
+        this->buttonGroup->buttonGroupType(ZFUIButtonGroupType::e_Normal);
         for(zfindex i = 0; i < this->pimplOwner->choiceCount(); ++i)
         {
             zfblockedAlloc(ZFUIListCell, cell);
-            this->listAdapter->cellAdd(cell);
+            this->listAdapterValue->cellAdd(cell);
 
             zfblockedAlloc(ZFUIButtonCheckBox, button);
-            cell->cellViewSet(button);
+            cell->cellView(button);
             this->buttonGroup->buttonAdd(button);
 
-            button->buttonLabelTextSet(this->pimplOwner->choiceNameAtIndex(i));
+            button->buttonLabelText(this->pimplOwner->choiceNameAtIndex(i));
         }
         ZFCoreArrayPOD<zfindex> selectedIndexList = this->pimplOwner->choiceSelectedIndexList();
         for(zfindex i = 0; i < selectedIndexList.count(); ++i)
         {
-            this->buttonGroup->buttonAtIndex(selectedIndexList[i])->buttonCheckedSet(zftrue);
+            this->buttonGroup->buttonAtIndex(selectedIndexList[i])->buttonChecked(zftrue);
         }
     }
 
 private:
     ZFLISTENER_INLINE(buttonEvent)
     {
-        zfindex index = listenerData.param1->to<v_zfindex *>()->zfv;
+        zfindex index = listenerData.param1<v_zfindex *>()->zfv;
         switch(this->pimplOwner->choiceMode())
         {
             case ZFUIDialogForChoiceMode::e_ChoiceSingle:
@@ -146,7 +146,7 @@ private:
                 break;
             case ZFUIDialogForChoiceMode::e_ChoiceMultiple:
             {
-                ZFUIButton *button = listenerData.sender->to<ZFUIButton *>();
+                ZFUIButton *button = listenerData.sender<ZFUIButton *>();
                 this->pimplOwner->_ZFP_ZFUIDialogForChoice_choiceChange(index, button->buttonChecked());
                 this->pimplOwner->choiceChangeNotify();
             }
@@ -163,10 +163,10 @@ protected:
     {
         zfsuper::objectOnInit();
 
-        this->listBounceSet(zffalse);
+        this->listBounce(zffalse);
 
-        this->listAdapter = zfAlloc(ZFUIListAdapterArray);
-        this->listAdapterSet(this->listAdapter);
+        this->listAdapterValue = zfAlloc(ZFUIListAdapterArray);
+        this->listAdapter(this->listAdapterValue);
 
         this->updateTaskListener = ZFCallbackForMemberMethod(this, ZFMethodAccess(zfself, updateTask));
         this->updateTaskId = zfidentityInvalid();
@@ -180,9 +180,9 @@ protected:
     zfoverride
     virtual void objectOnDealloc(void)
     {
-        this->listAdapterSet(zfnull);
-        zfRelease(this->listAdapter);
-        this->listAdapter = zfnull;
+        this->listAdapter(zfnull);
+        zfRelease(this->listAdapterValue);
+        this->listAdapterValue = zfnull;
 
         zfRelease(this->buttonGroup);
         this->buttonGroup = zfnull;
@@ -245,13 +245,13 @@ void ZFUIDialogForChoice::dialogButtonOnRemove(ZF_IN ZFUIButton *button)
 void ZFUIDialogForChoice::choiceListOnChange(void)
 {
     zfblockedAlloc(ZFThreadTaskRequestData, taskRequestData);
-    taskRequestData->taskCallbackSet(d->updateTaskListener);
+    taskRequestData->taskCallback(d->updateTaskListener);
     d->updateTaskId = ZFThreadTaskRequest(taskRequestData, ZFThreadTaskRequestMergeCallbackIgnoreOldTask());
 }
 void ZFUIDialogForChoice::choiceSelectedListOnChange(void)
 {
     zfblockedAlloc(ZFThreadTaskRequestData, taskRequestData);
-    taskRequestData->taskCallbackSet(d->updateTaskListener);
+    taskRequestData->taskCallback(d->updateTaskListener);
     d->updateTaskId = ZFThreadTaskRequest(taskRequestData, ZFThreadTaskRequestMergeCallbackIgnoreOldTask());
 
     this->choiceChangeNotify();

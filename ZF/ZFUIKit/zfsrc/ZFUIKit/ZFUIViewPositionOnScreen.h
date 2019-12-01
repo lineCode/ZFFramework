@@ -25,7 +25,7 @@ ZFMETHOD_FUNC_DECLARE_2(void, ZFUIViewPositionOnScreen,
 /**
  * @brief get view's position on screen
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_1(ZFUIRect, ZFUIViewPositionOnScreen,
+ZFMETHOD_FUNC_INLINE_DECLARE_1(ZFUIRect, ZFUIViewPositionOnScreen,
                                ZFMP_IN(ZFUIView *, view))
 {
     ZFUIRect rect = ZFUIRectZero();

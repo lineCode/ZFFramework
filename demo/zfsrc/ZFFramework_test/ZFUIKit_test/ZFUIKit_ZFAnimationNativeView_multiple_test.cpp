@@ -18,33 +18,33 @@ protected:
 
         zfblockedAlloc(ZFUIView, view);
         container->childAdd(view);
-        view->viewSizePreferedSet(ZFUISizeMake(80, 60));
-        view->viewBackgroundColorSet(ZFUIColorRandom());
-        view->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
+        view->viewSizePrefer(ZFUISizeMake(80, 60));
+        view->viewBackgroundColor(ZFUIColorRandom());
+        view->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
 
         ZFLISTENER_LOCAL(startOnClick, {
             ZFUIView *view = userData->toAny();
 
             zfblockedAlloc(ZFAnimationGroup, aniGroup);
-            aniGroup->aniTargetSet(view);
+            aniGroup->aniTarget(view);
 
             zfblockedAlloc(ZFAnimationNativeView, ani0);
             aniGroup->childAniAdd(ani0);
-            ani0->aniTranslateXToSet(1);
-            ani0->aniDurationSet(3000);
+            ani0->aniTranslateXTo(1);
+            ani0->aniDuration(3000);
 
             zfblockedAlloc(ZFAnimationNativeView, ani1);
             aniGroup->childAniAdd(ani1);
-            ani1->aniRotateZToSet(180);
-            ani1->aniDurationSet(3000);
+            ani1->aniRotateZTo(180);
+            ani1->aniDuration(3000);
 
             aniGroup->aniStart();
         })
         zfblockedAlloc(ZFUIKit_test_Button, startButton);
-        startButton->buttonLabelTextSet("start");
+        startButton->buttonLabelText("start");
         startButton->observerAdd(ZFUIButton::EventButtonOnClick(), startOnClick, view);
         container->childAdd(startButton);
-        startButton->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
+        startButton->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner | ZFUIAlign::e_RightInner);
     }
 };
 ZFOBJECT_REGISTER(ZFUIKit_ZFAnimationNativeView_multiple_test)

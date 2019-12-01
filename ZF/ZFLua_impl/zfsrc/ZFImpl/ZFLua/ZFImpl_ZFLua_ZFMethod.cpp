@@ -28,7 +28,7 @@ static void _ZFP_ZFImpl_ZFLua_ZFMethod_setupGlobalMethod(ZF_IN const ZFCoreArray
 }
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange)
 {
-    const ZFClassDataChangeData *data = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
+    const ZFClassDataChangeData *data = listenerData.param0<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
     if(data->changedMethod != zfnull && data->changeType == ZFClassDataChangeTypeAttach)
     {
         if(data->changedMethod->methodIsFunctionType())
@@ -44,7 +44,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFMethod_methodOnChange)
     }
 }
 ZFImpl_ZFLua_implSetupCallback_DEFINE(ZFMethod, ZFM_EXPAND({
-        ZFCoreArrayPOD<const ZFMethod *> allMethod = ZFMethodFuncGetAll();
+        ZFCoreArrayPOD<const ZFMethod *> allMethod = ZFMethodGetAllFunc();
         if(!allMethod.isEmpty())
         {
             zfstlmap<zfstlstringZ, zfbool> methodNamespaceList;

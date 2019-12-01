@@ -18,9 +18,9 @@ protected:
 
         zfblockedAlloc(ZFUIButtonGroupBasic, layout);
         container->childAdd(layout);
-        layout->layoutParam()->layoutMarginSet(ZFUIMarginMake(40));
-        layout->buttonGroupTypeSet(ZFUIButtonGroupType::e_Tab);
-        layout->layoutOrientationSet(ZFUIOrientation::e_Top);
+        layout->layoutParam()->layoutMargin(ZFUIMarginMake(40));
+        layout->buttonGroupType(ZFUIButtonGroupType::e_Tab);
+        layout->layoutOrientation(ZFUIOrientation::e_Top);
 
         this->prepareChildren(layout);
 
@@ -28,9 +28,9 @@ protected:
 
         ZFLISTENER_LOCAL(buttonGroupAction, {
             zfLogTrimT()
-                << listenerData.sender
-                << ZFIdMapGetName(listenerData.eventId)
-                << ", checked:" << listenerData.param1;
+                << listenerData.sender()
+                << ZFIdMapNameForId(listenerData.eventId())
+                << ", checked:" << listenerData.param1();
         })
         layout->observerAdd(ZFUIButtonGroup::EventButtonTabOnClickChecked(), buttonGroupAction);
         layout->observerAdd(ZFUIButtonGroup::EventButtonTabOnChange(), buttonGroupAction);
@@ -43,7 +43,7 @@ private:
         {
             zfblockedAlloc(ZFUIButtonRatio, child);
             layout->buttonAdd(child);
-            child->buttonLabelTextSet(zfstringWithFormat("btn %zi", i));
+            child->buttonLabelText(zfstringWithFormat("btn %zi", i));
         }
     }
     void prepareSettingButton(ZF_IN ZFUIWindow *window,

@@ -33,10 +33,10 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFUISizeParam, ZFUISizeParam, {
         return zftrue;
     })
 
-ZFMETHOD_FUNC_DEFINE_INLINE_2(ZFUISizeParam, ZFUISizeParamMake,
+ZFMETHOD_FUNC_INLINE_DEFINE_2(ZFUISizeParam, ZFUISizeParamMake,
                               ZFMP_IN(ZFUISizeTypeEnum const &, width),
                               ZFMP_IN(ZFUISizeTypeEnum const &, height))
-ZFMETHOD_FUNC_DEFINE_INLINE_1(ZFUISizeParam, ZFUISizeParamMake,
+ZFMETHOD_FUNC_INLINE_DEFINE_1(ZFUISizeParam, ZFUISizeParamMake,
                               ZFMP_IN(ZFUISizeTypeEnum const &, v))
 
 ZFEXPORT_VAR_READONLY_DEFINE(ZFUISizeParam, ZFUISizeParamZero, ZFUISizeParamMake(ZFUISizeType::e_Wrap, ZFUISizeType::e_Wrap))

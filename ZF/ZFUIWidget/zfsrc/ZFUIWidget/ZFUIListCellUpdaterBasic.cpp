@@ -18,25 +18,25 @@ static ZFUIView *_ZFP_ZFUIListCellUpdaterBasic_setupSeparator(ZF_IN ZFUIListCell
         separatorViewHolder = separatorView;
         zfRelease(separatorView);
 
-        separatorView->layoutParamSet(zflineAlloc(ZFUIViewLayoutParam));
-        separatorView->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        separatorView->layoutParam(zflineAlloc(ZFUIViewLayoutParam));
+        separatorView->layoutParam()->sizeParam(ZFUISizeParamFillFill());
 
-        separatorView->viewUIEnableTreeSet(zffalse);
+        separatorView->viewUIEnableTree(zffalse);
     }
 
     updateParam.cell->internalFgViewAdd(separatorView);
-    separatorView->viewBackgroundColorSet(owner->separatorColor());
+    separatorView->viewBackgroundColor(owner->separatorColor());
     switch(updateParam.listOrientation)
     {
         case ZFUIOrientation::e_Left:
         case ZFUIOrientation::e_Right:
-            separatorView->layoutParam()->sizeHintSet(ZFUISizeMake(owner->separatorSize(), -1));
-            separatorView->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, owner->separatorMargin().top, 0, owner->separatorMargin().bottom));
+            separatorView->layoutParam()->sizeHint(ZFUISizeMake(owner->separatorSize(), -1));
+            separatorView->layoutParam()->layoutMargin(ZFUIMarginMake(0, owner->separatorMargin().top, 0, owner->separatorMargin().bottom));
             break;
         case ZFUIOrientation::e_Top:
         case ZFUIOrientation::e_Bottom:
-            separatorView->layoutParam()->sizeHintSet(ZFUISizeMake(-1, owner->separatorSize()));
-            separatorView->layoutParam()->layoutMarginSet(ZFUIMarginMake(owner->separatorMargin().left, 0, owner->separatorMargin().right, 0));
+            separatorView->layoutParam()->sizeHint(ZFUISizeMake(-1, owner->separatorSize()));
+            separatorView->layoutParam()->layoutMargin(ZFUIMarginMake(owner->separatorMargin().left, 0, owner->separatorMargin().right, 0));
             break;
         default:
             zfCoreCriticalShouldNotGoHere();
@@ -53,20 +53,20 @@ void ZFUIListCellUpdaterBasic::cellOnUpdate(ZF_IN const ZFUIListCellUpdaterParam
         if(this->separatorIncludingHead())
         {
             ZFUIView *separatorView = _ZFP_ZFUIListCellUpdaterBasic_setupSeparator(this, updateParam);
-            updateParam.cell->tagSet(_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head, separatorView);
+            updateParam.cell->objectTag(_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head, separatorView);
             switch(updateParam.listOrientation)
             {
                 case ZFUIOrientation::e_Left:
-                    separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
+                    separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
                     break;
                 case ZFUIOrientation::e_Right:
-                    separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_RightInner);
+                    separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_RightInner);
                     break;
                 case ZFUIOrientation::e_Top:
-                    separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
+                    separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner);
                     break;
                 case ZFUIOrientation::e_Bottom:
-                    separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_BottomInner);
+                    separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_BottomInner);
                     break;
                 default:
                     zfCoreCriticalShouldNotGoHere();
@@ -83,20 +83,20 @@ void ZFUIListCellUpdaterBasic::cellOnUpdate(ZF_IN const ZFUIListCellUpdaterParam
     }
 
     ZFUIView *separatorView = _ZFP_ZFUIListCellUpdaterBasic_setupSeparator(this, updateParam);
-    updateParam.cell->tagSet(_ZFP_ZFUIListCellUpdaterBasic_tag_separator, separatorView);
+    updateParam.cell->objectTag(_ZFP_ZFUIListCellUpdaterBasic_tag_separator, separatorView);
     switch(updateParam.listOrientation)
     {
         case ZFUIOrientation::e_Left:
-            separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_RightInner);
+            separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_RightInner);
             break;
         case ZFUIOrientation::e_Right:
-            separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
+            separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
             break;
         case ZFUIOrientation::e_Top:
-            separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_BottomInner);
+            separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_BottomInner);
             break;
         case ZFUIOrientation::e_Bottom:
-            separatorView->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
+            separatorView->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner);
             break;
         default:
             zfCoreCriticalShouldNotGoHere();
@@ -107,19 +107,19 @@ void ZFUIListCellUpdaterBasic::cellOnRecycle(ZF_IN ZFUIListCell *cell)
 {
     zfsuperI(ZFUIListCellUpdater)::cellOnRecycle(cell);
 
-    ZFObject *separatorHead = cell->tagGet(_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head);
+    ZFObject *separatorHead = cell->objectTag(_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head);
     if(separatorHead != zfnull)
     {
         this->itemCacheRecycle(_ZFP_ZFUIListCellUpdaterBasic_cacheKey_separator, separatorHead);
         cell->internalFgViewRemove(separatorHead->to<ZFUIView *>());
-        cell->tagRemove(_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head);
+        cell->objectTagRemove(_ZFP_ZFUIListCellUpdaterBasic_tag_separator_head);
     }
-    ZFObject *separatorTail = cell->tagGet(_ZFP_ZFUIListCellUpdaterBasic_tag_separator);
+    ZFObject *separatorTail = cell->objectTag(_ZFP_ZFUIListCellUpdaterBasic_tag_separator);
     if(separatorTail != zfnull)
     {
         this->itemCacheRecycle(_ZFP_ZFUIListCellUpdaterBasic_cacheKey_separator, separatorTail);
         cell->internalFgViewRemove(separatorTail->to<ZFUIView *>());
-        cell->tagRemove(_ZFP_ZFUIListCellUpdaterBasic_tag_separator);
+        cell->objectTagRemove(_ZFP_ZFUIListCellUpdaterBasic_tag_separator);
     }
 }
 

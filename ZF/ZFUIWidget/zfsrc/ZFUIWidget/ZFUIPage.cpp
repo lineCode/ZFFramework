@@ -60,10 +60,10 @@ void ZFUIPage::pageDelayDestroyOnCheck(void)
                 page->_ZFP_pageDelayDestroyNotifyFinish();
             })
         this->pageAni()->observerAdd(ZFObserverAddParam()
-                .eventIdSet(ZFAnimation::EventAniOnStop())
-                .observerSet(pageAniOnFinish)
-                .userDataSet(this->toObject()->objectHolder())
-                .autoRemoveAfterActivateSet(zftrue)
+                .eventId(ZFAnimation::EventAniOnStop())
+                .observer(pageAniOnFinish)
+                .userData(this->toObject()->objectHolder())
+                .autoRemoveAfterActivate(zftrue)
             );
         this->pageDelayDestroyEnable();
     }
@@ -79,7 +79,7 @@ void ZFUIPage::pageDelayDestroyNotifyFinish(void)
 
 // ============================================================
 // page ani
-ZFMETHOD_DEFINE_1(ZFUIPage, void, pageAniSet,
+ZFMETHOD_DEFINE_1(ZFUIPage, void, pageAni,
                   ZFMP_IN(ZFAnimation *, pageAni))
 {
     zfCoreAssertWithMessage(this->_ZFP_ZFUIPage_pageAniCanChange,
@@ -104,19 +104,19 @@ void ZFUIPage::pageAniOnUpdate(ZF_IN ZFUIPage *resumePageOrNull,
             {
                 if(pausePageOrNull != zfnull)
                 {
-                    pausePageOrNull->pageAniSet(pausePageOrNull->pageAniPauseToBackground());
+                    pausePageOrNull->pageAni(pausePageOrNull->pageAniPauseToBackground());
                 }
-                this->pageAniSet(this->pageAniResumeByRequest());
+                this->pageAni(this->pageAniResumeByRequest());
             }
             break;
         case ZFUIPageResumeReason::e_FromBackground:
             if(pausePageOrNull == this)
             {
                 this->pageAniPriorityNeedHigher = zftrue;
-                this->pageAniSet(this->pageAniPauseBeforeDestroy());
+                this->pageAni(this->pageAniPauseBeforeDestroy());
                 if(resumePageOrNull != zfnull)
                 {
-                    resumePageOrNull->pageAniSet(resumePageOrNull->pageAniResumeFromBackground());
+                    resumePageOrNull->pageAni(resumePageOrNull->pageAniResumeFromBackground());
                 }
             }
             break;

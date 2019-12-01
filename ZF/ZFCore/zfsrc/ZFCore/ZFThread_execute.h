@@ -30,7 +30,7 @@ ZFMETHOD_FUNC_DECLARE_5(zfidentity, ZFThreadExecuteInMainThread,
 /**
  * @brief util method for #ZFThreadExecuteInMainThread
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_4(zfidentity, ZFThreadExecuteInMainThreadWaitUntilDone,
+ZFMETHOD_FUNC_INLINE_DECLARE_4(zfidentity, ZFThreadExecuteInMainThreadWaitUntilDone,
                                ZFMP_IN(const ZFListener &, runnable),
                                ZFMP_IN_OPT(ZFObject *, userData, zfnull),
                                ZFMP_IN_OPT(const ZFListenerData &, listenerData, ZFListenerData()),

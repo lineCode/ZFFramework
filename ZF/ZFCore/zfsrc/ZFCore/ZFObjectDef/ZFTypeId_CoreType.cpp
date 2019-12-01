@@ -182,8 +182,8 @@ zfbool zfstringToData(ZF_OUT ZFSerializableData &serializableData,
         return zffalse;
     }
 
-    serializableData.itemClassSet(ZFTypeId_zfstring());
-    serializableData.propertyValueSet(v);
+    serializableData.itemClass(ZFTypeId_zfstring());
+    serializableData.propertyValue(v);
     return zftrue;
 }
 
@@ -351,7 +351,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
         serializableData.resolveMark();
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFTypeId_zfidentity());
+        serializableData.itemClass(ZFTypeId_zfidentity());
         zfstring s;
         if(!zfidentityToString(s, v))
         {
@@ -359,7 +359,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
                 "unable to convert value to string");
             return zffalse;
         }
-        serializableData.propertyValueSet(s.isEmpty() ? zfnull : s.cString());
+        serializableData.propertyValue(s.isEmpty() ? zfnull : s.cString());
         return zftrue;
     }, {
         if(src == zfnull
@@ -369,7 +369,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
             v = zfidentityInvalid();
             return zftrue;
         }
-        v = ZFIdMapGetId(srcLen == zfindexMax() || src[srcLen] == '\0' ? src : zfstring(src, srcLen).cString());
+        v = ZFIdMapIdForName(srcLen == zfindexMax() || src[srcLen] == '\0' ? src : zfstring(src, srcLen).cString());
         return (v != zfidentityInvalid());
     }, {
         if(v == zfidentityInvalid())
@@ -379,7 +379,7 @@ ZFTYPEID_DEFINE(zfidentity, zfidentity, {
         }
         else
         {
-            const zfchar *name = ZFIdMapGetName(v);
+            const zfchar *name = ZFIdMapNameForId(v);
             if(name == zfnull)
             {
                 return zffalse;
@@ -808,12 +808,12 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTokenForContainer, ZFTokenForContain
         v.tokenEtc = ZFSerializableUtil::checkAttribute(serializableData, ZFSerializableKeyword_ZFTokenForContainer_tokenEtc);
         return zftrue;
     }, {
-        if(!v.tokenLeft.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForContainer_tokenLeft, v.tokenLeft);}
-        if(!v.tokenRight.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForContainer_tokenRight, v.tokenRight);}
-        if(!v.tokenSeparator.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForContainer_tokenSeparator, v.tokenSeparator);}
-        if(!v.tokenValueLeft.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForContainer_tokenValueLeft, v.tokenValueLeft);}
-        if(!v.tokenValueRight.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForContainer_tokenValueRight, v.tokenValueRight);}
-        if(!v.tokenEtc.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForContainer_tokenEtc, v.tokenEtc);}
+        if(!v.tokenLeft.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForContainer_tokenLeft, v.tokenLeft);}
+        if(!v.tokenRight.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForContainer_tokenRight, v.tokenRight);}
+        if(!v.tokenSeparator.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForContainer_tokenSeparator, v.tokenSeparator);}
+        if(!v.tokenValueLeft.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForContainer_tokenValueLeft, v.tokenValueLeft);}
+        if(!v.tokenValueRight.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForContainer_tokenValueRight, v.tokenValueRight);}
+        if(!v.tokenEtc.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForContainer_tokenEtc, v.tokenEtc);}
         return zftrue;
     })
 
@@ -832,17 +832,17 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFTokenForKeyValueContainer, ZFTokenFo
         v.tokenEtc = ZFSerializableUtil::checkAttribute(serializableData, ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenEtc);
         return zftrue;
     }, {
-        if(!v.tokenLeft.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenLeft, v.tokenLeft);}
-        if(!v.tokenRight.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenRight, v.tokenRight);}
-        if(!v.tokenSeparator.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenSeparator, v.tokenSeparator);}
-        if(!v.tokenPairLeft.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairLeft, v.tokenPairLeft);}
-        if(!v.tokenPairRight.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairRight, v.tokenPairRight);}
-        if(!v.tokenPairSeparator.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairSeparator, v.tokenPairSeparator);}
-        if(!v.tokenKeyLeft.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyLeft, v.tokenKeyLeft);}
-        if(!v.tokenKeyRight.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyRight, v.tokenKeyRight);}
-        if(!v.tokenValueLeft.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueLeft, v.tokenValueLeft);}
-        if(!v.tokenValueRight.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueRight, v.tokenValueRight);}
-        if(!v.tokenEtc.isEmpty()) {serializableData.attributeSet(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenEtc, v.tokenEtc);}
+        if(!v.tokenLeft.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenLeft, v.tokenLeft);}
+        if(!v.tokenRight.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenRight, v.tokenRight);}
+        if(!v.tokenSeparator.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenSeparator, v.tokenSeparator);}
+        if(!v.tokenPairLeft.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairLeft, v.tokenPairLeft);}
+        if(!v.tokenPairRight.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairRight, v.tokenPairRight);}
+        if(!v.tokenPairSeparator.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenPairSeparator, v.tokenPairSeparator);}
+        if(!v.tokenKeyLeft.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyLeft, v.tokenKeyLeft);}
+        if(!v.tokenKeyRight.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenKeyRight, v.tokenKeyRight);}
+        if(!v.tokenValueLeft.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueLeft, v.tokenValueLeft);}
+        if(!v.tokenValueRight.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenValueRight, v.tokenValueRight);}
+        if(!v.tokenEtc.isEmpty()) {serializableData.attributeForName(ZFSerializableKeyword_ZFTokenForKeyValueContainer_tokenEtc, v.tokenEtc);}
         return zftrue;
     })
 

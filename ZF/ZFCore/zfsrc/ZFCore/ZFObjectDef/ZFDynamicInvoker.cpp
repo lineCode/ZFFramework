@@ -1,5 +1,5 @@
 #include "ZFDynamicInvoker.h"
-#include "ZFString.h"
+#include "ZFObjectImpl.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
@@ -7,7 +7,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 ZFOBJECT_REGISTER(ZFDI_WrapperBase)
 ZFOBJECT_REGISTER(ZFDI_Wrapper)
 ZFOBJECT_REGISTER(ZFDI_WrapperRaw)
-ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFDI_WrapperBase, void, zfvSet, ZFMP_IN(const zfchar *, zfv))
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_1(ZFDI_WrapperBase, void, zfv, ZFMP_IN(const zfchar *, zfv))
 ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFDI_WrapperBase, const zfchar *, zfv)
 
 // ============================================================
@@ -119,6 +119,15 @@ void ZFDI_paramInfo(ZF_IN_OUT zfstring &ret
 }
 
 // ============================================================
+static void _ZFP_ZFDI_paramCount(ZF_IN_OUT zfindex &paramCount,
+                                 ZF_IN_OUT zfautoObject (&paramList)[ZFMETHOD_MAX_PARAM])
+{
+    paramCount = 0;
+    while(paramCount < ZFMETHOD_MAX_PARAM && paramList[paramCount] != ZFMethodGenericInvokerDefaultParam())
+    {
+        ++paramCount;
+    }
+}
 zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
                    , ZF_OUT_OPT zfstring *errorHint
                    , ZF_IN_OPT ZFObject *obj
@@ -204,7 +213,7 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
         }
         else
         {
-            ZFMethodFuncGetAllT(methodList, NS, methodName);
+            ZFMethodForNameGetAllT(methodList, NS, methodName);
             if(methodList.isEmpty())
             {
                 const ZFClass *cls = ZFDI_classForName(NS, zfnull);
@@ -231,6 +240,11 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
             }
             return zffalse;
         }
+    }
+
+    if(paramCount == zfindexMax())
+    {
+        _ZFP_ZFDI_paramCount(paramCount, paramList);
     }
 
     // try to invoke each method
@@ -275,6 +289,10 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
             }
             if(method->methodGenericInvoker()(method, obj, errorHintTmp, ret, paramList))
             {
+                if(zfscmpTheSame(method->methodReturnTypeId(), ZFTypeId_void()))
+                {
+                    ret = obj;
+                }
                 return zftrue;
             }
         } while(zffalse);
@@ -327,6 +345,10 @@ zfbool ZFDI_invoke(ZF_OUT zfautoObject &ret
             }
             if(method->methodGenericInvoker()(method, obj, errorHintTmp, ret, paramListTmp))
             {
+                if(zfscmpTheSame(method->methodReturnTypeId(), ZFTypeId_void()))
+                {
+                    ret = obj;
+                }
                 return zftrue;
             }
         }
@@ -423,6 +445,11 @@ zfbool ZFDI_alloc(ZF_OUT zfautoObject &ret
             zfstringAppend(errorHint, "null class");
         }
         return zffalse;
+    }
+
+    if(paramCount == zfindexMax())
+    {
+        _ZFP_ZFDI_paramCount(paramCount, paramList);
     }
     if(paramCount == 0)
     {
@@ -612,7 +639,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
         }
     }
 
-    const ZFTypeInfo *typeIdData = ZFTypeInfoGet(typeId);
+    const ZFTypeInfo *typeIdData = ZFTypeInfoForName(typeId);
     if(typeIdData == zfnull || !typeIdData->typeIdWrapper(ret))
     {
         if(errorHint != zfnull)

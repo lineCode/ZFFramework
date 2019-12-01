@@ -31,8 +31,8 @@ public:
     {
         return zffalse;
     }
-    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
-                                      ZF_IN_OUT zfstring &fileName)
+    static zfbool callbackToFileName(ZF_IN const zfchar *pathData,
+                                     ZF_IN_OUT zfstring &fileName)
     {
         return zffalse;
     }
@@ -144,7 +144,7 @@ public:
 ZFPATHTYPE_FILEIO_REGISTER(base64, ZFPathType_base64()
         , _ZFP_ZFPathType_base64::callbackIsExist
         , _ZFP_ZFPathType_base64::callbackIsDir
-        , _ZFP_ZFPathType_base64::callbackGetFileName
+        , _ZFP_ZFPathType_base64::callbackToFileName
         , _ZFP_ZFPathType_base64::callbackToChild
         , _ZFP_ZFPathType_base64::callbackToParent
         , _ZFP_ZFPathType_base64::callbackPathCreate

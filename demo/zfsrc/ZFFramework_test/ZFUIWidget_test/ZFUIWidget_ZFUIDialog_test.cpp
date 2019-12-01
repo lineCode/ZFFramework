@@ -19,19 +19,19 @@ protected:
         ZFUIKit_test_prepareTestWindow(window, container, this);
 
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonCancel());
-        this->dialog()->dialogButtonCancelTextSet("cancel");
+        this->dialog()->dialogButtonCancelText("cancel");
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonYes());
-        this->dialog()->dialogButtonYesTextSet("confirm");
+        this->dialog()->dialogButtonYesText("confirm");
         ZFLISTENER_LOCAL(yesOnClick, {
-            zfLogT() << "onConfirm" << listenerData.sender;
+            zfLogT() << "onConfirm" << listenerData.sender();
         })
         this->dialog()->dialogButtonYes()->observerAdd(ZFUIButton::EventButtonOnClick(), yesOnClick);
-        this->dialog()->dialogTitleTextSet("i'm title");
-        this->dialog()->dialogContentTextSet("i'm content");
+        this->dialog()->dialogTitleText("i'm title");
+        this->dialog()->dialogContentText("i'm content");
 
         zfblockedAlloc(ZFUIKit_test_Button, showButton);
         container->childAdd(showButton);
-        showButton->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        showButton->layoutParam()->sizeParam(ZFUISizeParamFillFill());
         ZFLISTENER_LOCAL(showButtonOnClick, {
             userData->objectHolded<ZFUIDialog *>()->dialogShow();
         })
@@ -60,7 +60,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIWidget_ZFUIDialog_debug_LogEvent)
     ZFLISTENER_LOCAL(dialogBeforeShow, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << listenerData.sender
+            << listenerData.sender()
             << "BeforeShow";
     })
     this->dialogBeforeShowListener = dialogBeforeShow;
@@ -69,7 +69,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIWidget_ZFUIDialog_debug_LogEvent)
     ZFLISTENER_LOCAL(dialogAfterShow, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << listenerData.sender
+            << listenerData.sender()
             << "AfterShow";
     })
     this->dialogAfterShowListener = dialogAfterShow;
@@ -78,7 +78,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIWidget_ZFUIDialog_debug_LogEvent)
     ZFLISTENER_LOCAL(dialogBeforeHide, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << listenerData.sender
+            << listenerData.sender()
             << "BeforeHide";
     })
     this->dialogBeforeHideListener = dialogBeforeHide;
@@ -87,7 +87,7 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIWidget_ZFUIDialog_debug_LogEvent)
     ZFLISTENER_LOCAL(dialogAfterHide, {
         zfLogTrimT()
             << zfLogCurTimeString()
-            << listenerData.sender
+            << listenerData.sender()
             << "AfterHide";
     })
     this->dialogAfterHideListener = dialogAfterHide;

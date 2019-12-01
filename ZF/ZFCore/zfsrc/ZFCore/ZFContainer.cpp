@@ -13,7 +13,7 @@ zfbool ZFContainer::serializableOnCheck(void)
     if(!zfsuperI(ZFSerializable)::serializableOnCheck()) {return zffalse;}
     for(zfiterator it = this->iterator(); this->iteratorIsValid(it); )
     {
-        if(!ZFObjectIsSerializable(this->iteratorNext(it)))
+        if(!ZFObjectIsSerializable(this->iteratorNextValue(it)))
         {
             return zffalse;
         }
@@ -67,11 +67,11 @@ zfbool ZFContainer::serializableOnSerializeToData(ZF_IN_OUT ZFSerializableData &
         for(zfiterator it = this->iterator(); this->iteratorIsValid(it); )
         {
             ZFSerializableData elementData;
-            if(!ZFObjectToData(elementData, this->iteratorNext(it), outErrorHint))
+            if(!ZFObjectToData(elementData, this->iteratorNextValue(it), outErrorHint))
             {
                 return zffalse;
             }
-            elementData.categorySet(ZFSerializableKeyword_ZFContainer_element);
+            elementData.category(ZFSerializableKeyword_ZFContainer_element);
             serializableData.elementAdd(elementData);
         }
     }
@@ -99,13 +99,13 @@ zfbool ZFContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSerializabl
     {
         for(zfiterator it = this->iterator(); this->iteratorIsValid(it); )
         {
-            ZFObject *element = this->iteratorNext(it);
+            ZFObject *element = this->iteratorNextValue(it);
             ZFSerializableData elementData;
             if(!ZFObjectToData(elementData, element, outErrorHint))
             {
                 return zffalse;
             }
-            elementData.categorySet(ZFSerializableKeyword_ZFContainer_element);
+            elementData.category(ZFSerializableKeyword_ZFContainer_element);
             serializableData.elementAdd(elementData);
         }
         return zftrue;
@@ -116,7 +116,7 @@ zfbool ZFContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSerializabl
     tmp->addFrom(ref);
     for(zfiterator it = this->iterator(); this->iteratorIsValid(it); )
     {
-        ZFObject *element = this->iteratorNext(it);
+        ZFObject *element = this->iteratorNextValue(it);
         zfiterator itTmp = tmp->iteratorFind(element);
         if(ref->iteratorIsValid(itTmp))
         {
@@ -129,7 +129,7 @@ zfbool ZFContainer::serializableOnSerializeToDataWithRef(ZF_IN_OUT ZFSerializabl
         {
             return zffalse;
         }
-        elementData.categorySet(ZFSerializableKeyword_ZFContainer_element);
+        elementData.category(ZFSerializableKeyword_ZFContainer_element);
         serializableData.elementAdd(elementData);
     }
 
@@ -164,7 +164,7 @@ ZFMETHOD_DEFINE_3(ZFContainer, void, objectInfoOfContentT,
             ret += token.tokenSeparator;
         }
         ret += token.tokenValueLeft;
-        this->iteratorNext(it)->objectInfoT(ret);
+        this->iteratorNextValue(it)->objectInfoT(ret);
         ret += token.tokenValueRight;
     }
     if(count < this->count())
@@ -185,7 +185,7 @@ zfidentity ZFContainer::objectHash(void)
         zfiterator it = this->iterator();
         if(this->iteratorIsValid(it))
         {
-            first = this->iteratorGet(it);
+            first = this->iteratorValue(it);
         }
     }
     if(first != zfnull)
@@ -210,7 +210,7 @@ ZFCompareResult ZFContainer::objectCompare(ZF_IN ZFObject *anotherObj)
     }
     for(zfiterator it = this->iterator(), itRef = another->iterator(); this->iteratorIsValid(it);)
     {
-        if(ZFObjectCompare(this->iteratorNext(it), another->iteratorNext(itRef)) != ZFCompareTheSame)
+        if(ZFObjectCompare(this->iteratorNextValue(it), another->iteratorNextValue(itRef)) != ZFCompareTheSame)
         {
             return ZFCompareUncomparable;
         }

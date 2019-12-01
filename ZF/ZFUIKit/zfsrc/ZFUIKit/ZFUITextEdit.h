@@ -184,8 +184,8 @@ public:
     {
         zfblockedAlloc(ZFUITextView, textPlaceHolder);
         propertyValue = textPlaceHolder;
-        textPlaceHolder->textColorSet(ZFUIGlobalStyle::DefaultStyle()->textColorHint());
-        textPlaceHolder->textSizeSet(ZFUIGlobalStyle::DefaultStyle()->textSizeSmall());
+        textPlaceHolder->textColor(ZFUIGlobalStyle::DefaultStyle()->textColorHint());
+        textPlaceHolder->textSize(ZFUIGlobalStyle::DefaultStyle()->textSizeSmall());
     }
 
     /**
@@ -283,13 +283,13 @@ public:
             return ;
         }
 
-        this->textSet(src->text());
-        this->textAppearanceSet(src->textAppearance());
-        this->textAlignSet(src->textAlign());
-        this->textColorSet(src->textColor());
-        this->textShadowColorSet(src->textShadowColor());
-        this->textShadowOffsetSet(src->textShadowOffset());
-        this->textSizeSet(src->textSize());
+        this->text(src->text());
+        this->textAppearance(src->textAppearance());
+        this->textAlign(src->textAlign());
+        this->textColor(src->textColor());
+        this->textShadowColor(src->textShadowColor());
+        this->textShadowOffset(src->textShadowOffset());
+        this->textSize(src->textSize());
     }
     /**
      * @brief see #ZFUITextEdit
@@ -302,13 +302,13 @@ public:
             return ;
         }
 
-        dst->textSet(this->text());
-        dst->textAppearanceSet(this->textAppearance());
-        dst->textAlignSet(this->textAlign());
-        dst->textColorSet(this->textColor());
-        dst->textShadowColorSet(this->textShadowColor());
-        dst->textShadowOffsetSet(this->textShadowOffset());
-        dst->textSizeSet(this->textSize());
+        dst->text(this->text());
+        dst->textAppearance(this->textAppearance());
+        dst->textAlign(this->textAlign());
+        dst->textColor(this->textColor());
+        dst->textShadowColor(this->textShadowColor());
+        dst->textShadowOffset(this->textShadowOffset());
+        dst->textSize(this->textSize());
     }
 
 protected:

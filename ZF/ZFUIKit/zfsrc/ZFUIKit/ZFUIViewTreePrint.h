@@ -32,7 +32,7 @@ ZFMETHOD_FUNC_DECLARE_3(void, ZFUIViewTreePrintDelayed,
                         ZFMP_IN_OPT(const ZFOutput &, outputCallback, ZFOutputDefault()))
 
 /**
- * @brief info getter for #ZFUIViewTreePrint, see #ZFUIViewTreePrintInfoGetterSet
+ * @brief info getter for #ZFUIViewTreePrint, see #ZFUIViewTreePrintInfoGetterForClass
  */
 typedef void (*ZFUIViewTreePrintInfoGetter)(ZF_IN ZFUIView *view,
                                             ZF_IN_OUT const ZFOutput &outputCallback);
@@ -48,12 +48,12 @@ typedef void (*ZFUIViewTreePrintInfoGetter)(ZF_IN ZFUIView *view,
  * child class's one would have higher priority,
  * without parent's one being called
  */
-extern ZF_ENV_EXPORT void ZFUIViewTreePrintInfoGetterSet(ZF_IN const ZFClass *viewClass,
+extern ZF_ENV_EXPORT void ZFUIViewTreePrintInfoGetterForClass(ZF_IN const ZFClass *viewClass,
                                                          ZF_IN ZFUIViewTreePrintInfoGetter viewInfoGetter);
 /**
- * @brief see #ZFUIViewTreePrintInfoGetterSet
+ * @brief see #ZFUIViewTreePrintInfoGetterForClass
  */
-extern ZF_ENV_EXPORT ZFUIViewTreePrintInfoGetter ZFUIViewTreePrintInfoGetterGet(ZF_IN const ZFClass *viewClass);
+extern ZF_ENV_EXPORT ZFUIViewTreePrintInfoGetter ZFUIViewTreePrintInfoGetterForClass(ZF_IN const ZFClass *viewClass);
 
 ZF_NAMESPACE_GLOBAL_END
 #endif // #ifndef _ZFI_ZFUIViewTreePrint_h_

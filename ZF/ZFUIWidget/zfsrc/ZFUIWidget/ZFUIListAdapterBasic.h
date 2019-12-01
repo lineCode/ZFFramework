@@ -30,25 +30,25 @@ public:
  * this class is designed for script file to implement list adapter dynamically,
  * typical usage in lua:
  * @code
- *   listView:listAdapterSetAutoRetain(ZFUIListAdapterBasic());
+ *   listView:listAdapterAutoRetain(ZFUIListAdapterBasic());
  *
  *   -- required
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellCount(), function(listenerData, userData)
- *       listenerData:param0():zfvSet(yourListCellCount());
+ *       listenerData:param0():zfv(yourListCellCount());
  *   end);
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellAtIndex(), function(listenerData, userData)
  *       local param = listenerData:param0();
- *       param:cellSet(yourListCellAtIndex(param:cellIndex()));
+ *       param:cell(yourListCellAtIndex(param:cellIndex()));
  *   end);
  *
  *   -- optional
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellSizeAtIndex(), function(listenerData, userData)
  *       local param = listenerData:param0();
- *       param:cellSizeSet(yourListCellSizeAtIndex(param:cellIndex(), param:cell()));
+ *       param:cellSize(yourListCellSizeAtIndex(param:cellIndex(), param:cell()));
  *   end);
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellCacheOnAccess(), function(listenerData, userData)
  *       local param = listenerData:param0();
- *       param:cellSet(yourListCellCacheAtIndex(param:cellIndex()));
+ *       param:cell(yourListCellCacheAtIndex(param:cellIndex()));
  *   end);
  *   listView:listAdapter():observerAdd(ZFUIListAdapterBasic.EventListCellCacheOnRecycle(), function(listenerData, userData)
  *       local cell = listenerData:param0();
@@ -105,7 +105,7 @@ public:
     virtual zfautoObject cellAtIndex(ZF_IN zfindex index)
     {
         zfblockedAlloc(ZFUIListAdapterBasicParam, param);
-        param->cellIndexSet(index);
+        param->cellIndex(index);
         this->observerNotify(zfself::EventListCellAtIndex(), param);
         return param->cell();
     }
@@ -116,8 +116,8 @@ public:
         if(this->observerHasAdd(zfself::EventListCellSizeAtIndex()))
         {
             zfblockedAlloc(ZFUIListAdapterBasicParam, param);
-            param->cellIndexSet(index);
-            param->cellSet(cell);
+            param->cellIndex(index);
+            param->cell(cell);
             this->observerNotify(zfself::EventListCellSizeAtIndex(), param);
             return param->cellSize();
         }
@@ -134,7 +134,7 @@ protected:
         if(this->observerHasAdd(zfself::EventListCellCacheOnAccess()))
         {
             zfblockedAlloc(ZFUIListAdapterBasicParam, param);
-            param->cellIndexSet(index);
+            param->cellIndex(index);
             this->observerNotify(zfself::EventListCellCacheOnAccess(), param);
             return param->cell();
         }

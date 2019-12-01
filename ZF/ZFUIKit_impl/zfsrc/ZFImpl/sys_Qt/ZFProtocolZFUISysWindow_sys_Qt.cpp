@@ -36,7 +36,7 @@ class _ZFP_ZFUISysWindowImpl_sys_Qt_EventWrapper : public QObject
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *event)
     {
-        ZFUISysWindow *owner = ZFImpl_sys_Qt_QObjectTagGetZFObject<ZFObjectHolder *>(obj, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow")->objectHolded();
+        ZFUISysWindow *owner = ZFImpl_sys_Qt_QObjectZFObjectTag<ZFObjectHolder *>(obj, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow")->objectHolded();
         if(owner == zfnull)
         {
             return QObject::eventFilter(obj, event);
@@ -49,7 +49,7 @@ protected:
             case QEvent::WindowDeactivate:
                 ZFPROTOCOL_ACCESS(ZFUISysWindow)->notifyOnPause(owner);
                 #if ZF_ENV_DEBUG && 0
-                    zfLogTrimT() << ZFImpl_sys_Qt_ZFUIKit_impl_QWidgetGetViewTree(ZFImpl_sys_Qt_rootWindow());
+                    zfLogTrimT() << ZFImpl_sys_Qt_ZFUIKit_impl_viewTreePrint(ZFImpl_sys_Qt_rootWindow());
                 #endif
                 break;
             default:
@@ -87,7 +87,7 @@ public:
         {
             this->_mainWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
             QWidget *nativeWindow = ZFImpl_sys_Qt_rootWindow();
-            ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", this->_mainWindow->objectHolder());
+            ZFImpl_sys_Qt_QObjectZFObjectTag(nativeWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", this->_mainWindow->objectHolder());
             nativeWindow->installEventFilter(&_eventWrapper);
 
             this->notifyOnCreate(this->_mainWindow, nativeWindow);
@@ -108,7 +108,7 @@ public:
             zfblockedRelease(this->_mainWindow);
             QWidget *nativeWindow = ZFImpl_sys_Qt_rootWindow();
             nativeWindow->removeEventFilter(&_eventWrapper);
-            ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", zfnull);
+            ZFImpl_sys_Qt_QObjectZFObjectTag(nativeWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", zfnull);
 
             this->notifyOnDestroy(this->_mainWindow);
         }
@@ -146,7 +146,7 @@ public:
     {
         zfautoObject modalWindow = zfRetain(ZFUISysWindow::ClassData()->newInstance().to<ZFUISysWindow *>());
         ZFImpl_sys_Qt_Window *nativeModalWindow = new ZFImpl_sys_Qt_Window();
-        ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", modalWindow->objectHolder());
+        ZFImpl_sys_Qt_QObjectZFObjectTag(nativeModalWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", modalWindow->objectHolder());
         nativeModalWindow->installEventFilter(&_eventWrapper);
         this->notifyOnCreate(modalWindow, nativeModalWindow);
 
@@ -162,15 +162,15 @@ public:
         nativeModalWindow->hide();
         nativeModalWindow->removeEventFilter(&_eventWrapper);
         this->notifyOnDestroy(sysWindowToFinish);
-        ZFImpl_sys_Qt_QObjectTagSetZFObject(nativeModalWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", zfnull);
+        ZFImpl_sys_Qt_QObjectZFObjectTag(nativeModalWindow, "_ZFP_ZFUISysWindowImpl_sys_Qt_ownerZFUISysWindow", zfnull);
         delete nativeModalWindow;
     }
 
     virtual void sysWindowLayoutParamOnInit(ZF_IN ZFUISysWindow *sysWindow)
     {
         // centered by default
-        sysWindow->sysWindowLayoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        sysWindow->sysWindowLayoutParam()->sizeHintSet(ZFUISizeMake(480, 640));
+        sysWindow->sysWindowLayoutParam()->layoutAlign(ZFUIAlign::e_Center);
+        sysWindow->sysWindowLayoutParam()->sizeHint(ZFUISizeMake(480, 640));
     }
     virtual void sysWindowLayoutParamOnChange(ZF_IN ZFUISysWindow *sysWindow)
     {
@@ -182,8 +182,8 @@ public:
         // Qt don't support rotate
         return ZFUIOrientation::e_Top;
     }
-    virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                              ZF_IN const ZFUIOrientationFlags &flags)
+    virtual void sysWindowOrientationFlags(ZF_IN ZFUISysWindow *sysWindow,
+                                           ZF_IN const ZFUIOrientationFlags &flags)
     {
         // Qt don't support rotate
     }

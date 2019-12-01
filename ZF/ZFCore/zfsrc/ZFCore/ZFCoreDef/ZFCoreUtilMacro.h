@@ -514,7 +514,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * once declared, you can access your param by the generated getter and setter
  * @code
  *   YourType v;
- *   v.paramNameSet(someValue);
+ *   v.paramName(someValue);
  *   YourParamType paramValue = v.paramName();
  * @endcode
  */
@@ -559,7 +559,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         /** @endcond */ \
     public: \
         /** @brief see @ref paramName */ \
-        inline _ZFP_ZFCoreParam_self &paramName##Set(ZF_IN T_ParamType const &value) \
+        inline _ZFP_ZFCoreParam_self &paramName(ZF_IN T_ParamType const &value) \
         { \
             this->_ZFP_##paramName.value = value; \
             return *this; \

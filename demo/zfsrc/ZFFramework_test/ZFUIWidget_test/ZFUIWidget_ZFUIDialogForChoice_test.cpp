@@ -19,9 +19,9 @@ protected:
         ZFUIKit_test_prepareTestWindow(window, container, this);
 
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonCancel());
-        this->dialog()->dialogButtonCancelTextSet("cancel");
+        this->dialog()->dialogButtonCancelText("cancel");
         this->dialog()->dialogApplyAutoHide(this->dialog()->dialogButtonYes());
-        this->dialog()->dialogButtonYesTextSet("confirm");
+        this->dialog()->dialogButtonYesText("confirm");
         ZFLISTENER_LOCAL(choiceOnConfirm, {
             ZFUIDialogForChoice *dialog = userData->objectHolded();
             zfLogT() << "onConfirm" << dialog->choiceSelectedNameList();
@@ -32,7 +32,7 @@ protected:
         })
         this->dialog()->observerAdd(ZFUIDialogForChoice::EventChoiceOnConfirm(), choiceOnConfirm, this->dialog()->objectHolder());
         this->dialog()->observerAdd(ZFUIDialogForChoice::EventChoiceOnChange(), choiceOnChange, this->dialog()->objectHolder());
-        this->dialog()->dialogTitleTextSet("i'm title");
+        this->dialog()->dialogTitleText("i'm title");
 
         this->dialog()->choiceAdd("id 0", "choice 0");
         this->dialog()->choiceAdd("id 1", "choice 1");
@@ -40,7 +40,7 @@ protected:
 
         zfblockedAlloc(ZFUIKit_test_Button, showButton);
         container->childAdd(showButton);
-        showButton->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+        showButton->layoutParam()->sizeParam(ZFUISizeParamFillFill());
         ZFLISTENER_LOCAL(showButtonOnClick, {
             userData->objectHolded<ZFUIDialogForChoice *>()->dialogShow();
         })

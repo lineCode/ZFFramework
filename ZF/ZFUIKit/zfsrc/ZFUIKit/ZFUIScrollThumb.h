@@ -98,7 +98,7 @@ private:
  *
  * set to null to use default
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFUIScrollThumbHorizontalClassSet,
+ZFMETHOD_FUNC_DECLARE_1(void, ZFUIScrollThumbHorizontalClass,
                         ZFMP_IN(const ZFClass *, cls))
 /**
  * @brief get the class of default scroll thumb
@@ -109,7 +109,7 @@ ZFMETHOD_FUNC_DECLARE_0(const ZFClass *, ZFUIScrollThumbHorizontalClass)
  *
  * set to null to use default
  */
-ZFMETHOD_FUNC_DECLARE_1(void, ZFUIScrollThumbVerticalClassSet,
+ZFMETHOD_FUNC_DECLARE_1(void, ZFUIScrollThumbVerticalClass,
                         ZFMP_IN(const ZFClass *, cls))
 /**
  * @brief get the class of default scroll thumb

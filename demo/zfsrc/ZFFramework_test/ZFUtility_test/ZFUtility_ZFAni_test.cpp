@@ -52,7 +52,7 @@ protected:
         zfblockedAlloc(_ZFP_ZFUtility_ZFAni_test_Object, target);
         zfautoObject aniHolder = ZFAni(target, "testProp", "-100", "200");
         ZFAnimation *ani = aniHolder;
-        ani->aniDurationSet(2000);
+        ani->aniDuration(2000);
 
         ZFLISTENER_LOCAL(aniOnStop, {
                 userData->objectHolded<ZFTestCase *>()->testCaseStop();
@@ -60,7 +60,7 @@ protected:
         ani->observerAdd(ZFAnimation::EventAniOnStop(), aniOnStop, this->objectHolder());
 
         ZFLISTENER_LOCAL(aniOnDealloc, {
-                zfLogTrimT() << "[ZFAni_test] aniOnDealloc" << listenerData.sender->objectHash();
+                zfLogTrimT() << "[ZFAni_test] aniOnDealloc" << listenerData.sender()->objectHash();
             })
         ani->observerAdd(ZFObject::EventObjectBeforeDealloc(), aniOnDealloc);
 

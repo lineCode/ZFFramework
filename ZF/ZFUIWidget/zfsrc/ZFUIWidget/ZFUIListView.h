@@ -82,7 +82,7 @@ public:
     /**
      * @brief list adapter
      *
-     * no auto retain by default, use #listAdapterSetAutoRetain if necessary\n
+     * no auto retain by default, use #listAdapterAutoRetain if necessary\n
      * by default, the list adapter won't be serialized during the list view's serialization,
      * you can enable it by #listAdapterSerializable
      */
@@ -95,7 +95,7 @@ public:
      * by default, list adapter won't be retained by this list view to prevent recursive retain,
      * you may use this method to retain it automatically
      */
-    ZFMETHOD_DECLARE_1(void, listAdapterSetAutoRetain,
+    ZFMETHOD_DECLARE_1(void, listAdapterAutoRetain,
                        ZFMP_IN(ZFUIListAdapter *, listAdapter))
 
     /**

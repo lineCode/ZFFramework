@@ -30,7 +30,7 @@ private:
     static zfautoObject _ZFP_managerContainerInit(void)
     {
         zfblockedAlloc(ZFUILinearLayout, ret);
-        ret->layoutOrientationSet(ZFUIOrientation::e_Top);
+        ret->layoutOrientation(ZFUIOrientation::e_Top);
         return ret;
     }
 public:
@@ -69,7 +69,7 @@ protected:
     virtual void managerUIBlockedOnChange(void)
     {
         zfsuperI(ZFUIPageManager)::managerUIBlockedOnChange();
-        this->managerContainer()->viewUIEnableTreeSet(!this->managerUIBlocked());
+        this->managerContainer()->viewUIEnableTree(!this->managerUIBlocked());
     }
     zfoverride
     virtual void pageOnAttach(ZF_IN ZFUIPage *page,

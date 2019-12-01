@@ -18,7 +18,7 @@ static ZFToken _ZFP_ZFFilePathInfoOpenForRes(ZF_IN const zfchar *filePath,
 ZFPATHTYPE_FILEIO_REGISTER(res, ZFPathType_res()
         , ZFFileResIsExist
         , ZFFileResIsDir
-        , ZFFilePathInfoCallbackGetFileNameDefault
+        , ZFFilePathInfoCallbackToFileNameDefault
         , ZFFilePathInfoCallbackToChildDefault
         , ZFFilePathInfoCallbackToParentDefault
         , ZFFilePathInfoCallbackPathCreateDefault
@@ -40,7 +40,7 @@ ZFPATHTYPE_FILEIO_REGISTER(res, ZFPathType_res()
 
 // ============================================================
 // ZFInputForResFile
-ZFMETHOD_FUNC_DEFINE_INLINE_1(ZFInput, ZFInputForResFile,
+ZFMETHOD_FUNC_INLINE_DEFINE_1(ZFInput, ZFInputForResFile,
                               ZFMP_IN(const zfchar *, resFilePath))
 
 ZF_NAMESPACE_GLOBAL_END

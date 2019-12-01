@@ -38,29 +38,29 @@ public:
 
         zfblockedAlloc(ZFAnimationNativeView, ani);
         aniList->add(ani);
-        ani->aniTargetSet(view);
+        ani->aniTarget(view);
 
-        ani->aniDurationSet(setting->aniDuration());
-        ani->aniCurveSet(setting->aniCurve());
+        ani->aniDuration(setting->aniDuration());
+        ani->aniCurve(setting->aniCurve());
 
         if(zfmAbs(viewFrame.size.width - viewFramePrev.size.width) > aniTolerance * 2 && viewFrame.size.width > 0)
         {
-            ani->aniScaleXFromSet((zffloat)viewFramePrev.size.width / viewFrame.size.width);
+            ani->aniScaleXFrom((zffloat)viewFramePrev.size.width / viewFrame.size.width);
         }
         if(zfmAbs(viewFrame.size.height - viewFramePrev.size.height) > aniTolerance * 2 && viewFrame.size.height > 0)
         {
-            ani->aniScaleYFromSet((zffloat)viewFramePrev.size.height / viewFrame.size.height);
+            ani->aniScaleYFrom((zffloat)viewFramePrev.size.height / viewFrame.size.height);
         }
 
         ZFUIPoint from = ZFUIRectGetCenter(viewFramePrev);
         ZFUIPoint to = ZFUIRectGetCenter(viewFrame);
         if(zfmAbs(from.x - to.x) > aniTolerance)
         {
-            ani->aniTranslatePixelXFromSet((zfint)((from.x - to.x) / ani->aniScaleXFrom()));
+            ani->aniTranslatePixelXFrom((zfint)((from.x - to.x) / ani->aniScaleXFrom()));
         }
         if(zfmAbs(from.y - to.y) > aniTolerance)
         {
-            ani->aniTranslatePixelYFromSet((zfint)((from.y - to.y) / ani->aniScaleYFrom()));
+            ani->aniTranslatePixelYFrom((zfint)((from.y - to.y) / ani->aniScaleYFrom()));
         }
     }
 };

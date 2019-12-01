@@ -387,7 +387,7 @@ public:
 public:
     /* ZFMETHOD_MAX_PARAM */
     /**
-     * @brief util method to perform #ZFMethodGenericInvoker,
+     * @brief util method to perform #ZFDI_invoke,
      *   do nothing if fail
      */
     virtual zfautoObject invoke(ZF_IN const zfchar *methodName
@@ -402,48 +402,64 @@ public:
                                 , ZF_OUT_OPT zfbool *success = zfnull
                                 , ZF_OUT_OPT zfstring *errorHint = zfnull
                                 );
+    /**
+     * @brief util method to perform #ZFDI_invoke,
+     *   do nothing if fail
+     */
+    virtual zfautoObject invoke(ZF_IN const zfchar *methodName
+                                , ZF_IN const zfchar *param0
+                                , ZF_IN_OPT const zfchar *param1 = zfnull
+                                , ZF_IN_OPT const zfchar *param2 = zfnull
+                                , ZF_IN_OPT const zfchar *param3 = zfnull
+                                , ZF_IN_OPT const zfchar *param4 = zfnull
+                                , ZF_IN_OPT const zfchar *param5 = zfnull
+                                , ZF_IN_OPT const zfchar *param6 = zfnull
+                                , ZF_IN_OPT const zfchar *param7 = zfnull
+                                , ZF_OUT_OPT zfbool *success = zfnull
+                                , ZF_OUT_OPT zfstring *errorHint = zfnull
+                                );
 
 public:
     /**
-     * @brief see #tagSet, true if this object has tag,
-     *   and tag can be checked by #tagGetAllKeyValue
+     * @brief see #objectTag, true if this object has tag,
+     *   and tag can be checked by #objectTagGetAllKeyValue
      */
-    zffinal zfbool tagHasSet(void);
+    zffinal zfbool objectTagExist(void);
     /**
      * @brief used to hold a object for app's use, auto retained
      *
      * replace if existing, remove if tag is null
      */
-    zffinal void tagSet(ZF_IN const zfchar *key,
-                        ZF_IN ZFObject *tag);
+    zffinal void objectTag(ZF_IN const zfchar *key,
+                           ZF_IN ZFObject *tag);
     /**
-     * @brief see #tagSet
+     * @brief see #objectTag
      */
-    zffinal ZFObject *tagGet(ZF_IN const zfchar *key);
+    zffinal ZFObject *objectTag(ZF_IN const zfchar *key);
     /**
-     * @brief see #tagSet
+     * @brief see #objectTag
      */
     template<typename T_ZFObject>
-    T_ZFObject tagGet(ZF_IN const zfchar *key)
+    T_ZFObject objectTag(ZF_IN const zfchar *key)
     {
-        return ZFCastZFObjectUnchecked(T_ZFObject, this->tagGet(key));
+        return ZFCastZFObjectUnchecked(T_ZFObject, this->objectTag(key));
     }
     /**
      * @brief get all key value
      */
-    zffinal void tagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
-                                   ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue);
+    zffinal void objectTagGetAllKeyValue(ZF_IN_OUT ZFCoreArray<const zfchar *> &allKey,
+                                         ZF_IN_OUT ZFCoreArray<ZFObject *> &allValue);
     /**
      * @brief remove tag, same as set tag to null
      */
-    zffinal inline void tagRemove(ZF_IN const zfchar *key)
+    zffinal inline void objectTagRemove(ZF_IN const zfchar *key)
     {
-        this->tagSet(key, zfnull);
+        this->objectTag(key, zfnull);
     }
     /**
      * @brief remove tag, return removed tag or #zfautoObjectNull if not exist
      */
-    zffinal zfautoObject tagRemoveAndGet(ZF_IN const zfchar *key);
+    zffinal zfautoObject objectTagRemoveAndGet(ZF_IN const zfchar *key);
     /**
      * @brief remove all tag
      *
@@ -453,7 +469,7 @@ public:
      *   typically, you should remove exactly the one you have added
      * @note this method would be called during #EventObjectBeforeDealloc and #objectOnDeallocPrepare
      */
-    zffinal void tagRemoveAll(void);
+    zffinal void objectTagRemoveAll(void);
 
 public:
     /**
@@ -593,10 +609,10 @@ public:
      *   ZFObject *userData = ...;
      *   // store param as tag
      *   // make sure the tag name is unique and would be removed properly
-     *   userData->tagSet(paramToPass, uniqueTagName);
+     *   userData->objectTag(paramToPass, uniqueTagName);
      *   ZFListener yourStandaloneListener = SOME_CREATE_LOGIC {
      *       // here you can used the passed param
-     *       ZFObject *paramPassed = userData->tagGet(uniqueTagName);
+     *       ZFObject *paramPassed = userData->objectTag(uniqueTagName);
      *   };
      *   someEventSender->observerAdd(someEvent, yourStandaloneListener, userData);
      * @endcode
@@ -649,7 +665,7 @@ public:
     ZFObject *_ZFP_ZFObjectCheckOnInit(void);
     void _ZFP_ZFObjectCheckRelease(void);
 
-public:
+protected:
     /**
      * @brief override this to init your object
      *
@@ -714,7 +730,6 @@ public:
      *   @endcode
      */
     virtual void objectOnInit(void);
-protected:
     /**
      * @brief called after #objectOnInit, safe to call virtual functions here
      *

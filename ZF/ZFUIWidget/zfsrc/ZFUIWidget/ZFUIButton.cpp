@@ -40,7 +40,7 @@ static inline _ZFP_ZFUIButtonMouseData _ZFP_ZFUIButtonMouseDataFromEvent(ZF_IN Z
 }
 #define _ZFP_ZFUIButtonMouseDataToEvent(event, mouseData) \
     zfblockedAllocWithCache(ZFUIMouseEvent, event); \
-    event->eventResolvedSet(zffalse); \
+    event->eventResolved(zffalse); \
     event->mouseId = mouseData.mouseId; \
     event->mouseAction = mouseData.mouseAction; \
     event->mousePoint = mouseData.mousePoint; \
@@ -60,7 +60,7 @@ public:
     zftimet buttonLastClickTimestamp;
 
 public:
-    void buttonEnableSet(ZF_IN zfbool buttonEnable)
+    void buttonEnable(ZF_IN zfbool buttonEnable)
     {
         if(this->buttonEnableCache == buttonEnable)
         {
@@ -202,7 +202,7 @@ public:
                 zfCoreCriticalShouldNotGoHere();
                 return ;
         }
-        mouseEvent->eventResolvedSet(zftrue);
+        mouseEvent->eventResolved(zftrue);
         _ZFP_ZFUIButton_DEBUG_LOG(" end  %s", ZFObjectInfo(mouseEvent).cString())
     }
 
@@ -279,7 +279,7 @@ private:
                     this->pimplOwner->buttonMouseOnUpInside(mouseEvent);
                     if(this->pimplOwner->buttonCheckable())
                     {
-                        this->pimplOwner->buttonCheckedSet(!this->pimplOwner->buttonChecked());
+                        this->pimplOwner->buttonChecked(!this->pimplOwner->buttonChecked());
                     }
                     else
                     {
@@ -385,13 +385,13 @@ ZFOBSERVER_EVENT_REGISTER(ZFUIButton, ButtonMouseOnUp)
 
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIButton, zfbool, buttonEnable)
 {
-    d->buttonEnableSet(this->buttonEnable());
+    d->buttonEnable(this->buttonEnable());
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIButton, zfbool, buttonCheckable)
 {
     if(!this->buttonCheckable() && this->buttonChecked())
     {
-        this->buttonCheckedSet(zffalse);
+        this->buttonChecked(zffalse);
     }
 }
 ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIButton, zfbool, buttonChecked)
@@ -491,7 +491,7 @@ void ZFUIButton::viewEventOnKeyEvent(ZF_IN ZFUIKeyEvent *keyEvent)
                     zfCoreCriticalShouldNotGoHere();
                     break;
             }
-            keyEvent->eventResolvedSet(zftrue);
+            keyEvent->eventResolved(zftrue);
             break;
         default:
             break;

@@ -18,8 +18,8 @@ protected:
 
         zfblockedAlloc(ZFUITextView, view);
         container->childAdd(view);
-        view->textSet("test text");
-        view->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
+        view->text("test text");
+        view->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
 
         this->prepareSettingButton(window);
     }
@@ -33,17 +33,17 @@ private:
             zfblockedAlloc(ZFUIKit_test_SettingData, setting);
             settings->add(setting);
             ZFLISTENER_LOCAL(buttonTextGetter, {
-                v_zfstring *text = listenerData.param0->to<v_zfstring *>();
+                v_zfstring *text = listenerData.param0<v_zfstring *>();
                 text->zfv = zfstringWithFormat(
                     "scale: %d",
                     (zfint)ZFUISysWindow::mainWindow()->rootView()->scaleForApp());
             })
-            setting->buttonTextGetterSet(buttonTextGetter);
+            setting->buttonTextGetter(buttonTextGetter);
             ZFLISTENER_LOCAL(buttonClickListener, {
                 ZFUIRootView *rootView = ZFUISysWindow::mainWindow()->rootView();
-                rootView->scaleForAppSet(((zfint)(rootView->scaleForApp()) % 2) + 1);
+                rootView->scaleForApp(((zfint)(rootView->scaleForApp()) % 2) + 1);
             })
-            setting->buttonClickListenerSet(buttonClickListener);
+            setting->buttonClickListener(buttonClickListener);
         }
 
         ZFUIKit_test_prepareSettingButtonWithTestWindow(window, settings);

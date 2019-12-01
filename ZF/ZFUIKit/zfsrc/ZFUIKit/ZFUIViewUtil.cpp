@@ -70,8 +70,7 @@ ZFMETHOD_FUNC_DEFINE_5(ZFUIView *, viewChildAt,
         }
     }
 
-    ZFUIPoint layoutChildOffset = ZFUIPointZero();
-    view->layoutChildOffset(layoutChildOffset);
+    ZFUIPoint layoutChildOffset = view->layoutChildOffset();
     childList = view->childArray();
     for(zfindex i = childList.count() - 1; i != zfindexMax(); --i)
     {
@@ -125,11 +124,10 @@ ZFMETHOD_FUNC_DEFINE_3(void, viewRectToParent,
         return ;
     }
     rect = view->viewFrame();
-    ZFUIPoint layoutChildOffset = ZFUIPointZero();
     while(view->viewParent() != zfnull && view != parent)
     {
         view = view->viewParent();
-        view->layoutChildOffset(layoutChildOffset);
+        ZFUIPoint layoutChildOffset = view->layoutChildOffset();
         rect.point.x += layoutChildOffset.x;
         rect.point.y += layoutChildOffset.y;
     }

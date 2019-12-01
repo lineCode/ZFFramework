@@ -58,16 +58,16 @@ ZFMETHOD_FUNC_DECLARE_2(void, ZFUIViewBlink,
 /**
  * @brief blink view so that it's easy to be noticed
  */
-ZFMETHOD_FUNC_DECLARE_INLINE_4(void, ZFUIViewBlink,
+ZFMETHOD_FUNC_INLINE_DECLARE_4(void, ZFUIViewBlink,
                                ZFMP_IN(ZFUIView *, view),
                                ZFMP_IN(ZFUIImage *, blinkImage),
                                ZFMP_IN_OPT(zftimet, blinkDuration, zftimetZero()),
                                ZFMP_IN_OPT(zfindex, blinkCount, 1))
 {
     ZFUIViewBlink(view, ZFUIViewBlinkParam()
-            .blinkImageSet(blinkImage)
-            .blinkDurationSet(blinkDuration)
-            .blinkCountSet(blinkCount)
+            .blinkImage(blinkImage)
+            .blinkDuration(blinkDuration)
+            .blinkCount(blinkCount)
         );
 }
 

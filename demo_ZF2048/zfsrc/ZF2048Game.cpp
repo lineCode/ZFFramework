@@ -44,7 +44,7 @@ public:
         ZF2048Game *owner = userData->objectHolded();
         owner->d->aniStop();
 
-        ZFUIOrientation *direction = listenerData.param0->toAny();
+        ZFUIOrientation *direction = listenerData.param0()->toAny();
         switch(direction->enumValue<ZFUIOrientationEnum>())
         {
             case ZFUIOrientation::e_Left:
@@ -119,7 +119,7 @@ public:
                     zfautoObject aniHolder = this->aniForBlockAppear();
                     ZFAnimation *ani = aniHolder;
                     this->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
-                    ani->aniTargetSet(block);
+                    ani->aniTarget(block);
                 }
             }
         }
@@ -141,13 +141,13 @@ public:
             zfautoObject aniHolder = this->aniForBlockMoveTo(action.from, action.to);
             ZFAnimation *ani = aniHolder;
             this->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
-            ani->aniTargetSet(this->gameUI->blockAtIndex(action.from.x, action.from.y));
+            ani->aniTarget(this->gameUI->blockAtIndex(action.from.x, action.from.y));
         }
         ZFLISTENER_LOCAL(moveAniOnStop, {
             ZF2048Game *game = userData->objectHolded();
             game->d->aniStop();
             game->d->gameUI->update(game->d->gameCore->data(), game->d->gameCore->dataWidth(), game->d->gameCore->dataHeight());
-            if(listenerData.sender->to<ZFAnimation *>()->aniStoppedByUser())
+            if(listenerData.sender<ZFAnimation *>()->aniStoppedByUser())
             {
                 return ;
             }
@@ -164,7 +164,7 @@ public:
                     zfautoObject aniHolder = game->d->aniForBlockAppear();
                     ZFAnimation *ani = aniHolder;
                     game->d->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
-                    ani->aniTargetSet(game->d->gameUI->blockAtIndex(action.from.x, action.from.y));
+                    ani->aniTarget(game->d->gameUI->blockAtIndex(action.from.x, action.from.y));
                     continue;
                 }
 
@@ -175,7 +175,7 @@ public:
                     zfautoObject aniHolder = game->d->aniForBlockMerge();
                     ZFAnimation *ani = aniHolder;
                     game->d->animating->childAniAdd(ani, zfHint("childAutoCopyTarget")zffalse);
-                    ani->aniTargetSet(game->d->gameUI->blockAtIndex(action.to.x, action.to.y));
+                    ani->aniTarget(game->d->gameUI->blockAtIndex(action.to.x, action.to.y));
                 }
                 else
                 {
@@ -185,28 +185,28 @@ public:
             game->d->animating->aniStart();
         })
         this->animating->observerAdd(ZFObserverAddParam()
-                                     .eventIdSet(ZFAnimation::EventAniOnStopOrOnInvalid())
-                                     .observerSet(moveAniOnStop)
-                                     .userDataSet(this->owner->objectHolder())
-                                     .autoRemoveAfterActivateSet(zftrue));
+                                     .eventId(ZFAnimation::EventAniOnStopOrOnInvalid())
+                                     .observer(moveAniOnStop)
+                                     .userData(this->owner->objectHolder())
+                                     .autoRemoveAfterActivate(zftrue));
         this->animating->aniStart();
     }
     zfautoObject aniForBlockAppear(void)
     {
         zfblockedAlloc(ZFAnimationNativeView, ani);
-        ani->aniDurationSet(_ZFP_ZF2048GamePrivateAniDuration);
-        ani->aniScaleXFromSet(0);
-        ani->aniScaleYFromSet(0);
-        ani->aniAlphaFromSet(0);
+        ani->aniDuration(_ZFP_ZF2048GamePrivateAniDuration);
+        ani->aniScaleXFrom(0);
+        ani->aniScaleYFrom(0);
+        ani->aniAlphaFrom(0);
         return ani;
     }
     zfautoObject aniForBlockDisappear(void)
     {
         zfblockedAlloc(ZFAnimationNativeView, ani);
-        ani->aniDurationSet(_ZFP_ZF2048GamePrivateAniDuration);
-        ani->aniScaleXToSet(0);
-        ani->aniScaleYToSet(0);
-        ani->aniAlphaToSet(0);
+        ani->aniDuration(_ZFP_ZF2048GamePrivateAniDuration);
+        ani->aniScaleXTo(0);
+        ani->aniScaleYTo(0);
+        ani->aniAlphaTo(0);
         return ani;
     }
     zfautoObject aniForBlockMerge(void)
@@ -215,17 +215,17 @@ public:
 
         zfblockedAlloc(ZFAnimationNativeView, aniFlashUp);
         ani->childAniAdd(aniFlashUp);
-        aniFlashUp->aniDurationSet(_ZFP_ZF2048GamePrivateAniDuration);
-        aniFlashUp->aniScaleXToSet(1.2f);
-        aniFlashUp->aniScaleYToSet(1.2f);
-        aniFlashUp->aniDurationSet((zftimet)(aniFlashUp->aniDuration() / 2));
+        aniFlashUp->aniDuration(_ZFP_ZF2048GamePrivateAniDuration);
+        aniFlashUp->aniScaleXTo(1.2f);
+        aniFlashUp->aniScaleYTo(1.2f);
+        aniFlashUp->aniDuration((zftimet)(aniFlashUp->aniDuration() / 2));
 
         zfblockedAlloc(ZFAnimationNativeView, aniFlashDown);
         ani->childAniAdd(aniFlashDown);
-        aniFlashDown->aniDurationSet(_ZFP_ZF2048GamePrivateAniDuration);
-        aniFlashDown->aniScaleXFromSet(1.2f);
-        aniFlashDown->aniScaleYFromSet(1.2f);
-        aniFlashDown->aniDurationSet((zftimet)(aniFlashDown->aniDuration() / 2));
+        aniFlashDown->aniDuration(_ZFP_ZF2048GamePrivateAniDuration);
+        aniFlashDown->aniScaleXFrom(1.2f);
+        aniFlashDown->aniScaleYFrom(1.2f);
+        aniFlashDown->aniDuration((zftimet)(aniFlashDown->aniDuration() / 2));
 
         return ani;
     }
@@ -234,9 +234,9 @@ public:
         ZFUIRect rectFrom = this->gameUI->blockRectAtIndex(posFrom.x, posFrom.y);
         ZFUIRect rectTo = this->gameUI->blockRectAtIndex(posTo.x, posTo.y);
         zfblockedAlloc(ZFAnimationNativeView, ani);
-        ani->aniDurationSet(_ZFP_ZF2048GamePrivateAniDuration);
-        ani->aniTranslatePixelXToSet(rectTo.point.x - rectFrom.point.x);
-        ani->aniTranslatePixelYToSet(rectTo.point.y - rectFrom.point.y);
+        ani->aniDuration(_ZFP_ZF2048GamePrivateAniDuration);
+        ani->aniTranslatePixelXTo(rectTo.point.x - rectFrom.point.x);
+        ani->aniTranslatePixelYTo(rectTo.point.y - rectFrom.point.y);
         return ani;
     }
     zfautoObject aniForBlockMoveFrom(ZF_IN const ZF2048Point &posFrom, ZF_IN const ZF2048Point &posTo)
@@ -244,9 +244,9 @@ public:
         ZFUIRect rectFrom = this->gameUI->blockRectAtIndex(posFrom.x, posFrom.y);
         ZFUIRect rectTo = this->gameUI->blockRectAtIndex(posTo.x, posTo.y);
         zfblockedAlloc(ZFAnimationNativeView, ani);
-        ani->aniDurationSet(_ZFP_ZF2048GamePrivateAniDuration);
-        ani->aniTranslatePixelXFromSet(rectFrom.point.x - rectTo.point.x);
-        ani->aniTranslatePixelYFromSet(rectFrom.point.y - rectTo.point.y);
+        ani->aniDuration(_ZFP_ZF2048GamePrivateAniDuration);
+        ani->aniTranslatePixelXFrom(rectFrom.point.x - rectTo.point.x);
+        ani->aniTranslatePixelYFrom(rectFrom.point.y - rectTo.point.y);
         return ani;
     }
 };
@@ -342,7 +342,7 @@ void ZF2048Game::objectOnInit(void)
 
     d->gameUI = zfAlloc(ZF2048UIFrame);
     this->childAdd(d->gameUI);
-    d->gameUI->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
+    d->gameUI->layoutParam()->sizeParam(ZFUISizeParamFillFill());
     d->gameUI->observerAdd(ZF2048UIFrame::EventFrameOnMove(), d->gameOnMoveListener, this->objectHolder());
 }
 void ZF2048Game::objectOnInitFinish(void)

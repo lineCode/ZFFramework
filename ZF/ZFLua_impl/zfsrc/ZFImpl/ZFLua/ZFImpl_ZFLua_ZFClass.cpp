@@ -5,7 +5,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFImpl_ZFLua_ZFClass_classOnChange)
 {
-    const ZFClassDataChangeData *data = listenerData.param0->to<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
+    const ZFClassDataChangeData *data = listenerData.param0<ZFPointerHolder *>()->holdedDataPointer<const ZFClassDataChangeData *>();
     if(data->changedClass != zfnull && data->changeType == ZFClassDataChangeTypeAttach
         && data->changedClass->classNamespace() == zfnull)
     {

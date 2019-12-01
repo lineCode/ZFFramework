@@ -56,7 +56,7 @@ public:
         ZFUIAutoLayout *parent = ZFCastZFObject(ZFUIAutoLayout *, this->child->viewParent());
         for(zfindex i = 0; i < this->ruleAttached.count(); ++i)
         {
-            parent->ruleSet(this->child, this->ruleAttached[i]->pos(), *(this->ruleAttached[i]));
+            parent->rule(this->child, this->ruleAttached[i]->pos(), *(this->ruleAttached[i]));
             this->ruleAttached[i]->pos() = ZFUIAutoLayoutPos::e_None;
         }
         this->ruleAttached.removeAll();
@@ -195,13 +195,13 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::width(ZF_IN zfint size)
     ZFUIViewLayoutParam *layoutParam = d->child->layoutParam();
     if(size < 0)
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(-1, layoutParam->sizeHint().height));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Wrap, layoutParam->sizeParam().height));
+        layoutParam->sizeHint(ZFUISizeMake(-1, layoutParam->sizeHint().height));
+        layoutParam->sizeParam(ZFUISizeParamMake(ZFUISizeType::e_Wrap, layoutParam->sizeParam().height));
     }
     else
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(size, layoutParam->sizeHint().height));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Fill, layoutParam->sizeParam().height));
+        layoutParam->sizeHint(ZFUISizeMake(size, layoutParam->sizeHint().height));
+        layoutParam->sizeParam(ZFUISizeParamMake(ZFUISizeType::e_Fill, layoutParam->sizeParam().height));
     }
     return *this;
 }
@@ -211,13 +211,13 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::height(ZF_IN zfint size)
     ZFUIViewLayoutParam *layoutParam = d->child->layoutParam();
     if(size < 0)
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().width, -1));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Wrap));
+        layoutParam->sizeHint(ZFUISizeMake(layoutParam->sizeHint().width, -1));
+        layoutParam->sizeParam(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Wrap));
     }
     else
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().height, size));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Fill));
+        layoutParam->sizeHint(ZFUISizeMake(layoutParam->sizeHint().height, size));
+        layoutParam->sizeParam(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Fill));
     }
     return *this;
 }
@@ -231,23 +231,23 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::size(ZF_IN zfint width, ZF_IN zfint he
     ZFUIViewLayoutParam *layoutParam = d->child->layoutParam();
     if(width < 0)
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(-1, layoutParam->sizeHint().height));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Wrap, layoutParam->sizeParam().height));
+        layoutParam->sizeHint(ZFUISizeMake(-1, layoutParam->sizeHint().height));
+        layoutParam->sizeParam(ZFUISizeParamMake(ZFUISizeType::e_Wrap, layoutParam->sizeParam().height));
     }
     else
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(width, layoutParam->sizeHint().height));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(ZFUISizeType::e_Fill, layoutParam->sizeParam().height));
+        layoutParam->sizeHint(ZFUISizeMake(width, layoutParam->sizeHint().height));
+        layoutParam->sizeParam(ZFUISizeParamMake(ZFUISizeType::e_Fill, layoutParam->sizeParam().height));
     }
     if(height < 0)
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().width, -1));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Wrap));
+        layoutParam->sizeHint(ZFUISizeMake(layoutParam->sizeHint().width, -1));
+        layoutParam->sizeParam(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Wrap));
     }
     else
     {
-        layoutParam->sizeHintSet(ZFUISizeMake(layoutParam->sizeHint().height, height));
-        layoutParam->sizeParamSet(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Fill));
+        layoutParam->sizeHint(ZFUISizeMake(layoutParam->sizeHint().height, height));
+        layoutParam->sizeParam(ZFUISizeParamMake(layoutParam->sizeParam().height, ZFUISizeType::e_Fill));
     }
     return *this;
 }
@@ -382,13 +382,13 @@ ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::offset(ZF_IN zfint offset)
 ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::biasX(ZF_IN zffloat biasX)
 {
     d->requireChild();
-    d->child->layoutParam<ZFUIAutoLayoutParam *>()->biasXSet(biasX);
+    d->child->layoutParam<ZFUIAutoLayoutParam *>()->biasX(biasX);
     return *this;
 }
 ZFUIAutoLayoutMaker &ZFUIAutoLayoutMaker::biasY(ZF_IN zffloat biasY)
 {
     d->requireChild();
-    d->child->layoutParam<ZFUIAutoLayoutParam *>()->biasYSet(biasY);
+    d->child->layoutParam<ZFUIAutoLayoutParam *>()->biasY(biasY);
     return *this;
 }
 
@@ -409,16 +409,14 @@ ZFMETHOD_FUNC_DEFINE_2(ZFUIAutoLayoutMaker, zfal_maker, ZFMP_IN(ZFUIView *, chil
 }
 
 // ============================================================
-ZFMETHOD_USER_REGISTER_1({
+ZFOBJECT_ON_INIT_USER_REGISTER_1({
         invokerObject->to<v_ZFUIAutoLayoutMaker *>()->zfv.zfal_maker(child);
-    }, v_ZFUIAutoLayoutMaker,
-    void, objectOnInit
+    }, v_ZFUIAutoLayoutMaker
     , ZFMP_IN(ZFUIView *, child)
     )
-ZFMETHOD_USER_REGISTER_2({
+ZFOBJECT_ON_INIT_USER_REGISTER_2({
         invokerObject->to<v_ZFUIAutoLayoutMaker *>()->zfv.zfal_maker(child, parent);
-    }, v_ZFUIAutoLayoutMaker,
-    void, objectOnInit
+    }, v_ZFUIAutoLayoutMaker
     , ZFMP_IN(ZFUIView *, child)
     , ZFMP_IN(ZFUIAutoLayout *, parent)
     )

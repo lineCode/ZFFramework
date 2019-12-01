@@ -27,11 +27,11 @@ void _ZFP_ZFCoreLogOutputCallbackDefault(ZF_IN const zfchar *s)
     fprintf(stderr, "%s", s);
 }
 
-void zfCoreLogOutputCallbackSet(ZF_IN_OPT ZFCoreLogOutputCallbackType callback /* = ZFCoreLogOutputCallbackDefault */)
+void zfCoreLogOutputCallback(ZF_IN_OPT ZFCoreLogOutputCallbackType callback)
 {
     _ZFP_ZFCoreLogOutputCallback = callback;
 }
-ZFCoreLogOutputCallbackType zfCoreLogOutputCallbackGet(void)
+ZFCoreLogOutputCallbackType zfCoreLogOutputCallback(void)
 {
     return _ZFP_ZFCoreLogOutputCallback;
 }
@@ -58,7 +58,7 @@ void _ZFP_zfCoreLogV(ZF_IN const ZFCallerInfo &callerInfo,
 
     zfstring s;
 
-    if(callerInfo.callerInfoAT(s))
+    if(callerInfo.callerInfoT(s))
     {
         s += ' ';
     }

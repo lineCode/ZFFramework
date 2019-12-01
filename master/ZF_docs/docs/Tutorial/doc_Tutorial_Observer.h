@@ -24,9 +24,9 @@
  *   static ZFLISTENER_PROTOTYPE_EXPAND(testListener)
  *   {
  *       zfLogT()
- *           << listenerData.sender // should be MyObject
- *           << listenerData.param0 // should be myParam0 passed from observerNotify
- *           << listenerData.param1 // should be myParam1 passed from observerNotify
+ *           << listenerData.sender() // should be MyObject
+ *           << listenerData.param0() // should be myParam0 passed from observerNotify
+ *           << listenerData.param1() // should be myParam1 passed from observerNotify
  *           << userData // should be the userData passed from observerAdd
  *           ;
  *   }

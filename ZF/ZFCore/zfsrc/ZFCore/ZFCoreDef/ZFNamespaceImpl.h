@@ -81,7 +81,7 @@ extern ZF_ENV_EXPORT const zfchar *ZFNamespaceSkipGlobal(ZF_IN const zfchar *ns)
  * if success, ret ensured to have at least one element even if the namespace is empty,
  * at this case, the only one element would be #ZFIndexRangeZero
  */
-extern ZF_ENV_EXPORT zfbool ZFNamespaceSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &ret,
+extern ZF_ENV_EXPORT zfbool ZFNamespaceSplit(ZF_IN_OUT ZFCoreArray<ZFIndexRange> &ret,
                                              ZF_IN const zfchar *src,
                                              ZF_IN_OPT zfindex srcLen = zfindexMax());
 
@@ -89,7 +89,7 @@ extern ZF_ENV_EXPORT zfbool ZFNamespaceSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &r
 /**
  * @brief get all namespace
  */
-extern ZF_ENV_EXPORT void ZFNamespaceGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret);
+extern ZF_ENV_EXPORT void ZFNamespaceGetAllT(ZF_IN_OUT ZFCoreArray<const zfchar *> &ret);
 /** @brief see #ZFNamespaceGetAllT */
 inline ZFCoreArrayPOD<const zfchar *> ZFNamespaceGetAll(void)
 {
@@ -99,7 +99,7 @@ inline ZFCoreArrayPOD<const zfchar *> ZFNamespaceGetAll(void)
 }
 
 /** @brief see #ZFNamespaceGetAllT */
-extern ZF_ENV_EXPORT void ZFNamespaceGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret,
+extern ZF_ENV_EXPORT void ZFNamespaceGetAllT(ZF_IN_OUT ZFCoreArray<const zfchar *> &ret,
                                              ZF_IN const zfchar *parent,
                                              ZF_IN_OPT zfbool recursive = zffalse);
 /** @brief see #ZFNamespaceGetAllT */

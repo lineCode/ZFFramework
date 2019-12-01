@@ -23,7 +23,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  * you may supply this method to override:
  * -  static zfautoObject serializableNewInstance(void);
  *
- * the method should be supplied as #ZFMethod, and is recommended to register it statically by #ZFMETHOD_REGISTER\n
+ * the method should be supplied as #ZFMethod\n
  * the method should return a newly created object, or retain your existing singleton instance\n
  * typically this method is used to achieve some singleton logic
  */
@@ -197,7 +197,7 @@ public:
     /** @brief see #ZFSerializable::editModeData */
     virtual const zfchar *editModeWrappedClassName(void);
     /** @brief see #ZFSerializable::editModeData */
-    virtual void editModeWrappedClassNameSet(ZF_IN const zfchar *value);
+    virtual void editModeWrappedClassName(ZF_IN const zfchar *value);
     /** @brief see #ZFSerializable::editModeData */
     virtual ZFCoreArray<ZFSerializableData> &editModeWrappedElementDatas(void);
 
@@ -254,7 +254,7 @@ private:
     zffinal _ZFP_I_ZFSerializablePropertyTypeHolder *_ZFP_ZFSerializable_getPropertyTypeHolder(void);
 public:
     /** @brief see #serializableGetAllSerializableProperty */
-    zffinal void serializableGetAllSerializablePropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret);
+    zffinal void serializableGetAllSerializablePropertyT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret);
     /**
      * @brief get all serializable property, usually for debug only, see #serializableOnCheckPropertyType
      */
@@ -265,7 +265,7 @@ public:
         return ret;
     }
     /** @brief see #serializableGetAllSerializableEmbededProperty */
-    zffinal void serializableGetAllSerializableEmbededPropertyT(ZF_OUT ZFCoreArray<const ZFProperty *> &ret);
+    zffinal void serializableGetAllSerializableEmbededPropertyT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret);
     /**
      * @brief get all serializable embeded property, usually for debug only, see #serializableOnCheckPropertyType
      */
@@ -415,12 +415,12 @@ public:
     /**
      * @brief get info as a serializable
      */
-    virtual void serializableGetInfoT(ZF_IN_OUT zfstring &ret);
-    /** @brief see #serializableGetInfoT */
-    virtual inline zfstring serializableGetInfo(void)
+    virtual void serializableInfoT(ZF_IN_OUT zfstring &ret);
+    /** @brief see #serializableInfoT */
+    virtual inline zfstring serializableInfo(void)
     {
         zfstring ret;
-        this->serializableGetInfoT(ret);
+        this->serializableInfoT(ret);
         return ret;
     }
 

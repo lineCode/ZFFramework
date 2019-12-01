@@ -102,7 +102,7 @@ public:
      * this is not necessary to be set during animation's running
      * (although most animation subclass need a target)
      */
-    ZFMETHOD_DECLARE_1(void, aniTargetSet,
+    ZFMETHOD_DECLARE_1(void, aniTarget,
                        ZFMP_IN(ZFObject *, aniTarget))
     /**
      * @brief animation's target

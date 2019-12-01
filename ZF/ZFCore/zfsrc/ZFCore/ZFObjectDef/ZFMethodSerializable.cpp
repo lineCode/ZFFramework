@@ -56,38 +56,16 @@ const ZFMethod *ZFMethodFromSig(ZF_IN const zfchar *classOrNamespace,
                                 , ZF_IN_OPT const zfchar *methodParamTypeId7 /* = zfnull */
                                 )
 {
-    const ZFClass *cls = zfnull;
-    if(classOrNamespace != zfnull && *classOrNamespace != '\0')
-    {
-        cls = ZFClass::classForName(classOrNamespace);
-    }
-
-    if(cls == zfnull)
-    {
-        return ZFMethodFuncGet(classOrNamespace, methodName
-                , methodParamTypeId0
-                , methodParamTypeId1
-                , methodParamTypeId2
-                , methodParamTypeId3
-                , methodParamTypeId4
-                , methodParamTypeId5
-                , methodParamTypeId6
-                , methodParamTypeId7
-            );
-    }
-    else
-    {
-        return cls->methodForName(methodName
-                , methodParamTypeId0
-                , methodParamTypeId1
-                , methodParamTypeId2
-                , methodParamTypeId3
-                , methodParamTypeId4
-                , methodParamTypeId5
-                , methodParamTypeId6
-                , methodParamTypeId7
-            );
-    }
+    return ZFMethodForName(classOrNamespace, methodName
+            , methodParamTypeId0
+            , methodParamTypeId1
+            , methodParamTypeId2
+            , methodParamTypeId3
+            , methodParamTypeId4
+            , methodParamTypeId5
+            , methodParamTypeId6
+            , methodParamTypeId7
+        );
 }
 const ZFMethod *ZFMethodFromSig(ZF_IN const zfchar *methodSig,
                                 ZF_IN const ZFCoreArray<ZFIndexRange> &methodSigPos)
@@ -100,55 +78,26 @@ const ZFMethod *ZFMethodFromSig(ZF_IN const zfchar *methodSig,
     zfstring classOrNamespace(methodSig, methodSigPos[0].start, methodSigPos[0].count);
     zfstring methodName(methodSig, methodSigPos[1].start, methodSigPos[1].count);
 
-    const ZFClass *cls = zfnull;
-    if(methodSigPos[0].count > 0)
-    {
-        cls = ZFClass::classForName(classOrNamespace);
-    }
-
     if(methodSigPos[2].count == 0)
     {
-        if(cls == zfnull)
-        {
-            return ZFMethodFuncGet(classOrNamespace, methodName);
-        }
-        else
-        {
-            return cls->methodForName(methodName);
-        }
+        return ZFMethodForName(classOrNamespace, methodName);
     }
     else
     {
-        if(cls == zfnull)
-        {
-            return ZFMethodFuncGet(classOrNamespace, methodName
-                    , zfstring(methodSig, methodSigPos[2].start, methodSigPos[2].count)
-                    , zfstring(methodSig, methodSigPos[3].start, methodSigPos[3].count)
-                    , zfstring(methodSig, methodSigPos[4].start, methodSigPos[4].count)
-                    , zfstring(methodSig, methodSigPos[5].start, methodSigPos[5].count)
-                    , zfstring(methodSig, methodSigPos[6].start, methodSigPos[6].count)
-                    , zfstring(methodSig, methodSigPos[7].start, methodSigPos[7].count)
-                    , zfstring(methodSig, methodSigPos[8].start, methodSigPos[8].count)
-                    , zfstring(methodSig, methodSigPos[9].start, methodSigPos[9].count)
-                );
-        }
-        else
-        {
-            return cls->methodForName(methodName
-                    , zfstring(methodSig, methodSigPos[2].start, methodSigPos[2].count)
-                    , zfstring(methodSig, methodSigPos[3].start, methodSigPos[3].count)
-                    , zfstring(methodSig, methodSigPos[4].start, methodSigPos[4].count)
-                    , zfstring(methodSig, methodSigPos[5].start, methodSigPos[5].count)
-                    , zfstring(methodSig, methodSigPos[6].start, methodSigPos[6].count)
-                    , zfstring(methodSig, methodSigPos[7].start, methodSigPos[7].count)
-                    , zfstring(methodSig, methodSigPos[8].start, methodSigPos[8].count)
-                    , zfstring(methodSig, methodSigPos[9].start, methodSigPos[9].count)
-                );
-        }
+        return ZFMethodForName(classOrNamespace, methodName
+                , zfstring(methodSig, methodSigPos[2].start, methodSigPos[2].count)
+                , zfstring(methodSig, methodSigPos[3].start, methodSigPos[3].count)
+                , zfstring(methodSig, methodSigPos[4].start, methodSigPos[4].count)
+                , zfstring(methodSig, methodSigPos[5].start, methodSigPos[5].count)
+                , zfstring(methodSig, methodSigPos[6].start, methodSigPos[6].count)
+                , zfstring(methodSig, methodSigPos[7].start, methodSigPos[7].count)
+                , zfstring(methodSig, methodSigPos[8].start, methodSigPos[8].count)
+                , zfstring(methodSig, methodSigPos[9].start, methodSigPos[9].count)
+            );
     }
 }
 
-zfbool ZFMethodSigSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &ret,
+zfbool ZFMethodSigSplit(ZF_IN_OUT ZFCoreArray<ZFIndexRange> &ret,
                         ZF_IN const zfchar *src,
                         ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
 {
@@ -209,7 +158,7 @@ ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_8(const ZFMethod *, ZFMethodFromSig, ZFMP_I
     /* ZFMETHOD_MAX_PARAM , ZFMP_IN_OPT(const zfchar *, methodParamTypeId7, zfnull) */
     )
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFMethod *, ZFMethodFromSig, ZFMP_IN(const zfchar *, methodSig), ZFMP_IN(const ZFCoreArray<ZFIndexRange> &, methodSigPos))
-ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFMethodSigSplit, ZFMP_OUT(ZFCoreArray<ZFIndexRange> &, ret), ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
+ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_3(zfbool, ZFMethodSigSplit, ZFMP_IN_OUT(ZFCoreArray<ZFIndexRange> &, ret), ZFMP_IN(const zfchar *, src), ZFMP_IN_OPT(zfindex, srcLen, zfindexMax()))
 
 ZF_NAMESPACE_GLOBAL_END
 #endif

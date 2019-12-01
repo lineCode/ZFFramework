@@ -70,11 +70,11 @@ zfindex ZFFilterForZFClass::filterCount(void) const
 {
     return this->_ZFP_ZFFilterForZFClass_filters.count();
 }
-const ZFClass *ZFFilterForZFClass::filterGet(ZF_IN zfindex index) const
+const ZFClass *ZFFilterForZFClass::filterElementAtIndex(ZF_IN zfindex index) const
 {
     return this->_ZFP_ZFFilterForZFClass_filters.get(index).filterClass;
 }
-ZFFilterForZFClassType ZFFilterForZFClass::filterGetFilterType(ZF_IN zfindex index) const
+ZFFilterForZFClassType ZFFilterForZFClass::filterTypeAtIndex(ZF_IN zfindex index) const
 {
     return this->_ZFP_ZFFilterForZFClass_filters.get(index).filterType;
 }
@@ -201,8 +201,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFFilterForZFClass, void, filterRemo
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFClass, void, filterRemoveAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFClass, void, filterRemoveAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFFilterForZFClass, zfindex, filterCount)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFClass, const ZFClass *, filterGet, ZFMP_IN(zfindex, index))
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFClass, ZFFilterForZFClassType, filterGetFilterType, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFClass, const ZFClass *, filterElementAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFClass, ZFFilterForZFClassType, filterTypeAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFFilterForZFClass, zfbool, filterCheckActive, ZFMP_IN(const ZFClass * const &, e))
 
 ZF_NAMESPACE_GLOBAL_END

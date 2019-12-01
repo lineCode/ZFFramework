@@ -34,7 +34,7 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFEnum,
     zfuint ret = ZFEnumInvalid();
     do
     {
-        const ZFMethod *method = ZFMethodFuncGet(rawEnumNamespaceT, rawEnumValueNameT);
+        const ZFMethod *method = ZFMethodForName(rawEnumNamespaceT, rawEnumValueNameT);
         if(method == zfnull) {break;}
         ret = method->execute<zfuint>(zfnull);
     } while(zffalse);

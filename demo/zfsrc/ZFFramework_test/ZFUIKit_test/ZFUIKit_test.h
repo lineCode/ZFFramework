@@ -23,11 +23,11 @@ zfclass ZFUIKit_test_Button : zfextends ZFUIButtonBasic
 
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleNormal)
     {
-        propertyValue.to<ZFUIImageView *>()->viewBackgroundColorSet(ZFUIColorGreen());
+        propertyValue.to<ZFUIImageView *>()->viewBackgroundColor(ZFUIColorGreen());
     }
     ZFPROPERTY_OVERRIDE_ON_INIT_INLINE(ZFUIImageView *, buttonBackgroundStyleHighlighted)
     {
-        propertyValue.to<ZFUIImageView *>()->viewBackgroundColorSet(ZFUIColorBlue());
+        propertyValue.to<ZFUIImageView *>()->viewBackgroundColor(ZFUIColorBlue());
     }
 };
 
@@ -40,7 +40,7 @@ protected:
     virtual void objectOnInit(void)
     {
         zfsuper::objectOnInit();
-        this->scrollBounceVerticalAlwaysSet(zftrue);
+        this->scrollBounceVerticalAlways(zftrue);
     }
 
     zfoverride
@@ -48,8 +48,8 @@ protected:
     {
         zfsuper::layoutParamOnUpdate(layoutParam);
 
-        layoutParam->sizeParamSet(ZFUISizeParamFillWrap());
-        layoutParam->layoutAlignSet(ZFUIAlign::e_TopInner);
+        layoutParam->sizeParam(ZFUISizeParamFillWrap());
+        layoutParam->layoutAlign(ZFUIAlign::e_TopInner);
     }
     zfoverride
     virtual void layoutOnLayoutPrepare(ZF_IN const ZFUIRect &bounds)
@@ -67,13 +67,13 @@ protected:
 
             ZFUIView *child = this->childAtIndex(i);
             child->layoutMeasure(childMeasureSizeHint, childMeasureSizeParam);
-            child->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, contentHeight, 0, 0));
+            child->layoutParam()->layoutMargin(ZFUIMarginMake(0, contentHeight, 0, 0));
 
             contentHeight += child->layoutMeasuredSize().height;
         }
         contentHeight += space;
 
-        this->scrollContentFrameSetWhileAnimating(ZFUIRectMake(
+        this->scrollContentFrameUpdate(ZFUIRectMake(
             this->scrollContentFrame().point.x, this->scrollContentFrame().point.y,
             this->scrollArea().size.width, contentHeight));
     }
@@ -110,9 +110,9 @@ protected:
                               ZF_IN_OPT ZFObject *userData = zfnull)
     {
         this->objectOnInit();
-        this->buttonTextGetterSet(buttonTextGetter);
-        this->buttonClickListenerSet(buttonClickListener);
-        this->userDataSet(userData);
+        this->buttonTextGetter(buttonTextGetter);
+        this->buttonClickListener(buttonClickListener);
+        this->userData(userData);
     }
     zfoverride
     virtual void objectOnInit(void)

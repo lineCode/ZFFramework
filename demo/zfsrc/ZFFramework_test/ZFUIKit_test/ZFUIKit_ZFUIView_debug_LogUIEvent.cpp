@@ -22,7 +22,7 @@ private:
     ZFListener onUIEventListener;
     static ZFLISTENER_PROTOTYPE_EXPAND(onUIEvent)
     {
-        zfLogTrimT() << listenerData.sender->objectInfoOfInstance() << listenerData.param0;
+        zfLogTrimT() << listenerData.sender()->objectInfoOfInstance() << listenerData.param0();
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIKit_ZFUIView_debug_LogUIEvent)
 #endif

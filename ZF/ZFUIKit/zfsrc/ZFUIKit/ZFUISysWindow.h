@@ -118,8 +118,7 @@ public:
      * before destroy the nativeParent\n
      * the nativeParent must support add one or more child which fill itself
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              zfautoObject, nativeWindowEmbedNativeView,
+    ZFMETHOD_DECLARE_STATIC_1(zfautoObject, nativeWindowEmbedNativeView,
                               ZFMP_IN(void *, nativeParent))
 
 public:
@@ -134,8 +133,7 @@ public:
      * @note it's safe to unregister and register a new window,
      *   but you must ensure you won't access the children of the window after you do so
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              void, mainWindowRegister,
+    ZFMETHOD_DECLARE_STATIC_1(void, mainWindowRegister,
                               ZFMP_IN(ZFUISysWindow *, window))
     /**
      * @brief get application's main window
@@ -147,32 +145,28 @@ public:
      * to embed ZFFramework to native framework,
      * you may use #mainWindowRegister
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
-                              ZFUISysWindow *, mainWindow)
+    ZFMETHOD_DECLARE_STATIC_0(ZFUISysWindow *, mainWindow)
     /**
      * @brief whether #mainWindow has attached
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
-                              zfbool, mainWindowAttached)
+    ZFMETHOD_DECLARE_STATIC_0(zfbool, mainWindowAttached)
 
     /**
      * @brief default window that #ZFUIWindow would attach to, set null to use #mainWindow
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              void, keyWindowSet,
+    ZFMETHOD_DECLARE_STATIC_1(void, keyWindow,
                               ZFMP_IN(ZFUISysWindow *, window))
     /**
-     * @brief see #keyWindowSet, return #mainWindow if not set
+     * @brief see #keyWindow, return #mainWindow if not set
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
-                              ZFUISysWindow *, keyWindow)
+    ZFMETHOD_DECLARE_STATIC_0(ZFUISysWindow *, keyWindow)
 
 public:
     /**
      * @brief native window margin accorrding to impl
      */
     ZFMETHOD_DECLARE_0(const ZFUIMargin &, sysWindowMargin)
-    void _ZFP_ZFUISysWindow_sysWindowMarginSet(ZF_IN const ZFUIMargin &sysWindowMargin);
+    void _ZFP_ZFUISysWindow_sysWindowMargin(ZF_IN const ZFUIMargin &sysWindowMargin);
 protected:
     /**
      * @brief see #EventSysWindowMarginOnUpdate
@@ -237,7 +231,7 @@ public:
     /**
      * @brief set supported orientation, orientation may or may not change immediately
      */
-    ZFMETHOD_DECLARE_1(void, sysWindowOrientationFlagsSet,
+    ZFMETHOD_DECLARE_1(void, sysWindowOrientationFlags,
                        ZFMP_IN(const ZFUIOrientationFlags &, sysWindowOrientationFlags))
     /**
      * @brief get supported orientation
@@ -262,11 +256,11 @@ public:
     /**
      * @brief get self's current showing modal window
      */
-    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowGetShowing)
+    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowShowingWindow)
     /**
      * @brief get self's owner if self is a showing modal window
      */
-    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowGetOwner)
+    ZFMETHOD_DECLARE_0(ZFUISysWindow *, modalWindowOwner)
 
 public:
     /**
@@ -371,11 +365,11 @@ public:
         return ZFUIOrientation::e_Top;
     }
     /**
-     * @brief see #ZFUISysWindow::sysWindowOrientationFlagsSet,
+     * @brief see #ZFUISysWindow::sysWindowOrientationFlags,
      *  impl should have #ZFUIOrientation::e_Top as init value
      */
-    virtual void sysWindowOrientationFlagsSet(ZF_IN ZFUISysWindow *sysWindow,
-                                              ZF_IN const ZFUIOrientationFlags &flags)
+    virtual void sysWindowOrientationFlags(ZF_IN ZFUISysWindow *sysWindow,
+                                           ZF_IN const ZFUIOrientationFlags &flags)
     {
     }
 
@@ -393,7 +387,7 @@ public:
                                          ZF_IN const ZFUIRect &rootRefRect,
                                          ZF_IN const ZFUIMargin &sysWindowMargin)
     {
-        sysWindow->_ZFP_ZFUISysWindow_sysWindowMarginSet(sysWindowMargin);
+        sysWindow->_ZFP_ZFUISysWindow_sysWindowMargin(sysWindowMargin);
         return sysWindow->_ZFP_ZFUISysWindow_measureWindow(rootRefRect);
     }
     /**

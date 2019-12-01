@@ -28,7 +28,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 // ============================================================
 zfclassFwd ZFUIView;
 /**
- * @brief see #ZFUIView::nativeImplViewSet
+ * @brief see #ZFUIView::nativeImplView
  */
 typedef void (*ZFUIViewNativeImplViewDeleteCallback)(ZF_IN ZFUIView *view, ZF_IN void *nativeImplView);
 
@@ -207,8 +207,8 @@ public:
      * by default, all children would have it's parent's default layout param (#layoutParamCreate)
      * as the ref layout param, during adding to parent
      */
-    virtual void serializableRefLayoutParamSet(ZF_IN ZFUIViewLayoutParam *serializableRefLayoutParam);
-    /** @brief see #serializableRefLayoutParamSet */
+    virtual void serializableRefLayoutParam(ZF_IN ZFUIViewLayoutParam *serializableRefLayoutParam);
+    /** @brief see #serializableRefLayoutParam */
     virtual ZFUIViewLayoutParam *serializableRefLayoutParam(void);
 protected:
     zfoverride
@@ -323,27 +323,27 @@ public:
     /** @brief see #viewFrame */
     ZFMETHOD_DECLARE_0(zfint const &, viewX)
     /** @brief see #viewFrame */
-    ZFMETHOD_DECLARE_1(void, viewXSet, ZFMP_IN(zfint const &, propertyValue))
+    ZFMETHOD_DECLARE_1(void, viewX, ZFMP_IN(zfint const &, propertyValue))
     /** @brief see #viewFrame */
     ZFMETHOD_DECLARE_0(zfint const &, viewY)
     /** @brief see #viewFrame */
-    ZFMETHOD_DECLARE_1(void, viewYSet, ZFMP_IN(zfint const &, propertyValue))
+    ZFMETHOD_DECLARE_1(void, viewY, ZFMP_IN(zfint const &, propertyValue))
     /** @brief see #viewFrame */
     ZFMETHOD_DECLARE_0(zfint const &, viewWidth)
     /** @brief see #viewFrame */
-    ZFMETHOD_DECLARE_1(void, viewWidthSet, ZFMP_IN(zfint const &, propertyValue))
+    ZFMETHOD_DECLARE_1(void, viewWidth, ZFMP_IN(zfint const &, propertyValue))
     /** @brief see #viewFrame */
     ZFMETHOD_DECLARE_0(zfint const &, viewHeight)
     /** @brief see #viewFrame */
-    ZFMETHOD_DECLARE_1(void, viewHeightSet, ZFMP_IN(zfint const &, propertyValue))
+    ZFMETHOD_DECLARE_1(void, viewHeight, ZFMP_IN(zfint const &, propertyValue))
     /** @brief see #viewFrame */
     ZFMETHOD_DECLARE_0(zfint const &, viewCenterX)
     /** @brief see #viewFrame */
-    ZFMETHOD_DECLARE_1(void, viewCenterXSet, ZFMP_IN(zfint const &, propertyValue))
+    ZFMETHOD_DECLARE_1(void, viewCenterX, ZFMP_IN(zfint const &, propertyValue))
     /** @brief see #viewFrame */
     ZFMETHOD_DECLARE_0(zfint const &, viewCenterY)
     /** @brief see #viewFrame */
-    ZFMETHOD_DECLARE_1(void, viewCenterYSet, ZFMP_IN(zfint const &, propertyValue))
+    ZFMETHOD_DECLARE_1(void, viewCenterY, ZFMP_IN(zfint const &, propertyValue))
 
     /**
      * @brief prefered size, #ZFUISizeInvalid by default
@@ -352,8 +352,8 @@ public:
      * the prefered size would be used to measure the view,
      * if prefered size not set, size hint would be used
      */
-    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizePrefered, ZFUISizeInvalid())
-    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizePrefered)
+    ZFPROPERTY_ASSIGN_WITH_INIT(ZFUISize, viewSizePrefer, ZFUISizeInvalid())
+    ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUISize, viewSizePrefer)
     /**
      * @brief min size, #ZFUISizeZero by default
      */
@@ -440,8 +440,8 @@ protected:
     /**
      * @brief see #nativeImplView
      */
-    zffinal void nativeImplViewSet(ZF_IN void *nativeImplView,
-                                   ZF_IN ZFUIViewNativeImplViewDeleteCallback nativeImplViewDeleteCallback);
+    zffinal void nativeImplView(ZF_IN void *nativeImplView,
+                                ZF_IN ZFUIViewNativeImplViewDeleteCallback nativeImplViewDeleteCallback);
     /**
      * @brief see #nativeImplViewMargin,
      *   subclass must call super and "append" to existing margin
@@ -574,7 +574,7 @@ public:
      * -  app scale:\n
      *   accessed by #scaleForApp, 1 by default\n
      *   automatically changed while adding a ZFUIView to another,
-     *   and can only be changed by app by using #ZFUIRootView::scaleForAppSet of #ZFUISysWindow
+     *   and can only be changed by app by using #ZFUIRootView::scaleForApp of #ZFUISysWindow
      * -  impl scale:\n
      *   accessed by #scaleForImpl, it's value depends on impl\n
      *   automatically changed while adding a ZFUIView to native view,
@@ -597,7 +597,7 @@ public:
      *   such as 48 for a button's height and 21 for a small textView's height,
      *   it will be scaled automatically while rendering to different size's or DPI's devices\n
      *   if you really want to change scale setting,
-     *   you should use #ZFUIRootView::scaleForAppSet of #ZFUISysWindow
+     *   you should use #ZFUIRootView::scaleForApp of #ZFUISysWindow
      * -  for implementation:\n
      *   you have no need to worry about element's logical size,
      *   everything would be scaled to desired size unit
@@ -665,7 +665,7 @@ public:
      * while adding to another container view with different layout param type,
      * a new layout param would be created and applied style from the existing one
      */
-    ZFMETHOD_DECLARE_1(void, layoutParamSet,
+    ZFMETHOD_DECLARE_1(void, layoutParam,
                        ZFMP_IN(ZFUIViewLayoutParam *, layoutParam))
     /**
      * @brief get self's layout param, valid only while the view has parent
@@ -724,8 +724,7 @@ public:
      * subclass should override #layoutChildOffsetOnUpdate
      * to supply this value
      */
-    ZFMETHOD_DECLARE_1(void, layoutChildOffset,
-                       ZFMP_OUT(ZFUIPoint &, ret))
+    ZFMETHOD_DECLARE_0(ZFUIPoint, layoutChildOffset)
 
 public:
     void _ZFP_ZFUIView_notifyLayoutView(ZF_IN const ZFUIRect &viewFrame);
@@ -746,7 +745,7 @@ protected:
      * sizeHint means the max size child should reach, see #ZFUISizeType for more info\n
      * \n
      * return a negative value means the view doesn't care about size,
-     * let #ZFUIView::viewSizePrefered to decide final result size\n
+     * let #ZFUIView::viewSizePrefer to decide final result size\n
      * \n
      * @note there's some repeatly work that #layoutMeasure would have done for you,
      *   you should not repeat it again for performance:
@@ -1002,7 +1001,7 @@ public:
     ZFMETHOD_DECLARE_0(void, internalViewAutoSerializeTagRemoveAll)
     /** @brief see #internalViewAutoSerializeTagAdd */
     ZFMETHOD_DECLARE_1(void, internalViewAutoSerializeTagGetAllT,
-                       ZFMP_OUT(ZFCoreArray<zfstring> &, ret))
+                       ZFMP_IN_OUT(ZFCoreArray<zfstring> &, ret))
     /** @brief see #internalViewAutoSerializeTagAdd */
     ZFMETHOD_DECLARE_0(ZFCoreArray<zfstring>, internalViewAutoSerializeTagGetAll)
 

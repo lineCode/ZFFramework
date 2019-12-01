@@ -15,8 +15,8 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZF2048App, game);
         window->childAdd(game);
-        game->layoutParam()->sizeParamSet(ZFUISizeParamFillFill());
-        game->layoutParam()->layoutMarginSet(ZFUIMarginMake(0, 20, 0, 0));
+        game->layoutParam()->sizeParam(ZFUISizeParamFillFill());
+        game->layoutParam()->layoutMargin(ZFUIMarginMake(0, 20, 0, 0));
     }
     else
     {
@@ -25,16 +25,16 @@ ZFMAIN_ENTRY(params)
         game->debugStatus();
 
         zfblockedAlloc(ZFUIWindow, window);
-        window->tagSet("game", game);
+        window->objectTag("game", game);
         window->windowShow();
         zfblockedAlloc(ZFUILinearLayout, ll);
         window->childAdd(ll);
-        ll->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        ll->layoutParam()->sizeParamSet(ZFUISizeParamFillWrap());
+        ll->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
+        ll->layoutParam()->sizeParam(ZFUISizeParamFillWrap());
 
         zfblockedAlloc(ZFUIButtonBasic, left);
         ll->childAdd(left);
-        left->buttonLabelTextSet("left");
+        left->buttonLabelText("left");
         ZFLISTENER_LOCAL(leftOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveLeft();
@@ -44,7 +44,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, top);
         ll->childAdd(top);
-        top->buttonLabelTextSet("top");
+        top->buttonLabelText("top");
         ZFLISTENER_LOCAL(topOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveTop();
@@ -54,7 +54,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, right);
         ll->childAdd(right);
-        right->buttonLabelTextSet("right");
+        right->buttonLabelText("right");
         ZFLISTENER_LOCAL(rightOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveRight();
@@ -64,7 +64,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, bottom);
         ll->childAdd(bottom);
-        bottom->buttonLabelTextSet("bottom");
+        bottom->buttonLabelText("bottom");
         ZFLISTENER_LOCAL(bottomOnClick, {
             ZF2048Core *game = userData->toAny();
             game->moveBottom();
@@ -74,7 +74,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, reset);
         ll->childAdd(reset);
-        reset->buttonLabelTextSet("reset");
+        reset->buttonLabelText("reset");
         ZFLISTENER_LOCAL(resetOnClick, {
             ZF2048Core *game = userData->toAny();
             game->reset();
@@ -84,7 +84,7 @@ ZFMAIN_ENTRY(params)
 
         zfblockedAlloc(ZFUIButtonBasic, undo);
         ll->childAdd(undo);
-        undo->buttonLabelTextSet("undo");
+        undo->buttonLabelText("undo");
         ZFLISTENER_LOCAL(undoOnClick, {
             ZF2048Core *game = userData->toAny();
             game->undo();
@@ -95,8 +95,8 @@ ZFMAIN_ENTRY(params)
         for(zfindex i = 0; i < ll->childCount(); ++i)
         {
             ZFUIButtonBasic *button = ll->childAtIndex(i)->toAny();
-            button->viewBackgroundColorSet(ZFUIColorRandom());
-            button->layoutParam<ZFUILinearLayoutParam *>()->layoutWeightSet(1);
+            button->viewBackgroundColor(ZFUIColorRandom());
+            button->layoutParam<ZFUILinearLayoutParam *>()->layoutWeight(1);
         }
     }
 
@@ -126,7 +126,7 @@ ZF_GLOBAL_INITIALIZER_DESTROY(testLangLoad)
 private:
     static ZFLISTENER_PROTOTYPE_EXPAND(action)
     {
-        ZFUIMouseEvent *event = ZFCastZFObject(ZFUIMouseEvent *, listenerData.param0);
+        ZFUIMouseEvent *event = listenerData.param0<ZFUIMouseEvent *>();
         if(event == zfnull || event->mouseAction != ZFUIMouseAction::e_MouseUp)
         {
             return ;

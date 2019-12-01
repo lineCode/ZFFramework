@@ -20,18 +20,18 @@ protected:
         container->childAdd(layout, ZFUISizeParamFillFill());
         this->prepareSettingButton(window, layout);
 
-        layout->viewBackgroundColorSet(ZFUIColorGreen());
+        layout->viewBackgroundColor(ZFUIColorGreen());
         for(zfindex i = 0; i < 3; ++i)
         {
             zfblockedAlloc(ZFUITextEdit, view);
             layout->childAdd(view);
-            view->layoutParam()->sizeParamSet(ZFUISizeParamFillWrap());
-            view->viewBackgroundColorSet(ZFUIColorRandom());
-            view->layoutParam()->layoutMarginSet(ZFUIMarginMake(10));
+            view->layoutParam()->sizeParam(ZFUISizeParamFillWrap());
+            view->viewBackgroundColor(ZFUIColorRandom());
+            view->layoutParam()->layoutMargin(ZFUIMarginMake(10));
         }
-        layout->childAtIndex(0)->layoutParam()->layoutAlignSet(ZFUIAlign::e_TopInner);
-        layout->childAtIndex(1)->layoutParam()->layoutAlignSet(ZFUIAlign::e_Center);
-        layout->childAtIndex(2)->layoutParam()->layoutAlignSet(ZFUIAlign::e_BottomInner);
+        layout->childAtIndex(0)->layoutParam()->layoutAlign(ZFUIAlign::e_TopInner);
+        layout->childAtIndex(1)->layoutParam()->layoutAlign(ZFUIAlign::e_Center);
+        layout->childAtIndex(2)->layoutParam()->layoutAlign(ZFUIAlign::e_BottomInner);
     }
 
 private:

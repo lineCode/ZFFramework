@@ -59,11 +59,14 @@ typedef enum {
     public:
 
 // ============================================================
+/** @brief filter data for #ZFFilterBase */
 template<typename T_Element>
-zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFFilterBaseFilterData
+zfclassLikePOD ZF_ENV_EXPORT _ZFP_ZFFilterData
 {
 public:
+    /** @brief filter data for #ZFFilterBase */
     T_Element element;
+    /** @brief filter data for #ZFFilterBase */
     ZFFilterType filterType;
 };
 
@@ -173,7 +176,7 @@ public:
     {
         if(this->filterOnCheckValid(e))
         {
-            _ZFP_ZFFilterBaseFilterData<T_Internal> filterData;
+            _ZFP_ZFFilterData<T_Internal> filterData;
             this->filterOnStore(filterData.element, e);
             filterData.filterType = filterType;
             this->_filters.add(filterData);
@@ -233,23 +236,23 @@ public:
     /**
      * @brief get element at index
      */
-    virtual T_Public filterGet(ZF_IN zfindex index) const
+    virtual T_Public filterElementAtIndex(ZF_IN zfindex index) const
     {
         T_Public t;
         this->filterOnAccess(t, this->_filters.get(index).element);
         return t;
     }
     /**
-     * @brief get element at index with internal type
+     * @brief get filter data at index
      */
-    virtual T_Internal const &filterGetInternal(ZF_IN zfindex index) const
+    virtual T_Internal const &filterInternalAtIndex(ZF_IN zfindex index) const
     {
         return this->_filters.get(index).element;
     }
     /**
      * @brief get filter type for filter data at index
      */
-    virtual ZFFilterType filterGetFilterType(ZF_IN zfindex index) const
+    virtual ZFFilterType filterTypeAtIndex(ZF_IN zfindex index) const
     {
         return this->_filters.get(index).filterType;
     }
@@ -343,7 +346,7 @@ public:
     }
 
 private:
-    static void _ZFP_ZFFilterBase_contentInfoGetter(ZF_IN_OUT zfstring &ret, ZF_IN const _ZFP_ZFFilterBaseFilterData<T_Internal> &v)
+    static void _ZFP_ZFFilterBase_contentInfoGetter(ZF_IN_OUT zfstring &ret, ZF_IN const _ZFP_ZFFilterData<T_Internal> &v)
     {
         ret += '(';
         switch(v.filterType)
@@ -418,7 +421,7 @@ protected:
         zfbool included = zffalse;
         for(zfindex i = 0; i < this->_filters.count(); ++i)
         {
-            const _ZFP_ZFFilterBaseFilterData<T_Internal> &filter = this->_filters.get(i);
+            const _ZFP_ZFFilterData<T_Internal> &filter = this->_filters.get(i);
             switch(filter.filterType)
             {
                 case ZFFilterTypeInclude:
@@ -443,7 +446,7 @@ protected:
     }
 
 private:
-    typedef ZFCoreArray<_ZFP_ZFFilterBaseFilterData<T_Internal> > _FiltersType;
+    typedef ZFCoreArray<_ZFP_ZFFilterData<T_Internal> > _FiltersType;
     typedef ZFCoreArrayPOD<typename ZFFilterBase<T_Public, T_Internal>::CustomFilterCallback> _CustomFilterCallbacksType;
     _FiltersType _filters;
     _CustomFilterCallbacksType *_customFilters;

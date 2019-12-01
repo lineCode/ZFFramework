@@ -61,7 +61,7 @@ public:
         }
         return this->_pathForSetting;
     }
-    virtual void pathForSettingSet(ZF_IN const zfchar *path = zfnull)
+    virtual void pathForSetting(ZF_IN const zfchar *path = zfnull)
     {
         this->_pathForSetting = path;
     }
@@ -76,7 +76,7 @@ public:
         }
         return this->_pathForStorage;
     }
-    virtual void pathForStorageSet(ZF_IN const zfchar *path = zfnull)
+    virtual void pathForStorage(ZF_IN const zfchar *path = zfnull)
     {
         this->_pathForStorage = path;
     }
@@ -91,7 +91,7 @@ public:
         }
         return this->_pathForStorageShared;
     }
-    virtual void pathForStorageSharedSet(ZF_IN const zfchar *path = zfnull)
+    virtual void pathForStorageShared(ZF_IN const zfchar *path = zfnull)
     {
         this->_pathForStorageShared = path;
     }
@@ -106,7 +106,7 @@ public:
         }
         return this->_pathForCache;
     }
-    virtual void pathForCacheSet(ZF_IN const zfchar *path = zfnull)
+    virtual void pathForCache(ZF_IN const zfchar *path = zfnull)
     {
         this->_pathForCache = path;
     }

@@ -8,33 +8,33 @@ ZF_GLOBAL_INITIALIZER_INIT(ZFUIOnScreenKeyboardState_test)
 
     ZFLISTENER_LOCAL(sysWindowOnCreate, {
         ZFLISTENER_LOCAL(action, {
-            zfLogTrimT() << "[ZFUIOnScreenKeyboardState] state changed:" << listenerData.sender;
+            zfLogTrimT() << "[ZFUIOnScreenKeyboardState] state changed:" << listenerData.sender();
         })
-        ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender->toAny());
+        ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender()->toAny());
         state->observerAdd(ZFObserverAddParam()
-                .eventIdSet(ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange())
-                .observerSet(action)
-                .ownerSet(userData)
+                .eventId(ZFUIOnScreenKeyboardState::EventKeyboardStateOnChange())
+                .observer(action)
+                .owner(userData)
             );
         userData->to<ZFArrayEditable *>()->add(state->objectHolder());
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFObserverAddParam()
-            .eventIdSet(ZFUISysWindow::EventSysWindowOnCreate())
-            .observerSet(sysWindowOnCreate)
-            .ownerSet(this->observerOwner)
-            .userDataSet(this->observerOwner)
+            .eventId(ZFUISysWindow::EventSysWindowOnCreate())
+            .observer(sysWindowOnCreate)
+            .owner(this->observerOwner)
+            .userData(this->observerOwner)
         );
 
     ZFLISTENER_LOCAL(sysWindowOnDestroy, {
-        ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender->toAny());
+        ZFUIOnScreenKeyboardState *state = ZFUIOnScreenKeyboardState::instanceForSysWindow(listenerData.sender()->toAny());
         state->observerRemoveByOwner(userData);
         userData->to<ZFArrayEditable *>()->removeElement(state->objectHolder());
     })
     ZFObjectGlobalEventObserver().observerAdd(ZFObserverAddParam()
-            .eventIdSet(ZFUISysWindow::EventSysWindowOnDestroy())
-            .observerSet(sysWindowOnDestroy)
-            .ownerSet(this->observerOwner)
-            .userDataSet(this->observerOwner)
+            .eventId(ZFUISysWindow::EventSysWindowOnDestroy())
+            .observer(sysWindowOnDestroy)
+            .owner(this->observerOwner)
+            .userData(this->observerOwner)
         );
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFUIOnScreenKeyboardState_test)

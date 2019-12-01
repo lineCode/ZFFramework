@@ -4,7 +4,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIEvent)
 
-ZFMETHOD_DEFINE_1(ZFUIEvent, void, eventResolvedSet,
+ZFMETHOD_DEFINE_1(ZFUIEvent, void, eventResolved,
                   ZFMP_IN(zfbool const &, value))
 {
     _ZFP_ZFUIEvent_eventResolved = value;

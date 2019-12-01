@@ -163,7 +163,7 @@ public:
 
     // ============================================================
     /** @brief see #ZFTextTemplateApply */
-    void enableDataDefaultSet(ZF_IN zfbool enableDataDefault);
+    void enableDataDefault(ZF_IN zfbool enableDataDefault);
     /** @brief see #ZFTextTemplateApply */
     zfbool enableDataDefault(void) const;
 
@@ -188,7 +188,7 @@ public:
 
     // ============================================================
     /** @brief see #ZFTextTemplateApply */
-    void indexDataDefaultSet(ZF_IN const ZFTextTemplateIndexData &indexDataDefault);
+    void indexDataDefault(ZF_IN const ZFTextTemplateIndexData &indexDataDefault);
     /** @brief see #ZFTextTemplateApply */
     const ZFTextTemplateIndexData &indexDataDefault(void) const;
 

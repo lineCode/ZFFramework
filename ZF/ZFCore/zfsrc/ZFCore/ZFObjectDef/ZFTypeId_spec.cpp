@@ -24,7 +24,7 @@ ZFOUTPUT_TYPE_DEFINE(zfautoObject, {
 
 // ============================================================
 // ZFCallerInfo
-ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfoHolder, {
+ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfo, {
         ZFIndexRange pos[3];
         zfmemset(pos, 0, sizeof(pos));
         const zfchar *p = src;
@@ -33,7 +33,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfoHolder, {
         zfcharSkipSpace(p, pEnd);
         if(p >= pEnd)
         {
-            v.callerInfoSet();
+            v.callerInfo();
             return zftrue;
         }
         if(*p != '[')
@@ -72,7 +72,7 @@ ZFTYPEID_DEFINE_BY_STRING_CONVERTER(ZFCallerInfo, ZFCallerInfoHolder, {
             return zffalse;
         }
 
-        v.callerInfoSet(
+        v.callerInfo(
                 (pos[0].count > 0)
                     ? zfstring(src + pos[0].start, pos[0].count).cString()
                     : zfnull,

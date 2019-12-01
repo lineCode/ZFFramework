@@ -133,11 +133,11 @@ ZFMETHOD_DEFINE_1(ZFMap, ZFKeyValuePair, getPair,
 }
 
 ZFMETHOD_DEFINE_1(ZFMap, void, allKeyT,
-                  ZFMP_OUT(ZFCoreArray<ZFObject *> &, ret))
+                  ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, ret))
 {
     if(!this->isEmpty())
     {
-        ret.capacitySet(ret.count() + this->count());
+        ret.capacity(ret.count() + this->count());
         for(_ZFP_ZFMapPrivate::MapType::const_iterator it = d->data.begin(); it != d->data.end(); ++it)
         {
             ret.add(it->first);
@@ -145,11 +145,11 @@ ZFMETHOD_DEFINE_1(ZFMap, void, allKeyT,
     }
 }
 ZFMETHOD_DEFINE_1(ZFMap, void, allValueT,
-                  ZFMP_OUT(ZFCoreArray<ZFObject *> &, ret))
+                  ZFMP_IN_OUT(ZFCoreArray<ZFObject *> &, ret))
 {
     if(!this->isEmpty())
     {
-        ret.capacitySet(ret.count() + this->count());
+        ret.capacity(ret.count() + this->count());
         for(_ZFP_ZFMapPrivate::MapType::const_iterator it = d->data.begin(); it != d->data.end(); ++it)
         {
             ret.add(it->second);
@@ -157,11 +157,11 @@ ZFMETHOD_DEFINE_1(ZFMap, void, allValueT,
     }
 }
 ZFMETHOD_DEFINE_1(ZFMap, void, allPairT,
-                  ZFMP_OUT(ZFCoreArray<ZFKeyValuePair> &, ret))
+                  ZFMP_IN_OUT(ZFCoreArray<ZFKeyValuePair> &, ret))
 {
     if(!this->isEmpty())
     {
-        ret.capacitySet(ret.count() + this->count());
+        ret.capacity(ret.count() + this->count());
         ZFKeyValuePair pair;
         for(_ZFP_ZFMapPrivate::MapType::const_iterator it = d->data.begin(); it != d->data.end(); ++it)
         {
@@ -353,8 +353,8 @@ ZFMETHOD_DEFINE_2(ZFMap, zfbool, iteratorIsEqual,
     return zfiterator::iteratorIsEqual<_ZFP_ZFMapPrivate::MapType::iterator *>(it0, it1);
 }
 
-void ZFMap::iteratorSet(ZF_IN_OUT zfiterator &it,
-                        ZF_IN ZFObject *value)
+void ZFMap::iteratorValue(ZF_IN_OUT zfiterator &it,
+                          ZF_IN ZFObject *value)
 {
     _ZFP_ZFMapPrivate::MapType::iterator *data = it.data<_ZFP_ZFMapPrivate::MapType::iterator *>();
     if(data != zfnull && *data != d->data.end())
@@ -393,19 +393,19 @@ ZFMETHOD_DEFINE_1(ZFMap, zfiterator, iteratorForKey,
         _ZFP_ZFMap_iteratorDeleteCallback,
         _ZFP_ZFMap_iteratorCopyCallback);
 }
-ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorGetKey,
+ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorKey,
                   ZFMP_IN(const zfiterator &, it))
 {
     _ZFP_ZFMapPrivate::MapType::iterator *data = it.data<_ZFP_ZFMapPrivate::MapType::iterator *>();
     return ((data != zfnull && *data != d->data.end()) ? (*data)->first : zfnull);
 }
-ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorGetValue,
+ZFMETHOD_DEFINE_1(ZFMap, ZFObject *, iteratorValue,
                   ZFMP_IN(const zfiterator &, it))
 {
     _ZFP_ZFMapPrivate::MapType::iterator *data = it.data<_ZFP_ZFMapPrivate::MapType::iterator *>();
     return ((data != zfnull && *data != d->data.end()) ? (*data)->second : zfnull);
 }
-ZFMETHOD_DEFINE_1(ZFMap, ZFKeyValuePair, iteratorGetPair,
+ZFMETHOD_DEFINE_1(ZFMap, ZFKeyValuePair, iteratorPair,
                   ZFMP_IN(const zfiterator &, it))
 {
     ZFKeyValuePair ret = ZFKeyValuePairZero();

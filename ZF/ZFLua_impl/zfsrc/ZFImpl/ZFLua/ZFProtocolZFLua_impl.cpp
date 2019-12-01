@@ -17,7 +17,7 @@ public:
         ZFImpl_ZFLua_luaStateChange((lua_State *)L);
     }
 
-    virtual void luaStateList(ZF_OUT ZFCoreArray<void *> &ret)
+    virtual void luaStateList(ZF_IN_OUT ZFCoreArray<void *> &ret)
     {
         typedef void *_T;
         ret.addFrom((const _T *)ZFImpl_ZFLua_luaStateList().arrayBuf(), ZFImpl_ZFLua_luaStateList().count());

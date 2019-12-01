@@ -17,11 +17,11 @@ public:
         ZFUIAnimatedImageView *view = userData->objectHolded();
         if(view->animatedImageWrapToImage())
         {
-            view->imageSet(view->animatedImage()->aniFrameImageCurrent());
+            view->image(view->animatedImage()->aniFrameImageCurrent());
         }
         else
         {
-            view->imageSet(view->animatedImage()->aniFrameImageCurrent());
+            view->image(view->animatedImage()->aniFrameImageCurrent());
         }
     }
 ZF_GLOBAL_INITIALIZER_END(ZFUIAnimatedImageViewDataHolder)

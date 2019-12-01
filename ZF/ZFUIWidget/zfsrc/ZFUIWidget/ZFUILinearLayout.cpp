@@ -224,7 +224,7 @@ static void _ZFP_ZFUILinearLayout_layoutHorizontal(ZF_IN ZFUILinearLayout *paren
         {
             childSize = child->layoutMeasuredSize().width + ZFUIMarginGetWidth(layoutParam->layoutMargin());
         }
-        child->viewFrameSet(ZFUIAlignApply(
+        child->viewFrame(ZFUIAlignApply(
             layoutParam->layoutAlign(),
             ZFUIRectMake(
                 positiveDirection
@@ -275,7 +275,7 @@ static void _ZFP_ZFUILinearLayout_layoutVertical(ZF_IN ZFUILinearLayout *parent,
         {
             childSize = child->layoutMeasuredSize().height + ZFUIMarginGetHeight(layoutParam->layoutMargin());
         }
-        child->viewFrameSet(ZFUIAlignApply(
+        child->viewFrame(ZFUIAlignApply(
             layoutParam->layoutAlign(),
             ZFUIRectMake(
                 parent->layoutChildMargin().left,

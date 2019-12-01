@@ -28,7 +28,7 @@
  *   // get property value by normal method
  *   zfstring value = obj->myProperty();
  *   // set property value by normal method
- *   obj->myPropertySet(value);
+ *   obj->myProperty(value);
  * @endcode
  *
  * for advanced usage of method and property,

@@ -24,7 +24,7 @@ public:
     virtual void luaStateChange(ZF_IN void *L) zfpurevirtual;
 
     /** @brief see #ZFLuaStateListT */
-    virtual void luaStateList(ZF_OUT ZFCoreArray<void *> &ret) zfpurevirtual;
+    virtual void luaStateList(ZF_IN_OUT ZFCoreArray<void *> &ret) zfpurevirtual;
 
     /** @brief see #ZFLuaStateAttach */
     virtual void *luaStateOpen(void) zfpurevirtual;

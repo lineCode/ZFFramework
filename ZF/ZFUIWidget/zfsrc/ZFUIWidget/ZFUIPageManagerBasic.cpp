@@ -28,7 +28,7 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerPause)
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerDestroy)
 {
     ZFUIPageManager *pm = userData->objectHolded();
-    pm->toObject()->tagRemove(_ZFP_ZFUIPageManagerBasic_window);
+    pm->toObject()->objectTagRemove(_ZFP_ZFUIPageManagerBasic_window);
     if(pm->managerCreated())
     {
         if(pm->managerResumed())
@@ -40,8 +40,8 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerDestroy)
 }
 static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerOnDestroy)
 {
-    ZFUIPageManagerBasic *pm = listenerData.sender->toAny();
-    ZFObjectHolder *windowHolder = pm->tagGet<ZFObjectHolder *>(_ZFP_ZFUIPageManagerBasic_window);
+    ZFUIPageManagerBasic *pm = listenerData.sender()->toAny();
+    ZFObjectHolder *windowHolder = pm->objectTag<ZFObjectHolder *>(_ZFP_ZFUIPageManagerBasic_window);
     pm->managerContainer()->viewRemoveFromParent();
     if(windowHolder != zfnull)
     {
@@ -51,10 +51,10 @@ static ZFLISTENER_PROTOTYPE_EXPAND(_ZFP_ZFUIPageManagerBasic_managerOnDestroy)
 ZFMETHOD_DEFINE_0(ZFUIPageManagerBasic, zfautoObject, embededCreateWindow)
 {
     zfblockedAlloc(ZFUIWindow, window);
-    window->viewBackgroundColorSet(ZFUIColorWhite());
+    window->viewBackgroundColor(ZFUIColorWhite());
 
     window->childAdd(this->managerContainer(), ZFUISizeParamFillFill());
-    this->tagSet(_ZFP_ZFUIPageManagerBasic_window, window->objectHolder());
+    this->objectTag(_ZFP_ZFUIPageManagerBasic_window, window->objectHolder());
 
     window->observerAdd(ZFUIWindow::EventWindowOnShow(),
         ZFCallbackForFunc(_ZFP_ZFUIPageManagerBasic_managerResume),

@@ -26,7 +26,7 @@
             self._nativeThreadRegisterToken = ZFPROTOCOL_ACCESS(ZFThread)->nativeThreadRegister(self.ownerZFThread);
         }
 
-        self.runnable.execute(ZFListenerData().param0Set(self.param0).param1Set(self.param1));
+        self.runnable.execute(ZFListenerData().param0(self.param0).param1(self.param1));
 
         if(self.ownerZFThread != zfnull)
         {
@@ -87,7 +87,7 @@
     if(self._running)
     {
         self._running = zffalse;
-        self._runnable.execute(ZFListenerData().param0Set(self._param0).param1Set(self._param1));
+        self._runnable.execute(ZFListenerData().param0(self._param0).param1(self._param1));
         self._selfHolder = nil;
     }
 }

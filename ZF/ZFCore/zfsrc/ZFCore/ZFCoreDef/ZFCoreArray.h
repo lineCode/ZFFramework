@@ -166,7 +166,7 @@ public:
     ZFCoreArray(ZF_IN zfindex capacity)
     {
         d = zfnew(_ZFP_ZFCoreArrayPrivate<T_Element>);
-        this->capacitySet(capacity);
+        this->capacity(capacity);
     }
     /**
      * @brief construct from another array
@@ -236,7 +236,7 @@ public:
                 _ZFP_ZFCoreArray_objDestroy(d->buf, d->contentEnd, d->PODType);
                 d->contentEnd = d->buf;
             }
-            this->capacitySet(ref.count());
+            this->capacity(ref.count());
             _ZFP_ZFCoreArray_objCreate(d->buf, d->buf + ref.count(), ref.arrayBuf(), d->PODType);
             d->contentEnd = d->buf + ref.count();
         }
@@ -335,7 +335,7 @@ public:
      *
      * do nothing if newCapacity not changed or less than current capacity
      */
-    void capacitySet(ZF_IN zfindex newCapacity)
+    void capacity(ZF_IN zfindex newCapacity)
     {
         zfindex fixedCapacity = zfmMax<zfindex>(this->capacity(), _ZFP_ZFCoreArrayMinCapacity);
         while(fixedCapacity < newCapacity)
@@ -373,7 +373,7 @@ public:
     void add(ZF_IN T_Element const &e)
     {
         T_Element t = e;
-        this->capacitySet(this->count() + 1);
+        this->capacity(this->count() + 1);
         _ZFP_ZFCoreArray_objCreate(d->contentEnd, d->contentEnd + 1, &t, d->PODType);
         ++(d->contentEnd);
     }
@@ -389,7 +389,7 @@ public:
             return ;
         }
         T_Element t = e;
-        this->capacitySet(this->count() + 1);
+        this->capacity(this->count() + 1);
         _ZFP_ZFCoreArray_objCreate(d->contentEnd, d->contentEnd + 1, d->PODType);
         T_Element *pos = d->buf + index;
         _ZFP_ZFCoreArray_objMove(pos + 1, pos, this->count() - index, d->PODType);
@@ -408,7 +408,7 @@ public:
         }
         if(src < d->buf || src >= d->bufEnd)
         {
-            this->capacitySet(this->count() + count);
+            this->capacity(this->count() + count);
             _ZFP_ZFCoreArray_objCreate(d->contentEnd, d->contentEnd + count, src, d->PODType);
             d->contentEnd += count;
         }
@@ -864,7 +864,7 @@ public:
     }
 
 protected:
-    void _ZFP_PODTypeSet(void) {d->PODType = zftrue;}
+    void _ZFP_PODType(void) {d->PODType = zftrue;}
 private:
     _ZFP_ZFCoreArrayPrivate<T_Element> *d;
     void capacityDoChange(ZF_IN zfindex newCapacity)
@@ -913,7 +913,7 @@ public:
     ZFCoreArrayPOD(void)
     : ZFCoreArray<T_Element>()
     {
-        this->_ZFP_PODTypeSet();
+        this->_ZFP_PODType();
     }
     /**
      * @brief see #ZFCoreArray
@@ -921,7 +921,7 @@ public:
     ZFCoreArrayPOD(ZF_IN zfindex capacity)
     : ZFCoreArray<T_Element>(capacity)
     {
-        this->_ZFP_PODTypeSet();
+        this->_ZFP_PODType();
     }
     /**
      * @brief see #ZFCoreArray

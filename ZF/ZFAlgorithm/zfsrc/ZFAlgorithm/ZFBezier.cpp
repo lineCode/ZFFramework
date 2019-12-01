@@ -3,8 +3,8 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZFBezier &ZFBezier::controlPointSet(ZF_IN zffloat p0x, ZF_IN zffloat p0y,
-                                    ZF_IN zffloat p1x, ZF_IN zffloat p1y)
+ZFBezier &ZFBezier::controlPoint(ZF_IN zffloat p0x, ZF_IN zffloat p0y,
+                                 ZF_IN zffloat p1x, ZF_IN zffloat p1y)
 {
     this->p0x = p0x;
     this->p0y = p0y;
@@ -205,23 +205,23 @@ ZFTYPEID_DEFINE(ZFBezier, ZFBezier, {
             return zffalse;
         }
 
-        v.controlPointSet(p0x, p0y, p1x, p1y);
+        v.controlPoint(p0x, p0y, p1x, p1y);
 
         serializableData.resolveMark();
         return zftrue;
     }, {
-        serializableData.itemClassSet(ZFTypeId_ZFBezier());
+        serializableData.itemClass(ZFTypeId_ZFBezier());
 
         if(v.p0x != 0 || v.p0y != 0)
         {
-            serializableData.attributeSet(ZFSerializableKeyword_ZFBezier_p0x, zffloatToString(v.p0x));
-            serializableData.attributeSet(ZFSerializableKeyword_ZFBezier_p0y, zffloatToString(v.p0y));
+            serializableData.attributeForName(ZFSerializableKeyword_ZFBezier_p0x, zffloatToString(v.p0x));
+            serializableData.attributeForName(ZFSerializableKeyword_ZFBezier_p0y, zffloatToString(v.p0y));
         }
 
         if(v.p1x != 1 || v.p1y != 1)
         {
-            serializableData.attributeSet(ZFSerializableKeyword_ZFBezier_p1x, zffloatToString(v.p1x));
-            serializableData.attributeSet(ZFSerializableKeyword_ZFBezier_p1y, zffloatToString(v.p1y));
+            serializableData.attributeForName(ZFSerializableKeyword_ZFBezier_p1x, zffloatToString(v.p1x));
+            serializableData.attributeForName(ZFSerializableKeyword_ZFBezier_p1y, zffloatToString(v.p1y));
         }
 
         return zftrue;
@@ -231,7 +231,7 @@ ZFTYPEID_DEFINE(ZFBezier, ZFBezier, {
         {
             return zffalse;
         }
-        v.controlPointSet(tmp[0], tmp[1], tmp[2], tmp[3]);
+        v.controlPoint(tmp[0], tmp[1], tmp[2], tmp[3]);
         return zftrue;
     }, {
         s += "(";
@@ -247,7 +247,7 @@ ZFTYPEID_DEFINE(ZFBezier, ZFBezier, {
     })
 
 // ============================================================
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_4(v_ZFBezier, void, controlPointSet, ZFMP_IN(zffloat, p0x), ZFMP_IN(zffloat, p0y), ZFMP_IN(zffloat, p1x), ZFMP_IN(zffloat, p1y))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_4(v_ZFBezier, void, controlPoint, ZFMP_IN(zffloat, p0x), ZFMP_IN(zffloat, p0y), ZFMP_IN(zffloat, p1x), ZFMP_IN(zffloat, p1y))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFBezier, zffloat, y_by_t, ZFMP_IN(zffloat, t))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFBezier, zffloat, y_by_x, ZFMP_IN(zffloat, x))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFBezier, zffloat, x_by_t, ZFMP_IN(zffloat, t))

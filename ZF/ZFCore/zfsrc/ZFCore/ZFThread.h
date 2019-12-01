@@ -16,7 +16,7 @@ zfclassFwd _ZFP_ZFThreadPrivate;
  *
  * you can use thread by one of these method:
  * -  inherit from ZFThread and override ZFThread::threadOnRun
- * -  declare a callback and set as thread's run loop by #ZFThread::threadRunnableSet
+ * -  declare a callback and set as thread's run loop by #ZFThread::threadRunnable
  *
  * @note try to use ZFThreadExecuteInNewThread is recommended, since it may have thread pool
  */
@@ -62,37 +62,32 @@ public:
      * you must take good care when calling this method\n
      * main thread has no need to register
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
-                              void *, nativeThreadRegister)
+    ZFMETHOD_DECLARE_STATIC_0(void *, nativeThreadRegister)
     /**
      * @brief see #nativeThreadRegister
      *
      * it's safe to unregister in different thread using token
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              void, nativeThreadUnregister,
+    ZFMETHOD_DECLARE_STATIC_1(void, nativeThreadUnregister,
                               ZFMP_IN(void *, token))
 
 public:
     /**
      * @brief return main thread
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
-                              ZFThread *, mainThread)
+    ZFMETHOD_DECLARE_STATIC_0(ZFThread *, mainThread)
     /**
      * @brief return current thread,
      *   or zfnull if thread isn't started or registered by ZFThread
      *   or not registered by #ZFThread::nativeThreadRegister
      */
-    ZFMETHOD_DECLARE_DETAIL_0(public, ZFMethodTypeStatic,
-                              ZFThread *, currentThread)
+    ZFMETHOD_DECLARE_STATIC_0(ZFThread *, currentThread)
 
     /**
      * @brief make current thread sleep for miliSecs,
      *   note this method may be not accurate
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              void, sleep,
+    ZFMETHOD_DECLARE_STATIC_1(void, sleep,
                               ZFMP_IN(zftimet, miliSecs))
 
     // ============================================================
@@ -104,7 +99,7 @@ protected:
     ZFOBJECT_ON_INIT_INLINE_1(ZFMP_IN(const ZFListener &, runnable))
     {
         this->objectOnInit();
-        zfself::threadRunnableSet(runnable);
+        zfself::threadRunnable(runnable);
     }
 
     zfoverride
@@ -205,10 +200,9 @@ protected:
      *
      * see #threadRunnable
      */
-    ZFMETHOD_DECLARE_DETAIL_2(protected, ZFMethodTypeVirtual,
-                              void, threadOnRun,
-                              ZFMP_IN(const ZFListenerData &, listenerData),
-                              ZFMP_IN(ZFObject *, userData))
+    ZFMETHOD_DECLARE_PROTECTED_2(void, threadOnRun,
+                                 ZFMP_IN(const ZFListenerData &, listenerData),
+                                 ZFMP_IN(ZFObject *, userData))
 
 public:
     zffinal void _ZFP_ZFThread_threadOnStart(ZF_IN ZFObject *param0, ZF_IN ZFObject *param1)

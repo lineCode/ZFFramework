@@ -94,7 +94,7 @@ public:
                     ZF_IN ZFObject *param1)
     {
         _ZFP_listenerHolder = zfAlloc(ZFListenerHolder, runnable,
-            ZFListenerData().param0Set(param0).param1Set(param1));
+            ZFListenerData().param0(param0).param1(param1));
         _ZFP_timer.connect(&_ZFP_timer, SIGNAL(timeout()), this, SLOT(_ZFP_run()));
         _ZFP_timer.moveToThread(QCoreApplication::instance()->thread());
         _ZFP_timer.setInterval(delay);
@@ -222,7 +222,7 @@ public:
                                       ZF_IN ZFObject *param1)
     {
         ZFListenerHolder *listenerHolder = zfAlloc(ZFListenerHolder, runnable,
-            ZFListenerData().param0Set(param0).param1Set(param1));
+            ZFListenerData().param0(param0).param1(param1));
         this->_mainThreadHolder.executeInMainThread(listenerHolder);
         return zfnull;
     }
@@ -245,7 +245,7 @@ public:
     {
         _ZFP_ZFThreadImpl_sys_Qt_NewThreadHolder *threadHolder = new _ZFP_ZFThreadImpl_sys_Qt_NewThreadHolder();
         threadHolder->_ZFP_listenerHolder = zfAlloc(ZFListenerHolder, runnable,
-            ZFListenerData().param0Set(param0).param1Set(param1));
+            ZFListenerData().param0(param0).param1(param1));
         threadHolder->start();
         return threadHolder;
     }

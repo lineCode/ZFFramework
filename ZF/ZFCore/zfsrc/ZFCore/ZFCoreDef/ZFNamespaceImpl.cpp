@@ -75,7 +75,7 @@ const zfchar *ZFNamespaceSkipGlobal(ZF_IN const zfchar *ns)
     }
 }
 
-zfbool ZFNamespaceSplit(ZF_OUT ZFCoreArray<ZFIndexRange> &ret,
+zfbool ZFNamespaceSplit(ZF_IN_OUT ZFCoreArray<ZFIndexRange> &ret,
                         ZF_IN const zfchar *src,
                         ZF_IN_OPT zfindex srcLen /* = zfindexMax() */)
 {
@@ -195,7 +195,7 @@ void _ZFP_ZFNamespaceUnregister(ZF_IN const char *ns)
     }
 }
 
-void ZFNamespaceGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret)
+void ZFNamespaceGetAllT(ZF_IN_OUT ZFCoreArray<const zfchar *> &ret)
 {
     zfCoreMutexLocker();
     ZFCoreQueuePOD<_ZFP_ZFNamespaceMapType *> toCheck;
@@ -214,7 +214,7 @@ void ZFNamespaceGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret)
     } while(!toCheck.isEmpty());
 }
 
-void ZFNamespaceGetAllT(ZF_OUT ZFCoreArray<const zfchar *> &ret,
+void ZFNamespaceGetAllT(ZF_IN_OUT ZFCoreArray<const zfchar *> &ret,
                         ZF_IN const zfchar *parent,
                         ZF_IN_OPT zfbool recursive /* = zffalse */)
 {

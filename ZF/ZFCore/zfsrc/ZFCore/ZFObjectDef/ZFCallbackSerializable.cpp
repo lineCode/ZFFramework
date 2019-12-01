@@ -21,7 +21,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                     return zffalse;
                 }
 
-                _ZFP_ZFCallbackSerializeCustomCallback serializeCallback = _ZFP_ZFCallbackSerializeCustomTypeGet(customType);
+                _ZFP_ZFCallbackSerializeCustomCallback serializeCallback = _ZFP_ZFCallbackSerializeCustomTypeForName(customType);
                 if(serializeCallback == zfnull)
                 {
                     ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, serializableData,
@@ -32,8 +32,8 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                 {
                     return zffalse;
                 }
-                v.callbackSerializeCustomTypeSet(customType);
-                v.callbackSerializeCustomDataSet(customData);
+                v.callbackSerializeCustomType(customType);
+                v.callbackSerializeCustomData(customData);
 
                 serializableData.resolveMark();
                 return zftrue;
@@ -93,12 +93,12 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
                 ZFSerializableUtil::errorOccurred(outErrorHint, "missing callback serialize custom data");
                 return zffalse;
             }
-            serializableData.itemClassSet(ZFTypeId_ZFCallback());
+            serializableData.itemClass(ZFTypeId_ZFCallback());
 
-            serializableData.attributeSet(ZFSerializableKeyword_ZFCallback_callbackType, v.callbackSerializeCustomType());
+            serializableData.attributeForName(ZFSerializableKeyword_ZFCallback_callbackType, v.callbackSerializeCustomType());
 
             ZFSerializableData customData = v.callbackSerializeCustomData()->copy();
-            customData.categorySet(ZFSerializableKeyword_ZFCallback_callbackData);
+            customData.category(ZFSerializableKeyword_ZFCallback_callbackData);
             serializableData.elementAdd(customData);
 
             return zftrue;
@@ -107,17 +107,17 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
         switch(v.callbackType())
         {
             case ZFCallbackTypeDummy:
-                serializableData.itemClassSet(ZFSerializableKeyword_null);
+                serializableData.itemClass(ZFSerializableKeyword_null);
                 break;
             case ZFCallbackTypeMethod:
             {
-                serializableData.itemClassSet(ZFTypeId_ZFCallback());
+                serializableData.itemClass(ZFTypeId_ZFCallback());
                 ZFSerializableData methodData;
                 if(!ZFMethodToData(methodData, v.callbackMethod(), outErrorHint))
                 {
                     return zffalse;
                 }
-                methodData.categorySet(ZFSerializableKeyword_ZFCallback_method);
+                methodData.category(ZFSerializableKeyword_ZFCallback_method);
                 serializableData.elementAdd(methodData);
             }
                 break;
@@ -129,7 +129,7 @@ ZFTYPEID_DEFINE_BY_SERIALIZABLE_CONVERTER(ZFCallback, ZFCallback, {
             }
                 break;
             case ZFCallbackTypeRawFunction:
-                serializableData.itemClassSet(ZFTypeId_ZFCallback());
+                serializableData.itemClass(ZFTypeId_ZFCallback());
                 ZFSerializableUtil::errorOccurred(outErrorHint,
                     "raw function is not supported");
                 return zffalse;
@@ -167,7 +167,7 @@ void _ZFP_ZFCallbackSerializeCustomTypeUnregister(ZF_IN const zfchar *customType
 {
     _ZFP_ZFCallbackSerializeCustomCallbackMap().erase(customType);
 }
-_ZFP_ZFCallbackSerializeCustomCallback _ZFP_ZFCallbackSerializeCustomTypeGet(ZF_IN const zfchar *customType)
+_ZFP_ZFCallbackSerializeCustomCallback _ZFP_ZFCallbackSerializeCustomTypeForName(ZF_IN const zfchar *customType)
 {
     zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback> &m = _ZFP_ZFCallbackSerializeCustomCallbackMap();
     zfstlmap<zfstlstringZ, _ZFP_ZFCallbackSerializeCustomCallback>::iterator it = m.find(customType);

@@ -68,11 +68,11 @@ protected:
                               ZFMP_IN_OPT(zfbool, timerActivateInMainThread, zffalse))
     {
         this->objectOnInit();
-        zfself::timerIntervalSet(timerInterval);
-        zfself::timerDelaySet(timerDelay);
-        zfself::timerParam0Set(timerParam0);
-        zfself::timerParam1Set(timerParam1);
-        zfself::timerActivateInMainThreadSet(timerActivateInMainThread);
+        zfself::timerInterval(timerInterval);
+        zfself::timerDelay(timerDelay);
+        zfself::timerParam0(timerParam0);
+        zfself::timerParam1(timerParam1);
+        zfself::timerActivateInMainThread(timerActivateInMainThread);
     }
 
     zfoverride

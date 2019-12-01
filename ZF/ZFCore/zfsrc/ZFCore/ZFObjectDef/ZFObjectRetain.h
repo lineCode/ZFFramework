@@ -160,7 +160,7 @@ inline void _ZFP_zfRelease(ZF_IN T_ZFObject obj)
  * -  you are unable to check all cached objects,
  *   but you may clear all cache by #zfAllocCacheRemoveAll
  * -  the cached object should be stateless,
- *   the #ZFObject::tagRemoveAll and #ZFObject::observerRemoveAll
+ *   the #ZFObject::objectTagRemoveAll and #ZFObject::observerRemoveAll
  *   would be called to clear the cached object's state
  * -  the cached object type must supply #ZFALLOC_CACHE_RELEASE
  *   to reset the cache state

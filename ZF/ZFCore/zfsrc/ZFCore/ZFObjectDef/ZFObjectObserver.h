@@ -21,34 +21,74 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  */
 zffinal zfclassLikePOD ZF_ENV_EXPORT ZFListenerData
 {
+    ZFCORE_PARAM_DECLARE_SELF(ZFListenerData)
 public:
     /**
      * @brief event id, may be #zfidentityInvalid
      */
-    zfidentity eventId;
+    ZFCORE_PARAM_WITH_INIT(zfidentity, eventId, zfidentityInvalid())
     /**
      * @brief who notified the listener event, may be null
      */
-    ZFObject *sender;
+    ZFCORE_PARAM(ZFObject *, sender)
     /**
      * @brief params, may be null
      */
-    ZFObject *param0;
+    ZFCORE_PARAM(ZFObject *, param0)
     /**
      * @brief params, may be null
      */
-    ZFObject *param1;
+    ZFCORE_PARAM(ZFObject *, param1)
 
+    /** @brief util to #sender */
+    template<typename T_ZFObject>
+    T_ZFObject sender(void) const
+    {
+        return ZFCastZFObject(T_ZFObject, this->sender());
+    }
+    /** @brief util to #param0 */
+    template<typename T_ZFObject>
+    T_ZFObject param0(void) const
+    {
+        return ZFCastZFObject(T_ZFObject, this->param0());
+    }
+    /** @brief util to #param1 */
+    template<typename T_ZFObject>
+    T_ZFObject param1(void) const
+    {
+        return ZFCastZFObject(T_ZFObject, this->param1());
+    }
+
+public:
+    // ============================================================
+    // event filter logic
+    zfbool _ZFP_eventFilteredHolder;
+    zfbool *_ZFP_eventFiltered;
+
+    /**
+     * @brief used to achieve event filter logic
+     *
+     * to achieve event filter,
+     * you may attach an #ZFObserverHolder::observerAdd with higher #ZFLevel,
+     * and set #eventFiltered to true,
+     * then the event would not be further dispatched
+     */
+    inline ZFListenerData const &eventFiltered(ZF_IN zfbool eventFiltered) const {if(this->_ZFP_eventFiltered) {*(this->_ZFP_eventFiltered) = eventFiltered;} return *this;}
+    /** @brief see #eventFiltered */
+    inline ZFListenerData &eventFiltered(ZF_IN zfbool eventFiltered) {if(this->_ZFP_eventFiltered) {*(this->_ZFP_eventFiltered) = eventFiltered;} return *this;}
+    /** @brief see #eventFiltered */
+    inline zfbool eventFiltered(void) const {if(this->_ZFP_eventFiltered) {return *(this->_ZFP_eventFiltered);} else {return zffalse;}}
+
+    /** @brief see #eventFiltered */
+    inline ZFListenerData &eventFilterEnable(void) {this->_ZFP_eventFiltered = &(this->_ZFP_eventFilteredHolder); return *this;}
+
+    // ============================================================
 public:
     /**
      * @brief main constructor
      */
     ZFListenerData(void)
-    : eventId(zfidentityInvalid())
-    , sender(zfnull)
-    , param0(zfnull)
-    , param1(zfnull)
-    , _ZFP_eventFilteredHolder(zffalse)
+    : _ZFP_eventFilteredHolder(zffalse)
     , _ZFP_eventFiltered(zfnull)
     {
     }
@@ -59,39 +99,32 @@ public:
                    ZF_IN ZFObject *sender,
                    ZF_IN_OPT ZFObject *param0 = zfnull,
                    ZF_IN_OPT ZFObject *param1 = zfnull)
-    : eventId(eventId)
-    , sender(sender)
-    , param0(param0)
-    , param1(param1)
-    , _ZFP_eventFilteredHolder(zffalse)
+    : _ZFP_eventFilteredHolder(zffalse)
     , _ZFP_eventFiltered(zfnull)
     {
+        this->eventId(eventId);
+        this->sender(sender);
+        this->param0(param0);
+        this->param1(param1);
     }
     /**
      * @brief construct with another data
      */
     ZFListenerData(ZF_IN const ZFListenerData &ref)
-    : eventId(ref.eventId)
-    , sender(ref.sender)
-    , param0(ref.param0)
-    , param1(ref.param1)
-    , _ZFP_eventFilteredHolder(ref._ZFP_eventFilteredHolder)
+    : _ZFP_eventFilteredHolder(ref._ZFP_eventFilteredHolder)
     , _ZFP_eventFiltered(zfnull)
     {
-        if(ref._ZFP_eventFiltered)
-        {
-            this->eventFilterEnable();
-        }
+        this->operator = (ref);
     }
 
 public:
     /** @cond ZFPrivateDoc */
     ZFListenerData &operator = (ZF_IN const ZFListenerData &ref)
     {
-        this->eventId = ref.eventId;
-        this->sender = ref.sender;
-        this->param0 = ref.param0;
-        this->param1 = ref.param1;
+        this->eventId(ref.eventId());
+        this->sender(ref.sender());
+        this->param0(ref.param0());
+        this->param1(ref.param1());
         this->_ZFP_eventFilteredHolder = ref._ZFP_eventFilteredHolder;
         if(ref._ZFP_eventFiltered)
         {
@@ -102,10 +135,10 @@ public:
     zfbool operator == (ZF_IN const ZFListenerData &ref) const
     {
         return (zftrue
-                && this->eventId == ref.eventId
-                && this->sender == ref.sender
-                && this->param0 == ref.param0
-                && this->param1 == ref.param1
+                && this->eventId() == ref.eventId()
+                && this->sender() == ref.sender()
+                && this->param0() == ref.param0()
+                && this->param1() == ref.param1()
                 && this->_ZFP_eventFilteredHolder == ref._ZFP_eventFilteredHolder
             );
     }
@@ -122,37 +155,6 @@ public:
         this->objectInfoT(ret);
         return ret;
     }
-
-public:
-    /** @brief util method to set #eventId */
-    inline ZFListenerData &eventIdSet(ZF_IN zfidentity eventId) {this->eventId = eventId; return *this;}
-    /** @brief util method to set #sender (no auto retain) */
-    inline ZFListenerData &senderSet(ZF_IN ZFObject *sender) {this->sender = sender; return *this;}
-    /** @brief util method to set #param0 (no auto retain) */
-    inline ZFListenerData &param0Set(ZF_IN ZFObject *param0) {this->param0 = param0; return *this;}
-    /** @brief util method to set #param1 (no auto retain) */
-    inline ZFListenerData &param1Set(ZF_IN ZFObject *param1) {this->param1 = param1; return *this;}
-
-public:
-    // ============================================================
-    // event filter logic
-    zfbool _ZFP_eventFilteredHolder;
-    zfbool *_ZFP_eventFiltered;
-
-    /**
-     * @brief used to achieve event filter logic
-     *
-     * to achieve event filter,
-     * you may attach an #ZFObserverHolder::observerAdd with higher #ZFLevel,
-     * and set #eventFilteredSet to true,
-     * then the event would not be further dispatched
-     */
-    inline void eventFilteredSet(ZF_IN zfbool eventFiltered) const {if(this->_ZFP_eventFiltered) {*(this->_ZFP_eventFiltered) = eventFiltered;}}
-    /** @brief see #eventFilteredSet */
-    inline zfbool eventFiltered(void) const {if(this->_ZFP_eventFiltered) {return *(this->_ZFP_eventFiltered);} else {return zffalse;}}
-
-    /** @brief see #eventFilteredSet */
-    inline ZFListenerData &eventFilterEnable(void) {this->_ZFP_eventFiltered = &(this->_ZFP_eventFilteredHolder); return *this;}
 };
 
 // ============================================================
@@ -346,7 +348,7 @@ public:
     {
         return this->_observerOwner;
     }
-    zffinal void _ZFP_ZFObserverHolder_observerOwnerSet(ZF_IN ZFObject *obj) const;
+    zffinal void _ZFP_ZFObserverHolder_observerOwner(ZF_IN ZFObject *obj) const;
 
 private:
     _ZFP_ZFObserverHolderPrivate *d;
@@ -394,7 +396,7 @@ extern ZF_ENV_EXPORT ZFObserverHolder &_ZFP_ZFObjectGlobalEventObserverRef(void)
  *   after relaunching the app,
  *   the event id is not ensured the same,
  *   you should use the name of the event to store or pass between apps,
- *   and you can use #ZFIdMapGetId or #ZFIdMapGetName
+ *   and you can use #ZFIdMapIdForName or #ZFIdMapNameForId
  *   to convert them easily
  */
 #define ZFOBSERVER_EVENT(YourEvent) \

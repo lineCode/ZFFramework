@@ -59,8 +59,7 @@ public:
     /**
      * @brief get hint list in specified #ZFUISysWindow
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              ZFCoreArrayPOD<ZFUIHint *>, hintList,
+    ZFMETHOD_DECLARE_STATIC_1(ZFCoreArrayPOD<ZFUIHint *>, hintList,
                               ZFMP_IN_OPT(ZFUISysWindow *, inSysWindow, zfnull))
 
 public:

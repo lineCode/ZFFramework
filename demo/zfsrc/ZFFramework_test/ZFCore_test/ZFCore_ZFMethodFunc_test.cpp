@@ -136,7 +136,7 @@ protected:
             };
             filter.customFilterCallbackAdd(_Holder::filter);
         }
-        ZFMethodFuncGetAllT(methods, &filter);
+        ZFMethodGetAllFuncT(methods, &filter);
         this->testCaseOutput(methods.objectInfoOfContent(
                 ZFCoreElementInfoGetter<const ZFMethod *>::elementInfoGetter,
                 zfindexMax(),

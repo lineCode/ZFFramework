@@ -129,7 +129,7 @@ void ZFAnimationNativeView::aniOnStart(void)
         if(d->aniTargetAutoDisableCached)
         {
             d->aniTargetEnableSaved = aniTarget->viewUIEnableTree();
-            aniTarget->viewUIEnableTreeSet(zffalse);
+            aniTarget->viewUIEnableTree(zffalse);
         }
     }
 }
@@ -138,7 +138,7 @@ void ZFAnimationNativeView::aniOnStop(void)
     ZFUIView *aniTarget = ZFAny(this->aniTarget());
     if(aniTarget != zfnull && d->aniTargetAutoDisableCached)
     {
-        aniTarget->viewUIEnableTreeSet(d->aniTargetAutoDisableCached);
+        aniTarget->viewUIEnableTree(d->aniTargetAutoDisableCached);
     }
     zfsuper::aniOnStop();
 }

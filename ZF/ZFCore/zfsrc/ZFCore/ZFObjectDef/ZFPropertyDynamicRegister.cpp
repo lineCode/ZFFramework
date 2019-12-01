@@ -47,7 +47,7 @@ public:
 };
 
 // ============================================================
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyDynamicRegisterUserDataSet(ZF_IN ZFObject *propertyDynamicRegisterUserData)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyDynamicRegisterUserData(ZF_IN ZFObject *propertyDynamicRegisterUserData)
 {
     d->propertyDynamicRegisterUserData = propertyDynamicRegisterUserData;
     return *this;
@@ -57,7 +57,7 @@ ZFObject *ZFPropertyDynamicRegisterParam::propertyDynamicRegisterUserData(void) 
     return d->propertyDynamicRegisterUserData;
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyOwnerClassSet(ZF_IN const ZFClass *propertyOwnerClass)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyOwnerClass(ZF_IN const ZFClass *propertyOwnerClass)
 {
     d->propertyOwnerClass = propertyOwnerClass;
     return *this;
@@ -67,7 +67,7 @@ const ZFClass *ZFPropertyDynamicRegisterParam::propertyOwnerClass(void) const
     return d->propertyOwnerClass;
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyTypeIdSet(ZF_IN const zfchar *propertyTypeId)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyTypeId(ZF_IN const zfchar *propertyTypeId)
 {
     d->propertyTypeId = propertyTypeId;
     return *this;
@@ -77,7 +77,7 @@ const zfchar *ZFPropertyDynamicRegisterParam::propertyTypeId(void) const
     return (d->propertyTypeId.isEmpty() ? zfnull : d->propertyTypeId.cString());
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyTypeNameSet(ZF_IN const zfchar *propertyTypeName)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyTypeName(ZF_IN const zfchar *propertyTypeName)
 {
     d->propertyTypeName = propertyTypeName;
     return *this;
@@ -87,7 +87,7 @@ const zfchar *ZFPropertyDynamicRegisterParam::propertyTypeName(void) const
     return (d->propertyTypeName.isEmpty() ? d->propertyTypeId.cString() : d->propertyTypeName.cString());
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyNameSet(ZF_IN const zfchar *propertyName)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyName(ZF_IN const zfchar *propertyName)
 {
     d->propertyName = propertyName;
     return *this;
@@ -97,7 +97,7 @@ const zfchar *ZFPropertyDynamicRegisterParam::propertyName(void) const
     return (d->propertyName.isEmpty() ? zfnull : d->propertyName.cString());
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyClassOfRetainPropertySet(ZF_IN const ZFClass *propertyClassOfRetainProperty)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyClassOfRetainProperty(ZF_IN const ZFClass *propertyClassOfRetainProperty)
 {
     d->propertyClassOfRetainProperty = propertyClassOfRetainProperty;
     return *this;
@@ -107,7 +107,7 @@ const ZFClass *ZFPropertyDynamicRegisterParam::propertyClassOfRetainProperty(voi
     return d->propertyClassOfRetainProperty;
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyInitValueCallbackSet(ZF_IN ZFPropertyDynamicRegisterInitValueCallback propertyInitValueCallback)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyInitValueCallback(ZF_IN ZFPropertyDynamicRegisterInitValueCallback propertyInitValueCallback)
 {
     d->propertyInitValueCallback = propertyInitValueCallback;
     return *this;
@@ -117,7 +117,7 @@ ZFPropertyDynamicRegisterInitValueCallback ZFPropertyDynamicRegisterParam::prope
     return d->propertyInitValueCallback;
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertySetterTypeSet(ZF_IN ZFMethodPrivilegeType propertySetterType)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertySetterType(ZF_IN ZFMethodPrivilegeType propertySetterType)
 {
     d->propertySetterType = propertySetterType;
     return *this;
@@ -127,7 +127,7 @@ ZFMethodPrivilegeType ZFPropertyDynamicRegisterParam::propertySetterType(void) c
     return d->propertySetterType;
 }
 
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyGetterTypeSet(ZF_IN ZFMethodPrivilegeType propertyGetterType)
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyGetterType(ZF_IN ZFMethodPrivilegeType propertyGetterType)
 {
     d->propertyGetterType = propertyGetterType;
     return *this;
@@ -138,12 +138,12 @@ ZFMethodPrivilegeType ZFPropertyDynamicRegisterParam::propertyGetterType(void) c
 }
 
 // ============================================================
-ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyCustomImplSet(ZF_IN const ZFMethod *propertySetterMethod
-                                                                                      , ZF_IN const ZFMethod *propertyGetterMethod
-                                                                                      , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
-                                                                                      , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
-                                                                                      , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
-                                                                                      )
+ZFPropertyDynamicRegisterParam &ZFPropertyDynamicRegisterParam::propertyCustomImpl(ZF_IN const ZFMethod *propertySetterMethod
+                                                                                   , ZF_IN const ZFMethod *propertyGetterMethod
+                                                                                   , ZF_IN ZFPropertyCallbackIsValueAccessed callbackIsValueAccessed
+                                                                                   , ZF_IN ZFPropertyCallbackIsInitValue callbackIsInitValue
+                                                                                   , ZF_IN ZFPropertyCallbackValueReset callbackValueReset
+                                                                                   )
 {
     d->propertyCustomImplSetterMethod = propertySetterMethod;
     d->propertyCustomImplGetterMethod = propertyGetterMethod;
@@ -214,23 +214,23 @@ ZF_NAMESPACE_GLOBAL_END
 #include "../ZFObject.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyDynamicRegisterUserDataSet, ZFMP_IN(ZFObject *, propertyDynamicRegisterUserData))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyDynamicRegisterUserData, ZFMP_IN(ZFObject *, propertyDynamicRegisterUserData))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, ZFObject *, propertyDynamicRegisterUserData)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyOwnerClassSet, ZFMP_IN(const ZFClass *, propertyOwnerClass))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyOwnerClass, ZFMP_IN(const ZFClass *, propertyOwnerClass))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, const ZFClass *, propertyOwnerClass)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyTypeIdSet, ZFMP_IN(const zfchar *, propertyTypeId))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyTypeId, ZFMP_IN(const zfchar *, propertyTypeId))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, const zfchar *, propertyTypeId)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyTypeNameSet, ZFMP_IN(const zfchar *, propertyTypeName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyTypeName, ZFMP_IN(const zfchar *, propertyTypeName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, const zfchar *, propertyTypeName)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyNameSet, ZFMP_IN(const zfchar *, propertyName))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyName, ZFMP_IN(const zfchar *, propertyName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, const zfchar *, propertyName)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyClassOfRetainPropertySet, ZFMP_IN(const ZFClass *, propertyClassOfRetainProperty))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyClassOfRetainProperty, ZFMP_IN(const ZFClass *, propertyClassOfRetainProperty))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, const ZFClass *, propertyClassOfRetainProperty)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyInitValueCallbackSet, ZFMP_IN(ZFPropertyDynamicRegisterInitValueCallback, propertyInitValueCallback))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyInitValueCallback, ZFMP_IN(ZFPropertyDynamicRegisterInitValueCallback, propertyInitValueCallback))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterInitValueCallback, propertyInitValueCallback)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertySetterTypeSet, ZFMP_IN(ZFMethodPrivilegeType, propertySetterType))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertySetterType, ZFMP_IN(ZFMethodPrivilegeType, propertySetterType))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, ZFMethodPrivilegeType, propertySetterType)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, ZFPropertyDynamicRegisterParam &, propertyGetterTypeSet, ZFMP_IN(ZFMethodPrivilegeType, propertyGetterType))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFPropertyDynamicRegisterParam, void, propertyGetterType, ZFMP_IN(ZFMethodPrivilegeType, propertyGetterType))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFPropertyDynamicRegisterParam, ZFMethodPrivilegeType, propertyGetterType)
 
 ZFMETHOD_FUNC_USER_REGISTER_FOR_FUNC_2(const ZFProperty *, ZFPropertyDynamicRegister, ZFMP_IN(const ZFPropertyDynamicRegisterParam &, param), ZFMP_OUT_OPT(zfstring *, errorHint, zfnull))

@@ -17,7 +17,7 @@ void ZFIterableAddFrom(ZF_IN_OUT T_Dst dst, ZF_IN T_Src src)
 {
     for(zfiterator it = src->iterator(); src->iteratorIsValid(it);)
     {
-        dst->iteratorAdd(src->iteratorNext(it));
+        dst->iteratorAdd(src->iteratorNextValue(it));
     }
 }
 
@@ -29,9 +29,9 @@ zfiterator ZFIterableFind(ZF_IN T_ZFIterable iterable,
                           ZF_IN T_Element const &e,
                           ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerDefault)
 {
-    for(zfiterator it = iterable->iterator(); iterable->iteratorIsValid(it); iterable->iteratorNext(it))
+    for(zfiterator it = iterable->iterator(); iterable->iteratorIsValid(it); iterable->iteratorNextValue(it))
     {
-        if(comparer(iterable->iteratorGet(it), e) == ZFCompareTheSame)
+        if(comparer(iterable->iteratorValue(it), e) == ZFCompareTheSame)
         {
             return it;
         }
@@ -49,9 +49,9 @@ zfiterator ZFIterableFind(ZF_IN T_ZFIterable iterable,
                           ZF_IN_OPT const zfiterator &itEnd = zfiteratorInvalid(),
                           ZF_IN_OPT typename ZFComparer<T_Element>::Comparer comparer = ZFComparerDefault)
 {
-    for(zfiterator it = itBegin; !iterable->iteratorIsEqual(it, itEnd); iterable->iteratorNext(it))
+    for(zfiterator it = itBegin; !iterable->iteratorIsEqual(it, itEnd); iterable->iteratorNextValue(it))
     {
-        if(comparer(iterable->iteratorGet(it), e) == ZFCompareTheSame)
+        if(comparer(iterable->iteratorValue(it), e) == ZFCompareTheSame)
         {
             return it;
         }
@@ -71,14 +71,14 @@ zfiterator ZFIterableRemove(ZF_IN_OUT T_ZFIterable iterable,
     zfindex removed = 0;
     for(zfiterator it = iterable->iterator(); removed < maxCountToRemove && iterable->iteratorIsValid(it); )
     {
-        if(comparer(iterable->iteratorGet(it), e) == ZFCompareTheSame)
+        if(comparer(iterable->iteratorValue(it), e) == ZFCompareTheSame)
         {
             ++removed;
             iterable->iteratorRemove(it);
         }
         else
         {
-            iterable->iteratorNext(it);
+            iterable->iteratorNextValue(it);
         }
     }
     return zfiteratorInvalid();
@@ -98,14 +98,14 @@ zfiterator ZFIterableRemove(ZF_IN_OUT T_ZFIterable iterable,
     zfindex removed = 0;
     for(zfiterator it = itBegin; removed < maxCountToRemove && !iterable->iteratorIsEqual(it, itEnd); )
     {
-        if(comparer(iterable->iteratorGet(it), e) == ZFCompareTheSame)
+        if(comparer(iterable->iteratorValue(it), e) == ZFCompareTheSame)
         {
             ++removed;
             iterable->iteratorRemove(it);
         }
         else
         {
-            iterable->iteratorNext(it);
+            iterable->iteratorNextValue(it);
         }
     }
     return zfiteratorInvalid();

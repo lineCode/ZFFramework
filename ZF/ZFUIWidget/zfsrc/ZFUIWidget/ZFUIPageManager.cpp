@@ -67,7 +67,7 @@ private:
             return ;
         }
 
-        manager->requestBlockedSet(zftrue);
+        manager->requestBlocked(zftrue);
         ZFUIPageRequest *request = manager->d->requestQueue.queueTake();
 
         if(!request->requestResolved())
@@ -78,13 +78,13 @@ private:
         {
             manager->requestOnResolve(request);
         }
-        manager->managerUIBlockedSet(zffalse);
+        manager->managerUIBlocked(zffalse);
         zfCoreAssertWithMessageTrim(request->requestResolved(),
             "[ZFUIPageManager] unresolved request: %s",
             request->objectInfo().cString());
         manager->requestOnResolveFinish(request);
         zfRelease(request);
-        manager->requestBlockedSet(zffalse);
+        manager->requestBlocked(zffalse);
         manager->d->requestRunning = zffalse;
 
         if(manager->d->requestQueue.isEmpty())
@@ -106,8 +106,8 @@ private:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(pageAniOnStopOrOnInvalid)
     {
-        ZFUIPage *page = userData->tagGet<ZFUIPage *>("page");
-        ZFEnum *reason = userData->tagGet<ZFEnum *>("reason");
+        ZFUIPage *page = userData->objectTag<ZFUIPage *>("page");
+        ZFEnum *reason = userData->objectTag<ZFEnum *>("reason");
         ZFUIPageManager *pageManager = page->pageManager();
 
         zfRetain(userData);
@@ -124,7 +124,7 @@ private:
         }
 
         page->_ZFP_ZFUIPage_pageAniCanChange = zftrue;
-        page->pageAniSet(zfnull);
+        page->pageAni(zfnull);
         page->_ZFP_ZFUIPage_pageAniCanChange = zffalse;
 
         if(reason->classData()->classIsTypeOf(ZFUIPagePauseReason::ClassData()))
@@ -134,29 +134,29 @@ private:
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(pageAniOnStart)
     {
-        ZFUIPage *page = userData->tagGet<ZFUIPage *>("page");
-        ZFEnum *reason = userData->tagGet<ZFEnum *>("reason");
+        ZFUIPage *page = userData->objectTag<ZFUIPage *>("page");
+        ZFEnum *reason = userData->objectTag<ZFEnum *>("reason");
 
-        page->pageManager()->managerUIBlockedSet(zftrue);
-        ZFAnimation *pageAni = listenerData.sender->to<ZFAnimation *>();
+        page->pageManager()->managerUIBlocked(zftrue);
+        ZFAnimation *pageAni = listenerData.sender<ZFAnimation *>();
         page->pageAniOnStart(pageAni, reason);
     }
     static ZFLISTENER_PROTOTYPE_EXPAND(pageAniOnStop)
     {
-        ZFUIPage *page = userData->tagGet<ZFUIPage *>("page");
-        ZFEnum *reason = userData->tagGet<ZFEnum *>("reason");
+        ZFUIPage *page = userData->objectTag<ZFUIPage *>("page");
+        ZFEnum *reason = userData->objectTag<ZFEnum *>("reason");
 
-        ZFAnimation *pageAni = listenerData.sender->to<ZFAnimation *>();
+        ZFAnimation *pageAni = listenerData.sender<ZFAnimation *>();
         page->pageAniOnStop(pageAni, reason);
 
-        page->pageManager()->managerUIBlockedSet(zffalse);
+        page->pageManager()->managerUIBlocked(zffalse);
     }
 
 public:
     void pageCreate(ZF_IN ZFUIPage *page, ZF_IN const ZFUIPageRequestPageCreateParam &createParam)
     {
-        page->pageCreateParamSet(createParam.pageCreateParam());
-        page->pageGroupIdSet(createParam.pageGroupId());
+        page->pageCreateParam(createParam.pageCreateParam());
+        page->pageGroupId(createParam.pageGroupId());
 
         page->_ZFP_ZFUIPage_pageCreate();
         this->pimplOwner->pageOnCreate(page, createParam);
@@ -398,8 +398,8 @@ public:
                                ZF_IN ZFEnum *reason)
     {
         zfblockedAlloc(ZFObject, userData);
-        userData->tagSet("page", page->toObject());
-        userData->tagSet("reason", reason);
+        userData->objectTag("page", page->toObject());
+        userData->objectTag("reason", reason);
         page->pageAni()->observerAdd(ZFAnimation::EventAniOnStopOrOnInvalid(), this->pageAniOnStopOrOnInvalidListener, userData);
         page->pageAni()->observerAdd(ZFAnimation::EventAniOnStart(), this->pageAniOnStartListener, userData);
         page->pageAni()->observerAdd(ZFAnimation::EventAniOnStop(), this->pageAniOnStopListener, userData);
@@ -552,7 +552,7 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, void, embededDestroy)
         }
         for(zfindex i = 0; i < tmp.count(); ++i)
         {
-            this->managerUIBlockedSet(zffalse);
+            this->managerUIBlocked(zffalse);
             zfRelease(tmp[i]);
         }
     }
@@ -580,7 +580,7 @@ ZFMETHOD_DEFINE_0(ZFUIPageManager, zfbool, managerResumed)
 
 // ============================================================
 // manager control
-ZFMETHOD_DEFINE_1(ZFUIPageManager, void, managerUIBlockedSet,
+ZFMETHOD_DEFINE_1(ZFUIPageManager, void, managerUIBlocked,
                   ZFMP_IN(zfbool, value))
 {
     zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
@@ -651,9 +651,9 @@ ZFMETHOD_DEFINE_3(ZFUIPageManager, void, requestPageCreate,
     }
     zfblockedAlloc(ZFUIPageRequestPageCreate, request);
     request->createParam
-        .pageSet(page)
-        .pageCreateParamSet(pageCreateParam)
-        .pageAutoResumeSet(pageAutoResume);
+        .page(page)
+        .pageCreateParam(pageCreateParam)
+        .pageAutoResume(pageAutoResume);
     this->requestPost(request);
 }
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPageResume,
@@ -664,14 +664,14 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPageResume,
         return ;
     }
     zfblockedAlloc(ZFUIPageRequestPageResume, request);
-    request->pageSet(page);
+    request->page(page);
     this->requestPost(request);
 }
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPageGroupResume,
                   ZFMP_IN(const zfchar *, pageGroupId))
 {
     zfblockedAlloc(ZFUIPageRequestPageGroupResume, request);
-    request->pageGroupIdSet(zfstring(pageGroupId));
+    request->pageGroupId(zfstring(pageGroupId));
     this->requestPost(request);
 }
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPageDestroy,
@@ -682,7 +682,7 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPageDestroy,
         return ;
     }
     zfblockedAlloc(ZFUIPageRequestPageDestroy, request);
-    request->pageSet(page);
+    request->page(page);
     this->requestPost(request);
 }
 ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPost,
@@ -692,12 +692,12 @@ ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestPost,
     if(request != zfnull)
     {
         zfsynchronize(this->toObject());
-        this->managerUIBlockedSet(zftrue);
+        this->managerUIBlocked(zftrue);
         d->requestQueue.queuePut(zfRetain(request));
         d->requestDoPost(this->toObject());
     }
 }
-ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestBlockedSet,
+ZFMETHOD_DEFINE_1(ZFUIPageManager, void, requestBlocked,
                   ZFMP_IN(zfbool, value))
 {
     zfCoreAssertWithMessage(d != zfnull, "[ZFUIPageManager] manager not created");
@@ -791,7 +791,7 @@ void ZFUIPageManager::resolvePageCreate(ZF_IN ZFUIPageRequestPageCreate *request
         this->requestPageResume(page);
     }
 
-    request->requestResolvedSet(zftrue);
+    request->requestResolved(zftrue);
 }
 void ZFUIPageManager::requestOnResolvePageResume(ZF_IN ZFUIPageRequestPageResume *request)
 {
@@ -822,7 +822,7 @@ void ZFUIPageManager::resolvePageResume(ZF_IN ZFUIPageRequestPageResume *request
         }
     }
 
-    request->requestResolvedSet(zftrue);
+    request->requestResolved(zftrue);
 }
 void ZFUIPageManager::requestOnResolvePageGroupResume(ZF_IN ZFUIPageRequestPageGroupResume *request)
 {
@@ -847,7 +847,7 @@ void ZFUIPageManager::resolvePageGroupResume(ZF_IN ZFUIPageRequestPageGroupResum
     pageList.addFrom(pageListTmp);
     this->movePageEnd();
 
-    request->requestResolvedSet(zftrue);
+    request->requestResolved(zftrue);
 }
 void ZFUIPageManager::requestOnResolvePageDestroy(ZF_IN ZFUIPageRequestPageDestroy *request)
 {
@@ -908,7 +908,7 @@ void ZFUIPageManager::resolvePageDestroy(ZF_IN ZFUIPageRequestPageDestroy *reque
         zfRelease(page);
     }
 
-    request->requestResolvedSet(zftrue);
+    request->requestResolved(zftrue);
 }
 
 void ZFUIPageManager::requestOnResolveCustom(ZF_IN ZFUIPageRequestCustom *request)
@@ -918,10 +918,10 @@ void ZFUIPageManager::requestOnResolveCustom(ZF_IN ZFUIPageRequestCustom *reques
 void ZFUIPageManager::resolveCustom(ZF_IN ZFUIPageRequestCustom *request)
 {
     request->listener().execute(
-        ZFListenerData().senderSet(this->toObject()).param0Set(request->param0()).param1Set(request->param1()),
+        ZFListenerData().sender(this->toObject()).param0(request->param0()).param1(request->param1()),
         request->userData());
 
-    request->requestResolvedSet(zftrue);
+    request->requestResolved(zftrue);
 }
 
 // ============================================================
@@ -1045,12 +1045,12 @@ zfbool ZFUIPageManager::pageAniOverrideForOnceCheckUpdate(ZF_IN ZFUIPage *resume
     d->pageAniOverrideForOnce = zffalse;
     if(resumePageOrNull != zfnull)
     {
-        resumePageOrNull->pageAniSet(d->pageAniOverrideForOnceResumeAni);
+        resumePageOrNull->pageAni(d->pageAniOverrideForOnceResumeAni);
         resumePageOrNull->pageAniPriorityNeedHigher = zffalse;
     }
     if(pausePageOrNull != zfnull)
     {
-        pausePageOrNull->pageAniSet(d->pageAniOverrideForOncePauseAni);
+        pausePageOrNull->pageAni(d->pageAniOverrideForOncePauseAni);
         pausePageOrNull->pageAniPriorityNeedHigher = d->pageAniOverrideForOncePauseAniHasHigherPriority;
     }
     zfRetainChange(d->pageAniOverrideForOnceResumeAni, zfnull);
@@ -1073,22 +1073,22 @@ void ZFUIPageManager::pageAniOnUpdate(ZF_IN ZFUIPage *resumePageOrNull,
         case ZFUIPageResumeReason::e_ByRequest:
             if(pausePageOrNull != zfnull)
             {
-                pausePageOrNull->pageAniSet(pausePageOrNull->pageAniPauseToBackground());
+                pausePageOrNull->pageAni(pausePageOrNull->pageAniPauseToBackground());
             }
             if(resumePageOrNull != zfnull)
             {
-                resumePageOrNull->pageAniSet(resumePageOrNull->pageAniResumeByRequest());
+                resumePageOrNull->pageAni(resumePageOrNull->pageAniResumeByRequest());
             }
             break;
         case ZFUIPageResumeReason::e_FromBackground:
             if(pausePageOrNull != zfnull)
             {
                 pausePageOrNull->pageAniPriorityNeedHigher = zftrue;
-                pausePageOrNull->pageAniSet(pausePageOrNull->pageAniPauseBeforeDestroy());
+                pausePageOrNull->pageAni(pausePageOrNull->pageAniPauseBeforeDestroy());
             }
             if(resumePageOrNull != zfnull)
             {
-                resumePageOrNull->pageAniSet(resumePageOrNull->pageAniResumeFromBackground());
+                resumePageOrNull->pageAni(resumePageOrNull->pageAniResumeFromBackground());
             }
             break;
         default:

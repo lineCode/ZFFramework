@@ -33,7 +33,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   // access
  *   YourType &v = yourName();
  *   // modify
- *   yourNameSet(v);
+ *   yourName(v);
  * @endcode
  * \n
  * for readonly var, use #ZFEXPORT_VAR_READONLY_DECLARE\n
@@ -48,12 +48,17 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     /** @cond ZFPrivateDoc */ \
     extern ZF_ENV_EXPORT Type _ZFP_v_##Name; \
     /** @endcond */ \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(Type &, Name) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_0(G, \
+        Type &, Name \
+        ) \
     { \
         return _ZFP_v_##Name; \
     } \
     /** @brief see @ref Name */ \
-    ZFMETHOD_FUNC_DECLARE_INLINE_1(void, Name##Set, ZFMP_IN(Type const &, v)) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_1(S, \
+        void, Name \
+        , ZFMP_IN(Type const &, v) \
+        ) \
     { \
         _ZFP_v_##Name = v; \
     } \
@@ -63,8 +68,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_DEFINE(Type, Name, initValue) \
     Type _ZFP_v_##Name; \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(Type &, Name) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_1(void, Name##Set, ZFMP_IN(Type const &, v)) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_0(G, \
+        Type &, Name \
+        ) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_1(S, \
+        void, Name \
+        , ZFMP_IN(Type const &, v) \
+        ) \
     _ZFP_ZFEXPORT_VAR_INIT_VALUE(Type, Name, initValue) \
     void ZFExportVarEnsureInit_##Name(void) \
     { \
@@ -73,22 +83,32 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_ALIAS_DECLARE(Type, Name, AliasName) \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(Type &, Name) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_0(G, \
+        Type &, Name \
+        ) \
     { \
         return (AliasName)(); \
     } \
     /** @brief see @ref Name */ \
-    ZFMETHOD_FUNC_DECLARE_INLINE_1(void, Name##Set, ZFMP_IN(Type const &, v)) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_1(S, \
+        void, Name \
+        , ZFMP_IN(Type const &, v) \
+        ) \
     { \
-        AliasName##Set(v); \
+        AliasName(v); \
     } \
     /** @brief see #ZFEXPORT_VAR_DECLARE */ \
     extern ZF_ENV_EXPORT void ZFExportVarEnsureInit_##Name(void);
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_ALIAS_DEFINE(Type, Name, AliasName) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(Type &, Name) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_1(void, Name##Set, ZFMP_IN(Type const &, v)) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_0(G, \
+        Type &, Name \
+        ) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_1(S, \
+        void, Name \
+        , ZFMP_IN(Type const &, v) \
+        ) \
     void ZFExportVarEnsureInit_##Name(void) \
     { \
         ZFExportVarEnsureInit_##AliasName(); \
@@ -96,12 +116,17 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_VALUEREF_DECLARE(Type, Name, ValueRef) \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(Type &, Name) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_0(G, \
+        Type &, Name \
+        ) \
     { \
         return ValueRef; \
     } \
     /** @brief see @ref Name */ \
-    ZFMETHOD_FUNC_DECLARE_INLINE_1(void, Name##Set, ZFMP_IN(Type const &, v)) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_1(S, \
+        void, Name \
+        , ZFMP_IN(Type const &, v) \
+        ) \
     { \
         ValueRef = v; \
     } \
@@ -112,8 +137,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_VALUEREF_DEFINE(Type, Name, ValueRef) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(Type &, Name) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_1(void, Name##Set, ZFMP_IN(Type const &, v))
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_0(G, \
+        Type &, Name \
+        ) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_1(S, \
+        void, Name \
+        , ZFMP_IN(Type const &, v) \
+        )
 
 // ============================================================
 /** @brief see #ZFEXPORT_VAR_DECLARE */
@@ -121,7 +151,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     /** @cond ZFPrivateDoc */ \
     extern ZF_ENV_EXPORT Type _ZFP_v_##Name; \
     /** @endcond */ \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(Type const &, Name) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_0(G, \
+        Type const &, Name \
+        ) \
     { \
         return _ZFP_v_##Name; \
     } \
@@ -131,7 +163,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_READONLY_DEFINE(Type, Name, initValue) \
     Type _ZFP_v_##Name; \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(Type const &, Name) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_0(G, \
+        Type const &, Name \
+        ) \
     _ZFP_ZFEXPORT_VAR_INIT_VALUE(Type, Name, initValue) \
     void ZFExportVarEnsureInit_##Name(void) \
     { \
@@ -140,7 +174,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_READONLY_ALIAS_DECLARE(Type, Name, AliasName) \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(Type const &, Name) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_0(G, \
+        Type const &, Name \
+        ) \
     { \
         return (AliasName)(); \
     } \
@@ -149,7 +185,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_READONLY_ALIAS_DEFINE(Type, Name, AliasName) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(Type const &, Name) \
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_0(G, \
+        Type const &, Name \
+        ) \
     void ZFExportVarEnsureInit_##Name(void) \
     { \
         ZFExportVarEnsureInit_##AliasName(); \
@@ -157,7 +195,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_READONLY_VALUEREF_DECLARE(Type, Name, ValueRef) \
-    ZFMETHOD_FUNC_DECLARE_INLINE_0(Type const &, Name) \
+    ZFMETHOD_FUNC_INLINE_DECLARE_DETAIL_0(G, \
+        Type const &, Name \
+        ) \
     { \
         return ValueRef; \
     } \
@@ -168,7 +208,9 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 /** @brief see #ZFEXPORT_VAR_DECLARE */
 #define ZFEXPORT_VAR_READONLY_VALUEREF_DEFINE(Type, Name, ValueRef) \
-    ZFMETHOD_FUNC_DEFINE_INLINE_0(Type const &, Name)
+    ZFMETHOD_FUNC_INLINE_DEFINE_DETAIL_0(G, \
+        Type const &, Name \
+        )
 
 // ============================================================
 /**
@@ -187,13 +229,13 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 #define _ZFP_ZFEXPORT_ENUM_DEFINE_EXPAND(...) __VA_ARGS__
 #define _ZFP_ZFEXPORT_ENUM_DEFINE(...) \
     _ZFP_ZFEXPORT_ENUM_DEFINE_EXPAND(_ZFP_ZFEXPORT_ENUM_DEFINE_(__VA_ARGS__))
-#define _ZFP_ZFEXPORT_ENUM_DEFINE_(DECLARE_LINE, EnumName, enumValues, ...) \
-    ZF_STATIC_REGISTER_INIT(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE) \
+#define _ZFP_ZFEXPORT_ENUM_DEFINE_(RegSig, EnumName, enumValues, ...) \
+    ZF_STATIC_REGISTER_INIT(ZFEXPORT_ENUM_##EnumName##_##RegSig) \
     { \
         typedef EnumName _EnumName; \
         ZFM_FIX_PARAM(_ZFP_ZFEXPORT_ENUM_EXPAND, ZFM_EMPTY, enumValues, ##__VA_ARGS__) \
     } \
-    ZF_STATIC_REGISTER_DESTROY(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE) \
+    ZF_STATIC_REGISTER_DESTROY(ZFEXPORT_ENUM_##EnumName##_##RegSig) \
     { \
         for(zfindex i = 0; i < m.count(); ++i) \
         { \
@@ -201,7 +243,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
         } \
     } \
     ZFCoreArrayPOD<const ZFMethod *> m; \
-    ZF_STATIC_REGISTER_END(ZFEXPORT_ENUM_##EnumName##_##DECLARE_LINE)
+    ZF_STATIC_REGISTER_END(ZFEXPORT_ENUM_##EnumName##_##RegSig)
 #define _ZFP_ZFEXPORT_ENUM_EXPAND(v) \
     { \
         ZFMethodFuncUserRegister_0(resultMethod, {return v;}, ZF_NAMESPACE_CURRENT(), _EnumName, ZFM_TOSTRING(v)); \

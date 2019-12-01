@@ -6,7 +6,7 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 #define _ZFP_ZFImpl_sys_Android_ZFImplOutput_output(fmt, ...) \
-    AndroidLogDetail(AndroidLogLevelA, AndroidLogTagDefault, fmt, ##__VA_ARGS__)
+    AndroidLogDetail(AndroidLogLevelA, AndroidLogTagDefault(), fmt, ##__VA_ARGS__)
 
 zfclass _ZFP_I_ZFImplOutputImpl_sys_Android_SyncObject : zfextends ZFObject
 {

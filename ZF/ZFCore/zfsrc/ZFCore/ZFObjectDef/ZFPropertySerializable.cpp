@@ -50,14 +50,14 @@ ZFTYPEID_DEFINE(ZFProperty, const ZFProperty *, {
     }, {
         if(v == zfnull)
         {
-            serializableData.itemClassSet(ZFSerializableKeyword_null);
+            serializableData.itemClass(ZFSerializableKeyword_null);
             return zftrue;
         }
 
-        serializableData.itemClassSet(ZFTypeId_ZFProperty());
+        serializableData.itemClass(ZFTypeId_ZFProperty());
 
-        serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_owner, v->propertyOwnerClass()->classNameFull());
-        serializableData.attributeSet(ZFSerializableKeyword_ZFProperty_property, v->propertyName());
+        serializableData.attributeForName(ZFSerializableKeyword_ZFProperty_owner, v->propertyOwnerClass()->classNameFull());
+        serializableData.attributeForName(ZFSerializableKeyword_ZFProperty_property, v->propertyName());
 
         return zftrue;
     }, {

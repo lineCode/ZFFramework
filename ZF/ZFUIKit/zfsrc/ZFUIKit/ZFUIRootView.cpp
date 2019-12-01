@@ -7,7 +7,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 
 ZFOBJECT_REGISTER(ZFUIRootView)
 
-ZFMETHOD_DEFINE_1(ZFUIRootView, void, scaleForAppSet,
+ZFMETHOD_DEFINE_1(ZFUIRootView, void, scaleForApp,
                   ZFMP_IN(zffloat, scale))
 {
     if(scale > 0)
@@ -83,7 +83,7 @@ void ZFUIRootView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
         ZFUIWindow *window = ZFCastZFObject(ZFUIWindow *, child);
         if(window == zfnull || !window->sysWindowMarginShouldApply())
         {
-            child->viewFrameSet(
+            child->viewFrame(
                 ZFUIViewLayoutParam::layoutParamApply(
                     bounds,
                     child,
@@ -98,7 +98,7 @@ void ZFUIRootView::layoutOnLayout(ZF_IN const ZFUIRect &bounds)
             child,
             child->layoutParam(),
             window->windowOwnerSysWindow()->sysWindowMargin());
-        child->viewFrameSet(result);
+        child->viewFrame(result);
     }
 }
 

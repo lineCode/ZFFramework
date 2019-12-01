@@ -18,7 +18,7 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   ZFOutputForLua(function(listenerData, userData)
  *       local text = listenerData:param0()
  *       local result = yourOutput(text)
- *       listenerData:param1():zfvSet(result)
+ *       listenerData:param1():zfv(result)
  *   end)
  * @endcode
  */

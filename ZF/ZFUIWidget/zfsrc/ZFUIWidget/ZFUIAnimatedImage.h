@@ -126,8 +126,8 @@ public:
     {
         zfCoreAssert(aniFrameImage != zfnull);
         zfblockedAlloc(ZFUIAnimatedImageAniFrame, aniFrame);
-        aniFrame->aniFrameImageSet(aniFrameImage);
-        aniFrame->aniFrameDurationSet(aniFrameDuration);
+        aniFrame->aniFrameImage(aniFrameImage);
+        aniFrame->aniFrameDuration(aniFrameDuration);
         this->aniFrames()->add(aniFrame);
     }
     /** @brief see #ZFUIAnimatedImageAniFrame */

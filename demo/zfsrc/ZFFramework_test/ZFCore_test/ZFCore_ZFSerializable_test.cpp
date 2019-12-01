@@ -86,17 +86,17 @@ private:
     void memberPrepare(void)
     {
         this->obj = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClass);
-        this->obj->stringInParentSet("base's string, with unicode chars: \"啊哦\"");
+        this->obj->stringInParent("base's string, with unicode chars: \"啊哦\"");
 
         this->objChild = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClassChild);
-        this->objChild->stringInParentSet("child's string");
-        this->objChild->stringInChildSet("child's string in child");
+        this->objChild->stringInParent("child's string");
+        this->objChild->stringInChild("child's string in child");
 
         this->objContainer = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClassContainer);
         _ZFP_ZFCore_ZFSerializable_test_TestClassChild *objTmp = zfAlloc(_ZFP_ZFCore_ZFSerializable_test_TestClassChild);
-        objTmp->stringInParentSet("container's string");
-        objTmp->stringInChildSet("container's string");
-        this->objContainer->serializableMemberSet(objTmp);
+        objTmp->stringInParent("container's string");
+        objTmp->stringInChild("container's string");
+        this->objContainer->serializableMember(objTmp);
         zfRelease(objTmp);
     }
     void memberDestroy(void)

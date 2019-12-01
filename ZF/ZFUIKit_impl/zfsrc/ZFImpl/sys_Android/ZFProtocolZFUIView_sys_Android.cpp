@@ -92,13 +92,13 @@ public:
         JNIUtilDeleteGlobalRef(jniEnv, nativeViewTmp);
     }
 
-    virtual void nativeImplViewSet(ZF_IN ZFUIView *view,
-                                   ZF_IN void *nativeImplViewOld,
-                                   ZF_IN void *nativeImplView,
-                                   ZF_IN zfindex virtualIndex)
+    virtual void nativeImplView(ZF_IN ZFUIView *view,
+                                ZF_IN void *nativeImplViewOld,
+                                ZF_IN void *nativeImplView,
+                                ZF_IN zfindex virtualIndex)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_nativeImplViewSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_nativeImplView",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
@@ -109,11 +109,11 @@ public:
             ZFCastStatic(jobject, nativeImplView),
             (jint)virtualIndex);
     }
-    virtual void nativeImplViewFrameSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIRect &rect)
+    virtual void nativeImplViewFrame(ZF_IN ZFUIView *view,
+                                     ZF_IN const ZFUIRect &rect)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_nativeImplViewFrameSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_nativeImplViewFrame",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -162,11 +162,11 @@ public:
     // ============================================================
     // properties
 public:
-    virtual void viewVisibleSet(ZF_IN ZFUIView *view,
-                                ZF_IN zfbool viewVisible)
+    virtual void viewVisible(ZF_IN ZFUIView *view,
+                             ZF_IN zfbool viewVisible)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewVisibleSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewVisible",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)
@@ -175,11 +175,11 @@ public:
             ZFCastStatic(jobject, view->nativeView()),
             (jboolean)viewVisible);
     }
-    virtual void viewAlphaSet(ZF_IN ZFUIView *view,
-                              ZF_IN zffloat viewAlpha)
+    virtual void viewAlpha(ZF_IN ZFUIView *view,
+                           ZF_IN zffloat viewAlpha)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewAlphaSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewAlpha",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_float)
@@ -188,11 +188,11 @@ public:
             ZFCastStatic(jobject, view->nativeView()),
             (jfloat)viewAlpha);
     }
-    virtual void viewUIEnableSet(ZF_IN ZFUIView *view,
-                                 ZF_IN zfbool viewUIEnable)
+    virtual void viewUIEnable(ZF_IN ZFUIView *view,
+                              ZF_IN zfbool viewUIEnable)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewUIEnableSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewUIEnable",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)
@@ -201,11 +201,11 @@ public:
             ZFCastStatic(jobject, view->nativeView()),
             (jboolean)viewUIEnable);
     }
-    virtual void viewUIEnableTreeSet(ZF_IN ZFUIView *view,
-                                     ZF_IN zfbool viewUIEnableTree)
+    virtual void viewUIEnableTree(ZF_IN ZFUIView *view,
+                                  ZF_IN zfbool viewUIEnableTree)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewUIEnableTreeSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewUIEnableTree",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)
@@ -214,11 +214,11 @@ public:
             ZFCastStatic(jobject, view->nativeView()),
             (jboolean)viewUIEnableTree);
     }
-    virtual void viewBackgroundColorSet(ZF_IN ZFUIView *view,
-                                        ZF_IN const ZFUIColor &viewBackgroundColor)
+    virtual void viewBackgroundColor(ZF_IN ZFUIView *view,
+                                     ZF_IN const ZFUIColor &viewBackgroundColor)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewBackgroundColorSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewBackgroundColor",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -283,11 +283,11 @@ public:
     }
 
 public:
-    virtual void viewFrameSet(ZF_IN ZFUIView *view,
-                              ZF_IN const ZFUIRect &rect)
+    virtual void viewFrame(ZF_IN ZFUIView *view,
+                           ZF_IN const ZFUIRect &rect)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewFrameSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsZFUIView, "native_viewFrame",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -364,7 +364,7 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
                          jint mousePointY)
 {
     zfblockedAllocWithCache(ZFUIMouseEvent, event);
-    event->eventResolvedSet(zffalse);
+    event->eventResolved(zffalse);
     event->mouseId = mouseId;
     event->mouseAction = (ZFUIMouseActionEnum)mouseAction;
     event->mousePoint = ZFUIPointMake(mousePointX, mousePointY);
@@ -384,7 +384,7 @@ JNI_METHOD_DECLARE_BEGIN(ZFImpl_sys_Android_JNI_ID_ZFUIView,
                          jint keyCodeRaw)
 {
     zfblockedAllocWithCache(ZFUIKeyEvent, event);
-    event->eventResolvedSet(zffalse);
+    event->eventResolved(zffalse);
     event->keyId = keyId;
     event->keyAction = (ZFUIKeyActionEnum)keyAction;
     event->keyCode = (ZFUIKeyCodeEnum)keyCode;

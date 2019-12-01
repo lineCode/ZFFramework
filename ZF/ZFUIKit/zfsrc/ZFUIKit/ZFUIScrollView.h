@@ -105,11 +105,11 @@ public:
      * called when scrolled by user, activated if any of these methods called manually or event occurred:
      * -  #scrollByPoint
      * -  #scrollBySpeed
-     * -  #scrollContentFrameSet or #scrollContentFrameSetAnimated
+     * -  #scrollContentFrame or #scrollContentFrameAnimated
      * -  #autoScrollStartX series
      * -  drag begin
      *
-     * "called manually" means not overrided by #scrollOverrideSet
+     * "called manually" means not overrided by #scrollOverride
      */
     ZFOBSERVER_EVENT(ScrollOnScrolledByUser)
 
@@ -177,15 +177,15 @@ public:
      *
      * change this value would have no scroll animation,
      * and any of previous scroll animation would be stopped\n
-     * use #ZFUIScrollView::scrollContentFrameSetAnimated if you want to start scroll animation,
-     * or #ZFUIScrollView::scrollContentFrameSetWhileAnimating if you want to change frame
+     * use #ZFUIScrollView::scrollContentFrameAnimated if you want to start scroll animation,
+     * or #ZFUIScrollView::scrollContentFrameUpdate if you want to change frame
      * and keep previous scroll animation
      * @note the rect's 0 point starts from #nativeImplViewMargin + #scrollAreaMargin,
      *   instead of the view's frame
      */
     ZFPROPERTY_ASSIGN(ZFUIRect, scrollContentFrame)
     ZFPROPERTY_OVERRIDE_ON_ATTACH_DECLARE(ZFUIRect, scrollContentFrame)
-    zffinal void _ZFP_ZFUIScrollView_scrollContentFrameSetByImpl(ZF_IN const ZFUIRect &rect);
+    zffinal void _ZFP_ZFUIScrollView_scrollContentFrameByImpl(ZF_IN const ZFUIRect &rect);
 
 protected:
     zfoverride
@@ -295,19 +295,19 @@ public:
      * by default, #ZFUIScrollThumbHorizontalClass and #ZFUIScrollThumbHorizontalClass
      * would be used
      */
-    ZFMETHOD_DECLARE_1(void, scrollThumbHorizontalClassSet,
+    ZFMETHOD_DECLARE_1(void, scrollThumbHorizontalClass,
                        ZFMP_IN(const ZFClass *, cls))
     /**
-     * @brief see #scrollThumbHorizontalClassSet
+     * @brief see #scrollThumbHorizontalClass
      */
     ZFMETHOD_DECLARE_0(const ZFClass *, scrollThumbHorizontalClass)
     /**
-     * @brief see #scrollThumbHorizontalClassSet
+     * @brief see #scrollThumbHorizontalClass
      */
-    ZFMETHOD_DECLARE_1(void, scrollThumbVerticalClassSet,
+    ZFMETHOD_DECLARE_1(void, scrollThumbVerticalClass,
                        ZFMP_IN(const ZFClass *, cls))
     /**
-     * @brief see #scrollThumbHorizontalClassSet
+     * @brief see #scrollThumbHorizontalClass
      */
     ZFMETHOD_DECLARE_0(const ZFClass *, scrollThumbVerticalClass)
 protected:
@@ -327,7 +327,7 @@ public:
      * @brief class for internal scroller, must be type of #ZFUIScroller,
      *   #ZFUIScrollerClass by default
      *
-     * scroller can only be changed by #ZFUIScrollerClassSet,
+     * scroller can only be changed by #ZFUIScrollerClass,
      * and only affect newly created scroll view
      */
     ZFMETHOD_DECLARE_0(const ZFClass *, scrollerClass)
@@ -362,15 +362,15 @@ public:
     /**
      * @brief animated change scroll content frame
      *
-     * this is a util method to combine #scrollContentFrameSetWhileAnimating
+     * this is a util method to combine #scrollContentFrameUpdate
      * and #scrollByPoint
      */
-    ZFMETHOD_DECLARE_1(void, scrollContentFrameSetAnimated,
+    ZFMETHOD_DECLARE_1(void, scrollContentFrameAnimated,
                        ZFMP_IN(const ZFUIRect &, scrollContentFrame))
     /**
      * @brief change scroll content frame without interrupt current scroll animation
      */
-    ZFMETHOD_DECLARE_1(void, scrollContentFrameSetWhileAnimating,
+    ZFMETHOD_DECLARE_1(void, scrollContentFrameUpdate,
                        ZFMP_IN(const ZFUIRect &, scrollContentFrame))
     /**
      * @brief animated scroll to desired position
@@ -414,7 +414,7 @@ public:
      * auto scroll would be stopped if:
      * -  #autoScrollStopX/#autoScrollStopY is called
      * -  drag event occurred
-     * -  #scrollByPoint/#scrollContentFrameSetAnimated occurred
+     * -  #scrollByPoint/#scrollContentFrameAnimated occurred
      * -  scroll reached content's edge
      */
     ZFMETHOD_DECLARE_1(void, autoScrollStartX,
@@ -471,8 +471,8 @@ protected:
      * this method can be called more than one time,
      * but must be paired
      */
-    zffinal void scrollOverrideSet(ZF_IN zfbool scrollOverride);
-    /** @brief see #scrollOverrideSet */
+    zffinal void scrollOverride(ZF_IN zfbool scrollOverride);
+    /** @brief see #scrollOverride */
     zffinal zfbool scrollOverride(void);
 
     // ============================================================

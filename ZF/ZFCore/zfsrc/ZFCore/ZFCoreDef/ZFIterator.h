@@ -24,10 +24,10 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *   {
  *       // get current value located by iterator,
  *       // then move iterator to next
- *       const SomeType &value = someIterable.iteratorNext(it);
+ *       const SomeType &value = someIterable.iteratorNextValue(it);
  *
  *       // or you may simply want to access without move iterator
- *       // const SomeType &value = someIterable.iteratorGet(it);
+ *       // const SomeType &value = someIterable.iteratorValue(it);
  *   }
  * @endcode
  * for key-value container,
@@ -38,14 +38,14 @@ ZF_NAMESPACE_GLOBAL_BEGIN
  *       keyValueIterable.iteratorIsValid(it);)
  *   {
  *       // access key and value
- *       KeyType key = keyValueIterable.iteratorGetKey(it);
- *       ValueType value = keyValueIterable.iteratorGetValue(it);
+ *       KeyType key = keyValueIterable.iteratorKey(it);
+ *       ValueType value = keyValueIterable.iteratorValue(it);
  *
  *       // access by iterator should return value type
- *       ValueType value2 = keyValueIterable.iteratorGet(it);
+ *       ValueType value2 = keyValueIterable.iteratorValue(it);
  *
  *       // move to next
- *       keyValueIterable.iteratorNext(it);
+ *       keyValueIterable.iteratorNextValue(it);
  *   }
  * @endcode
  * \n

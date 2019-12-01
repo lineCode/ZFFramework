@@ -28,8 +28,8 @@ static zfindex _ZFP_ZFOutputForConsoleFunction(ZF_IN const void *s, ZF_IN zfinde
 static ZFOutput _ZFP_ZFOutputForConsole_create(void)
 {
     ZFOutput ret = ZFCallbackForFunc(_ZFP_ZFOutputForConsoleFunction);
-    ret.callbackSerializeCustomTypeSet(ZFCallbackSerializeCustomType_ZFOutputForConsole);
-    ret.callbackSerializeCustomDataSet(ZFSerializableData());
+    ret.callbackSerializeCustomType(ZFCallbackSerializeCustomType_ZFOutputForConsole);
+    ret.callbackSerializeCustomData(ZFSerializableData());
     return ret;
 }
 

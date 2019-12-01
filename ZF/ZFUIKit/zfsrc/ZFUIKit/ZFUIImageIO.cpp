@@ -25,7 +25,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageScale,
         return zfnull;
     }
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
-    ret.to<ZFUIImage *>()->nativeImageSet(nativeImage);
+    ret.to<ZFUIImage *>()->nativeImage(nativeImage);
     ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(nativeImage);
     return ret;
 }
@@ -40,7 +40,7 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromNativeImage,
         return zfnull;
     }
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
-    ret.to<ZFUIImage *>()->nativeImageSet(nativeImage);
+    ret.to<ZFUIImage *>()->nativeImage(nativeImage);
     return ret;
 }
 
@@ -83,8 +83,8 @@ ZFMETHOD_FUNC_DEFINE_1(zfautoObject, ZFUIImageLoadFromInput,
         ZFSerializableData inputData;
         if(ZFCallbackToData(inputData, input))
         {
-            image->imageSerializableTypeSet(ZFUIImageSerializeType_input);
-            image->imageSerializableDataSet(&inputData);
+            image->imageSerializableType(ZFUIImageSerializeType_input);
+            image->imageSerializableData(&inputData);
         }
     }
 
@@ -134,7 +134,7 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(color, ZFUIImageSerializeType_color)
             {
                 return zffalse;
             }
-            categoryData.categorySet(ZFSerializableKeyword_ZFUIImageIO_color);
+            categoryData.category(ZFSerializableKeyword_ZFUIImageIO_color);
             imageData.elementAdd(categoryData);
         }
         if(!ZFUISizeIsEqual(size, ZFUISizeMake(1, 1)))
@@ -144,7 +144,7 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(color, ZFUIImageSerializeType_color)
             {
                 return zffalse;
             }
-            categoryData.categorySet(ZFSerializableKeyword_ZFUIImageIO_color_size);
+            categoryData.category(ZFSerializableKeyword_ZFUIImageIO_color_size);
             imageData.elementAdd(categoryData);
         }
     }
@@ -153,8 +153,8 @@ ZFUIIMAGE_SERIALIZE_TYPE_DEFINE(color, ZFUIImageSerializeType_color)
         ZFUIGlobalStyle::DefaultStyle()->imageScale(),
         color,
         ZFUISizeApplyScale(size, ZFUIGlobalStyle::DefaultStyle()->imageScale()));
-    ret->nativeImageSet(nativeImage);
-    ret->imageSerializableDataSet(&imageData);
+    ret->nativeImage(nativeImage);
+    ret->imageSerializableData(&imageData);
     ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(nativeImage);
 
     return zftrue;
@@ -175,7 +175,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageLoadFromColor,
 
     zfautoObject ret = ZFUIImage::ClassData()->newInstance();
     ZFUIImage *image = ret;
-    image->nativeImageSet(nativeImage);
+    image->nativeImage(nativeImage);
     ZFPROTOCOL_ACCESS(ZFUIImage)->nativeImageRelease(nativeImage);
 
     ZFSerializableData imageData;
@@ -190,7 +190,7 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageLoadFromColor,
             {
                 break;
             }
-            categoryData.categorySet(ZFSerializableKeyword_ZFUIImageIO_color);
+            categoryData.category(ZFSerializableKeyword_ZFUIImageIO_color);
             imageData.elementAdd(categoryData);
         }
 
@@ -202,17 +202,17 @@ ZFMETHOD_FUNC_DEFINE_2(zfautoObject, ZFUIImageLoadFromColor,
             {
                 break;
             }
-            categoryData.categorySet(ZFSerializableKeyword_ZFUIImageIO_color_size);
+            categoryData.category(ZFSerializableKeyword_ZFUIImageIO_color_size);
             imageData.elementAdd(categoryData);
         }
 
-        imageData.itemClassSet(ZFSerializableKeyword_node);
+        imageData.itemClass(ZFSerializableKeyword_node);
     } while(zffalse);
 
     if(imageData.itemClass() != zfnull)
     {
-        image->imageSerializableTypeSet(ZFUIImageSerializeType_color);
-        image->imageSerializableDataSet(&imageData);
+        image->imageSerializableType(ZFUIImageSerializeType_color);
+        image->imageSerializableData(&imageData);
     }
 
     return ret;

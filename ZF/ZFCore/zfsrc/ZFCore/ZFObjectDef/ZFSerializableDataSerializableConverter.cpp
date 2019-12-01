@@ -88,7 +88,7 @@ zfbool ZFSerializableDataFromZfsd(ZF_OUT ZFSerializableData &serializableData,
     zfbool ret = ZFSerializableDataFromZfsd(serializableData, buf.bufferAsString(), buf.bufferAsStringLength(), outErrorHint);
     if(ret)
     {
-        serializableData.pathInfoSet(input.pathInfo());
+        serializableData.pathInfo(input.pathInfo());
     }
     return ret;
 }
@@ -291,12 +291,12 @@ zfbool _ZFP_ZFSerializableDataFromZfsd(ZF_OUT ZFSerializableData &serializableDa
 
         if(pRight == pLeft + 1 && *pLeft == _ZFP_ZFSD_NullClass)
         {
-            serializableData.itemClassSet(zfnull);
+            serializableData.itemClass(zfnull);
         }
         else
         {
             zfCoreDataDecode(decodedTmp, pLeft, pRight - pLeft);
-            serializableData.itemClassSet(decodedTmp.cString());
+            serializableData.itemClass(decodedTmp.cString());
             decodedTmp.removeAll();
         }
 
@@ -339,7 +339,7 @@ zfbool _ZFP_ZFSerializableDataFromZfsd(ZF_OUT ZFSerializableData &serializableDa
                 // save
                 if(!attributeName.isEmpty() && !decodedTmp.isEmpty())
                 {
-                    serializableData.attributeSet(attributeName.cString(), decodedTmp.cString());
+                    serializableData.attributeForName(attributeName.cString(), decodedTmp.cString());
                 }
                 decodedTmp.removeAll();
 
@@ -449,12 +449,12 @@ zfbool ZFSerializableDataToZfsd(ZF_OUT zfstring &result,
     {
         for(zfiterator it = serializableData.attributeIterator();
             serializableData.attributeIteratorIsValid(it);
-            serializableData.attributeIteratorNext(it))
+            serializableData.attributeIteratorNextValue(it))
         {
             result += _ZFP_ZFSD_Space;
-            zfCoreDataEncode(result, serializableData.attributeIteratorGetKey(it), zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
+            zfCoreDataEncode(result, serializableData.attributeIteratorKey(it), zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
             result += _ZFP_ZFSD_AttrAssign;
-            _ZFP_ZFSD_AttrValueEncode(result, serializableData.attributeIteratorGet(it));
+            _ZFP_ZFSD_AttrValueEncode(result, serializableData.attributeIteratorValue(it));
         }
     }
 
@@ -518,7 +518,7 @@ static zfbool _ZFP_ZFSerializableDataToZfsdPretty(ZF_OUT zfstring &result,
     {
         for(zfiterator it = serializableData.attributeIterator();
             serializableData.attributeIteratorIsValid(it);
-            serializableData.attributeIteratorNext(it))
+            serializableData.attributeIteratorNextValue(it))
         {
             if(needBreak)
             {
@@ -526,9 +526,9 @@ static zfbool _ZFP_ZFSerializableDataToZfsdPretty(ZF_OUT zfstring &result,
                 _ZFP_ZFSerializableDataToZfsdPrettyIndent(result, indentLevel + 1);
             }
             result += _ZFP_ZFSD_Space;
-            zfCoreDataEncode(result, serializableData.attributeIteratorGetKey(it), zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
+            zfCoreDataEncode(result, serializableData.attributeIteratorKey(it), zfindexMax(), _ZFP_ZFSerializableEscapeCharMap);
             result += _ZFP_ZFSD_AttrAssign;
-            _ZFP_ZFSD_AttrValueEncode(result, serializableData.attributeIteratorGet(it));
+            _ZFP_ZFSD_AttrValueEncode(result, serializableData.attributeIteratorValue(it));
         }
     }
 

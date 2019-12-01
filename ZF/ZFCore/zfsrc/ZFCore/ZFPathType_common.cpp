@@ -33,7 +33,7 @@ ZFPATHTYPE_DEFINE(text)
     ZFPATHTYPE_FILEIO_REGISTER(registerSig, pathType \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackIsExist \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackIsDir \
-            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackGetFileName \
+            , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackToFileName \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackToChild \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackToParent \
             , ZFFileIOImpl::FileIO<_ZFP_ZFPathType_##registerSig>::callbackPathCreate \
@@ -85,8 +85,8 @@ public:
     {
         return zffalse;
     }
-    static zfbool callbackGetFileName(ZF_IN const zfchar *pathData,
-                                      ZF_IN_OUT zfstring &fileName)
+    static zfbool callbackToFileName(ZF_IN const zfchar *pathData,
+                                     ZF_IN_OUT zfstring &fileName)
     {
         return zffalse;
     }
@@ -197,7 +197,7 @@ public:
 ZFPATHTYPE_FILEIO_REGISTER(text, ZFPathType_text()
         , _ZFP_ZFPathType_text::callbackIsExist
         , _ZFP_ZFPathType_text::callbackIsDir
-        , _ZFP_ZFPathType_text::callbackGetFileName
+        , _ZFP_ZFPathType_text::callbackToFileName
         , _ZFP_ZFPathType_text::callbackToChild
         , _ZFP_ZFPathType_text::callbackToParent
         , _ZFP_ZFPathType_text::callbackPathCreate

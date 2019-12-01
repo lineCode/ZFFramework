@@ -21,14 +21,12 @@ public:
     /**
      * @brief access keyboard state for sys window
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              ZFUIOnScreenKeyboardState *, instanceForSysWindow,
+    ZFMETHOD_DECLARE_STATIC_1(ZFUIOnScreenKeyboardState *, instanceForSysWindow,
                               ZFMP_IN_OPT(ZFUISysWindow *, sysWindow, zfnull))
     /**
      * @brief access keyboard state for view
      */
-    ZFMETHOD_DECLARE_DETAIL_1(public, ZFMethodTypeStatic,
-                              ZFUIOnScreenKeyboardState *, instanceForView,
+    ZFMETHOD_DECLARE_STATIC_1(ZFUIOnScreenKeyboardState *, instanceForView,
                               ZFMP_IN_OPT(ZFUIView *, view, zfnull))
 
 public:

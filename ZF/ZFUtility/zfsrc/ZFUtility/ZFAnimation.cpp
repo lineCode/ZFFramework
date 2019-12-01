@@ -53,7 +53,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(delayOnFinish)
     {
         ZFAnimation *ani = userData->objectHolded();
-        v_zfidentity *taskId = listenerData.param0->to<v_zfidentity *>();
+        v_zfidentity *taskId = listenerData.param0<v_zfidentity *>();
         ani->_ZFP_ZFAnimation_aniImplDelayNotifyFinish(taskId->zfv);
     }
     ZFListener dummyOnFinishListener;
@@ -90,7 +90,7 @@ void ZFAnimation::objectOnDeallocPrepare(void)
     zfsuper::objectOnDeallocPrepare();
 }
 
-ZFMETHOD_DEFINE_1(ZFAnimation, void, aniTargetSet,
+ZFMETHOD_DEFINE_1(ZFAnimation, void, aniTarget,
                   ZFMP_IN(ZFObject *, aniTarget))
 {
     zfCoreAssertWithMessage(!d->aniRunning, "change animation's target while animation is running");
@@ -190,11 +190,11 @@ void ZFAnimation::_ZFP_ZFAnimation_aniReadyStart(void)
 {
     if(this->aniTarget() != zfnull)
     {
-        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->tagGet<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull());
+        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->objectTag<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull());
         if(aniList == zfnull)
         {
             aniList = zfAlloc(_ZFP_I_ZFAnimationAniList);
-            this->aniTarget()->tagSet(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull(), aniList);
+            this->aniTarget()->objectTag(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull(), aniList);
             zfRelease(aniList);
         }
         if(this->aniAutoStopPrev())
@@ -211,7 +211,7 @@ void ZFAnimation::_ZFP_ZFAnimation_aniReadyStop(void)
 {
     if(this->aniTarget() != zfnull)
     {
-        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->tagGet<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull());
+        _ZFP_I_ZFAnimationAniList *aniList = this->aniTarget()->objectTag<_ZFP_I_ZFAnimationAniList *>(_ZFP_I_ZFAnimationAniList::ClassData()->classNameFull());
         if(aniList != zfnull)
         {
             aniList->aniList.removeElement(this);
@@ -230,7 +230,7 @@ void ZFAnimation::aniImplDelay(void)
         this->aniDelay(),
         ZF_GLOBAL_INITIALIZER_INSTANCE(ZFAnimationTaskHolder)->delayOnFinishListener,
         this->objectHolder(),
-        ZFListenerData().param0Set(zflineAlloc(v_zfidentity, d->aniDelayTaskId))
+        ZFListenerData().param0(zflineAlloc(v_zfidentity, d->aniDelayTaskId))
         );
 }
 void ZFAnimation::aniImplDelayCancel(void)

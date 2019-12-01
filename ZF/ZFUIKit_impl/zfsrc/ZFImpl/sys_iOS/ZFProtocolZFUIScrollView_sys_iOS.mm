@@ -79,7 +79,7 @@ static zftimet _ZFP_ZFUIScrollViewImpl_sys_iOS_timestamp(void)
     UITouch *touch = [[event allTouches] anyObject];
     if(touch.phase == UITouchPhaseBegan)
     {
-        self._ZFP_ownerZFUIScrollView->scrollContentFrameSet(self._ZFP_ownerZFUIScrollView->scrollContentFrame());
+        self._ZFP_ownerZFUIScrollView->scrollContentFrame(self._ZFP_ownerZFUIScrollView->scrollContentFrame());
     }
     return [super hitTest:point withEvent:event];
 }
@@ -133,7 +133,7 @@ static zftimet _ZFP_ZFUIScrollViewImpl_sys_iOS_timestamp(void)
 }
 - (void)_ZFP_scrollContentFrameFix
 {
-    self._ZFP_impl->scrollViewScrollContentFrameSetForImpl(
+    self._ZFP_impl->scrollContentFrameUpdateByImpl(
         self._ZFP_ownerZFUIScrollView,
         ZFUIRectMake(
             zfmRound(-self.contentOffset.x),
@@ -175,37 +175,37 @@ public:
     }
 
 public:
-    virtual void scrollViewScrollEnableSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollEnable)
+    virtual void scrollEnable(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollEnable)
     {
         ((__bridge _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *)scrollView->nativeImplView()).scrollEnabled = scrollEnable;
     }
-    virtual void scrollViewScrollBounceSet(ZF_IN ZFUIScrollView *scrollView,
-                                           ZF_IN zfbool scrollBounceHorizontal,
-                                           ZF_IN zfbool scrollBounceVertical,
-                                           ZF_IN zfbool scrollBounceHorizontalAlways,
-                                           ZF_IN zfbool scrollBounceVerticalAlways)
+    virtual void scrollBounce(ZF_IN ZFUIScrollView *scrollView,
+                              ZF_IN zfbool scrollBounceHorizontal,
+                              ZF_IN zfbool scrollBounceVertical,
+                              ZF_IN zfbool scrollBounceHorizontalAlways,
+                              ZF_IN zfbool scrollBounceVerticalAlways)
     {
         _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *nativeScrollView = (__bridge _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *)scrollView->nativeImplView();
         nativeScrollView.bounces = (scrollBounceHorizontal || scrollBounceVertical);
         nativeScrollView.alwaysBounceHorizontal = scrollBounceHorizontalAlways;
         nativeScrollView.alwaysBounceVertical = scrollBounceVerticalAlways;
     }
-    virtual void scrollViewScrollContentFrameSet(ZF_IN ZFUIScrollView *scrollView,
-                                                 ZF_IN const ZFUIRect &frame)
+    virtual void scrollContentFrame(ZF_IN ZFUIScrollView *scrollView,
+                                    ZF_IN const ZFUIRect &frame)
     {
         _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *nativeScrollView = (__bridge _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *)scrollView->nativeImplView();
         nativeScrollView._ZFP_scrollContentFrame = frame;
     }
-    virtual zftimet scrollViewScrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
-                                                   ZF_IN zftimet recommendTimerInterval)
+    virtual zftimet scrollAnimationStart(ZF_IN ZFUIScrollView *scrollView,
+                                         ZF_IN zftimet recommendTimerInterval)
     {
         _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *nativeScrollView = (__bridge _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *)scrollView->nativeImplView();
         nativeScrollView._ZFP_scrollImplScrollAnimationTimer = [NSTimer timerWithTimeInterval:(recommendTimerInterval / 1000.0f) target:nativeScrollView selector:@selector(_ZFP_scrollImplScrollAnimationTimerEvent:) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:nativeScrollView._ZFP_scrollImplScrollAnimationTimer forMode:NSRunLoopCommonModes];
         return _ZFP_ZFUIScrollViewImpl_sys_iOS_timestamp();
     }
-    virtual void scrollViewScrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
+    virtual void scrollAnimationStop(ZF_IN ZFUIScrollView *scrollView)
     {
         _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *nativeScrollView = (__bridge _ZFP_ZFUIScrollViewImpl_sys_iOS_ScrollView *)scrollView->nativeImplView();
         [nativeScrollView._ZFP_scrollImplScrollAnimationTimer invalidate];

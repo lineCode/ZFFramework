@@ -60,18 +60,18 @@ Homepage:
         // show a hello world as a text view
         zfblockedAlloc(ZFUITextView, textView);
         window->childAdd(textView);
-        textView->layoutParam()->layoutAlignSet(ZFUIAlign::e_LeftInner);
-        textView->textSet("hello world");
+        textView->layoutParam()->layoutAlign(ZFUIAlign::e_LeftInner);
+        textView->text("hello world");
 
         // button and click (as observer)
         zfblockedAlloc(ZFUIButtonBasic, button);
         window->childAdd(button);
-        button->layoutParam()->layoutAlignSet(ZFUIAlign::e_RightInner);
-        button->buttonLabelTextSet("click me");
+        button->layoutParam()->layoutAlign(ZFUIAlign::e_RightInner);
+        button->buttonLabelText("click me");
         ZFLISTENER_LOCAL(onClick, {
             ZFUIButtonBasic *button = userData->objectHolded();
             zfLogTrimT() << "button clicked:" << button;
-            zfLogTrimT() << "sender:" << listenerData.sender;
+            zfLogTrimT() << "sender:" << listenerData.sender();
         })
         button->onClick(onClick, button->objectHolder());
 
@@ -90,13 +90,13 @@ Homepage:
 
     local textView = zfAlloc('ZFUITextView')
     window:childAdd(textView)
-    textView:layoutParam():layoutAlignSet(ZFUIAlign.e_LeftInner())
-    textView:textSet('hello wolrd')
+    textView:layoutParam():layoutAlign(ZFUIAlign.e_LeftInner())
+    textView:text('hello wolrd')
 
     local button = ZFUIButtonBasic.ClassData():newInstance()
     window:childAdd(button)
-    button:layoutParam():layoutAlignSet(ZFUIAlign.e_RightInner())
-    button:buttonLabelTextSet('click me')
+    button:layoutParam():layoutAlign(ZFUIAlign.e_RightInner())
+    button:buttonLabelText('click me')
     button:onClick(
         function (listenerData, userData)
             zfLog('button clicked: %s', userData:objectHolded())

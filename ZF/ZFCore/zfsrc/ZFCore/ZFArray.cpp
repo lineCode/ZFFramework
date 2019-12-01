@@ -152,7 +152,7 @@ void ZFArray::addFrom(ZF_IN ZFContainer *another)
         ZFObject *obj = zfnull;
         for(zfiterator it = another->iterator(); another->iteratorIsValid(it);)
         {
-            obj = another->iteratorNext(it);
+            obj = another->iteratorNextValue(it);
             zfRetain(obj);
             d->data.push_back(obj);
             this->contentOnAdd(obj);
@@ -514,7 +514,7 @@ ZFMETHOD_DEFINE_2(ZFArray, zfbool, iteratorIsEqual,
     return zfiterator::iteratorIsEqual<zfindex *>(it0, it1);
 }
 
-ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorGet,
+ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorValue,
                   ZFMP_IN(const zfiterator &, it))
 {
     zfindex *index = it.data<zfindex *>();
@@ -525,7 +525,7 @@ ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorGet,
     return zfnull;
 }
 
-ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorNext,
+ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorNextValue,
                   ZFMP_IN_OUT(zfiterator &, it))
 {
     zfindex *index = it.data<zfindex *>();
@@ -536,7 +536,7 @@ ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorNext,
     }
     return zfnull;
 }
-ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorPrev,
+ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorPrevValue,
                   ZFMP_IN_OUT(zfiterator &, it))
 {
     zfindex *index = it.data<zfindex *>();
@@ -548,8 +548,8 @@ ZFMETHOD_DEFINE_1(ZFArray, ZFObject *, iteratorPrev,
     return zfnull;
 }
 
-void ZFArray::iteratorSet(ZF_IN_OUT zfiterator &it,
-                          ZF_IN ZFObject *value)
+void ZFArray::iteratorValue(ZF_IN_OUT zfiterator &it,
+                            ZF_IN ZFObject *value)
 {
     zfindex *index = it.data<zfindex *>();
     if(index != zfnull && *index < d->data.size())

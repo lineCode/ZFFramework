@@ -59,11 +59,11 @@ public:
     // ============================================================
     // properties
 public:
-    virtual void textSet(ZF_IN ZFUITextView *textView,
-                         ZF_IN const zfchar *text)
+    virtual void text(ZF_IN ZFUITextView *textView,
+                      ZF_IN const zfchar *text)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_text",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
@@ -72,11 +72,11 @@ public:
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFCastStatic(jobject, ZFImpl_sys_Android_zfstringToString(text)));
     }
-    virtual void textAppearanceSet(ZF_IN ZFUITextView *textView,
-                                   ZF_IN ZFUITextAppearanceEnum const &textAppearance)
+    virtual void textAppearance(ZF_IN ZFUITextView *textView,
+                                ZF_IN ZFUITextAppearanceEnum const &textAppearance)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textAppearanceSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textAppearance",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -85,11 +85,11 @@ public:
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFCastStatic(jint, textAppearance));
     }
-    virtual void textAlignSet(ZF_IN ZFUITextView *textView,
-                              ZF_IN ZFUIAlignFlags const &textAlign)
+    virtual void textAlign(ZF_IN ZFUITextView *textView,
+                           ZF_IN ZFUIAlignFlags const &textAlign)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textAlignSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textAlign",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -98,11 +98,11 @@ public:
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFCastStatic(jint, textAlign));
     }
-    virtual void textColorSet(ZF_IN ZFUITextView *textView,
-                              ZF_IN ZFUIColor const &textColor)
+    virtual void textColor(ZF_IN ZFUITextView *textView,
+                           ZF_IN ZFUIColor const &textColor)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textColorSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textColor",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -111,11 +111,11 @@ public:
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(textColor));
     }
-    virtual void textShadowColorSet(ZF_IN ZFUITextView *textView,
-                                    ZF_IN ZFUIColor const &textShadowColor)
+    virtual void textShadowColor(ZF_IN ZFUITextView *textView,
+                                 ZF_IN ZFUIColor const &textShadowColor)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textShadowColorSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textShadowColor",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -124,11 +124,11 @@ public:
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFImpl_sys_Android_ZFUIKit_impl_ZFUIColorToColor(textShadowColor));
     }
-    virtual void textShadowOffsetSet(ZF_IN ZFUITextView *textView,
-                                     ZF_IN ZFUISize const &textShadowOffset)
+    virtual void textShadowOffset(ZF_IN ZFUITextView *textView,
+                                  ZF_IN ZFUISize const &textShadowOffset)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textShadowOffsetSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textShadowOffset",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -139,26 +139,26 @@ public:
             ZFCastStatic(jint, textShadowOffset.width),
             ZFCastStatic(jint, textShadowOffset.height));
     }
-    virtual void textSizeSet(ZF_IN ZFUITextView *textView,
-                             ZF_IN zfint textSize)
+    virtual void textSize(ZF_IN ZFUITextView *textView,
+                          ZF_IN zfint textSize)
     {
         // changed during layoutNativeTextView
     }
-    virtual void textSizeAutoChangeMinSizeSet(ZF_IN ZFUITextView *textView,
-                                              ZF_IN zfint textSizeAutoChangeMinSize)
+    virtual void textSizeAutoChangeMinSize(ZF_IN ZFUITextView *textView,
+                                           ZF_IN zfint textSizeAutoChangeMinSize)
     {
         // changed during layoutNativeTextView
     }
-    virtual void textSizeAutoChangeMaxSizeSet(ZF_IN ZFUITextView *textView,
-                                              ZF_IN zfint textSizeAutoChangeMaxSize)
+    virtual void textSizeAutoChangeMaxSize(ZF_IN ZFUITextView *textView,
+                                           ZF_IN zfint textSizeAutoChangeMaxSize)
     {
         // changed during layoutNativeTextView
     }
-    virtual void textSingleLineSet(ZF_IN ZFUITextView *textView,
-                                   ZF_IN zfbool textSingleLine)
+    virtual void textSingleLine(ZF_IN ZFUITextView *textView,
+                                ZF_IN zfbool textSingleLine)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textSingleLineSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textSingleLine",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_boolean)
@@ -167,11 +167,11 @@ public:
             ZFCastStatic(jobject, textView->nativeImplView()),
             ZFCastStatic(jboolean, textSingleLine));
     }
-    virtual void textTruncateModeSet(ZF_IN ZFUITextView *textView,
-                                     ZF_IN ZFUITextTruncateModeEnum const &textTruncateMode)
+    virtual void textTruncateMode(ZF_IN ZFUITextView *textView,
+                                  ZF_IN ZFUITextTruncateModeEnum const &textTruncateMode)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textTruncateModeSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textTruncateMode",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
@@ -224,7 +224,7 @@ public:
                                       ZF_IN const ZFUISize &viewSize)
     {
         JNIEnv *jniEnv = JNIGetJNIEnv();
-        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textSizeAutoChangeCurrentValueSet",
+        static jmethodID jmId = JNIUtilGetStaticMethodID(jniEnv, this->jclsOwner, "native_textSizeAutoChangeCurrentValue",
             JNIGetMethodSig(JNIType::S_void, JNIParamTypeContainer()
                 .add(JNIType::S_object(ZFImpl_sys_Android_JNI_NAME_Object))
                 .add(JNIType::S_int)
