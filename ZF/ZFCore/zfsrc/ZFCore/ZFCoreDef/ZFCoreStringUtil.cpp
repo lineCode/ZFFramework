@@ -237,6 +237,34 @@ zfindex zfstringFindLastNotOf(ZF_IN const zfchar *src, ZF_IN zfindex srcLen, ZF_
     }
     return zfindexMax();
 }
+zfindex zfstringReplace(ZF_IN_OUT zfstring &s, ZF_IN const zfchar *replaceFrom, ZF_IN const zfchar *replaceTo, ZF_IN_OPT zfindex maxCount /* = zfindexMax() */)
+{
+    zfindex replacedCount = 0;
+    zfindex replaceFromLen = zfslen(replaceFrom);
+    zfindex replaceToLen = zfslen(replaceTo);
+    while(maxCount == zfindexMax() || replacedCount < maxCount)
+    {
+        zfindex pos = zfstringFind(s, replaceFrom);
+        if(pos == zfindexMax()) {break;}
+        s.replace(pos, replaceFromLen, replaceTo);
+        ++replacedCount;
+    }
+    return replacedCount;
+}
+zfindex zfstringReplaceReversely(ZF_IN_OUT zfstring &s, ZF_IN const zfchar *replaceFrom, ZF_IN const zfchar *replaceTo, ZF_IN_OPT zfindex maxCount /* = zfindexMax() */)
+{
+    zfindex replacedCount = 0;
+    zfindex replaceFromLen = zfslen(replaceFrom);
+    zfindex replaceToLen = zfslen(replaceTo);
+    while(maxCount == zfindexMax() || replacedCount < maxCount)
+    {
+        zfindex pos = zfstringFindReversely(s, replaceFrom);
+        if(pos == zfindexMax()) {break;}
+        s.replace(pos, replaceFromLen, replaceTo);
+        ++replacedCount;
+    }
+    return replacedCount;
+}
 
 ZF_NAMESPACE_GLOBAL_END
 

@@ -377,11 +377,11 @@ _ZFP_I_ZFSerializablePropertyTypeHolder *ZFSerializable::_ZFP_ZFSerializable_get
                 {
                     allClass.add(tmpCls->implementedInterfaceAtIndex(i));
                 }
-                if(tmpCls->parentClass() != zfnull)
+                if(tmpCls->classParent() != zfnull)
                 {
-                    allClass.add(tmpCls->parentClass());
+                    allClass.add(tmpCls->classParent());
                 }
-                tmpCls = tmpCls->parentClass();
+                tmpCls = tmpCls->classParent();
             } while(tmpCls != zfnull);
             for(zfindex i = allClass.count() - 1; i != zfindexMax(); --i)
             {

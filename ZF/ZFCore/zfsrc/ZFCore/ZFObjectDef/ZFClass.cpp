@@ -515,7 +515,7 @@ void ZFClass::objectInfoOfInheritTreeT(ZF_IN_OUT zfstring &ret) const
             }
         }
 
-        cls = cls->parentClass();
+        cls = cls->classParent();
     }
 }
 
@@ -1313,11 +1313,11 @@ void ZFClass::_ZFP_ZFClassInitFinish_parentListCache(ZF_IN ZFClass *cls)
     ZFCoreArrayPOD<const ZFClass *> parentList;
     {
         parentList.add(cls);
-        const ZFClass *parentTmp = cls->parentClass();
+        const ZFClass *parentTmp = cls->classParent();
         while(parentTmp != zfnull)
         {
             parentList.add(parentTmp);
-            parentTmp = parentTmp->parentClass();
+            parentTmp = parentTmp->classParent();
         }
     }
     cls->d->parentListCache = (const ZFClass **)zfmalloc(sizeof(const ZFClass *) * (parentList.count() + 1));
@@ -1338,9 +1338,9 @@ void ZFClass::_ZFP_ZFClassInitFinish_parentInterfaceListCache(ZF_IN ZFClass *cls
             {
                 parentList.add(clsTmp);
 
-                if(clsTmp->parentClass() != zfnull)
+                if(clsTmp->classParent() != zfnull)
                 {
-                    clsToCheck.add(clsTmp->parentClass());
+                    clsToCheck.add(clsTmp->classParent());
                 }
                 clsToCheck.addFrom(clsTmp->d->implementedInterface);
             }
@@ -1361,9 +1361,9 @@ void ZFClass::_ZFP_ZFClassInitFinish_parentInterfaceListCache(ZF_IN ZFClass *cls
 void ZFClass::_ZFP_ZFClassInitFinish_interfaceCastListCache(ZF_IN ZFClass *cls)
 { // copy parent's interface cast datas
     ZFCoreArrayPOD<const ZFClass *> parentInterfaceList;
-    if(cls->parentClass() != zfnull)
+    if(cls->classParent() != zfnull)
     {
-        for(const ZFClass **p = cls->parentClass()->d->interfaceCastListCache; *p != zfnull; ++p)
+        for(const ZFClass **p = cls->classParent()->d->interfaceCastListCache; *p != zfnull; ++p)
         {
             if(parentInterfaceList.find(*p, ZFComparerCheckEqual) == zfindexMax())
             {
@@ -1386,9 +1386,9 @@ void ZFClass::_ZFP_ZFClassInitFinish_interfaceCastListCache(ZF_IN ZFClass *cls)
     cls->d->interfaceCastListCache[parentInterfaceList.count()] = zfnull;
 
     ZFCoreArrayPOD<_ZFP_ZFObjectToInterfaceCastCallback> parentInterfaceCastList;
-    if(cls->parentClass() != zfnull)
+    if(cls->classParent() != zfnull)
     {
-        for(_ZFP_ZFObjectToInterfaceCastCallback *p = cls->parentClass()->d->interfaceCastCallbackListCache; *p != zfnull; ++p)
+        for(_ZFP_ZFObjectToInterfaceCastCallback *p = cls->classParent()->d->interfaceCastCallbackListCache; *p != zfnull; ++p)
         {
             if(parentInterfaceCastList.find(*p, ZFComparerCheckEqual) == zfindexMax())
             {
@@ -1427,9 +1427,9 @@ void ZFClass::_ZFP_ZFClassInitFinish_allParentAndChildrenCache(ZF_IN ZFClass *cl
                 clsTmp->d->allChildren[cls] = zftrue;
             }
 
-            if(clsTmp->parentClass() != zfnull)
+            if(clsTmp->classParent() != zfnull)
             {
-                clsToCheck.add(clsTmp->parentClass());
+                clsToCheck.add(clsTmp->classParent());
             }
             clsToCheck.addFrom(clsTmp->d->implementedInterface);
         }
@@ -1461,9 +1461,9 @@ void ZFClass::_ZFP_ZFClassInitFinish_methodAndPropertyFindCache(ZF_IN ZFClass *c
         {
             clsToCheck.push_back(clsTmp->implementedInterfaceAtIndex(i));
         }
-        if(clsTmp->parentClass())
+        if(clsTmp->classParent())
         {
-            clsToCheck.push_back(clsTmp->parentClass());
+            clsToCheck.push_back(clsTmp->classParent());
         }
     } while(!clsToCheck.empty());
 }
@@ -1854,7 +1854,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, zfbool, classIsTypeOf, ZFMP
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, const zfchar *, classNamespace)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, const zfchar *, className)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, const zfchar *, classNameFull)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, const ZFClass *, parentClass)
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, const ZFClass *, classParent)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfbool, classIsAbstract)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfbool, classIsInterface)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfbool, classIsPrivate)

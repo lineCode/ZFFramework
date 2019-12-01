@@ -21,7 +21,7 @@ void allClassParentT(ZF_IN_OUT ZFCoreArray<const ZFClass *> &ret,
             {
                 ret.add(cls->implementedInterfaceAtIndex(i));
             }
-            cls = cls->parentClass();
+            cls = cls->classParent();
         }
     }
     else
@@ -39,7 +39,7 @@ void allClassParentT(ZF_IN_OUT ZFCoreArray<const ZFClass *> &ret,
                     ret.add(cls->implementedInterfaceAtIndex(i));
                 }
             }
-            cls = cls->parentClass();
+            cls = cls->classParent();
         }
     }
 }

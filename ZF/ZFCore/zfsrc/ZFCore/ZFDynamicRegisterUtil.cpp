@@ -398,7 +398,7 @@ const ZFCoreArrayPOD<zfidentity> &ZFDynamic::allEvent(void) const
 }
 
 ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *classNameFull,
-                                 ZF_IN_OPT const ZFClass *parentClass /* = ZFObject::ClassData() */,
+                                 ZF_IN_OPT const ZFClass *classParent /* = ZFObject::ClassData() */,
                                  ZF_IN_OPT ZFObject *classDynamicRegisterUserData /* = zfnull */)
 {
     if(d->errorOccurred) {return *this;}
@@ -408,7 +408,7 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *classNameFull,
     {
         zfstring errorHint;
         const ZFClass *dynClass = ZFClassDynamicRegister(
-            classNameFull, parentClass, classDynamicRegisterUserData, &errorHint);
+            classNameFull, classParent, classDynamicRegisterUserData, &errorHint);
         if(dynClass == zfnull)
         {
             d->error("unable to register class: %s, reason: %s",
@@ -435,15 +435,15 @@ ZFDynamic &ZFDynamic::classBegin(ZF_IN const zfchar *classNameFull,
     }
     else
     {
-        const ZFClass *parentClass = ZFClass::classForName(parentClassNameFull);
-        if(parentClass == zfnull)
+        const ZFClass *classParent = ZFClass::classForName(parentClassNameFull);
+        if(classParent == zfnull)
         {
-            d->error("no such parentClass: %s", parentClassNameFull);
+            d->error("no such classParent: %s", parentClassNameFull);
             return *this;
         }
         else
         {
-            return this->classBegin(classNameFull, parentClass, classDynamicRegisterUserData);
+            return this->classBegin(classNameFull, classParent, classDynamicRegisterUserData);
         }
     }
 }
@@ -1075,7 +1075,7 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<cons
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFMethod *> &, allMethod)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<const ZFProperty *> &, allProperty)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, const ZFCoreArrayPOD<zfidentity> &, allEvent)
-ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, classNameFull), ZFMP_IN_OPT(const ZFClass *, parentClass, ZFObject::ClassData()), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, classNameFull), ZFMP_IN_OPT(const ZFClass *, classParent, ZFObject::ClassData()), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_3(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const zfchar *, classNameFull), ZFMP_IN(const zfchar *, parentClassNameFull), ZFMP_IN_OPT(ZFObject *, classDynamicRegisterUserData, zfnull))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFDynamic, ZFDynamic &, classBegin, ZFMP_IN(const ZFClass *, cls))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFDynamic, ZFDynamic &, classEnd)

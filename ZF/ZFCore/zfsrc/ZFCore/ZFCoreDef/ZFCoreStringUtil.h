@@ -743,6 +743,12 @@ inline zfindex zfstringFindLastNotOf(ZF_IN const zfstring &src, ZF_IN zfchar fin
 {
     return zfstringFindLastNotOf(src.cString(), src.length(), &find, 1);
 }
+// ============================================================
+// zfstringReplace
+/** @brief replace string, return replaced count */
+extern ZF_ENV_EXPORT zfindex zfstringReplace(ZF_IN_OUT zfstring &s, ZF_IN const zfchar *replaceFrom, ZF_IN const zfchar *replaceTo, ZF_IN_OPT zfindex maxCount = zfindexMax());
+/** @brief replace string, return replaced count */
+extern ZF_ENV_EXPORT zfindex zfstringReplaceReversely(ZF_IN_OUT zfstring &s, ZF_IN const zfchar *replaceFrom, ZF_IN const zfchar *replaceTo, ZF_IN_OPT zfindex maxCount = zfindexMax());
 
 ZF_NAMESPACE_GLOBAL_END
 

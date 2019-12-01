@@ -214,7 +214,7 @@ public:
     /**
      * @brief class's parent, zfnull if none
      */
-    inline const ZFClass *parentClass(void) const
+    inline const ZFClass *classParent(void) const
     {
         return this->classParentCache;
     }
