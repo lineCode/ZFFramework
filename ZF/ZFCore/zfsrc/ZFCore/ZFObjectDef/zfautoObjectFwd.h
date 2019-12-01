@@ -198,6 +198,10 @@ public:
     {
         return ZFCastZFObject(T_ZFObject *, this->toObject());
     }
+    inline ZFObject *toObject(void) const
+    { // required for _ZFP_ZFAnyCast to work
+        return zfautoObject::toObject();
+    }
     /** @endcond */
 
 public:
