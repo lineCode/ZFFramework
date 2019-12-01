@@ -38,6 +38,8 @@ public:
     public:
 #define _ZFP_ZFOBJECT_DECLARE(ChildClass, SuperClass) \
     ZFCLASS_DISALLOW_COPY_CONSTRUCTOR(ChildClass) \
+    public: \
+        static void _ZFP_zftIsZFObject(void) {} \
     protected: \
         /** @brief class ref to super */ \
         typedef SuperClass zfsuper; \

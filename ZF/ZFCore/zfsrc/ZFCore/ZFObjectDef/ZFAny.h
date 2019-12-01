@@ -12,8 +12,8 @@ ZF_NAMESPACE_GLOBAL_BEGIN
 zfclassFwd ZFObject;
 zfclassFwd ZFInterface;
 
-ZFM_CLASS_HAS_MEMBER_DECLARE(ZFAny, toObject, ZFObject *(T::*F)(void))
-template<typename T_Type, int isZFObject>
+ZFM_CLASS_HAS_MEMBER_DECLARE(ZFAny, toObject, ZFObject *(T::*F)(void) const)
+template<typename T_Type, int has_toObject>
 zfclassNotPOD _ZFP_ZFAnyCastT
 {
 public:

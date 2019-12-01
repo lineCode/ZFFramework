@@ -30,19 +30,16 @@ protected:
     virtual ~_ZFP_ObjI_Base(void) {}
 
 public:
-    static const ZFClass *ClassData(void)
-    {
-        return zfnull;
-    }
+    static const ZFClass *ClassData(void) {return zfnull;}
 public:
     static void _ZFP_Obj_initImpl(ZFClass *cls) {}
 public:
-    static void _ZFP_ObjI_ICk(void)
-    {
-    }
+    static void _ZFP_ObjI_ICk(void) {}
 };
 #define _ZFP_ZFINTERFACE_DECLARE(InterfaceName, ParentInterface) \
     ZFCLASS_DISALLOW_COPY_CONSTRUCTOR(InterfaceName) \
+    public: \
+        static void _ZFP_zftIsZFObject(void) {} \
     protected: \
         /** @brief typedef for super (always #ZFInterface for an interface type) */ \
         typedef ParentInterface zfsuper; \
