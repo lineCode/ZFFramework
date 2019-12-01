@@ -309,6 +309,7 @@ void ZFObject::objectTagRemoveAll(void)
 {
     if(!d->objectTagMap.empty())
     {
+        zfCoreMutexLocker();
         _ZFP_ZFObjectTagMapType tmp;
         tmp.swap(d->objectTagMap);
     }

@@ -200,6 +200,7 @@ public:
                     )
     {
         T_ReturnType retTmp = invoke(invokerMethod, invokerObject, paramList);
+        zfCoreMutexLocker();
         typedef typename zftTraits<T_ReturnType>::TrNoRef T_ReturnTypeTmp;
         if(_ZFP_MtdGIARef<T_ReturnType>::C() && _ZFP_MtdGIARef<T_ReturnType>::R(retTmp, invokerObject, ret))
         {
