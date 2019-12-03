@@ -242,11 +242,13 @@ zfindex zfstringReplace(ZF_IN_OUT zfstring &s, ZF_IN const zfchar *replaceFrom, 
     zfindex replacedCount = 0;
     zfindex replaceFromLen = zfslen(replaceFrom);
     zfindex replaceToLen = zfslen(replaceTo);
+    zfindex pos = 0;
     while(maxCount == zfindexMax() || replacedCount < maxCount)
     {
-        zfindex pos = zfstringFind(s, replaceFrom);
+        pos = zfstringFind(s.cString() + pos, s.length() - pos, replaceFrom, replaceFromLen);
         if(pos == zfindexMax()) {break;}
         s.replace(pos, replaceFromLen, replaceTo);
+        pos += replaceToLen;
         ++replacedCount;
     }
     return replacedCount;
@@ -256,9 +258,10 @@ zfindex zfstringReplaceReversely(ZF_IN_OUT zfstring &s, ZF_IN const zfchar *repl
     zfindex replacedCount = 0;
     zfindex replaceFromLen = zfslen(replaceFrom);
     zfindex replaceToLen = zfslen(replaceTo);
+    zfindex pos = s.length();
     while(maxCount == zfindexMax() || replacedCount < maxCount)
     {
-        zfindex pos = zfstringFindReversely(s, replaceFrom);
+        pos = zfstringFindReversely(s.cString(), pos, replaceFrom, replaceFromLen);
         if(pos == zfindexMax()) {break;}
         s.replace(pos, replaceFromLen, replaceTo);
         ++replacedCount;

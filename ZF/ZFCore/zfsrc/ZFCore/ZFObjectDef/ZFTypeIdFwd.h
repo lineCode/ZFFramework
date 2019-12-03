@@ -45,17 +45,14 @@ public:
      */
     virtual const zfchar *typeId(void) const zfpurevirtual;
     /**
-     * @brief return the proper wrapper type if available
+     * @brief return the proper wrapper type class if available
      *
      * if available:
-     * -  if the type is ZFObject type, set v to #zfautoObjectNull and return true,
-     *   the value would be serialized as #ZFSerializable
-     *   according to object class
+     * -  if the type is ZFObject type, the object's class would be returned
      * -  if the type is not ZFObject type,
-     *   impl should set v to proper holder type (#ZFTypeIdWrapper)
-     *   and return true
+     *   a proper #ZFTypeIdWrapper would be returned
      */
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const zfpurevirtual;
+    virtual const ZFClass *typeIdClass(void) const zfpurevirtual;
 };
 
 // ============================================================
@@ -426,14 +423,9 @@ typedef zfbool (*_ZFP_ZFTypeIdProgressUpdate)(ZF_IN_OUT ZFProgressable *ret,
             return TypeId(); \
         } \
         zfoverride \
-        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
+        virtual const ZFClass *typeIdClass(void) const \
         { \
-            zfCoreMutexLock(); \
-            v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
-            v.zflockfree_assign(t); \
-            zflockfree_zfRelease(t); \
-            zfCoreMutexUnlock(); \
-            return zftrue; \
+            return v_##TypeName::ClassData(); \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN _ZFP_PropTypeW_##TypeName const &v) \
         { \
@@ -520,14 +512,9 @@ typedef zfbool (*_ZFP_ZFTypeIdProgressUpdate)(ZF_IN_OUT ZFProgressable *ret,
             return TypeId(); \
         } \
         zfoverride \
-        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
+        virtual const ZFClass *typeIdClass(void) const \
         { \
-            zfCoreMutexLock(); \
-            v_##TypeName *t = zflockfree_zfAllocWithCache(v_##TypeName); \
-            v.zflockfree_assign(t); \
-            zflockfree_zfRelease(t); \
-            zfCoreMutexUnlock(); \
-            return zftrue; \
+            return v_##TypeName::ClassData(); \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN _ZFP_PropTypeW_##TypeName const &v) \
         { \
@@ -658,11 +645,10 @@ typedef zfbool (*_ZFP_ZFTypeIdProgressUpdate)(ZF_IN_OUT ZFProgressable *ret,
             return TypeId(); \
         } \
         zfoverride \
-        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
+        virtual const ZFClass *typeIdClass(void) const \
         { \
             ZFTypeId<AliasToType> t; \
-            t.typeIdWrapper(v); \
-            return zftrue; \
+            return t.typeIdClass(); \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN _ZFP_PropTypeW_##TypeName const &v) \
         { \

@@ -73,7 +73,6 @@ public:
      * if success, ret ensured:
      * * store ZFTypeIdWrapper for assign property
      * * store _ZFP_I_PropDynRetainHolder for retain property
-     *   or typeIdWrapper return null with success state
      */
     zfbool initValue(ZF_OUT zfautoObject &ret,
                      ZF_IN const ZFProperty *property,
@@ -104,8 +103,8 @@ public:
             }
             if(ret == zfnull)
             {
-                this->d->typeIdWrapper(ret);
-                if(ret == zfnull)
+                const ZFClass *propClass = this->d->typeIdClass();
+                if(propClass != zfnull && !propClass->classIsTypeOf(ZFTypeIdWrapper::ClassData()))
                 {
                     zfblockedAlloc(_ZFP_I_PropDynRetainHolder, holder);
                     ret = holder;
@@ -169,7 +168,8 @@ static zfbool _ZFP_PropDynReg_setterGI(ZFMETHOD_GENERIC_INVOKER_PARAMS)
         }
         else
         {
-            if(d->d->typeIdWrapper(value) && value == zfnull)
+            const ZFClass *propClass = d->d->typeIdClass();
+            if(propClass != zfnull && !propClass->classIsTypeOf(ZFTypeIdWrapper::ClassData()))
             {
                 zfblockedAlloc(_ZFP_I_PropDynRetainHolder, holder);
                 holder->zfv = valueNew;

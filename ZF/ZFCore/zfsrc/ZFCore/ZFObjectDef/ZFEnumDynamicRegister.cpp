@@ -128,10 +128,9 @@ public:
         return this->enumClass->classNameFull();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        v = this->enumClass->newInstance();
-        return zftrue;
+        return this->enumClass;
     }
 };
 

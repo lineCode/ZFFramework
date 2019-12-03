@@ -52,14 +52,9 @@ public:
             return TypeId(); \
         } \
         zfoverride \
-        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
+        virtual const ZFClass *typeIdClass(void) const \
         { \
-            zfCoreMutexLock(); \
-            EnumName *t = zflockfree_zfAlloc(EnumName); \
-            v.zflockfree_assign(t); \
-            zflockfree_zfRelease(t); \
-            zfCoreMutexUnlock(); \
-            return zftrue; \
+            return EnumName::ClassData(); \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfuint const &v) \
         { \
@@ -222,14 +217,9 @@ public:
             return TypeId(); \
         } \
         zfoverride \
-        virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const \
+        virtual const ZFClass *typeIdClass(void) const \
         { \
-            zfCoreMutexLock(); \
-            v_##EnumFlagsName *t = zflockfree_zfAllocWithCache(v_##EnumFlagsName); \
-            v = t; \
-            zflockfree_zfRelease(t); \
-            zfCoreMutexUnlock(); \
-            return zftrue; \
+            return v_##EnumFlagsName::ClassData(); \
         } \
         static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfuint const &v) \
         { \

@@ -517,15 +517,16 @@ zfbool ZFSerializable::serializableOnSerializePropertyFromData(ZF_IN const ZFSer
                 property->objectInfo().cString());
             return zffalse;
         }
-        zfautoObject propertyValue;
-        typeId->typeIdWrapper(propertyValue);
-        if(propertyValue == zfnull)
+
+        const ZFClass *propertyClass = typeId->typeIdClass();
+        if(propertyClass == zfnull || propertyClass->classIsAbstract())
         {
             ZFSerializableUtil::errorOccurred(outErrorHint, outErrorPos, propertyData,
                 "property %s is not serializable",
                 property->propertyName());
             return zffalse;
         }
+        zfautoObject propertyValue = propertyClass->newInstance();
         if(!ZFCastZFObject(ZFTypeIdWrapper *, propertyValue)->wrappedValueFromData(propertyData, outErrorHint, outErrorPos))
         {
             return zffalse;

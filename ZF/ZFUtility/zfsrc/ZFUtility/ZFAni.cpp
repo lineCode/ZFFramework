@@ -58,11 +58,12 @@ static zfautoObjectT<ZFAnimationTimeLine *> _ZFP_ZFAni(ZF_IN ZFObject *target,
             , zfautoObject, from
             , zfautoObject, to
         , {
-            zfautoObject valueHolder;
-            if(!typeInfo->typeIdWrapper(valueHolder))
+            const ZFClass *typeIdClass = typeInfo->typeIdClass();
+            if(typeIdClass == zfnull || typeIdClass->classIsAbstract())
             {
                 return ;
             }
+            zfautoObject valueHolder = typeIdClass->newInstance();
             ZFProgressable *value = valueHolder;
             if(value == zfnull || !value->progressUpdate(from, to, listenerData.param0<v_zffloat *>()->zfv))
             {
@@ -139,12 +140,15 @@ ZFMETHOD_FUNC_DEFINE_4(zfautoObjectT<ZFAnimationTimeLine *>, ZFAni,
     {
         return zfnull;
     }
-    zfautoObject fromHolder;
-    zfautoObject toHolder;
-    if(!typeInfo->typeIdWrapper(fromHolder) || !typeInfo->typeIdWrapper(toHolder))
+
+    const ZFClass *fromClass = typeInfo->typeIdClass();
+    const ZFClass *toClass = typeInfo->typeIdClass();
+    if(fromClass == zfnull || fromClass->classIsAbstract() || toClass == zfnull || toClass->classIsAbstract())
     {
         return zfnull;
     }
+    zfautoObject fromHolder = fromClass->newInstance();
+    zfautoObject toHolder = toClass->newInstance();
     if(!fromHolder->to<ZFTypeIdWrapper *>()->wrappedValueFromString(from))
     {
         return zfnull;

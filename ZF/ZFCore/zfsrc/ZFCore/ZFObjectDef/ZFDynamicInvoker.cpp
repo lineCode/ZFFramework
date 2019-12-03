@@ -640,7 +640,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
     }
 
     const ZFTypeInfo *typeIdData = ZFTypeInfoForName(typeId);
-    if(typeIdData == zfnull || !typeIdData->typeIdWrapper(ret))
+    if(typeIdData == zfnull || typeIdData->typeIdClass() == zfnull || typeIdData->typeIdClass()->classIsAbstract())
     {
         if(errorHint != zfnull)
         {
@@ -648,6 +648,7 @@ zfbool ZFDI_paramConvert(ZF_OUT zfautoObject &ret,
         }
         return zffalse;
     }
+    ret = typeIdData->typeIdClass()->newInstance();
     if(ret != zfnull)
     {
         ZFTypeIdWrapper *typeWrapper = ret;

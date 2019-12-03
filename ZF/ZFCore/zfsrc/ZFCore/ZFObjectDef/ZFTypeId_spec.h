@@ -40,9 +40,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        return zffalse;
+        return zfnull;
     }
     template<typename T_Access = zfint>
     zfclassNotPOD Value
@@ -95,10 +95,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        v = zfnull;
-        return zftrue;
+        return typename zftTraits<T_Type>::TrType::ClassData();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN T_Type const &v)
     {
@@ -246,10 +245,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        v = zfnull;
-        return zftrue;
+        return ZFObject::ClassData();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfautoObject const &v)
     {
@@ -325,10 +323,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        v = zfnull;
-        return zftrue;
+        return typename zftTraits<T_ZFObject>::TrType::ClassData();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN zfautoObjectT<T_ZFObject> const &v)
     {
@@ -405,10 +402,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        v = zfnull;
-        return zftrue;
+        return ZFObject::ClassData();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFAny const &v)
     {
@@ -491,11 +487,10 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
         ZFTypeId<T_Type_> t;
-        t.typeIdWrapper(v);
-        return zftrue;
+        return t.typeIdClass();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, T_Type const &v)
     {

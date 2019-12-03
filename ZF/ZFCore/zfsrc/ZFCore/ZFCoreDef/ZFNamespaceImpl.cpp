@@ -155,7 +155,7 @@ zfstring _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
             _ZFP_ZFNamespaceMapType *tNew = zfnew(_ZFP_ZFNamespaceMapType);
             t->d[key] = ZFCorePointerForObject<_ZFP_ZFNamespaceMapType *>(tNew);
             t = tNew;
-            t->ns.append(ns, pos[i].count + pos[i].count);
+            t->ns.append(ns, pos[i].start + pos[i].count);
         }
         else
         {

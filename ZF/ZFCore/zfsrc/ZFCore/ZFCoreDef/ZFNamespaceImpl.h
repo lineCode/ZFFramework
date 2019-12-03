@@ -30,7 +30,12 @@ ZF_NAMESPACE_GLOBAL_BEGIN
     { \
         static _ZFP_ZFNamespaceHolder d(ParentNameSpace::_ZFP_ZF_NAMESPACE_NOT_DECLARED(), #NameSpace); \
         return d.ns.cString(); \
-    }
+    } \
+    ZF_STATIC_REGISTER_INIT(_ZFP_NSReg) \
+    { \
+        _ZFP_ZF_NAMESPACE_NOT_DECLARED(); \
+    } \
+    ZF_STATIC_REGISTER_END(_ZFP_NSReg)
 extern ZF_ENV_EXPORT zfstring _ZFP_ZFNamespaceRegister(ZF_IN const char *parent,
                                                        ZF_IN const char *child);
 extern ZF_ENV_EXPORT void _ZFP_ZFNamespaceUnregister(ZF_IN const char *ns);

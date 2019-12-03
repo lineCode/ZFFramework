@@ -707,6 +707,19 @@ const ZFMethod *ZFClass::methodAtIndex(ZF_IN zfindex index) const
     }
     return d->methodList[index];
 }
+
+void ZFClass::methodGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret) const
+{
+    this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
+    for(zfstlmap<zfstlstringZ, zfstlvector<const ZFMethod *> >::iterator it = d->methodMapCache.begin(); it != d->methodMapCache.end(); ++it)
+    {
+        for(zfstlsize i = 0; i < it->second.size(); ++i)
+        {
+            ret.add(it->second[i]);
+        }
+    }
+}
+
 /* ZFMETHOD_MAX_PARAM */
 const ZFMethod *ZFClass::methodForNameIgnoreParent(ZF_IN const zfchar *methodName
                                                    , ZF_IN const zfchar *methodParamTypeId0
@@ -853,6 +866,16 @@ const ZFProperty *ZFClass::propertyAtIndex(ZF_IN zfindex index) const
     }
     return d->propertyList.get(index);
 }
+
+void ZFClass::propertyGetAllT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret) const
+{
+    this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
+    for(zfstlmap<zfstlstringZ, const ZFProperty *>::iterator it = d->propertyMapCache.begin(); it != d->propertyMapCache.end(); ++it)
+    {
+        ret.add(it->second);
+    }
+}
+
 const ZFProperty *ZFClass::propertyForNameIgnoreParent(const zfchar *propertyName) const
 {
     this->_ZFP_ZFClass_methodAndPropertyAutoRegister();
@@ -1874,6 +1897,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, implementedInterfa
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFClass *, implementedInterfaceAtIndex, ZFMP_IN(zfindex, index))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, methodCount)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFMethod *, methodAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, void, methodGetAllT, ZFMP_IN_OUT(ZFCoreArray<const ZFMethod *> &, ret))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, ZFCoreArrayPOD<const ZFMethod *>, methodGetAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_8(v_ZFClass, const ZFMethod *, methodForNameIgnoreParent, ZFMP_IN(const zfchar *, methodName)
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId0, zfnull)
     , ZFMP_IN_OPT(const zfchar *, methodParamTypeId1, zfnull)
@@ -1898,6 +1923,8 @@ ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_2(v_ZFClass, void, methodForNameGetAllT,
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, ZFCoreArrayPOD<const ZFMethod *>, methodForNameGetAll, ZFMP_IN(const zfchar *, methodName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfindex, propertyCount)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFProperty *, propertyAtIndex, ZFMP_IN(zfindex, index))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, void, propertyGetAllT, ZFMP_IN_OUT(ZFCoreArray<const ZFProperty *> &, ret))
+ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, ZFCoreArrayPOD<const ZFProperty *>, propertyGetAll)
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFProperty *, propertyForNameIgnoreParent, ZFMP_IN(const zfchar *, propertyName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_1(v_ZFClass, const ZFProperty *, propertyForName, ZFMP_IN(const zfchar *, propertyName))
 ZFMETHOD_USER_REGISTER_FOR_WRAPPER_FUNC_0(v_ZFClass, zfbool, propertyHasOverrideInitStep)

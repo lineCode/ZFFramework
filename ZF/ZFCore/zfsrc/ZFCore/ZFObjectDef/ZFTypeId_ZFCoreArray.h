@@ -209,14 +209,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        zfCoreMutexLock();
-        ZFObject *t = zflockfree_zfAllocWithCache(v_ZFCoreArray);
-        v = t;
-        zflockfree_zfRelease(t);
-        zfCoreMutexUnlock();
-        return zftrue;
+        return v_ZFCoreArray::ClassData();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFCoreArray<T_Type> const &v)
     {
@@ -306,14 +301,9 @@ public:
         return TypeId();
     }
     zfoverride
-    virtual zfbool typeIdWrapper(ZF_OUT zfautoObject &v) const
+    virtual const ZFClass *typeIdClass(void) const
     {
-        zfCoreMutexLock();
-        ZFObject *t = zflockfree_zfAllocWithCache(v_ZFCoreArray);
-        v = t;
-        zflockfree_zfRelease(t);
-        zfCoreMutexUnlock();
-        return zftrue;
+        return v_ZFCoreArray::ClassData();
     }
     static zfbool ValueStore(ZF_OUT zfautoObject &obj, ZF_IN ZFCoreArray<T_Type> const &v)
     {

@@ -364,6 +364,19 @@ public:
      * @note can be found only if it matches the condition described in #ZFOBJECT_REGISTER
      */
     const ZFMethod *methodAtIndex(ZF_IN zfindex index) const;
+
+    /** @brief see #methodGetAll */
+    void methodGetAllT(ZF_IN_OUT ZFCoreArray<const ZFMethod *> &ret) const;
+    /**
+     * @brief get all method, including methods inherited from parent
+     */
+    ZFCoreArrayPOD<const ZFMethod *> methodGetAll(void) const
+    {
+        ZFCoreArrayPOD<const ZFMethod *> ret;
+        this->methodGetAllT(ret);
+        return ret;
+    }
+
     /* ZFMETHOD_MAX_PARAM */
     /**
      * @brief get the method by name within this class only, or zfnull if not exists
@@ -442,6 +455,18 @@ public:
      * @note can be found only if it matches the condition described in #ZFOBJECT_REGISTER
      */
     const ZFProperty *propertyAtIndex(ZF_IN zfindex index) const;
+
+    /** @brief see #propertyGetAll */
+    void propertyGetAllT(ZF_IN_OUT ZFCoreArray<const ZFProperty *> &ret) const;
+    /**
+     * @brief get all property, including properties inherited from parent
+     */
+    ZFCoreArrayPOD<const ZFProperty *> propertyGetAll(void) const
+    {
+        ZFCoreArrayPOD<const ZFProperty *> ret;
+        this->propertyGetAllT(ret);
+        return ret;
+    }
 
     /**
      * @brief get the property by name within this class only, or zfnull if not exists

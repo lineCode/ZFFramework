@@ -39,7 +39,7 @@ extern ZF_ENV_EXPORT void ZFPropertyDynamicUnregister(ZF_IN const ZFProperty *pr
 /**
  * @brief callback to setup init value for #ZFPropertyDynamicRegister
  *
- * returned object must be valid to #ZFTypeInfo::typeIdWrapper
+ * returned object must be valid to #ZFTypeInfo::typeIdClass
  */
 typedef zfautoObject (*ZFPropertyDynamicRegisterInitValueCallback)(ZF_IN const ZFProperty *property);
 
