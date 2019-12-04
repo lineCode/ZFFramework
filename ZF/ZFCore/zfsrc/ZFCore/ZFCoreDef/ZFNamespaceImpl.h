@@ -7,6 +7,7 @@
 
 #include "ZFCoreTypeDef.h"
 #include "ZFCoreArray.h"
+#include "ZFCoreStaticRegister.h"
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
