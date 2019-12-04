@@ -17,7 +17,7 @@ public:
             zfindex pos = zfstringFindReversely(this->_pathForModuleFile, ZFFileSeparator());
             if(pos != zfindexMax())
             {
-                this->_pathForModule.assign(this->_pathForModuleFile, 0, pos);
+                this->_pathForModule.assign(this->_pathForModuleFile, pos);
             }
         }
         return this->_pathForModule;
