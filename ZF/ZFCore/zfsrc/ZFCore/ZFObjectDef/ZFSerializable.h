@@ -222,6 +222,13 @@ public:
      * @brief serialize from data, see #ZFSerializable
      *
      * note that for performance, this method won't check whether serializable before execute
+     * @note for convenient for script,
+     *   you may supply a method named "serializableOnSerializeFromData" / "serializableOnSerializeToData",
+     *   if you do so, the method would be called to perform serialization after default action\n
+     *   the method's proto type should match #serializableOnSerializeFromData,
+     *   and can be registered by ZFMETHOD_USER_REGISTER_N series
+     *   or #ZFMethodDynamicRegister series\n
+     *   typically, this is useful for script language with #ZFDynamic
      */
     zffinal zfbool serializeFromData(ZF_IN const ZFSerializableData &serializableData,
                                      ZF_OUT_OPT zfstring *outErrorHint = zfnull,
@@ -236,19 +243,24 @@ public:
                                    ZF_IN_OPT ZFSerializable *referencedOwnerOrNull = zfnull);
 
     /**
-     * @brief subclass may override this to supply short form serializable data,
+     * @brief serialize from string,
      *   return false by default
+     *
+     * for most case, #serializeFromData would supply serialization logic automatically,
+     * however, the serialization result may be quite verbose for the data structure,
+     * subclass may override #serializableOnSerializeFromString to supply custom
+     * serialization logic as short data structure
+     * @note for convenient for script,
+     *   you may supply a method named "serializableOnSerializeFromString" / "serializableOnSerializeToString",
+     *   if you do so, the method would be called to perform serialization and replace the default action\n
+     *   the method's proto type should match #serializableOnSerializeToData,
+     *   and can be registered by ZFMETHOD_USER_REGISTER_N series
+     *   or #ZFMethodDynamicRegister series\n
+     *   typically, this is useful for script language with #ZFDynamic
      */
-    virtual inline zfbool serializeFromString(ZF_IN const zfchar *src,
-                                              ZF_IN_OPT zfindex srcLen = zfindexMax())
-    {
-        return zffalse;
-    }
+    zffinal zfbool serializeFromString(ZF_IN const zfchar *src);
     /** @brief see #serializeFromString */
-    virtual inline zfbool serializeToString(ZF_IN_OUT zfstring &ret)
-    {
-        return zffalse;
-    }
+    zffinal zfbool serializeToString(ZF_IN_OUT zfstring &ret);
 
 private:
     zffinal _ZFP_I_ZFSerializablePropertyTypeHolder *_ZFP_ZFSerializable_getPropertyTypeHolder(void);
@@ -411,6 +423,18 @@ protected:
                                                                 ZF_IN ZFSerializable *referencedOwnerOrNull,
                                                                 ZF_OUT_OPT zfstring *outErrorHint = zfnull);
 
+protected:
+    /** @brief see #serializeFromString */
+    virtual zfbool serializableOnSerializeFromString(ZF_IN const zfchar *src)
+    {
+        return zffalse;
+    }
+    /** @brief see #serializeFromString */
+    virtual zfbool serializableOnSerializeToString(ZF_IN_OUT zfstring &ret)
+    {
+        return zffalse;
+    }
+
 public:
     /**
      * @brief get info as a serializable
@@ -481,12 +505,10 @@ extern ZF_ENV_EXPORT ZFSerializableData ZFObjectToData(ZF_IN ZFObject *obj,
  */
 extern ZF_ENV_EXPORT zfbool ZFSerializeFromString(ZF_OUT zfautoObject &result,
                                                   ZF_IN const ZFClass *cls,
-                                                  ZF_IN const zfchar *src,
-                                                  ZF_IN_OPT zfindex srcLen = zfindexMax());
+                                                  ZF_IN const zfchar *src);
 /** @brief see #ZFSerializeFromString */
 extern ZF_ENV_EXPORT zfautoObject ZFSerializeFromString(ZF_IN const ZFClass *cls,
-                                                        ZF_IN const zfchar *src,
-                                                        ZF_IN_OPT zfindex srcLen = zfindexMax());
+                                                        ZF_IN const zfchar *src);
 /** @brief see #ZFSerializeFromString */
 extern ZF_ENV_EXPORT zfbool ZFSerializeToString(ZF_IN_OUT zfstring &ret,
                                                 ZF_IN ZFObject *obj);

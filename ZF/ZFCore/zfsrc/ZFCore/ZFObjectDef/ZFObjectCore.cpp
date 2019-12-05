@@ -515,6 +515,11 @@ void ZFObject::objectOnDealloc(void)
         return ;
     }
 
+    if(this->_ZFP_ZFObject_classData)
+    {
+        this->_ZFP_ZFObject_classData->_ZFP_classDynamicRegisterObjectInstanceDetach(this);
+    }
+
     if(d->mutexImpl)
     {
         _ZFP_ZFObjectMutexImplDealloc(d->mutexImpl);

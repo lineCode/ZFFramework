@@ -95,16 +95,6 @@ public:
 };
 
 // ============================================================
-/**
- * @brief see #ZFObject::observerNotify
- *
- * this event is reserved for #ZFDynamic::removeAllOnEvent
- */
-ZF_NAMESPACE_BEGIN(ZFGlobalEvent)
-ZFOBSERVER_EVENT_GLOBAL(ZFDynamicRemoveAll)
-ZF_NAMESPACE_END(ZFGlobalEvent)
-
-// ============================================================
 zfclassFwd _ZFP_ZFDynamicPrivate;
 /**
  * @brief util class to dynamic register class/method/property
@@ -133,9 +123,7 @@ zfclassFwd _ZFP_ZFDynamicPrivate;
  * and all further call would be ignored\n
  * \n
  * you may store the returned ZFDynamic object,
- * and use #removeAll to remove all registered items at once,
- * or, use the util method #removeAllOnEvent to automatically
- * remove when specified event notified to #ZFGlobalEventCenter\n
+ * and use #removeAll to remove all registered items at once\n
  * to make it more convenient for script language,
  * you may also use #regTag to make the registration looks like singleton registration
  */
@@ -192,10 +180,6 @@ public:
     /** @brief see #ZFDynamic */
     void removeAll(void);
     /** @brief see #ZFDynamic */
-    ZFDynamic &removeAllOnEvent(ZF_IN zfidentity eventId = ZFGlobalEvent::EventZFDynamicRemoveAll());
-    /** @brief see #ZFDynamic */
-    zfidentity removeAllOnEvent(void) const;
-    /** @brief see #ZFDynamic */
     const ZFCoreArrayPOD<const ZFClass *> &allClass(void) const;
     /** @brief see #ZFDynamic */
     const ZFCoreArrayPOD<const ZFClass *> &allEnum(void) const;
@@ -221,11 +205,11 @@ public:
     ZFDynamic &classEnd(void);
 
     /** @brief see #ZFDynamic */
-    ZFDynamic &onInit(ZF_IN const ZFListener &onInitCallback,
-                      ZF_IN_OPT ZFObject *userData = zfnull);
+    ZFDynamic &classOnInit(ZF_IN const ZFListener &classOnInitCallback,
+                           ZF_IN_OPT ZFObject *userData = zfnull);
     /** @brief see #ZFDynamic */
-    ZFDynamic &onDealloc(ZF_IN const ZFListener &onDeallocCallback,
-                         ZF_IN_OPT ZFObject *userData = zfnull);
+    ZFDynamic &classOnDealloc(ZF_IN const ZFListener &classOnDeallocCallback,
+                              ZF_IN_OPT ZFObject *userData = zfnull);
 
 public:
     /** @brief see #ZFDynamic */
@@ -336,7 +320,7 @@ ZFTYPEID_ACCESS_ONLY_DECLARE(ZFDynamic, ZFDynamic)
 
 // ============================================================
 /**
- * @brief util method to notify #ZFGlobalEvent::EventZFDynamicRemoveAll
+ * @brief util method to remove all contents registered by #ZFDynamic
  *
  * ensured called during #ZFFrameworkCleanup as level #ZFLevelZFFrameworkNormal
  */

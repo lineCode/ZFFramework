@@ -602,15 +602,14 @@ protected:
 
         return zftrue;
     }
-public:
+protected:
     zfoverride
-    virtual inline zfbool serializeFromString(ZF_IN const zfchar *src,
-                                              ZF_IN_OPT zfindex srcLen = zfindexMax())
+    virtual inline zfbool serializableOnSerializeFromString(ZF_IN const zfchar *src)
     {
-        return this->wrappedValueFromString(src, srcLen);
+        return this->wrappedValueFromString(src);
     }
     zfoverride
-    virtual inline zfbool serializeToString(ZF_IN_OUT zfstring &ret)
+    virtual inline zfbool serializableOnSerializeToString(ZF_IN_OUT zfstring &ret)
     {
         return this->wrappedValueToString(ret);
     }

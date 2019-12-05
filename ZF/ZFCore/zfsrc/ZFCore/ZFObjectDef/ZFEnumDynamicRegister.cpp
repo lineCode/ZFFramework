@@ -10,25 +10,6 @@
 ZF_NAMESPACE_GLOBAL_BEGIN
 
 // ============================================================
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFEnumDynamicRegisterAutoRemove, ZFLevelZFFrameworkHigh)
-{
-}
-ZF_GLOBAL_INITIALIZER_DESTROY(ZFEnumDynamicRegisterAutoRemove)
-{
-    if(!m.empty())
-    {
-        zfstlmap<const ZFClass *, zfbool> t;
-        t.swap(m);
-        for(zfstlmap<const ZFClass *, zfbool>::iterator it = t.begin(); it != t.end(); ++it)
-        {
-            ZFEnumDynamicUnregister(it->first);
-        }
-    }
-}
-zfstlmap<const ZFClass *, zfbool> m;
-ZF_GLOBAL_INITIALIZER_END(ZFEnumDynamicRegisterAutoRemove)
-
-// ============================================================
 zfclass _ZFP_I_ZFEnumDynamicHolder : zfextends ZFObject
 {
     ZFOBJECT_DECLARE(_ZFP_I_ZFEnumDynamicHolder, ZFObject)

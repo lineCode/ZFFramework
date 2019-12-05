@@ -544,6 +544,7 @@ ZFMethod *_ZFP_ZFMethodRegisterV(ZF_IN zfbool methodIsUserRegister
 
     if(method->_ZFP_ZFMethodNeedInit)
     {
+        method->_ZFP_ZFMethodNeedInit = zffalse;
         method->_ZFP_ZFMethod_init(methodIsUserRegister
                 , methodIsDynamicRegister
                 , methodDynamicRegisterUserData

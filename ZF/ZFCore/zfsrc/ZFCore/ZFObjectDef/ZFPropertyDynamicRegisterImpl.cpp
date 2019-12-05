@@ -6,6 +6,12 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFPropertyDynamicRegisterDataHolder, ZFLevelZFFrameworkStatic)
+{
+}
+zfstlmap<const ZFProperty *, zfbool> m;
+ZF_GLOBAL_INITIALIZER_END(ZFPropertyDynamicRegisterDataHolder)
+
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFPropertyDynamicRegisterAutoRemove, ZFLevelZFFrameworkHigh)
 {
@@ -13,13 +19,12 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFPropertyDynamicRegisterAutoRemove, ZFLev
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFPropertyDynamicRegisterAutoRemove)
 {
     zfstlmap<const ZFProperty *, zfbool> t;
-    t.swap(m);
+    t.swap(ZF_GLOBAL_INITIALIZER_INSTANCE(ZFPropertyDynamicRegisterDataHolder)->m);
     for(zfstlmap<const ZFProperty *, zfbool>::iterator it = t.begin(); it != t.end(); ++it)
     {
         _ZFP_ZFPropertyUnregister(it->first);
     }
 }
-zfstlmap<const ZFProperty *, zfbool> m;
 ZF_GLOBAL_INITIALIZER_END(ZFPropertyDynamicRegisterAutoRemove)
 
 // ============================================================
@@ -481,7 +486,7 @@ const ZFProperty *ZFPropertyDynamicRegister(ZF_IN const ZFPropertyDynamicRegiste
     }
 
     property->_ZFP_ZFProperty_removeConst()->_ZFP_ZFProperty_propertyDynamicRegisterUserDataWrapper = zfRetain(userDataWrapper);
-    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFPropertyDynamicRegisterAutoRemove)->m[property] = zftrue;
+    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFPropertyDynamicRegisterDataHolder)->m[property] = zftrue;
     return property;
 }
 void ZFPropertyDynamicUnregister(ZF_IN const ZFProperty *property)
@@ -491,7 +496,7 @@ void ZFPropertyDynamicUnregister(ZF_IN const ZFProperty *property)
         zfCoreAssert(property->propertyIsDynamicRegister());
         zfCoreMutexLocker();
         zfblockedRelease(property->_ZFP_ZFProperty_propertyDynamicRegisterUserDataWrapper);
-        ZF_GLOBAL_INITIALIZER_INSTANCE(ZFPropertyDynamicRegisterAutoRemove)->m.erase(property);
+        ZF_GLOBAL_INITIALIZER_INSTANCE(ZFPropertyDynamicRegisterDataHolder)->m.erase(property);
         _ZFP_I_PropDynRegData *d = ZFCastZFObject(_ZFP_I_PropDynRegData *, property->_ZFP_ZFProperty_propertyDynamicRegisterUserDataWrapper);
         d->objectDetach();
         _ZFP_ZFPropertyUnregister(property);

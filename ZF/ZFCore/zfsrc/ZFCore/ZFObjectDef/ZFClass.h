@@ -632,6 +632,7 @@ public:
     _ZFP_zfAllocWithCacheCallback _ZFP_objectAllocWithCacheCallback(void) const;
     _ZFP_ZFObjectConstructor _ZFP_objectConstructor(void) const;
     _ZFP_ZFObjectDestructor _ZFP_objectDestructor(void) const;
+    void _ZFP_classDynamicRegisterObjectInstanceDetach(ZF_IN ZFObject *obj) const;
 
 public:
     zfbool _ZFP_ZFClassNeedInitImplementationList;

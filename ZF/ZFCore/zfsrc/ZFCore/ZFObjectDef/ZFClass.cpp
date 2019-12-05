@@ -79,6 +79,7 @@ public:
     ZFClass *pimplOwner;
     zfbool classIsDynamicRegister;
     zfautoObject classDynamicRegisterUserData;
+    zfstlmap<ZFObject *, zfbool> classDynamicRegisterObjectInstanceMap;
     _ZFP_zfAllocWithCacheCallback objectAllocWithCacheCallback;
     _ZFP_ZFObjectConstructor constructor;
     _ZFP_ZFObjectDestructor destructor;
@@ -229,6 +230,7 @@ public:
             if(this->pimplOwner->classIsDynamicRegister())
             {
                 obj->_ZFP_ZFObject_classData = this->pimplOwner;
+                this->classDynamicRegisterObjectInstanceMap[obj] = zftrue;
             }
             return obj;
         }
@@ -245,6 +247,7 @@ public:
     , pimplOwner(zfnull)
     , classIsDynamicRegister(zffalse)
     , classDynamicRegisterUserData()
+    , classDynamicRegisterObjectInstanceMap()
     , constructor(zfnull)
     , destructor(zfnull)
     , classNamespace()
@@ -1207,6 +1210,15 @@ void ZFClass::_ZFP_ZFClassUnregister(ZF_IN zfbool *ZFCoreLibDestroyFlag, ZF_IN c
     }
     zfCoreMutexLocker();
 
+    if(cls->classIsDynamicRegister())
+    {
+        for(zfstlmap<ZFObject *, zfbool>::iterator it = cls->d->classDynamicRegisterObjectInstanceMap.begin(); it != cls->d->classDynamicRegisterObjectInstanceMap.end(); ++it)
+        {
+            it->first->_ZFP_ZFObject_classData = zfnull;
+        }
+        cls->d->classDynamicRegisterObjectInstanceMap.clear();
+    }
+
     zfiterator itClass = _ZFP_ZFClassMap.iteratorForKey(cls->classNameFull());
     if(!_ZFP_ZFClassMap.iteratorIsValid(itClass))
     {
@@ -1748,6 +1760,10 @@ _ZFP_ZFObjectConstructor ZFClass::_ZFP_objectConstructor(void) const
 _ZFP_ZFObjectDestructor ZFClass::_ZFP_objectDestructor(void) const
 {
     return d->destructor;
+}
+void ZFClass::_ZFP_classDynamicRegisterObjectInstanceDetach(ZF_IN ZFObject *obj) const
+{
+    d->classDynamicRegisterObjectInstanceMap.erase(obj);
 }
 
 // ============================================================

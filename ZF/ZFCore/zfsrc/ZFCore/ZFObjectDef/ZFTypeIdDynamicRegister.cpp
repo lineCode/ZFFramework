@@ -6,11 +6,11 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
-ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTypeIdDynamic, ZFLevelZFFrameworkStatic)
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTypeIdDynamicRegisterDataHolder, ZFLevelZFFrameworkStatic)
 {
 }
 zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > m;
-ZF_GLOBAL_INITIALIZER_END(ZFTypeIdDynamic)
+ZF_GLOBAL_INITIALIZER_END(ZFTypeIdDynamicRegisterDataHolder)
 
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTypeIdDynamicRegisterAutoRemove, ZFLevelZFFrameworkHigh)
@@ -18,7 +18,7 @@ ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFTypeIdDynamicRegisterAutoRemove, ZFLevel
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFTypeIdDynamicRegisterAutoRemove)
 {
-    zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic)->m;
+    zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamicRegisterDataHolder)->m;
     if(!m.empty())
     {
         zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> > t;
@@ -51,7 +51,7 @@ zfbool ZFTypeIdDynamicRegister(ZF_IN const zfchar *typeIdName,
         zfstringAppend(errorHint, "null typeIdData");
         return zffalse;
     }
-    ZF_GLOBAL_INITIALIZER_CLASS(ZFTypeIdDynamic) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic);
+    ZF_GLOBAL_INITIALIZER_CLASS(ZFTypeIdDynamicRegisterDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamicRegisterDataHolder);
     if(d->m.find(typeIdName) != d->m.end())
     {
         zfstringAppend(errorHint, "type id %s already registered", typeIdName);
@@ -73,7 +73,7 @@ void ZFTypeIdDynamicUnregister(ZF_IN const zfchar *typeIdName)
 {
     if(!zfsIsEmpty(typeIdName))
     {
-        ZF_GLOBAL_INITIALIZER_CLASS(ZFTypeIdDynamic) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamic);
+        ZF_GLOBAL_INITIALIZER_CLASS(ZFTypeIdDynamicRegisterDataHolder) *d = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFTypeIdDynamicRegisterDataHolder);
         zfstlmap<zfstlstringZ, ZFCorePointerForObject<ZFTypeInfo *> >::iterator it = d->m.find(typeIdName);
         if(it != d->m.end())
         {

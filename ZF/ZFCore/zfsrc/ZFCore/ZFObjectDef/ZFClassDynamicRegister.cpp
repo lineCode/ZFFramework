@@ -5,12 +5,19 @@
 
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFClassDynamicRegisterDataHolder, ZFLevelZFFrameworkStatic)
+{
+}
+zfstlmap<const ZFClass *, zfbool> m;
+ZF_GLOBAL_INITIALIZER_END(ZFClassDynamicRegisterDataHolder)
+
 // ============================================================
 ZF_GLOBAL_INITIALIZER_INIT_WITH_LEVEL(ZFClassDynamicRegisterAutoRemove, ZFLevelZFFrameworkHigh)
 {
 }
 ZF_GLOBAL_INITIALIZER_DESTROY(ZFClassDynamicRegisterAutoRemove)
 {
+    zfstlmap<const ZFClass *, zfbool> &m = ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterDataHolder)->m;
     if(!m.empty())
     {
         zfstlmap<const ZFClass *, zfbool> t;
@@ -21,7 +28,6 @@ ZF_GLOBAL_INITIALIZER_DESTROY(ZFClassDynamicRegisterAutoRemove)
         }
     }
 }
-zfstlmap<const ZFClass *, zfbool> m;
 ZF_GLOBAL_INITIALIZER_END(ZFClassDynamicRegisterAutoRemove)
 
 // ============================================================
@@ -68,7 +74,7 @@ const ZFClass *ZFClassDynamicRegister(ZF_IN const zfchar *classNameFull,
         zffalse,
         zftrue,
         classDynamicRegisterUserData);
-    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterAutoRemove)->m[cls] = zftrue;
+    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterDataHolder)->m[cls] = zftrue;
     return cls;
 }
 void ZFClassDynamicUnregister(ZF_IN const ZFClass *cls)
@@ -83,7 +89,7 @@ void ZFClassDynamicUnregister(ZF_IN const ZFClass *cls)
             "[ZFClassDynamicRegister] unregistering class %s that is not dyanmiac registered",
             cls->objectInfo().cString());
     }
-    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterAutoRemove)->m.erase(cls);
+    ZF_GLOBAL_INITIALIZER_INSTANCE(ZFClassDynamicRegisterDataHolder)->m.erase(cls);
     cls->classTagRemoveAll();
     ZFClass::_ZFP_ZFClassUnregister(zfnull, cls);
 }
