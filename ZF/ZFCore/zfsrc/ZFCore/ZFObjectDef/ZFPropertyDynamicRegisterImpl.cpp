@@ -526,12 +526,12 @@ static zfbool _ZFP_ZFPropertyDynamicRegisterCustomImplCheck(ZF_IN const ZFProper
         return zffalse;
     }
     if(param.propertyCustomImplSetterMethod()->methodParamCount() != 1
-        || !zfscmpTheSame(param.propertyCustomImplSetterMethod()->methodReturnTypeId(), ZFObject::ClassData()->className())
+        || !zfscmpTheSame(param.propertyCustomImplSetterMethod()->methodReturnTypeId(), ZFTypeId_void())
         || !zfscmpTheSame(param.propertyCustomImplSetterMethod()->methodParamTypeIdAtIndex(0), param.propertyTypeId())
         )
     {
         zfstringAppend(errorHint,
-            "setter method signature mismatch: %s, desired: ZFObject *setter(%s const &)",
+            "setter method signature mismatch: %s, desired: void setter(%s const &)",
             param.propertyCustomImplSetterMethod()->objectInfo().cString(),
             param.propertyTypeId());
         return zffalse;

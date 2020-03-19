@@ -35,7 +35,7 @@ public:
             zfstring tmp = path;
             tmp += ZFFileSeparator();
             struct stat statbuf;
-            if(lstat(tmp.cString(), &statbuf) <0) {return zffalse;}
+            if(lstat(tmp.cString(), &statbuf) < 0) {return zffalse;}
             return S_ISDIR(statbuf.st_mode);
         #endif // #elif ZF_ENV_sys_Posix || ZF_ENV_sys_unknown
     }
