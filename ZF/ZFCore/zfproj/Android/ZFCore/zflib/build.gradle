@@ -2,10 +2,10 @@ apply plugin: 'com.android.library'
 
 def ZF_ROOT_PATH = this.projectDir.getAbsolutePath() + '/../../../../../../../ZFFramework'
 android {
-    compileSdkVersion 24
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 18
-        targetSdkVersion 24
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         externalNativeBuild {
