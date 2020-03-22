@@ -1547,10 +1547,6 @@ ZFPROPERTY_OVERRIDE_ON_VERIFY_DEFINE(ZFUIView, ZFUIRect, viewFrame)
 }
 ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
 {
-    d->viewFramePrev = propertyValueOld;
-    d->viewCenter.x = propertyValue.point.x + propertyValue.size.width / 2;
-    d->viewCenter.y = propertyValue.point.y + propertyValue.size.height / 2;
-
     if(!ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting)
         && (d->viewParent == zfnull || !ZFBitTest(d->viewParent->d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting)))
     { // changed by user or animation
@@ -1567,6 +1563,10 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
     if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
         || propertyValue.size != propertyValueOld.size)
     {
+        d->viewFramePrev = propertyValueOld;
+        d->viewCenter.x = propertyValue.point.x + propertyValue.size.width / 2;
+        d->viewCenter.y = propertyValue.point.y + propertyValue.size.height / 2;
+
         if(propertyValue != propertyValueOld || ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged))
         {
             ZFPROTOCOL_ACCESS(ZFUIView)->viewFrame(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
@@ -1607,6 +1607,10 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
         ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
     }
     else if(propertyValue != propertyValueOld || ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged)) {
+        d->viewFramePrev = propertyValueOld;
+        d->viewCenter.x = propertyValue.point.x + propertyValue.size.width / 2;
+        d->viewCenter.y = propertyValue.point.y + propertyValue.size.height / 2;
+
         // size not changed but point changed, notify impl to move the view is enough
         ZFPROTOCOL_ACCESS(ZFUIView)->viewFrame(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
     }
