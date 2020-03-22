@@ -9,6 +9,7 @@
 #include "ZFUIView.h"
 ZF_NAMESPACE_GLOBAL_BEGIN
 
+zfclassFwd ZFUISysWindow;
 zfclassFwd ZFUIWindow;
 /**
  * @brief root view for holding a ZFUIView's tree
@@ -35,6 +36,14 @@ public:
 
 public:
     /**
+     * @brief owner #ZFUISysWindow
+     */
+    zffinal ZFUISysWindow *rootViewOwnerSysWindow(void)
+    {
+        return this->_ZFP_ZFUIRootView_rootViewOwnerSysWindow;
+    }
+
+    /**
      * @brief all #ZFUIWindow attached to the root view
      */
     ZFMETHOD_DECLARE_0(const ZFCoreArrayPOD<ZFUIWindow *> &, windowList)
@@ -57,6 +66,7 @@ protected:
     virtual void layoutOnLayout(ZF_IN const ZFUIRect &bounds);
 
 public:
+    ZFUISysWindow *_ZFP_ZFUIRootView_rootViewOwnerSysWindow;
     ZFCoreArrayPOD<ZFUIWindow *> _ZFP_ZFUIRootView_windowList;
 };
 

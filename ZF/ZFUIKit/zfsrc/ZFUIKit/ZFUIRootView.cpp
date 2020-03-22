@@ -1,4 +1,5 @@
 #include "ZFUIRootView.h"
+#include "ZFUISysWindow.h"
 #include "ZFUIWindow.h"
 
 #include "ZFUIKit/protocol/ZFProtocolZFUIView.h"
@@ -13,8 +14,14 @@ ZFMETHOD_DEFINE_1(ZFUIRootView, void, scaleForApp,
     if(scale > 0)
     {
         this->_ZFP_ZFUIView_scaleSetRecursively(scale * this->scaleForImpl(), this->scaleForImpl());
+        if(this->rootViewOwnerSysWindow() != zfnull)
+        {
+            this->rootViewOwnerSysWindow()->_ZFP_ZFUISysWindow_sysWindowLayoutUpdate();
+        }
     }
 }
+
+ZFMETHOD_USER_REGISTER_FOR_ZFOBJECT_FUNC_0(ZFUIRootView, ZFUISysWindow *, rootViewOwnerSysWindow)
 
 ZFMETHOD_DEFINE_0(ZFUIRootView, const ZFCoreArrayPOD<ZFUIWindow *> &, windowList)
 {

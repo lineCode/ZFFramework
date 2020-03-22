@@ -95,13 +95,14 @@ public:
         stateFlag_layoutRequested = 1 << 0,
         stateFlag_layoutRequestedRecursively = 1 << 1,
         stateFlag_layouting = 1 << 2,
-        stateFlag_observerHasAddFlag_viewChildOnChange = 1 << 3,
-        stateFlag_observerHasAddFlag_viewChildOnAdd = 1 << 4,
-        stateFlag_observerHasAddFlag_viewChildOnRemove = 1 << 5,
-        stateFlag_observerHasAddFlag_viewOnAddToParent = 1 << 6,
-        stateFlag_observerHasAddFlag_viewOnRemoveFromParent = 1 << 7,
-        stateFlag_observerHasAddFlag_layoutOnLayoutRequest = 1 << 8,
-        stateFlag_observerHasAddFlag_viewPropertyOnUpdate = 1 << 9,
+        stateFlag_scaleChanged = 1 << 3,
+        stateFlag_observerHasAddFlag_viewChildOnChange = 1 << 4,
+        stateFlag_observerHasAddFlag_viewChildOnAdd = 1 << 5,
+        stateFlag_observerHasAddFlag_viewChildOnRemove = 1 << 6,
+        stateFlag_observerHasAddFlag_viewOnAddToParent = 1 << 7,
+        stateFlag_observerHasAddFlag_viewOnRemoveFromParent = 1 << 8,
+        stateFlag_observerHasAddFlag_layoutOnLayoutRequest = 1 << 9,
+        stateFlag_observerHasAddFlag_viewPropertyOnUpdate = 1 << 10,
     };
     zfuint stateFlag;
 
@@ -1377,6 +1378,7 @@ void ZFUIView::_ZFP_ZFUIView_scaleSetRecursively(ZF_IN zffloat scaleFixed,
     if(zffloatNotEqual(d->scaleFixed, scaleFixed)
         || zffloatNotEqual(d->scaleForImpl, scaleForImpl))
     {
+        ZFBitSet(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged);
         d->scaleFixed = scaleFixed;
         d->scaleForImpl = scaleForImpl;
         for(zfindex i = d->layerInternalImpl.views.count() - 1; i != zfindexMax(); --i)
@@ -1565,7 +1567,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
     if(ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested)
         || propertyValue.size != propertyValueOld.size)
     {
-        if(propertyValue != propertyValueOld)
+        if(propertyValue != propertyValueOld || ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged))
         {
             ZFPROTOCOL_ACCESS(ZFUIView)->viewFrame(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
         }
@@ -1576,7 +1578,7 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
         {
             ZFUIRect nativeImplViewFrame = ZFUIRectZero();
             this->nativeImplViewOnLayout(nativeImplViewFrame, bounds, this->nativeImplViewMargin());
-            if(d->nativeImplViewFrame != nativeImplViewFrame)
+            if(d->nativeImplViewFrame != nativeImplViewFrame || ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged))
             {
                 d->nativeImplViewFrame = nativeImplViewFrame;
                 ZFPROTOCOL_ACCESS(ZFUIView)->nativeImplViewFrame(this, ZFUIRectApplyScale(nativeImplViewFrame, this->scaleFixed()));
@@ -1604,12 +1606,13 @@ ZFPROPERTY_OVERRIDE_ON_ATTACH_DEFINE(ZFUIView, ZFUIRect, viewFrame)
 
         ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layouting);
     }
-    else if(propertyValue != propertyValueOld) {
+    else if(propertyValue != propertyValueOld || ZFBitTest(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged)) {
         // size not changed but point changed, notify impl to move the view is enough
         ZFPROTOCOL_ACCESS(ZFUIView)->viewFrame(this, ZFUIRectApplyScale(propertyValue, this->scaleFixed()));
     }
     ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequested);
     ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_layoutRequestedRecursively);
+    ZFBitUnset(d->stateFlag, _ZFP_ZFUIViewPrivate::stateFlag_scaleChanged);
 }
 ZFMETHOD_DEFINE_0(ZFUIView, const ZFUIRect &, viewFramePrev)
 {

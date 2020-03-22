@@ -283,6 +283,7 @@ public:
     zffinal void _ZFP_ZFUISysWindow_onResume(void);
     zffinal void _ZFP_ZFUISysWindow_onPause(void);
     zffinal void _ZFP_ZFUISysWindow_onRotate(void);
+    zffinal void _ZFP_ZFUISysWindow_sysWindowLayoutUpdate(void);
 
 private:
     _ZFP_ZFUISysWindowPrivate *d;

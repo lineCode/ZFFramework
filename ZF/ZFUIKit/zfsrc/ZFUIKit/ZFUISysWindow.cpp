@@ -49,14 +49,7 @@ public:
     static ZFLISTENER_PROTOTYPE_EXPAND(sysWindowLayoutParamOnChange)
     {
         ZFUISysWindow *sysWindow = userData->objectHolded();
-        if(sysWindow->nativeWindowEmbedImpl() != zfnull)
-        {
-            sysWindow->nativeWindowEmbedImpl()->sysWindowLayoutParamOnChange(sysWindow);
-        }
-        else
-        {
-            ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowLayoutParamOnChange(sysWindow);
-        }
+        sysWindow->_ZFP_ZFUISysWindow_sysWindowLayoutUpdate();
     }
 };
 
@@ -209,6 +202,7 @@ void ZFUISysWindow::objectOnInit(void)
     zfsuper::objectOnInit();
     d = zfpoolNew(_ZFP_ZFUISysWindowPrivate);
     d->windowRootView = zfRetain(ZFUIRootView::ClassData()->newInstance().to<ZFUIRootView *>());
+    d->windowRootView->_ZFP_ZFUIRootView_rootViewOwnerSysWindow = this;
     d->sysWindowLayoutParam = zfAlloc(ZFUIViewLayoutParam);
     d->sysWindowLayoutParam->sizeParam(ZFUISizeParamFillFill());
 }
@@ -501,6 +495,17 @@ void ZFUISysWindow::_ZFP_ZFUISysWindow_onRotate(void)
         {
             window->windowOwnerSysWindowOnRotate();
         }
+    }
+}
+void ZFUISysWindow::_ZFP_ZFUISysWindow_sysWindowLayoutUpdate(void)
+{
+    if(this->nativeWindowEmbedImpl() != zfnull)
+    {
+        this->nativeWindowEmbedImpl()->sysWindowLayoutParamOnChange(this);
+    }
+    else
+    {
+        ZFPROTOCOL_ACCESS(ZFUISysWindow)->sysWindowLayoutParamOnChange(this);
     }
 }
 
