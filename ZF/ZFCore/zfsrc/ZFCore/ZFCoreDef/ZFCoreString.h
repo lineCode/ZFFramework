@@ -482,7 +482,7 @@ private:
                     capacity *= 2;
                 }
                 T_Char *buf = (T_Char *)zfmalloc(capacity * sizeof(T_Char));
-                zfmemcpy(buf, d.d.buf, d.length * sizeof(T_Char));
+                zfmemcpy(buf, d.d.buf, (d.length + 1) * sizeof(T_Char));
                 d.d.s.s = buf;
                 d.d.s.capacity = capacity;
                 d.d.s.length = d.length;

@@ -333,7 +333,7 @@ public:
         jstring jsPath = (jstring)JNIUtilGetObjectArrayElement(jniEnv, d->files, d->curFileIndex);
         ++d->curFileIndex;
         const zfchar *sName = JNIUtilGetStringUTFChars(jniEnv, jsPath, zfnull);
-        zfstring refName = sName;
+        fd.fileName = sName;
         JNIUtilReleaseStringUTFChars(jniEnv, jsPath, sName);
 
         zfstring absPath = this->zfresPrefix;
@@ -343,7 +343,7 @@ public:
             absPath += d->parentPath;
             absPath += ZFFileSeparator();
         }
-        absPath += refName.cString();
+        absPath += fd.fileName.cString();
 
         AAsset *asset = AAssetManager_open(
             AAssetManager_fromJava(jniEnv, ZFImpl_sys_Android_assetManager()),
@@ -357,13 +357,9 @@ public:
         {
             AAsset_close(asset);
             fd.fileIsDir = zffalse;
-            if(zfstringFindReversely(refName, this->zfresPostfix) + this->zfresPostfixLen == refName.length())
+            if(zfstringFindReversely(fd.fileName, this->zfresPostfix) == fd.fileName.length() - this->zfresPostfixLen)
             {
-                fd.fileName.assign(refName.cString(), refName.length() - this->zfresPostfixLen);
-            }
-            else
-            {
-                fd.fileName = refName;
+                fd.fileName.remove(fd.fileName.length() - this->zfresPostfixLen);
             }
         }
 
