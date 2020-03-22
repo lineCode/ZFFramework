@@ -196,14 +196,17 @@ public:
                     {
                         QCoreApplication::processEvents();
                     }
-                    if(this->geometry().size() != this->_ZFP_layoutedSize)
+                    if(_ZFP_ownerZFUIView != zfnull)
                     {
-                        this->_ZFP_layoutedSize = this->geometry().size();
-                        ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(
-                            _ZFP_ownerZFUIView,
-                            ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
+                        if(this->geometry().size() != this->_ZFP_layoutedSize)
+                        {
+                            this->_ZFP_layoutedSize = this->geometry().size();
+                            ZFPROTOCOL_ACCESS(ZFUIView)->notifyLayoutView(
+                                _ZFP_ownerZFUIView,
+                                ZFImpl_sys_Qt_ZFUIKit_impl_ZFUIRectFromQRect(this->geometry()));
+                        }
+                        return true;
                     }
-                    return true;
                 }
                 return QWidget::event(event);
 
@@ -224,7 +227,6 @@ public:
             return ;
         }
         this->mouseEventResolve(event, ZFUIMouseAction::e_MouseDown);
-        QWidget::mousePressEvent(event);
     }
     virtual void mouseMoveEvent(QMouseEvent *event)
     {
@@ -244,14 +246,13 @@ public:
             if(this->_ZFP_mouseEnterFlag)
             {
                 this->_ZFP_mouseEnterFlag = zffalse;
-                this->mouseHoverEventResolve(this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHoverEnter);
+                this->mouseHoverEventResolve(event, this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHoverEnter);
             }
             else
             {
-                this->mouseHoverEventResolve(this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHover);
+                this->mouseHoverEventResolve(event, this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHover);
             }
         }
-        QWidget::mouseMoveEvent(event);
     }
     virtual void mouseReleaseEvent(QMouseEvent *event)
     {
@@ -270,7 +271,6 @@ public:
         {
             this->mouseEventResolve(event, ZFUIMouseAction::e_MouseUp);
         }
-        QWidget::mouseReleaseEvent(event);
     }
     virtual void enterEvent(QEvent *event)
     {
@@ -291,9 +291,9 @@ public:
                 if(this->_ZFP_mouseEnterFlag)
                 {
                     this->_ZFP_mouseEnterFlag = zffalse;
-                    this->mouseHoverEventResolve(this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHoverEnter);
+                    this->mouseHoverEventResolve(NULL, this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHoverEnter);
                 }
-                this->mouseHoverEventResolve(this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHoverExit);
+                this->mouseHoverEventResolve(NULL, this->_ZFP_mouseMoveLastPoint, ZFUIMouseAction::e_MouseHoverExit);
             }
             this->_ZFP_mouseEnterFlag = zffalse;
         }
@@ -324,8 +324,9 @@ private:
         }
 
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(this->_ZFP_ownerZFUIView, ev);
+        event->setAccepted(ev->eventResolved());
     }
-    void mouseHoverEventResolve(const ZFUIPoint &pos, ZFUIMouseActionEnum mouseAction)
+    void mouseHoverEventResolve(QMouseEvent *event, const ZFUIPoint &pos, ZFUIMouseActionEnum mouseAction)
     {
         zfblockedAllocWithCache(ZFUIMouseEvent, ev);
         ev->eventResolved(zffalse);
@@ -334,6 +335,10 @@ private:
         ev->mousePoint = pos;
         ev->mouseButton = ZFUIMouseButton::e_MouseButtonLeft;
         ZFPROTOCOL_ACCESS(ZFUIView)->notifyUIEvent(this->_ZFP_ownerZFUIView, ev);
+        if(event != NULL)
+        {
+            event->setAccepted(ev->eventResolved());
+        }
     }
 
 public:
@@ -426,6 +431,7 @@ public:
     {
         _ZFP_ZFUIViewImpl_sys_Qt_View *nativeViewTmp = ZFCastStatic(_ZFP_ZFUIViewImpl_sys_Qt_View *, nativeView);
         _ZFP_ZFUIViewImpl_sys_Qt_FocusProxy_cleanup(nativeViewTmp->_ZFP_focusProxyToken);
+        nativeViewTmp->_ZFP_ownerZFUIView = zfnull;
         delete nativeViewTmp;
     }
 
