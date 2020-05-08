@@ -43,7 +43,7 @@ SIMULATOR_DIR=$BUILD_PATH/Release-iphonesimulator
 
 # -configuration $CONFIGURATION
 # Clean and Building both architectures.
-if [ $COCOAPODS_PROJECT_TRUE_OR_FALSE = "TRUE" ]; then
+if test "x-$COCOAPODS_PROJECT_TRUE_OR_FALSE" = "x-TRUE" ; then
     xcodebuild -workspace "$PROJ_NAME.xcworkspace" -scheme "$PROJ_NAME" -configuration "Release" -sdk iphoneos SYMROOT=$BUILD_PATH
     xcodebuild -workspace "$PROJ_NAME.xcworkspace" -scheme "$PROJ_NAME" -configuration "Release" -sdk iphonesimulator SYMROOT=$BUILD_PATH
 else
@@ -52,7 +52,7 @@ else
 fi
 
 # Cleaning the oldest.
-if [ -d "$RELEASE_PATH" ]; then
+if test -e "$RELEASE_PATH" ; then
     rm -rf "$RELEASE_PATH" >/dev/null 2>&1
 fi
 
@@ -62,12 +62,12 @@ mkdir -p "$RELEASE_PATH/lib" >/dev/null 2>&1
 lipo -create "$DEVICE_DIR/lib$PROJ_NAME.a" "$SIMULATOR_DIR/lib$PROJ_NAME.a" -output "$RELEASE_PATH/lib/lib$PROJ_NAME.a"
 
 # copy headers
-if [[ $HEADER_SRC_PATH != "" && $HEADER_DST_PATH != "" ]]; then
+if ! test "x-$HEADER_SRC_PATH" = "x-" && ! test "x-$HEADER_DST_PATH" = "x-" ; then
     sh $ZF_TOOLS_PATH/util/copy_header.sh $HEADER_SRC_PATH $HEADER_DST_PATH
 fi
 
 # copy res
-if [[ $RES_SRC_PATH != "" && $RES_DST_PATH != "" ]]; then
+if ! test "x-$RES_SRC_PATH" = "x-" && ! test "x-$RES_DST_PATH" = "x-" ; then
     sh $ZF_TOOLS_PATH/util/copy_res.sh $RES_SRC_PATH $RES_DST_PATH
 fi
 
