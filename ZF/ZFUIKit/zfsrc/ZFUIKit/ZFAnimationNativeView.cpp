@@ -147,6 +147,8 @@ void ZFAnimationNativeView::aniImplStart(void)
 {
     zfsuper::aniImplStart();
     ZFUIView *aniTarget = ZFAny(this->aniTarget());
+    ZFPROTOCOL_ACCESS(ZFAnimationNativeView)->nativeAniStart(this,
+        aniTarget != zfnull ? aniTarget->scaleFixed() : 1.0f);
     {
         ZFUIView *parent = aniTarget;
         while(parent->viewParent() != zfnull)
@@ -155,8 +157,6 @@ void ZFAnimationNativeView::aniImplStart(void)
         }
         parent->layoutIfNeed();
     }
-    ZFPROTOCOL_ACCESS(ZFAnimationNativeView)->nativeAniStart(this,
-        aniTarget != zfnull ? aniTarget->scaleFixed() : 1.0f);
 }
 void ZFAnimationNativeView::aniImplStop(void)
 {

@@ -23,7 +23,6 @@ public:
     zfidentity aniDelayTaskId;
     zfidentity aniDelayThreadId;
     zfidentity aniDummyThreadId;
-    zfbool aniStopCalled;
     zfbool aniStoppedByUser;
     zfidentity aniId;
 
@@ -35,7 +34,6 @@ public:
     , aniDelayTaskId(zfidentityInvalid())
     , aniDelayThreadId(zfidentityInvalid())
     , aniDummyThreadId(zfidentityInvalid())
-    , aniStopCalled(zffalse)
     , aniStoppedByUser(zffalse)
     , aniId(zfidentityInvalid())
     {
@@ -103,6 +101,7 @@ ZFMETHOD_DEFINE_0(ZFAnimation, ZFObject *, aniTarget)
 
 ZFMETHOD_DEFINE_0(ZFAnimation, void, aniStart)
 {
+    this->aniStop();
     this->_ZFP_ZFAnimation_aniReadyStart();
 
     d->aniStoppedByUser = zffalse;
@@ -117,9 +116,8 @@ ZFMETHOD_DEFINE_0(ZFAnimation, void, aniStart)
     zfRetain(this->aniTarget());
 
     d->aniRunning = zftrue;
-    d->aniStopCalled = zffalse;
+    d->aniDelaying = zffalse;
     ++(d->aniId);
-    this->aniOnStart();
 
     if(this->aniDelay() > 0)
     {
@@ -128,9 +126,9 @@ ZFMETHOD_DEFINE_0(ZFAnimation, void, aniStart)
     }
     else
     {
-        d->aniDelaying = zffalse;
         this->aniImplStart();
     }
+    this->aniOnStart();
 }
 ZFMETHOD_DEFINE_0(ZFAnimation, zfbool, aniRunning)
 {
@@ -142,11 +140,10 @@ ZFMETHOD_DEFINE_0(ZFAnimation, zfbool, aniDelaying)
 }
 ZFMETHOD_DEFINE_0(ZFAnimation, void, aniStop)
 {
-    if(!(d->aniRunning) || d->aniStopCalled)
+    if(!(d->aniRunning))
     {
         return ;
     }
-    d->aniStopCalled = zftrue;
     d->aniStoppedByUser = zftrue;
     ++(d->aniId);
     if(d->aniDelaying)
@@ -271,7 +268,6 @@ void ZFAnimation::aniImplNotifyStop(void)
     ZFObject *aniTargetToRelease = this->aniTarget();
 
     d->aniRunning = zffalse;
-    d->aniStopCalled = zffalse;
     this->aniOnStop();
     this->aniOnStopOrOnInvalid(zftrue);
 
