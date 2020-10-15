@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.4.1)
 
 set(ZF_ROOT_PATH ${PROJECT_SOURCE_DIR}/../../../../../../ZFFramework)
 
+if(WIN32)
+    execute_process(COMMAND ${ZF_ROOT_PATH}/zfsetup.bat)
+else()
+    execute_process(COMMAND ${ZF_ROOT_PATH}/zfsetup.sh)
+endif()
+
 function(ZFAddSrc ZF_SRC_FILES_ PROJ_PATH_)
     file(GLOB_RECURSE srcfiles RELATIVE ${PROJECT_SOURCE_DIR}
         ${PROJ_PATH_}/zfsrc/*.c
