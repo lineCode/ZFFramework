@@ -11,7 +11,7 @@ everything here starts with "ZF", which stands for "Zero Framework"
 Homepage:
 
 * Online docs: http://ZFFramework.com
-* Github repo: https://github.com/ZFFramework/ZFFramework [![Build Status](https://travis-ci.org/ZFFramework/ZFFramework.svg?branch=master)](https://travis-ci.org/ZFFramework/ZFFramework)
+* Github repo: https://github.com/ZFFramework/ZFFramework [![Build Status](https://travis-ci.com/ZFFramework/ZFFramework.svg?branch=master)](https://travis-ci.com/ZFFramework/ZFFramework)
 
     NOTE: this repo would keep clean (remove unnecessary history) and update frequently,
     if you want stable or history version, please refer to [ZFFrameworkDist](https://github.com/ZFFrameworkDist/ZFFramework)

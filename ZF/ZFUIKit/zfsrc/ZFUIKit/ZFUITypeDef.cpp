@@ -14,22 +14,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFUISizeApplyScale,
     }
     else
     {
-        if(scale < 1 - zffloatEpsilon)
-        {
-            scale = v * scale;
-            if(scale > (zfint)scale + 0.01f)
-            {
-                ret = (zfint)scale + 1;
-            }
-            else
-            {
-                ret = (zfint)scale;
-            }
-        }
-        else
-        {
-            ret = (zfint)zfmRound(v * scale);
-        }
+        ret = (zfint)zfmRound(v * scale);
     }
 }
 ZFMETHOD_FUNC_INLINE_DEFINE_2(zfint, ZFUISizeApplyScale,
@@ -47,22 +32,7 @@ ZFMETHOD_FUNC_DEFINE_3(void, ZFUISizeApplyScaleReversely,
     }
     else
     {
-        if(scale > 1 + zffloatEpsilon)
-        {
-            scale = v / scale;
-            if(scale > (zfint)scale + 0.01f)
-            {
-                ret = (zfint)scale + 1;
-            }
-            else
-            {
-                ret = (zfint)scale;
-            }
-        }
-        else
-        {
-            ret = (zfint)zfmRound(v / scale);
-        }
+        ret = (zfint)zfmRound(v / scale);
     }
 }
 ZFMETHOD_FUNC_INLINE_DEFINE_2(zfint, ZFUISizeApplyScaleReversely,
